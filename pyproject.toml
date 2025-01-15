@@ -1,0 +1,138 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# Source: https://github.com/quantales/pyquantlib
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
+[build-system]
+requires = [
+    "scikit-build-core>=0.10.0",
+    "pybind11>=2.11.0",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyquantlib"
+version = "0.1.0"
+description = "Python bindings for QuantLib"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Yassine Idyiahia", email = "quantales@users.noreply.github.com" },
+]
+maintainers = [
+    { name = "Yassine Idyiahia", email = "quantales@users.noreply.github.com" },
+]
+keywords = [
+    "quantlib",
+    "quantitative-finance",
+    "derivatives",
+    "pricing",
+    "risk",
+    "fixed-income",
+    "options",
+    "finance",
+    "pybind11",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/quantales/pyquantlib"
+Repository = "https://github.com/quantales/pyquantlib"
+Issues = "https://github.com/quantales/pyquantlib/issues"
+Changelog = "https://github.com/quantales/pyquantlib/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.8.0",
+    "ruff>=0.4.0",
+    "pybind11-stubgen>=2.5.0",
+    "build>=1.0.0",
+    "numpy>=1.20.0",
+]
+
+# ==============================================================================
+# scikit-build-core Configuration
+# ==============================================================================
+
+[tool.scikit-build]
+build-dir = "build"
+cmake.version = ">=3.18"
+wheel.packages = ["pyquantlib"]
+install.components = ["python"]
+
+# Default to Release builds
+cmake.build-type = "Release"
+
+# Parallel builds: Ninja auto-detects cores
+# Override with: CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
+
+# ==============================================================================
+# Ruff Configuration (Linter & Formatter)
+# ==============================================================================
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pyquantlib"]
+
+# ==============================================================================
+# Mypy Configuration (Type Checker)
+# ==============================================================================
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+# ==============================================================================
+# Pytest Configuration
+# ==============================================================================
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+]

@@ -1,0 +1,121 @@
+# ==============================================================================
+# PyQuantLib .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Build directories
+# ------------------------------------------------------------------------------
+/build/
+/build-*/
+/_skbuild/
+/dist/
+/wheelhouse/
+
+# ------------------------------------------------------------------------------
+# Python
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# Virtual environments
+/venv/
+/.venv/
+/env/
+/.env/
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+.eggs/
+MANIFEST
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ruff
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ------------------------------------------------------------------------------
+# C++ / CMake
+# ------------------------------------------------------------------------------
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.dylib
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# ------------------------------------------------------------------------------
+# IDE and editors
+# ------------------------------------------------------------------------------
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.*
+*.sln
+*.suo
+*.user
+*.ncb
+*.aps
+x64/
+Debug/
+Release/
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains (PyCharm, CLion)
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------------------------------------------------
+# OS generated
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ------------------------------------------------------------------------------
+# Project specific
+# ------------------------------------------------------------------------------
+# Compiled extension module (generated during build)
+/pyquantlib/_pyquantlib*.so
+/pyquantlib/_pyquantlib*.pyd
+/pyquantlib/_pyquantlib*.pyi
+
+# Generated stubs (if auto-generated)
+/stubs/
+
+# Local configuration overrides
+.env.local
+*.local.cmake
+
+# Logs
+*.log
