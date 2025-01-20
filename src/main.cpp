@@ -35,6 +35,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     
     submodules_bindings(manager);        // Creates "base" submodule
     patterns_bindings(manager);          // Observer/Observable pattern
+    utilities_bindings(manager);         // Utility classes
 
     // Finalize all bindings
     manager.finalize();
