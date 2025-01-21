@@ -16,6 +16,7 @@
 #include "pyquantlib/version.h"
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/binding_manager.h"
+#include "pyquantlib/type_casters/date.h"
 
 namespace py = pybind11;
 
@@ -36,6 +37,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     submodules_bindings(manager);        // Creates "base" submodule
     patterns_bindings(manager);          // Observer/Observable pattern
     utilities_bindings(manager);         // Utility classes
+    time_bindings(manager);              // Date, Calendar, Period, etc.
 
     // Finalize all bindings
     manager.finalize();
