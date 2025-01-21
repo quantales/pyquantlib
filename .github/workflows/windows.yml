@@ -1,0 +1,73 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
+# QuantLib is free software under a modified BSD license.
+# See http://quantlib.org/ for more information.
+#
+# Source: https://github.com/quantales/pyquantlib
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
+name: Windows
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+# Disabled by default - vcpkg can be slow/unreliable
+# Enable via workflow_dispatch or by removing the 'if' condition below
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11"]  # Expand when stable
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Export GitHub Actions cache environment variables
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '01f602195983451bc83e72f4214af2cbc495aa94'  # Pin to specific commit
+
+      - name: Install QuantLib and Boost via vcpkg
+        run: |
+          vcpkg install quantlib:x64-windows boost:x64-windows
+
+      - name: Install Python build dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Build package with dev dependencies
+        run: |
+          pip install -e .[dev] -v
+        env:
+          CMAKE_TOOLCHAIN_FILE: ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+      - name: Run tests
+        run: |
+          pytest -v

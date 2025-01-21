@@ -1,0 +1,76 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
+# QuantLib is free software under a modified BSD license.
+# See http://quantlib.org/ for more information.
+#
+# Source: https://github.com/quantales/pyquantlib
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
+name: macOS
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11"]  # Expand to ["3.9", "3.10", "3.11", "3.12"] when stable
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Cache Homebrew packages
+        id: cache-homebrew
+        uses: actions/cache@v4
+        with:
+          path: |
+            /opt/homebrew/Cellar/quantlib
+            /opt/homebrew/Cellar/boost
+            /opt/homebrew/lib/libQuantLib*
+            /opt/homebrew/lib/libboost*
+            /opt/homebrew/include/ql
+            /opt/homebrew/include/boost
+            /opt/homebrew/opt/quantlib
+            /opt/homebrew/opt/boost
+          key: homebrew-${{ runner.os }}-${{ runner.arch }}-ql-boost-v1
+          restore-keys: |
+            homebrew-${{ runner.os }}-${{ runner.arch }}-ql-boost-
+
+      - name: Install system dependencies
+        run: |
+          if [ ! -f "/opt/homebrew/lib/libQuantLib.dylib" ]; then
+            echo "Cache miss - installing QuantLib and Boost via Homebrew"
+            brew install quantlib boost
+          else
+            echo "Cache hit - QuantLib and Boost already available"
+            brew link quantlib boost 2>/dev/null || true
+          fi
+
+      - name: Install Python build dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Build package with dev dependencies
+        run: |
+          pip install -e .[dev] -v
+        env:
+          QuantLib_ROOT: /opt/homebrew
+
+      - name: Run tests
+        run: |
+          pytest -v
