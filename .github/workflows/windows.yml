@@ -17,17 +17,15 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
-# Disabled by default - vcpkg can be slow/unreliable
-# Enable via workflow_dispatch or by removing the 'if' condition below
-
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
+    # Manual trigger only - vcpkg installs QuantLib and Boost (~10-15 min, cached after first run)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11"]  # Expand when stable
+        python-version: ["3.11"]
 
     env:
       VCPKG_DEFAULT_TRIPLET: x64-windows

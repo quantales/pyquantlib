@@ -17,20 +17,18 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
-# Disabled by default - enable via workflow_dispatch or by uncommenting triggers
-# Building QuantLib from source takes ~20 minutes
-
 env:
   QUANTLIB_VERSION: "1.38"
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
+    # Manual trigger only - QuantLib builds from source (~15-20 min, cached after first run)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11"]  # Expand when stable
+        python-version: ["3.11"]
 
     steps:
       - uses: actions/checkout@v4
@@ -80,7 +78,10 @@ jobs:
           pip install -e .[dev] -v
         env:
           QuantLib_ROOT: /home/runner/quantlib-install
+          LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
 
       - name: Run tests
         run: |
           pytest -v
+        env:
+          LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
