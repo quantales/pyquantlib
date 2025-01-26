@@ -1,0 +1,31 @@
+# PyQuantLib Development Dependencies
+#
+# Install with: pip install -r requirements-dev.txt
+#
+# These are development-only dependencies. Runtime dependencies (if any)
+# are specified in pyproject.toml.
+
+# Build tools
+scikit-build-core>=0.10.0
+pybind11>=2.11.0
+cmake>=3.18.0
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=4.0.0
+numpy>=1.20.0
+
+# Type checking and stubs
+mypy>=1.8.0
+pybind11-stubgen>=2.5.0
+
+# Code quality
+ruff>=0.4.0
+
+# Documentation (future)
+# sphinx>=7.0.0
+# sphinx-rtd-theme>=2.0.0
+
+# Packaging and distribution
+build>=1.0.0
+twine>=5.0.0
