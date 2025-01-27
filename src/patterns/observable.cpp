@@ -12,7 +12,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/trampolines.h"
-#include <ql/quantlib.hpp>
+#include <ql/patterns/observable.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 

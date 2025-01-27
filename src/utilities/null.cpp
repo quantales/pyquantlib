@@ -12,7 +12,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/null_utils.h"
-#include <ql/quantlib.hpp>
+#include <ql/utilities/null.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;

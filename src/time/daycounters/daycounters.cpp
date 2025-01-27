@@ -11,7 +11,7 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
-#include <ql/quantlib.hpp>
+#include <ql/time/daycounters/all.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
