@@ -67,4 +67,7 @@ namespace ql_time {
 
 namespace ql_core {
     void constants(py::module_&);
+    void quote(py::module_&);
+    void quotehandle(py::module_&);
+    void relinkablequotehandle(py::module_&);
 }

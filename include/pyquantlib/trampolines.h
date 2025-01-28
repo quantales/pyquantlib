@@ -14,9 +14,14 @@
 
 #include <ql/patterns/observable.hpp>
 #include <ql/patterns/lazyobject.hpp>
+#include <ql/quote.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
+
+// NOTE: PYBIND11_OVERRIDE_PURE macros use a trailing comma after the function name
+// (e.g., `value,` instead of `value`). This is intentional — it prevents C++20
+// warnings about variadic macros when there are no function arguments.
 
 // -----------------------------------------------------------------------------
 // Observer Trampoline
@@ -31,7 +36,7 @@ public:
         PYBIND11_OVERRIDE_PURE(
             void,
             QuantLib::Observer,
-            update
+            update,
         );
     }
 };
@@ -59,7 +64,31 @@ public:
         PYBIND11_OVERRIDE_PURE(
             void,
             QuantLib::LazyObject,
-            performCalculations
+            performCalculations,
+        );
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Quote Trampoline
+// -----------------------------------------------------------------------------
+class PyQuote : public QuantLib::Quote {
+public:
+    using QuantLib::Quote::Quote;
+
+    QuantLib::Real value() const override {
+        PYBIND11_OVERRIDE_PURE(
+            QuantLib::Real,
+            QuantLib::Quote,
+            value,
+        );
+    }
+
+    bool isValid() const override {
+        PYBIND11_OVERRIDE_PURE(
+            bool,
+            QuantLib::Quote,
+            isValid,
         );
     }
 };

@@ -16,6 +16,10 @@
 
 DECLARE_MODULE_BINDINGS(core_bindings) {
     auto m = manager.module();
+    auto b = manager.getSubmodule("base");
     
     manager.addFunction(ql_core::constants, m, "Mathematical and financial constants");
+    manager.addFunction(ql_core::quote, b, "Quote ABC - market data interface");
+    manager.addFunction(ql_core::quotehandle, m, "Handle<Quote> - smart pointer to quotes");
+    manager.addFunction(ql_core::relinkablequotehandle, m, "RelinkableHandle<Quote> - relinkable quote pointer");
 }
