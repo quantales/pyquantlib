@@ -31,6 +31,7 @@ DECLARE_MODULE_BINDINGS(submodules_bindings);
 DECLARE_MODULE_BINDINGS(patterns_bindings);
 DECLARE_MODULE_BINDINGS(utilities_bindings);
 DECLARE_MODULE_BINDINGS(time_bindings);
+DECLARE_MODULE_BINDINGS(core_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -62,4 +63,8 @@ namespace ql_time {
     void daycounters(py::module_&);
     void dategenerationrule(py::module_&);
     void schedule(py::module_&);
+}
+
+namespace ql_core {
+    void constants(py::module_&);
 }

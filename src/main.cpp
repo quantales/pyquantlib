@@ -38,6 +38,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     patterns_bindings(manager);          // Observer/Observable pattern
     utilities_bindings(manager);         // Utility classes
     time_bindings(manager);              // Date, Calendar, Period, etc.
+    core_bindings(manager);              // Constants, Settings, etc.
 
     // Finalize all bindings
     manager.finalize();
