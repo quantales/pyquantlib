@@ -22,4 +22,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::quote, b, "Quote ABC - market data interface");
     manager.addFunction(ql_core::quotehandle, m, "Handle<Quote> - smart pointer to quotes");
     manager.addFunction(ql_core::relinkablequotehandle, m, "RelinkableHandle<Quote> - relinkable quote pointer");
+    manager.addFunction(ql_core::settings, m, "Global settings and evaluation date");
 }

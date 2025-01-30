@@ -70,4 +70,5 @@ namespace ql_core {
     void quote(py::module_&);
     void quotehandle(py::module_&);
     void relinkablequotehandle(py::module_&);
+    void settings(py::module_&);
 }
