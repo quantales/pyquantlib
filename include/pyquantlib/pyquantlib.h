@@ -71,4 +71,5 @@ namespace ql_core {
     void quotehandle(py::module_&);
     void relinkablequotehandle(py::module_&);
     void settings(py::module_&);
+    void compounding(py::module_&);
 }
