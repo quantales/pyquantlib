@@ -72,4 +72,5 @@ namespace ql_core {
     void relinkablequotehandle(py::module_&);
     void settings(py::module_&);
     void compounding(py::module_&);
+    void interestrate(py::module_&);
 }
