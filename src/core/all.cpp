@@ -25,4 +25,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::settings, m, "Global settings and evaluation date");
     manager.addFunction(ql_core::compounding, m, "Compounding conventions enum");
     manager.addFunction(ql_core::interestrate, m, "Interest rate with compounding algebra");
+    manager.addFunction(ql_core::cashflow, b, "Event and CashFlow ABCs");
 }

@@ -15,6 +15,7 @@
 #include <ql/patterns/observable.hpp>
 #include <ql/patterns/lazyobject.hpp>
 #include <ql/quote.hpp>
+#include <ql/cashflow.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -89,6 +90,50 @@ public:
             bool,
             QuantLib::Quote,
             isValid,
+        );
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Event Trampoline
+// -----------------------------------------------------------------------------
+class PyEvent : public QuantLib::Event {
+public:
+    using QuantLib::Event::Event;
+
+    PyEvent() : Event() {}
+
+    QuantLib::Date date() const override {
+        PYBIND11_OVERRIDE_PURE(
+            QuantLib::Date,
+            QuantLib::Event,
+            date,
+        );
+    }
+};
+
+// -----------------------------------------------------------------------------
+// CashFlow Trampoline
+// -----------------------------------------------------------------------------
+class PyCashFlow : public QuantLib::CashFlow {
+public:
+    using QuantLib::CashFlow::CashFlow;
+
+    PyCashFlow() : CashFlow() {}
+
+    QuantLib::Real amount() const override {
+        PYBIND11_OVERRIDE_PURE(
+            QuantLib::Real,
+            QuantLib::CashFlow,
+            amount,
+        );
+    }
+
+    QuantLib::Date date() const override {
+        PYBIND11_OVERRIDE_PURE(
+            QuantLib::Date,
+            QuantLib::CashFlow,
+            date,
         );
     }
 };
