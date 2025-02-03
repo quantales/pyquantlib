@@ -26,4 +26,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::compounding, m, "Compounding conventions enum");
     manager.addFunction(ql_core::interestrate, m, "Interest rate with compounding algebra");
     manager.addFunction(ql_core::cashflow, b, "Event and CashFlow ABCs");
+    manager.addFunction(ql_core::index, b, "Index ABC - market index interface");
 }

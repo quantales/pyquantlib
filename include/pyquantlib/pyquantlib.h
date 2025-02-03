@@ -74,4 +74,5 @@ namespace ql_core {
     void compounding(py::module_&);
     void interestrate(py::module_&);
     void cashflow(py::module_&);
+    void index(py::module_&);
 }

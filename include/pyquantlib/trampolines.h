@@ -16,6 +16,7 @@
 #include <ql/patterns/lazyobject.hpp>
 #include <ql/quote.hpp>
 #include <ql/cashflow.hpp>
+#include <ql/index.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -135,5 +136,37 @@ public:
             QuantLib::CashFlow,
             date,
         );
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Index Trampoline
+// -----------------------------------------------------------------------------
+class PyIndex : public QuantLib::Index {
+public:
+    using QuantLib::Index::Index;
+
+    PyIndex() : Index() {}
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE_PURE(std::string, QuantLib::Index, name,);
+    }
+
+    QuantLib::Calendar fixingCalendar() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Calendar, QuantLib::Index, fixingCalendar,);
+    }
+
+    bool isValidFixingDate(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE_PURE(bool, QuantLib::Index, isValidFixingDate, fixingDate);
+    }
+
+    QuantLib::Real fixing(const QuantLib::Date& fixingDate,
+                          bool forecastTodaysFixing = false) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Index, fixing,
+                               fixingDate, forecastTodaysFixing);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::Index, update,);
     }
 };
