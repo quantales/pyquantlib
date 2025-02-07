@@ -75,4 +75,5 @@ namespace ql_core {
     void interestrate(py::module_&);
     void cashflow(py::module_&);
     void index(py::module_&);
+    void currency(py::module_&);
 }
