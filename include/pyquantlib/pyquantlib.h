@@ -76,4 +76,5 @@ namespace ql_core {
     void cashflow(py::module_&);
     void index(py::module_&);
     void currency(py::module_&);
+    void money(py::module_&);
 }
