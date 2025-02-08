@@ -17,6 +17,7 @@
 #include <ql/quote.hpp>
 #include <ql/cashflow.hpp>
 #include <ql/index.hpp>
+#include <ql/termstructure.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -168,5 +169,21 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::Index, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// TermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyTermStructure : public QuantLib::TermStructure {
+public:
+    using QuantLib::TermStructure::TermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::TermStructure, maxDate,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::TermStructure, update,);
     }
 };
