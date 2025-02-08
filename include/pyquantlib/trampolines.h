@@ -20,6 +20,7 @@
 #include <ql/termstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
+#include <ql/instrument.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -241,5 +242,27 @@ public:
 
     void calculate() const override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Instrument Trampoline
+// -----------------------------------------------------------------------------
+class PyInstrument : public QuantLib::Instrument {
+public:
+    using QuantLib::Instrument::Instrument;
+
+    PyInstrument() : Instrument() {}
+
+    bool isExpired() const override {
+        PYBIND11_OVERRIDE_PURE(bool, QuantLib::Instrument, isExpired,);
+    }
+
+    void performCalculations() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::Instrument, performCalculations,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::Instrument, update,);
     }
 };
