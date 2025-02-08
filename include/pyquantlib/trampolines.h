@@ -19,6 +19,7 @@
 #include <ql/index.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/exercise.hpp>
+#include <ql/pricingengine.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -195,4 +196,50 @@ public:
 class PyExercise : public QuantLib::Exercise {
 public:
     using QuantLib::Exercise::Exercise;
+};
+
+// -----------------------------------------------------------------------------
+// PricingEngine Trampolines
+// -----------------------------------------------------------------------------
+class PyPricingEngineArguments : public QuantLib::PricingEngine::arguments {
+public:
+    using QuantLib::PricingEngine::arguments::arguments;
+
+    void validate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine::arguments, validate,);
+    }
+};
+
+class PyPricingEngineResults : public QuantLib::PricingEngine::results {
+public:
+    using QuantLib::PricingEngine::results::results;
+
+    void reset() override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine::results, reset,);
+    }
+};
+
+class PyPricingEngine : public QuantLib::PricingEngine {
+public:
+    using QuantLib::PricingEngine::PricingEngine;
+
+    PyPricingEngine() : PricingEngine() {}
+
+    QuantLib::PricingEngine::arguments* getArguments() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::PricingEngine::arguments*,
+                               QuantLib::PricingEngine, getArguments,);
+    }
+
+    const QuantLib::PricingEngine::results* getResults() const override {
+        PYBIND11_OVERRIDE_PURE(const QuantLib::PricingEngine::results*,
+                               QuantLib::PricingEngine, getResults,);
+    }
+
+    void reset() override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine, reset,);
+    }
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine, calculate,);
+    }
 };

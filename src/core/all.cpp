@@ -32,4 +32,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::exchangerate, m, "Exchange rate between currencies");
     manager.addFunction(ql_core::termstructure, b, "TermStructure ABC");
     manager.addFunction(ql_core::exercise, m, "Option exercise styles");
+    manager.addFunction(ql_core::pricingengine, b, "PricingEngine ABC");
 }

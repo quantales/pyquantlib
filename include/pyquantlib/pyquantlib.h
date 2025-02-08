@@ -80,4 +80,5 @@ namespace ql_core {
     void exchangerate(py::module_&);
     void termstructure(py::module_&);
     void exercise(py::module_&);
+    void pricingengine(py::module_&);
 }
