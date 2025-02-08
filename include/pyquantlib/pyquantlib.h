@@ -79,4 +79,5 @@ namespace ql_core {
     void money(py::module_&);
     void exchangerate(py::module_&);
     void termstructure(py::module_&);
+    void exercise(py::module_&);
 }

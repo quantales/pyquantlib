@@ -18,6 +18,7 @@
 #include <ql/cashflow.hpp>
 #include <ql/index.hpp>
 #include <ql/termstructure.hpp>
+#include <ql/exercise.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -186,4 +187,12 @@ public:
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::TermStructure, update,);
     }
+};
+
+// -----------------------------------------------------------------------------
+// Exercise Trampoline
+// -----------------------------------------------------------------------------
+class PyExercise : public QuantLib::Exercise {
+public:
+    using QuantLib::Exercise::Exercise;
 };
