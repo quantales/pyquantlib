@@ -29,4 +29,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::index, b, "Index ABC - market index interface");
     manager.addFunction(ql_core::currency, m, "Currency specification");
     manager.addFunction(ql_core::money, m, "Monetary amount with currency");
+    manager.addFunction(ql_core::exchangerate, m, "Exchange rate between currencies");
 }
