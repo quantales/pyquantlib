@@ -34,4 +34,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::exercise, m, "Option exercise styles");
     manager.addFunction(ql_core::pricingengine, b, "PricingEngine ABC");
     manager.addFunction(ql_core::instrument, b, "Instrument ABC");
+    manager.addFunction(ql_core::option, m, "Option ABC and Greeks");
 }

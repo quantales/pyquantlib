@@ -21,6 +21,7 @@
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
+#include <ql/option.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -264,5 +265,25 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::Instrument, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Option Trampoline
+// -----------------------------------------------------------------------------
+class PyOption : public QuantLib::Option {
+public:
+    using QuantLib::Option::Option;
+
+    bool isExpired() const override {
+        PYBIND11_OVERRIDE_PURE(bool, QuantLib::Option, isExpired,);
+    }
+
+    void performCalculations() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::Option, performCalculations,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::Option, update,);
     }
 };

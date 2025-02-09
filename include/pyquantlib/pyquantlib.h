@@ -82,4 +82,5 @@ namespace ql_core {
     void exercise(py::module_&);
     void pricingengine(py::module_&);
     void instrument(py::module_&);
+    void option(py::module_&);
 }
