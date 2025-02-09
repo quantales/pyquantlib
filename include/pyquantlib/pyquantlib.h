@@ -83,4 +83,5 @@ namespace ql_core {
     void pricingengine(py::module_&);
     void instrument(py::module_&);
     void option(py::module_&);
+    void timegrid(py::module_&);
 }

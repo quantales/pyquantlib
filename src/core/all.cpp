@@ -35,4 +35,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::pricingengine, b, "PricingEngine ABC");
     manager.addFunction(ql_core::instrument, b, "Instrument ABC");
     manager.addFunction(ql_core::option, m, "Option ABC and Greeks");
+    manager.addFunction(ql_core::timegrid, m, "Time grid for discretized models");
 }
