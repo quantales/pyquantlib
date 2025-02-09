@@ -84,4 +84,5 @@ namespace ql_core {
     void instrument(py::module_&);
     void option(py::module_&);
     void timegrid(py::module_&);
+    void payoff(py::module_&);
 }

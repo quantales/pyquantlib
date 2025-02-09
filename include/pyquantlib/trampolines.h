@@ -22,6 +22,7 @@
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
 #include <ql/option.hpp>
+#include <ql/payoff.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -285,5 +286,27 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::Option, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Payoff Trampoline
+// -----------------------------------------------------------------------------
+class PyPayoff : public QuantLib::Payoff {
+public:
+    using QuantLib::Payoff::Payoff;
+
+    PyPayoff() : Payoff() {}
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE_PURE(std::string, QuantLib::Payoff, name,);
+    }
+
+    std::string description() const override {
+        PYBIND11_OVERRIDE_PURE(std::string, QuantLib::Payoff, description,);
+    }
+
+    QuantLib::Real operator()(QuantLib::Real price) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Payoff, operator(), price);
     }
 };
