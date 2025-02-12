@@ -18,4 +18,5 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     auto m = manager.module();
     
     manager.addFunction(ql_math::array, m, "Mathematical array for vector operations");
+    manager.addFunction(ql_math::matrix, m, "Mathematical matrix for linear algebra");
 }
