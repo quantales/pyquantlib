@@ -17,6 +17,7 @@
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/binding_manager.h"
 #include "pyquantlib/type_casters/date.h"
+#include "pyquantlib/type_casters/array.h"
 
 namespace py = pybind11;
 
@@ -39,6 +40,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     utilities_bindings(manager);         // Utility classes
     time_bindings(manager);              // Date, Calendar, Period, etc.
     core_bindings(manager);              // Constants, Settings, etc.
+    math_bindings(manager);              // Array, Matrix, math functions
 
     // Finalize all bindings
     manager.finalize();

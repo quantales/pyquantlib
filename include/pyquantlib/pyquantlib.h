@@ -32,6 +32,7 @@ DECLARE_MODULE_BINDINGS(patterns_bindings);
 DECLARE_MODULE_BINDINGS(utilities_bindings);
 DECLARE_MODULE_BINDINGS(time_bindings);
 DECLARE_MODULE_BINDINGS(core_bindings);
+DECLARE_MODULE_BINDINGS(math_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -85,4 +86,8 @@ namespace ql_core {
     void option(py::module_&);
     void timegrid(py::module_&);
     void payoff(py::module_&);
+}
+
+namespace ql_math {
+    void array(py::module_&);
 }
