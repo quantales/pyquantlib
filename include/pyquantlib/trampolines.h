@@ -23,6 +23,7 @@
 #include <ql/instrument.hpp>
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
+#include <ql/stochasticprocess.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -308,5 +309,101 @@ public:
 
     QuantLib::Real operator()(QuantLib::Real price) const override {
         PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Payoff, operator(), price);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// StochasticProcess Trampoline
+// -----------------------------------------------------------------------------
+class PyStochasticProcess : public QuantLib::StochasticProcess {
+public:
+    using QuantLib::StochasticProcess::StochasticProcess;
+
+    PyStochasticProcess() : StochasticProcess() {}
+
+    QuantLib::Size size() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Size, QuantLib::StochasticProcess, size,);
+    }
+
+    QuantLib::Size factors() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Size, QuantLib::StochasticProcess, factors,);
+    }
+
+    QuantLib::Array initialValues() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Array, QuantLib::StochasticProcess, initialValues,);
+    }
+
+    QuantLib::Array drift(QuantLib::Time t, const QuantLib::Array& x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Array, QuantLib::StochasticProcess, drift, t, x);
+    }
+
+    QuantLib::Matrix diffusion(QuantLib::Time t, const QuantLib::Array& x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Matrix, QuantLib::StochasticProcess, diffusion, t, x);
+    }
+
+    QuantLib::Array evolve(QuantLib::Time t0, const QuantLib::Array& x0,
+                           QuantLib::Time dt, const QuantLib::Array& dw) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Array, QuantLib::StochasticProcess, evolve, t0, x0, dt, dw);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::StochasticProcess, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// StochasticProcess1D::discretization Trampoline
+// -----------------------------------------------------------------------------
+class PyDiscretization : public QuantLib::StochasticProcess1D::discretization {
+public:
+    using QuantLib::StochasticProcess1D::discretization::discretization;
+
+    QuantLib::Real drift(const QuantLib::StochasticProcess1D& process,
+                         QuantLib::Time t0, QuantLib::Real x0, QuantLib::Time dt) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D::discretization,
+                               drift, process, t0, x0, dt);
+    }
+
+    QuantLib::Real diffusion(const QuantLib::StochasticProcess1D& process,
+                             QuantLib::Time t0, QuantLib::Real x0, QuantLib::Time dt) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D::discretization,
+                               diffusion, process, t0, x0, dt);
+    }
+
+    QuantLib::Real variance(const QuantLib::StochasticProcess1D& process,
+                            QuantLib::Time t0, QuantLib::Real x0, QuantLib::Time dt) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D::discretization,
+                               variance, process, t0, x0, dt);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// StochasticProcess1D Trampoline
+// -----------------------------------------------------------------------------
+class PyStochasticProcess1D : public QuantLib::StochasticProcess1D {
+public:
+    using QuantLib::StochasticProcess1D::StochasticProcess1D;
+
+    PyStochasticProcess1D() : StochasticProcess1D() {}
+
+    QuantLib::Real x0() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D, x0,);
+    }
+
+    QuantLib::Real drift(QuantLib::Time t, QuantLib::Real x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D, drift, t, x);
+    }
+
+    QuantLib::Real diffusion(QuantLib::Time t, QuantLib::Real x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D, diffusion, t, x);
+    }
+
+    QuantLib::Real evolve(QuantLib::Time t0, QuantLib::Real x0,
+                          QuantLib::Time dt, QuantLib::Real dw) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StochasticProcess1D, evolve, t0, x0, dt, dw);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::StochasticProcess1D, update,);
     }
 };

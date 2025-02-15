@@ -37,4 +37,5 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     manager.addFunction(ql_core::option, m, "Option ABC and Greeks");
     manager.addFunction(ql_core::timegrid, m, "Time grid for discretized models");
     manager.addFunction(ql_core::payoff, m, "Payoff ABC");
+    manager.addFunction(ql_core::stochasticprocess, m, "StochasticProcess ABCs");
 }

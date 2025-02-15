@@ -86,6 +86,7 @@ namespace ql_core {
     void option(py::module_&);
     void timegrid(py::module_&);
     void payoff(py::module_&);
+    void stochasticprocess(py::module_&);
 }
 
 namespace ql_math {
