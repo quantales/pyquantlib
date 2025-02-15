@@ -97,7 +97,7 @@ void ql_math::matrix(py::module_& m) {
                     if (!py::isinstance<py::list>(rows_list[i])) {
                         throw py::type_error("All elements of the outer list must be lists.");
                     }
-                    const py::list& row = rows_list[i].cast<const py::list&>();
+                    py::list row = rows_list[i].cast<py::list>();
                     if (row.size() != num_cols) {
                         throw py::value_error("Inconsistent number of columns in input lists.");
                     }
