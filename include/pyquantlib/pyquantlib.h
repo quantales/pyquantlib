@@ -92,4 +92,5 @@ namespace ql_core {
 namespace ql_math {
     void array(py::module_&);
     void matrix(py::module_&);
+    void rounding(py::module_&);
 }

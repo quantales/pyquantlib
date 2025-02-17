@@ -19,4 +19,5 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     
     manager.addFunction(ql_math::array, m, "Mathematical array for vector operations");
     manager.addFunction(ql_math::matrix, m, "Mathematical matrix for linear algebra");
+    manager.addFunction(ql_math::rounding, m, "Rounding conventions");
 }
