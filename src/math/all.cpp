@@ -16,8 +16,11 @@
 
 DECLARE_MODULE_BINDINGS(math_bindings) {
     auto m = manager.module();
+    auto b = manager.getSubmodule("base");
     
     manager.addFunction(ql_math::array, m, "Mathematical array for vector operations");
     manager.addFunction(ql_math::matrix, m, "Mathematical matrix for linear algebra");
     manager.addFunction(ql_math::rounding, m, "Rounding conventions");
+    manager.addFunction(ql_math::constraint, b, "Constraint ABC");
+    manager.addFunction(ql_math::constraints, m, "Concrete constraint implementations");
 }

@@ -93,4 +93,6 @@ namespace ql_math {
     void array(py::module_&);
     void matrix(py::module_&);
     void rounding(py::module_&);
+    void constraint(py::module_&);
+    void constraints(py::module_&);
 }
