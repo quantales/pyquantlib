@@ -96,4 +96,5 @@ namespace ql_math {
     void constraint(py::module_&);
     void constraints(py::module_&);
     void costfunction(py::module_&);
+    void optimizationmethod(py::module_&);
 }

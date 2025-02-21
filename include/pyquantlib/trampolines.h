@@ -25,6 +25,8 @@
 #include <ql/payoff.hpp>
 #include <ql/stochasticprocess.hpp>
 #include <ql/math/optimization/costfunction.hpp>
+#include <ql/math/optimization/method.hpp>
+#include <ql/math/optimization/problem.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -422,5 +424,19 @@ public:
 
     QuantLib::Array values(const QuantLib::Array& x) const override {
         PYBIND11_OVERRIDE_PURE(QuantLib::Array, QuantLib::CostFunction, values, x);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// OptimizationMethod Trampoline
+// -----------------------------------------------------------------------------
+class PyOptimizationMethod : public QuantLib::OptimizationMethod {
+public:
+    using QuantLib::OptimizationMethod::OptimizationMethod;
+
+    QuantLib::EndCriteria::Type minimize(QuantLib::Problem& p,
+                                         const QuantLib::EndCriteria& endCriteria) override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::EndCriteria::Type, QuantLib::OptimizationMethod,
+                               minimize, p, endCriteria);
     }
 };
