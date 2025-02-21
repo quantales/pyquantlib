@@ -24,6 +24,7 @@
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
 #include <ql/stochasticprocess.hpp>
+#include <ql/math/optimization/costfunction.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -405,5 +406,21 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::StochasticProcess1D, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// CostFunction Trampoline
+// -----------------------------------------------------------------------------
+class PyCostFunction : public QuantLib::CostFunction {
+public:
+    using QuantLib::CostFunction::CostFunction;
+
+    QuantLib::Real value(const QuantLib::Array& x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::CostFunction, value, x);
+    }
+
+    QuantLib::Array values(const QuantLib::Array& x) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Array, QuantLib::CostFunction, values, x);
     }
 };

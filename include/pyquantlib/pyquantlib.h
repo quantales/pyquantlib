@@ -95,4 +95,5 @@ namespace ql_math {
     void rounding(py::module_&);
     void constraint(py::module_&);
     void constraints(py::module_&);
+    void costfunction(py::module_&);
 }
