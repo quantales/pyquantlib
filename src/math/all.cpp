@@ -25,4 +25,5 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     manager.addFunction(ql_math::constraints, m, "Concrete constraint implementations");
     manager.addFunction(ql_math::costfunction, b, "CostFunction ABC");
     manager.addFunction(ql_math::optimizationmethod, b, "OptimizationMethod ABC");
+    manager.addFunction(ql_math::endcriteria, m, "End criteria for optimization");
 }

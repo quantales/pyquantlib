@@ -4,7 +4,7 @@ import pyquantlib as ql
 
 class TestRoundingType:
     def test_enum_values(self):
-        assert getattr(ql.Rounding.Type, "None") is not None
+        assert ql.Rounding.Type.None_ is not None
         assert ql.Rounding.Type.Up is not None
         assert ql.Rounding.Type.Down is not None
         assert ql.Rounding.Type.Closest is not None

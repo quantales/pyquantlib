@@ -23,7 +23,7 @@ void ql_math::rounding(py::module_& m) {
 
     py::enum_<Rounding::Type>(pyRounding, "Type",
         "Rounding type enumeration.")
-        .value("None", Rounding::Type::None, "No rounding.")
+        .value("None_", Rounding::Type::None, "No rounding.")
         .value("Up", Rounding::Type::Up, "Round up.")
         .value("Down", Rounding::Type::Down, "Round down.")
         .value("Closest", Rounding::Type::Closest, "Round to the closest.")
