@@ -99,4 +99,5 @@ namespace ql_math {
     void optimizationmethod(py::module_&);
     void endcriteria(py::module_&);
     void problem(py::module_&);
+    void levenbergmarquardt(py::module_&);
 }
