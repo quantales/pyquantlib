@@ -41,6 +41,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     time_bindings(manager);              // Date, Calendar, Period, etc.
     core_bindings(manager);              // Constants, Settings, etc.
     math_bindings(manager);              // Array, Matrix, math functions
+    quotes_bindings(manager);            // Quote implementations
 
     // Finalize all bindings
     manager.finalize();

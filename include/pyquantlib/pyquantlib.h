@@ -33,6 +33,7 @@ DECLARE_MODULE_BINDINGS(utilities_bindings);
 DECLARE_MODULE_BINDINGS(time_bindings);
 DECLARE_MODULE_BINDINGS(core_bindings);
 DECLARE_MODULE_BINDINGS(math_bindings);
+DECLARE_MODULE_BINDINGS(quotes_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -100,4 +101,10 @@ namespace ql_math {
     void endcriteria(py::module_&);
     void problem(py::module_&);
     void levenbergmarquardt(py::module_&);
+}
+
+namespace ql_quotes {
+    void simplequote(py::module_&);
+    void derivedquote(py::module_&);
+    void compositequote(py::module_&);
 }
