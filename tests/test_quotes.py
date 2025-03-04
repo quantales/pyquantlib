@@ -3,7 +3,7 @@ import pyquantlib as ql
 
 
 # Helper observer for testing notifications
-class TestObserver(ql.base.Observer):
+class QuoteObserver(ql.base.Observer):
     def __init__(self):
         super().__init__()
         self.update_count = 0
@@ -67,7 +67,7 @@ class TestQuoteHandle:
         quote = ql.SimpleQuote(100.0)
         handle = ql.QuoteHandle(quote)
 
-        observer = TestObserver()
+        observer = QuoteObserver()
         observer.registerWith(handle.asObservable())
 
         assert observer.update_count == 0
@@ -94,7 +94,7 @@ class TestQuoteHandle:
         quote = ql.SimpleQuote(100.0)
         handle = ql.QuoteHandle(quote, registerAsObserver=False)
 
-        observer = TestObserver()
+        observer = QuoteObserver()
         observer.registerWith(handle.asObservable())
 
         quote.setValue(200.0)
@@ -136,7 +136,7 @@ class TestRelinkableQuoteHandle:
 
     def test_notification_on_link_to(self):
         handle = ql.RelinkableQuoteHandle()
-        observer = TestObserver()
+        observer = QuoteObserver()
         observer.registerWith(handle.asObservable())
 
         q1 = ql.SimpleQuote(100.0)
@@ -153,7 +153,7 @@ class TestRelinkableQuoteHandle:
 
     def test_notification_from_linked_quote(self):
         handle = ql.RelinkableQuoteHandle()
-        observer = TestObserver()
+        observer = QuoteObserver()
         observer.registerWith(handle.asObservable())
 
         quote = ql.SimpleQuote(100.0)
@@ -165,7 +165,7 @@ class TestRelinkableQuoteHandle:
 
     def test_link_to_register_as_observer_false(self):
         handle = ql.RelinkableQuoteHandle()
-        observer = TestObserver()
+        observer = QuoteObserver()
         observer.registerWith(handle.asObservable())
 
         quote = ql.SimpleQuote(100.0)

@@ -34,6 +34,7 @@ DECLARE_MODULE_BINDINGS(time_bindings);
 DECLARE_MODULE_BINDINGS(core_bindings);
 DECLARE_MODULE_BINDINGS(math_bindings);
 DECLARE_MODULE_BINDINGS(quotes_bindings);
+DECLARE_MODULE_BINDINGS(currencies_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -107,4 +108,9 @@ namespace ql_quotes {
     void simplequote(py::module_&);
     void derivedquote(py::module_&);
     void compositequote(py::module_&);
+}
+
+namespace ql_currencies {
+    void all_currencies(py::module_&);
+    void exchangeratemanager(py::module_&);
 }

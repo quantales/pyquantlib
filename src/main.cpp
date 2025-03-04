@@ -42,6 +42,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     core_bindings(manager);              // Constants, Settings, etc.
     math_bindings(manager);              // Array, Matrix, math functions
     quotes_bindings(manager);            // Quote implementations
+    currencies_bindings(manager);        // Currency definitions
 
     // Finalize all bindings
     manager.finalize();
