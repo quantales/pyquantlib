@@ -35,6 +35,7 @@ DECLARE_MODULE_BINDINGS(core_bindings);
 DECLARE_MODULE_BINDINGS(math_bindings);
 DECLARE_MODULE_BINDINGS(quotes_bindings);
 DECLARE_MODULE_BINDINGS(currencies_bindings);
+DECLARE_MODULE_BINDINGS(cashflows_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -113,4 +114,8 @@ namespace ql_quotes {
 namespace ql_currencies {
     void all_currencies(py::module_&);
     void exchangeratemanager(py::module_&);
+}
+
+namespace ql_cashflows {
+    void simplecashflow(py::module_&);
 }

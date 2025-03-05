@@ -1,11 +1,11 @@
 /*
  * PyQuantLib: Python bindings for QuantLib
  * Copyright (c) 2025 Yassine Idyiahia
- * 
+ *
  * QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
  * QuantLib is free software under a modified BSD license.
  * See http://quantlib.org/ for more information.
- * 
+ *
  * Source: https://github.com/quantales/pyquantlib
  * Licensed under the BSD 3-Clause License. See LICENSE file for details.
  */
@@ -31,10 +31,10 @@ PYBIND11_MODULE(_pyquantlib, m) {
 
     // Pybind11 exception translation for QuantLib exceptions
     py::register_exception<QuantLib::Error>(m, "Error");
-    
+
     // Initialize binding manager
-    BindingManager manager(m, "pyquantlib");    
-    
+    BindingManager manager(m, "pyquantlib");
+
     submodules_bindings(manager);        // Creates "base" submodule
     patterns_bindings(manager);          // Observer/Observable pattern
     utilities_bindings(manager);         // Utility classes
@@ -43,6 +43,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     math_bindings(manager);              // Array, Matrix, math functions
     quotes_bindings(manager);            // Quote implementations
     currencies_bindings(manager);        // Currency definitions
+    cashflows_bindings(manager);         // Cash flow implementations
 
     // Finalize all bindings
     manager.finalize();
