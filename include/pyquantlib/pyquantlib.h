@@ -117,5 +117,6 @@ namespace ql_currencies {
 }
 
 namespace ql_cashflows {
+    void coupon(py::module_&);
     void simplecashflow(py::module_&);
 }

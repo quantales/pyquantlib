@@ -16,6 +16,7 @@
 #include <ql/patterns/lazyobject.hpp>
 #include <ql/quote.hpp>
 #include <ql/cashflow.hpp>
+#include <ql/cashflows/coupon.hpp>
 #include <ql/index.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/exercise.hpp>
@@ -146,6 +147,40 @@ public:
             QuantLib::CashFlow,
             date,
         );
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Coupon Trampoline
+// -----------------------------------------------------------------------------
+class PyCoupon : public QuantLib::Coupon {
+public:
+    using QuantLib::Coupon::Coupon;
+
+    PyCoupon() : Coupon(QuantLib::Date(), 0.0, QuantLib::Date(), QuantLib::Date()) {}
+
+    QuantLib::Date date() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::Coupon, date,);
+    }
+
+    QuantLib::Real amount() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Coupon, amount,);
+    }
+
+    QuantLib::Rate nominal() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Rate, QuantLib::Coupon, nominal,);
+    }
+
+    QuantLib::DayCounter dayCounter() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::DayCounter, QuantLib::Coupon, dayCounter,);
+    }
+
+    QuantLib::Rate rate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Rate, QuantLib::Coupon, rate,);
+    }
+
+    QuantLib::Real accruedAmount(const QuantLib::Date& d) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Coupon, accruedAmount, d);
     }
 };
 

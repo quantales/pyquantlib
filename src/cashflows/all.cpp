@@ -15,6 +15,11 @@
 
 DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     auto m = manager.module();
+    auto b = manager.getSubmodule("base");
 
-    manager.addFunction(ql_cashflows::simplecashflow, m, "SimpleCashFlow - basic cash payment");
+    // Abstract base classes
+    manager.addFunction(ql_cashflows::coupon, b, "Coupon ABC");
+
+    // Concrete implementations
+    manager.addFunction(ql_cashflows::simplecashflow, m, "SimpleCashFlow");
 }
