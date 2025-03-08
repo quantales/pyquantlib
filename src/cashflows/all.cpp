@@ -22,4 +22,5 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
 
     // Concrete implementations
     manager.addFunction(ql_cashflows::simplecashflow, m, "SimpleCashFlow");
+    manager.addFunction(ql_cashflows::fixedratecoupon, m, "FixedRateCoupon");
 }
