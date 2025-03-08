@@ -36,6 +36,7 @@ DECLARE_MODULE_BINDINGS(math_bindings);
 DECLARE_MODULE_BINDINGS(quotes_bindings);
 DECLARE_MODULE_BINDINGS(currencies_bindings);
 DECLARE_MODULE_BINDINGS(cashflows_bindings);
+DECLARE_MODULE_BINDINGS(indexes_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -120,4 +121,8 @@ namespace ql_cashflows {
     void coupon(py::module_&);
     void simplecashflow(py::module_&);
     void fixedratecoupon(py::module_&);
+}
+
+namespace ql_indexes {
+    void interestrateindex(py::module_&);
 }

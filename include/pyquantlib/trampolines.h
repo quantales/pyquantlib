@@ -18,6 +18,7 @@
 #include <ql/cashflow.hpp>
 #include <ql/cashflows/coupon.hpp>
 #include <ql/index.hpp>
+#include <ql/indexes/interestrateindex.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
@@ -213,6 +214,52 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::Index, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// InterestRateIndex Trampoline
+// -----------------------------------------------------------------------------
+class PyInterestRateIndex : public QuantLib::InterestRateIndex {
+public:
+    using QuantLib::InterestRateIndex::InterestRateIndex;
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE(std::string, QuantLib::InterestRateIndex, name,);
+    }
+
+    QuantLib::Calendar fixingCalendar() const override {
+        PYBIND11_OVERRIDE(QuantLib::Calendar, QuantLib::InterestRateIndex, fixingCalendar,);
+    }
+
+    bool isValidFixingDate(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE(bool, QuantLib::InterestRateIndex, isValidFixingDate, fixingDate);
+    }
+
+    QuantLib::Real fixing(const QuantLib::Date& fixingDate,
+                          bool forecastTodaysFixing = false) const override {
+        PYBIND11_OVERRIDE(QuantLib::Real, QuantLib::InterestRateIndex, fixing,
+                          fixingDate, forecastTodaysFixing);
+    }
+
+    QuantLib::Date fixingDate(const QuantLib::Date& valueDate) const override {
+        PYBIND11_OVERRIDE(QuantLib::Date, QuantLib::InterestRateIndex, fixingDate, valueDate);
+    }
+
+    QuantLib::Date valueDate(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE(QuantLib::Date, QuantLib::InterestRateIndex, valueDate, fixingDate);
+    }
+
+    QuantLib::Date maturityDate(const QuantLib::Date& valueDate) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::InterestRateIndex, maturityDate, valueDate);
+    }
+
+    QuantLib::Rate forecastFixing(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Rate, QuantLib::InterestRateIndex, forecastFixing, fixingDate);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::InterestRateIndex, update,);
     }
 };
 
