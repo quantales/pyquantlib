@@ -303,6 +303,48 @@ See the existing bindings in `src/` for examples. The general pattern is:
 
 ---
 
+## Common Binding Pitfalls
+
+### Bridge-Pattern Classes (DayCounter, Calendar, etc.)
+
+Use concrete defaults, not empty constructors:
+
+```cpp
+// Good: concrete default
+py::arg("dayCounter") = Actual365Fixed()
+
+// Good: required argument (no default)
+py::arg("dayCounter")
+
+// Bad: causes import failure - empty DayCounter has no implementation
+py::arg("dayCounter") = DayCounter()
+```
+
+### Enum Pass-by-Reference
+
+pybind11 enum values are singletons. Never pass by reference and modify:
+
+```cpp
+// Bad: corrupts enum singleton
+.def("check", [](const Foo& self, SomeEnum::Type& ecType) {
+    return self.check(ecType);
+})
+
+// Good: pass by value, return tuple
+.def("check", [](const Foo& self, SomeEnum::Type ecType) {
+    bool result = self.check(ecType);
+    return py::make_tuple(result, ecType);
+})
+```
+
+### Abstract Base Classes
+
+- Place ABCs in the `base` submodule via `manager.getSubmodule("base")`
+- Use trampolines for classes with pure virtual methods
+- Export concrete implementations to the main module
+
+---
+
 ## Code Style
 
 - **C++**: Follow the existing style (clang-format configuration coming soon)
