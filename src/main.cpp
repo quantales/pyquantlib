@@ -45,6 +45,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     currencies_bindings(manager);        // Currency definitions
     cashflows_bindings(manager);         // Cash flow implementations
     indexes_bindings(manager);           // Index implementations
+    termstructures_bindings(manager);    // Term structure implementations
 
     // Finalize all bindings
     manager.finalize();

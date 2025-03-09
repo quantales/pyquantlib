@@ -37,6 +37,7 @@ DECLARE_MODULE_BINDINGS(quotes_bindings);
 DECLARE_MODULE_BINDINGS(currencies_bindings);
 DECLARE_MODULE_BINDINGS(cashflows_bindings);
 DECLARE_MODULE_BINDINGS(indexes_bindings);
+DECLARE_MODULE_BINDINGS(termstructures_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -125,4 +126,10 @@ namespace ql_cashflows {
 
 namespace ql_indexes {
     void interestrateindex(py::module_&);
+}
+
+namespace ql_termstructures {
+    void yieldtermstructure(py::module_&);
+    void yieldtermstructurehandle(py::module_&);
+    void relinkableyieldtermstructurehandle(py::module_&);
 }

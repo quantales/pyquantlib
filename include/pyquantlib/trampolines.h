@@ -20,6 +20,7 @@
 #include <ql/index.hpp>
 #include <ql/indexes/interestrateindex.hpp>
 #include <ql/termstructure.hpp>
+#include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
@@ -276,6 +277,27 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::TermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// YieldTermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyYieldTermStructure : public QuantLib::YieldTermStructure {
+public:
+    using QuantLib::YieldTermStructure::YieldTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::YieldTermStructure, maxDate,);
+    }
+
+    QuantLib::DiscountFactor discountImpl(QuantLib::Time t) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::DiscountFactor, QuantLib::YieldTermStructure,
+                               discountImpl, t);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::YieldTermStructure, update,);
     }
 };
 
