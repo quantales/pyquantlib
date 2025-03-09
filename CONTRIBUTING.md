@@ -307,18 +307,27 @@ See the existing bindings in `src/` for examples. The general pattern is:
 
 ### Bridge-Pattern Classes (DayCounter, Calendar, etc.)
 
-Use concrete defaults, not empty constructors:
+QuantLib uses the bridge pattern for classes like `DayCounter` and `Calendar`. The base class constructor creates an empty/invalid object with no implementation, which causes import failures when used as a default argument.
+
+**Convention**: Use `Actual365Fixed()` as the default for `DayCounter` parameters:
 
 ```cpp
-// Good: concrete default
+// Good: concrete default (our convention)
 py::arg("dayCounter") = Actual365Fixed()
 
 // Good: required argument (no default)
 py::arg("dayCounter")
 
-// Bad: causes import failure - empty DayCounter has no implementation
+// Bad: causes "no day counter implementation provided" at import
 py::arg("dayCounter") = DayCounter()
 ```
+
+**Why Actual365Fixed?**
+- Already used throughout the codebase (e.g., `TermStructure`, `YieldTermStructure`)
+- Common industry convention
+- Simple, predictable behavior
+
+**Note**: `SimpleDayCounter` is NOT suitable as a default — it only works correctly with `NullCalendar`.
 
 ### Enum Pass-by-Reference
 
