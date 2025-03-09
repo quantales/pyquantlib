@@ -26,4 +26,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "Handle<YieldTermStructure>");
     manager.addFunction(ql_termstructures::relinkableyieldtermstructurehandle, m,
         "RelinkableHandle<YieldTermStructure>");
+
+    // Concrete implementations
+    manager.addFunction(ql_termstructures::flatforward, m,
+        "FlatForward yield curve");
 }

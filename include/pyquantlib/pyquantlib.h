@@ -132,4 +132,5 @@ namespace ql_termstructures {
     void yieldtermstructure(py::module_&);
     void yieldtermstructurehandle(py::module_&);
     void relinkableyieldtermstructurehandle(py::module_&);
+    void flatforward(py::module_&);
 }
