@@ -134,4 +134,7 @@ namespace ql_termstructures {
     void relinkableyieldtermstructurehandle(py::module_&);
     void flatforward(py::module_&);
     void voltermstructure(py::module_&);
+    void blackvoltermstructure(py::module_&);
+    void blackvoltermstructurehandle(py::module_&);
+    void relinkableblackvoltermstructurehandle(py::module_&);
 }

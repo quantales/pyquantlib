@@ -22,6 +22,7 @@
 #include <ql/termstructure.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/termstructures/voltermstructure.hpp>
+#include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
@@ -323,6 +324,98 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::VolatilityTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// BlackVolTermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyBlackVolTermStructure : public QuantLib::BlackVolTermStructure {
+public:
+    using QuantLib::BlackVolTermStructure::BlackVolTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::BlackVolTermStructure, maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVolTermStructure, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVolTermStructure, maxStrike,);
+    }
+
+    QuantLib::Volatility blackVolImpl(QuantLib::Time t, QuantLib::Real strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility, QuantLib::BlackVolTermStructure,
+                               blackVolImpl, t, strike);
+    }
+
+    QuantLib::Real blackVarianceImpl(QuantLib::Time t, QuantLib::Real strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVolTermStructure,
+                               blackVarianceImpl, t, strike);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::BlackVolTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// BlackVolatilityTermStructure Trampoline (volatility-based adapter)
+// -----------------------------------------------------------------------------
+class PyBlackVolatilityTermStructure : public QuantLib::BlackVolatilityTermStructure {
+public:
+    using QuantLib::BlackVolatilityTermStructure::BlackVolatilityTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::BlackVolatilityTermStructure, maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVolatilityTermStructure, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVolatilityTermStructure, maxStrike,);
+    }
+
+    QuantLib::Volatility blackVolImpl(QuantLib::Time t, QuantLib::Real strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility, QuantLib::BlackVolatilityTermStructure,
+                               blackVolImpl, t, strike);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::BlackVolatilityTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// BlackVarianceTermStructure Trampoline (variance-based adapter)
+// -----------------------------------------------------------------------------
+class PyBlackVarianceTermStructure : public QuantLib::BlackVarianceTermStructure {
+public:
+    using QuantLib::BlackVarianceTermStructure::BlackVarianceTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::BlackVarianceTermStructure, maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVarianceTermStructure, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVarianceTermStructure, maxStrike,);
+    }
+
+    QuantLib::Real blackVarianceImpl(QuantLib::Time t, QuantLib::Real strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BlackVarianceTermStructure,
+                               blackVarianceImpl, t, strike);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::BlackVarianceTermStructure, update,);
     }
 };
 
