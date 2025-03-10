@@ -38,4 +38,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     // Concrete implementations
     manager.addFunction(ql_termstructures::flatforward, m,
         "FlatForward yield curve");
+    manager.addFunction(ql_termstructures::blackconstantvol, m,
+        "BlackConstantVol volatility surface");
 }
