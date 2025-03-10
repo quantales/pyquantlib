@@ -20,6 +20,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     // Abstract base classes
     manager.addFunction(ql_termstructures::yieldtermstructure, b,
         "YieldTermStructure ABC");
+    manager.addFunction(ql_termstructures::voltermstructure, b,
+        "VolatilityTermStructure ABC");
 
     // Handle types
     manager.addFunction(ql_termstructures::yieldtermstructurehandle, m,

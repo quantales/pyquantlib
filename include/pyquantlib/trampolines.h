@@ -21,6 +21,7 @@
 #include <ql/indexes/interestrateindex.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
+#include <ql/termstructures/voltermstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
@@ -298,6 +299,30 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::YieldTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// VolatilityTermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyVolatilityTermStructure : public QuantLib::VolatilityTermStructure {
+public:
+    using QuantLib::VolatilityTermStructure::VolatilityTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::VolatilityTermStructure, maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::VolatilityTermStructure, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::VolatilityTermStructure, maxStrike,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::VolatilityTermStructure, update,);
     }
 };
 
