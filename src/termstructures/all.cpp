@@ -24,6 +24,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "VolatilityTermStructure ABC");
     manager.addFunction(ql_termstructures::blackvoltermstructure, b,
         "BlackVolTermStructure ABC");
+    manager.addFunction(ql_termstructures::localvoltermstructure, b,
+        "LocalVolTermStructure ABC");
 
     // Handle types
     manager.addFunction(ql_termstructures::yieldtermstructurehandle, m,
@@ -34,6 +36,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "Handle<BlackVolTermStructure>");
     manager.addFunction(ql_termstructures::relinkableblackvoltermstructurehandle, m,
         "RelinkableHandle<BlackVolTermStructure>");
+    manager.addFunction(ql_termstructures::localvoltermstructurehandle, m,
+        "Handle<LocalVolTermStructure>");
+    manager.addFunction(ql_termstructures::relinkablelocalvoltermstructurehandle, m,
+        "RelinkableHandle<LocalVolTermStructure>");
 
     // Concrete implementations
     manager.addFunction(ql_termstructures::flatforward, m,

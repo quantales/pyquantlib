@@ -23,6 +23,7 @@
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/termstructures/voltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
+#include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instrument.hpp>
@@ -416,6 +417,35 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::BlackVarianceTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// LocalVolTermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyLocalVolTermStructure : public QuantLib::LocalVolTermStructure {
+public:
+    using QuantLib::LocalVolTermStructure::LocalVolTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::LocalVolTermStructure, maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::LocalVolTermStructure, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::LocalVolTermStructure, maxStrike,);
+    }
+
+    QuantLib::Volatility localVolImpl(QuantLib::Time t, QuantLib::Real strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility, QuantLib::LocalVolTermStructure,
+                               localVolImpl, t, strike);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::LocalVolTermStructure, update,);
     }
 };
 
