@@ -138,6 +138,7 @@ namespace ql_termstructures {
     void blackvoltermstructurehandle(py::module_&);
     void relinkableblackvoltermstructurehandle(py::module_&);
     void blackconstantvol(py::module_&);
+    void blackvariancesurface(py::module_&);
     void localvoltermstructure(py::module_&);
     void localvoltermstructurehandle(py::module_&);
     void relinkablelocalvoltermstructurehandle(py::module_&);
