@@ -142,4 +142,5 @@ namespace ql_termstructures {
     void localvoltermstructurehandle(py::module_&);
     void relinkablelocalvoltermstructurehandle(py::module_&);
     void localconstantvol(py::module_&);
+    void localvolsurface(py::module_&);
 }

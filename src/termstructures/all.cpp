@@ -48,4 +48,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "BlackConstantVol volatility surface");
     manager.addFunction(ql_termstructures::localconstantvol, m,
         "LocalConstantVol volatility surface");
+    manager.addFunction(ql_termstructures::localvolsurface, m,
+        "LocalVolSurface from Black vol");
 }
