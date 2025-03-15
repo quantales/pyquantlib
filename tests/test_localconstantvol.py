@@ -78,14 +78,21 @@ def test_localconstantvol_with_quote_handle():
 
 def test_localconstantvol_settlement_days():
     """Test LocalConstantVol construction with settlement days."""
-    ql.Settings.instance().evaluationDate = ql.Date(15, 6, 2024)
+    today = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = today
+    
+    # Verify evaluationDate was set correctly
+    assert ql.Settings.instance().evaluationDate == today, \
+        f"evaluationDate not set: expected {today}, got {ql.Settings.instance().evaluationDate}"
+    
     calendar = ql.TARGET()
     volatility = 0.25
     dc = ql.Actual365Fixed()
 
     lcv = ql.LocalConstantVol(2, calendar, volatility, dc)
 
-    expected_ref = calendar.advance(ql.Date(15, 6, 2024), 2, ql.Days)
+    # Reference date should be 2 business days from evaluation date
+    expected_ref = calendar.advance(today, 2, ql.Days)
     assert lcv.referenceDate() == expected_ref
 
 

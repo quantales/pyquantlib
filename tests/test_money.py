@@ -147,6 +147,7 @@ def test_cross_currency_close_with_conversion(setup_money_env):
     usd = setup_money_env["usd"]
 
     ql.Money.Settings.instance().conversionType = ql.Money.AutomatedConversion
+    ql.Money.Settings.instance().baseCurrency = eur
 
     # 100.0 EUR = 110.0 USD (rate 1.1)
     m_eur = ql.Money(100.0, eur)

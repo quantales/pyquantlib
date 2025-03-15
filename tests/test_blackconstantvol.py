@@ -82,14 +82,21 @@ def test_blackconstantvol_with_quote_handle():
 
 def test_blackconstantvol_settlement_days():
     """Test BlackConstantVol construction with settlement days."""
-    ql.Settings.instance().evaluationDate = ql.Date(15, 6, 2024)
+    today = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = today
+    
+    # Verify evaluationDate was set correctly
+    assert ql.Settings.instance().evaluationDate == today, \
+        f"evaluationDate not set: expected {today}, got {ql.Settings.instance().evaluationDate}"
+    
     calendar = ql.TARGET()
     volatility = 0.25
     dc = ql.Actual365Fixed()
 
     bcv = ql.BlackConstantVol(2, calendar, volatility, dc)
 
-    expected_ref = calendar.advance(ql.Date(15, 6, 2024), 2, ql.Days)
+    # Reference date should be 2 business days from evaluation date
+    expected_ref = calendar.advance(today, 2, ql.Days)
     assert bcv.referenceDate() == expected_ref
 
 
