@@ -145,4 +145,5 @@ namespace ql_termstructures {
     void localconstantvol(py::module_&);
     void localvolsurface(py::module_&);
     void fixedlocalvolsurface(py::module_&);
+    void noexceptlocalvolsurface(py::module_&);
 }

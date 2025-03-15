@@ -54,4 +54,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "LocalVolSurface from Black vol");
     manager.addFunction(ql_termstructures::fixedlocalvolsurface, m,
         "FixedLocalVolSurface with strike/time grid");
+    manager.addFunction(ql_termstructures::noexceptlocalvolsurface, m,
+        "NoExceptLocalVolSurface with fallback value");
 }
