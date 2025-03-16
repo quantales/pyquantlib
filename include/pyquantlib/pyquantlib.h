@@ -38,6 +38,7 @@ DECLARE_MODULE_BINDINGS(currencies_bindings);
 DECLARE_MODULE_BINDINGS(cashflows_bindings);
 DECLARE_MODULE_BINDINGS(indexes_bindings);
 DECLARE_MODULE_BINDINGS(termstructures_bindings);
+DECLARE_MODULE_BINDINGS(processes_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -146,4 +147,10 @@ namespace ql_termstructures {
     void localvolsurface(py::module_&);
     void fixedlocalvolsurface(py::module_&);
     void noexceptlocalvolsurface(py::module_&);
+}
+
+namespace ql_processes {
+    void eulerdiscretization(py::module_&);
+    void blackscholesprocess(py::module_&);
+    void hestonprocess(py::module_&);
 }
