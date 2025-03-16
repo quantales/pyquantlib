@@ -39,6 +39,8 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings);
 DECLARE_MODULE_BINDINGS(indexes_bindings);
 DECLARE_MODULE_BINDINGS(termstructures_bindings);
 DECLARE_MODULE_BINDINGS(processes_bindings);
+DECLARE_MODULE_BINDINGS(instruments_bindings);
+DECLARE_MODULE_BINDINGS(pricingengines_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -153,4 +155,15 @@ namespace ql_processes {
     void eulerdiscretization(py::module_&);
     void blackscholesprocess(py::module_&);
     void hestonprocess(py::module_&);
+}
+
+namespace ql_instruments {
+    void strikedtypepayoff(py::module_&);
+    void payoffs(py::module_&);
+    void oneassetoption(py::module_&);
+    void vanillaoption(py::module_&);
+}
+
+namespace ql_pricingengines {
+    void analyticeuropeanengine(py::module_&);
 }
