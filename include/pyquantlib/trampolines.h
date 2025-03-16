@@ -29,6 +29,8 @@
 #include <ql/instrument.hpp>
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
+#include <ql/instruments/payoffs.hpp>
+#include <ql/instruments/oneassetoption.hpp>
 #include <ql/stochasticprocess.hpp>
 #include <ql/math/optimization/costfunction.hpp>
 #include <ql/math/optimization/method.hpp>
@@ -690,5 +692,71 @@ public:
                                          const QuantLib::EndCriteria& endCriteria) override {
         PYBIND11_OVERRIDE_PURE(QuantLib::EndCriteria::Type, QuantLib::OptimizationMethod,
                                minimize, p, endCriteria);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// StrikedTypePayoff Trampoline
+// -----------------------------------------------------------------------------
+class PyStrikedTypePayoff : public QuantLib::StrikedTypePayoff {
+public:
+    // Expose protected constructor for Python subclassing
+    PyStrikedTypePayoff(QuantLib::Option::Type type, QuantLib::Real strike)
+        : QuantLib::StrikedTypePayoff(type, strike) {}
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE_PURE(std::string, QuantLib::StrikedTypePayoff, name,);
+    }
+
+    std::string description() const override {
+        PYBIND11_OVERRIDE(std::string, QuantLib::StrikedTypePayoff, description,);
+    }
+
+    QuantLib::Real operator()(QuantLib::Real price) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::StrikedTypePayoff, operator(), price);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// OneAssetOption Trampoline
+// -----------------------------------------------------------------------------
+class PyOneAssetOption : public QuantLib::OneAssetOption {
+public:
+    using QuantLib::OneAssetOption::OneAssetOption;
+
+    bool isExpired() const override {
+        PYBIND11_OVERRIDE_PURE(bool, QuantLib::OneAssetOption, isExpired,);
+    }
+
+    void performCalculations() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::OneAssetOption, performCalculations,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::OneAssetOption, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// OneAssetOption Engine Trampolines
+// -----------------------------------------------------------------------------
+using OneAssetGenericEngine = QuantLib::GenericEngine<QuantLib::OneAssetOption::arguments,
+                                                       QuantLib::OneAssetOption::results>;
+
+class PyOneAssetGenericEngine : public OneAssetGenericEngine {
+public:
+    using OneAssetGenericEngine::OneAssetGenericEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, OneAssetGenericEngine, calculate,);
+    }
+};
+
+class PyOneAssetOptionEngine : public QuantLib::OneAssetOption::engine {
+public:
+    using QuantLib::OneAssetOption::engine::engine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::OneAssetOption::engine, calculate,);
     }
 };
