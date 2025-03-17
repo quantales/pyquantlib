@@ -166,4 +166,5 @@ namespace ql_instruments {
 
 namespace ql_pricingengines {
     void analyticeuropeanengine(py::module_&);
+    void mceuropeanengine(py::module_&);
 }

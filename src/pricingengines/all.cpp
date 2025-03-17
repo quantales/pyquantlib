@@ -18,4 +18,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
 
     manager.addFunction(ql_pricingengines::analyticeuropeanengine, m,
         "AnalyticEuropeanEngine - Black-Scholes European option pricing");
+    manager.addFunction(ql_pricingengines::mceuropeanengine, m,
+        "MCEuropeanEngine - Monte Carlo European option pricing");
 }
