@@ -39,6 +39,7 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings);
 DECLARE_MODULE_BINDINGS(indexes_bindings);
 DECLARE_MODULE_BINDINGS(termstructures_bindings);
 DECLARE_MODULE_BINDINGS(processes_bindings);
+DECLARE_MODULE_BINDINGS(models_bindings);
 DECLARE_MODULE_BINDINGS(instruments_bindings);
 DECLARE_MODULE_BINDINGS(pricingengines_bindings);
 
@@ -157,6 +158,12 @@ namespace ql_processes {
     void hestonprocess(py::module_&);
 }
 
+namespace ql_models {
+    void model(py::module_&);
+    void hestonmodel(py::module_&);
+    void hestonmodelhandle(py::module_&);
+}
+
 namespace ql_instruments {
     void strikedtypepayoff(py::module_&);
     void payoffs(py::module_&);
@@ -165,6 +172,8 @@ namespace ql_instruments {
 }
 
 namespace ql_pricingengines {
+    void genericmodelengine(py::module_&);
     void analyticeuropeanengine(py::module_&);
+    void analytichestonengine(py::module_&);
     void mceuropeanengine(py::module_&);
 }

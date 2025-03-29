@@ -26,12 +26,16 @@
 #include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
+#include <ql/pricingengines/genericmodelengine.hpp>
 #include <ql/instrument.hpp>
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
 #include <ql/instruments/payoffs.hpp>
 #include <ql/instruments/oneassetoption.hpp>
+#include <ql/instruments/vanillaoption.hpp>
 #include <ql/stochasticprocess.hpp>
+#include <ql/models/model.hpp>
+#include <ql/models/equity/hestonmodel.hpp>
 #include <ql/math/optimization/costfunction.hpp>
 #include <ql/math/optimization/method.hpp>
 #include <ql/math/optimization/problem.hpp>
@@ -758,5 +762,51 @@ public:
 
     void calculate() const override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::OneAssetOption::engine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// GenericHestonModelEngine Trampoline
+// -----------------------------------------------------------------------------
+using GenericHestonModelEngine = QuantLib::GenericModelEngine<QuantLib::HestonModel,
+                                                               QuantLib::VanillaOption::arguments,
+                                                               QuantLib::VanillaOption::results>;
+
+class PyGenericHestonModelEngine : public GenericHestonModelEngine {
+public:
+    using GenericHestonModelEngine::GenericHestonModelEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, GenericHestonModelEngine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// CalibratedModel Trampoline
+// -----------------------------------------------------------------------------
+class PyCalibratedModel : public QuantLib::CalibratedModel {
+public:
+    // Expose protected constructor for Python subclassing
+    PyCalibratedModel(QuantLib::Size nArguments)
+        : QuantLib::CalibratedModel(nArguments) {}
+
+    void calibrate(
+        const std::vector<QuantLib::ext::shared_ptr<QuantLib::CalibrationHelper>>& instruments,
+        QuantLib::OptimizationMethod& method,
+        const QuantLib::EndCriteria& endCriteria,
+        const QuantLib::Constraint& constraint,
+        const std::vector<QuantLib::Real>& weights,
+        const std::vector<bool>& fixParameters) override {
+        PYBIND11_OVERRIDE(void, QuantLib::CalibratedModel, calibrate,
+                         instruments, method, endCriteria, constraint,
+                         weights, fixParameters);
+    }
+
+    void setParams(const QuantLib::Array& params) override {
+        PYBIND11_OVERRIDE(void, QuantLib::CalibratedModel, setParams, params);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::CalibratedModel, update,);
     }
 };
