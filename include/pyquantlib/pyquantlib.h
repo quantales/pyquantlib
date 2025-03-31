@@ -160,8 +160,11 @@ namespace ql_processes {
 
 namespace ql_models {
     void model(py::module_&);
+    void parameter(py::module_&);
+    void calibrationhelper(py::module_&);
     void hestonmodel(py::module_&);
     void hestonmodelhandle(py::module_&);
+    void piecewisetimedependenthestonmodel(py::module_&);
 }
 
 namespace ql_instruments {

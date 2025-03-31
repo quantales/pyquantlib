@@ -18,8 +18,14 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
 
     manager.addFunction(ql_models::model, m,
         "CalibratedModel - base class for calibrated models");
+    manager.addFunction(ql_models::parameter, m,
+        "Parameter - model parameter with constraints");
+    manager.addFunction(ql_models::calibrationhelper, m,
+        "CalibrationHelper - base class for calibration helpers");
     manager.addFunction(ql_models::hestonmodel, m,
         "HestonModel - Heston stochastic volatility model");
     manager.addFunction(ql_models::hestonmodelhandle, m,
         "HestonModelHandle - handle to Heston model");
+    manager.addFunction(ql_models::piecewisetimedependenthestonmodel, m,
+        "PiecewiseTimeDependentHestonModel - time-dependent Heston model");
 }

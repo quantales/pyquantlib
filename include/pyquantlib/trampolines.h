@@ -35,6 +35,7 @@
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/stochasticprocess.hpp>
 #include <ql/models/model.hpp>
+#include <ql/models/calibrationhelper.hpp>
 #include <ql/models/equity/hestonmodel.hpp>
 #include <ql/math/optimization/costfunction.hpp>
 #include <ql/math/optimization/method.hpp>
@@ -778,6 +779,19 @@ public:
 
     void calculate() const override {
         PYBIND11_OVERRIDE_PURE(void, GenericHestonModelEngine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// CalibrationHelper Trampoline
+// -----------------------------------------------------------------------------
+class PyCalibrationHelper : public QuantLib::CalibrationHelper {
+public:
+    using QuantLib::CalibrationHelper::CalibrationHelper;
+
+    QuantLib::Real calibrationError() override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::CalibrationHelper,
+                               calibrationError,);
     }
 };
 
