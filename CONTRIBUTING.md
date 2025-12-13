@@ -14,8 +14,136 @@ Before you begin, ensure you have:
   - Windows: MSVC 2019+ (Visual Studio 2019 or later)
   - macOS: Xcode 12+ or clang 10+
   - Linux: GCC 9+ or clang 10+
-- **QuantLib library** (see platform-specific instructions below)
 - **Boost headers** (required by QuantLib)
+- **QuantLib 1.40+** built with required configuration (see below)
+
+### QuantLib Build Requirements
+
+> ⚠️ **Critical**: PyQuantLib requires QuantLib built with specific CMake flags.
+
+PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type. QuantLib must be compiled with matching settings to avoid runtime errors and segmentation faults.
+
+**Required CMake flags:**
+
+| Flag | Value | Why |
+|------|-------|-----|
+| `QL_USE_STD_SHARED_PTR` | `ON` | **Required** - pybind11 compatibility |
+| `QL_USE_STD_OPTIONAL` | `ON` | Recommended - modern C++ |
+| `QL_USE_STD_ANY` | `ON` | Recommended - modern C++ |
+
+**Pre-built packages won't work**: Homebrew, vcpkg, and apt packages use default settings (`boost::shared_ptr`) and are incompatible with PyQuantLib.
+
+---
+
+## Building QuantLib from Source
+
+### Download QuantLib 1.40
+
+```bash
+# Download release
+wget https://github.com/lballabio/QuantLib/releases/download/v1.40/QuantLib-1.40.tar.gz
+tar xzf QuantLib-1.40.tar.gz
+cd QuantLib-1.40
+
+# Or clone the repo
+git clone https://github.com/lballabio/QuantLib.git
+cd QuantLib
+git checkout v1.40
+```
+
+### Windows
+
+**Prerequisites:**
+- Visual Studio 2019 or later
+- Boost (headers only, or full install)
+
+```powershell
+# Install Boost via vcpkg (headers are sufficient)
+vcpkg install boost:x64-windows
+
+# Configure QuantLib
+mkdir build
+cd build
+cmake .. -G "Visual Studio 16 2019" -A x64 ^
+    -DQL_USE_STD_SHARED_PTR=ON ^
+    -DQL_USE_STD_OPTIONAL=ON ^
+    -DQL_USE_STD_ANY=ON ^
+    -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_INSTALL_PREFIX=C:/QuantLib ^
+    -DBoost_ROOT=C:/vcpkg/installed/x64-windows
+
+# Build and install
+cmake --build . --config Release --parallel 8
+cmake --install . --config Release
+
+# Set environment variable for PyQuantLib to find it
+set QL_DIR=C:\QuantLib
+```
+
+### macOS
+
+**Prerequisites:**
+```bash
+# Install Boost (headers are sufficient)
+brew install boost cmake
+```
+
+**Build QuantLib:**
+```bash
+mkdir build && cd build
+cmake .. \
+    -DQL_USE_STD_SHARED_PTR=ON \
+    -DQL_USE_STD_OPTIONAL=ON \
+    -DQL_USE_STD_ANY=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local
+
+make -j$(sysctl -n hw.ncpu)
+sudo make install
+```
+
+### Linux (Ubuntu/Debian)
+
+**Prerequisites:**
+```bash
+sudo apt-get update
+sudo apt-get install libboost-all-dev cmake build-essential
+```
+
+**Build QuantLib:**
+```bash
+mkdir build && cd build
+cmake .. \
+    -DQL_USE_STD_SHARED_PTR=ON \
+    -DQL_USE_STD_OPTIONAL=ON \
+    -DQL_USE_STD_ANY=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local
+
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+```
+
+### Verify QuantLib Configuration
+
+After installation, verify the flags are set correctly:
+
+```bash
+# Check config.hpp
+grep -E "QL_USE_STD_(SHARED_PTR|OPTIONAL|ANY)" /usr/local/include/ql/config.hpp
+```
+
+Expected output:
+```cpp
+#define QL_USE_STD_ANY
+#define QL_USE_STD_OPTIONAL
+#define QL_USE_STD_SHARED_PTR
+```
+
+---
+
+## PyQuantLib Development Setup
 
 ### Step 1: Clone the Repository
 
@@ -45,44 +173,7 @@ python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 ```
 
-### Step 4: Install QuantLib (Platform-Specific)
-
-#### Windows (vcpkg - Recommended)
-
-```powershell
-# Install vcpkg if you haven't already
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
-.\bootstrap-vcpkg.bat
-.\vcpkg integrate install
-
-# Install QuantLib and Boost
-.\vcpkg install quantlib:x64-windows boost:x64-windows
-
-# Set environment variable (add to your shell profile)
-set VCPKG_ROOT=C:\path\to\vcpkg
-```
-
-#### macOS (Homebrew)
-
-```bash
-brew install quantlib boost cmake
-```
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get update
-sudo apt-get install libquantlib0-dev libboost-all-dev cmake build-essential
-```
-
-#### Fedora/RHEL
-
-```bash
-sudo dnf install quantlib-devel boost-devel cmake gcc-c++
-```
-
-### Step 5: Build and Install in Development Mode
+### Step 4: Build and Install in Development Mode
 
 ```bash
 # Build and install in editable mode
@@ -92,9 +183,21 @@ pip install -e .
 pip install -e . -v
 ```
 
-### Build Options
+### Step 5: Verify Installation
 
-#### Parallel Builds
+```bash
+# Run the test suite
+pytest
+
+# Or run a quick smoke test
+python -c "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.__ql_version__}')"
+```
+
+---
+
+## Build Options
+
+### Parallel Builds
 
 Ninja (the default build tool) auto-detects CPU cores. To override:
 
@@ -108,7 +211,7 @@ pip install -e .
 CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
 ```
 
-#### Clean Build
+### Clean Build
 
 To force a complete rebuild:
 
@@ -122,7 +225,7 @@ rm -rf build *.egg-info
 pip install -e .
 ```
 
-#### Non-Editable Install
+### Non-Editable Install
 
 For a regular installation (copies to site-packages):
 
@@ -131,15 +234,7 @@ pip install .
 pip install .[dev]  # with dev dependencies
 ```
 
-### Step 6: Verify Installation
-
-```bash
-# Run the test suite
-pytest
-
-# Or run a quick smoke test
-python -c "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.__ql_version__}')"
-```
+---
 
 ## Development Workflow
 
@@ -178,6 +273,8 @@ python -m build
 # Wheels will be in dist/
 ```
 
+---
+
 ## Project Structure
 
 ```
@@ -197,6 +294,8 @@ pyquantlib/
 └── tests/                # Python test suite
 ```
 
+---
+
 ## Adding New Bindings
 
 See the existing bindings in `src/` for examples. The general pattern is:
@@ -206,10 +305,42 @@ See the existing bindings in `src/` for examples. The general pattern is:
 3. Register the binding in the module's `all.cpp` file
 4. Add tests in `tests/`
 
+---
+
 ## Code Style
 
 - **C++**: Follow the existing style (clang-format configuration coming soon)
 - **Python**: Use ruff for formatting and linting
+
+---
+
+## Troubleshooting
+
+### "undefined symbol" or segmentation fault at import
+
+This usually means QuantLib was built with `boost::shared_ptr` (the default) instead of `std::shared_ptr`. Rebuild QuantLib with `QL_USE_STD_SHARED_PTR=ON`.
+
+### CMake can't find QuantLib
+
+Set the `QL_DIR` environment variable to your QuantLib installation prefix:
+
+```bash
+# Windows
+set QL_DIR=C:\QuantLib
+
+# macOS/Linux
+export QL_DIR=/usr/local
+```
+
+### Boost not found
+
+Ensure Boost is installed and discoverable. You can hint CMake:
+
+```bash
+cmake -DBoost_ROOT=/path/to/boost ...
+```
+
+---
 
 ## Questions?
 

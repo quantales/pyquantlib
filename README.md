@@ -24,36 +24,31 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 - Python 3.9+
 - CMake 3.18+
 - C++17 compatible compiler
-- QuantLib library (1.30+)
 - Boost headers
+- **QuantLib 1.40+** built with `std::shared_ptr` support (see below)
+
+### QuantLib Build Requirement
+
+> ⚠️ **Important**: PyQuantLib requires QuantLib compiled with specific flags for pybind11 compatibility.
+
+QuantLib must be built from source with:
+
+```bash
+cmake -DQL_USE_STD_SHARED_PTR=ON \
+      -DQL_USE_STD_OPTIONAL=ON \
+      -DQL_USE_STD_ANY=ON \
+      -DCMAKE_BUILD_TYPE=Release \
+      ...
+```
+
+The `QL_USE_STD_SHARED_PTR=ON` flag is **required** because pybind11 uses `std::shared_ptr` as its default holder type. Using QuantLib's default (`boost::shared_ptr`) will cause runtime errors or segmentation faults.
+
+**Note**: Pre-built packages (Homebrew, vcpkg, apt) use default settings and are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
 ### From Source
 
-#### macOS (Homebrew)
-
 ```bash
-brew install quantlib boost cmake
-pip install git+https://github.com/quantales/pyquantlib.git
-```
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get update
-sudo apt-get install libquantlib0-dev libboost-all-dev cmake build-essential
-pip install git+https://github.com/quantales/pyquantlib.git
-```
-
-#### Windows
-
-```powershell
-# Using vcpkg (recommended)
-vcpkg install quantlib:x64-windows boost:x64-windows
-
-# Or set environment variables for manual installations
-set QL_DIR=C:\path\to\QuantLib
-set BOOST_ROOT=C:\path\to\boost
-
+# After building QuantLib with required flags (see CONTRIBUTING.md)
 pip install git+https://github.com/quantales/pyquantlib.git
 ```
 
