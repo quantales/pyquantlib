@@ -17,19 +17,19 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
-# Manual-only for now - building QuantLib from source takes ~15-20 minutes (cached after first run)
-
 env:
   QUANTLIB_VERSION: "1.40"
+  BOOST_VERSION: "1.86.0"
+  BOOST_VERSION_UNDERSCORE: "1_86_0"
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
+    if: github.event_name == 'workflow_dispatch'
     runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11"]  # Expand when stable
+        python-version: ["3.11"]
 
     steps:
       - uses: actions/checkout@v4
@@ -40,38 +40,45 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
 
-      - name: Cache Boost
+      - name: Cache Boost headers
         id: cache-boost
         uses: actions/cache@v4
         with:
           path: C:/boost
-          key: boost-1.86-windows-v1
+          key: boost-headers-${{ env.BOOST_VERSION }}-windows-v1
 
-      - name: Install Boost via vcpkg
+      - name: Download Boost headers
         if: steps.cache-boost.outputs.cache-hit != 'true'
         run: |
-          vcpkg install boost:x64-windows
-          mkdir C:\boost
-          xcopy /E /I /Y "$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\include\boost" "C:\boost\include\boost"
-          xcopy /E /I /Y "$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows\lib" "C:\boost\lib"
+          Write-Host "Downloading Boost $env:BOOST_VERSION headers..."
+          $url = "https://archives.boost.io/release/$env:BOOST_VERSION/source/boost_$env:BOOST_VERSION_UNDERSCORE.zip"
+          Invoke-WebRequest -Uri $url -OutFile boost.zip
+          Write-Host "Extracting Boost headers..."
+          Expand-Archive -Path boost.zip -DestinationPath C:/boost-temp
+          mkdir C:/boost/include -Force
+          Move-Item "C:/boost-temp/boost_$env:BOOST_VERSION_UNDERSCORE/boost" "C:/boost/include/boost"
+          Remove-Item -Recurse -Force C:/boost-temp, boost.zip
+          Write-Host "Boost headers installed to C:/boost/include"
 
       - name: Cache QuantLib
         id: cache-quantlib
         uses: actions/cache@v4
         with:
           path: C:/quantlib-install
-          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-v1
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-v2
           restore-keys: |
             quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-
 
       - name: Build QuantLib from source
         if: steps.cache-quantlib.outputs.cache-hit != 'true'
         run: |
-          Invoke-WebRequest -Uri "https://github.com/lballabio/QuantLib/releases/download/v$env:QUANTLIB_VERSION/QuantLib-$env:QUANTLIB_VERSION.tar.gz" -OutFile "QuantLib.tar.gz"
+          Write-Host "Downloading QuantLib $env:QUANTLIB_VERSION..."
+          Invoke-WebRequest -Uri "https://github.com/lballabio/QuantLib/releases/download/v$env:QUANTLIB_VERSION/QuantLib-$env:QUANTLIB_VERSION.tar.gz" -OutFile QuantLib.tar.gz
           tar xzf QuantLib.tar.gz
           cd "QuantLib-$env:QUANTLIB_VERSION"
           mkdir build
           cd build
+          Write-Host "Configuring QuantLib with std:: flags..."
           cmake .. -G "Visual Studio 17 2022" -A x64 `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=C:/quantlib-install `
@@ -81,15 +88,16 @@ jobs:
             -DQL_BUILD_EXAMPLES=OFF `
             -DQL_BUILD_TEST_SUITE=OFF `
             -DQL_BUILD_BENCHMARK=OFF `
-            -DBoost_ROOT=C:/boost `
             -DBoost_INCLUDE_DIR=C:/boost/include
+          Write-Host "Building QuantLib..."
           cmake --build . --config Release --parallel
+          Write-Host "Installing QuantLib..."
           cmake --install . --config Release
 
       - name: Verify QuantLib configuration
         run: |
           Write-Host "Checking QuantLib config.hpp for std:: flags..."
-          Select-String -Path "C:\quantlib-install\include\ql\config.hpp" -Pattern "QL_USE_STD_(SHARED_PTR|OPTIONAL|ANY)"
+          Get-Content "C:\quantlib-install\include\ql\config.hpp" | Select-String -Pattern "QL_USE_STD"
 
       - name: Install Python build dependencies
         run: |
@@ -100,7 +108,6 @@ jobs:
           pip install -e .[dev] -v
         env:
           QuantLib_ROOT: C:/quantlib-install
-          Boost_ROOT: C:/boost
           Boost_INCLUDE_DIR: C:/boost/include
 
       - name: Run tests
