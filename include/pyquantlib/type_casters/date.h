@@ -1,30 +1,31 @@
 /*
  * PyQuantLib: Python bindings for QuantLib
  * Copyright (c) 2025 Yassine Idyiahia
- * 
+ *
  * QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
  * QuantLib is free software under a modified BSD license.
  * See http://quantlib.org/ for more information.
- * 
+ *
  * Source: https://github.com/quantales/pyquantlib
  * Licensed under the BSD 3-Clause License. See LICENSE file for details.
  */
 
 #pragma once
 
-#include <ql/quantlib.hpp>
+#include <ql/time/date.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
 
-namespace pybind11 { namespace detail {
+namespace pybind11 {
+namespace detail {
 
 /**
- * @brief Custom type caster for QuantLib::Date.
- * 
+ * Custom type caster for QuantLib::Date.
+ *
  * Enables automatic conversion between Python datetime.date/datetime
  * and QuantLib::Date.
  */
-template <> 
+template <>
 struct type_caster<QuantLib::Date> {
 public:
     PYBIND11_TYPE_CASTER(QuantLib::Date, _("QuantLib::Date"));
@@ -32,7 +33,7 @@ public:
     // Python -> C++
     bool load(py::handle src, bool) {
         py::object datetime = py::module_::import("datetime");
-        if (py::isinstance(src, datetime.attr("date")) || 
+        if (py::isinstance(src, datetime.attr("date")) ||
             py::isinstance(src, datetime.attr("datetime"))) {
             auto dt = py::reinterpret_borrow<py::object>(src);
             int day = dt.attr("day").cast<int>();
@@ -44,15 +45,16 @@ public:
 
         throw py::type_error(
             "Cannot convert object to QuantLib::Date. "
-            "Expected datetime.date or datetime.datetime."
-        );
+            "Expected datetime.date or datetime.datetime.");
     }
 
     // C++ -> Python
     static handle cast(const QuantLib::Date& d, return_value_policy, handle) {
         py::module_ datetime = py::module_::import("datetime");
-        return datetime.attr("date")(d.year(), d.month(), d.dayOfMonth()).release();
+        return datetime.attr("date")(d.year(), d.month(), d.dayOfMonth())
+            .release();
     }
 };
 
-}} // namespace pybind11::detail
+}  // namespace detail
+}  // namespace pybind11

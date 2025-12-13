@@ -1,19 +1,22 @@
 /*
  * PyQuantLib: Python bindings for QuantLib
  * Copyright (c) 2025 Yassine Idyiahia
- * 
+ *
  * QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
  * QuantLib is free software under a modified BSD license.
  * See http://quantlib.org/ for more information.
- * 
+ *
  * Source: https://github.com/quantales/pyquantlib
  * Licensed under the BSD 3-Clause License. See LICENSE file for details.
  */
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/time/period.hpp>
+#include <ql/utilities/dataparsers.hpp>
+#include <boost/functional/hash.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include <sstream>
 
 namespace py = pybind11;
 using namespace QuantLib;
@@ -28,7 +31,7 @@ void ql_time::period(py::module_& m) {
         // String-based constructor to convert ISO 8601-style strings into Period objects
         .def(py::init([](const std::string& s) {
             try {
-                return QuantLib::PeriodParser::parse(s);
+                return PeriodParser::parse(s);
             } catch (const std::exception& e) {
                 throw py::value_error("Invalid period string '" + s + "': " + e.what());
             }
@@ -75,7 +78,7 @@ void ql_time::period(py::module_& m) {
             return oss.str();
         })
 
-        .def("__hash__", [](const QuantLib::Period& p) {
+        .def("__hash__", [](const Period& p) {
             size_t seed = 0;
             Period per = p.normalized();
             boost::hash_combine(seed, per.length());
@@ -85,9 +88,8 @@ void ql_time::period(py::module_& m) {
         ;
 
     // Free functions (global)
-    m.def("years", &QuantLib::years, py::arg("period"), "Convert a Period to years.");
-    m.def("months", &QuantLib::months, py::arg("period"), "Convert a Period to months.");
-    m.def("weeks", &QuantLib::weeks, py::arg("period"), "Convert a Period to weeks.");
-    m.def("days", &QuantLib::days, py::arg("period"), "Convert a Period to days.");
-
+    m.def("years", &years, py::arg("period"), "Convert a Period to years.");
+    m.def("months", &months, py::arg("period"), "Convert a Period to months.");
+    m.def("weeks", &weeks, py::arg("period"), "Convert a Period to weeks.");
+    m.def("days", &days, py::arg("period"), "Convert a Period to days.");
 }
