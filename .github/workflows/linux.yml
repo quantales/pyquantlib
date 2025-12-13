@@ -17,18 +17,19 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+# Manual-only for now - building QuantLib from source takes ~15-20 minutes (cached after first run)
+
 env:
-  QUANTLIB_VERSION: "1.38"
+  QUANTLIB_VERSION: "1.40"
 
 jobs:
   build:
-    # Manual trigger only - QuantLib builds from source (~15-20 min, cached after first run)
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.11"]  # Expand when stable
 
     steps:
       - uses: actions/checkout@v4
@@ -49,9 +50,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /home/runner/quantlib-install
-          key: quantlib-${{ env.QUANTLIB_VERSION }}-ubuntu-latest-v1
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-ubuntu-latest-v1
           restore-keys: |
-            quantlib-${{ env.QUANTLIB_VERSION }}-ubuntu-latest-
+            quantlib-${{ env.QUANTLIB_VERSION }}-std-ubuntu-latest-
 
       - name: Build QuantLib from source
         if: steps.cache-quantlib.outputs.cache-hit != 'true'
@@ -63,11 +64,19 @@ jobs:
           cmake .. -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/home/runner/quantlib-install \
+            -DQL_USE_STD_SHARED_PTR=ON \
+            -DQL_USE_STD_OPTIONAL=ON \
+            -DQL_USE_STD_ANY=ON \
             -DQL_BUILD_EXAMPLES=OFF \
             -DQL_BUILD_TEST_SUITE=OFF \
             -DQL_BUILD_BENCHMARK=OFF
           ninja
           ninja install
+
+      - name: Verify QuantLib configuration
+        run: |
+          echo "Checking QuantLib config.hpp for std:: flags..."
+          grep -E "QL_USE_STD_(SHARED_PTR|OPTIONAL|ANY)" /home/runner/quantlib-install/include/ql/config.hpp || echo "Flags not found in config.hpp"
 
       - name: Install Python build dependencies
         run: |
