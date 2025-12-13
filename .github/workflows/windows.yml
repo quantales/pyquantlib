@@ -65,7 +65,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: C:/quantlib-install
-          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-v2
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-v3
           restore-keys: |
             quantlib-${{ env.QUANTLIB_VERSION }}-std-windows-
 
@@ -82,6 +82,7 @@ jobs:
           cmake .. -G "Visual Studio 17 2022" -A x64 `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_INSTALL_PREFIX=C:/quantlib-install `
+            -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL `
             -DQL_USE_STD_SHARED_PTR=ON `
             -DQL_USE_STD_OPTIONAL=ON `
             -DQL_USE_STD_ANY=ON `
