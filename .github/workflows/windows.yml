@@ -76,7 +76,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/lballabio/QuantLib/releases/download/v$env:QUANTLIB_VERSION/QuantLib-$env:QUANTLIB_VERSION.tar.gz" -OutFile QuantLib.tar.gz
           tar xzf QuantLib.tar.gz
           cd "QuantLib-$env:QUANTLIB_VERSION"
-          mkdir build
+          mkdir build -Force | Out-Null
           cd build
           Write-Host "Configuring QuantLib with std:: flags..."
           cmake .. -G "Visual Studio 17 2022" -A x64 `
