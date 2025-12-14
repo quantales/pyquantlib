@@ -1,6 +1,8 @@
 # PyQuantLib: Modern Python bindings for QuantLib
 
 [![macOS](https://github.com/quantales/pyquantlib/actions/workflows/macos.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/macos.yml)
+[![Linux](https://github.com/quantales/pyquantlib/actions/workflows/linux.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/linux.yml)
+[![Windows](https://github.com/quantales/pyquantlib/actions/workflows/windows.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/windows.yml)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://github.com/quantales/pyquantlib/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/quantales/pyquantlib/blob/main/CONTRIBUTING.md)
@@ -29,19 +31,17 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 ### QuantLib Build Requirement
 
-> ⚠️ **Important**: PyQuantLib requires QuantLib compiled with specific flags for pybind11 compatibility.
+> ⚠️ **Important**: PyQuantLib requires QuantLib compiled with `std::shared_ptr` for pybind11 compatibility.
 
 QuantLib must be built from source with:
 
 ```bash
 cmake -DQL_USE_STD_SHARED_PTR=ON \
-      -DQL_USE_STD_OPTIONAL=ON \
-      -DQL_USE_STD_ANY=ON \
       -DCMAKE_BUILD_TYPE=Release \
       ...
 ```
 
-The `QL_USE_STD_SHARED_PTR=ON` flag is **required** because pybind11 uses `std::shared_ptr` as its default holder type. Using QuantLib's default (`boost::shared_ptr`) will cause runtime errors or segmentation faults.
+As of QuantLib 1.40, `QL_USE_STD_OPTIONAL` and `QL_USE_STD_ANY` are ON by default. Only `QL_USE_STD_SHARED_PTR` needs explicit activation (QuantLib defaults to `boost::shared_ptr`).
 
 **Note**: Pre-built packages (Homebrew, vcpkg, apt) use default settings and are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
@@ -57,51 +57,35 @@ pip install git+https://github.com/quantales/pyquantlib.git
 ```python
 import pyquantlib as ql
 
-# Set evaluation date
-today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
+# Create dates
+today = ql.Date(15, ql.June, 2025)
+maturity = today + ql.Period(1, ql.Years)
 
-# Create market data
-spot = ql.SimpleQuote(100.0)
-rate = ql.SimpleQuote(0.05)
-vol = ql.SimpleQuote(0.20)
-
-# Build term structures
+# Calendar and day counter
+calendar = ql.TARGET()
 day_counter = ql.Actual365Fixed()
-risk_free_ts = ql.FlatForward(today, ql.QuoteHandle(rate), day_counter)
-vol_ts = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), day_counter)
-dividend_ts = ql.FlatForward(today, 0.0, day_counter)
 
-# Create Black-Scholes process
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend_ts),
-    ql.YieldTermStructureHandle(risk_free_ts),
-    ql.BlackVolTermStructureHandle(vol_ts)
-)
+# Build a schedule
+schedule = ql.MakeSchedule() \
+    .fromDate(today) \
+    .to(maturity) \
+    .withCalendar(calendar) \
+    .withFrequency(ql.Quarterly) \
+    .value()
 
-# Price a European call option
-payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
-exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
-option = ql.VanillaOption(payoff, exercise)
-
-engine = ql.AnalyticEuropeanEngine(process)
-option.setPricingEngine(engine)
-
-print(f"NPV: {option.NPV():.4f}")
-print(f"Delta: {option.delta():.4f}")
-print(f"Gamma: {option.gamma():.4f}")
-print(f"Vega: {option.vega():.4f}")
+# Iterate over schedule dates
+for date in schedule:
+    print(date)
 ```
 
 ## Module Organization
 
 ```python
-# Concrete classes - main module
-from pyquantlib import Date, SimpleQuote, Period, VanillaOption
+# Main module
+from pyquantlib import Date, Period, Calendar, Schedule, DayCounter
 
 # Abstract base classes - for subclassing
-from pyquantlib.base import Observer, Observable, Instrument
+from pyquantlib.base import Observer, Observable, LazyObject
 ```
 
 ## Development
@@ -134,13 +118,4 @@ BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 
 ## Status
 
-PyQuantLib is in early development. Current coverage includes:
-
-- ✅ Date, Period, Calendar, Schedule
-- ✅ Quotes (Simple, Derived, Composite)
-- ✅ Term structures (Yield, Volatility)
-- ✅ Black-Scholes and Heston processes
-- ✅ Vanilla option pricing (Analytic, Monte Carlo)
-- 🔄 More instruments and models in progress
-
-For broader QuantLib coverage today, use [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG).
+PyQuantLib is in early development. For broader QuantLib coverage today, use [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG).

@@ -19,17 +19,17 @@ Before you begin, ensure you have:
 
 ### QuantLib Build Requirements
 
-> ⚠️ **Critical**: PyQuantLib requires QuantLib built with specific CMake flags.
+> ⚠️ **Critical**: PyQuantLib requires QuantLib built with `std::shared_ptr`.
 
 PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type. QuantLib must be compiled with matching settings to avoid runtime errors and segmentation faults.
 
 **Required CMake flags:**
 
-| Flag | Value | Why |
-|------|-------|-----|
-| `QL_USE_STD_SHARED_PTR` | `ON` | **Required** - pybind11 compatibility |
-| `QL_USE_STD_OPTIONAL` | `ON` | Recommended - modern C++ |
-| `QL_USE_STD_ANY` | `ON` | Recommended - modern C++ |
+| Flag | Value | Notes |
+|------|-------|-------|
+| `QL_USE_STD_SHARED_PTR` | `ON` | **Required** - must be explicitly set |
+| `QL_USE_STD_OPTIONAL` | `ON` | Default as of QuantLib 1.40 |
+| `QL_USE_STD_ANY` | `ON` | Default as of QuantLib 1.40 |
 
 **Pre-built packages won't work**: Homebrew, vcpkg, and apt packages use default settings (`boost::shared_ptr`) and are incompatible with PyQuantLib.
 
@@ -61,13 +61,11 @@ git checkout v1.40
 # Install Boost via vcpkg (headers are sufficient)
 vcpkg install boost:x64-windows
 
-# Configure QuantLib
+# Configure QuantLib (QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40)
 mkdir build
 cd build
 cmake .. -G "Visual Studio 16 2019" -A x64 ^
     -DQL_USE_STD_SHARED_PTR=ON ^
-    -DQL_USE_STD_OPTIONAL=ON ^
-    -DQL_USE_STD_ANY=ON ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_INSTALL_PREFIX=C:/QuantLib ^
     -DBoost_ROOT=C:/vcpkg/installed/x64-windows
@@ -90,11 +88,10 @@ brew install boost cmake
 
 **Build QuantLib:**
 ```bash
+# QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40
 mkdir build && cd build
 cmake .. \
     -DQL_USE_STD_SHARED_PTR=ON \
-    -DQL_USE_STD_OPTIONAL=ON \
-    -DQL_USE_STD_ANY=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local
 
@@ -112,11 +109,10 @@ sudo apt-get install libboost-all-dev cmake build-essential
 
 **Build QuantLib:**
 ```bash
+# QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40
 mkdir build && cd build
 cmake .. \
     -DQL_USE_STD_SHARED_PTR=ON \
-    -DQL_USE_STD_OPTIONAL=ON \
-    -DQL_USE_STD_ANY=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local
 
