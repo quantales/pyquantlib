@@ -11,10 +11,6 @@
 name: macOS build
 
 on:
-  push:
-    branches: [main, master, develop]
-  pull_request:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:

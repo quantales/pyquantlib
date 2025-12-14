@@ -11,20 +11,13 @@
 name: Linux build
 
 on:
-  push:
-    branches: [main, master, develop]
-  pull_request:
-    branches: [main, master]
   workflow_dispatch:
-
-# Manual-only for now - building QuantLib from source takes ~15-20 minutes (cached after first run)
 
 env:
   QUANTLIB_VERSION: "1.40"
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch'  # Only run manually for now
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
