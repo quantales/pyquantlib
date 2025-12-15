@@ -136,3 +136,23 @@ addopts = [
     "-v",
     "--tb=short",
 ]
+
+# ==============================================================================
+# Coverage Configuration
+# ==============================================================================
+
+[tool.coverage.run]
+source = ["tests"]
+branch = true
+omit = [
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
+show_missing = true
+skip_covered = false
