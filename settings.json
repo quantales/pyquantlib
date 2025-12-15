@@ -1,0 +1,11 @@
+{
+    // CMake settings - uses CMakePresets.json for cross-platform config
+    "cmake.useCMakePresets": "always",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+
+    // Python settings - auto-detects venv in workspace
+    "python.defaultInterpreterPath": "${workspaceFolder}/venv",
+
+    // C++ IntelliSense
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}

@@ -84,7 +84,9 @@ Debug/
 Release/
 
 # Visual Studio Code
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # JetBrains (PyCharm, CLion)
 .idea/
@@ -116,6 +118,7 @@ Desktop.ini
 # Local configuration overrides
 .env.local
 *.local.cmake
+CMakeUserPresets.json
 
 # Logs
 *.log

@@ -1,0 +1,54 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "dev-windows",
+            "displayName": "Windows Development",
+            "inherits": "base",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "Python3_EXECUTABLE": "${sourceDir}/venv/Scripts/python.exe"
+            }
+        },
+        {
+            "name": "dev-unix",
+            "displayName": "macOS/Linux Development",
+            "inherits": "base",
+            "condition": {
+                "type": "notEquals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "Python3_EXECUTABLE": "${sourceDir}/venv/bin/python"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "dev-windows",
+            "configurePreset": "dev-windows"
+        },
+        {
+            "name": "dev-unix",
+            "configurePreset": "dev-unix"
+        }
+    ]
+}
