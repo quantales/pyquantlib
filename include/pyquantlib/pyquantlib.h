@@ -156,6 +156,7 @@ namespace ql_processes {
     void eulerdiscretization(py::module_&);
     void blackscholesprocess(py::module_&);
     void hestonprocess(py::module_&);
+    void stochasticprocessarray(py::module_&);
 }
 
 namespace ql_models {

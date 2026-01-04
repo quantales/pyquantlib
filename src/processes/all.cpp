@@ -22,4 +22,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "BlackScholesProcess - geometric Brownian motion processes");
     manager.addFunction(ql_processes::hestonprocess, m,
         "HestonProcess - stochastic volatility process");
+    manager.addFunction(ql_processes::stochasticprocessarray, m,
+        "StochasticProcessArray - array of correlated 1D processes");
 }
