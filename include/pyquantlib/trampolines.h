@@ -33,6 +33,9 @@
 #include <ql/instruments/payoffs.hpp>
 #include <ql/instruments/oneassetoption.hpp>
 #include <ql/instruments/vanillaoption.hpp>
+#include <ql/instruments/multiassetoption.hpp>
+#include <ql/instruments/basketoption.hpp>
+#include <ql/pricingengines/basket/spreadblackscholesvanillaengine.hpp>
 #include <ql/stochasticprocess.hpp>
 #include <ql/models/model.hpp>
 #include <ql/models/calibrationhelper.hpp>
@@ -822,5 +825,93 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::CalibratedModel, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// MultiAssetOption Trampoline
+// -----------------------------------------------------------------------------
+class PyMultiAssetOption : public QuantLib::MultiAssetOption {
+public:
+    using QuantLib::MultiAssetOption::MultiAssetOption;
+
+    bool isExpired() const override {
+        PYBIND11_OVERRIDE(bool, QuantLib::MultiAssetOption, isExpired,);
+    }
+
+    void performCalculations() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::MultiAssetOption, performCalculations,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::MultiAssetOption, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// BasketPayoff Trampoline
+// -----------------------------------------------------------------------------
+class PyBasketPayoff : public QuantLib::BasketPayoff {
+public:
+    using QuantLib::BasketPayoff::BasketPayoff;
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE(std::string, QuantLib::BasketPayoff, name,);
+    }
+
+    std::string description() const override {
+        PYBIND11_OVERRIDE(std::string, QuantLib::BasketPayoff, description,);
+    }
+
+    QuantLib::Real operator()(QuantLib::Real price) const override {
+        PYBIND11_OVERRIDE(QuantLib::Real, QuantLib::BasketPayoff, operator(), price);
+    }
+
+    QuantLib::Real operator()(const QuantLib::Array& a) const override {
+        PYBIND11_OVERRIDE(QuantLib::Real, QuantLib::BasketPayoff, operator(), a);
+    }
+
+    QuantLib::Real accumulate(const QuantLib::Array& a) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::BasketPayoff, accumulate, a);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// BasketOption Trampoline
+// -----------------------------------------------------------------------------
+class PyBasketOption : public QuantLib::BasketOption {
+public:
+    using QuantLib::BasketOption::BasketOption;
+
+    bool isExpired() const override {
+        PYBIND11_OVERRIDE(bool, QuantLib::BasketOption, isExpired,);
+    }
+
+    void performCalculations() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::BasketOption, performCalculations,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::BasketOption, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// SpreadBlackScholesVanillaEngine Trampoline
+// -----------------------------------------------------------------------------
+class PySpreadBlackScholesVanillaEngine : public QuantLib::SpreadBlackScholesVanillaEngine {
+public:
+    using QuantLib::SpreadBlackScholesVanillaEngine::SpreadBlackScholesVanillaEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE(void, QuantLib::SpreadBlackScholesVanillaEngine, calculate,);
+    }
+
+    QuantLib::Real calculate(QuantLib::Real f1, QuantLib::Real f2, QuantLib::Real strike,
+                             QuantLib::Option::Type optionType,
+                             QuantLib::Real variance1, QuantLib::Real variance2,
+                             QuantLib::DiscountFactor df) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SpreadBlackScholesVanillaEngine,
+                               calculate, f1, f2, strike, optionType, variance1, variance2, df);
     }
 };

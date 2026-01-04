@@ -24,4 +24,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "OneAssetOption - base class for single-asset options");
     manager.addFunction(ql_instruments::vanillaoption, m,
         "VanillaOption - plain vanilla options");
+    manager.addFunction(ql_instruments::multiassetoption, m,
+        "MultiAssetOption - base class for multi-asset options");
+    manager.addFunction(ql_instruments::basketoption, m,
+        "BasketOption - basket options and payoffs");
 }

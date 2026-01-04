@@ -172,6 +172,8 @@ namespace ql_instruments {
     void payoffs(py::module_&);
     void oneassetoption(py::module_&);
     void vanillaoption(py::module_&);
+    void multiassetoption(py::module_&);
+    void basketoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -179,4 +181,6 @@ namespace ql_pricingengines {
     void analyticeuropeanengine(py::module_&);
     void analytichestonengine(py::module_&);
     void mceuropeanengine(py::module_&);
+    void spreadblackscholesvanillaengine(py::module_&);
+    void kirkengine(py::module_&);
 }
