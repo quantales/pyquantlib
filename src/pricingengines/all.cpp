@@ -24,4 +24,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticHestonEngine - Heston stochastic volatility pricing");
     manager.addFunction(ql_pricingengines::mceuropeanengine, m,
         "MCEuropeanEngine - Monte Carlo European option pricing");
+    manager.addFunction(ql_pricingengines::spreadblackscholesvanillaengine, m,
+        "SpreadBlackScholesVanillaEngine - spread option pricing base class");
+    manager.addFunction(ql_pricingengines::kirkengine, m,
+        "KirkEngine - Kirk spread option pricing");
 }
