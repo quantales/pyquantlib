@@ -302,6 +302,52 @@ def test_denglizhoubasketengine_spread(market_data):
 
 
 # =============================================================================
+# StulzEngine Tests
+# =============================================================================
+
+@skip_pricing
+def test_stulzengine_max_call(market_data):
+    """Test StulzEngine for max call option (best-of)."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+    
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    max_payoff = ql.MaxBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(max_payoff, exercise)
+    engine = ql.StulzEngine(process1, process2, 0.5)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    assert npv == pytest.approx(10.560030575324275, rel=1e-4)
+
+
+@skip_pricing
+def test_stulzengine_min_put(market_data):
+    """Test StulzEngine for min put option (worst-of)."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+    
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+    min_payoff = ql.MinBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(min_payoff, exercise)
+    engine = ql.StulzEngine(process1, process2, 0.5)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    assert npv == pytest.approx(8.273105448541381, rel=1e-4)
+
+
+# =============================================================================
 # MCEuropeanBasketEngine Tests
 # =============================================================================
 

@@ -34,6 +34,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "OperatorSplittingSpreadEngine - Operator splitting spread option pricing");
     manager.addFunction(ql_pricingengines::denglizhoubasketengine, m,
         "DengLiZhouBasketEngine - Deng-Li-Zhou N-dim basket option pricing");
+    manager.addFunction(ql_pricingengines::stulzengine, m,
+        "StulzEngine - Stulz 2D min/max basket option pricing");
     manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
 }

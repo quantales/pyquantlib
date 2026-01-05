@@ -187,5 +187,6 @@ namespace ql_pricingengines {
     void bjerksundstenslandspreadengine(py::module_&);
     void operatorsplittingspreadengine(py::module_&);
     void denglizhoubasketengine(py::module_&);
+    void stulzengine(py::module_&);
     void mceuropeanbasketengine(py::module_&);
 }
