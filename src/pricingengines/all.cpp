@@ -28,6 +28,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "SpreadBlackScholesVanillaEngine - spread option pricing base class");
     manager.addFunction(ql_pricingengines::kirkengine, m,
         "KirkEngine - Kirk spread option pricing");
+    manager.addFunction(ql_pricingengines::bjerksundstenslandspreadengine, m,
+        "BjerksundStenslandSpreadEngine - Bjerksund-Stensland spread option pricing");
     manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
 }

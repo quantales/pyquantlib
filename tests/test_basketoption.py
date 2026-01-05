@@ -218,6 +218,33 @@ def test_kirkengine_correlation_effect(market_data):
 
 
 # =============================================================================
+# BjerksundStenslandSpreadEngine Tests
+# =============================================================================
+
+@skip_pricing
+def test_bjerksundstenslandspreadengine(market_data):
+    """Test BjerksundStenslandSpreadEngine for spread call option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    
+    strike = 3.0
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    spread_payoff = ql.SpreadBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(spread_payoff, exercise)
+    engine = ql.BjerksundStenslandSpreadEngine(process1, process2, 0.75)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    EXPECTED_NPV = 4.3954370289864055
+    assert npv == pytest.approx(EXPECTED_NPV, rel=1e-4)
+
+
+# =============================================================================
 # MCEuropeanBasketEngine Tests
 # =============================================================================
 
