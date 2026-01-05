@@ -32,6 +32,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BjerksundStenslandSpreadEngine - Bjerksund-Stensland spread option pricing");
     manager.addFunction(ql_pricingengines::operatorsplittingspreadengine, m,
         "OperatorSplittingSpreadEngine - Operator splitting spread option pricing");
+    manager.addFunction(ql_pricingengines::denglizhoubasketengine, m,
+        "DengLiZhouBasketEngine - Deng-Li-Zhou N-dim basket option pricing");
     manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
 }

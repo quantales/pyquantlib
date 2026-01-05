@@ -272,6 +272,36 @@ def test_operatorsplittingspreadengine(market_data):
 
 
 # =============================================================================
+# DengLiZhouBasketEngine Tests
+# =============================================================================
+
+@skip_pricing
+def test_denglizhoubasketengine_spread(market_data):
+    """Test DengLiZhouBasketEngine for spread option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0;  correlation[0][1] = 0.75
+    correlation[1][0] = 0.75; correlation[1][1] = 1.0
+    
+    strike = 3.0
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    spread_payoff = ql.SpreadBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(spread_payoff, exercise)
+    engine = ql.DengLiZhouBasketEngine([process1, process2], correlation)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    assert npv == pytest.approx(4.395463426856971, rel=1e-4)
+
+
+# =============================================================================
 # MCEuropeanBasketEngine Tests
 # =============================================================================
 
