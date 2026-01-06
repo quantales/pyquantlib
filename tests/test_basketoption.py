@@ -348,6 +348,53 @@ def test_stulzengine_min_put(market_data):
 
 
 # =============================================================================
+# Fd2dBlackScholesVanillaEngine Tests
+# =============================================================================
+
+@skip_pricing
+def test_fd2dblackscholesvanillaengine_spread(market_data):
+    """Test Fd2dBlackScholesVanillaEngine for spread option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 3.0)
+    spread_payoff = ql.SpreadBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(spread_payoff, exercise)
+    engine = ql.Fd2dBlackScholesVanillaEngine(process1, process2, 0.75)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    assert npv == pytest.approx(4.400354122712496, rel=1e-4)
+
+
+@skip_pricing
+def test_fd2dblackscholesvanillaengine_max(market_data):
+    """Test Fd2dBlackScholesVanillaEngine for max call option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+    
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+    
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    max_payoff = ql.MaxBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+    
+    option = ql.BasketOption(max_payoff, exercise)
+    engine = ql.Fd2dBlackScholesVanillaEngine(process1, process2, 0.5,
+        xGrid=50, yGrid=50, tGrid=25)
+    option.setPricingEngine(engine)
+    
+    npv = option.NPV()
+    assert npv == pytest.approx(10.556843950630597, rel=1e-4)
+
+
+# =============================================================================
 # MCEuropeanBasketEngine Tests
 # =============================================================================
 

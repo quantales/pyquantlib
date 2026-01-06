@@ -36,6 +36,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "DengLiZhouBasketEngine - Deng-Li-Zhou N-dim basket option pricing");
     manager.addFunction(ql_pricingengines::stulzengine, m,
         "StulzEngine - Stulz 2D min/max basket option pricing");
+    manager.addFunction(ql_pricingengines::fd2dblackscholesvanillaengine, m,
+        "Fd2dBlackScholesVanillaEngine - 2D FD basket option pricing");
     manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
 }

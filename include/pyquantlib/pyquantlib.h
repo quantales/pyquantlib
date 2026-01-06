@@ -42,6 +42,7 @@ DECLARE_MODULE_BINDINGS(processes_bindings);
 DECLARE_MODULE_BINDINGS(models_bindings);
 DECLARE_MODULE_BINDINGS(instruments_bindings);
 DECLARE_MODULE_BINDINGS(pricingengines_bindings);
+DECLARE_MODULE_BINDINGS(methods_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -188,5 +189,10 @@ namespace ql_pricingengines {
     void operatorsplittingspreadengine(py::module_&);
     void denglizhoubasketengine(py::module_&);
     void stulzengine(py::module_&);
+    void fd2dblackscholesvanillaengine(py::module_&);
     void mceuropeanbasketengine(py::module_&);
+}
+
+namespace ql_methods {
+    void fdmbackwardsolver(py::module_&);
 }
