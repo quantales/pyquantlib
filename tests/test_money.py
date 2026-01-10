@@ -1,5 +1,4 @@
 import pytest
-import sys
 import pyquantlib as ql
 
 
@@ -139,8 +138,6 @@ def test_module_level_close_functions(setup_money_env):
         ql.close(m1, m_different_currency)
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="Settings.evaluationDate issue on macOS - requires QuantLib static build")
 def test_cross_currency_close_with_conversion(setup_money_env):
     """Tests close() across currencies with AutomatedConversion enabled."""
     eur = setup_money_env["eur"]

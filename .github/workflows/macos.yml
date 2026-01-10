@@ -13,13 +13,16 @@ name: macOS build
 on:
   workflow_dispatch:
 
+env:
+  QUANTLIB_VERSION: "1.40"
+
 jobs:
   build:
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11"]  # Expand to ["3.9", "3.10", "3.11", "3.12"] when stable
+        python-version: ["3.11"]
 
     steps:
       - uses: actions/checkout@v4
@@ -30,32 +33,44 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
 
-      - name: Cache Homebrew packages
-        id: cache-homebrew
-        uses: actions/cache@v4
-        with:
-          path: |
-            /opt/homebrew/Cellar/quantlib
-            /opt/homebrew/Cellar/boost
-            /opt/homebrew/lib/libQuantLib*
-            /opt/homebrew/lib/libboost*
-            /opt/homebrew/include/ql
-            /opt/homebrew/include/boost
-            /opt/homebrew/opt/quantlib
-            /opt/homebrew/opt/boost
-          key: homebrew-${{ runner.os }}-${{ runner.arch }}-ql-boost-v1
-          restore-keys: |
-            homebrew-${{ runner.os }}-${{ runner.arch }}-ql-boost-
-
       - name: Install system dependencies
         run: |
-          if [ ! -f "/opt/homebrew/lib/libQuantLib.dylib" ]; then
-            echo "Cache miss - installing QuantLib and Boost via Homebrew"
-            brew install quantlib boost
-          else
-            echo "Cache hit - QuantLib and Boost already available"
-            brew link quantlib boost 2>/dev/null || true
-          fi
+          brew install boost ninja
+
+      - name: Cache QuantLib
+        id: cache-quantlib
+        uses: actions/cache@v4
+        with:
+          path: /Users/runner/quantlib-install
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-static-macos-latest-v1
+          restore-keys: |
+            quantlib-${{ env.QUANTLIB_VERSION }}-static-macos-latest-
+
+      - name: Build QuantLib from source
+        if: steps.cache-quantlib.outputs.cache-hit != 'true'
+        run: |
+          curl -L -o QuantLib.tar.gz https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+          tar xzf QuantLib.tar.gz
+          cd QuantLib-${{ env.QUANTLIB_VERSION }}
+          mkdir -p build && cd build
+          cmake .. -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/Users/runner/quantlib-install \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+            -DQL_USE_STD_SHARED_PTR=ON \
+            -DQL_USE_STD_OPTIONAL=ON \
+            -DQL_USE_STD_ANY=ON \
+            -DQL_BUILD_EXAMPLES=OFF \
+            -DQL_BUILD_TEST_SUITE=OFF \
+            -DQL_BUILD_BENCHMARK=OFF
+          ninja
+          ninja install
+
+      - name: Verify QuantLib configuration
+        run: |
+          echo "Checking QuantLib config.hpp for std:: flags..."
+          grep -E "QL_USE_STD_(SHARED_PTR|OPTIONAL|ANY)" /Users/runner/quantlib-install/include/ql/config.hpp || echo "Flags not found in config.hpp"
 
       - name: Install Python build dependencies
         run: |
@@ -65,7 +80,7 @@ jobs:
         run: |
           pip install -e .[dev] -v
         env:
-          QuantLib_ROOT: /opt/homebrew
+          QuantLib_ROOT: /Users/runner/quantlib-install
 
       - name: Run tests
         run: |
