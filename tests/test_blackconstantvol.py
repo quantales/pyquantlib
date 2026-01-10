@@ -81,8 +81,8 @@ def test_blackconstantvol_with_quote_handle():
     assert bcv.blackVol(1.0, strike) == pytest.approx(new_vol)
 
 
-@pytest.mark.skipif(sys.platform in ("linux", "darwin"),
-    reason="Settings.evaluationDate not persisting on Linux/macOS CI")
+@pytest.mark.skipif(sys.platform == "darwin",
+    reason="Settings.evaluationDate issue on macOS - requires QuantLib static build")
 def test_blackconstantvol_settlement_days():
     """Test BlackConstantVol construction with settlement days."""
     today = ql.Date(15, 6, 2024)

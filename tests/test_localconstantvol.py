@@ -77,8 +77,8 @@ def test_localconstantvol_with_quote_handle():
     assert lcv.localVol(1.0, underlying) == pytest.approx(new_vol)
 
 
-@pytest.mark.skipif(sys.platform in ("linux", "darwin"),
-    reason="Settings.evaluationDate not persisting on Linux/macOS CI")
+@pytest.mark.skipif(sys.platform == "darwin",
+    reason="Settings.evaluationDate issue on macOS - requires QuantLib static build")
 def test_localconstantvol_settlement_days():
     """Test LocalConstantVol construction with settlement days."""
     today = ql.Date(15, 6, 2024)

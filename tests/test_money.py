@@ -140,9 +140,7 @@ def test_module_level_close_functions(setup_money_env):
 
 
 @pytest.mark.skipif(sys.platform == "darwin",
-                    reason="Money conversion settings not working on macOS")
-@pytest.mark.skipif(sys.platform == "linux",
-    reason="Currency conversion settings not persisting on Linux CI")
+    reason="Settings.evaluationDate issue on macOS - requires QuantLib static build")
 def test_cross_currency_close_with_conversion(setup_money_env):
     """Tests close() across currencies with AutomatedConversion enabled."""
     eur = setup_money_env["eur"]

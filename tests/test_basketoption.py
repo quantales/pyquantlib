@@ -5,12 +5,11 @@ import pytest
 import pyquantlib as ql
 
 
-# Pricing tests fail on Linux/macOS CI (Settings.evaluationDate issue)
+# Skip on macOS until static QuantLib build is configured
 skip_pricing = pytest.mark.skipif(
-    sys.platform in ("linux", "darwin"),
-    reason="Settings.evaluationDate not persisting on Linux/macOS CI"
+    sys.platform == "darwin",
+    reason="Settings.evaluationDate issue on macOS - requires QuantLib static build"
 )
-
 
 # =============================================================================
 # Fixtures
