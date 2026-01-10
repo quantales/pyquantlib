@@ -43,9 +43,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /home/runner/quantlib-install
-          key: quantlib-${{ env.QUANTLIB_VERSION }}-std-ubuntu-latest-v1
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-static-ubuntu-latest-v1
           restore-keys: |
-            quantlib-${{ env.QUANTLIB_VERSION }}-std-ubuntu-latest-
+            quantlib-${{ env.QUANTLIB_VERSION }}-static-ubuntu-latest-
 
       - name: Build QuantLib from source
         if: steps.cache-quantlib.outputs.cache-hit != 'true'
@@ -57,6 +57,8 @@ jobs:
           cmake .. -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/home/runner/quantlib-install \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
             -DQL_USE_STD_SHARED_PTR=ON \
             -DQL_USE_STD_OPTIONAL=ON \
             -DQL_USE_STD_ANY=ON \
