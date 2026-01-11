@@ -115,8 +115,8 @@ from pyquantlib._pyquantlib import GELCurrency
 from pyquantlib._pyquantlib import GHSCurrency
 from pyquantlib._pyquantlib import GRDCurrency
 from pyquantlib._pyquantlib import GarmanKohlhagenProcess
-from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess as BlackScholesMertonProcess
 from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess
+from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess as BlackScholesMertonProcess
 from pyquantlib._pyquantlib import Germany
 from pyquantlib._pyquantlib import Greeks
 from pyquantlib._pyquantlib import HKDCurrency

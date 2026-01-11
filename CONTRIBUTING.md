@@ -322,6 +322,44 @@ See the existing bindings in `src/` for examples. The general pattern is:
 
 ---
 
+## Type Stubs
+
+PyQuantLib includes `.pyi` stub files for IDE support (autocomplete, type hints). These are generated using `pybind11-stubgen`.
+
+**For contributors:** Do not regenerate stubs in PRs. The maintainer will regenerate them after merging binding changes.
+
+**For maintainers:** After changing bindings, regenerate stubs:
+
+```bash
+# Regenerate all stubs
+python scripts/stubgen.py
+
+# Check if stubs are up-to-date (local only)
+python scripts/stubgen.py --check
+```
+
+> **Note:** `pybind11-stubgen` generates imports in non-deterministic order, so stubs generated on Windows may differ from Linux/macOS even with identical bindings. For this reason, CI does not validate stubs. Regenerate on the same platform where stubs were originally generated.
+
+**Tips for good stubs:**
+
+| Binding practice | Stub result |
+|------------------|-------------|
+| `py::arg("paramName")` | Named parameters in hints |
+| Docstrings on classes/methods | Docstrings in stubs |
+| `py::overload_cast<...>` | `@typing.overload` signatures |
+
+**Manual generation (if needed):**
+
+```bash
+# Install (included in dev dependencies)
+pip install pybind11-stubgen
+
+# Generate to custom location
+pybind11-stubgen pyquantlib -o stubs --ignore-all-errors
+```
+
+---
+
 ## Common Binding Pitfalls
 
 ### Bridge-Pattern Classes (DayCounter, Calendar, etc.)
