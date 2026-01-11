@@ -19,19 +19,23 @@ Before you begin, ensure you have:
 
 ### QuantLib Build Requirements
 
-> ⚠️ **Critical**: PyQuantLib requires QuantLib built with `std::shared_ptr`.
+> ⚠️ **Critical**: PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`.
 
-PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type. QuantLib must be compiled with matching settings to avoid runtime errors and segmentation faults.
+PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type. Additionally, QuantLib must be built as a static library on Linux and macOS to prevent Settings singleton issues.
 
 **Required CMake flags:**
 
 | Flag | Value | Notes |
 |------|-------|-------|
+| `BUILD_SHARED_LIBS` | `OFF` | **Required on Linux/macOS** - static build prevents singleton issues |
+| `CMAKE_POSITION_INDEPENDENT_CODE` | `ON` | **Required** - needed for static libs in Python modules |
 | `QL_USE_STD_SHARED_PTR` | `ON` | **Required** - must be explicitly set |
 | `QL_USE_STD_OPTIONAL` | `ON` | Default as of QuantLib 1.40 |
 | `QL_USE_STD_ANY` | `ON` | Default as of QuantLib 1.40 |
 
-**Pre-built packages won't work**: Homebrew, vcpkg, and apt packages use default settings (`boost::shared_ptr`) and are incompatible with PyQuantLib.
+**Why static builds?** QuantLib's `Settings` singleton uses a static local variable. When QuantLib is a shared library, Python loads modules with `RTLD_LOCAL`, which can cause the singleton to exist in multiple instances. Static linking embeds QuantLib into the Python module, ensuring a single singleton instance.
+
+**Pre-built packages won't work**: Homebrew, vcpkg, and apt packages use shared builds and default settings (`boost::shared_ptr`) — they are incompatible with PyQuantLib.
 
 ---
 
@@ -61,10 +65,12 @@ git checkout v1.40
 # Install Boost via vcpkg (headers are sufficient)
 vcpkg install boost:x64-windows
 
-# Configure QuantLib (QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40)
+# Configure QuantLib (static build with std::shared_ptr)
 mkdir build
 cd build
 cmake .. -G "Visual Studio 16 2019" -A x64 ^
+    -DBUILD_SHARED_LIBS=OFF ^
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON ^
     -DQL_USE_STD_SHARED_PTR=ON ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_INSTALL_PREFIX=C:/QuantLib ^
@@ -88,9 +94,11 @@ brew install boost cmake
 
 **Build QuantLib:**
 ```bash
-# QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40
+# Static build with std::shared_ptr (do NOT use Homebrew QuantLib)
 mkdir build && cd build
 cmake .. \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DQL_USE_STD_SHARED_PTR=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local
@@ -109,9 +117,11 @@ sudo apt-get install libboost-all-dev cmake build-essential
 
 **Build QuantLib:**
 ```bash
-# QL_USE_STD_OPTIONAL and QL_USE_STD_ANY are ON by default as of QuantLib 1.40
+# Static build with std::shared_ptr
 mkdir build && cd build
 cmake .. \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -DQL_USE_STD_SHARED_PTR=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local
@@ -123,18 +133,27 @@ sudo ldconfig
 
 ### Verify QuantLib Configuration
 
-After installation, verify the flags are set correctly:
+After installation, verify the build configuration:
 
 ```bash
-# Check config.hpp
+# Check config.hpp for required flags
 grep -E "QL_USE_STD_(SHARED_PTR|OPTIONAL|ANY)" /usr/local/include/ql/config.hpp
+
+# Check that it's a static library (should show .a files, not .so/.dylib)
+ls -la /usr/local/lib/libQuantLib*
 ```
 
-Expected output:
+Expected config.hpp output:
 ```cpp
 #define QL_USE_STD_ANY
 #define QL_USE_STD_OPTIONAL
 #define QL_USE_STD_SHARED_PTR
+```
+
+Expected library files:
+```
+libQuantLib.a          # Static library (correct)
+# NOT libQuantLib.so or libQuantLib.dylib (shared - incorrect)
 ```
 
 ---
@@ -362,6 +381,12 @@ pybind11 enum values are singletons. Never pass by reference and modify:
 ---
 
 ## Troubleshooting
+
+### Settings.evaluationDate not persisting (Linux/macOS)
+
+If `Settings.evaluationDate` changes don't persist across module boundaries, QuantLib was built as a shared library. The `Settings` singleton may exist in multiple instances due to Python's `RTLD_LOCAL` symbol loading.
+
+**Solution**: Rebuild QuantLib as a static library with `-DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON`.
 
 ### "undefined symbol" or segmentation fault at import
 

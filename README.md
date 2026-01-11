@@ -32,19 +32,25 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 ### QuantLib Build Requirement
 
-> ⚠️ **Important**: PyQuantLib requires QuantLib compiled with `std::shared_ptr` for pybind11 compatibility.
+> ⚠️ **Important**: PyQuantLib requires QuantLib built from source with specific settings.
 
-QuantLib must be built from source with:
+**Required CMake flags:**
 
 ```bash
-cmake -DQL_USE_STD_SHARED_PTR=ON \
+cmake -DBUILD_SHARED_LIBS=OFF \
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DQL_USE_STD_SHARED_PTR=ON \
       -DCMAKE_BUILD_TYPE=Release \
       ...
 ```
 
-As of QuantLib 1.40, `QL_USE_STD_OPTIONAL` and `QL_USE_STD_ANY` are ON by default. Only `QL_USE_STD_SHARED_PTR` needs explicit activation (QuantLib defaults to `boost::shared_ptr`).
+| Flag | Why Required |
+|------|--------------|
+| `BUILD_SHARED_LIBS=OFF` | Static build prevents Settings singleton issues on Linux/macOS |
+| `CMAKE_POSITION_INDEPENDENT_CODE=ON` | Required for static libs in Python modules |
+| `QL_USE_STD_SHARED_PTR=ON` | pybind11 uses `std::shared_ptr` as default holder |
 
-**Note**: Pre-built packages (Homebrew, vcpkg, apt) use default settings and are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
+**Note**: Pre-built packages (Homebrew, vcpkg, apt) use shared builds and `boost::shared_ptr` — they are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
 ### From Source
 
