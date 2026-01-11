@@ -8,7 +8,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/quantales/pyquantlib/blob/main/CONTRIBUTING.md)
 
-> ⚠️ **Alpha Status**: This project is under active development. API may change.
+> **Alpha Status**: This project is under active development. API may change.
 
 ## Overview
 
@@ -32,7 +32,7 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 ### QuantLib Build Requirement
 
-> ⚠️ **Important**: PyQuantLib requires QuantLib built from source with specific settings.
+> **Important**: PyQuantLib requires QuantLib built from source with specific settings.
 
 **Required CMake flags:**
 

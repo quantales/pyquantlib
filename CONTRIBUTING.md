@@ -19,7 +19,7 @@ Before you begin, ensure you have:
 
 ### QuantLib Build Requirements
 
-> ⚠️ **Critical**: PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`.
+> **Critical**: PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`.
 
 PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type. Additionally, QuantLib must be built as a static library on Linux and macOS to prevent Settings singleton issues.
 
