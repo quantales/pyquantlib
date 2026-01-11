@@ -64,77 +64,34 @@ pip install git+https://github.com/quantales/pyquantlib.git
 ```python
 import pyquantlib as ql
 
-# Set evaluation date
-today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
+# Create dates
+today = ql.Date(15, ql.June, 2025)
+maturity = today + ql.Period(1, ql.Years)
 
-# Market data
-spot = ql.SimpleQuote(100.0)
-rate = ql.SimpleQuote(0.05)
-vol = ql.SimpleQuote(0.20)
+# Calendar and day counter
+calendar = ql.TARGET()
+day_counter = ql.Actual365Fixed()
 
-# Term structures
-dc = ql.Actual365Fixed()
-risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
-dividend = ql.FlatForward(today, 0.0, dc)
-volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+# Build a schedule
+schedule = ql.MakeSchedule() \
+    .fromDate(today) \
+    .to(maturity) \
+    .withCalendar(calendar) \
+    .withFrequency(ql.Quarterly) \
+    .value()
 
-# Black-Scholes process
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend),
-    ql.YieldTermStructureHandle(risk_free),
-    ql.BlackVolTermStructureHandle(volatility),
-)
-
-# European call option
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
-option = ql.VanillaOption(payoff, exercise)
-
-# Price with analytic Black-Scholes
-option.setPricingEngine(ql.AnalyticEuropeanEngine(process))
-
-print(f"NPV:   {option.NPV():.4f}")
-print(f"Delta: {option.delta():.4f}")
-print(f"Gamma: {option.gamma():.4f}")
-print(f"Vega:  {option.vega():.4f}")
-print(f"Theta: {option.theta():.4f}")
-```
-
-Output:
-```
-NPV:   10.4506
-Delta: 0.6368
-Gamma: 0.0188
-Vega:  37.5240
-Theta: -6.4140
+# Iterate over schedule dates
+for date in schedule:
+    print(date)
 ```
 
 ## Module Organization
 
 ```python
-import pyquantlib as ql
+# Main module
+from pyquantlib import Date, Period, Calendar, Schedule, DayCounter
 
-# Time
-ql.Date, ql.Period, ql.Calendar, ql.Schedule, ql.DayCounter
-
-# Market data
-ql.SimpleQuote, ql.QuoteHandle
-
-# Term structures
-ql.FlatForward, ql.ZeroCurve, ql.BlackConstantVol, ql.BlackVarianceSurface
-
-# Processes
-ql.GeneralizedBlackScholesProcess, ql.HestonProcess
-
-# Instruments
-ql.VanillaOption, ql.BasketOption
-
-# Pricing engines
-ql.AnalyticEuropeanEngine, ql.MCEuropeanEngine, ql.AnalyticHestonEngine
-
-# Abstract base classes (for subclassing)
+# Abstract base classes - for subclassing
 from pyquantlib.base import Observer, Observable, LazyObject
 ```
 
