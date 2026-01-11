@@ -82,6 +82,7 @@ build-dir = "build"
 cmake.version = ">=3.18"
 wheel.packages = ["pyquantlib"]
 install.components = ["python"]
+sdist.include = ["pyquantlib/*.pyi", "pyquantlib/_pyquantlib/*.pyi"]
 
 # Default to Release builds
 cmake.build-type = "Release"

@@ -1,0 +1,8700 @@
+"""
+PyQuantLib: Python bindings for QuantLib
+"""
+from __future__ import annotations
+import collections.abc
+import numpy
+import numpy.typing
+import typing
+from . import base
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BasketOption', 'BasketOptionEngine', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'Biweekly', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CeilingTruncation', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'EulerDiscretization', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'Hundsdorfer', 'Hungary', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'base', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'weeks', 'yearFractionToDate', 'years']
+class AEDCurrency(Currency):
+    """
+    ! United Arab Emirates dirham
+    /*! The ISO three-letter code is AED; the numeric code is 784.
+         It is divided into 100 fils.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class AOACurrency(Currency):
+    """
+     Angolan kwanza
+    /*! The ISO three-letter code is AOA; the numeric code is 973.
+         It is divided into 100 c�ntimo.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class ARSCurrency(Currency):
+    """
+    ! The ISO three-letter code is ARS; the numeric code is 32.
+            It is divided in 100 centavos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ATSCurrency(Currency):
+    """
+    ! The ISO three-letter code was ATS; the numeric code was 40.
+            It was divided in 100 groschen.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class AUDCurrency(Currency):
+    """
+    ! The ISO three-letter code is AUD; the numeric code is 36.
+            It is divided into 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Actual360(DayCounter):
+    """
+    Actual/360 day count convention, also known as 'Act/360' or 'A/360'.
+    """
+    def __init__(self) -> None:
+        ...
+class Actual364(DayCounter):
+    """
+    Actual/364 day count convention.
+    """
+    def __init__(self) -> None:
+        ...
+class Actual36525(DayCounter):
+    """
+    Actual/365.25 day count convention.
+    """
+    def __init__(self) -> None:
+        ...
+class Actual365Fixed(DayCounter):
+    """
+    Actual/365 (Fixed) day count convention, also known as 'Act/365 (Fixed)' or 'A/365F'.
+    """
+    class Convention:
+        """
+        Members:
+        
+          Standard
+        
+          Canadian
+        
+          NoLeap
+        """
+        Canadian: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.Canadian: 1>
+        NoLeap: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.NoLeap: 2>
+        Standard: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.Standard: 0>
+        __members__: typing.ClassVar[dict[str, Actual365Fixed.Convention]]  # value = {'Standard': <Convention.Standard: 0>, 'Canadian': <Convention.Canadian: 1>, 'NoLeap': <Convention.NoLeap: 2>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Canadian: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.Canadian: 1>
+    NoLeap: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.NoLeap: 2>
+    Standard: typing.ClassVar[Actual365Fixed.Convention]  # value = <Convention.Standard: 0>
+    def __init__(self, c: Actual365Fixed.Convention = ...) -> None:
+        ...
+class Actual366(DayCounter):
+    """
+    Actual/366 day count convention.
+    """
+    def __init__(self) -> None:
+        ...
+class ActualActual(DayCounter):
+    """
+    Actual/Actual day count convention with ISDA, ISMA (Bond), and AFB (Euro) variants.
+    """
+    class Convention:
+        """
+        Members:
+        
+          ISMA
+        
+          Bond
+        
+          ISDA
+        
+          Historical
+        
+          Actual365
+        
+          AFB
+        
+          Euro
+        """
+        AFB: typing.ClassVar[ActualActual.Convention]  # value = <Convention.AFB: 5>
+        Actual365: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Actual365: 4>
+        Bond: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Bond: 1>
+        Euro: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Euro: 6>
+        Historical: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Historical: 3>
+        ISDA: typing.ClassVar[ActualActual.Convention]  # value = <Convention.ISDA: 2>
+        ISMA: typing.ClassVar[ActualActual.Convention]  # value = <Convention.ISMA: 0>
+        __members__: typing.ClassVar[dict[str, ActualActual.Convention]]  # value = {'ISMA': <Convention.ISMA: 0>, 'Bond': <Convention.Bond: 1>, 'ISDA': <Convention.ISDA: 2>, 'Historical': <Convention.Historical: 3>, 'Actual365': <Convention.Actual365: 4>, 'AFB': <Convention.AFB: 5>, 'Euro': <Convention.Euro: 6>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    AFB: typing.ClassVar[ActualActual.Convention]  # value = <Convention.AFB: 5>
+    Actual365: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Actual365: 4>
+    Bond: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Bond: 1>
+    Euro: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Euro: 6>
+    Historical: typing.ClassVar[ActualActual.Convention]  # value = <Convention.Historical: 3>
+    ISDA: typing.ClassVar[ActualActual.Convention]  # value = <Convention.ISDA: 2>
+    ISMA: typing.ClassVar[ActualActual.Convention]  # value = <Convention.ISMA: 0>
+    def __init__(self, c: ActualActual.Convention = ...) -> None:
+        ...
+class AmericanExercise(Exercise):
+    """
+    American-style exercise (date range).
+    """
+    def __init__(self, earliestDate: Date, latestDate: Date) -> None:
+        """
+        Constructs with earliest and latest exercise dates.
+        """
+class AmortizingPayment(SimpleCashFlow):
+    """
+    Amortizing payment cash flow.
+    """
+    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+        """
+        Constructs an amortizing payment with the given amount and date.
+        """
+class AnalyticEuropeanEngine(base.OneAssetOption.engine):
+    """
+    Analytic pricing engine for European vanilla options.
+    """
+    @typing.overload
+    def __init__(self, process: GeneralizedBlackScholesProcess) -> None:
+        """
+        Constructs engine with a Black-Scholes process.
+        """
+    @typing.overload
+    def __init__(self, process: GeneralizedBlackScholesProcess, discountCurve: YieldTermStructureHandle) -> None:
+        """
+        Constructs engine with separate discount curve.
+        """
+class AnalyticHestonEngine(base.GenericHestonModelEngine):
+    """
+    Analytic pricing engine for Heston stochastic volatility model.
+    """
+    @typing.overload
+    def __init__(self, model: HestonModel, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+        """
+        Constructs with adaptive Gauss-Lobatto integration.
+        """
+    @typing.overload
+    def __init__(self, model: HestonModel, integrationOrder: typing.SupportsInt = 144) -> None:
+        """
+        Constructs with Gauss-Laguerre integration.
+        """
+    @typing.overload
+    def __init__(self, model: HestonModel, cpxLog: ComplexLogFormula, integration: Integration, andersenPiterbargEpsilon: typing.SupportsFloat = 1e-25, alpha: typing.SupportsFloat = -0.5) -> None:
+        """
+        Constructs with full control over integration method.
+        """
+    def numberOfEvaluations(self) -> int:
+        """
+        Returns number of integration evaluations.
+        """
+    def priceVanillaPayoff(self, payoff: PlainVanillaPayoff, maturity: typing.SupportsFloat) -> float:
+        """
+        Prices vanilla payoff for given maturity.
+        """
+class Argentina(Calendar):
+    """
+    ! Holidays for the Buenos Aires stock exchange
+            (data from <http://www.merval.sba.com.ar/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Holy Thursday</li>
+            <li>Good Friday</li>
+            <li>Labour Day, May 1st</li>
+            <li>May Revolution, May 25th</li>
+            <li>Death of General Manuel Belgrano, third Monday of June</li>
+            <li>Independence Day, July 9th</li>
+            <li>Death of General Jos� de San Mart�n, third Monday of August</li>
+            <li>Columbus Day, October 12th (moved to preceding Monday if
+                on Tuesday or Wednesday and to following if on Thursday
+                or Friday)</li>
+            <li>Immaculate Conception, December 8th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>New Year's Eve, December 31th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Merval : !< Buenos Aires stock exchange calendar
+        """
+        Merval: typing.ClassVar[Argentina.Market]  # value = <Market.Merval: 0>
+        __members__: typing.ClassVar[dict[str, Argentina.Market]]  # value = {'Merval': <Market.Merval: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Merval: typing.ClassVar[Argentina.Market]  # value = <Market.Merval: 0>
+    def __init__(self, m: Argentina.Market = ...) -> None:
+        ...
+class Array:
+    """
+    1-dimensional array of Real values.
+    """
+    __hash__: typing.ClassVar[None] = None
+    @typing.overload
+    def __add__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __add__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __eq__(self, arg0: Array) -> bool:
+        ...
+    def __getitem__(self, i: typing.SupportsInt) -> float:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    @typing.overload
+    def __imul__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __imul__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor (empty array).
+        """
+    @typing.overload
+    def __init__(self, size: typing.SupportsInt) -> None:
+        """
+        Creates an array of given size.
+        """
+    @typing.overload
+    def __init__(self, size: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+        """
+        Creates an array of given size with all elements set to value.
+        """
+    @typing.overload
+    def __init__(self, iterable: collections.abc.Iterable) -> None:
+        """
+        Creates an array from a Python iterable.
+        """
+    @typing.overload
+    def __init__(self, numpy_array: typing.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None:
+        """
+        Creates an array from a 1D NumPy array.
+        """
+    @typing.overload
+    def __isub__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __isub__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __iter__(self) -> collections.abc.Iterator[float]:
+        ...
+    @typing.overload
+    def __itruediv__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __itruediv__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __len__(self) -> int:
+        ...
+    @typing.overload
+    def __mul__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __mul__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __ne__(self, arg0: Array) -> bool:
+        ...
+    def __neg__(self) -> Array:
+        ...
+    def __radd__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __rmul__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __rsub__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __rtruediv__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def __setitem__(self, i: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    @typing.overload
+    def __truediv__(self, arg0: Array) -> Array:
+        ...
+    @typing.overload
+    def __truediv__(self, arg0: typing.SupportsFloat) -> Array:
+        ...
+    def at(self, i: typing.SupportsInt) -> float:
+        """
+        Access element with bounds checking.
+        """
+    def back(self) -> float:
+        """
+        Returns the last element.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the array is empty.
+        """
+    def fill(self, value: typing.SupportsFloat) -> None:
+        """
+        Fills the array with a value.
+        """
+    def front(self) -> float:
+        """
+        Returns the first element.
+        """
+    @typing.overload
+    def resize(self, size: typing.SupportsInt) -> None:
+        """
+        Resizes the array.
+        """
+    @typing.overload
+    def resize(self, size: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+        """
+        Resizes the array, filling new elements with value.
+        """
+    def size(self) -> int:
+        """
+        Returns the number of elements.
+        """
+    def swap(self, other: Array) -> None:
+        """
+        Swaps contents with another array.
+        """
+class Australia(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Australia Day, January 26th (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>ANZAC Day. April 25th (possibly moved to Monday)</li>
+            <li>Queen's Birthday, second Monday in June</li>
+            <li>Bank Holiday, first Monday in August</li>
+            <li>Labour Day, first Monday in October</li>
+            <li>Christmas, December 25th (possibly moved to Monday or Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            <li>National Day of Mourning for Her Majesty, September 22, 2022</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          ASX : !< Australia ASX calendar
+        """
+        ASX: typing.ClassVar[Australia.Market]  # value = <Market.ASX: 1>
+        Settlement: typing.ClassVar[Australia.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, Australia.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'ASX': <Market.ASX: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    ASX: typing.ClassVar[Australia.Market]  # value = <Market.ASX: 1>
+    Settlement: typing.ClassVar[Australia.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, market: Australia.Market = ...) -> None:
+        ...
+class Austria(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th</li>
+            <li>Easter Monday</li>
+            <li>Ascension Thursday</li>
+            <li>Whit Monday</li>
+            <li>Corpus Christi</li>
+            <li>Labour Day, May 1st</li>
+            <li>Assumption Day, August 15th</li>
+            <li>National Holiday, October 26th, since 1967</li>
+            <li>All Saints Day, November 1st</li>
+            <li>National Holiday, November 12th, 1919-1934</li>
+            <li>Immaculate Conception Day, December 8th</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen, December 26th</li>
+            </ul>
+    
+            Holidays for the stock exchange (data from https://www.wienerborse.at/en/trading/trading-information/trading-calendar/):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Whit Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>National Holiday, October 26th, since 1967</li>
+            <li>National Holiday, November 12th, 1919-1934</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen, December 26th</li>
+            <li>Exchange Holiday</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        ! Austrian calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          Exchange : !< Vienna stock-exchange calendar
+        """
+        Exchange: typing.ClassVar[Austria.Market]  # value = <Market.Exchange: 1>
+        Settlement: typing.ClassVar[Austria.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, Austria.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'Exchange': <Market.Exchange: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Exchange: typing.ClassVar[Austria.Market]  # value = <Market.Exchange: 1>
+    Settlement: typing.ClassVar[Austria.Market]  # value = <Market.Settlement: 0>
+    def __init__(self) -> None:
+        ...
+class AverageBasketPayoff(base.BasketPayoff):
+    """
+    Payoff based on weighted average of basket prices.
+    """
+    @typing.overload
+    def __init__(self, basePayoff: base.Payoff, weights: Array) -> None:
+        """
+        Constructs with base payoff and weights.
+        """
+    @typing.overload
+    def __init__(self, basePayoff: base.Payoff, n: typing.SupportsInt) -> None:
+        """
+        Constructs with base payoff and equal weights for n assets.
+        """
+    def weights(self) -> Array:
+        """
+        Returns the weights.
+        """
+class BCHCurrency(Currency):
+    """
+    ! https://www.bitcoincash.org/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BDTCurrency(Currency):
+    """
+    ! The ISO three-letter code is BDT; the numeric code is 50.
+            It is divided in 100 paisa.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BEFCurrency(Currency):
+    """
+    ! The ISO three-letter code was BEF; the numeric code was 56.
+            It had no subdivisions.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BGLCurrency(Currency):
+    """
+    ! The ISO three-letter code is BGL; the numeric code is 100.
+            It is divided in 100 stotinki.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BGNCurrency(Currency):
+    """
+    ! The ISO three-letter code is BGN; the numeric code is 975.
+            It is divided into 100 stotinki.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BHDCurrency(Currency):
+    """
+    ! Bahraini dinar
+    /*! The ISO three-letter code is BHD; the numeric code is 048.
+         It is divided into 1000 fils.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class BRLCurrency(Currency):
+    """
+    ! The ISO three-letter code is BRL; the numeric code is 986.
+            It is divided in 100 centavos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BTCCurrency(Currency):
+    """
+    ! https://bitcoin.org/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BWPCurrency(Currency):
+    """
+     Botswanan Pula
+    /*! The ISO three-letter code is BWP; the numeric code is 72.
+         It is divided into 100 thebe.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class BYRCurrency(Currency):
+    """
+    ! The ISO three-letter code is BYR; the numeric code is 974.
+            It has no subdivisions.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class BasketOption(base.MultiAssetOption):
+    """
+    Basket option on multiple assets.
+    """
+    def __init__(self, payoff: base.BasketPayoff, exercise: Exercise) -> None:
+        """
+        Constructs with basket payoff and exercise.
+        """
+class BasketOptionEngine(base.PricingEngine):
+    """
+    Base class for basket option engines.
+    """
+class BermudanExercise(Exercise):
+    """
+    Bermudan-style exercise (discrete dates).
+    """
+    def __init__(self, dates: collections.abc.Sequence[Date]) -> None:
+        """
+        Constructs with a list of exercise dates.
+        """
+class BespokeCalendar(Calendar):
+    """
+    ! This calendar has no predefined set of business days. Holidays
+            and weekdays can be defined by means of the provided
+            interface. Instances constructed by copying remain linked to
+            the original one; adding a new holiday or weekday will affect
+            all linked instances.
+    
+            \\ingroup calendars
+    """
+    def __init__(self, name: str = '') -> None:
+        ...
+    def addWeekend(self, param_0: Weekday) -> None:
+        """
+        ! marks the passed day as part of the weekend
+        """
+class BjerksundStenslandSpreadEngine(base.SpreadBlackScholesVanillaEngine):
+    """
+    Bjerksund-Stensland analytical approximation for spread options.
+    """
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+        """
+        Constructs with two Black-Scholes processes and correlation.
+        """
+class BlackConstantVol(base.BlackVolatilityTermStructure):
+    """
+    Constant Black volatility term structure.
+    """
+    @typing.overload
+    def __init__(self, referenceDate: Date, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and constant volatility.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: Date, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and constant volatility.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and quote handle.
+        """
+class BlackProcess(GeneralizedBlackScholesProcess):
+    """
+    Black process for forward price dynamics.
+    """
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle) -> None:
+        ...
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        ...
+class BlackScholesProcess(GeneralizedBlackScholesProcess):
+    """
+    Black-Scholes process with no dividend yield.
+    """
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle) -> None:
+        ...
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        ...
+class BlackVarianceSurface(base.BlackVarianceTermStructure):
+    """
+    Black volatility surface modelled as a variance surface.
+    """
+    def __init__(self, referenceDate: Date, calendar: Calendar, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat], blackVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: BlackVarianceSurfaceExtrapolation = ..., upperExtrapolation: BlackVarianceSurfaceExtrapolation = ...) -> None:
+        """
+        Constructs from date/strike grid and volatility matrix.
+        """
+    def dayCounter(self) -> DayCounter:
+        """
+        Returns the day counter.
+        """
+    def maxDate(self) -> Date:
+        """
+        Returns the maximum date.
+        """
+    def maxStrike(self) -> float:
+        """
+        Returns the maximum strike.
+        """
+    def minStrike(self) -> float:
+        """
+        Returns the minimum strike.
+        """
+    def setInterpolation(self, interpolator: str) -> None:
+        """
+        Sets interpolation method. Supported: 'bilinear', 'bicubic'.
+        """
+class BlackVarianceSurfaceExtrapolation:
+    """
+    Extrapolation type for BlackVarianceSurface.
+    
+    Members:
+    
+      ConstantExtrapolation
+    
+      InterpolatorDefaultExtrapolation
+    """
+    ConstantExtrapolation: typing.ClassVar[BlackVarianceSurfaceExtrapolation]  # value = <BlackVarianceSurfaceExtrapolation.ConstantExtrapolation: 0>
+    InterpolatorDefaultExtrapolation: typing.ClassVar[BlackVarianceSurfaceExtrapolation]  # value = <BlackVarianceSurfaceExtrapolation.InterpolatorDefaultExtrapolation: 1>
+    __members__: typing.ClassVar[dict[str, BlackVarianceSurfaceExtrapolation]]  # value = {'ConstantExtrapolation': <BlackVarianceSurfaceExtrapolation.ConstantExtrapolation: 0>, 'InterpolatorDefaultExtrapolation': <BlackVarianceSurfaceExtrapolation.InterpolatorDefaultExtrapolation: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class BlackVolTermStructureHandle:
+    """
+    Handle to BlackVolTermStructure.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: BlackVolTermStructureHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.BlackVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: BlackVolTermStructureHandle) -> bool:
+        ...
+    def __ne__(self, arg0: BlackVolTermStructureHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.BlackVolTermStructure:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.BlackVolTermStructure:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
+class Botswana(Calendar):
+    """
+    ! Holidays:
+        From the Botswana <a href="http://www.ilo.org/dyn/travail/docs/1766/Public%20Holidays%20Act.pdf">Public Holidays Act</a>
+        The days named in the Schedule shall be public holidays within Botswana:
+        Provided that
+        <ul>
+        <li>when any of the said days fall on a Sunday the following Monday shall be observed as a public holiday;</li>
+        <li>if 2nd January, 1st October or Boxing Day falls on a Monday, the following Tuesday shall be observed as a public holiday;</li>
+        <li>when Botswana Day referred to in the Schedule falls on a Saturday, the next following Monday shall be observed as a public holiday.</li>
+        </ul>
+        <ul>
+        <li>Saturdays</li>
+        <li>Sundays</li>
+        <li>New Year's Day, January 1st</li>
+        <li>Good Friday</li>
+        <li>Easter Monday</li>
+        <li>Labour Day, May 1st</li>
+        <li>Ascension</li>
+        <li>Sir Seretse Khama Day, July 1st</li>
+        <li>Presidents' Day</li>
+        <li>Independence Day, September 30th</li>
+        <li>Botswana Day, October 1st</li>
+        <li>Christmas, December 25th </li>
+        <li>Boxing Day, December 26th</li>
+        </ul>
+    
+        \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class BoundaryConstraint(base.Constraint):
+    """
+    Constraint enforcing values within bounds.
+    """
+    def __init__(self, low: typing.SupportsFloat, high: typing.SupportsFloat) -> None:
+        ...
+class Brazil(Calendar):
+    """
+    ! Banking holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Tiradentes's Day, April 21th</li>
+            <li>Labour Day, May 1st</li>
+            <li>Independence Day, September 7th</li>
+            <li>Nossa Sra. Aparecida Day, October 12th</li>
+            <li>All Souls Day, November 2nd</li>
+            <li>Republic Day, November 15th</li>
+            <li>Black Awareness Day, November 20th (since 2024)</li>
+            <li>Christmas, December 25th</li>
+            <li>Passion of Christ</li>
+            <li>Carnival</li>
+            <li>Corpus Christi</li>
+            </ul>
+    
+            Holidays for the Bovespa stock exchange
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Sao Paulo City Day, January 25th (up to 2021 included)</li>
+            <li>Tiradentes's Day, April 21th</li>
+            <li>Labour Day, May 1st</li>
+            <li>Revolution Day, July 9th (up to 2021 included)</li>
+            <li>Independence Day, September 7th</li>
+            <li>Nossa Sra. Aparecida Day, October 12th</li>
+            <li>All Souls Day, November 2nd</li>
+            <li>Republic Day, November 15th</li>
+            <li>Black Consciousness Day, November 20th (since 2007, except 2022 and 2023)</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Passion of Christ</li>
+            <li>Carnival</li>
+            <li>Corpus Christi</li>
+            <li>the last business day of the year</li>
+            </ul>
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested
+                  against a list of known holidays.
+    """
+    class Market:
+        """
+        ! Brazilian calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          Exchange : !< BOVESPA calendar
+        """
+        Exchange: typing.ClassVar[Brazil.Market]  # value = <Market.Exchange: 1>
+        Settlement: typing.ClassVar[Brazil.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, Brazil.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'Exchange': <Market.Exchange: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Exchange: typing.ClassVar[Brazil.Market]  # value = <Market.Exchange: 1>
+    Settlement: typing.ClassVar[Brazil.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, market: Brazil.Market = ...) -> None:
+        ...
+class Business252(DayCounter):
+    """
+    Business/252 day count convention.
+    """
+    def __init__(self, c: Calendar = ...) -> None:
+        ...
+class BusinessDayConvention:
+    """
+    Conventions for adjusting dates that fall on non-business days.
+    
+    Members:
+    
+      Following : Choose the first business day after the given holiday.
+    
+      ModifiedFollowing : Choose the first business day after the holiday unless it belongs to a different month, in which case choose the first before.
+    
+      Preceding : Choose the first business day before the given holiday.
+    
+      ModifiedPreceding : Choose the first business day before the holiday unless it belongs to a different month, in which case choose the first after.
+    
+      Unadjusted : Do not adjust.
+    
+      HalfMonthModifiedFollowing : Choose the first business day after the holiday unless that day crosses mid-month (15th) or end of month, then choose before.
+    
+      Nearest : Choose the nearest business day. If equidistant, default to following.
+    """
+    Following: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.Following: 0>
+    HalfMonthModifiedFollowing: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.HalfMonthModifiedFollowing: 5>
+    ModifiedFollowing: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.ModifiedFollowing: 1>
+    ModifiedPreceding: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.ModifiedPreceding: 3>
+    Nearest: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.Nearest: 6>
+    Preceding: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.Preceding: 2>
+    Unadjusted: typing.ClassVar[BusinessDayConvention]  # value = <BusinessDayConvention.Unadjusted: 4>
+    __members__: typing.ClassVar[dict[str, BusinessDayConvention]]  # value = {'Following': <BusinessDayConvention.Following: 0>, 'ModifiedFollowing': <BusinessDayConvention.ModifiedFollowing: 1>, 'Preceding': <BusinessDayConvention.Preceding: 2>, 'ModifiedPreceding': <BusinessDayConvention.ModifiedPreceding: 3>, 'Unadjusted': <BusinessDayConvention.Unadjusted: 4>, 'HalfMonthModifiedFollowing': <BusinessDayConvention.HalfMonthModifiedFollowing: 5>, 'Nearest': <BusinessDayConvention.Nearest: 6>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class CADCurrency(Currency):
+    """
+    ! The ISO three-letter code is CAD; the numeric code is 124.
+            It is divided into 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class CHFCurrency(Currency):
+    """
+    ! The ISO three-letter code is CHF; the numeric code is 756.
+            It is divided into 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class CLFCurrency(Currency):
+    """
+    ! Unidad de Fomento (funds code)
+    /*! The ISO three-letter code is CLF; the numeric code is 990.
+         A unit of account used in Chile.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class CLPCurrency(Currency):
+    """
+    ! The ISO three-letter code is CLP; the numeric code is 152.
+            It is divided in 100 centavos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class CNHCurrency(Currency):
+    """
+    ! Chinese yuan (Hong Kong)
+    /*! The ISO three-letter code is CNH; there is no numeric code.
+         It is divided in 100 fen.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class CNYCurrency(Currency):
+    """
+    ! The ISO three-letter code is CNY; the numeric code is 156.
+            It is divided in 100 fen.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class COPCurrency(Currency):
+    """
+    ! The ISO three-letter code is COP; the numeric code is 170.
+            It is divided in 100 centavos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class COUCurrency(Currency):
+    """
+    ! Unidad de Valor Real
+    /*! The ISO three-letter code is COU; the numeric code is 970.
+         A unit of account used in Colombia.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class CYPCurrency(Currency):
+    """
+    ! The ISO three-letter code is CYP; the numeric code is 196.
+            It is divided in 100 cents.
+    
+            Obsoleted by the Euro since 2008.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class CZKCurrency(Currency):
+    """
+    ! The ISO three-letter code is CZK; the numeric code is 203.
+            It is divided in 100 haleru.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Calendar:
+    """
+    Calendar class for determining business days and holidays for a given market.
+    """
+    def __eq__(self, arg0: Calendar) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __init__(self) -> None:
+        ...
+    def __ne__(self, arg0: Calendar) -> bool:
+        ...
+    def __str__(self) -> str:
+        ...
+    def addHoliday(self, d: Date) -> None:
+        """
+        Adds a date to the set of holidays for the given calendar.
+        """
+    def addedHolidays(self) -> set[Date]:
+        """
+        Returns the set of added holidays for the given calendar.
+        """
+    def adjust(self, d: Date, convention: BusinessDayConvention = ...) -> Date:
+        """
+        Adjusts a non-business day to the appropriate nearby business day.
+        """
+    @typing.overload
+    def advance(self, d: Date, n: typing.SupportsInt, unit: TimeUnit, convention: BusinessDayConvention = ..., endOfMonth: bool = False) -> Date:
+        """
+        Advances the date by the given number of time units.
+        """
+    @typing.overload
+    def advance(self, d: Date, period: Period, convention: BusinessDayConvention = ..., endOfMonth: bool = False) -> Date:
+        """
+        Advances the date by the given period.
+        """
+    def businessDayList(self, from_: Date, to: Date) -> list[Date]:
+        """
+        Returns the business days between two dates.
+        """
+    def businessDaysBetween(self, from_: Date, to: Date, includeFirst: bool = True, includeLast: bool = False) -> int:
+        """
+        Calculates the number of business days between two dates.
+        """
+    def empty(self) -> bool:
+        """
+        Returns whether or not the calendar is initialized.
+        """
+    def endOfMonth(self, d: Date) -> Date:
+        """
+        Last business day of the month to which the given date belongs.
+        """
+    def holidayList(self, from_: Date, to: Date, includeWeekEnds: bool = False) -> list[Date]:
+        """
+        Returns the holidays between two dates.
+        """
+    def isBusinessDay(self, d: Date) -> bool:
+        """
+        Returns True if the date is a business day.
+        """
+    def isEndOfMonth(self, d: Date) -> bool:
+        """
+        Returns True if the date is on or after the last business day of its month.
+        """
+    def isHoliday(self, d: Date) -> bool:
+        """
+        Returns True if the date is a holiday.
+        """
+    def isStartOfMonth(self, d: Date) -> bool:
+        """
+        Returns True if the date is on or before the first business day of its month.
+        """
+    def isWeekend(self, w: Weekday) -> bool:
+        """
+        Returns True if the weekday is part of the weekend.
+        """
+    def name(self) -> str:
+        """
+        Returns the name of the calendar.
+        """
+    def removeHoliday(self, d: Date) -> None:
+        """
+        Removes a date from the set of holidays for the given calendar.
+        """
+    def removedHolidays(self) -> set[Date]:
+        """
+        Returns the set of removed holidays for the given calendar.
+        """
+    def resetAddedAndRemovedHolidays(self) -> None:
+        """
+        Clear the set of added and removed holidays.
+        """
+    def startOfMonth(self, d: Date) -> Date:
+        """
+        First business day of the month to which the given date belongs.
+        """
+class CalendarVector:
+    """
+    A vector of Calendar objects, exposed as a Python list.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Check whether the list is nonempty
+        """
+    def __contains__(self, x: Calendar) -> bool:
+        """
+        Return true the container contains ``x``
+        """
+    @typing.overload
+    def __delitem__(self, arg0: typing.SupportsInt) -> None:
+        """
+        Delete the list elements at index ``i``
+        """
+    @typing.overload
+    def __delitem__(self, arg0: slice) -> None:
+        """
+        Delete list elements using a slice object
+        """
+    def __eq__(self, arg0: CalendarVector) -> bool:
+        ...
+    @typing.overload
+    def __getitem__(self, s: slice) -> CalendarVector:
+        """
+        Retrieve list elements using a slice object
+        """
+    @typing.overload
+    def __getitem__(self, arg0: typing.SupportsInt) -> Calendar:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, arg0: CalendarVector) -> None:
+        """
+        Copy constructor
+        """
+    @typing.overload
+    def __init__(self, arg0: collections.abc.Iterable) -> None:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, size: typing.SupportsInt) -> None:
+        ...
+    def __iter__(self) -> collections.abc.Iterator[Calendar]:
+        ...
+    def __len__(self) -> int:
+        ...
+    def __ne__(self, arg0: CalendarVector) -> bool:
+        ...
+    def __repr__(self) -> str:
+        """
+        Return the canonical string representation of this list.
+        """
+    @typing.overload
+    def __setitem__(self, arg0: typing.SupportsInt, arg1: Calendar) -> None:
+        ...
+    @typing.overload
+    def __setitem__(self, arg0: slice, arg1: CalendarVector) -> None:
+        """
+        Assign list elements using a slice object
+        """
+    def append(self, x: Calendar) -> None:
+        """
+        Add an item to the end of the list
+        """
+    def clear(self) -> None:
+        """
+        Clear the contents
+        """
+    def count(self, x: Calendar) -> int:
+        """
+        Return the number of times ``x`` appears in the list
+        """
+    @typing.overload
+    def extend(self, L: CalendarVector) -> None:
+        """
+        Extend the list by appending all the items in the given list
+        """
+    @typing.overload
+    def extend(self, L: collections.abc.Iterable) -> None:
+        """
+        Extend the list by appending all the items in the given list
+        """
+    def insert(self, i: typing.SupportsInt, x: Calendar) -> None:
+        """
+        Insert an item at a given position.
+        """
+    @typing.overload
+    def pop(self) -> Calendar:
+        """
+        Remove and return the last item
+        """
+    @typing.overload
+    def pop(self, i: typing.SupportsInt) -> Calendar:
+        """
+        Remove and return the item at index ``i``
+        """
+    def remove(self, x: Calendar) -> None:
+        """
+        Remove the first item from the list whose value is x. It is an error if there is no such item.
+        """
+class Canada(Calendar):
+    """
+    ! Banking holidays
+            (data from <http://www.bankofcanada.ca/en/about/holiday.html>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Family Day, third Monday of February (since 2008)</li>
+            <li>Good Friday</li>
+            <li>Victoria Day, the Monday on or preceding May 24th</li>
+            <li>Canada Day, July 1st (possibly moved to Monday)</li>
+            <li>Provincial Holiday, first Monday of August</li>
+            <li>Labour Day, first Monday of September</li>
+            <li>National Day for Truth and Reconciliation, September 30th (possibly moved to Monday)</li>
+            <li>Thanksgiving Day, second Monday of October</li>
+            <li>Remembrance Day, November 11th (possibly moved to Monday)</li>
+            <li>Christmas, December 25th (possibly moved to Monday or Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            </ul>
+    
+            Holidays for the Toronto stock exchange
+            (data from <http://www.tsx.com/en/about_tsx/market_hours.html>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Family Day, third Monday of February (since 2008)</li>
+            <li>Good Friday</li>
+            <li>Victoria Day, the Monday on or preceding May 24th</li>
+            <li>Canada Day, July 1st (possibly moved to Monday)</li>
+            <li>Provincial Holiday, first Monday of August</li>
+            <li>Labour Day, first Monday of September</li>
+            <li>Thanksgiving Day, second Monday of October</li>
+            <li>Christmas, December 25th (possibly moved to Monday or Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          TSX : !< Toronto stock exchange calendar
+        """
+        Settlement: typing.ClassVar[Canada.Market]  # value = <Market.Settlement: 0>
+        TSX: typing.ClassVar[Canada.Market]  # value = <Market.TSX: 1>
+        __members__: typing.ClassVar[dict[str, Canada.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'TSX': <Market.TSX: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Settlement: typing.ClassVar[Canada.Market]  # value = <Market.Settlement: 0>
+    TSX: typing.ClassVar[Canada.Market]  # value = <Market.TSX: 1>
+    def __init__(self, market: Canada.Market = ...) -> None:
+        ...
+class CeilingTruncation(Rounding):
+    """
+    Ceiling truncation.
+    """
+    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+        ...
+class Chile(Calendar):
+    """
+    ! Holidays for the Santiago Stock Exchange
+            (data from <https://en.wikipedia.org/wiki/Public_holidays_in_Chile>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>January 2nd, when falling on a Monday (since 2017)</li>
+            <li>Good Friday</li>
+            <li>Easter Saturday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Navy Day, May 21st</li>
+            <li>Day of Aboriginal People, around June 21st (observed on each Winter Solstice) (since 2021)</li>
+            <li>Saint Peter and Saint Paul, June 29th (moved to the nearest Monday if it falls on a weekday)</li>
+            <li>Our Lady of Mount Carmel, July 16th</li>
+            <li>Assumption Day, August 15th</li>
+            <li>Independence Day, September 18th (also the 17th if the latter falls on a Monday or Friday)</li>
+            <li>Army Day, September 19th (also the 20th if the latter falls on a Friday)</li>
+            <li>Discovery of Two Worlds, October 12th (moved to the nearest Monday if it falls on a weekday)</li>
+            <li>Reformation Day, October 31st (since 2008; moved to the preceding Friday if it falls on a Tuesday,
+                or to the following Friday if it falls on a Wednesday)</li>
+            <li>All Saints' Day, November 1st</li>
+            <li>Immaculate Conception, December 8th</li>
+            <li>Christmas Day, December 25th</li>
+            <li>New Year's Eve, December 31st; (see https://www.cmfchile.cl/portal/prensa/615/w3-article-49984.html)</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          SSE : !< Santiago Stock Exchange
+        """
+        SSE: typing.ClassVar[Chile.Market]  # value = <Market.SSE: 0>
+        __members__: typing.ClassVar[dict[str, Chile.Market]]  # value = {'SSE': <Market.SSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    SSE: typing.ClassVar[Chile.Market]  # value = <Market.SSE: 0>
+    def __init__(self, m: Chile.Market = ...) -> None:
+        ...
+class China(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's day, January 1st (possibly followed by one or
+                two more holidays)</li>
+            <li>Labour Day, first week in May</li>
+            <li>National Day, one week from October 1st</li>
+            </ul>
+    
+            Other holidays for which no rule is given (data available for
+            2004-2019 only):
+            <ul>
+            <li>Chinese New Year</li>
+            <li>Ching Ming Festival</li>
+            <li>Tuen Ng Festival</li>
+            <li>Mid-Autumn Festival</li>
+            <li>70th anniversary of the victory of anti-Japaneses war</li>
+            </ul>
+    
+            SSE data from <http://www.sse.com.cn/>
+            IB data from <http://www.chinamoney.com.cn/>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          SSE : !< Shanghai stock exchange
+        
+          IB : !< Interbank calendar
+        """
+        IB: typing.ClassVar[China.Market]  # value = <Market.IB: 1>
+        SSE: typing.ClassVar[China.Market]  # value = <Market.SSE: 0>
+        __members__: typing.ClassVar[dict[str, China.Market]]  # value = {'SSE': <Market.SSE: 0>, 'IB': <Market.IB: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    IB: typing.ClassVar[China.Market]  # value = <Market.IB: 1>
+    SSE: typing.ClassVar[China.Market]  # value = <Market.SSE: 0>
+    def __init__(self, m: China.Market = ...) -> None:
+        ...
+class ClosestRounding(Rounding):
+    """
+    Closest-rounding.
+    """
+    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+        ...
+class ComplexLogFormula:
+    """
+    Formula for complex logarithm in Heston integration.
+    
+    Members:
+    
+      Gatheral
+    
+      BranchCorrection
+    
+      AndersenPiterbarg
+    
+      AndersenPiterbargOptCV
+    
+      AsymptoticChF
+    
+      AngledContour
+    
+      AngledContourNoCV
+    
+      OptimalCV
+    """
+    AndersenPiterbarg: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.AndersenPiterbarg: 2>
+    AndersenPiterbargOptCV: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.AndersenPiterbargOptCV: 3>
+    AngledContour: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.AngledContour: 5>
+    AngledContourNoCV: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.AngledContourNoCV: 6>
+    AsymptoticChF: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.AsymptoticChF: 4>
+    BranchCorrection: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.BranchCorrection: 1>
+    Gatheral: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.Gatheral: 0>
+    OptimalCV: typing.ClassVar[ComplexLogFormula]  # value = <ComplexLogFormula.OptimalCV: 7>
+    __members__: typing.ClassVar[dict[str, ComplexLogFormula]]  # value = {'Gatheral': <ComplexLogFormula.Gatheral: 0>, 'BranchCorrection': <ComplexLogFormula.BranchCorrection: 1>, 'AndersenPiterbarg': <ComplexLogFormula.AndersenPiterbarg: 2>, 'AndersenPiterbargOptCV': <ComplexLogFormula.AndersenPiterbargOptCV: 3>, 'AsymptoticChF': <ComplexLogFormula.AsymptoticChF: 4>, 'AngledContour': <ComplexLogFormula.AngledContour: 5>, 'AngledContourNoCV': <ComplexLogFormula.AngledContourNoCV: 6>, 'OptimalCV': <ComplexLogFormula.OptimalCV: 7>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class CompositeConstraint(base.Constraint):
+    """
+    Composite of two constraints.
+    """
+    def __init__(self, c1: base.Constraint, c2: base.Constraint) -> None:
+        ...
+class CompositeQuote(base.Quote):
+    """
+    Quote composed from two quotes using a binary function.
+    """
+    def __init__(self, quote1: QuoteHandle, quote2: QuoteHandle, function: collections.abc.Callable) -> None:
+        """
+        Creates a composite quote from two quotes and a Python function.
+        """
+class Compounding:
+    """
+    Interest rate compounding rule.
+    
+    Members:
+    
+      Simple : 1 + r*t
+    
+      Compounded : (1 + r)^t
+    
+      Continuous : e^(r*t)
+    
+      SimpleThenCompounded : Simple up to the first period, then Compounded.
+    
+      CompoundedThenSimple : Compounded up to the first period, then Simple.
+    """
+    Compounded: typing.ClassVar[Compounding]  # value = <Compounding.Compounded: 1>
+    CompoundedThenSimple: typing.ClassVar[Compounding]  # value = <Compounding.CompoundedThenSimple: 4>
+    Continuous: typing.ClassVar[Compounding]  # value = <Compounding.Continuous: 2>
+    Simple: typing.ClassVar[Compounding]  # value = <Compounding.Simple: 0>
+    SimpleThenCompounded: typing.ClassVar[Compounding]  # value = <Compounding.SimpleThenCompounded: 3>
+    __members__: typing.ClassVar[dict[str, Compounding]]  # value = {'Simple': <Compounding.Simple: 0>, 'Compounded': <Compounding.Compounded: 1>, 'Continuous': <Compounding.Continuous: 2>, 'SimpleThenCompounded': <Compounding.SimpleThenCompounded: 3>, 'CompoundedThenSimple': <Compounding.CompoundedThenSimple: 4>}
+    def __and__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __ge__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __gt__(self, other: typing.Any) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __invert__(self) -> typing.Any:
+        ...
+    def __le__(self, other: typing.Any) -> bool:
+        ...
+    def __lt__(self, other: typing.Any) -> bool:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __or__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rand__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __ror__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rxor__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __xor__(self, other: typing.Any) -> typing.Any:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class ConstantParameter(Parameter):
+    """
+    Time-constant parameter.
+    """
+    @typing.overload
+    def __init__(self, constraint: base.Constraint) -> None:
+        ...
+    @typing.overload
+    def __init__(self, value: typing.SupportsFloat, constraint: base.Constraint) -> None:
+        ...
+class Currency:
+    """
+    Currency specification.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __eq__(self, arg0: Currency) -> bool:
+        ...
+    def __init__(self) -> None:
+        """
+        Default constructor, creates an empty currency.
+        """
+    def __ne__(self, arg0: Currency) -> bool:
+        ...
+    def code(self) -> str:
+        """
+        Returns the ISO 4217 three-letter code, e.g., 'USD'.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if this is an empty (uninitialized) currency.
+        """
+    def fractionSymbol(self) -> str:
+        """
+        Returns the fraction symbol, e.g., 'c' for cents.
+        """
+    def fractionsPerUnit(self) -> int:
+        """
+        Returns the number of fractional units per currency unit, e.g., 100.
+        """
+    def name(self) -> str:
+        """
+        Returns the full currency name, e.g., 'U.S. Dollar'.
+        """
+    def numericCode(self) -> int:
+        """
+        Returns the ISO 4217 numeric code, e.g., 840.
+        """
+    def rounding(self) -> ...:
+        """
+        Returns the rounding convention for this currency.
+        """
+    def symbol(self) -> str:
+        """
+        Returns the currency symbol, e.g., '$'.
+        """
+    def triangulationCurrency(self) -> Currency:
+        """
+        Returns the triangulation currency, if any.
+        """
+class CzechRepublic(Calendar):
+    """
+    ! Holidays for the Prague stock exchange (see http://www.pse.cz/):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Liberation Day, May 8th</li>
+            <li>SS. Cyril and Methodius, July 5th</li>
+            <li>Jan Hus Day, July 6th</li>
+            <li>Czech Statehood Day, September 28th</li>
+            <li>Independence Day, October 28th</li>
+            <li>Struggle for Freedom and Democracy Day, November 17th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          PSE : !< Prague stock exchange
+        """
+        PSE: typing.ClassVar[CzechRepublic.Market]  # value = <Market.PSE: 0>
+        __members__: typing.ClassVar[dict[str, CzechRepublic.Market]]  # value = {'PSE': <Market.PSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    PSE: typing.ClassVar[CzechRepublic.Market]  # value = <Market.PSE: 0>
+    def __init__(self, m: CzechRepublic.Market = ...) -> None:
+        ...
+class DASHCurrency(Currency):
+    """
+    ! https://www.dash.org/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class DEMCurrency(Currency):
+    """
+    ! The ISO three-letter code was DEM; the numeric code was 276.
+            It was divided into 100 pfennig.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class DKKCurrency(Currency):
+    """
+    ! The ISO three-letter code is DKK; the numeric code is 208.
+            It is divided in 100 �re.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Date:
+    """
+    Date class for date algebra and calendar operations.
+    """
+    @staticmethod
+    def endOfMonth(d: Date) -> Date:
+        """
+        Last day of the month to which the given date belongs.
+        """
+    @staticmethod
+    def from_date(arg0: typing.Any) -> Date:
+        ...
+    @staticmethod
+    def isEndOfMonth(d: Date) -> bool:
+        """
+        Whether a date is the last day of its month.
+        """
+    @staticmethod
+    def isLeap(y: typing.SupportsInt) -> bool:
+        """
+        Whether the given year is a leap one.
+        """
+    @staticmethod
+    def isStartOfMonth(d: Date) -> bool:
+        """
+        Whether a date is the first day of its month.
+        """
+    @staticmethod
+    def maxDate() -> Date:
+        """
+        Latest allowed date.
+        """
+    @staticmethod
+    def minDate() -> Date:
+        """
+        Earliest allowed date.
+        """
+    @staticmethod
+    def nextWeekday(d: Date, w: Weekday) -> Date:
+        """
+        Next given weekday following the given date.
+        """
+    @staticmethod
+    def nthWeekday(n: typing.SupportsInt, w: Weekday, m: Month, y: typing.SupportsInt) -> Date:
+        """
+        The n-th given weekday in the given month and year.
+        """
+    @staticmethod
+    def startOfMonth(d: Date) -> Date:
+        """
+        First day of the month to which the given date belongs.
+        """
+    @staticmethod
+    def todaysDate() -> Date:
+        """
+        Today's date.
+        """
+    @typing.overload
+    def __add__(self, days: typing.SupportsInt) -> Date:
+        """
+        Return a new date incremented by the given number of days.
+        """
+    @typing.overload
+    def __add__(self, period: ...) -> Date:
+        """
+        Return a new date incremented by the given period.
+        """
+    def __eq__(self, arg0: Date) -> bool:
+        ...
+    def __ge__(self, arg0: Date) -> bool:
+        ...
+    def __gt__(self, arg0: Date) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    @typing.overload
+    def __iadd__(self, days: typing.SupportsInt) -> Date:
+        """
+        Increment date by the given number of days.
+        """
+    @typing.overload
+    def __iadd__(self, period: ...) -> Date:
+        """
+        Increment date by the given period.
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor returning a null date.
+        """
+    @typing.overload
+    def __init__(self, serialNumber: typing.SupportsInt) -> None:
+        """
+        Constructor taking a serial number as given by Excel.
+        """
+    @typing.overload
+    def __init__(self, d: typing.SupportsInt, m: Month, y: typing.SupportsInt) -> None:
+        """
+        Constructor taking day, month, year.
+        """
+    @typing.overload
+    def __init__(self, arg0: typing.Any) -> None:
+        ...
+    @typing.overload
+    def __isub__(self, days: typing.SupportsInt) -> Date:
+        """
+        Decrement date by the given number of days.
+        """
+    @typing.overload
+    def __isub__(self, period: ...) -> Date:
+        """
+        Decrement date by the given period.
+        """
+    def __le__(self, arg0: Date) -> bool:
+        ...
+    def __lt__(self, arg0: Date) -> bool:
+        ...
+    def __ne__(self, arg0: Date) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    @typing.overload
+    def __sub__(self, days: typing.SupportsInt) -> Date:
+        """
+        Return a new date decremented by the given number of days.
+        """
+    @typing.overload
+    def __sub__(self, period: ...) -> Date:
+        """
+        Return a new date decremented by the given period.
+        """
+    def dayOfMonth(self) -> int:
+        ...
+    def dayOfYear(self) -> int:
+        ...
+    def month(self) -> Month:
+        ...
+    def serialNumber(self) -> int:
+        ...
+    def to_date(self) -> typing.Any:
+        ...
+    def weekday(self) -> Weekday:
+        ...
+    def year(self) -> int:
+        ...
+class DateGeneration:
+    """
+    Date generation rules for Schedule construction.
+    """
+    class Rule:
+        """
+        Members:
+        
+          Backward : Backward from termination date to effective date.
+        
+          Forward : Forward from effective date to termination date.
+        
+          Zero : No intermediate dates between effective date and termination date.
+        
+          ThirdWednesday : All dates but effective/termination are third Wednesday of their month.
+        
+          ThirdWednesdayInclusive : All dates including effective/termination are third Wednesday of their month.
+        
+          Twentieth : All dates but effective are the twentieth of their month (CDS in emerging markets).
+        
+          TwentiethIMM : All dates but effective are the twentieth of an IMM month (CDS schedules).
+        
+          OldCDS : Same as TwentiethIMM with unrestricted date ends (old CDS convention).
+        
+          CDS : Credit derivatives standard rule since 'Big Bang' changes in 2009.
+        
+          CDS2015 : Credit derivatives standard rule since December 20th, 2015.
+        """
+        Backward: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Backward: 0>
+        CDS: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.CDS: 8>
+        CDS2015: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.CDS2015: 9>
+        Forward: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Forward: 1>
+        OldCDS: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.OldCDS: 7>
+        ThirdWednesday: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.ThirdWednesday: 3>
+        ThirdWednesdayInclusive: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.ThirdWednesdayInclusive: 4>
+        Twentieth: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Twentieth: 5>
+        TwentiethIMM: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.TwentiethIMM: 6>
+        Zero: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Zero: 2>
+        __members__: typing.ClassVar[dict[str, DateGeneration.Rule]]  # value = {'Backward': <Rule.Backward: 0>, 'Forward': <Rule.Forward: 1>, 'Zero': <Rule.Zero: 2>, 'ThirdWednesday': <Rule.ThirdWednesday: 3>, 'ThirdWednesdayInclusive': <Rule.ThirdWednesdayInclusive: 4>, 'Twentieth': <Rule.Twentieth: 5>, 'TwentiethIMM': <Rule.TwentiethIMM: 6>, 'OldCDS': <Rule.OldCDS: 7>, 'CDS': <Rule.CDS: 8>, 'CDS2015': <Rule.CDS2015: 9>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Backward: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Backward: 0>
+    CDS: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.CDS: 8>
+    CDS2015: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.CDS2015: 9>
+    Forward: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Forward: 1>
+    OldCDS: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.OldCDS: 7>
+    ThirdWednesday: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.ThirdWednesday: 3>
+    ThirdWednesdayInclusive: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.ThirdWednesdayInclusive: 4>
+    Twentieth: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Twentieth: 5>
+    TwentiethIMM: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.TwentiethIMM: 6>
+    Zero: typing.ClassVar[DateGeneration.Rule]  # value = <Rule.Zero: 2>
+    def __init__(self) -> None:
+        ...
+class DayCounter:
+    """
+    Day counter base class, providing methods for time period calculations according to market conventions.
+    """
+    def __eq__(self, arg0: DayCounter) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __init__(self) -> None:
+        """
+        Default (null) day counter constructor.
+        """
+    def __ne__(self, arg0: DayCounter) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def dayCount(self, d1: Date, d2: Date) -> int:
+        """
+        Returns the number of days between two dates.
+        """
+    def empty(self) -> bool:
+        """
+        Returns True if the day counter is not initialized.
+        """
+    def name(self) -> str:
+        """
+        Returns the name of the day counter.
+        """
+    def yearFraction(self, d1: Date, d2: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ...) -> float:
+        """
+        Returns the period between two dates as a fraction of year.
+        """
+class DengLiZhouBasketEngine(BasketOptionEngine):
+    """
+    Deng-Li-Zhou analytical approximation for N-dim basket options.
+    """
+    def __init__(self, processes: collections.abc.Sequence[GeneralizedBlackScholesProcess], correlation: Matrix) -> None:
+        """
+        Constructs with vector of Black-Scholes processes and correlation matrix.
+        """
+class Denmark(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Maunday Thursday</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>General Prayer Day, 25 days after Easter Monday (up until 2023)</li>
+            <li>Ascension</li>
+            <li>Day after Ascension (from 2009)</li>
+            <li>Whit (Pentecost) Monday </li>
+            <li>New Year's Day, January 1st</li>
+            <li>Constitution Day, June 5th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            <li>New Year's Eve, December 31st</li>
+            </ul>
+    
+            See: https://www.nasdaqomxnordic.com/tradinghours,
+            and: https://www.nationalbanken.dk/da/Kontakt/aabningstider/Sider/default.aspx
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class DerivedQuote(base.Quote):
+    """
+    Quote derived from another quote using a unary function.
+    """
+    def __init__(self, quote: QuoteHandle, function: collections.abc.Callable) -> None:
+        """
+        Creates a derived quote from another quote and a Python function.
+        """
+class DownRounding(Rounding):
+    """
+    Down-rounding.
+    """
+    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+        ...
+class EEKCurrency(Currency):
+    """
+    ! The ISO three-letter code is EEK; the numeric code is 233.
+            It is divided in 100 senti.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class EGPCurrency(Currency):
+    """
+    ! Egyptian pound
+    /*! The ISO three-letter code is EGP; the numeric code is 818.
+         It is divided into 100 piastres.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class ESPCurrency(Currency):
+    """
+    ! The ISO three-letter code was ESP; the numeric code was 724.
+            It was divided in 100 centimos.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ETBCurrency(Currency):
+    """
+     Ethiopian birr
+    /*! The ISO three-letter code is ETB; the numeric code is 230.
+         It is divided into 100 santim.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class ETCCurrency(Currency):
+    """
+    ! https://ethereumclassic.github.io/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ETHCurrency(Currency):
+    """
+    ! https://www.ethereum.org/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class EURCurrency(Currency):
+    """
+    ! The ISO three-letter code is EUR; the numeric code is 978.
+            It is divided into 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class EndCriteria:
+    """
+    Criteria to end optimization processes.
+    """
+    class Type:
+        """
+        End criteria type enumeration.
+        
+        Members:
+        
+          None_
+        
+          MaxIterations
+        
+          StationaryPoint
+        
+          StationaryFunctionValue
+        
+          StationaryFunctionAccuracy
+        
+          ZeroGradientNorm
+        
+          FunctionEpsilonTooSmall
+        
+          Unknown
+        """
+        FunctionEpsilonTooSmall: typing.ClassVar[EndCriteria.Type]  # value = <Type.FunctionEpsilonTooSmall: 6>
+        MaxIterations: typing.ClassVar[EndCriteria.Type]  # value = <Type.MaxIterations: 1>
+        None_: typing.ClassVar[EndCriteria.Type]  # value = <Type.None_: 0>
+        StationaryFunctionAccuracy: typing.ClassVar[EndCriteria.Type]  # value = <Type.StationaryFunctionAccuracy: 4>
+        StationaryFunctionValue: typing.ClassVar[EndCriteria.Type]  # value = <Type.StationaryFunctionValue: 3>
+        StationaryPoint: typing.ClassVar[EndCriteria.Type]  # value = <Type.StationaryPoint: 2>
+        Unknown: typing.ClassVar[EndCriteria.Type]  # value = <Type.Unknown: 7>
+        ZeroGradientNorm: typing.ClassVar[EndCriteria.Type]  # value = <Type.ZeroGradientNorm: 5>
+        __members__: typing.ClassVar[dict[str, EndCriteria.Type]]  # value = {'None_': <Type.None_: 0>, 'MaxIterations': <Type.MaxIterations: 1>, 'StationaryPoint': <Type.StationaryPoint: 2>, 'StationaryFunctionValue': <Type.StationaryFunctionValue: 3>, 'StationaryFunctionAccuracy': <Type.StationaryFunctionAccuracy: 4>, 'ZeroGradientNorm': <Type.ZeroGradientNorm: 5>, 'FunctionEpsilonTooSmall': <Type.FunctionEpsilonTooSmall: 6>, 'Unknown': <Type.Unknown: 7>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    @staticmethod
+    def succeeded(ecType: EndCriteria.Type) -> bool:
+        """
+        Returns true if the optimization succeeded.
+        """
+    def __init__(self, maxIterations: typing.SupportsInt, maxStationaryStateIterations: typing.SupportsInt, rootEpsilon: typing.SupportsFloat, functionEpsilon: typing.SupportsFloat, gradientNormEpsilon: typing.SupportsFloat) -> None:
+        """
+        Creates end criteria for optimization.
+        """
+    def checkMaxIterations(self, iteration: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+        """
+        Checks if maximum iterations reached. Returns (bool, ecType).
+        """
+    def checkStationaryFunctionAccuracy(self, f: typing.SupportsFloat, positiveOptimization: bool, ecType: EndCriteria.Type) -> tuple:
+        """
+        Checks for stationary function accuracy. Returns (bool, ecType).
+        """
+    def checkStationaryFunctionValue(self, fxOld: typing.SupportsFloat, fxNew: typing.SupportsFloat, statStateIterations: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+        """
+        Checks for stationary function value. Returns (bool, statStateIterations, ecType).
+        """
+    def checkStationaryPoint(self, xOld: typing.SupportsFloat, xNew: typing.SupportsFloat, statState: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+        """
+        Checks for stationary point. Returns (bool, ecType).
+        """
+    def checkZeroGradientNorm(self, gNorm: typing.SupportsFloat, ecType: EndCriteria.Type) -> tuple:
+        """
+        Checks for zero gradient norm. Returns (bool, ecType).
+        """
+    @property
+    def functionEpsilon(self) -> float:
+        """
+        Returns the function epsilon.
+        """
+    @property
+    def gradientNormEpsilon(self) -> float:
+        """
+        Returns the gradient norm epsilon.
+        """
+    @property
+    def maxIterations(self) -> int:
+        """
+        Returns the maximum number of iterations.
+        """
+    @property
+    def maxStationaryStateIterations(self) -> int:
+        """
+        Returns the maximum stationary state iterations.
+        """
+    @property
+    def rootEpsilon(self) -> float:
+        """
+        Returns the root epsilon.
+        """
+class Error(Exception):
+    pass
+class EulerDiscretization(base.StochasticProcess1D.discretization):
+    """
+    Euler discretization for 1D stochastic processes.
+    """
+    def __init__(self) -> None:
+        ...
+class EuropeanExercise(Exercise):
+    """
+    European-style exercise (single date).
+    """
+    def __init__(self, date: Date) -> None:
+        """
+        Constructs with the exercise date.
+        """
+class ExchangeRate:
+    """
+    Exchange rate between two currencies.
+    """
+    class Type:
+        """
+        Type of exchange rate.
+        
+        Members:
+        
+          Direct : Directly quoted rate.
+        
+          Derived : Rate derived from other rates.
+        """
+        Derived: typing.ClassVar[ExchangeRate.Type]  # value = <Type.Derived: 1>
+        Direct: typing.ClassVar[ExchangeRate.Type]  # value = <Type.Direct: 0>
+        __members__: typing.ClassVar[dict[str, ExchangeRate.Type]]  # value = {'Direct': <Type.Direct: 0>, 'Derived': <Type.Derived: 1>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Derived: typing.ClassVar[ExchangeRate.Type]  # value = <Type.Derived: 1>
+    Direct: typing.ClassVar[ExchangeRate.Type]  # value = <Type.Direct: 0>
+    @staticmethod
+    def chain(r1: ExchangeRate, r2: ExchangeRate) -> ExchangeRate:
+        """
+        Creates a derived rate by chaining two rates.
+        """
+    def __init__(self, source: Currency, target: Currency, rate: typing.SupportsFloat) -> None:
+        """
+        Constructs an exchange rate from source to target currency.
+        """
+    def rate(self) -> float:
+        """
+        Returns the exchange rate value.
+        """
+    def source(self) -> Currency:
+        """
+        Returns the source currency.
+        """
+    def target(self) -> Currency:
+        """
+        Returns the target currency.
+        """
+    def type(self) -> ExchangeRate.Type:
+        """
+        Returns the type of the exchange rate.
+        """
+class ExchangeRateManager:
+    """
+    Global repository for exchange rates.
+    """
+    @staticmethod
+    def add(*args, **kwargs) -> None:
+        """
+        Adds an exchange rate.
+        """
+    @staticmethod
+    def instance() -> ExchangeRateManager:
+        """
+        Returns the singleton instance.
+        """
+    def clear(self) -> None:
+        """
+        Clears all stored exchange rates.
+        """
+    def lookup(self, source: Currency, target: Currency, date: Date = ..., type: ExchangeRate.Type = ...) -> ExchangeRate:
+        """
+        Looks up an exchange rate between two currencies.
+        """
+class Exercise:
+    """
+    Abstract base class for option exercise styles.
+    """
+    def dates(self) -> list[Date]:
+        """
+        Returns the list of exercise dates.
+        """
+    def lastDate(self) -> Date:
+        """
+        Returns the latest exercise date.
+        """
+class FIMCurrency(Currency):
+    """
+    ! The ISO three-letter code was FIM; the numeric code was 246.
+            It was divided in 100 penni�.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class FRFCurrency(Currency):
+    """
+    ! The ISO three-letter code was FRF; the numeric code was 250.
+            It was divided in 100 centimes.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Fd2dBlackScholesVanillaEngine(BasketOptionEngine):
+    """
+    2D finite-difference Black-Scholes engine for basket options.
+    """
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat, xGrid: typing.SupportsInt = 100, yGrid: typing.SupportsInt = 100, tGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38) -> None:
+        """
+        Constructs with two processes, correlation, and optional grid/scheme parameters.
+        """
+class FdmSchemeDesc:
+    """
+    Finite difference scheme descriptor.
+    """
+    @staticmethod
+    def CraigSneyd() -> FdmSchemeDesc:
+        """
+        Craig-Sneyd scheme.
+        """
+    @staticmethod
+    def CrankNicolson() -> FdmSchemeDesc:
+        """
+        Crank-Nicolson scheme.
+        """
+    @staticmethod
+    def Douglas() -> FdmSchemeDesc:
+        """
+        Douglas scheme (same as Crank-Nicolson in 1D).
+        """
+    @staticmethod
+    def ExplicitEuler() -> FdmSchemeDesc:
+        """
+        Explicit Euler scheme.
+        """
+    @staticmethod
+    def Hundsdorfer() -> FdmSchemeDesc:
+        """
+        Hundsdorfer scheme.
+        """
+    @staticmethod
+    def ImplicitEuler() -> FdmSchemeDesc:
+        """
+        Implicit Euler scheme.
+        """
+    @staticmethod
+    def MethodOfLines(eps: typing.SupportsFloat = 0.001, relInitStepSize: typing.SupportsFloat = 0.01) -> FdmSchemeDesc:
+        """
+        Method of lines scheme.
+        """
+    @staticmethod
+    def ModifiedCraigSneyd() -> FdmSchemeDesc:
+        """
+        Modified Craig-Sneyd scheme.
+        """
+    @staticmethod
+    def ModifiedHundsdorfer() -> FdmSchemeDesc:
+        """
+        Modified Hundsdorfer scheme.
+        """
+    @staticmethod
+    def TrBDF2() -> FdmSchemeDesc:
+        """
+        TR-BDF2 scheme.
+        """
+    def __init__(self, type: FdmSchemeType, theta: typing.SupportsFloat, mu: typing.SupportsFloat) -> None:
+        """
+        Constructs with scheme type, theta, and mu.
+        """
+    @property
+    def mu(self) -> float:
+        ...
+    @property
+    def theta(self) -> float:
+        ...
+    @property
+    def type(self) -> FdmSchemeType:
+        ...
+class FdmSchemeType:
+    """
+    Finite difference scheme types.
+    
+    Members:
+    
+      Hundsdorfer
+    
+      Douglas
+    
+      CraigSneyd
+    
+      ModifiedCraigSneyd
+    
+      ImplicitEuler
+    
+      ExplicitEuler
+    
+      MethodOfLines
+    
+      TrBDF2
+    
+      CrankNicolson
+    """
+    CraigSneyd: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.CraigSneyd: 2>
+    CrankNicolson: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.CrankNicolson: 8>
+    Douglas: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.Douglas: 1>
+    ExplicitEuler: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.ExplicitEuler: 5>
+    Hundsdorfer: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.Hundsdorfer: 0>
+    ImplicitEuler: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.ImplicitEuler: 4>
+    MethodOfLines: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.MethodOfLines: 6>
+    ModifiedCraigSneyd: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.ModifiedCraigSneyd: 3>
+    TrBDF2: typing.ClassVar[FdmSchemeType]  # value = <FdmSchemeType.TrBDF2: 7>
+    __members__: typing.ClassVar[dict[str, FdmSchemeType]]  # value = {'Hundsdorfer': <FdmSchemeType.Hundsdorfer: 0>, 'Douglas': <FdmSchemeType.Douglas: 1>, 'CraigSneyd': <FdmSchemeType.CraigSneyd: 2>, 'ModifiedCraigSneyd': <FdmSchemeType.ModifiedCraigSneyd: 3>, 'ImplicitEuler': <FdmSchemeType.ImplicitEuler: 4>, 'ExplicitEuler': <FdmSchemeType.ExplicitEuler: 5>, 'MethodOfLines': <FdmSchemeType.MethodOfLines: 6>, 'TrBDF2': <FdmSchemeType.TrBDF2: 7>, 'CrankNicolson': <FdmSchemeType.CrankNicolson: 8>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class Finland(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Ascension Thursday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Midsummer Eve (Friday between June 19-25)</li>
+            <li>Independence Day, December 6th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class FixedLocalVolExtrapolation:
+    """
+    Extrapolation type for FixedLocalVolSurface.
+    
+    Members:
+    
+      ConstantExtrapolation
+    
+      InterpolatorDefaultExtrapolation
+    """
+    ConstantExtrapolation: typing.ClassVar[FixedLocalVolExtrapolation]  # value = <FixedLocalVolExtrapolation.ConstantExtrapolation: 0>
+    InterpolatorDefaultExtrapolation: typing.ClassVar[FixedLocalVolExtrapolation]  # value = <FixedLocalVolExtrapolation.InterpolatorDefaultExtrapolation: 1>
+    __members__: typing.ClassVar[dict[str, FixedLocalVolExtrapolation]]  # value = {'ConstantExtrapolation': <FixedLocalVolExtrapolation.ConstantExtrapolation: 0>, 'InterpolatorDefaultExtrapolation': <FixedLocalVolExtrapolation.InterpolatorDefaultExtrapolation: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class FixedLocalVolSurface(base.LocalVolTermStructure):
+    """
+    Fixed local volatility surface with strike/time grid.
+    """
+    @typing.overload
+    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+        """
+        Constructs from dates and uniform strikes.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat], strikes: collections.abc.Sequence[typing.SupportsFloat], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+        """
+        Constructs from times and uniform strikes.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat], strikes: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat]], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+        """
+        Constructs from times and varying strikes per time point.
+        """
+    def maxDate(self) -> Date:
+        """
+        Returns the maximum date.
+        """
+    def maxStrike(self) -> float:
+        """
+        Returns the maximum strike.
+        """
+    def maxTime(self) -> float:
+        """
+        Returns the maximum time.
+        """
+    def minStrike(self) -> float:
+        """
+        Returns the minimum strike.
+        """
+class FixedRateCoupon(base.Coupon):
+    """
+    Coupon paying a fixed interest rate.
+    """
+    @typing.overload
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, interestRate: InterestRate, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
+        """
+        Constructs a fixed-rate coupon from an InterestRate.
+        """
+    @typing.overload
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, rate: typing.SupportsFloat, dayCounter: DayCounter, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
+        """
+        Constructs a fixed-rate coupon from rate and day counter.
+        """
+    def interestRate(self) -> InterestRate:
+        """
+        Returns the interest rate.
+        """
+class FixedRateLeg:
+    """
+    Helper class for building a leg of fixed-rate coupons.
+    """
+    def __init__(self, schedule: Schedule) -> None:
+        """
+        Constructs a FixedRateLeg from a schedule.
+        """
+    def build(self) -> list[base.CashFlow]:
+        """
+        Builds and returns the leg of cash flows.
+        """
+    @typing.overload
+    def withCouponRates(self, rate: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
+        ...
+    @typing.overload
+    def withCouponRates(self, interestRate: InterestRate) -> FixedRateLeg:
+        ...
+    @typing.overload
+    def withCouponRates(self, rates: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
+        ...
+    @typing.overload
+    def withCouponRates(self, interestRates: collections.abc.Sequence[InterestRate]) -> FixedRateLeg:
+        ...
+    def withExCouponPeriod(self, period: Period, calendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool = False) -> FixedRateLeg:
+        ...
+    def withFirstPeriodDayCounter(self, dayCounter: DayCounter) -> FixedRateLeg:
+        ...
+    def withLastPeriodDayCounter(self, dayCounter: DayCounter) -> FixedRateLeg:
+        ...
+    @typing.overload
+    def withNotionals(self, nominal: typing.SupportsFloat) -> FixedRateLeg:
+        ...
+    @typing.overload
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> FixedRateLeg:
+        ...
+    def withPaymentAdjustment(self, convention: BusinessDayConvention) -> FixedRateLeg:
+        ...
+    def withPaymentCalendar(self, calendar: Calendar) -> FixedRateLeg:
+        ...
+    def withPaymentLag(self, lag: typing.SupportsInt) -> FixedRateLeg:
+        ...
+class FlatForward(base.YieldTermStructure):
+    """
+    Flat interest-rate curve.
+    """
+    @typing.overload
+    def __init__(self, referenceDate: Date, forward: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from reference date and forward rate.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: Date, forward: QuoteHandle, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from reference date and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from settlement days and forward rate.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: QuoteHandle, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from settlement days and quote handle.
+        """
+    def compounding(self) -> Compounding:
+        """
+        Returns the compounding convention.
+        """
+    def compoundingFrequency(self) -> Frequency:
+        """
+        Returns the compounding frequency.
+        """
+class FloorTruncation(Rounding):
+    """
+    Floor truncation.
+    """
+    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+        ...
+class France(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Armistice 1945, May 8th</li>
+            <li>Ascension, May 10th</li>
+            <li>Pentec�te, May 21st</li>
+            <li>F�te nationale, July 14th</li>
+            <li>Assumption, August 15th</li>
+            <li>All Saint's Day, November 1st</li>
+            <li>Armistice 1918, November 11th</li>
+            <li>Christmas Day, December 25th</li>
+            </ul>
+    
+            Holidays for the stock exchange (data from https://www.stockmarketclock.com/exchanges/euronext-paris/market-holidays/):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas Day, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            <li>New Year's Eve, December 31st</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        ! French calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          Exchange : !< Paris stock-exchange calendar
+        """
+        Exchange: typing.ClassVar[France.Market]  # value = <Market.Exchange: 1>
+        Settlement: typing.ClassVar[France.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, France.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'Exchange': <Market.Exchange: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Exchange: typing.ClassVar[France.Market]  # value = <Market.Exchange: 1>
+    Settlement: typing.ClassVar[France.Market]  # value = <Market.Settlement: 0>
+    def __init__(self) -> None:
+        ...
+class Frequency:
+    """
+    Frequency of events.
+    
+    Members:
+    
+      NoFrequency : Null frequency
+    
+      Once : Only once, e.g., a zero-coupon
+    
+      Annual : Once a year
+    
+      Semiannual : Twice a year
+    
+      EveryFourthMonth : Every fourth month
+    
+      Quarterly : Every third month
+    
+      Bimonthly : Every second month
+    
+      Monthly : Once a month
+    
+      EveryFourthWeek : Every fourth week
+    
+      Biweekly : Every second week
+    
+      Weekly : Once a week
+    
+      Daily : Once a day
+    
+      OtherFrequency : Some other unknown frequency
+    """
+    Annual: typing.ClassVar[Frequency]  # value = <Frequency.Annual: 1>
+    Bimonthly: typing.ClassVar[Frequency]  # value = <Frequency.Bimonthly: 6>
+    Biweekly: typing.ClassVar[Frequency]  # value = <Frequency.Biweekly: 26>
+    Daily: typing.ClassVar[Frequency]  # value = <Frequency.Daily: 365>
+    EveryFourthMonth: typing.ClassVar[Frequency]  # value = <Frequency.EveryFourthMonth: 3>
+    EveryFourthWeek: typing.ClassVar[Frequency]  # value = <Frequency.EveryFourthWeek: 13>
+    Monthly: typing.ClassVar[Frequency]  # value = <Frequency.Monthly: 12>
+    NoFrequency: typing.ClassVar[Frequency]  # value = <Frequency.NoFrequency: -1>
+    Once: typing.ClassVar[Frequency]  # value = <Frequency.Once: 0>
+    OtherFrequency: typing.ClassVar[Frequency]  # value = <Frequency.OtherFrequency: 999>
+    Quarterly: typing.ClassVar[Frequency]  # value = <Frequency.Quarterly: 4>
+    Semiannual: typing.ClassVar[Frequency]  # value = <Frequency.Semiannual: 2>
+    Weekly: typing.ClassVar[Frequency]  # value = <Frequency.Weekly: 52>
+    __members__: typing.ClassVar[dict[str, Frequency]]  # value = {'NoFrequency': <Frequency.NoFrequency: -1>, 'Once': <Frequency.Once: 0>, 'Annual': <Frequency.Annual: 1>, 'Semiannual': <Frequency.Semiannual: 2>, 'EveryFourthMonth': <Frequency.EveryFourthMonth: 3>, 'Quarterly': <Frequency.Quarterly: 4>, 'Bimonthly': <Frequency.Bimonthly: 6>, 'Monthly': <Frequency.Monthly: 12>, 'EveryFourthWeek': <Frequency.EveryFourthWeek: 13>, 'Biweekly': <Frequency.Biweekly: 26>, 'Weekly': <Frequency.Weekly: 52>, 'Daily': <Frequency.Daily: 365>, 'OtherFrequency': <Frequency.OtherFrequency: 999>}
+    def __and__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __ge__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __gt__(self, other: typing.Any) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __invert__(self) -> typing.Any:
+        ...
+    def __le__(self, other: typing.Any) -> bool:
+        ...
+    def __lt__(self, other: typing.Any) -> bool:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __or__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rand__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __ror__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rxor__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __xor__(self, other: typing.Any) -> typing.Any:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class GBPCurrency(Currency):
+    """
+    ! The ISO three-letter code is GBP; the numeric code is 826.
+            It is divided into 100 pence.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class GELCurrency(Currency):
+    """
+    ! The ISO three-letter code is GEL; the numeric code is 981.
+            It is divided into 100 tetri.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class GHSCurrency(Currency):
+    """
+    ! Ghanaian cedi
+    /*! The ISO three-letter code is GHS; the numeric code is 936.
+         It is divided into 100 pesewas.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class GRDCurrency(Currency):
+    """
+    ! The ISO three-letter code was GRD; the numeric code was 300.
+            It was divided in 100 lepta.
+    
+            Obsoleted by the Euro since 2001.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class GarmanKohlhagenProcess(GeneralizedBlackScholesProcess):
+    """
+    Garman-Kohlhagen process for FX options.
+    """
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, foreignRiskFreeTS: YieldTermStructureHandle, domesticRiskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle) -> None:
+        ...
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, foreignRiskFreeTS: YieldTermStructureHandle, domesticRiskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        ...
+class GeneralizedBlackScholesProcess(base.StochasticProcess1D):
+    """
+    Generalized Black-Scholes-Merton stochastic process.
+    """
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, dividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle) -> None:
+        ...
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, dividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization) -> None:
+        ...
+    def dividendYield(self) -> YieldTermStructureHandle:
+        """
+        Returns the dividend yield term structure handle.
+        """
+    def localVolatility(self) -> LocalVolTermStructureHandle:
+        """
+        Returns the local volatility term structure handle.
+        """
+    def riskFreeRate(self) -> YieldTermStructureHandle:
+        """
+        Returns the risk-free rate term structure handle.
+        """
+    def stateVariable(self) -> QuoteHandle:
+        """
+        Returns the state variable handle.
+        """
+class Germany(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Ascension Thursday</li>
+            <li>Whit Monday</li>
+            <li>Corpus Christi</li>
+            <li>Labour Day, May 1st</li>
+            <li>National Day, October 3rd</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            </ul>
+    
+            Holidays for the Frankfurt Stock exchange
+            (data from http://deutsche-boerse.com/):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Christmas' Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Christmas Holiday, December 26th</li>
+            </ul>
+    
+            Holidays for the Xetra exchange
+            (data from http://deutsche-boerse.com/):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Christmas' Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Christmas Holiday, December 26th</li>
+            </ul>
+    
+            Holidays for the Eurex exchange
+            (data from http://www.eurexchange.com/index.html):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Christmas' Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Christmas Holiday, December 26th</li>
+            <li>New Year's Eve, December 31st</li>
+            </ul>
+    
+            Holidays for the Euwax exchange
+            (data from http://www.boerse-stuttgart.de):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Whit Monday</li>
+            <li>Christmas' Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Christmas Holiday, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested
+                  against a list of known holidays.
+    """
+    class Market:
+        """
+        ! German calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          FrankfurtStockExchange : !< Frankfurt stock-exchange
+        
+          Xetra : !< Xetra
+        
+          Eurex : !< Eurex
+        
+          Euwax : !< Euwax
+        """
+        Eurex: typing.ClassVar[Germany.Market]  # value = <Market.Eurex: 3>
+        Euwax: typing.ClassVar[Germany.Market]  # value = <Market.Euwax: 4>
+        FrankfurtStockExchange: typing.ClassVar[Germany.Market]  # value = <Market.FrankfurtStockExchange: 1>
+        Settlement: typing.ClassVar[Germany.Market]  # value = <Market.Settlement: 0>
+        Xetra: typing.ClassVar[Germany.Market]  # value = <Market.Xetra: 2>
+        __members__: typing.ClassVar[dict[str, Germany.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'FrankfurtStockExchange': <Market.FrankfurtStockExchange: 1>, 'Xetra': <Market.Xetra: 2>, 'Eurex': <Market.Eurex: 3>, 'Euwax': <Market.Euwax: 4>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Eurex: typing.ClassVar[Germany.Market]  # value = <Market.Eurex: 3>
+    Euwax: typing.ClassVar[Germany.Market]  # value = <Market.Euwax: 4>
+    FrankfurtStockExchange: typing.ClassVar[Germany.Market]  # value = <Market.FrankfurtStockExchange: 1>
+    Settlement: typing.ClassVar[Germany.Market]  # value = <Market.Settlement: 0>
+    Xetra: typing.ClassVar[Germany.Market]  # value = <Market.Xetra: 2>
+    def __init__(self, market: Germany.Market = ...) -> None:
+        ...
+class Greeks:
+    """
+    Container for first-order Greeks.
+    """
+    def __init__(self) -> None:
+        ...
+    @property
+    def delta(self) -> float:
+        """
+        Delta sensitivity.
+        """
+    @delta.setter
+    def delta(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def dividendRho(self) -> float:
+        """
+        Dividend rho sensitivity.
+        """
+    @dividendRho.setter
+    def dividendRho(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def gamma(self) -> float:
+        """
+        Gamma sensitivity.
+        """
+    @gamma.setter
+    def gamma(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def rho(self) -> float:
+        """
+        Rho sensitivity.
+        """
+    @rho.setter
+    def rho(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def theta(self) -> float:
+        """
+        Theta sensitivity.
+        """
+    @theta.setter
+    def theta(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def vega(self) -> float:
+        """
+        Vega sensitivity.
+        """
+    @vega.setter
+    def vega(self, arg0: typing.SupportsFloat) -> None:
+        ...
+class HKDCurrency(Currency):
+    """
+    ! The ISO three-letter code is HKD; the numeric code is 344.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class HRKCurrency(Currency):
+    """
+    ! The ISO three-letter code was HRK; the numeric code was 191.
+            It was divided into 100 lipa.
+    
+            Obsoleted by the Euro since 2023.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class HUFCurrency(Currency):
+    """
+    ! The ISO three-letter code is HUF; the numeric code is 348.
+            It has no subdivisions.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class HestonModel(base.CalibratedModel):
+    """
+    Heston stochastic volatility model.
+    """
+    def __init__(self, process: HestonProcess) -> None:
+        """
+        Constructs Heston model from process.
+        """
+    def kappa(self) -> float:
+        """
+        Returns mean-reversion speed.
+        """
+    def rho(self) -> float:
+        """
+        Returns correlation.
+        """
+    def sigma(self) -> float:
+        """
+        Returns volatility of volatility.
+        """
+    def theta(self) -> float:
+        """
+        Returns long-term variance.
+        """
+    def v0(self) -> float:
+        """
+        Returns initial variance.
+        """
+class HestonModelHandle:
+    """
+    Handle to HestonModel objects.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: HestonModelHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: HestonModel, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: HestonModelHandle) -> bool:
+        ...
+    def __ne__(self, arg0: HestonModelHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> HestonModel:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> HestonModel:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
+class HestonProcess(base.StochasticProcess):
+    """
+    Heston stochastic volatility process.
+    """
+    class Discretization:
+        """
+        Discretization schemes for Heston process simulation.
+        
+        Members:
+        
+          PartialTruncation
+        
+          FullTruncation
+        
+          Reflection
+        
+          NonCentralChiSquareVariance
+        
+          QuadraticExponential
+        
+          QuadraticExponentialMartingale
+        
+          BroadieKayaExactSchemeLobatto
+        
+          BroadieKayaExactSchemeLaguerre
+        
+          BroadieKayaExactSchemeTrapezoidal
+        """
+        BroadieKayaExactSchemeLaguerre: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeLaguerre: 7>
+        BroadieKayaExactSchemeLobatto: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeLobatto: 6>
+        BroadieKayaExactSchemeTrapezoidal: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeTrapezoidal: 8>
+        FullTruncation: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.FullTruncation: 1>
+        NonCentralChiSquareVariance: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.NonCentralChiSquareVariance: 3>
+        PartialTruncation: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.PartialTruncation: 0>
+        QuadraticExponential: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponential: 4>
+        QuadraticExponentialMartingale: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponentialMartingale: 5>
+        Reflection: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.Reflection: 2>
+        __members__: typing.ClassVar[dict[str, HestonProcess.Discretization]]  # value = {'PartialTruncation': <Discretization.PartialTruncation: 0>, 'FullTruncation': <Discretization.FullTruncation: 1>, 'Reflection': <Discretization.Reflection: 2>, 'NonCentralChiSquareVariance': <Discretization.NonCentralChiSquareVariance: 3>, 'QuadraticExponential': <Discretization.QuadraticExponential: 4>, 'QuadraticExponentialMartingale': <Discretization.QuadraticExponentialMartingale: 5>, 'BroadieKayaExactSchemeLobatto': <Discretization.BroadieKayaExactSchemeLobatto: 6>, 'BroadieKayaExactSchemeLaguerre': <Discretization.BroadieKayaExactSchemeLaguerre: 7>, 'BroadieKayaExactSchemeTrapezoidal': <Discretization.BroadieKayaExactSchemeTrapezoidal: 8>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BroadieKayaExactSchemeLaguerre: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeLaguerre: 7>
+    BroadieKayaExactSchemeLobatto: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeLobatto: 6>
+    BroadieKayaExactSchemeTrapezoidal: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.BroadieKayaExactSchemeTrapezoidal: 8>
+    FullTruncation: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.FullTruncation: 1>
+    NonCentralChiSquareVariance: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.NonCentralChiSquareVariance: 3>
+    PartialTruncation: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.PartialTruncation: 0>
+    QuadraticExponential: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponential: 4>
+    QuadraticExponentialMartingale: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponentialMartingale: 5>
+    Reflection: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.Reflection: 2>
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, d: HestonProcess.Discretization = ...) -> None:
+        ...
+    def dividendYield(self) -> YieldTermStructureHandle:
+        """
+        Returns the dividend yield term structure handle.
+        """
+    def kappa(self) -> float:
+        """
+        Returns the mean-reversion speed.
+        """
+    def pdf(self, x: typing.SupportsFloat, v: typing.SupportsFloat, t: typing.SupportsFloat, eps: typing.SupportsFloat = 0.001) -> float:
+        """
+        Returns the probability density at (x, v) for time t, where x is log-spot.
+        """
+    def rho(self) -> float:
+        """
+        Returns the correlation between spot and variance.
+        """
+    def riskFreeRate(self) -> YieldTermStructureHandle:
+        """
+        Returns the risk-free rate term structure handle.
+        """
+    def s0(self) -> QuoteHandle:
+        """
+        Returns the initial spot price handle.
+        """
+    def sigma(self) -> float:
+        """
+        Returns the volatility of volatility.
+        """
+    def theta(self) -> float:
+        """
+        Returns the long-term variance.
+        """
+    def v0(self) -> float:
+        """
+        Returns the initial variance.
+        """
+class HongKong(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labor Day, May 1st (possibly moved to Monday)</li>
+            <li>SAR Establishment Day, July 1st (possibly moved to Monday)</li>
+            <li>National Day, October 1st (possibly moved to Monday)</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2004-2015 only:)
+            <ul>
+            <li>Lunar New Year</li>
+            <li>Chinese New Year</li>
+            <li>Ching Ming Festival</li>
+            <li>Buddha's birthday</li>
+            <li>Tuen NG Festival</li>
+            <li>Mid-autumn Festival</li>
+            <li>Chung Yeung Festival</li>
+            </ul>
+    
+            Data from <http://www.hkex.com.hk>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          HKEx : !< Hong Kong stock exchange
+        """
+        HKEx: typing.ClassVar[HongKong.Market]  # value = <Market.HKEx: 0>
+        __members__: typing.ClassVar[dict[str, HongKong.Market]]  # value = {'HKEx': <Market.HKEx: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    HKEx: typing.ClassVar[HongKong.Market]  # value = <Market.HKEx: 0>
+    def __init__(self, m: HongKong.Market = ...) -> None:
+        ...
+class Hungary(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Good Friday (since 2017)</li>
+            <li>Easter Monday</li>
+            <li>Whit(Pentecost) Monday </li>
+            <li>New Year's Day, January 1st</li>
+            <li>National Day, March 15th</li>
+            <li>Labour Day, May 1st</li>
+            <li>Constitution Day, August 20th</li>
+            <li>Republic Day, October 23rd</li>
+            <li>All Saints Day, November 1st</li>
+            <li>Christmas, December 25th</li>
+            <li>2nd Day of Christmas, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class IDRCurrency(Currency):
+    """
+    ! The ISO three-letter code is IDR; the numeric code is 360.
+            It is divided in 100 sen.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class IEPCurrency(Currency):
+    """
+    ! The ISO three-letter code was IEP; the numeric code was 372.
+            It was divided in 100 pence.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ILSCurrency(Currency):
+    """
+    ! The ISO three-letter code is ILS; the numeric code is 376.
+            It is divided in 100 agorot.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class INRCurrency(Currency):
+    """
+    ! The ISO three-letter code is INR; the numeric code is 356.
+            It is divided in 100 paise.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class IQDCurrency(Currency):
+    """
+    ! The ISO three-letter code is IQD; the numeric code is 368.
+            It is divided in 1000 fils.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class IRRCurrency(Currency):
+    """
+    ! The ISO three-letter code is IRR; the numeric code is 364.
+            It has no subdivisions.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ISKCurrency(Currency):
+    """
+    ! The ISO three-letter code is ISK; the numeric code is 352.
+            It is divided in 100 aurar.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ITLCurrency(Currency):
+    """
+    ! The ISO three-letter code was ITL; the numeric code was 380.
+            It had no subdivisions.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Iceland(Calendar):
+    """
+    ! Holidays for the Iceland stock exchange
+            (data from <http://www.icex.is/is/calendar?languageID=1>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Holy Thursday</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>First day of Summer (third or fourth Thursday in April)</li>
+            <li>Labour Day, May 1st</li>
+            <li>Ascension Thursday</li>
+            <li>Pentecost Monday</li>
+            <li>Independence Day, June 17th</li>
+            <li>Commerce Day, first Monday in August</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          ICEX : !< Iceland stock exchange
+        """
+        ICEX: typing.ClassVar[Iceland.Market]  # value = <Market.ICEX: 0>
+        __members__: typing.ClassVar[dict[str, Iceland.Market]]  # value = {'ICEX': <Market.ICEX: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    ICEX: typing.ClassVar[Iceland.Market]  # value = <Market.ICEX: 0>
+    def __init__(self, m: Iceland.Market = ...) -> None:
+        ...
+class India(Calendar):
+    """
+    ! Clearing holidays for the National Stock Exchange
+            (data from <http://www.nse-india.com/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Republic Day, January 26th</li>
+            <li>Good Friday</li>
+            <li>Ambedkar Jayanti, April 14th</li>
+            <li>May Day, May 1st</li>
+            <li>Independence Day, August 15th</li>
+            <li>Gandhi Jayanti, October 2nd</li>
+            <li>Christmas, December 25th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2005-2014, 2019-2025 only:)
+            <ul>
+            <li>Bakri Id</li>
+            <li>Moharram</li>
+            <li>Mahashivratri</li>
+            <li>Holi</li>
+            <li>Ram Navami</li>
+            <li>Mahavir Jayanti</li>
+            <li>Id-E-Milad</li>
+            <li>Maharashtra Day</li>
+            <li>Buddha Pournima</li>
+            <li>Ganesh Chaturthi</li>
+            <li>Dasara</li>
+            <li>Laxmi Puja</li>
+            <li>Bhaubeej</li>
+            <li>Ramzan Id</li>
+            <li>Guru Nanak Jayanti</li>
+            </ul>
+    
+            Note: The holidays Ramzan Id, Bakri Id and Id-E-Milad rely on estimates for 2024-2025.
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          NSE : !< National Stock Exchange
+        """
+        NSE: typing.ClassVar[India.Market]  # value = <Market.NSE: 0>
+        __members__: typing.ClassVar[dict[str, India.Market]]  # value = {'NSE': <Market.NSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    NSE: typing.ClassVar[India.Market]  # value = <Market.NSE: 0>
+    def __init__(self, m: India.Market = ...) -> None:
+        ...
+class Indonesia(Calendar):
+    """
+    ! Holidays for the Indonesia stock exchange
+            (data from <http://www.idx.co.id/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Ascension of Jesus Christ</li>
+            <li>Independence Day, August 17th</li>
+            <li>Christmas, December 25th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2005-2014 only:)
+            <ul>
+            <li>Idul Adha</li>
+            <li>Ied Adha</li>
+            <li>Imlek</li>
+            <li>Moslem's New Year Day</li>
+            <li>Chinese New Year</li>
+            <li>Nyepi (Saka's New Year)</li>
+            <li>Birthday of Prophet Muhammad SAW</li>
+            <li>Waisak</li>
+            <li>Ascension of Prophet Muhammad SAW</li>
+            <li>Idul Fitri</li>
+            <li>Ied Fitri</li>
+            <li>Other national leaves</li>
+            </ul>
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          BEJ : !< Jakarta stock exchange (merged into IDX)
+        
+          JSX : !< Jakarta stock exchange (merged into IDX)
+        
+          IDX : !< Indonesia stock exchange
+        """
+        BEJ: typing.ClassVar[Indonesia.Market]  # value = <Market.BEJ: 0>
+        IDX: typing.ClassVar[Indonesia.Market]  # value = <Market.IDX: 2>
+        JSX: typing.ClassVar[Indonesia.Market]  # value = <Market.JSX: 1>
+        __members__: typing.ClassVar[dict[str, Indonesia.Market]]  # value = {'BEJ': <Market.BEJ: 0>, 'JSX': <Market.JSX: 1>, 'IDX': <Market.IDX: 2>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BEJ: typing.ClassVar[Indonesia.Market]  # value = <Market.BEJ: 0>
+    IDX: typing.ClassVar[Indonesia.Market]  # value = <Market.IDX: 2>
+    JSX: typing.ClassVar[Indonesia.Market]  # value = <Market.JSX: 1>
+    def __init__(self, m: Indonesia.Market = ...) -> None:
+        ...
+class Integration:
+    """
+    Integration methods for Heston engine.
+    """
+    @staticmethod
+    def discreteSimpson(evaluations: typing.SupportsInt = 1000) -> Integration:
+        ...
+    @staticmethod
+    def discreteTrapezoid(evaluations: typing.SupportsInt = 1000) -> Integration:
+        ...
+    @staticmethod
+    def expSinh(relTolerance: typing.SupportsFloat = 1e-08) -> Integration:
+        ...
+    @staticmethod
+    def gaussChebyshev(integrationOrder: typing.SupportsInt = 128) -> Integration:
+        ...
+    @staticmethod
+    def gaussChebyshev2nd(integrationOrder: typing.SupportsInt = 128) -> Integration:
+        ...
+    @staticmethod
+    def gaussKronrod(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+        ...
+    @staticmethod
+    def gaussLaguerre(integrationOrder: typing.SupportsInt = 128) -> Integration:
+        ...
+    @staticmethod
+    def gaussLegendre(integrationOrder: typing.SupportsInt = 128) -> Integration:
+        ...
+    @staticmethod
+    def gaussLobatto(relTolerance: typing.SupportsFloat, absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000, useConvergenceEstimate: bool = False) -> Integration:
+        ...
+    @staticmethod
+    def simpson(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+        ...
+    @staticmethod
+    def trapezoid(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+        ...
+    def isAdaptiveIntegration(self) -> bool:
+        ...
+    def numberOfEvaluations(self) -> int:
+        ...
+class InterestRate:
+    """
+    Interest rate with compounding algebra.
+    """
+    @staticmethod
+    @typing.overload
+    def impliedRate(compound: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat) -> InterestRate:
+        """
+        Implied rate from a compound factor over a time period.
+        """
+    @staticmethod
+    @typing.overload
+    def impliedRate(compound: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> InterestRate:
+        """
+        Implied rate from a compound factor between two dates.
+        """
+    def __eq__(self, arg0: InterestRate) -> bool:
+        ...
+    def __float__(self) -> float:
+        ...
+    def __hash__(self) -> int:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor returning a null interest rate.
+        """
+    @typing.overload
+    def __init__(self, rate: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency) -> None:
+        """
+        Construct an interest rate with the given parameters.
+        """
+    def __ne__(self, arg0: InterestRate) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    @typing.overload
+    def compoundFactor(self, time: typing.SupportsFloat) -> float:
+        """
+        Compound factor for a given time period.
+        """
+    @typing.overload
+    def compoundFactor(self, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> float:
+        """
+        Compound factor between two dates.
+        """
+    def compounding(self) -> Compounding:
+        """
+        Returns the compounding convention.
+        """
+    def dayCounter(self) -> DayCounter:
+        """
+        Returns the day counter.
+        """
+    @typing.overload
+    def discountFactor(self, time: typing.SupportsFloat) -> float:
+        """
+        Discount factor for a given time period.
+        """
+    @typing.overload
+    def discountFactor(self, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> float:
+        """
+        Discount factor between two dates.
+        """
+    @typing.overload
+    def equivalentRate(self, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat) -> InterestRate:
+        """
+        Equivalent rate with different compounding over a time period.
+        """
+    @typing.overload
+    def equivalentRate(self, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> InterestRate:
+        """
+        Equivalent rate with different compounding between two dates.
+        """
+    def frequency(self) -> Frequency:
+        """
+        Returns the compounding frequency.
+        """
+    def isNull(self) -> bool:
+        """
+        Returns true if the rate is null (uninitialized).
+        """
+    def rate(self) -> float:
+        """
+        Returns the rate value.
+        """
+class Israel(Calendar):
+    """
+    ! Due to the lack of reliable sources, the settlement calendar
+            has the same holidays as the Tel Aviv stock-exchange.
+    
+            Holidays for the Tel-Aviv Stock Exchange
+            (data from <http://www.tase.co.il>):
+            <ul>
+            <li>Friday</li>
+            <li>Saturday</li>
+            </ul>
+            Other holidays for wich no rule is given
+            (data available for 2013-2044 only:)
+            <ul>
+            <li>Purim, Adar 14th (between Feb 24th & Mar 26th)</li>
+            <li>Passover I, Nisan 15th (between Mar 26th & Apr 25th)</li>
+            <li>Passover VII, Nisan 21st (between Apr 1st & May 1st)</li>
+            <li>Memorial Day, Nisan 27th (between Apr 7th & May 7th)</li>
+            <li>Indipendence Day, Iyar 5th (between Apr 15th & May 15th)</li>
+            <li>Pentecost (Shavuot), Sivan 6th (between May 15th & June 14th)</li>
+            <li>Fast Day</li>
+            <li>Jewish New Year, Tishrei 1st & 2nd (between Sep 5th & Oct 5th)</li>
+            <li>Yom Kippur, Tishrei 10th (between Sep 14th & Oct 14th)</li>
+            <li>Sukkoth, Tishrei 15th (between Sep 19th & Oct 19th)</li>
+            <li>Simchat Tora, Tishrei 22nd (between Sep 26th & Oct 26th)</li>
+            </ul>
+    
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          TASE : !< Tel-Aviv stock exchange calendar
+        """
+        Settlement: typing.ClassVar[Israel.Market]  # value = <Market.Settlement: 0>
+        TASE: typing.ClassVar[Israel.Market]  # value = <Market.TASE: 1>
+        __members__: typing.ClassVar[dict[str, Israel.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'TASE': <Market.TASE: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Settlement: typing.ClassVar[Israel.Market]  # value = <Market.Settlement: 0>
+    TASE: typing.ClassVar[Israel.Market]  # value = <Market.TASE: 1>
+    def __init__(self, market: Israel.Market = ...) -> None:
+        ...
+class Italy(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th</li>
+            <li>Easter Monday</li>
+            <li>Liberation Day, April 25th</li>
+            <li>Labour Day, May 1st</li>
+            <li>Republic Day, June 2nd (since 2000)</li>
+            <li>Assumption, August 15th</li>
+            <li>All Saint's Day, November 1st</li>
+            <li>Immaculate Conception Day, December 8th</li>
+            <li>Christmas Day, December 25th</li>
+            <li>St. Stephen's Day, December 26th</li>
+            </ul>
+    
+            Holidays for the stock exchange (data from http://www.borsaitalia.it):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>Assumption, August 15th</li>
+            <li>Christmas' Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen, December 26th</li>
+            <li>New Year's Eve, December 31st</li>
+            </ul>
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested against a
+                  list of known holidays.
+    """
+    class Market:
+        """
+        ! Italian calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          Exchange : !< Milan stock-exchange calendar
+        """
+        Exchange: typing.ClassVar[Italy.Market]  # value = <Market.Exchange: 1>
+        Settlement: typing.ClassVar[Italy.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, Italy.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'Exchange': <Market.Exchange: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Exchange: typing.ClassVar[Italy.Market]  # value = <Market.Exchange: 1>
+    Settlement: typing.ClassVar[Italy.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, market: Italy.Market = ...) -> None:
+        ...
+class JODCurrency(Currency):
+    """
+    ! Jordanian dinar
+    /*! The ISO three-letter code is JOD; the numeric code is 400.
+         It is divided into 100 qirshes.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class JPYCurrency(Currency):
+    """
+    ! The ISO three-letter code is JPY; the numeric code is 392.
+            It is divided into 100 sen.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Japan(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Bank Holiday, January 2nd</li>
+            <li>Bank Holiday, January 3rd</li>
+            <li>Coming of Age Day, 2nd Monday in January</li>
+            <li>National Foundation Day, February 11th</li>
+            <li>Emperor's Birthday, February 23rd since 2020 and December 23rd before</li>
+            <li>Vernal Equinox</li>
+            <li>Greenery Day, April 29th</li>
+            <li>Constitution Memorial Day, May 3rd</li>
+            <li>Holiday for a Nation, May 4th</li>
+            <li>Children's Day, May 5th</li>
+            <li>Marine Day, 3rd Monday in July</li>
+            <li>Mountain Day, August 11th (from 2016 onwards)</li>
+            <li>Respect for the Aged Day, 3rd Monday in September</li>
+            <li>Autumnal Equinox</li>
+            <li>Health and Sports Day, 2nd Monday in October</li>
+            <li>National Culture Day, November 3rd</li>
+            <li>Labor Thanksgiving Day, November 23rd</li>
+            <li>Bank Holiday, December 31st</li>
+            <li>a few one-shot holidays</li>
+            </ul>
+            Holidays falling on a Sunday are observed on the Monday following
+            except for the bank holidays associated with the new year.
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class JointCalendar(Calendar):
+    """
+    ! Depending on the chosen rule, this calendar has a set of
+            business days given by either the union or the intersection
+            of the sets of business days of the given calendars.
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested by
+                  reproducing the calculations.
+    """
+    @typing.overload
+    def __init__(self, param_0: Calendar, param_1: Calendar, param_2: JointCalendarRule = ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, param_0: Calendar, param_1: Calendar, param_2: Calendar, param_3: JointCalendarRule = ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, param_0: Calendar, param_1: Calendar, param_2: Calendar, param_3: Calendar, param_4: JointCalendarRule = ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, calendars: list, rule: JointCalendarRule = ...) -> None:
+        ...
+class JointCalendarRule:
+    """
+    ! rules for joining calendars
+    
+    Members:
+    
+      JoinHolidays : !< A date is a holiday
+                                                       for the joint calendar
+                                                       if it is a holiday
+                                                       for any of the given
+                                                       calendars
+    
+      JoinBusinessDays : !< A date is a business day
+                                                       for the joint calendar
+                                                       if it is a business day
+                                                       for any of the given
+                                                       calendars
+    """
+    JoinBusinessDays: typing.ClassVar[JointCalendarRule]  # value = <JointCalendarRule.JoinBusinessDays: 1>
+    JoinHolidays: typing.ClassVar[JointCalendarRule]  # value = <JointCalendarRule.JoinHolidays: 0>
+    __members__: typing.ClassVar[dict[str, JointCalendarRule]]  # value = {'JoinHolidays': <JointCalendarRule.JoinHolidays: 0>, 'JoinBusinessDays': <JointCalendarRule.JoinBusinessDays: 1>}
+    def __and__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __ge__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __gt__(self, other: typing.Any) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __invert__(self) -> typing.Any:
+        ...
+    def __le__(self, other: typing.Any) -> bool:
+        ...
+    def __lt__(self, other: typing.Any) -> bool:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __or__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rand__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __ror__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rxor__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __xor__(self, other: typing.Any) -> typing.Any:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class KESCurrency(Currency):
+    """
+    ! Kenyan shilling
+    /*! The ISO three-letter code is KES; the numeric code is 404.
+         It is divided into 100 cents.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class KRWCurrency(Currency):
+    """
+    ! The ISO three-letter code is KRW; the numeric code is 410.
+            It is divided in 100 chon.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class KWDCurrency(Currency):
+    """
+    ! The ISO three-letter code is KWD; the numeric code is 414.
+            It is divided in 1000 fils.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class KZTCurrency(Currency):
+    """
+    """
+    def __init__(self) -> None:
+        ...
+class KirkEngine(base.SpreadBlackScholesVanillaEngine):
+    """
+    Kirk engine for spread option pricing on two futures.
+    """
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+        """
+        Constructs with two Black-Scholes processes and correlation.
+        """
+class LKRCurrency(Currency):
+    """
+    ! Sri Lankan rupee
+    /*! The ISO three-letter code is LKR; there numeric code is 144.
+         It is divided into 100 cents.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class LTCCurrency(Currency):
+    """
+    ! https://litecoin.com/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class LTLCurrency(Currency):
+    """
+    ! The ISO three-letter code is LTL; the numeric code is 440.
+            It is divided in 100 centu.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class LUFCurrency(Currency):
+    """
+    ! The ISO three-letter code was LUF; the numeric code was 442.
+            It was divided in 100 centimes.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class LVLCurrency(Currency):
+    """
+    ! The ISO three-letter code is LVL; the numeric code is 428.
+            It is divided in 100 santims.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class LevenbergMarquardt(base.OptimizationMethod):
+    """
+    Levenberg-Marquardt optimization method.
+    """
+    def __init__(self, epsfcn: typing.SupportsFloat = 1e-08, xtol: typing.SupportsFloat = 1e-08, gtol: typing.SupportsFloat = 1e-08) -> None:
+        """
+        Creates a Levenberg-Marquardt optimizer.
+        """
+class LocalConstantVol(base.LocalVolTermStructure):
+    """
+    Constant local volatility term structure.
+    """
+    @typing.overload
+    def __init__(self, referenceDate: Date, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and constant volatility.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: Date, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and constant volatility.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and quote handle.
+        """
+class LocalVolSurface(base.LocalVolTermStructure):
+    """
+    Local volatility surface derived from a Black volatility surface.
+    """
+    @typing.overload
+    def __init__(self, blackVolTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: QuoteHandle) -> None:
+        """
+        Constructs from Black vol surface and quote handle for underlying.
+        """
+    @typing.overload
+    def __init__(self, blackVolTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat) -> None:
+        """
+        Constructs from Black vol surface and fixed underlying value.
+        """
+class LocalVolTermStructureHandle:
+    """
+    Handle to LocalVolTermStructure.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: LocalVolTermStructureHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.LocalVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: LocalVolTermStructureHandle) -> bool:
+        ...
+    def __ne__(self, arg0: LocalVolTermStructureHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.LocalVolTermStructure:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.LocalVolTermStructure:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
+class MADCurrency(Currency):
+    """
+    ! Moroccan dirham
+    /*! The ISO three-letter code is MAD; the numeric code is 504.
+         It is divided into 100 santim.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class MCEuropeanBasketEngine(base.PricingEngine):
+    """
+    Monte Carlo pricing engine for European basket options (pseudo-random).
+    """
+    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt = ..., timeStepsPerYear: typing.SupportsInt = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt = ..., requiredTolerance: typing.SupportsFloat = ..., maxSamples: typing.SupportsInt = ..., seed: typing.SupportsInt = 0) -> None:
+        """
+        Constructs MC European basket engine with pseudo-random numbers.
+        """
+class MCLDEuropeanBasketEngine(base.PricingEngine):
+    """
+    Monte Carlo pricing engine for European basket options (low-discrepancy/Sobol).
+    """
+    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt = ..., timeStepsPerYear: typing.SupportsInt = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt = ..., requiredTolerance: typing.SupportsFloat = ..., maxSamples: typing.SupportsInt = ..., seed: typing.SupportsInt = 0) -> None:
+        """
+        Constructs MC European basket engine with low-discrepancy sequences.
+        """
+class MTLCurrency(Currency):
+    """
+    ! The ISO three-letter code is MTL; the numeric code is 470.
+            It was divided in 100 cents.
+    
+            Obsoleted by the Euro since 2008.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class MURCurrency(Currency):
+    """
+    ! Mauritian rupee
+    /*! The ISO three-letter code is MUR; the numeric code is 480.
+         It is divided into 100 cents.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class MXNCurrency(Currency):
+    """
+    ! The ISO three-letter code is MXN; the numeric code is 484.
+            It is divided in 100 centavos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class MXVCurrency(Currency):
+    """
+    ! Mexican Unidad de Inversion
+    /*! The ISO three-letter code is MXV; the numeric code is 979.
+         A unit of account used in Mexico.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class MYRCurrency(Currency):
+    """
+    ! The ISO three-letter code is MYR; the numeric code is 458.
+            It is divided in 100 sen.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class MakeSchedule:
+    """
+    Helper class providing a fluent interface for Schedule construction.
+    """
+    def __init__(self) -> None:
+        ...
+    def backwards(self) -> MakeSchedule:
+        ...
+    def endOfMonth(self, flag: bool = True) -> MakeSchedule:
+        ...
+    def forwards(self) -> MakeSchedule:
+        ...
+    def from_(self, effectiveDate: Date) -> MakeSchedule:
+        ...
+    def schedule(self) -> Schedule:
+        ...
+    def to(self, terminationDate: Date) -> MakeSchedule:
+        ...
+    def withCalendar(self, calendar: Calendar) -> MakeSchedule:
+        ...
+    def withConvention(self, convention: BusinessDayConvention) -> MakeSchedule:
+        ...
+    def withFirstDate(self, d: Date) -> MakeSchedule:
+        ...
+    def withFrequency(self, frequency: Frequency) -> MakeSchedule:
+        ...
+    def withNextToLastDate(self, d: Date) -> MakeSchedule:
+        ...
+    def withRule(self, rule: DateGeneration.Rule) -> MakeSchedule:
+        ...
+    def withTenor(self, tenor: Period) -> MakeSchedule:
+        ...
+    def withTerminationDateConvention(self, terminationDateConvention: BusinessDayConvention) -> MakeSchedule:
+        ...
+class Matrix:
+    """
+    2-dimensional matrix of Real values.
+    """
+    def __add__(self, arg0: Matrix) -> Matrix:
+        ...
+    @typing.overload
+    def __getitem__(self, arg0: typing.SupportsInt) -> numpy.typing.NDArray[numpy.float64]:
+        """
+        Gets a row as a NumPy array view.
+        """
+    @typing.overload
+    def __getitem__(self, arg0: tuple[typing.SupportsInt, typing.SupportsInt]) -> float:
+        """
+        Gets element at (row, column).
+        """
+    def __iadd__(self, arg0: Matrix) -> Matrix:
+        ...
+    def __imul__(self, arg0: typing.SupportsFloat) -> Matrix:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor (empty matrix).
+        """
+    @typing.overload
+    def __init__(self, rows: typing.SupportsInt, columns: typing.SupportsInt) -> None:
+        """
+        Creates a zero-filled matrix.
+        """
+    @typing.overload
+    def __init__(self, rows: typing.SupportsInt, columns: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+        """
+        Creates a matrix filled with value.
+        """
+    @typing.overload
+    def __init__(self, numpy_array: typing.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None:
+        """
+        Creates a matrix from a 2D NumPy array.
+        """
+    @typing.overload
+    def __init__(self, list_of_lists: list) -> None:
+        """
+        Creates a matrix from a list of lists.
+        """
+    def __isub__(self, arg0: Matrix) -> Matrix:
+        ...
+    def __iter__(self) -> collections.abc.Iterator[float]:
+        """
+        Iterates over elements in row-major order.
+        """
+    def __itruediv__(self, arg0: typing.SupportsFloat) -> Matrix:
+        ...
+    @typing.overload
+    def __mul__(self, arg0: Matrix) -> Matrix:
+        ...
+    @typing.overload
+    def __mul__(self, arg0: typing.SupportsFloat) -> Matrix:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __rmul__(self, arg0: typing.SupportsFloat) -> Matrix:
+        ...
+    def __setitem__(self, arg0: tuple[typing.SupportsInt, typing.SupportsInt], arg1: typing.SupportsFloat) -> None:
+        """
+        Sets element at (row, column).
+        """
+    def __str__(self) -> str:
+        ...
+    def __sub__(self, arg0: Matrix) -> Matrix:
+        ...
+    def __truediv__(self, arg0: typing.SupportsFloat) -> Matrix:
+        ...
+    def column(self, index: typing.SupportsInt) -> Array:
+        """
+        Returns a column as an Array.
+        """
+    def columns(self) -> int:
+        """
+        Returns the number of columns.
+        """
+    def diagonal(self) -> Array:
+        """
+        Returns the diagonal as an Array.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the matrix is empty.
+        """
+    def rows(self) -> int:
+        """
+        Returns the number of rows.
+        """
+    def swap(self, other: Matrix) -> None:
+        """
+        Swaps contents with another matrix.
+        """
+    @property
+    def shape(self) -> tuple:
+        """
+        Returns (rows, columns) tuple.
+        """
+class MaxBasketPayoff(base.BasketPayoff):
+    """
+    Payoff based on maximum of basket prices.
+    """
+    def __init__(self, basePayoff: base.Payoff) -> None:
+        """
+        Constructs with base payoff.
+        """
+class Mexico(Calendar):
+    """
+    ! Holidays for the Mexican stock exchange
+            (data from <http://www.bmv.com.mx/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Constitution Day, first Monday in February
+                (February 5th before 2006)</li>
+            <li>Birthday of Benito Juarez, third Monday in February
+                (March 21st before 2006)</li>
+            <li>Holy Thursday</li>
+            <li>Good Friday</li>
+            <li>Labour Day, May 1st</li>
+            <li>National Day, September 16th</li>
+            <li>Inauguration Day, October 1st, every sixth year starting 2024</li>
+            <li>All Souls Day, November 2nd (bank holiday, not a public one)</li>
+            <li>Revolution Day, third Monday in November
+                (November 20th before 2006)</li>
+            <li>Our Lady of Guadalupe, December 12th</li>
+            <li>Christmas, December 25th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          BMV : !< Mexican stock exchange
+        """
+        BMV: typing.ClassVar[Mexico.Market]  # value = <Market.BMV: 0>
+        __members__: typing.ClassVar[dict[str, Mexico.Market]]  # value = {'BMV': <Market.BMV: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BMV: typing.ClassVar[Mexico.Market]  # value = <Market.BMV: 0>
+    def __init__(self, m: Mexico.Market = ...) -> None:
+        ...
+class MinBasketPayoff(base.BasketPayoff):
+    """
+    Payoff based on minimum of basket prices.
+    """
+    def __init__(self, basePayoff: base.Payoff) -> None:
+        """
+        Constructs with base payoff.
+        """
+class Money:
+    """
+    Amount of cash in a specific currency.
+    """
+    class ConversionType:
+        """
+        Conversion type for money arithmetic.
+        
+        Members:
+        
+          NoConversion : Do not perform conversions.
+        
+          BaseCurrencyConversion : Convert both operands to base currency.
+        
+          AutomatedConversion : Return result in the currency of the first operand.
+        """
+        AutomatedConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.AutomatedConversion: 2>
+        BaseCurrencyConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.BaseCurrencyConversion: 1>
+        NoConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.NoConversion: 0>
+        __members__: typing.ClassVar[dict[str, Money.ConversionType]]  # value = {'NoConversion': <ConversionType.NoConversion: 0>, 'BaseCurrencyConversion': <ConversionType.BaseCurrencyConversion: 1>, 'AutomatedConversion': <ConversionType.AutomatedConversion: 2>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    class Settings:
+        """
+        Per-session settings for Money arithmetic.
+        """
+        @staticmethod
+        def instance() -> Money.Settings:
+            """
+            Returns the singleton instance.
+            """
+        @property
+        def baseCurrency(self) -> Currency:
+            """
+            The base currency used for conversions.
+            """
+        @baseCurrency.setter
+        def baseCurrency(self, arg1: Currency) -> None:
+            ...
+        @property
+        def conversionType(self) -> Money.ConversionType:
+            """
+            The conversion type used for money arithmetic.
+            """
+        @conversionType.setter
+        def conversionType(self, arg1: Money.ConversionType) -> None:
+            ...
+    AutomatedConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.AutomatedConversion: 2>
+    BaseCurrencyConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.BaseCurrencyConversion: 1>
+    NoConversion: typing.ClassVar[Money.ConversionType]  # value = <ConversionType.NoConversion: 0>
+    __hash__: typing.ClassVar[None] = None
+    def __eq__(self, arg0: Money) -> bool:
+        ...
+    def __ge__(self, arg0: Money) -> bool:
+        ...
+    def __gt__(self, arg0: Money) -> bool:
+        ...
+    def __iadd__(self, other: Money) -> Money:
+        ...
+    def __imul__(self, factor: typing.SupportsFloat) -> Money:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor.
+        """
+    @typing.overload
+    def __init__(self, currency: Currency, value: typing.SupportsFloat) -> None:
+        """
+        Constructs from currency and value.
+        """
+    @typing.overload
+    def __init__(self, value: typing.SupportsFloat, currency: Currency) -> None:
+        """
+        Constructs from value and currency.
+        """
+    def __isub__(self, other: Money) -> Money:
+        ...
+    def __itruediv__(self, divisor: typing.SupportsFloat) -> Money:
+        ...
+    def __le__(self, arg0: Money) -> bool:
+        ...
+    def __lt__(self, arg0: Money) -> bool:
+        ...
+    def __ne__(self, arg0: Money) -> bool:
+        ...
+    def __neg__(self) -> Money:
+        ...
+    def __pos__(self) -> Money:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def currency(self) -> Currency:
+        """
+        Returns the currency.
+        """
+    def rounded(self) -> Money:
+        """
+        Returns the amount rounded according to the currency.
+        """
+    def value(self) -> float:
+        """
+        Returns the amount.
+        """
+class Month:
+    """
+    Month names enumeration.
+    
+    Members:
+    
+      January
+    
+      February
+    
+      March
+    
+      April
+    
+      May
+    
+      June
+    
+      July
+    
+      August
+    
+      September
+    
+      October
+    
+      November
+    
+      December
+    
+      Jan
+    
+      Feb
+    
+      Mar
+    
+      Apr
+    
+      Jun
+    
+      Jul
+    
+      Aug
+    
+      Sep
+    
+      Oct
+    
+      Nov
+    
+      Dec
+    """
+    Apr: typing.ClassVar[Month]  # value = <Month.April: 4>
+    April: typing.ClassVar[Month]  # value = <Month.April: 4>
+    Aug: typing.ClassVar[Month]  # value = <Month.August: 8>
+    August: typing.ClassVar[Month]  # value = <Month.August: 8>
+    Dec: typing.ClassVar[Month]  # value = <Month.December: 12>
+    December: typing.ClassVar[Month]  # value = <Month.December: 12>
+    Feb: typing.ClassVar[Month]  # value = <Month.February: 2>
+    February: typing.ClassVar[Month]  # value = <Month.February: 2>
+    Jan: typing.ClassVar[Month]  # value = <Month.January: 1>
+    January: typing.ClassVar[Month]  # value = <Month.January: 1>
+    Jul: typing.ClassVar[Month]  # value = <Month.July: 7>
+    July: typing.ClassVar[Month]  # value = <Month.July: 7>
+    Jun: typing.ClassVar[Month]  # value = <Month.June: 6>
+    June: typing.ClassVar[Month]  # value = <Month.June: 6>
+    Mar: typing.ClassVar[Month]  # value = <Month.March: 3>
+    March: typing.ClassVar[Month]  # value = <Month.March: 3>
+    May: typing.ClassVar[Month]  # value = <Month.May: 5>
+    Nov: typing.ClassVar[Month]  # value = <Month.November: 11>
+    November: typing.ClassVar[Month]  # value = <Month.November: 11>
+    Oct: typing.ClassVar[Month]  # value = <Month.October: 10>
+    October: typing.ClassVar[Month]  # value = <Month.October: 10>
+    Sep: typing.ClassVar[Month]  # value = <Month.September: 9>
+    September: typing.ClassVar[Month]  # value = <Month.September: 9>
+    __members__: typing.ClassVar[dict[str, Month]]  # value = {'January': <Month.January: 1>, 'February': <Month.February: 2>, 'March': <Month.March: 3>, 'April': <Month.April: 4>, 'May': <Month.May: 5>, 'June': <Month.June: 6>, 'July': <Month.July: 7>, 'August': <Month.August: 8>, 'September': <Month.September: 9>, 'October': <Month.October: 10>, 'November': <Month.November: 11>, 'December': <Month.December: 12>, 'Jan': <Month.January: 1>, 'Feb': <Month.February: 2>, 'Mar': <Month.March: 3>, 'Apr': <Month.April: 4>, 'Jun': <Month.June: 6>, 'Jul': <Month.July: 7>, 'Aug': <Month.August: 8>, 'Sep': <Month.September: 9>, 'Oct': <Month.October: 10>, 'Nov': <Month.November: 11>, 'Dec': <Month.December: 12>}
+    def __add__(self, arg0: typing.SupportsInt) -> Month:
+        ...
+    def __and__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __ge__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __gt__(self, other: typing.Any) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __invert__(self) -> typing.Any:
+        ...
+    def __le__(self, other: typing.Any) -> bool:
+        ...
+    def __lt__(self, other: typing.Any) -> bool:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __or__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __radd__(self: typing.SupportsInt, arg0: Month) -> Month:
+        ...
+    def __rand__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __ror__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rsub__(self: typing.SupportsInt, arg0: Month) -> Month:
+        ...
+    def __rxor__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __sub__(self, arg0: typing.SupportsInt) -> Month:
+        ...
+    def __xor__(self, other: typing.Any) -> typing.Any:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class MoreGreeks:
+    """
+    Container for additional Greeks.
+    """
+    def __init__(self) -> None:
+        ...
+    @property
+    def itmCashProbability(self) -> float:
+        """
+        ITM cash probability.
+        """
+    @itmCashProbability.setter
+    def itmCashProbability(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def strikeSensitivity(self) -> float:
+        """
+        Strike sensitivity.
+        """
+    @strikeSensitivity.setter
+    def strikeSensitivity(self, arg0: typing.SupportsFloat) -> None:
+        ...
+class NGNCurrency(Currency):
+    """
+    ! Nigerian Naira
+    /*! The ISO three-letter code is NGN; the numeric code is 566.
+         It is divided into 100 kobo.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class NLGCurrency(Currency):
+    """
+    ! The ISO three-letter code was NLG; the numeric code was 528.
+            It was divided in 100 cents.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class NOKCurrency(Currency):
+    """
+    ! The ISO three-letter code is NOK; the numeric code is 578.
+            It is divided in 100 �re.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class NPRCurrency(Currency):
+    """
+    ! The ISO three-letter code is NPR; the numeric code is 524.
+            It is divided in 100 paise.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class NZDCurrency(Currency):
+    """
+    ! The ISO three-letter code is NZD; the numeric code is 554.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class NewZealand(Calendar):
+    """
+    ! Common holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday or Tuesday)</li>
+            <li>Day after New Year's Day, January 2st (possibly moved to Monday or Tuesday)</li>
+            <li>Waitangi Day. February 6th (possibly moved to Monday since 2013)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>ANZAC Day. April 25th (possibly moved to Monday since 2013)</li>
+            <li>Queen's Birthday, first Monday in June</li>
+            <li>Labour Day, fourth Monday in October</li>
+            <li>Christmas, December 25th (possibly moved to Monday or Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or Tuesday)</li>
+            <li>Matariki, in June or July, official calendar released for years 2022-2052</li>
+            </ul>
+    
+            Additional holidays for Wellington:
+            <ul>
+            <li>Anniversary Day, Monday nearest January 22nd</li>
+            </ul>
+    
+            Additional holidays for Auckland:
+            <ul>
+            <li>Anniversary Day, Monday nearest January 29nd</li>
+            </ul>
+    
+            
+    ote The holiday rules for New Zealand were documented by
+                  David Gilbert for IDB (http://www.jrefinery.com/ibd/)
+                  The Matariki holiday calendar has been released by the NZ Government
+                  (https://www.legislation.govt.nz/act/public/2022/0014/latest/LMS557893.html)
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        ! NZ calendars
+        
+        Members:
+        
+          Wellington : 
+        
+          Auckland : 
+        """
+        Auckland: typing.ClassVar[NewZealand.Market]  # value = <Market.Auckland: 1>
+        Wellington: typing.ClassVar[NewZealand.Market]  # value = <Market.Wellington: 0>
+        __members__: typing.ClassVar[dict[str, NewZealand.Market]]  # value = {'Wellington': <Market.Wellington: 0>, 'Auckland': <Market.Auckland: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Auckland: typing.ClassVar[NewZealand.Market]  # value = <Market.Auckland: 1>
+    Wellington: typing.ClassVar[NewZealand.Market]  # value = <Market.Wellington: 0>
+    def __init__(self) -> None:
+        ...
+class NoConstraint(base.Constraint):
+    """
+    No constraint (always satisfied).
+    """
+    def __init__(self) -> None:
+        ...
+class NoExceptLocalVolSurface(LocalVolSurface):
+    """
+    Local volatility surface that returns a fallback value instead of throwing.
+    """
+    @typing.overload
+    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: QuoteHandle, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+        """
+        Constructs with quote handle for underlying.
+        """
+    @typing.overload
+    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+        """
+        Constructs with fixed underlying value.
+        """
+class Norway(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Holy Thursday</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Ascension</li>
+            <li>Whit(Pentecost) Monday </li>
+            <li>New Year's Day, January 1st</li>
+            <li>May Day, May 1st</li>
+            <li>National Independence Day, May 17th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class NullCalendar(Calendar):
+    """
+    ! This calendar has no holidays. It ensures that dates at
+            whole-month distances have the same day of month.
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class NullReal:
+    def __float__(self) -> float:
+        ...
+    def __init__(self) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __repr__(self) -> str:
+        ...
+class NullSize:
+    def __float__(self) -> float:
+        ...
+    def __init__(self) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __repr__(self) -> str:
+        ...
+class OMRCurrency(Currency):
+    """
+    ! Omani rial
+    /*! The ISO three-letter code is OMR; the numeric code is 512.
+         It is divided into 1000 baisa.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class Observable:
+    """
+    Core observable class in QuantLib's Observer pattern
+    
+    Maintains a list of observers and notifies them of state changes.
+    """
+    def __init__(self) -> None:
+        """
+        Default constructor for the Observable.
+        """
+    def notifyObservers(self) -> None:
+        """
+        Notify all registered observers of state changes.
+        This version broadcasts a generic notification without event details.
+        """
+class ObservableValue_Date:
+    """
+    Observable and assignable proxy to a Date value.
+    
+    Observers can be registered with instances of this class so that they are notified when a different value is assigned. Client code can copy the contained value or pass it to functions via implicit conversion.
+    
+    Note: It is not possible to call non-const methods on the returned value. This is by design, as this would bypass the notification mechanism; modify the value via re-assignment instead.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, date: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, other: ObservableValue_Date) -> None:
+        ...
+    def value(self) -> ...:
+        """
+        Returns the current value.
+        """
+class OneDayCounter(DayCounter):
+    """
+    1/1 day count convention.
+    """
+    def __init__(self) -> None:
+        ...
+class OperatorSplittingSpreadEngine(base.SpreadBlackScholesVanillaEngine):
+    """
+    Operator splitting analytical approximation for spread options.
+    """
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+        """
+        Constructs with two Black-Scholes processes and correlation.
+        """
+class OptionType:
+    """
+    Option type (call or put).
+    
+    Members:
+    
+      Call : Call option.
+    
+      Put : Put option.
+    """
+    Call: typing.ClassVar[OptionType]  # value = <OptionType.Call: 1>
+    Put: typing.ClassVar[OptionType]  # value = <OptionType.Put: -1>
+    __members__: typing.ClassVar[dict[str, OptionType]]  # value = {'Call': <OptionType.Call: 1>, 'Put': <OptionType.Put: -1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class PEHCurrency(Currency):
+    """
+    ! The ISO three-letter code was PEH. A numeric code is not available;
+            as per ISO 3166-1, we assign 999 as a user-defined code.
+            It was divided in 100 centavos.
+    
+            Obsoleted by the inti since February 1985.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class PEICurrency(Currency):
+    """
+    ! The ISO three-letter code was PEI.
+            It was divided in 100 centimos. A numeric code is not available;
+            as per ISO 3166-1, we assign 998 as a user-defined code.
+    
+            Obsoleted by the nuevo sol since July 1991.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class PENCurrency(Currency):
+    """
+    ! The ISO three-letter code is PEN; the numeric code is 604.
+            It is divided in 100 centimos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class PHPCurrency(Currency):
+    """
+    ! Philippine peso
+    /*! The ISO three-letter code is PHP; the numeric code is 608.
+         It is divided into 100 centavo.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class PKRCurrency(Currency):
+    """
+    ! The ISO three-letter code is PKR; the numeric code is 586.
+            It is divided in 100 paisa.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class PLNCurrency(Currency):
+    """
+    ! The ISO three-letter code is PLN; the numeric code is 985.
+            It is divided in 100 groszy.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class PTECurrency(Currency):
+    """
+    ! The ISO three-letter code was PTE; the numeric code was 620.
+            It was divided in 100 centavos.
+    
+            Obsoleted by the Euro since 1999.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Parameter:
+    """
+    Model parameter with constraint.
+    """
+    def __call__(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns parameter value at time t.
+        """
+    def __init__(self) -> None:
+        ...
+    def constraint(self) -> base.Constraint:
+        """
+        Returns the parameter constraint.
+        """
+    def params(self) -> Array:
+        """
+        Returns parameter values.
+        """
+    def setParam(self, i: typing.SupportsInt, x: typing.SupportsFloat) -> None:
+        """
+        Sets the i-th parameter value.
+        """
+    def size(self) -> int:
+        """
+        Returns number of parameters.
+        """
+    def testParams(self, params: Array) -> bool:
+        """
+        Tests if parameters satisfy constraint.
+        """
+class Period:
+    """
+    Time period represented by length and units.
+    """
+    def __add__(self, arg0: Period) -> Period:
+        ...
+    def __eq__(self, arg0: Period) -> bool:
+        ...
+    def __ge__(self, arg0: Period) -> bool:
+        ...
+    def __gt__(self, arg0: Period) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __iadd__(self, arg0: Period) -> Period:
+        ...
+    def __imul__(self, arg0: typing.SupportsInt) -> Period:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, length: typing.SupportsInt, units: TimeUnit) -> None:
+        ...
+    @typing.overload
+    def __init__(self, frequency: Frequency) -> None:
+        ...
+    @typing.overload
+    def __init__(self, arg0: str) -> None:
+        """
+        Create Period from a string like '3M', '2Y', etc.
+        """
+    def __isub__(self, arg0: Period) -> Period:
+        ...
+    def __itruediv__(self, arg0: typing.SupportsInt) -> Period:
+        ...
+    def __le__(self, arg0: Period) -> bool:
+        ...
+    def __lt__(self, arg0: Period) -> bool:
+        ...
+    def __mul__(self, arg0: typing.SupportsInt) -> Period:
+        ...
+    def __ne__(self, arg0: Period) -> bool:
+        ...
+    def __neg__(self) -> Period:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __rmul__(self, arg0: typing.SupportsInt) -> Period:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __sub__(self, arg0: Period) -> Period:
+        ...
+    def __truediv__(self, arg0: typing.SupportsInt) -> Period:
+        ...
+    def frequency(self) -> Frequency:
+        ...
+    def length(self) -> int:
+        ...
+    def normalize(self) -> None:
+        ...
+    def normalized(self) -> Period:
+        ...
+    def units(self) -> TimeUnit:
+        ...
+class PiecewiseTimeDependentHestonModel(base.CalibratedModel):
+    """
+    Piecewise time-dependent Heston stochastic volatility model.
+    """
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, theta: Parameter, kappa: Parameter, sigma: Parameter, rho: Parameter, timeGrid: TimeGrid) -> None:
+        """
+        Constructs time-dependent Heston model.
+        """
+    def dividendYield(self) -> YieldTermStructureHandle:
+        """
+        Returns dividend yield term structure.
+        """
+    def kappa(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns kappa at time t.
+        """
+    def rho(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns rho at time t.
+        """
+    def riskFreeRate(self) -> YieldTermStructureHandle:
+        """
+        Returns risk-free rate term structure.
+        """
+    def s0(self) -> float:
+        """
+        Returns initial spot price.
+        """
+    def sigma(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns sigma at time t.
+        """
+    def theta(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns theta at time t.
+        """
+    def timeGrid(self) -> TimeGrid:
+        """
+        Returns the time grid.
+        """
+    def v0(self) -> float:
+        """
+        Returns initial variance.
+        """
+class PlainVanillaPayoff(base.StrikedTypePayoff):
+    """
+    Plain vanilla payoff (max(S-K,0) for call, max(K-S,0) for put).
+    """
+    def __init__(self, type: OptionType, strike: typing.SupportsFloat) -> None:
+        ...
+class Poland(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Easter Monday</li>
+            <li>Corpus Christi</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th (since 2011)</li>
+            <li>May Day, May 1st</li>
+            <li>Constitution Day, May 3rd</li>
+            <li>Assumption of the Blessed Virgin Mary, August 15th</li>
+            <li>All Saints Day, November 1st</li>
+            <li>Independence Day, November 11th</li>
+            <li>Christmas, December 25th</li>
+            <li>2nd Day of Christmas, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        ! PL calendars
+        
+        Members:
+        
+          Settlement : !< Settlement calendar
+        
+          WSE : !< Warsaw stock exchange calendar
+        """
+        Settlement: typing.ClassVar[Poland.Market]  # value = <Market.Settlement: 0>
+        WSE: typing.ClassVar[Poland.Market]  # value = <Market.WSE: 1>
+        __members__: typing.ClassVar[dict[str, Poland.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'WSE': <Market.WSE: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Settlement: typing.ClassVar[Poland.Market]  # value = <Market.Settlement: 0>
+    WSE: typing.ClassVar[Poland.Market]  # value = <Market.WSE: 1>
+    def __init__(self) -> None:
+        ...
+class PositiveConstraint(base.Constraint):
+    """
+    Constraint enforcing positive values.
+    """
+    def __init__(self) -> None:
+        ...
+class Problem:
+    """
+    Constrained optimization problem.
+    """
+    def __init__(self, costFunction: base.CostFunction, constraint: base.Constraint, initialValue: Array) -> None:
+        """
+        Creates an optimization problem.
+        """
+    def constraint(self) -> base.Constraint:
+        """
+        Returns the constraint.
+        """
+    def costFunction(self) -> base.CostFunction:
+        """
+        Returns the cost function.
+        """
+    def currentValue(self) -> Array:
+        """
+        Returns the current parameter values.
+        """
+    def functionValue(self) -> float:
+        """
+        Returns the current function value.
+        """
+    def value(self, x: Array) -> float:
+        """
+        Evaluates the cost function at the given point.
+        """
+    def values(self, x: Array) -> Array:
+        """
+        Evaluates the cost function values at the given point.
+        """
+class QARCurrency(Currency):
+    """
+    ! Qatari riyal
+    /*! The ISO three-letter code is QAR; the numeric code is 634.
+         It is divided into 100 diram.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class QuoteHandle:
+    """
+    Handle to Quote objects
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: QuoteHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.Quote, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: QuoteHandle) -> bool:
+        ...
+    def __ne__(self, arg0: QuoteHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.Quote:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.Quote:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
+class ROLCurrency(Currency):
+    """
+    ! The ISO three-letter code was ROL; the numeric code was 642.
+            It was divided in 100 bani.
+    
+            Obsoleted by the new leu since July 2005.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class RONCurrency(Currency):
+    """
+    ! The ISO three-letter code is RON; the numeric code is 946.
+            It is divided in 100 bani.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class RSDCurrency(Currency):
+    """
+    ! The ISO three-letter code is RSD; the numeric code is 941.
+            It is divided into 100 para/napa.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class RUBCurrency(Currency):
+    """
+    ! The ISO three-letter code is RUB; the numeric code is 643.
+            It is divided in 100 kopeyki.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Redemption(SimpleCashFlow):
+    """
+    Bond redemption payment.
+    """
+    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+        """
+        Constructs a redemption with the given amount and date.
+        """
+class RelinkableBlackVolTermStructureHandle(BlackVolTermStructureHandle):
+    """
+    Relinkable handle to BlackVolTermStructure.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.BlackVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: base.BlackVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class RelinkableLocalVolTermStructureHandle(LocalVolTermStructureHandle):
+    """
+    Relinkable handle to LocalVolTermStructure.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.LocalVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: base.LocalVolTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class RelinkableQuoteHandle(QuoteHandle):
+    """
+    Relinkable handle to Quote objects
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.Quote, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: base.Quote, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class RelinkableYieldTermStructureHandle(YieldTermStructureHandle):
+    """
+    Relinkable handle to YieldTermStructure.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.YieldTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: base.YieldTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class Romania(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li> Day after New Year's Day, January 2nd</li>
+            <li>Unification Day, January 24th</li>
+            <li>Orthodox Easter (only Sunday and Monday)</li>
+            <li>Labour Day, May 1st</li>
+            <li>Pentecost with Monday (50th and 51st days after the
+                Othodox Easter)</li>
+            <li>Children's Day, June 1st (since 2017)</li>
+            <li>St Marys Day, August 15th</li>
+            <li>Feast of St Andrew, November 30th</li>
+            <li>National Day, December 1st</li>
+            <li>Christmas, December 25th</li>
+            <li>2nd Day of Christmas, December 26th</li>
+            </ul>
+    
+            Holidays for the Bucharest stock exchange
+            (data from <http://www.bvb.ro/Marketplace/TradingCalendar/index.aspx>):
+            all public holidays, plus a few one-off closing days (2014 only).
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Public : !< Public holidays
+        
+          BVB : !< Bucharest stock-exchange
+        """
+        BVB: typing.ClassVar[Romania.Market]  # value = <Market.BVB: 1>
+        Public: typing.ClassVar[Romania.Market]  # value = <Market.Public: 0>
+        __members__: typing.ClassVar[dict[str, Romania.Market]]  # value = {'Public': <Market.Public: 0>, 'BVB': <Market.BVB: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BVB: typing.ClassVar[Romania.Market]  # value = <Market.BVB: 1>
+    Public: typing.ClassVar[Romania.Market]  # value = <Market.Public: 0>
+    def __init__(self, market: Romania.Market = ...) -> None:
+        ...
+class Rounding:
+    """
+    Basic rounding convention.
+    """
+    class Type:
+        """
+        Rounding type enumeration.
+        
+        Members:
+        
+          None_ : No rounding.
+        
+          Up : Round up.
+        
+          Down : Round down.
+        
+          Closest : Round to the closest.
+        
+          Floor : Round to the largest integer not greater than x.
+        
+          Ceiling : Round to the smallest integer not less than x.
+        """
+        Ceiling: typing.ClassVar[Rounding.Type]  # value = <Type.Ceiling: 5>
+        Closest: typing.ClassVar[Rounding.Type]  # value = <Type.Closest: 3>
+        Down: typing.ClassVar[Rounding.Type]  # value = <Type.Down: 2>
+        Floor: typing.ClassVar[Rounding.Type]  # value = <Type.Floor: 4>
+        None_: typing.ClassVar[Rounding.Type]  # value = <Type.None_: 0>
+        Up: typing.ClassVar[Rounding.Type]  # value = <Type.Up: 1>
+        __members__: typing.ClassVar[dict[str, Rounding.Type]]  # value = {'None_': <Type.None_: 0>, 'Up': <Type.Up: 1>, 'Down': <Type.Down: 2>, 'Closest': <Type.Closest: 3>, 'Floor': <Type.Floor: 4>, 'Ceiling': <Type.Ceiling: 5>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    def __call__(self, value: typing.SupportsFloat) -> float:
+        """
+        Rounds the given value.
+        """
+    def __init__(self, precision: typing.SupportsInt, type: Rounding.Type = ..., digit: typing.SupportsInt = 5) -> None:
+        """
+        Creates a rounding convention.
+        """
+    @property
+    def precision(self) -> int:
+        """
+        Returns the precision.
+        """
+    @property
+    def roundingDigit(self) -> int:
+        """
+        Returns the rounding digit.
+        """
+    @property
+    def type(self) -> Rounding.Type:
+        """
+        Returns the rounding type.
+        """
+class Russia(Calendar):
+    """
+    ! Public holidays (see <http://www.cbr.ru/eng/>:):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year holidays, January 1st to 5th (only 1st and 2nd
+                until 2005)</li>
+            <li>Christmas, January 7th (possibly moved to Monday)</li>
+            <li>Defender of the Fatherland Day, February 23rd (possibly
+                moved to Monday)</li>
+            <li>International Women's Day, March 8th (possibly moved to
+                Monday)</li>
+            <li>Labour Day, May 1st (possibly moved to Monday)</li>
+            <li>Victory Day, May 9th (possibly moved to Monday)</li>
+            <li>Russia Day, June 12th (possibly moved to Monday)</li>
+            <li>Unity Day, November 4th (possibly moved to Monday)</li>
+            </ul>
+    
+            Holidays for the Moscow Exchange (MOEX) taken from
+            <http://moex.com/s726> and related pages.  These holidays are
+            <em>not</em> consistent year-to-year, may or may not correlate
+            to public holidays, and are only available for dates since the
+            introduction of the MOEX 'brand' (a merger of the stock and
+            futures markets).
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        ! Russian calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          MOEX : !< Moscow Exchange calendar
+        """
+        MOEX: typing.ClassVar[Russia.Market]  # value = <Market.MOEX: 1>
+        Settlement: typing.ClassVar[Russia.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, Russia.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'MOEX': <Market.MOEX: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    MOEX: typing.ClassVar[Russia.Market]  # value = <Market.MOEX: 1>
+    Settlement: typing.ClassVar[Russia.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, param_0: Russia.Market = ...) -> None:
+        ...
+class SARCurrency(Currency):
+    """
+    ! The ISO three-letter code is SAR; the numeric code is 682.
+            It is divided in 100 halalat.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class SEKCurrency(Currency):
+    """
+    ! The ISO three-letter code is SEK; the numeric code is 752.
+            It is divided in 100 �re.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class SGDCurrency(Currency):
+    """
+    ! The ISO three-letter code is SGD; the numeric code is 702.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class SITCurrency(Currency):
+    """
+    ! The ISO three-letter code is SIT; the numeric code is 705.
+            It is divided in 100 stotinov.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class SKKCurrency(Currency):
+    """
+    ! The ISO three-letter code is SKK; the numeric code is 703.
+            It was divided in 100 halierov.
+    
+            Obsoleted by the Euro since 2009.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class SaudiArabia(Calendar):
+    """
+    ! Holidays for the Tadawul financial market
+            (data from <http://www.tadawul.com.sa>):
+            <ul>
+            <li>Thursdays</li>
+            <li>Fridays</li>
+            <li>National Day of Saudi Arabia, September 23rd</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available sparsely for 2004-2011 only:)
+            <ul>
+            <li>Eid Al-Adha</li>
+            <li>Eid Al-Fitr</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Tadawul : !< Tadawul financial market
+        """
+        Tadawul: typing.ClassVar[SaudiArabia.Market]  # value = <Market.Tadawul: 0>
+        __members__: typing.ClassVar[dict[str, SaudiArabia.Market]]  # value = {'Tadawul': <Market.Tadawul: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Tadawul: typing.ClassVar[SaudiArabia.Market]  # value = <Market.Tadawul: 0>
+    def __init__(self, m: SaudiArabia.Market = ...) -> None:
+        ...
+class SavedSettings:
+    """
+    Temporarily stores and restores global settings.
+    """
+    def __enter__(self) -> SavedSettings:
+        ...
+    def __exit__(self, arg0: typing.Any, arg1: typing.Any, arg2: typing.Any) -> None:
+        ...
+    def __init__(self) -> None:
+        ...
+class Schedule:
+    """
+    Payment schedule for a financial instrument.
+    """
+    def __getitem__(self, arg0: typing.SupportsInt) -> Date:
+        ...
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], calendar: Calendar = ..., convention: BusinessDayConvention = ..., terminationDateConvention: pyquantlib._pyquantlib.BusinessDayConvention | None = None, tenor: pyquantlib._pyquantlib.Period | None = None, rule: pyquantlib._pyquantlib.DateGeneration.Rule | None = None, endOfMonth: bool | None = None, isRegular: collections.abc.Sequence[bool] = []) -> None:
+        ...
+    @typing.overload
+    def __init__(self, effectiveDate: Date, terminationDate: Date, tenor: Period, calendar: Calendar, convention: BusinessDayConvention, terminationDateConvention: BusinessDayConvention, rule: DateGeneration.Rule, endOfMonth: bool, firstDate: Date = ..., nextToLastDate: Date = ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    def __iter__(self) -> collections.abc.Iterator[Date]:
+        ...
+    def __len__(self) -> int:
+        ...
+    def after(self, arg0: Date) -> Schedule:
+        ...
+    def at(self, arg0: typing.SupportsInt) -> Date:
+        ...
+    def back(self) -> Date:
+        ...
+    def businessDayConvention(self) -> BusinessDayConvention:
+        ...
+    def calendar(self) -> Calendar:
+        ...
+    def date(self, arg0: typing.SupportsInt) -> Date:
+        ...
+    def dates(self) -> list[Date]:
+        ...
+    def empty(self) -> bool:
+        ...
+    def endDate(self) -> Date:
+        ...
+    def endOfMonth(self) -> bool:
+        ...
+    def front(self) -> Date:
+        ...
+    def hasEndOfMonth(self) -> bool:
+        ...
+    def hasIsRegular(self) -> bool:
+        ...
+    def hasRule(self) -> bool:
+        ...
+    def hasTenor(self) -> bool:
+        ...
+    def hasTerminationDateBusinessDayConvention(self) -> bool:
+        ...
+    @typing.overload
+    def isRegular(self, arg0: typing.SupportsInt) -> bool:
+        ...
+    @typing.overload
+    def isRegular(self) -> list[bool]:
+        ...
+    def lower_bound(self, date: Date = ...) -> ...:
+        ...
+    def nextDate(self, arg0: Date) -> Date:
+        ...
+    def previousDate(self, arg0: Date) -> Date:
+        ...
+    def rule(self) -> DateGeneration.Rule:
+        ...
+    def startDate(self) -> Date:
+        ...
+    def tenor(self) -> Period:
+        ...
+    def terminationDateBusinessDayConvention(self) -> BusinessDayConvention:
+        ...
+    def until(self, arg0: Date) -> Schedule:
+        ...
+class Settings:
+    """
+    Global repository for run-time library settings.
+    """
+    @staticmethod
+    def instance() -> Settings:
+        """
+        Returns the singleton instance.
+        """
+    def anchorEvaluationDate(self) -> None:
+        """
+        Prevents the evaluation date from advancing automatically.
+        """
+    def resetEvaluationDate(self) -> None:
+        """
+        Resets the evaluation date to today and allows automatic advancement.
+        """
+    def setEvaluationDate(self, date: Date) -> None:
+        """
+        Sets the evaluation date.
+        """
+    @property
+    def enforcesTodaysHistoricFixings(self) -> bool:
+        """
+        Whether to enforce historic fixings for today.
+        """
+    @enforcesTodaysHistoricFixings.setter
+    def enforcesTodaysHistoricFixings(self, arg1: bool) -> None:
+        ...
+    @property
+    def evaluationDate(self) -> Date:
+        """
+        The evaluation date for pricing calculations.
+        """
+    @evaluationDate.setter
+    def evaluationDate(self, arg1: Date) -> None:
+        ...
+    @property
+    def includeReferenceDateEvents(self) -> bool:
+        """
+        Whether events on the reference date are included.
+        """
+    @includeReferenceDateEvents.setter
+    def includeReferenceDateEvents(self, arg1: bool) -> None:
+        ...
+    @property
+    def includeTodaysCashFlows(self) -> bool | None:
+        """
+        Whether to include today's cash flows (optional).
+        """
+    @includeTodaysCashFlows.setter
+    def includeTodaysCashFlows(self, arg1: bool | None) -> None:
+        ...
+class SimpleCashFlow(base.CashFlow):
+    """
+    Simple cash flow paying a fixed amount on a given date.
+    """
+    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+        """
+        Constructs a cash flow with the given amount and date.
+        """
+class SimpleDayCounter(DayCounter):
+    """
+    Simple day counter returning whole-month distances as simple fractions (1 year = 1.0, 6 months = 0.5, etc.). Use with NullCalendar.
+    """
+    def __init__(self) -> None:
+        ...
+class SimpleQuote(base.Quote):
+    """
+    Simple quote for market data.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs an invalid SimpleQuote.
+        """
+    @typing.overload
+    def __init__(self, value: typing.SupportsFloat) -> None:
+        """
+        Constructs a SimpleQuote with the given value.
+        """
+    def isValid(self) -> bool:
+        """
+        Returns true if the quote holds a valid value.
+        """
+    def reset(self) -> None:
+        """
+        Resets the quote to an invalid state.
+        """
+    def setValue(self, value: typing.SupportsFloat) -> float:
+        """
+        Sets the quote value and notifies observers.
+        """
+    def value(self) -> float:
+        """
+        Returns the current value.
+        """
+class Singapore(Calendar):
+    """
+    ! Holidays for the Singapore exchange
+            (data from
+             <http://www.sgx.com/wps/portal/sgxweb/home/trading/securities/trading_hours_calendar>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's day, January 1st</li>
+            <li>Good Friday</li>
+            <li>Labour Day, May 1st</li>
+            <li>National Day, August 9th</li>
+            <li>Christmas, December 25th </li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2004-2010, 2012-2014, 2019-2024 only:)
+            <ul>
+            <li>Chinese New Year</li>
+            <li>Hari Raya Haji</li>
+            <li>Vesak Poya Day</li>
+            <li>Deepavali</li>
+            <li>Diwali</li>
+            <li>Hari Raya Puasa</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          SGX : !< Singapore exchange
+        """
+        SGX: typing.ClassVar[Singapore.Market]  # value = <Market.SGX: 0>
+        __members__: typing.ClassVar[dict[str, Singapore.Market]]  # value = {'SGX': <Market.SGX: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    SGX: typing.ClassVar[Singapore.Market]  # value = <Market.SGX: 0>
+    def __init__(self, m: Singapore.Market = ...) -> None:
+        ...
+class Slovakia(Calendar):
+    """
+    ! Holidays for the Bratislava stock exchange
+            (data from <http://www.bsse.sk/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>May Day, May 1st</li>
+            <li>Liberation of the Republic, May 8th</li>
+            <li>SS. Cyril and Methodius, July 5th</li>
+            <li>Slovak National Uprising, August 29th</li>
+            <li>Constitution of the Slovak Republic, September 1st</li>
+            <li>Our Lady of the Seven Sorrows, September 15th</li>
+            <li>All Saints Day, November 1st</li>
+            <li>Freedom and Democracy of the Slovak Republic, November 17th</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          BSSE : !< Bratislava stock exchange
+        """
+        BSSE: typing.ClassVar[Slovakia.Market]  # value = <Market.BSSE: 0>
+        __members__: typing.ClassVar[dict[str, Slovakia.Market]]  # value = {'BSSE': <Market.BSSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BSSE: typing.ClassVar[Slovakia.Market]  # value = <Market.BSSE: 0>
+    def __init__(self, m: Slovakia.Market = ...) -> None:
+        ...
+class SouthAfrica(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Family Day, Easter Monday</li>
+            <li>Human Rights Day, March 21st (possibly moved to Monday)</li>
+            <li>Freedom Day, April 27th (possibly moved to Monday)</li>
+            <li>Workers Day, May 1st (possibly moved to Monday)</li>
+            <li>Youth Day, June 16th (possibly moved to Monday)</li>
+            <li>National Women's Day, August 9th
+            (possibly moved to Monday)</li>
+            <li>Heritage Day, September 24th (possibly moved to Monday)</li>
+            <li>Day of Reconciliation, December 16th
+            (possibly moved to Monday)</li>
+            <li>Christmas, December 25th </li>
+            <li>Day of Goodwill, December 26th (possibly moved to Monday)</li>
+            <li>Election Days</li>
+            </ul>
+    
+            Note that there are some one-off holidays not listed above.
+            See the implementation for the complete list.
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class SouthKorea(Calendar):
+    """
+    ! Public holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Independence Day, March 1st</li>
+            <li>Arbour Day, April 5th (until 2005)</li>
+            <li>Labour Day, May 1st</li>
+            <li>Children's Day, May 5th</li>
+            <li>Memorial Day, June 6th</li>
+            <li>Constitution Day, July 17th (until 2007)</li>
+            <li>Liberation Day, August 15th</li>
+            <li>National Fondation Day, October 3th</li>
+            <li>Hangeul Day, October 9th (from 2013)</li>
+            <li>Christmas Day, December 25th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2004-2050 only:)
+            <ul>
+            <li>Lunar New Year, the last day of the previous lunar year</li>
+            <li>Election Days</li>
+            <li>National Assemblies</li>
+            <li>Presidency</li>
+            <li>Regional Election Days</li>
+            <li>Buddha's birthday</li>
+            <li>Harvest Moon Day</li>
+            </ul>
+    
+            Holidays for the Korea exchange
+            (data from
+            <http://eng.krx.co.kr/> or
+            <http://www.dooriworld.com/daishin/holiday/holiday.html>
+            <https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B4%80%EA%B3%B5%EC%84%9C%EC%9D%98%20%EA%B3%B5%ED%9C%B4%EC%9D%BC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B7%9C%EC%A0%95>):
+            <ul>
+            <li>Public holidays as listed above</li>
+            <li>Year-end closing</li>
+            <li>Occasional closing days</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          Settlement : !< Public holidays
+        
+          KRX : !< Korea exchange
+        """
+        KRX: typing.ClassVar[SouthKorea.Market]  # value = <Market.KRX: 1>
+        Settlement: typing.ClassVar[SouthKorea.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, SouthKorea.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'KRX': <Market.KRX: 1>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    KRX: typing.ClassVar[SouthKorea.Market]  # value = <Market.KRX: 1>
+    Settlement: typing.ClassVar[SouthKorea.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, m: SouthKorea.Market = ...) -> None:
+        ...
+class SpreadBasketPayoff(base.BasketPayoff):
+    """
+    Payoff based on spread between two assets.
+    """
+    def __init__(self, basePayoff: base.Payoff) -> None:
+        """
+        Constructs with base payoff.
+        """
+class StochasticProcessArray(base.StochasticProcess):
+    """
+    Array of correlated 1-D stochastic processes.
+    """
+    def __init__(self, processes: collections.abc.Sequence[base.StochasticProcess1D], correlation: Matrix) -> None:
+        """
+        Constructs from a list of 1D processes and correlation matrix.
+        """
+    def correlation(self) -> Matrix:
+        """
+        Returns the correlation matrix.
+        """
+    def covariance(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Matrix:
+        """
+        Returns the covariance matrix.
+        """
+    def diffusion(self, t: typing.SupportsFloat, x: Array) -> Matrix:
+        """
+        Returns the diffusion matrix at time t and state x.
+        """
+    def drift(self, t: typing.SupportsFloat, x: Array) -> Array:
+        """
+        Returns the drift at time t and state x.
+        """
+    def evolve(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat, dw: Array) -> Array:
+        """
+        Returns the asset value after a time interval.
+        """
+    def expectation(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Array:
+        """
+        Returns the expectation of the process.
+        """
+    def initialValues(self) -> Array:
+        """
+        Returns the initial values of all processes.
+        """
+    def process(self, i: typing.SupportsInt) -> base.StochasticProcess1D:
+        """
+        Returns the i-th process.
+        """
+    def size(self) -> int:
+        """
+        Returns the number of processes.
+        """
+    def stdDeviation(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Matrix:
+        """
+        Returns the standard deviation matrix.
+        """
+class StulzEngine(BasketOptionEngine):
+    """
+    Stulz analytical engine for 2D min/max European basket options.
+    """
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+        """
+        Constructs with two Black-Scholes processes and correlation.
+        """
+class Sweden(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Epiphany, January 6th</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Ascension</li>
+            <li>Whit(Pentecost) Monday (until 2004)</li>
+            <li>May Day, May 1st</li>
+            <li>National Day, June 6th</li>
+            <li>Midsummer Eve (Friday between June 19-25)</li>
+            <li>Christmas Eve, December 24th</li>
+            <li>Christmas Day, December 25th</li>
+            <li>Boxing Day, December 26th</li>
+            <li>New Year's Eve, December 31th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class Switzerland(Calendar):
+    """
+    ! Holidays:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Berchtoldstag, January 2nd</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Ascension Day</li>
+            <li>Whit Monday</li>
+            <li>Labour Day, May 1st</li>
+            <li>National Day, August 1st</li>
+            <li>Christmas, December 25th</li>
+            <li>St. Stephen's Day, December 26th</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class TARGET(Calendar):
+    """
+    ! Holidays (see http://www.ecb.int):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Good Friday (since 2000)</li>
+            <li>Easter Monday (since 2000)</li>
+            <li>Labour Day, May 1st (since 2000)</li>
+            <li>Christmas, December 25th</li>
+            <li>Day of Goodwill, December 26th (since 2000)</li>
+            <li>December 31st (1998, 1999, and 2001)</li>
+            </ul>
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested
+                  against a list of known holidays.
+    """
+    def __init__(self) -> None:
+        ...
+class THBCurrency(Currency):
+    """
+    ! The ISO three-letter code is THB; the numeric code is 764.
+            It is divided in 100 stang.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class TNDCurrency(Currency):
+    """
+    ! Tunisian dinar
+    /*! The ISO three-letter code is TND; the numeric code is 788.
+         It is divided into 1000 millim.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class TRLCurrency(Currency):
+    """
+    ! The ISO three-letter code was TRL; the numeric code was 792.
+            It was divided in 100 kurus.
+    
+            Obsoleted by the new Turkish lira since 2005.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class TRYCurrency(Currency):
+    """
+    ! The ISO three-letter code is TRY; the numeric code is 949.
+            It is divided in 100 new kurus.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class TTDCurrency(Currency):
+    """
+    ! The ISO three-letter code is TTD; the numeric code is 780.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class TWDCurrency(Currency):
+    """
+    ! The ISO three-letter code is TWD; the numeric code is 901.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class Taiwan(Calendar):
+    """
+    ! Holidays for the Taiwan stock exchange
+            (data from <https://www.twse.com.tw/en/trading/holiday.html>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Peace Memorial Day, February 28</li>
+            <li>Labor Day, May 1st</li>
+            <li>Double Tenth National Day, October 10th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2002-2024 only:)
+            <ul>
+            <li>Chinese Lunar New Year</li>
+            <li>Tomb Sweeping Day</li>
+            <li>Dragon Boat Festival</li>
+            <li>Moon Festival</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          TSEC : !< Taiwan stock exchange
+        """
+        TSEC: typing.ClassVar[Taiwan.Market]  # value = <Market.TSEC: 0>
+        __members__: typing.ClassVar[dict[str, Taiwan.Market]]  # value = {'TSEC': <Market.TSEC: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    TSEC: typing.ClassVar[Taiwan.Market]  # value = <Market.TSEC: 0>
+    def __init__(self, m: Taiwan.Market = ...) -> None:
+        ...
+class Thailand(Calendar):
+    """
+    ! Holidays for the Thailand exchange
+            Holidays observed by financial institutions (not to be confused with bank holidays in the United Kingdom) are regulated by the Bank of Thailand.
+            If a holiday fall on a weekend the government will announce a replacement day (usually the following Monday).
+    
+            Sometimes the government add one or two extra holidays in a year.
+    
+            (data from
+             https://www.bot.or.th/en/financial-institutions-holiday.html:
+            Fixed holidays
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>Chakri Memorial Day, April 6th</li>
+            <li>Songkran holiday, April 13th - 15th</li>
+            <li>Labour Day, May 1st</li>
+            <li>H.M. the King's Birthday, July 28th (from 2017)</li>
+            <li>H.M. the Queen's Birthday, August 12th </li>
+            <li>The Passing of H.M. the Late King Bhumibol Adulyadej (Rama IX), October 13th (from 2017) </li>
+            <li>H.M. the Late King Bhumibol Adulyadej's Birthday, December 5th</li>
+            <li>Constitution Day, December 10th</li>
+            <li>New Year's Eve, December 31th</li>
+            </ul>
+    
+            Other holidays for which no rule is given
+            (data available for 2000-2024 with some years missing)
+            <ul>
+            <li>Makha Bucha Day</li>
+            <li>Wisakha Bucha Day</li>
+            <li>Buddhist Lent Day (until 2006)</li>
+            <li>Asarnha Bucha Day (from 2007)</li>
+            <li>Chulalongkorn Day</li>
+            <li>Other special holidays</li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class Thirty360(DayCounter):
+    """
+    30/360 day count convention with various market variants (US, European, ISDA, etc.).
+    """
+    class Convention:
+        """
+        Members:
+        
+          USA
+        
+          BondBasis
+        
+          European
+        
+          EurobondBasis
+        
+          Italian
+        
+          German
+        
+          ISMA
+        
+          ISDA
+        
+          NASD
+        """
+        BondBasis: typing.ClassVar[Thirty360.Convention]  # value = <Convention.BondBasis: 1>
+        EurobondBasis: typing.ClassVar[Thirty360.Convention]  # value = <Convention.EurobondBasis: 3>
+        European: typing.ClassVar[Thirty360.Convention]  # value = <Convention.European: 2>
+        German: typing.ClassVar[Thirty360.Convention]  # value = <Convention.German: 5>
+        ISDA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.ISDA: 7>
+        ISMA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.ISMA: 6>
+        Italian: typing.ClassVar[Thirty360.Convention]  # value = <Convention.Italian: 4>
+        NASD: typing.ClassVar[Thirty360.Convention]  # value = <Convention.NASD: 8>
+        USA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.USA: 0>
+        __members__: typing.ClassVar[dict[str, Thirty360.Convention]]  # value = {'USA': <Convention.USA: 0>, 'BondBasis': <Convention.BondBasis: 1>, 'European': <Convention.European: 2>, 'EurobondBasis': <Convention.EurobondBasis: 3>, 'Italian': <Convention.Italian: 4>, 'German': <Convention.German: 5>, 'ISMA': <Convention.ISMA: 6>, 'ISDA': <Convention.ISDA: 7>, 'NASD': <Convention.NASD: 8>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BondBasis: typing.ClassVar[Thirty360.Convention]  # value = <Convention.BondBasis: 1>
+    EurobondBasis: typing.ClassVar[Thirty360.Convention]  # value = <Convention.EurobondBasis: 3>
+    European: typing.ClassVar[Thirty360.Convention]  # value = <Convention.European: 2>
+    German: typing.ClassVar[Thirty360.Convention]  # value = <Convention.German: 5>
+    ISDA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.ISDA: 7>
+    ISMA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.ISMA: 6>
+    Italian: typing.ClassVar[Thirty360.Convention]  # value = <Convention.Italian: 4>
+    NASD: typing.ClassVar[Thirty360.Convention]  # value = <Convention.NASD: 8>
+    USA: typing.ClassVar[Thirty360.Convention]  # value = <Convention.USA: 0>
+    def __init__(self, arg0: Thirty360.Convention) -> None:
+        ...
+class Thirty365(DayCounter):
+    """
+    30/365 day count convention.
+    """
+    def __init__(self) -> None:
+        ...
+class TimeGrid:
+    """
+    Time grid for discretized models.
+    """
+    def __getitem__(self, i: typing.SupportsInt) -> float:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor.
+        """
+    @typing.overload
+    def __init__(self, end: typing.SupportsFloat, steps: typing.SupportsInt) -> None:
+        """
+        Constructs a regularly spaced time grid.
+        """
+    @typing.overload
+    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs from mandatory time points.
+        """
+    @typing.overload
+    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat], steps: typing.SupportsInt) -> None:
+        """
+        Constructs from mandatory time points with minimum steps.
+        """
+    def __iter__(self) -> collections.abc.Iterator[float]:
+        ...
+    def __len__(self) -> int:
+        ...
+    def at(self, i: typing.SupportsInt) -> float:
+        """
+        Returns the time at index i with bounds checking.
+        """
+    def back(self) -> float:
+        """
+        Returns the last time.
+        """
+    def closestIndex(self, t: typing.SupportsFloat) -> int:
+        """
+        Returns the index of the time closest to t.
+        """
+    def closestTime(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns the time on the grid closest to t.
+        """
+    def dt(self, i: typing.SupportsInt) -> float:
+        """
+        Returns the time step dt(i) = t(i+1) - t(i).
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the grid is empty.
+        """
+    def front(self) -> float:
+        """
+        Returns the first time (t=0).
+        """
+    def index(self, t: typing.SupportsFloat) -> int:
+        """
+        Returns the index i such that grid[i] = t.
+        """
+    def mandatoryTimes(self) -> list[float]:
+        """
+        Returns the mandatory time points.
+        """
+    def size(self) -> int:
+        """
+        Returns the number of time points.
+        """
+class TimeUnit:
+    """
+    Units used to describe time periods.
+    
+    Members:
+    
+      Days
+    
+      Weeks
+    
+      Months
+    
+      Years
+    
+      Hours
+    
+      Minutes
+    
+      Seconds
+    
+      Milliseconds
+    
+      Microseconds
+    """
+    Days: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Days: 0>
+    Hours: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Hours: 4>
+    Microseconds: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Microseconds: 8>
+    Milliseconds: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Milliseconds: 7>
+    Minutes: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Minutes: 5>
+    Months: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Months: 2>
+    Seconds: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Seconds: 6>
+    Weeks: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Weeks: 1>
+    Years: typing.ClassVar[TimeUnit]  # value = <TimeUnit.Years: 3>
+    __members__: typing.ClassVar[dict[str, TimeUnit]]  # value = {'Days': <TimeUnit.Days: 0>, 'Weeks': <TimeUnit.Weeks: 1>, 'Months': <TimeUnit.Months: 2>, 'Years': <TimeUnit.Years: 3>, 'Hours': <TimeUnit.Hours: 4>, 'Minutes': <TimeUnit.Minutes: 5>, 'Seconds': <TimeUnit.Seconds: 6>, 'Milliseconds': <TimeUnit.Milliseconds: 7>, 'Microseconds': <TimeUnit.Microseconds: 8>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class Turkey(Calendar):
+    """
+    ! Holidays for the Istanbul Stock Exchange:
+            (data from
+             <https://borsaistanbul.com/en/sayfa/3631/official-holidays>
+    		 and
+    		 <https://feiertagskalender.ch/index.php?geo=3539&hl=en>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>National Sovereignty and Children�s Day, April 23rd</li>
+            <li>Labour and Solidarity Day, May 1st</li>
+            <li>Youth and Sports Day, May 19th</li>
+            <li>Democracy and National Unity Day, July 15th</li>
+            <li>Victory Day, August 30th</li>
+            <li>Republic Day, October 29th</li>
+            <li>Local Holidays (Kurban, Ramadan - dates need further validation for >= 2024) </li>
+            </ul>
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class UAHCurrency(Currency):
+    """
+    ! The ISO three-letter code is UAH; the numeric code is 980.
+            It is divided in 100 kopiykas.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class UGXCurrency(Currency):
+    """
+    ! Ugandan shilling
+    /*! The ISO three-letter code is UGX; the numeric code is 800.
+        It is the smallest unit.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class USDCurrency(Currency):
+    """
+    ! The ISO three-letter code is USD; the numeric code is 840.
+            It is divided in 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class UYUCurrency(Currency):
+    """
+    ! Uruguayan peso
+    /*! The ISO three-letter code is UYU; the numeric code is 858.
+         A unit of account used in Uruguay.
+         \\ingroup currencies
+         */
+    """
+    def __init__(self) -> None:
+        ...
+class Ukraine(Calendar):
+    """
+    ! Holidays for the Ukrainian stock exchange
+            (data from <http://www.ukrse.kiev.ua/eng/>):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st</li>
+            <li>Orthodox Christmas, January 7th</li>
+            <li>International Women's Day, March 8th</li>
+            <li>Easter Monday</li>
+            <li>Holy Trinity Day, 50 days after Easter</li>
+            <li>International Workers' Solidarity Days, May 1st and 2nd</li>
+            <li>Victory Day, May 9th</li>
+            <li>Constitution Day, June 28th</li>
+            <li>Independence Day, August 24th</li>
+            <li>Defender's Day, October 14th (since 2015)</li>
+            </ul>
+            Holidays falling on a Saturday or Sunday might be moved to the
+            following Monday.
+    
+            \\ingroup calendars
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          USE : !< Ukrainian stock exchange
+        """
+        USE: typing.ClassVar[Ukraine.Market]  # value = <Market.USE: 0>
+        __members__: typing.ClassVar[dict[str, Ukraine.Market]]  # value = {'USE': <Market.USE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    USE: typing.ClassVar[Ukraine.Market]  # value = <Market.USE: 0>
+    def __init__(self, m: Ukraine.Market = ...) -> None:
+        ...
+class UnitedKingdom(Calendar):
+    """
+    ! Repeating Public holidays (data from https://www.gov.uk/bank-holidays):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Early May Bank Holiday, first Monday of May</li>
+            <li>Spring Bank Holiday, last Monday of May</li>
+            <li>Summer Bank Holiday, last Monday of August</li>
+            <li>Christmas Day, December 25th (possibly moved to Monday or
+                Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            </ul>
+    
+            Holidays for the stock exchange:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Early May Bank Holiday, first Monday of May</li>
+            <li>Spring Bank Holiday, last Monday of May</li>
+            <li>Summer Bank Holiday, last Monday of August</li>
+            <li>Christmas Day, December 25th (possibly moved to Monday or
+                Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            </ul>
+    
+            Holidays for the metals exchange:
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday)</li>
+            <li>Good Friday</li>
+            <li>Easter Monday</li>
+            <li>Early May Bank Holiday, first Monday of May</li>
+            <li>Spring Bank Holiday, last Monday of May</li>
+            <li>Summer Bank Holiday, last Monday of August</li>
+            <li>Christmas Day, December 25th (possibly moved to Monday or
+                Tuesday)</li>
+            <li>Boxing Day, December 26th (possibly moved to Monday or
+                Tuesday)</li>
+            </ul>
+    
+            Note that there are some one-off holidays not listed above.
+            See the implementation for the complete list.
+    
+            \\ingroup calendars
+    
+            	odo add LIFFE
+    
+            	est the correctness of the returned results is tested
+                  against a list of known holidays.
+    """
+    class Market:
+        """
+        ! UK calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          Exchange : !< London stock-exchange calendar
+        
+          Metals : |< London metals-exchange calendar
+        """
+        Exchange: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Exchange: 1>
+        Metals: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Metals: 2>
+        Settlement: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, UnitedKingdom.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'Exchange': <Market.Exchange: 1>, 'Metals': <Market.Metals: 2>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    Exchange: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Exchange: 1>
+    Metals: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Metals: 2>
+    Settlement: typing.ClassVar[UnitedKingdom.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, market: UnitedKingdom.Market = ...) -> None:
+        ...
+class UnitedStates(Calendar):
+    """
+    ! Public holidays (see https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday if
+                actually on Sunday, or to Friday if on Saturday)</li>
+            <li>Martin Luther King's birthday, third Monday in January (since
+                1983)</li>
+            <li>Presidents' Day (a.k.a. Washington's birthday),
+                third Monday in February</li>
+            <li>Memorial Day, last Monday in May</li>
+            <li>Juneteenth, June 19th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Independence Day, July 4th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Labor Day, first Monday in September</li>
+            <li>Columbus Day, second Monday in October</li>
+            <li>Veterans' Day, November 11th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Thanksgiving Day, fourth Thursday in November</li>
+            <li>Christmas, December 25th (moved to Monday if Sunday or Friday
+                if Saturday)</li>
+            </ul>
+    
+            Note that since 2015 Independence Day only impacts Libor if it
+            falls on a  weekday (see <https://www.theice.com/iba/libor>,
+            <https://www.theice.com/marketdata/reports/170> and
+            <https://www.theice.com/publicdocs/LIBOR_Holiday_Calendar_2015.pdf>
+            for the fixing and value date calendars).
+    
+            Holidays for the stock exchange (data from http://www.nyse.com):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday if
+                actually on Sunday)</li>
+            <li>Martin Luther King's birthday, third Monday in January (since
+                1998)</li>
+            <li>Presidents' Day (a.k.a. Washington's birthday),
+                third Monday in February</li>
+            <li>Good Friday</li>
+            <li>Memorial Day, last Monday in May</li>
+            <li>Independence Day, July 4th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Labor Day, first Monday in September</li>
+            <li>Thanksgiving Day, fourth Thursday in November</li>
+            <li>Presidential election day, first Tuesday in November of election
+                years (until 1980)</li>
+            <li>Christmas, December 25th (moved to Monday if Sunday or Friday
+                if Saturday)</li>
+            <li>Special historic closings (see
+                http://www.nyse.com/pdfs/closings.pdf)</li>
+            </ul>
+    
+            Holidays for the government bond market (data from
+            http://www.bondmarkets.com):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday if
+                actually on Sunday)</li>
+            <li>Martin Luther King's birthday, third Monday in January (since
+                1983)</li>
+            <li>Presidents' Day (a.k.a. Washington's birthday),
+                third Monday in February</li>
+            <li>Good Friday</li>
+            <li>Memorial Day, last Monday in May</li>
+            <li>Independence Day, July 4th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Labor Day, first Monday in September</li>
+            <li>Columbus Day, second Monday in October</li>
+            <li>Veterans' Day, November 11th (moved to Monday if Sunday or
+                Friday if Saturday)</li>
+            <li>Thanksgiving Day, fourth Thursday in November</li>
+            <li>Christmas, December 25th (moved to Monday if Sunday or Friday
+                if Saturday)</li>
+            </ul>
+    
+            Holidays for the North American Energy Reliability Council
+            (data from http://www.nerc.com/~oc/offpeaks.html):
+            <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday if
+                actually on Sunday)</li>
+            <li>Memorial Day, last Monday in May</li>
+            <li>Independence Day, July 4th (moved to Monday if Sunday)</li>
+            <li>Labor Day, first Monday in September</li>
+            <li>Thanksgiving Day, fourth Thursday in November</li>
+            <li>Christmas, December 25th (moved to Monday if Sunday)</li>
+            </ul>
+    
+            Holidays for the Federal Reserve Bankwire System
+            (data from https://www.federalreserve.gov/aboutthefed/k8.htm
+            and https://www.frbservices.org/about/holiday-schedules):
+             <ul>
+            <li>Saturdays</li>
+            <li>Sundays</li>
+            <li>New Year's Day, January 1st (possibly moved to Monday if
+                actually on Sunday)</li>
+            <li>Martin Luther King's birthday, third Monday in January (since
+                1983)</li>
+            <li>Presidents' Day (a.k.a. Washington's birthday),
+                third Monday in February</li>
+            <li>Memorial Day, last Monday in May</li>
+            <li>Juneteenth, June 19th (moved to Monday if Sunday)</li>
+            <li>Independence Day, July 4th (moved to Monday if Sunday)</li>
+            <li>Labor Day, first Monday in September</li>
+            <li>Columbus Day, second Monday in October</li>
+            <li>Veterans' Day, November 11th (moved to Monday if Sunday)</li>
+            <li>Thanksgiving Day, fourth Thursday in November</li>
+            <li>Christmas, December 25th (moved to Monday if Sunday)</li>
+            </ul>
+    
+            \\ingroup calendars
+    
+            	est the correctness of the returned results is tested
+                  against a list of known holidays.
+    """
+    class Market:
+        """
+        ! US calendars
+        
+        Members:
+        
+          Settlement : !< generic settlement calendar
+        
+          NYSE : !< New York stock exchange calendar
+        
+          GovernmentBond : !< government-bond calendar
+        
+          NERC : !< off-peak days for NERC
+        
+          LiborImpact : !< Libor impact calendar
+        
+          FederalReserve : !< Federal Reserve Bankwire System
+        
+          SOFR : !< SOFR fixing calendar
+        """
+        FederalReserve: typing.ClassVar[UnitedStates.Market]  # value = <Market.FederalReserve: 5>
+        GovernmentBond: typing.ClassVar[UnitedStates.Market]  # value = <Market.GovernmentBond: 2>
+        LiborImpact: typing.ClassVar[UnitedStates.Market]  # value = <Market.LiborImpact: 4>
+        NERC: typing.ClassVar[UnitedStates.Market]  # value = <Market.NERC: 3>
+        NYSE: typing.ClassVar[UnitedStates.Market]  # value = <Market.NYSE: 1>
+        SOFR: typing.ClassVar[UnitedStates.Market]  # value = <Market.SOFR: 6>
+        Settlement: typing.ClassVar[UnitedStates.Market]  # value = <Market.Settlement: 0>
+        __members__: typing.ClassVar[dict[str, UnitedStates.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'NYSE': <Market.NYSE: 1>, 'GovernmentBond': <Market.GovernmentBond: 2>, 'NERC': <Market.NERC: 3>, 'LiborImpact': <Market.LiborImpact: 4>, 'FederalReserve': <Market.FederalReserve: 5>, 'SOFR': <Market.SOFR: 6>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    FederalReserve: typing.ClassVar[UnitedStates.Market]  # value = <Market.FederalReserve: 5>
+    GovernmentBond: typing.ClassVar[UnitedStates.Market]  # value = <Market.GovernmentBond: 2>
+    LiborImpact: typing.ClassVar[UnitedStates.Market]  # value = <Market.LiborImpact: 4>
+    NERC: typing.ClassVar[UnitedStates.Market]  # value = <Market.NERC: 3>
+    NYSE: typing.ClassVar[UnitedStates.Market]  # value = <Market.NYSE: 1>
+    SOFR: typing.ClassVar[UnitedStates.Market]  # value = <Market.SOFR: 6>
+    Settlement: typing.ClassVar[UnitedStates.Market]  # value = <Market.Settlement: 0>
+    def __init__(self, market: UnitedStates.Market = ...) -> None:
+        ...
+class UpRounding(Rounding):
+    """
+    Up-rounding.
+    """
+    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+        ...
+class VEBCurrency(Currency):
+    """
+    ! The ISO three-letter code is VEB; the numeric code is 862.
+            It is divided in 100 centimos.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class VNDCurrency(Currency):
+    """
+    ! The ISO three-letter code is VND; the numeric code is 704.
+            It was divided in 100 xu.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class VanillaOption(base.OneAssetOption):
+    """
+    Plain vanilla option on a single asset.
+    """
+    def __init__(self, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+        ...
+class Weekday:
+    """
+    Days of the week enumeration.
+    
+    Members:
+    
+      Sunday
+    
+      Monday
+    
+      Tuesday
+    
+      Wednesday
+    
+      Thursday
+    
+      Friday
+    
+      Saturday
+    
+      Sun
+    
+      Mon
+    
+      Tue
+    
+      Wed
+    
+      Thu
+    
+      Fri
+    
+      Sat
+    """
+    Fri: typing.ClassVar[Weekday]  # value = <Weekday.Friday: 6>
+    Friday: typing.ClassVar[Weekday]  # value = <Weekday.Friday: 6>
+    Mon: typing.ClassVar[Weekday]  # value = <Weekday.Monday: 2>
+    Monday: typing.ClassVar[Weekday]  # value = <Weekday.Monday: 2>
+    Sat: typing.ClassVar[Weekday]  # value = <Weekday.Saturday: 7>
+    Saturday: typing.ClassVar[Weekday]  # value = <Weekday.Saturday: 7>
+    Sun: typing.ClassVar[Weekday]  # value = <Weekday.Sunday: 1>
+    Sunday: typing.ClassVar[Weekday]  # value = <Weekday.Sunday: 1>
+    Thu: typing.ClassVar[Weekday]  # value = <Weekday.Thursday: 5>
+    Thursday: typing.ClassVar[Weekday]  # value = <Weekday.Thursday: 5>
+    Tue: typing.ClassVar[Weekday]  # value = <Weekday.Tuesday: 3>
+    Tuesday: typing.ClassVar[Weekday]  # value = <Weekday.Tuesday: 3>
+    Wed: typing.ClassVar[Weekday]  # value = <Weekday.Wednesday: 4>
+    Wednesday: typing.ClassVar[Weekday]  # value = <Weekday.Wednesday: 4>
+    __members__: typing.ClassVar[dict[str, Weekday]]  # value = {'Sunday': <Weekday.Sunday: 1>, 'Monday': <Weekday.Monday: 2>, 'Tuesday': <Weekday.Tuesday: 3>, 'Wednesday': <Weekday.Wednesday: 4>, 'Thursday': <Weekday.Thursday: 5>, 'Friday': <Weekday.Friday: 6>, 'Saturday': <Weekday.Saturday: 7>, 'Sun': <Weekday.Sunday: 1>, 'Mon': <Weekday.Monday: 2>, 'Tue': <Weekday.Tuesday: 3>, 'Wed': <Weekday.Wednesday: 4>, 'Thu': <Weekday.Thursday: 5>, 'Fri': <Weekday.Friday: 6>, 'Sat': <Weekday.Saturday: 7>}
+    def __and__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __ge__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __gt__(self, other: typing.Any) -> bool:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __invert__(self) -> typing.Any:
+        ...
+    def __le__(self, other: typing.Any) -> bool:
+        ...
+    def __lt__(self, other: typing.Any) -> bool:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __or__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rand__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __ror__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __rxor__(self, other: typing.Any) -> typing.Any:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    def __xor__(self, other: typing.Any) -> typing.Any:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class WeekendsOnly(Calendar):
+    """
+    ! This calendar has no bank holidays except for weekends
+            (Saturdays and Sundays) as required by ISDA for calculating
+            conventional CDS spreads.
+    
+            \\ingroup calendars
+    """
+    def __init__(self) -> None:
+        ...
+class XOFCurrency(Currency):
+    """
+     West African CFA franc
+    /*! The ISO three-letter code is XOF; the numeric code is 952.
+         It is divided into 100 centime.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+class XRPCurrency(Currency):
+    """
+    ! https://ripple.com/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class YieldTermStructureHandle:
+    """
+    Handle to YieldTermStructure.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: YieldTermStructureHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.YieldTermStructure, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: YieldTermStructureHandle) -> bool:
+        ...
+    def __ne__(self, arg0: YieldTermStructureHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.YieldTermStructure:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.YieldTermStructure:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
+class ZARCurrency(Currency):
+    """
+    ! The ISO three-letter code is ZAR; the numeric code is 710.
+            It is divided into 100 cents.
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ZECCurrency(Currency):
+    """
+    ! https://z.cash/
+    
+            \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ZMWCurrency(Currency):
+    """
+    ! Zambian kwacha
+    /*! The ISO three-letter code is ZMW; the numeric code is 967.
+        It is divided into 100 ngwee.
+         \\ingroup currencies
+        */
+    """
+    def __init__(self) -> None:
+        ...
+def Abs(array: Array) -> Array:
+    """
+    Returns element-wise absolute values.
+    """
+def DotProduct(a1: Array, a2: Array) -> float:
+    """
+    Returns the dot product of two arrays.
+    """
+def Exp(array: Array) -> Array:
+    """
+    Returns element-wise exponentials.
+    """
+def Log(array: Array) -> Array:
+    """
+    Returns element-wise natural logarithms.
+    """
+def MCEuropeanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+    """
+    Monte Carlo European option pricing engine.
+    
+    Parameters:
+      process: Black-Scholes process
+      rngType: 'pseudorandom' or 'lowdiscrepancy'
+      timeSteps: Number of time steps
+      timeStepsPerYear: Time steps per year (alternative to timeSteps)
+      brownianBridge: Use Brownian bridge
+      antitheticVariate: Use antithetic variates
+      requiredSamples: Number of samples
+      requiredTolerance: Target tolerance (alternative to requiredSamples)
+      maxSamples: Maximum samples
+      seed: Random seed (0 for random)
+    """
+def Pow(array: Array, exponent: typing.SupportsFloat) -> Array:
+    """
+    Returns element-wise power.
+    """
+def Sqrt(array: Array) -> Array:
+    """
+    Returns element-wise square roots.
+    """
+def close(m1: Money, m2: Money, n: typing.SupportsInt = 42) -> bool:
+    """
+    Returns true if the two amounts are close.
+    """
+def close_enough(m1: Money, m2: Money, n: typing.SupportsInt = 42) -> bool:
+    """
+    Returns true if the two amounts are close enough.
+    """
+def days(period: Period) -> float:
+    """
+    Convert a Period to days.
+    """
+def daysBetween(d1: Date, d2: Date) -> float:
+    """
+    Difference in days (including fraction) between dates.
+    """
+def months(period: Period) -> float:
+    """
+    Convert a Period to months.
+    """
+def outerProduct(a1: Array, a2: Array) -> Matrix:
+    """
+    Returns the outer product of two arrays.
+    """
+def transpose(matrix: Matrix) -> Matrix:
+    """
+    Returns the transpose of a matrix.
+    """
+def weeks(period: Period) -> float:
+    """
+    Convert a Period to weeks.
+    """
+def yearFractionToDate(dayCounter: DayCounter, referenceDate: Date, t: typing.SupportsFloat) -> Date:
+    ...
+def years(period: Period) -> float:
+    """
+    Convert a Period to years.
+    """
+Annual: Frequency  # value = <Frequency.Annual: 1>
+Apr: Month  # value = <Month.April: 4>
+April: Month  # value = <Month.April: 4>
+Aug: Month  # value = <Month.August: 8>
+August: Month  # value = <Month.August: 8>
+Bimonthly: Frequency  # value = <Frequency.Bimonthly: 6>
+Biweekly: Frequency  # value = <Frequency.Biweekly: 26>
+Call: OptionType  # value = <OptionType.Call: 1>
+Compounded: Compounding  # value = <Compounding.Compounded: 1>
+CompoundedThenSimple: Compounding  # value = <Compounding.CompoundedThenSimple: 4>
+Continuous: Compounding  # value = <Compounding.Continuous: 2>
+CraigSneyd: FdmSchemeType  # value = <FdmSchemeType.CraigSneyd: 2>
+CrankNicolson: FdmSchemeType  # value = <FdmSchemeType.CrankNicolson: 8>
+Daily: Frequency  # value = <Frequency.Daily: 365>
+Days: TimeUnit  # value = <TimeUnit.Days: 0>
+Dec: Month  # value = <Month.December: 12>
+December: Month  # value = <Month.December: 12>
+Douglas: FdmSchemeType  # value = <FdmSchemeType.Douglas: 1>
+EPSILON: float = 2.220446049250313e-16
+EveryFourthMonth: Frequency  # value = <Frequency.EveryFourthMonth: 3>
+EveryFourthWeek: Frequency  # value = <Frequency.EveryFourthWeek: 13>
+ExplicitEuler: FdmSchemeType  # value = <FdmSchemeType.ExplicitEuler: 5>
+Feb: Month  # value = <Month.February: 2>
+February: Month  # value = <Month.February: 2>
+Following: BusinessDayConvention  # value = <BusinessDayConvention.Following: 0>
+Fri: Weekday  # value = <Weekday.Friday: 6>
+Friday: Weekday  # value = <Weekday.Friday: 6>
+HalfMonthModifiedFollowing: BusinessDayConvention  # value = <BusinessDayConvention.HalfMonthModifiedFollowing: 5>
+Hours: TimeUnit  # value = <TimeUnit.Hours: 4>
+Hundsdorfer: FdmSchemeType  # value = <FdmSchemeType.Hundsdorfer: 0>
+ImplicitEuler: FdmSchemeType  # value = <FdmSchemeType.ImplicitEuler: 4>
+Jan: Month  # value = <Month.January: 1>
+January: Month  # value = <Month.January: 1>
+JoinBusinessDays: JointCalendarRule  # value = <JointCalendarRule.JoinBusinessDays: 1>
+JoinHolidays: JointCalendarRule  # value = <JointCalendarRule.JoinHolidays: 0>
+Jul: Month  # value = <Month.July: 7>
+July: Month  # value = <Month.July: 7>
+Jun: Month  # value = <Month.June: 6>
+June: Month  # value = <Month.June: 6>
+MAX_INTEGER: int = 2147483647
+MAX_REAL: float = 1.7976931348623157e+308
+MIN_INTEGER: int = -2147483648
+MIN_POSITIVE_REAL: float = 2.2250738585072014e-308
+MIN_REAL: float = -1.7976931348623157e+308
+Mar: Month  # value = <Month.March: 3>
+March: Month  # value = <Month.March: 3>
+May: Month  # value = <Month.May: 5>
+MethodOfLines: FdmSchemeType  # value = <FdmSchemeType.MethodOfLines: 6>
+Microseconds: TimeUnit  # value = <TimeUnit.Microseconds: 8>
+Milliseconds: TimeUnit  # value = <TimeUnit.Milliseconds: 7>
+Minutes: TimeUnit  # value = <TimeUnit.Minutes: 5>
+ModifiedCraigSneyd: FdmSchemeType  # value = <FdmSchemeType.ModifiedCraigSneyd: 3>
+ModifiedFollowing: BusinessDayConvention  # value = <BusinessDayConvention.ModifiedFollowing: 1>
+ModifiedPreceding: BusinessDayConvention  # value = <BusinessDayConvention.ModifiedPreceding: 3>
+Mon: Weekday  # value = <Weekday.Monday: 2>
+Monday: Weekday  # value = <Weekday.Monday: 2>
+Monthly: Frequency  # value = <Frequency.Monthly: 12>
+Months: TimeUnit  # value = <TimeUnit.Months: 2>
+Nearest: BusinessDayConvention  # value = <BusinessDayConvention.Nearest: 6>
+NoFrequency: Frequency  # value = <Frequency.NoFrequency: -1>
+Nov: Month  # value = <Month.November: 11>
+November: Month  # value = <Month.November: 11>
+Oct: Month  # value = <Month.October: 10>
+October: Month  # value = <Month.October: 10>
+Once: Frequency  # value = <Frequency.Once: 0>
+OtherFrequency: Frequency  # value = <Frequency.OtherFrequency: 999>
+Preceding: BusinessDayConvention  # value = <BusinessDayConvention.Preceding: 2>
+Put: OptionType  # value = <OptionType.Put: -1>
+Quarterly: Frequency  # value = <Frequency.Quarterly: 4>
+Sat: Weekday  # value = <Weekday.Saturday: 7>
+Saturday: Weekday  # value = <Weekday.Saturday: 7>
+Seconds: TimeUnit  # value = <TimeUnit.Seconds: 6>
+Semiannual: Frequency  # value = <Frequency.Semiannual: 2>
+Sep: Month  # value = <Month.September: 9>
+September: Month  # value = <Month.September: 9>
+Simple: Compounding  # value = <Compounding.Simple: 0>
+SimpleThenCompounded: Compounding  # value = <Compounding.SimpleThenCompounded: 3>
+Sun: Weekday  # value = <Weekday.Sunday: 1>
+Sunday: Weekday  # value = <Weekday.Sunday: 1>
+Thu: Weekday  # value = <Weekday.Thursday: 5>
+Thursday: Weekday  # value = <Weekday.Thursday: 5>
+TrBDF2: FdmSchemeType  # value = <FdmSchemeType.TrBDF2: 7>
+Tue: Weekday  # value = <Weekday.Tuesday: 3>
+Tuesday: Weekday  # value = <Weekday.Tuesday: 3>
+Unadjusted: BusinessDayConvention  # value = <BusinessDayConvention.Unadjusted: 4>
+Wed: Weekday  # value = <Weekday.Wednesday: 4>
+Wednesday: Weekday  # value = <Weekday.Wednesday: 4>
+Weekly: Frequency  # value = <Frequency.Weekly: 52>
+Weeks: TimeUnit  # value = <TimeUnit.Weeks: 1>
+Years: TimeUnit  # value = <TimeUnit.Years: 3>
+__boost_version__: int = 108800
+__ql_hexversion__: int = 20971760
+__ql_version__: str = '1.40'
+__version__: str = '0.1.0'
+BlackScholesMertonProcess = GeneralizedBlackScholesProcess

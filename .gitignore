@@ -110,7 +110,9 @@ Desktop.ini
 # Compiled extension module (generated during build)
 /pyquantlib/_pyquantlib*.so
 /pyquantlib/_pyquantlib*.pyd
-/pyquantlib/_pyquantlib*.pyi
+
+# Stubgen temp directory
+.stubgen_temp/
 
 # Generated stubs (if auto-generated)
 /stubs/

@@ -90,6 +90,10 @@ jobs:
         env:
           LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
 
+      - name: Verify type stubs are up-to-date
+        run: |
+          python scripts/stubgen.py --check
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
