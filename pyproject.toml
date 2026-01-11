@@ -58,6 +58,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/quantales/pyquantlib"
+Documentation = "https://pyquantlib.readthedocs.io"
 Repository = "https://github.com/quantales/pyquantlib"
 Issues = "https://github.com/quantales/pyquantlib/issues"
 Changelog = "https://github.com/quantales/pyquantlib/blob/main/CHANGELOG.md"
@@ -70,6 +71,18 @@ dev = [
     "ruff>=0.4.0",
     "pybind11-stubgen>=2.5.0",
     "build>=1.0.0",
+    "numpy>=1.20.0",
+]
+docs = [
+    "sphinx>=7.0",
+    "furo>=2024.0",
+    "myst-parser>=3.0",
+    "sphinx-copybutton>=0.5",
+]
+examples = [
+    "jupyter>=1.0.0",
+    "matplotlib>=3.5.0",
+    "pandas>=1.3.0",
     "numpy>=1.20.0",
 ]
 

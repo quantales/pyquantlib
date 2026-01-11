@@ -1,0 +1,53 @@
+/* PyQuantLib documentation custom styles */
+
+/* Improve code block readability */
+.highlight pre {
+    padding: 1em;
+    border-radius: 4px;
+}
+
+/* Make tables more readable */
+table.docutils {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.docutils td,
+table.docutils th {
+    padding: 8px 12px;
+    border: 1px solid var(--color-table-border);
+}
+
+/* API documentation improvements */
+.py.class > dt,
+.py.function > dt,
+.py.method > dt {
+    padding: 0.5em;
+    background: var(--color-api-background);
+    border-radius: 4px;
+    font-family: var(--font-stack--monospace);
+}
+
+/* Better spacing for parameter lists */
+.field-list dt {
+    font-weight: 600;
+}
+
+.field-list dd {
+    margin-bottom: 0.5em;
+}
+
+/* Admonition styling */
+.admonition {
+    border-radius: 4px;
+}
+
+/* Version badge styling */
+.version-badge {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    font-size: 0.875em;
+    background: var(--color-brand-primary);
+    color: white;
+    border-radius: 4px;
+}

@@ -1,5 +1,6 @@
 # PyQuantLib: Modern Python bindings for QuantLib
 
+[![Documentation](https://readthedocs.org/projects/pyquantlib/badge/?version=latest)](https://pyquantlib.readthedocs.io/en/latest/?badge=latest)
 [![macOS](https://github.com/quantales/pyquantlib/actions/workflows/macos.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/macos.yml)
 [![Linux](https://github.com/quantales/pyquantlib/actions/workflows/linux.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/linux.yml)
 [![Windows](https://github.com/quantales/pyquantlib/actions/workflows/windows.yml/badge.svg)](https://github.com/quantales/pyquantlib/actions/workflows/windows.yml)
@@ -155,6 +156,14 @@ pip install -e .
 # Run tests
 pytest
 ```
+
+## Documentation
+
+Full documentation is available at [pyquantlib.readthedocs.io](https://pyquantlib.readthedocs.io/).
+
+## Examples
+
+See the [examples](examples/) directory for Jupyter notebooks demonstrating PyQuantLib usage.
 
 ## License
 

@@ -117,6 +117,9 @@ Desktop.ini
 # Generated stubs (if auto-generated)
 /stubs/
 
+# Documentation build
+/docs/_build/
+
 # Local configuration overrides
 .env.local
 *.local.cmake
