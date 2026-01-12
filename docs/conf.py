@@ -17,13 +17,17 @@ project = "PyQuantLib"
 copyright = "2025, Yassine Idyiahia"
 author = "Yassine Idyiahia"
 
-# Version info
-try:
-    from pyquantlib import __version__
+# Version info - read directly to avoid importing compiled module
+import re
 
-    release = __version__
+version_file = os.path.join(os.path.dirname(__file__), "..", "pyquantlib", "version.py")
+try:
+    with open(version_file) as f:
+        version_content = f.read()
+    match = re.search(r'__version__\s*=\s*["\']([^"\']+)["\']', version_content)
+    release = match.group(1) if match else "0.1.0"
     version = ".".join(release.split(".")[:2])
-except ImportError:
+except Exception:
     version = "0.1"
     release = "0.1.0"
 
@@ -63,7 +67,8 @@ master_doc = "index"
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Pygments style for code highlighting
-pygments_style = "sphinx"
+pygments_style = "tango"
+pygments_dark_style = "material"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -73,6 +78,7 @@ html_theme_options = {
     "source_repository": "https://github.com/quantales/pyquantlib",
     "source_branch": "main",
     "source_directory": "docs/",
+    "sidebar_hide_name": True,
     "light_css_variables": {
         "color-brand-primary": "#2962ff",
         "color-brand-content": "#2962ff",
@@ -90,9 +96,9 @@ html_short_title = "PyQuantLib"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 
-# Logo and favicon (optional - add files to _static/)
-# html_logo = "_static/logo.png"
-# html_favicon = "_static/favicon.ico"
+# Logo and favicon
+html_logo = "_static/logo.svg"
+html_favicon = "_static/favicon.svg"
 
 # -- Options for autodoc -----------------------------------------------------
 

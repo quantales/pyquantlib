@@ -1,9 +1,17 @@
 /* PyQuantLib documentation custom styles */
 
-/* Improve code block readability */
+/* Code block styling - use Furo defaults with subtle refinements */
 .highlight pre {
     padding: 1em;
     border-radius: 4px;
+}
+
+/* Inline code styling */
+code.literal {
+    background: var(--color-inline-code-background);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-size: 0.9em;
 }
 
 /* Make tables more readable */

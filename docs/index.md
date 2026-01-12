@@ -11,18 +11,60 @@
 
 **Modern Python bindings for QuantLib**
 
-PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. Unlike the SWIG-based [QuantLib-Python](https://github.com/lballabio/QuantLib-SWIG), PyQuantLib uses [pybind11](https://github.com/pybind/pybind11) for cleaner integration and modern build tooling.
+PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance.
 
 ```{warning}
 **Alpha Status**: This project is under active development. API may change.
 ```
 
-## Features
+## Why PyQuantLib?
 
-- **Modern build system** — Built with pybind11 and scikit-build-core
-- **Cross-platform** — Windows, macOS, and Linux support
-- **Type hints** — Full `.pyi` stub files for IDE autocomplete
-- **Clean module organization** — Abstract base classes in `pyquantlib.base`
+There are existing Python bindings for QuantLib:
+
+- **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)** — Official bindings using SWIG
+- **[PyQL](https://github.com/enthought/pyql)** — Cython-based bindings
+
+Both are excellent projects, but require learning an additional language beyond C++ and Python — SWIG's interface definition language or Cython's Python/C hybrid syntax.
+
+**PyQuantLib uses [pybind11](https://github.com/pybind/pybind11)** — bindings are written in pure C++. If you know C++ and Python, you can read, debug, and contribute to the wrapper code directly.
+
+### Pythonic API
+
+PyQuantLib aims to be a truly Pythonic version of QuantLib, using native Python types where possible:
+
+| QuantLib C++ | PyQuantLib |
+|--------------|------------|
+| `ql::Date` | `datetime.date` |
+| `std::vector<double>` | `list` / `np.ndarray` |
+| `ql::Matrix` | `np.ndarray` |
+| Handles everywhere | Hidden where possible |
+
+This is achieved via pybind11 type casters and lambda overrides — making the API feel native to Python.
+
+### Rapid Prototyping in Python
+
+Extend QuantLib without touching C++. PyQuantLib exposes abstract base classes with trampoline classes, enabling Python subclassing:
+
+```python
+from pyquantlib.base import PricingEngine
+
+class MyCustomEngine(PricingEngine):
+    """Prototype new engines in pure Python."""
+    
+    def calculate(self):
+        # Your pricing logic here
+        pass
+```
+
+No recompilation needed — quants can prototype custom engines, instruments, and processes directly in Python.
+
+### Features
+
+- **Pure C++ and Python** — No SWIG or Cython to learn
+- **Full docstrings and type hints** — IDE-friendly with `.pyi` stubs
+- **Organized namespaces** — `pyquantlib.base` for ABCs, logical module grouping
+- **NumPy integration** — Native array/matrix interoperability
+- **Modern tooling** — scikit-build-core, CMake presets, CI/CD ready
 
 ## Quick Example
 

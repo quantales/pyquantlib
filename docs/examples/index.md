@@ -32,10 +32,3 @@ jupyter notebook
 | Notebook | Description |
 |----------|-------------|
 | {doc}`01_option_pricing` | European option pricing with Black-Scholes |
-
-## Coming Soon
-
-- Term structure construction
-- Volatility surface calibration  
-- Heston model pricing
-- Basket options

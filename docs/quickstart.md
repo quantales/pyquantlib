@@ -189,9 +189,3 @@ heston_engine = ql.AnalyticHestonEngine(heston_model)
 option.setPricingEngine(heston_engine)
 print(f"Heston NPV: {option.NPV():.4f}")
 ```
-
-## Next Steps
-
-- Explore {doc}`examples/index` for more detailed use cases
-- See the {doc}`api/index` for complete class documentation
-- Read {doc}`contributing` to help improve PyQuantLib

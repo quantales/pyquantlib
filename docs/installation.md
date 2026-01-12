@@ -187,9 +187,3 @@ pip install -e .
 # macOS/Linux
 CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
 ```
-
-## Next Steps
-
-- Follow the {doc}`quickstart` guide
-- Explore {doc}`examples/index`
-- See the {doc}`api/index`
