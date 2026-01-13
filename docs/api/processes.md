@@ -6,7 +6,7 @@ Stochastic processes for asset price dynamics.
 
 ### GeneralizedBlackScholesProcess
 
-The most flexible Black-Scholes process — supports term structure handles.
+The most flexible Black-Scholes process: supports term structure handles.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.GeneralizedBlackScholesProcess

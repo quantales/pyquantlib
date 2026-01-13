@@ -16,7 +16,7 @@ Before you begin, ensure you have:
 ## QuantLib Build Requirements
 
 ```{important}
-PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`. Pre-built packages (Homebrew, vcpkg, apt) are **not compatible** — you must build from source.
+PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`. Pre-built packages (Homebrew, vcpkg, apt) are **not compatible**: you must build from source.
 ```
 
 ### Why These Requirements?

@@ -27,7 +27,7 @@ rate = ql.SimpleQuote(0.05)     # Risk-free rate (5%)
 vol = ql.SimpleQuote(0.20)      # Volatility (20%)
 ```
 
-Quotes are observable — when you change a quote's value, any dependent calculations automatically update.
+Quotes are observable: when you change a quote's value, any dependent calculations automatically update.
 
 ### Term Structures
 
@@ -46,7 +46,7 @@ dividend = ql.FlatForward(today, 0.0, dc)
 volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
 ```
 
-Note the use of `QuoteHandle` — handles provide a layer of indirection that enables the observer pattern.
+Note the use of `QuoteHandle`: handles provide a layer of indirection that enables the observer pattern.
 
 ### The Black-Scholes Process
 

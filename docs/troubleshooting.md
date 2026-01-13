@@ -113,7 +113,7 @@ curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())  # Works
 **Symptom:** Greeks like `delta()` return `ql.QL_NULL_REAL` instead of a number.
 
 **Possible causes:**
-1. **Engine doesn't compute Greeks:** Some engines only compute NPV. For example, `AnalyticHestonEngine` doesn't compute Greeks — use finite difference engines instead.
+1. **Engine doesn't compute Greeks:** Some engines only compute NPV. For example, `AnalyticHestonEngine` doesn't compute Greeks: use finite difference engines instead.
 2. **Option is too far OTM/ITM:** Numerical precision issues for extreme moneyness.
 
 **Solution:** Check engine documentation or use a different engine.
@@ -181,7 +181,7 @@ If you see `.dylib`, rebuild QuantLib with `-DBUILD_SHARED_LIBS=OFF`.
 
 **Cause:** Often singleton issues with shared library.
 
-**Solution:** Same as macOS — rebuild as static library.
+**Solution:** Same as macOS: rebuild as static library.
 
 ## Getting Help
 

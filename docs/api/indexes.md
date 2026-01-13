@@ -29,11 +29,11 @@ from pyquantlib.base import Index
 ```
 
 Key methods:
-- `name()` — Returns the index name
-- `fixingCalendar()` — Returns the calendar for fixing dates
-- `isValidFixingDate(date)` — Checks if a date is a valid fixing date
-- `fixing(date)` — Returns the fixing for a given date
-- `addFixing(date, value)` — Adds a historical fixing
+- `name()`: Returns the index name
+- `fixingCalendar()`: Returns the calendar for fixing dates
+- `isValidFixingDate(date)`: Checks if a date is a valid fixing date
+- `fixing(date)`: Returns the fixing for a given date
+- `addFixing(date, value)`: Adds a historical fixing
 
 ### InterestRateIndex
 
@@ -44,11 +44,11 @@ from pyquantlib.base import InterestRateIndex
 ```
 
 Additional methods:
-- `familyName()` — Returns the index family name
-- `tenor()` — Returns the index tenor
-- `currency()` — Returns the index currency
-- `dayCounter()` — Returns the day counter
-- `fixingDays()` — Returns the number of fixing days
+- `familyName()`: Returns the index family name
+- `tenor()`: Returns the index tenor
+- `currency()`: Returns the index currency
+- `dayCounter()`: Returns the day counter
+- `fixingDays()`: Returns the number of fixing days
 
 ## Example: Working with Fixings
 

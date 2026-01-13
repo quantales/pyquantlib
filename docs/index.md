@@ -21,12 +21,12 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 There are existing Python bindings for QuantLib:
 
-- **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)** — Official bindings using SWIG
-- **[PyQL](https://github.com/enthought/pyql)** — Cython-based bindings
+- **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)**: Official bindings using SWIG
+- **[PyQL](https://github.com/enthought/pyql)**: Cython-based bindings
 
-Both are excellent projects, but require learning an additional language beyond C++ and Python — SWIG's interface definition language or Cython's Python/C hybrid syntax.
+Both are excellent projects, but require learning an additional language beyond C++ and Python: SWIG's interface definition language or Cython's Python/C hybrid syntax.
 
-**PyQuantLib uses [pybind11](https://github.com/pybind/pybind11)** — bindings are written in pure C++. If you know C++ and Python, you can read, debug, and contribute to the wrapper code directly.
+**PyQuantLib uses [pybind11](https://github.com/pybind/pybind11)**: bindings are written in pure C++. If you know C++ and Python, you can read, debug, and contribute to the wrapper code directly.
 
 ### Pythonic API
 
@@ -39,7 +39,7 @@ PyQuantLib aims to be a truly Pythonic version of QuantLib, using native Python 
 | `ql::Matrix` | `np.ndarray` |
 | Handles everywhere | Hidden where possible |
 
-This is achieved via pybind11 type casters and lambda overrides — making the API feel native to Python.
+This is achieved via pybind11 type casters and lambda overrides: making the API feel native to Python.
 
 ### Rapid Prototyping in Python
 
@@ -56,15 +56,15 @@ class MyCustomEngine(PricingEngine):
         pass
 ```
 
-No recompilation needed — quants can prototype custom engines, instruments, and processes directly in Python.
+No recompilation needed: quants can prototype custom engines, instruments, and processes directly in Python.
 
 ### Features
 
-- **Pure C++ and Python** — No SWIG or Cython to learn
-- **Full docstrings and type hints** — IDE-friendly with `.pyi` stubs
-- **Organized namespaces** — `pyquantlib.base` for ABCs, logical module grouping
-- **NumPy integration** — Native array/matrix interoperability
-- **Modern tooling** — scikit-build-core, CMake presets, CI/CD ready
+- **Pure C++ and Python**: No SWIG or Cython to learn
+- **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
+- **Organized namespaces**: `pyquantlib.base` for ABCs, logical module grouping
+- **NumPy integration**: Native array/matrix interoperability
+- **Modern tooling**: scikit-build-core, CMake presets, CI/CD ready
 
 ## Quick Example
 
@@ -137,6 +137,7 @@ api/index
 :maxdepth: 2
 :caption: Development
 
+architecture
 contributing
 troubleshooting
 changelog
@@ -154,6 +155,6 @@ BSD 3-Clause License. See [LICENSE](https://github.com/quantales/pyquantlib/blob
 
 ## Acknowledgments
 
-- [QuantLib](https://www.quantlib.org/) — Quantitative finance library
-- [pybind11](https://github.com/pybind/pybind11) — C++/Python bindings
-- [scikit-build-core](https://github.com/scikit-build/scikit-build-core) — Build system
+- [QuantLib](https://www.quantlib.org/): Quantitative finance library
+- [pybind11](https://github.com/pybind/pybind11): C++/Python bindings
+- [scikit-build-core](https://github.com/scikit-build/scikit-build-core): Build system

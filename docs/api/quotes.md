@@ -6,7 +6,7 @@ Market observables and handles for lazy evaluation.
 
 ### SimpleQuote
 
-The most common quote type — a value that can be set and observed.
+The most common quote type: a value that can be set and observed.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SimpleQuote

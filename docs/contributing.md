@@ -161,12 +161,12 @@ Never pass enums by reference:
 Only include **virtual** methods. Use `override` to verify:
 
 ```cpp
-// If this compiles, method is virtual — keep it
+// If this compiles, method is virtual: keep it
 Date date() const override {
     PYBIND11_OVERRIDE_PURE(Date, Coupon, date,);
 }
 
-// If override causes error, method is non-virtual — remove it
+// If override causes error, method is non-virtual: remove it
 ```
 
 ## Type Stubs
