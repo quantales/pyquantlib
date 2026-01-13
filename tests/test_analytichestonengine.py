@@ -10,7 +10,6 @@ def heston_env():
     ql.Settings.instance().evaluationDate = today
 
     dc = ql.Actual365Fixed()
-    cal = ql.TARGET()
 
     spot = ql.SimpleQuote(100.0)
     rate = ql.SimpleQuote(0.05)

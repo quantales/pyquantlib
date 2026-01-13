@@ -16,7 +16,7 @@ def test_schedule_basic_construction():
     schedule = ql.Schedule(dates, calendar, convention)
 
     assert len(schedule) == 3
-    assert schedule.empty() == False
+    assert not schedule.empty()
     assert schedule.at(0) == ql.Date(1, 1, 2025)
     assert schedule.front() == ql.Date(1, 1, 2025)
     assert schedule.back() == ql.Date(1, 1, 2026)
@@ -49,7 +49,7 @@ def test_schedule_iterators():
     dates = [ql.Date(1, 1, 2025), ql.Date(1, 7, 2025), ql.Date(1, 1, 2026)]
     schedule = ql.Schedule(dates)
 
-    dates_from_iter = list(date for date in schedule)
+    dates_from_iter = list(schedule)
     assert dates_from_iter == dates
 
 # @pytest.mark.skip

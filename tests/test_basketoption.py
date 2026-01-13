@@ -126,8 +126,10 @@ def test_stochasticprocessarray(market_data):
     process2 = make_bs_process(110.0, 0.25, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.5
-    correlation[1][0] = 0.5;  correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
 
     process_array = ql.StochasticProcessArray([process1, process2], correlation)
 
@@ -277,8 +279,10 @@ def test_denglizhoubasketengine_spread(market_data):
     process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.75
-    correlation[1][0] = 0.75; correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.75
+    correlation[1][0] = 0.75
+    correlation[1][1] = 1.0
 
     strike = 3.0
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
@@ -400,8 +404,10 @@ def test_mceuropeanbasketengine_spread(market_data):
     process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.75
-    correlation[1][0] = 0.75; correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.75
+    correlation[1][0] = 0.75
+    correlation[1][1] = 1.0
     process_array = ql.StochasticProcessArray([process1, process2], correlation)
 
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 3.0)
@@ -425,8 +431,10 @@ def test_mceuropeanbasketengine_max(market_data):
     process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.5
-    correlation[1][0] = 0.5;  correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
     process_array = ql.StochasticProcessArray([process1, process2], correlation)
 
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
@@ -450,8 +458,10 @@ def test_mceuropeanbasketengine_min(market_data):
     process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.5
-    correlation[1][0] = 0.5;  correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
     process_array = ql.StochasticProcessArray([process1, process2], correlation)
 
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
@@ -476,9 +486,15 @@ def test_mceuropeanbasketengine_average(market_data):
     process3 = make_bs_process(100.0, 0.30, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(3, 3)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.5;  correlation[0][2] = 0.3
-    correlation[1][0] = 0.5;  correlation[1][1] = 1.0;  correlation[1][2] = 0.4
-    correlation[2][0] = 0.3;  correlation[2][1] = 0.4;  correlation[2][2] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[0][2] = 0.3
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+    correlation[1][2] = 0.4
+    correlation[2][0] = 0.3
+    correlation[2][1] = 0.4
+    correlation[2][2] = 1.0
     process_array = ql.StochasticProcessArray([process1, process2, process3], correlation)
 
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
@@ -502,8 +518,10 @@ def test_mcldeuropeanbasketengine(market_data):
     process2 = make_bs_process(96.0, 0.20, rate_handle, div_handle, today, cal, dc)
 
     correlation = ql.Matrix(2, 2)
-    correlation[0][0] = 1.0;  correlation[0][1] = 0.75
-    correlation[1][0] = 0.75; correlation[1][1] = 1.0
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.75
+    correlation[1][0] = 0.75
+    correlation[1][1] = 1.0
     process_array = ql.StochasticProcessArray([process1, process2], correlation)
 
     payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 3.0)

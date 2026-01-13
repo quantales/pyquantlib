@@ -8,7 +8,7 @@ from pyquantlib.base import CostFunction
 
 class Rosenbrock(CostFunction):
     """Rosenbrock function: f(x,y) = (a-x)^2 + b(y-x^2)^2
-    
+
     Minimum at (a, a^2). With a=1, b=100, minimum at (1, 1).
     """
     def __init__(self, a=1.0, b=100.0):
@@ -68,7 +68,7 @@ def test_levenbergmarquardt_with_constraint():
             return sum(xi * xi for xi in x)
 
         def values(self, x):
-            return ql.Array([xi for xi in x])
+            return ql.Array(list(x))
 
     cost = SumSquares()
     constraint = ql.PositiveConstraint()

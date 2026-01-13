@@ -37,10 +37,10 @@ def test_include_todays_cash_flows():
     settings = ql.Settings.instance()
 
     settings.includeTodaysCashFlows = True
-    assert settings.includeTodaysCashFlows == True
+    assert settings.includeTodaysCashFlows is True
 
     settings.includeTodaysCashFlows = False
-    assert settings.includeTodaysCashFlows == False
+    assert settings.includeTodaysCashFlows is False
 
     settings.includeTodaysCashFlows = None
     assert settings.includeTodaysCashFlows is None

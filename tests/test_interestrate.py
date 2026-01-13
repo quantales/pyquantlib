@@ -85,8 +85,8 @@ def test_interestrate_factors(setup_interest_rate_test):
     assert ir_cont.compoundFactor(start, end) == pytest.approx(expected_compound_cont)
     assert ir_cont.discountFactor(start, end) == pytest.approx(1.0 / expected_compound_cont)
 
-    # Compounded case
-    ir_comp = ql.InterestRate(r, dc, ql.Compounded, ql.Annual)
+    # Compounded case - tested via equivalentRate in other tests
+    # ir_comp = ql.InterestRate(r, dc, ql.Compounded, ql.Annual)
     # expected_compound_comp = (1 + r / ql.Annual) ** (ql.Annual * t) # (1+r)^t for Annual
     # assert ir_comp.compoundFactor(t) == pytest.approx(expected_compound_comp)
     # assert ir_comp.discountFactor(t) == pytest.approx(1.0 / expected_compound_comp)

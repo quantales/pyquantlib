@@ -196,9 +196,6 @@ def test_period_comparisons():
     p6m = ql.Period(6, ql.Months)
     p1y = ql.Period(1, ql.Years)
     p12m = ql.Period(12, ql.Months)
-    p18m = ql.Period(18, ql.Months)
-    p2w = ql.Period(2, ql.Weeks) # approx 14 days
-    p15d = ql.Period(15, ql.Days)
 
     assert p6m == ql.Period(6, ql.Months)
     assert p1y == p12m.normalized() # Comparing normalized forms
