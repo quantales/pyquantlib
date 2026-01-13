@@ -269,14 +269,10 @@ pytest tests/test_date.py
 pytest -v
 ```
 
-### Code Quality
+### Linting
 
 ```bash
-# Run linter
-ruff check src/ tests/
-
-# Run type checker
-mypy src/
+ruff check tests/ pyquantlib/
 ```
 
 ### Building Wheels
@@ -414,7 +410,7 @@ pybind11 enum values are singletons. Never pass by reference and modify:
 ## Code Style
 
 - **C++**: Follow the existing style (clang-format configuration coming soon)
-- **Python**: Use ruff for formatting and linting
+- **Python**: Use ruff for linting tests
 
 ---
 

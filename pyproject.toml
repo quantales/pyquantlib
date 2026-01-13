@@ -67,7 +67,6 @@ Changelog = "https://github.com/quantales/pyquantlib/blob/main/CHANGELOG.md"
 dev = [
     "pytest>=8.0.0",
     "pytest-cov>=4.0.0",
-    "mypy>=1.8.0",
     "ruff>=0.4.0",
     "pybind11-stubgen>=2.5.0",
     "build>=1.0.0",
@@ -104,7 +103,7 @@ cmake.build-type = "Release"
 # Override with: CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
 
 # ==============================================================================
-# Ruff Configuration (Linter & Formatter)
+# Ruff Configuration (Linter)
 # ==============================================================================
 
 [tool.ruff]
@@ -127,16 +126,6 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ["pyquantlib"]
-
-# ==============================================================================
-# Mypy Configuration (Type Checker)
-# ==============================================================================
-
-[tool.mypy]
-python_version = "3.9"
-warn_return_any = true
-warn_unused_configs = true
-ignore_missing_imports = true
 
 # ==============================================================================
 # Pytest Configuration

@@ -43,14 +43,10 @@ pytest tests/test_date.py
 pytest -v
 ```
 
-### Code Quality
+### Linting
 
 ```bash
-# Linting
-ruff check src/ tests/
-
-# Type checking
-mypy src/
+ruff check tests/ pyquantlib/
 ```
 
 ### Building Wheels
