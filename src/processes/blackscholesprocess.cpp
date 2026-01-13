@@ -42,6 +42,8 @@ void ql_processes::blackscholesprocess(py::module_& m) {
             "Returns the dividend yield term structure handle.")
         .def("riskFreeRate", &GeneralizedBlackScholesProcess::riskFreeRate,
             "Returns the risk-free rate term structure handle.")
+        .def("blackVolatility", &GeneralizedBlackScholesProcess::blackVolatility,
+            "Returns the Black volatility term structure handle.")
         .def("localVolatility", &GeneralizedBlackScholesProcess::localVolatility,
             "Returns the local volatility term structure handle.");
 
