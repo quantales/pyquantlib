@@ -1,6 +1,7 @@
 import pytest
-import pyquantlib as ql
+
 from pyquantlib.base import LazyObject
+
 # from pyquantlib import LazyObject
 
 
@@ -40,7 +41,7 @@ def test_python_custom_lazyobject_inheritance():
         def performCalculations(self):
             """This is the C++-side callback we are testing."""
             self.calculation_count += 1
-        
+
         def update(self):
             """
             Must be implemented because Observer::update is pure virtual.

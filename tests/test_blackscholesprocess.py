@@ -1,7 +1,9 @@
 import math
+
 import pytest
+
 import pyquantlib as ql
-from pyquantlib.base import StochasticProcess, StochasticProcess1D, Observer
+from pyquantlib.base import Observer, StochasticProcess, StochasticProcess1D
 
 
 @pytest.fixture

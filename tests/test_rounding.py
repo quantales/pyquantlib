@@ -1,6 +1,6 @@
 import pytest
-import pyquantlib as ql
 
+import pyquantlib as ql
 
 # --- Rounding.Type enum ---
 

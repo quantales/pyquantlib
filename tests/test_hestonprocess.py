@@ -1,4 +1,5 @@
 import pytest
+
 import pyquantlib as ql
 from pyquantlib.base import StochasticProcess
 

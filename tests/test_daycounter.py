@@ -1,5 +1,7 @@
 import pytest
+
 import pyquantlib as ql
+
 
 def test_daycounter_base():
     dc = ql.DayCounter()
@@ -14,27 +16,27 @@ def test_daycounter_base():
 def test_actual360_shared_ptr():
     # Create an Actual360 instance
     act360 = ql.Actual360()
-    
+
     # Check it's a DayCounter too (inherits correctly)
     assert isinstance(act360, ql.DayCounter)
-    
+
     # It should not be empty (has implementation)
     assert not act360.empty()
-    
+
     # Call a method from DayCounter base class
     d1 = ql.Date(1, 1, 2023)
     d2 = ql.Date(1, 2, 2023)
-    
+
     day_count = act360.dayCount(d1, d2)
     yf = act360.yearFraction(d1, d2)
-    
+
     assert isinstance(day_count, int)
     assert day_count > 0
-    
+
     assert isinstance(yf, float)
     assert yf > 0.0
 
-#@pytest.mark.skip   
+#@pytest.mark.skip
 def test_daycounters():
     # Example concrete day counters
     dc_30_360 = ql.Thirty360(ql.Thirty360.Convention.ISDA)

@@ -1,6 +1,9 @@
-import pytest
 import sys
+
+import pytest
+
 import pyquantlib as ql
+
 
 def test_calendar_empty():
     calendar = ql.Calendar()
@@ -32,13 +35,13 @@ def test_reset_holidays():
     # Add a holiday, then reset
     calendar.addHoliday(date)
     assert calendar.isHoliday(date)
-    
+
     calendar.resetAddedAndRemovedHolidays()
     assert calendar.isBusinessDay(date)
 
 def test_is_holiday_and_is_business_day():
     calendar = ql.TARGET()
-    
+
     # New Year's Day 2025 (Wednesday) - holiday
     new_years = ql.Date(1, ql.January, 2025)
     assert calendar.isHoliday(new_years)
@@ -71,7 +74,7 @@ def test_start_end_of_month():
 
 def test_adjust_and_advance():
     calendar = ql.TARGET()
-    
+
     # Adjust a Saturday to the next Monday
     saturday = ql.Date(4, ql.January, 2025)
     adjusted = calendar.adjust(saturday, ql.Following)
@@ -93,7 +96,7 @@ def test_business_days_and_holiday_list():
 
     assert len(holidays) > 0  # Should have at least New Year's Day
     assert len(business_days) > 0
-    
+
     # All business days should be business days
     for d in business_days:
         assert calendar.isBusinessDay(d)
@@ -140,9 +143,9 @@ def test_reset_added_holidays():
     calendar = ql.BespokeCalendar("bespoke thing")
     test_date = ql.Date(1, ql.January, 2024)
     assert not calendar.isHoliday(test_date)
-    
+
     calendar.addHoliday(test_date)
     assert calendar.isHoliday(test_date)
-    
+
     calendar.resetAddedAndRemovedHolidays()
     assert not calendar.isHoliday(test_date)

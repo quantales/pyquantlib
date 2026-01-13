@@ -1,7 +1,4 @@
-import pytest
-import numpy as np
 import pyquantlib as ql
-from pyquantlib.base import Constraint
 
 
 def test_constraint_abc_exists():

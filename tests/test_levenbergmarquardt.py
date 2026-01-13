@@ -1,5 +1,7 @@
-import pytest
 import math
+
+import pytest
+
 import pyquantlib as ql
 from pyquantlib.base import CostFunction
 

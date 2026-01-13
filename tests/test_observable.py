@@ -1,4 +1,5 @@
 import pytest
+
 import pyquantlib as ql
 
 
@@ -28,7 +29,7 @@ def test_observer_registration_and_notification():
 
     observable.notifyObservers()
     assert observer.notifications_count == 2, "Observer's update() method was not called a second time."
-  
+
 def test_observer_unregistration():
     """Test that an observer stops receiving notifications after unregistering."""
     observable = ql.Observable()
@@ -42,7 +43,7 @@ def test_observer_unregistration():
     observable.notifyObservers() # This notification should not reach the observer
     assert observer.notifications_count == 1, \
         "Observer was notified after unregistering from the specific observable."
-  
+
 def test_observer_multiple_observables_and_unregister_all():
     """Test registration with multiple observables and unregisterWithAll."""
     observable1 = ql.Observable()
@@ -67,7 +68,7 @@ def test_observer_multiple_observables_and_unregister_all():
     observable2.notifyObservers()
     assert observer.notifications_count == 2, \
         "Observer notified by observable2 after unregisterWithAll"
-  
+
 def test_multiple_observers_on_one_observable():
     """Test that multiple observers can register with one observable."""
     observable = ql.Observable()
@@ -90,13 +91,13 @@ def test_multiple_observers_on_one_observable():
     observable.notifyObservers()
     assert observer1.notifications_count == 0, "Observer1 was notified after unregistering."
     assert observer2.notifications_count == 1, "Observer2 was not notified after observer1 unregistered."
-  
+
 def test_observer_constructor_and_initial_state():
     """Test the initial state of the PyObserver."""
     observer = PyObserver()
     assert isinstance(observer, ql.base.Observer)
     assert observer.notifications_count == 0
-   
+
 def test_observable_constructor():
     """Test the Observable constructor."""
     obs = ql.Observable()

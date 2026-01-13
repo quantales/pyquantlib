@@ -1,5 +1,6 @@
 import pyquantlib as ql
 
+
 def test_weekday_enum_values():
 
     # Abbreviations (should match full names)
@@ -15,7 +16,7 @@ def test_weekday_enum_as_int():
     assert int(ql.Weekday.Sunday) == 1
     assert int(ql.Weekday.Monday) == 2
     assert int(ql.Weekday.Saturday) == 7
-    
+
     monday = int(ql.Weekday.Monday)
     tuesday = int(ql.Weekday.Tuesday)
     assert (tuesday - monday) == 1

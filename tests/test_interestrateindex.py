@@ -1,4 +1,5 @@
 import pytest
+
 import pyquantlib as ql
 
 
@@ -79,7 +80,7 @@ def test_python_custom_interestrateindex_fixing():
                 return self._fixings[d]
             if forecastTodaysFixing:
                 return self.forecastFixing(d)
-            raise ql.Error(f"No fixing")
+            raise ql.Error("No fixing")
 
         def update(self):
             pass

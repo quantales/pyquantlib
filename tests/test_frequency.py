@@ -1,5 +1,6 @@
 import pyquantlib as ql
 
+
 def test_frequency_enum_members_exist():
     expected_members = [
         "NoFrequency",

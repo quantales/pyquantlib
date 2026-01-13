@@ -1,5 +1,7 @@
 import pytest
-import pyquantlib as ql 
+
+import pyquantlib as ql
+
 
 @pytest.fixture
 def common_dates():
@@ -19,7 +21,7 @@ def common_calendar():
 
 def test_make_schedule_basic():
     maker = ql.MakeSchedule()
-    
+
     # Use chaining to set schedule parameters
     effective = ql.Date(1, 1, 2025)
     termination = ql.Date(1, 1, 2026)
@@ -30,7 +32,7 @@ def test_make_schedule_basic():
     rule = ql.DateGeneration.Forward
     first_date = ql.Date(15, 1, 2025)
     next_to_last_date = ql.Date(15, 12, 2025)
-    
+
     # Chain methods
     maker = (maker.from_(effective)
             .to(termination)
@@ -43,10 +45,10 @@ def test_make_schedule_basic():
             .withFirstDate(first_date)
             .withNextToLastDate(next_to_last_date)
             .forwards())
-    
+
     # Convert to Schedule
     schedule = maker.schedule()
-    
+
     # Basic assertions
     assert isinstance(schedule, ql.Schedule)
     assert schedule.startDate() == effective
@@ -67,7 +69,7 @@ def test_make_schedule_backwards_and_default_endOfMonth():
         .withTenor(ql.Period("1M"))
         .backwards())
     schedule = maker.schedule()
-    
+
     assert schedule.hasRule()
     assert schedule.rule() == ql.DateGeneration.Backward
     # Default endOfMonth should be False unless set
@@ -83,7 +85,7 @@ def test_make_schedule_initialization_and_conversion(common_dates, common_calend
     maker.withTenor(ql.Period("6M"))
     maker.withCalendar(common_calendar)
     maker.withConvention(ql.Following)
-    
+
     schedule = maker.schedule()
     assert isinstance(schedule, ql.Schedule), "Conversion did not produce a ql.Schedule object"
 
@@ -108,17 +110,17 @@ def test_make_schedule_frequency_tenor_conversion(common_dates, common_calendar)
 
     maker = ql.MakeSchedule()
     (
-    maker.from_(eff_date) 
-         .to(term_date) 
-         .withFrequency(frequency) # -> tenor = ql.Period(6, ql.Months) 
-         .withCalendar(calendar) 
-         .withConvention(convention) 
-         .withTerminationDateConvention(term_convention) 
-         .forwards() 
+    maker.from_(eff_date)
+         .to(term_date)
+         .withFrequency(frequency) # -> tenor = ql.Period(6, ql.Months)
+         .withCalendar(calendar)
+         .withConvention(convention)
+         .withTerminationDateConvention(term_convention)
+         .forwards()
     )
-    
+
     assert maker.schedule().tenor() == ql.Period("6M")
-    
+
 
 def test_forward_schedule_properties(common_dates, common_calendar):
     """Tests a forward-generated schedule and its properties."""
@@ -141,20 +143,20 @@ def test_forward_schedule_properties(common_dates, common_calendar):
     schedule = maker.schedule()
 
     assert isinstance(schedule, ql.Schedule)
-    
+
     # Check rule
     assert schedule.rule() == ql.DateGeneration.Forward, "Schedule rule should be Forward"
-    
+
     # Check calendar
     assert schedule.calendar() == calendar, "Schedule calendar mismatch"
-    
+
     # Check business day convention
     assert schedule.businessDayConvention() == convention, "Schedule convention mismatch"
     assert schedule.terminationDateBusinessDayConvention() == term_convention, "Schedule termination convention mismatch"
 
     # Check dates (basic checks)
     assert len(schedule) > 0, "Schedule should have at least one date"
-    
+
     # The first date of the schedule should be the (potentially adjusted) effective date.
     # Adjusting the effective_date manually for the test if it's on a non-business day:
     adjusted_eff_date = calendar.adjust(eff_date, convention)
@@ -170,7 +172,7 @@ def test_forward_schedule_properties(common_dates, common_calendar):
     # For simplicity, let's check it's not after the adjusted termination date.
     assert schedule.endDate() <= adjusted_term_date, \
          f"Schedule end date {schedule.endDate()} is after expected {adjusted_term_date}"
-    
+
 
 def test_backward_schedule_properties(common_dates, common_calendar):
     """Tests a backward-generated schedule and its properties."""
@@ -198,7 +200,7 @@ def test_backward_schedule_properties(common_dates, common_calendar):
     assert schedule.rule() == ql.DateGeneration.Backward, "Schedule rule should be Backward"
     assert schedule.calendar().name() == calendar.name(), "Schedule calendar mismatch"
     assert schedule.businessDayConvention() == convention, "Schedule convention mismatch"
-    
+
     adjusted_eff_date = calendar.adjust(eff_date, convention)
     adjusted_term_date = calendar.adjust(term_date, term_convention)
 
@@ -215,7 +217,7 @@ def test_end_of_month_convention(common_dates, common_calendar):
     # Effective date that is end of month
     eff_date = ql.Date(31, ql.January, 2024)
     # Termination date also end of month for simplicity in this test
-    term_date = ql.Date(31, ql.July, 2024) 
+    term_date = ql.Date(31, ql.July, 2024)
     calendar = common_calendar
     tenor = ql.Period(1, ql.Months)
     convention = ql.Unadjusted # Use Unadjusted to make EOM behavior more predictable for test
@@ -260,7 +262,7 @@ def test_with_first_and_next_to_last_date(common_dates, common_calendar):
     # Ensure overrides are within bounds for this test
     assert first_date_override >= eff_date
     assert next_to_last_date_override <= term_date
-    
+
     calendar = common_calendar
     tenor = ql.Period(3, ql.Months)
     convention = ql.Following
@@ -289,7 +291,7 @@ def test_with_first_and_next_to_last_date(common_dates, common_calendar):
         # A simpler check is that this date is *present* if it fits the schedule logic.
         # QuantLib's Schedule constructor with first/nextToLastDate uses them to override
         # the regularly generated dates if they fall within the schedule.
-        
+
         # A more robust check: is the next_to_last_date_override (adjusted) present in the schedule
         # and is it indeed the next to last one?
         # For this test, let's check if it's the actual next-to-last date.
@@ -304,7 +306,7 @@ def test_with_first_and_next_to_last_date(common_dates, common_calendar):
 def test_chaining_and_return_self(common_dates):
     """Test that builder methods return the MakeSchedule instance for chaining."""
     maker = ql.MakeSchedule()
-    
+
     # Test a few methods. If one works, others likely do too due to consistent binding.
     assert maker.from_(common_dates["effective"]) is maker, "'from_' method did not return self"
     assert maker.to(common_dates["termination"]) is maker, "'to' method did not return self"

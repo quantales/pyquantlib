@@ -1,4 +1,5 @@
-import pyquantlib as ql 
+import pyquantlib as ql
+
 
 def test_date_construction():
     d1 = ql.Date(15, ql.Month.May, 2024)

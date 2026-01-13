@@ -1,6 +1,7 @@
-import pyquantlib as ql
+
 import pytest
-import math
+
+import pyquantlib as ql
 
 
 # --- Test Constructors ---
@@ -41,7 +42,7 @@ def test_period_constructors():
     assert p_quarterly.length() == 3
     assert p_quarterly.units() == ql.Months
     assert p_quarterly.frequency() == ql.Quarterly
-    
+
     p_monthly = ql.Period(ql.Monthly) # 1M
     assert p_monthly.length() == 1
     assert p_monthly.units() == ql.Months
@@ -51,17 +52,17 @@ def test_period_constructors():
     assert p_weekly.length() == 1
     assert p_weekly.units() == ql.Weeks
     assert p_weekly.frequency() == ql.Weekly
-    
+
     p_daily = ql.Period(ql.Daily) # 1D
     assert p_daily.length() == 1
     assert p_daily.units() == ql.Days
     assert p_daily.frequency() == ql.Daily
 
     p_once = ql.Period(ql.Once) # 0Y
-    assert p_once.length() == 0 
+    assert p_once.length() == 0
     assert p_once.units() == ql.Years
     assert p_once.frequency() == ql.Once
-    
+
     p_nofreq = ql.Period(ql.NoFrequency) # 0D
     assert p_nofreq.length() == 0
     assert p_nofreq.units() == ql.Days
@@ -89,7 +90,7 @@ def test_period_from_string_valid(period_str, length, unit):
     # So, we need to compare against the normalized form or check the components
     # if the parse function in the binding already uses QuantLib::PeriodParser::parse which normalizes.
     # The binding indeed uses PeriodParser::parse.
-    
+
     # Let's compare the parsed period with an equivalent constructed period that is also normalized
     # This is tricky because the internal normalization logic can be complex.
     # A simpler check: compare string representations after QL's internal formatting
@@ -98,7 +99,7 @@ def test_period_from_string_valid(period_str, length, unit):
     # if the string represents an already simple form.
     # For "2Y6M" -> 30M, length will be 30, unit will be Months
     # For "1W2D" -> 9D, length will be 9, unit will be Days
-    
+
     # Let's create the expected period, then normalize both and compare
     # This is harder to test directly without knowing QL's exact normalization rules for ALL cases.
     # Let's test that the parsed period matches a known equivalent.
@@ -127,11 +128,11 @@ def test_period_members():
     assert p_1y.length() == 1
     assert p_1y.units() == ql.Years
     assert p_1y.frequency() == ql.Annual
-    
+
     # Test normalize and normalized
     p_12m = ql.Period(12, ql.Months)
     p_12m_normalized_copy = p_12m.normalized()
-    
+
     assert p_12m_normalized_copy.length() == 1
     assert p_12m_normalized_copy.units() == ql.Years
     assert p_12m.length() == 12 # Original should be unchanged by .normalized()
@@ -150,7 +151,7 @@ def test_period_members():
     p_7d_norm_copy = p_7d.normalized()
     assert p_7d_norm_copy.length() == 1
     assert p_7d_norm_copy.units() == ql.Weeks
-    
+
     p_7d.normalize()
     assert p_7d.length() == 1
     assert p_7d.units() == ql.Weeks
@@ -163,7 +164,7 @@ def test_period_inplace_operators():
     p2 = ql.Period(6, ql.Months)
     p1 += p2
     assert p1 == ql.Period(9, ql.Months)
-    
+
     p3 = ql.Period(1, ql.Years)
     p1 += p3 # 9M + 1Y = 21M
     p1.normalize() # 21M
@@ -189,7 +190,7 @@ def test_period_inplace_operators():
     p8 = ql.Period(1, ql.Years)
     with pytest.raises(ql.Error):
         p8 /= 0
-    
+
 # --- Test Rich Comparisons ---
 def test_period_comparisons():
     p6m = ql.Period(6, ql.Months)
@@ -202,17 +203,17 @@ def test_period_comparisons():
     assert p6m == ql.Period(6, ql.Months)
     assert p1y == p12m.normalized() # Comparing normalized forms
     assert p1y != p6m
-    
+
     assert p6m < p1y
     assert p1y > p6m
     assert p6m <= p1y
     assert p6m <= ql.Period(6, ql.Months)
     assert p1y >= p6m
     assert p1y >= p12m.normalized()
-    
+
     assert ql.Period("1Y") > ql.Period("11M")
-    assert ql.Period("12M") == ql.Period("1Y").normalized() 
-   
+    assert ql.Period("12M") == ql.Period("1Y").normalized()
+
     assert ql.Period(12, ql.Months) == ql.Period(1, ql.Years)
     assert ql.Period(1, ql.Years) == ql.Period(1, ql.Years)
 
@@ -232,9 +233,9 @@ def test_period_arithmetic():
     # Addition
     p9m = p3m + p6m
     assert p9m == ql.Period(9, ql.Months)
-    
+
     p1y = ql.Period(1, ql.Years)
-    p1y3m = p1y + p3m # 1Y + 3M = 15M 
+    p1y3m = p1y + p3m # 1Y + 3M = 15M
     assert p1y3m.units() == ql.Months
     assert p1y3m.length() == 15
 
@@ -261,7 +262,7 @@ def test_period_arithmetic():
 
     p_div_months = ql.Period(18, ql.Months) / 3 # 18M / 3 = 6M
     assert p_div_months == ql.Period(6, ql.Months)
-    
+
     # Test division by zero
     with pytest.raises(ql.Error):
         _ = ql.Period(1, ql.Years) / 0
@@ -271,7 +272,7 @@ def test_period_str_repr():
     p_5w = ql.Period(5, ql.Weeks)
     assert str(p_5w) == "5W"
     assert repr(p_5w).startswith("<Period: ")
-    assert str(p_5w) in repr(p_5w) 
+    assert str(p_5w) in repr(p_5w)
     assert repr(p_5w).endswith(">")
 
     p_10d = ql.Period("10d")
@@ -281,7 +282,7 @@ def test_period_str_repr():
     # The string output of Period usually simplifies (e.g., to largest units or normalized form)
     # Let's check a known normalization: "2Y6M" -> "30M"
     p_30m_from_str = ql.Period("2Y6M")
-    assert str(p_30m_from_str) == "30M" 
+    assert str(p_30m_from_str) == "30M"
     assert repr(p_30m_from_str) == "<Period: 30M>"
 
 # --- Test Hash ---
@@ -298,7 +299,7 @@ def test_period_hash():
     # Test usability in sets/dictionary keys
     period_set = {p1, p2, p3, p4}
     assert len(period_set) == 2 # p1,p2,p3 are equivalent after normalization, p4 is different
-    
+
     period_dict = {p1: "one_year", p4: "six_months"}
     assert period_dict[p2] == "one_year" # p2 is equivalent to p1
 
@@ -313,7 +314,7 @@ def test_period_free_functions():
     # Test years()
     assert ql.years(p_1y) == 1
     assert ql.years(p_18m) == 1.5
-    
+
     # Test months()
     assert ql.months(p_1y) == 12
     assert ql.months(p_2m) == 2
@@ -322,7 +323,7 @@ def test_period_free_functions():
     # Test weeks()
     assert ql.weeks(p_3w) == 3
     assert int(ql.weeks(p_10d)) == 1 # Integer part of 10/7
-    
+
     # Test days()
     assert ql.days(p_3w) == 21
     assert ql.days(p_10d) == 10

@@ -1,6 +1,8 @@
-import pytest
-import numpy as np
 import math
+
+import numpy as np
+import pytest
+
 import pyquantlib as ql
 
 

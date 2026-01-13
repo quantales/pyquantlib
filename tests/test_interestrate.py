@@ -1,6 +1,8 @@
-import pyquantlib as ql
-import pytest
 import math
+
+import pytest
+
+import pyquantlib as ql
 
 
 @pytest.fixture(scope="module")
@@ -26,18 +28,18 @@ def test_interestrate_constructors(setup_interest_rate_test):
     # A default-constructed InterestRate has a Null value
     print(ir_default)
     assert ir_default.isNull()
-    
+
     # Full constructor
     r = setup_interest_rate_test["rate"]
     dc = setup_interest_rate_test["day_counter"]
     comp = setup_interest_rate_test["compounding"]
     freq = setup_interest_rate_test["frequency"]
-    
+
     ir = ql.InterestRate(r, dc, comp, freq)
-    
+
     assert ir.rate() == pytest.approx(r)
 
-    assert ir.dayCounter() is not None 
+    assert ir.dayCounter() is not None
     assert ir.compounding() == comp
     assert ir.frequency() == freq
 
@@ -59,7 +61,7 @@ def test_interestrate_inspectors(setup_interest_rate_test):
     # ...but assert that the stored frequency is NoFrequency, as it's not applicable.
     assert ir_continuous.frequency() == ql.NoFrequency
 
-    # Test dayCounter separately 
+    # Test dayCounter separately
     assert ir_discrete.dayCounter().name() == dc.name()
     assert ir_continuous.dayCounter().name() == dc.name()
 
@@ -70,10 +72,10 @@ def test_interestrate_factors(setup_interest_rate_test):
     start = setup_interest_rate_test["start_date"]
     end = setup_interest_rate_test["end_date"]
     t = setup_interest_rate_test["time"]
-    
+
     # Simple case: Continuous compounding
     ir_cont = ql.InterestRate(r, dc, ql.Continuous, ql.Annual)
-    
+
     # Test with time `t`
     expected_compound_cont = math.exp(r * t)
     assert ir_cont.compoundFactor(t) == pytest.approx(expected_compound_cont)
@@ -97,16 +99,16 @@ def test_interestrate_implied_and_equivalent_rate(setup_interest_rate_test):
 
     # Start with a known rate
     ir = ql.InterestRate(r, dc, ql.Compounded, ql.Annual)
-    
+
     # Calculate compound factor
     compound_factor = ir.compoundFactor(t)
-    
+
     # 1. Test impliedRate (static method)
     # What rate, under continuous compounding, gives the same compound factor?
     implied_ir = ql.InterestRate.impliedRate(
         compound_factor, dc, ql.Continuous, ql.Annual, t
     )
-    
+
     # For Continuous: compound = e^(r_implied * t) => r_implied = ln(compound) / t
     expected_implied_rate = math.log(compound_factor) / t
     assert implied_ir.rate() == pytest.approx(expected_implied_rate)
@@ -115,7 +117,7 @@ def test_interestrate_implied_and_equivalent_rate(setup_interest_rate_test):
     # 2. Test equivalentRate (instance method)
     # What is the equivalent continuous rate for our original compounded rate?
     equivalent_ir = ir.equivalentRate(ql.Continuous, ql.Annual, t)
-    
+
     assert equivalent_ir.rate() == pytest.approx(expected_implied_rate)
     assert equivalent_ir.compounding() == ql.Continuous
 
@@ -127,14 +129,14 @@ def test_interestrate_string_representation(setup_interest_rate_test):
     ir = ql.InterestRate(
         0.03, ql.Actual360(), ql.Compounded, ql.Quarterly
     )
-    
+
     # Using __str__ binding
     s = str(ir)
     # Example output from QL: "3.000000 % Actual/360 Quarterly compounding"
     assert "3.000000 %" in s
     assert "Actual/360" in s
     assert "Quarterly" in s
-    
+
     # Using __repr__ binding
     # Example output from QL: "<InterestRate: 3.000000 % Actual/360 Quarterly compounding>"
     r = repr(ir)
@@ -147,7 +149,7 @@ def test_interestrate_float_conversion():
     """Tests the __float__ method."""
     rate_value = 0.045
     ir = ql.InterestRate(rate_value, ql.Actual365Fixed(), ql.Continuous, ql.Annual)
-    
+
     # Check if casting works
     assert float(ir) == pytest.approx(rate_value)
 
@@ -192,7 +194,7 @@ def test_interestrate_hashable():
     assert ir1 in rate_set
     assert ir2 in rate_set
     assert ir3 in rate_set
-    
+
     # Test usage in a dict
     rate_dict = {ir1: "first", ir3: "third"}
     assert rate_dict[ir1] == "first"

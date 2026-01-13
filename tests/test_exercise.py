@@ -1,5 +1,5 @@
-import pytest
 import pyquantlib as ql
+
 
 def test_concrete_european_exercise():
     exercise_date = ql.Date(15, 6, 2025)

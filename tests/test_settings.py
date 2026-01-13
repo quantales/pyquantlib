@@ -1,4 +1,4 @@
-import pyquantlib as ql 
+import pyquantlib as ql
 
 
 def test_evaluation_date_get_set():

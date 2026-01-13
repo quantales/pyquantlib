@@ -1,10 +1,11 @@
-import pyquantlib as ql
 import pytest
+
+import pyquantlib as ql
 
 print("ql.Date is", ql.Date)
 print("type(ql.Date) =", type(ql.Date))
 
-# @pytest.mark.skip 
+# @pytest.mark.skip
 def test_schedule_basic_construction():
     # Prepare inputs
     dates = [ql.Date(1, 1, 2025), ql.Date(1, 7, 2025), ql.Date(1, 1, 2026)]
@@ -43,7 +44,7 @@ def test_schedule_rule_based_construction():
     assert schedule.rule() == rule
     assert not schedule.endOfMonth()
 
-# @pytest.mark.skip 
+# @pytest.mark.skip
 def test_schedule_iterators():
     dates = [ql.Date(1, 1, 2025), ql.Date(1, 7, 2025), ql.Date(1, 1, 2026)]
     schedule = ql.Schedule(dates)
@@ -51,7 +52,7 @@ def test_schedule_iterators():
     dates_from_iter = list(date for date in schedule)
     assert dates_from_iter == dates
 
-# @pytest.mark.skip 
+# @pytest.mark.skip
 def test_schedule_boundaries():
     dates = [ql.Date(1, 1, 2025), ql.Date(1, 7, 2025), ql.Date(1, 1, 2026)]
     schedule = ql.Schedule(dates)
@@ -60,7 +61,7 @@ def test_schedule_boundaries():
     assert schedule.previousDate(ql.Date(15, 6, 2025)) == ql.Date(1, 1, 2025)
     assert schedule.nextDate(ql.Date(15, 6, 2025)) == ql.Date(1, 7, 2025)
 
-# @pytest.mark.skip 
+# @pytest.mark.skip
 def test_schedule_out_of_range_access():
     dates = [ql.Date(1, 1, 2025), ql.Date(1, 7, 2025)]
     schedule = ql.Schedule(dates)

@@ -1,5 +1,6 @@
-import pyquantlib as ql
 import pytest
+
+import pyquantlib as ql
 
 
 def test_index_abc_exists():
@@ -10,17 +11,17 @@ def test_index_abc_exists():
 def test_abstract_index_zombie():
     """Tests that direct instantiation creates a zombie object."""
     zombie = ql.base.Index()
-    
+
     with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
         zombie.name()
-    
+
     with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
         zombie.fixingCalendar()
 
 
 def test_python_custom_index_inheritance():
     """Tests creating a custom Index class in Python."""
-    
+
     class CustomIndex(ql.base.Index):
         def __init__(self, name, calendar):
             super().__init__()
@@ -44,6 +45,6 @@ def test_python_custom_index_inheritance():
             pass
 
     idx = CustomIndex("TEST", ql.TARGET())
-    
+
     assert idx.name() == "TEST"
     assert idx.fixingCalendar().name() == "TARGET"

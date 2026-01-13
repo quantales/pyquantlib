@@ -1,4 +1,5 @@
 import pytest
+
 import pyquantlib as ql
 
 
@@ -84,7 +85,7 @@ def test_blackconstantvol_settlement_days():
     """Test BlackConstantVol construction with settlement days."""
     today = ql.Date(15, 6, 2024)
     ql.Settings.instance().evaluationDate = today
-    
+
     calendar = ql.TARGET()
     volatility = 0.25
     dc = ql.Actual365Fixed()
