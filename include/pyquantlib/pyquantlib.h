@@ -179,6 +179,7 @@ namespace ql_instruments {
 }
 
 namespace ql_pricingengines {
+    void blackformula(py::module_&);
     void genericmodelengine(py::module_&);
     void analyticeuropeanengine(py::module_&);
     void analytichestonengine(py::module_&);

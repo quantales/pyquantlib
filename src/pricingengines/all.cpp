@@ -16,6 +16,8 @@
 DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     auto m = manager.module();
 
+    manager.addFunction(ql_pricingengines::blackformula, m,
+        "Black formula functions for option pricing");
     manager.addFunction(ql_pricingengines::genericmodelengine, m,
         "GenericModelEngine - Generic option engine based on a model");
     manager.addFunction(ql_pricingengines::analyticeuropeanengine, m,
