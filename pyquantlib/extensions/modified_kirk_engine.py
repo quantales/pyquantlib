@@ -1,3 +1,7 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025, 2026 Yassine Idyiahia
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
 """
 Modified Kirk Engine for spread option pricing.
 
