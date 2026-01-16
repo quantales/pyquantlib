@@ -21,50 +21,36 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 There are existing Python bindings for QuantLib:
 
-- **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)**: Official bindings using SWIG
-- **[PyQL](https://github.com/enthought/pyql)**: Cython-based bindings
+* **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)**: official bindings generated using SWIG
+* **[PyQL](https://github.com/enthought/pyql)**: bindings implemented using Cython
 
-Both are excellent projects, but require learning an additional language beyond C++ and Python: SWIG's interface definition language or Cython's Python/C hybrid syntax.
+Both are mature and high-quality projects. However, they introduce an additional abstraction layer and a third language beyond C++ and Python—either SWIG's interface definition language or Cython's Python/C hybrid syntax. This increases the cognitive load when navigating the binding code, debugging issues, or keeping the wrappers in sync with upstream QuantLib changes.
 
-**PyQuantLib uses [pybind11](https://github.com/pybind/pybind11)**: bindings are written in pure C++. If you know C++ and Python, you can read, debug, and contribute to the wrapper code directly.
+PyQuantLib is built on [pybind11](https://github.com/pybind/pybind11), with all bindings written in standard C++. The wrapper code directly exposes QuantLib's C++ APIs, with no intermediate DSL or code generation step. As a result:
 
-### Pythonic API
+* Bindings are type-safe and resolved at compile time
+* Debugging can be done with standard C++ tools (compiler errors, debuggers, sanitizers)
+* The wrapper code closely mirrors the QuantLib headers and class structure
+* C++ developers can contribute immediately, without learning an additional binding language
 
-PyQuantLib aims to be a truly Pythonic version of QuantLib, using native Python types where possible:
+This design prioritizes transparency, maintainability, and long-term alignment with the QuantLib codebase.
 
-| QuantLib C++ | PyQuantLib |
-|--------------|------------|
-| `ql::Date` | `datetime.date` |
-| `std::vector<double>` | `list` / `np.ndarray` |
-| `ql::Matrix` | `np.ndarray` |
-| Handles everywhere | Hidden where possible |
+## Performance
 
-This is achieved via pybind11 type casters and lambda overrides: making the API feel native to Python.
+PyQuantLib uses pybind11, which provides a thin, low-overhead C++/Python boundary. Function calls are dispatched directly to QuantLib's C++ implementation, with no runtime code generation or reflection.
 
-### Rapid Prototyping in Python
+In practice, the dominant cost in typical QuantLib usage (pricing, curve construction, calibration) remains the underlying C++ computation, not the binding layer. Where applicable, PyQuantLib supports zero-copy data exchange with NumPy arrays.
 
-Extend QuantLib without touching C++. PyQuantLib exposes abstract base classes with trampoline classes, enabling Python subclassing:
+As with any Python binding, performance-critical loops should remain in C++. PyQuantLib is designed to expose QuantLib's APIs efficiently, while preserving Python's productivity for orchestration, configuration, and analysis.
 
-```python
-from pyquantlib.base import PricingEngine
+## Features
 
-class MyCustomEngine(PricingEngine):
-    """Prototype new engines in pure Python."""
-    
-    def calculate(self):
-        # Your pricing logic here
-        pass
-```
-
-No recompilation needed: quants can prototype custom engines, instruments, and processes directly in Python.
-
-### Features
-
-- **Pure C++ and Python**: No SWIG or Cython to learn
-- **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
-- **Organized namespaces**: `pyquantlib.base` for ABCs, logical module grouping
-- **NumPy integration**: Native array/matrix interoperability
-- **Modern tooling**: scikit-build-core, CMake presets, CI/CD ready
+* **Pythonic API**: Native `datetime.date` and NumPy arrays
+* **Pure C++ bindings**: No SWIG or Cython to learn
+* **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
+* **Python subclassing**: Prototype custom engines and instruments without recompilation
+* **Organized namespaces**: `pyquantlib.base` for ABCs, logical module grouping
+* **Modern tooling**: scikit-build-core, CMake presets, CI/CD ready
 
 ## Quick Example
 
