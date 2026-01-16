@@ -49,7 +49,6 @@ As with any Python binding, performance-critical loops should remain in C++. PyQ
 * **Pure C++ bindings**: No SWIG or Cython to learn
 * **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
 * **Python subclassing**: Prototype custom engines and instruments without recompilation
-* **Organized namespaces**: `pyquantlib.base` for ABCs, logical module grouping
 * **Modern tooling**: scikit-build-core, CMake presets, CI/CD ready
 
 ## Quick Example
