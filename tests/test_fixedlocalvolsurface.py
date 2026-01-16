@@ -1,5 +1,3 @@
-import sys
-
 import pytest
 
 import pyquantlib as ql
@@ -22,8 +20,6 @@ def test_fixedlocalvolsurface_extrapolation_enum():
     assert const_extrap != interp_extrap
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="FixedLocalVolSurface uses boost::shared_ptr on macOS")
 def test_fixedlocalvolsurface_with_dates():
     """Test FixedLocalVolSurface construction with dates."""
     ref_date = ql.Date(15, 6, 2024)
@@ -61,8 +57,6 @@ def test_fixedlocalvolsurface_with_dates():
     assert flvs.maxStrike() == pytest.approx(max(strikes))
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="FixedLocalVolSurface uses boost::shared_ptr on macOS")
 def test_fixedlocalvolsurface_with_times():
     """Test FixedLocalVolSurface construction with times."""
     ref_date = ql.Date(15, 6, 2024)
@@ -92,8 +86,6 @@ def test_fixedlocalvolsurface_with_times():
     assert flvs.localVol(0.5, 100.0) == pytest.approx(0.22)
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="FixedLocalVolSurface uses boost::shared_ptr on macOS")
 def test_fixedlocalvolsurface_with_varying_strikes():
     """Test FixedLocalVolSurface with different strikes per time point."""
     ref_date = ql.Date(15, 6, 2024)
@@ -128,8 +120,6 @@ def test_fixedlocalvolsurface_with_varying_strikes():
     assert flvs.localVol(0.5, 95.0) == pytest.approx(0.24)
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="FixedLocalVolSurface uses boost::shared_ptr on macOS")
 def test_fixedlocalvolsurface_inheritance():
     """Test FixedLocalVolSurface inheritance hierarchy."""
     ref_date = ql.Date(15, 6, 2024)
@@ -149,8 +139,6 @@ def test_fixedlocalvolsurface_inheritance():
     assert isinstance(flvs, ql.base.VolatilityTermStructure)
 
 
-@pytest.mark.skipif(sys.platform == "darwin",
-    reason="FixedLocalVolSurface uses boost::shared_ptr on macOS")
 def test_fixedlocalvolsurface_in_handle():
     """Test FixedLocalVolSurface works with LocalVolTermStructureHandle."""
     ref_date = ql.Date(15, 6, 2024)

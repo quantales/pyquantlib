@@ -1,5 +1,3 @@
-import sys
-
 import pytest
 
 import pyquantlib as ql
@@ -126,7 +124,6 @@ def test_joint_calendar_holidays():
     # Joint calendar should recognize holidays from both
     assert "US government bond market" in joint.name() or "TARGET" in joint.name()
 
-@pytest.mark.skipif(sys.platform == "darwin", reason="CalendarVector/shared_ptr holder issue on macOS")
 def test_hash():
     empty1, empty2 = ql.CalendarVector(2)
     for cal1 in (ql.BespokeCalendar("one"), ql.BespokeCalendar("two"), empty1):
