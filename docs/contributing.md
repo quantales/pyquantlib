@@ -112,21 +112,8 @@ void bind_simplequote(BindingManager& manager) {
 
 ### File Headers
 
-Every `.cpp` and `.h` file needs:
-
-```cpp
-/*
- * PyQuantLib: Python bindings for QuantLib
- * Copyright (c) 2025 Yassine Idyiahia
- *
- * QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
- * QuantLib is free software under a modified BSD license.
- * See http://quantlib.org/ for more information.
- *
- * Source: https://github.com/quantales/pyquantlib
- * Licensed under the BSD 3-Clause License. See LICENSE file for details.
- */
-```
+Each file lists its contributors (see existing files for a template).
+When adding a new file, or modifying an existing file substantially, add your copyright line.
 
 ### Includes
 
