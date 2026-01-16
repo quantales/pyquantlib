@@ -80,13 +80,8 @@ risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
 dividend = ql.FlatForward(today, 0.0, dc)
 volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
 
-# Black-Scholes process
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend),
-    ql.YieldTermStructureHandle(risk_free),
-    ql.BlackVolTermStructureHandle(volatility),
-)
+# Black-Scholes process (handles created internally)
+process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
 # European call option
 payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)

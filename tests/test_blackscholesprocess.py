@@ -133,3 +133,114 @@ def test_euler_discretization(market_env):
     assert process is not None
     evolved = process.evolve(0.0, 100.0, 1.0, 0.0)
     assert isinstance(evolved, float)
+
+
+# --- Hidden handle constructors ---
+
+
+@pytest.fixture
+def raw_market_data():
+    """Raw market data (no handles) for hidden handle tests."""
+    today = ql.Date(20, 2, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    spot = ql.SimpleQuote(100.0)
+    rate = ql.SimpleQuote(0.05)
+    div = ql.SimpleQuote(0.02)
+    vol = ql.SimpleQuote(0.20)
+
+    return {
+        "spot": spot,
+        "risk_free_ts": ql.FlatForward(today, ql.QuoteHandle(rate), dc),
+        "dividend_ts": ql.FlatForward(today, ql.QuoteHandle(div), dc),
+        "vol_ts": ql.BlackConstantVol(today, cal, ql.QuoteHandle(vol), dc),
+        "today": today,
+        "dc": dc,
+    }
+
+
+def test_gbsp_hidden_handles(raw_market_data):
+    """Test GeneralizedBlackScholesProcess with hidden handles."""
+    process = ql.GeneralizedBlackScholesProcess(
+        raw_market_data["spot"],
+        raw_market_data["dividend_ts"],
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+    )
+
+    assert process is not None
+    assert process.x0() == 100.0
+
+
+def test_gbsp_hidden_vs_explicit_handles(raw_market_data):
+    """Compare hidden and explicit handle constructors."""
+    # Hidden handles
+    process_hidden = ql.GeneralizedBlackScholesProcess(
+        raw_market_data["spot"],
+        raw_market_data["dividend_ts"],
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+    )
+
+    # Explicit handles
+    process_explicit = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(raw_market_data["spot"]),
+        ql.YieldTermStructureHandle(raw_market_data["dividend_ts"]),
+        ql.YieldTermStructureHandle(raw_market_data["risk_free_ts"]),
+        ql.BlackVolTermStructureHandle(raw_market_data["vol_ts"]),
+    )
+
+    # Both should price identically
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(raw_market_data["today"] + ql.Period(1, ql.Years))
+
+    option1 = ql.VanillaOption(payoff, exercise)
+    option1.setPricingEngine(ql.AnalyticEuropeanEngine(process_hidden))
+
+    option2 = ql.VanillaOption(payoff, exercise)
+    option2.setPricingEngine(ql.AnalyticEuropeanEngine(process_explicit))
+
+    assert option1.NPV() == pytest.approx(option2.NPV(), rel=1e-10)
+
+
+def test_bsp_hidden_handles(raw_market_data):
+    """Test BlackScholesProcess with hidden handles."""
+    process = ql.BlackScholesProcess(
+        raw_market_data["spot"],
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+    )
+
+    assert process is not None
+    assert isinstance(process, ql.BlackScholesProcess)
+
+
+def test_black_process_hidden_handles(raw_market_data):
+    """Test BlackProcess with hidden handles."""
+    forward = ql.SimpleQuote(100.0)
+    process = ql.BlackProcess(
+        forward,
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+    )
+
+    assert process is not None
+    assert isinstance(process, ql.BlackProcess)
+
+
+def test_gkp_hidden_handles(raw_market_data):
+    """Test GarmanKohlhagenProcess with hidden handles."""
+    foreign_ts = ql.FlatForward(raw_market_data["today"], 0.03, raw_market_data["dc"])
+
+    process = ql.GarmanKohlhagenProcess(
+        raw_market_data["spot"],
+        foreign_ts,
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+    )
+
+    assert process is not None
+    assert isinstance(process, ql.GarmanKohlhagenProcess)

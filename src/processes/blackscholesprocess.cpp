@@ -24,6 +24,7 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                ext::shared_ptr<GeneralizedBlackScholesProcess>>(
         m, "GeneralizedBlackScholesProcess",
         "Generalized Black-Scholes-Merton stochastic process.")
+        // Handle-based constructors
         .def(py::init<const Handle<Quote>&,
                       const Handle<YieldTermStructure>&,
                       const Handle<YieldTermStructure>&,
@@ -37,6 +38,32 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                       const ext::shared_ptr<StochasticProcess1D::discretization>&>(),
              py::arg("x0"), py::arg("dividendTS"), py::arg("riskFreeTS"),
              py::arg("blackVolTS"), py::arg("discretization"))
+        // Hidden handle constructors
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& dividendTS,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS) {
+            return ext::make_shared<GeneralizedBlackScholesProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(dividendTS),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS));
+        }), py::arg("x0"), py::arg("dividendTS"),
+            py::arg("riskFreeTS"), py::arg("blackVolTS"),
+            "Constructs from term structures (handles created internally).")
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& dividendTS,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<StochasticProcess1D::discretization>& d) {
+            return ext::make_shared<GeneralizedBlackScholesProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(dividendTS),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS), d);
+        }), py::arg("x0"), py::arg("dividendTS"), py::arg("riskFreeTS"),
+            py::arg("blackVolTS"), py::arg("discretization"),
+            "Constructs from term structures with discretization (handles created internally).")
         .def("stateVariable", &GeneralizedBlackScholesProcess::stateVariable,
             "Returns the state variable handle.")
         .def("dividendYield", &GeneralizedBlackScholesProcess::dividendYield,
@@ -56,6 +83,7 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                ext::shared_ptr<BlackScholesProcess>>(
         m, "BlackScholesProcess",
         "Black-Scholes process with no dividend yield.")
+        // Handle-based constructors
         .def(py::init<const Handle<Quote>&,
                       const Handle<YieldTermStructure>&,
                       const Handle<BlackVolTermStructure>&>(),
@@ -66,13 +94,36 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                       const ext::shared_ptr<StochasticProcess1D::discretization>&,
                       bool>(),
              py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
-             py::arg("discretization"), py::arg("forceDiscretization") = false);
+             py::arg("discretization"), py::arg("forceDiscretization") = false)
+        // Hidden handle constructors
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS) {
+            return ext::make_shared<BlackScholesProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS));
+        }), py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
+            "Constructs from term structures (handles created internally).")
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<StochasticProcess1D::discretization>& d,
+                         bool forceDiscretization) {
+            return ext::make_shared<BlackScholesProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS), d, forceDiscretization);
+        }), py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
+            py::arg("discretization"), py::arg("forceDiscretization") = false,
+            "Constructs from term structures with discretization (handles created internally).");
 
     // BlackProcess (forward price dynamics)
     py::class_<BlackProcess, GeneralizedBlackScholesProcess,
                ext::shared_ptr<BlackProcess>>(
         m, "BlackProcess",
         "Black process for forward price dynamics.")
+        // Handle-based constructors
         .def(py::init<const Handle<Quote>&,
                       const Handle<YieldTermStructure>&,
                       const Handle<BlackVolTermStructure>&>(),
@@ -83,13 +134,36 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                       const ext::shared_ptr<StochasticProcess1D::discretization>&,
                       bool>(),
              py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
-             py::arg("discretization"), py::arg("forceDiscretization") = false);
+             py::arg("discretization"), py::arg("forceDiscretization") = false)
+        // Hidden handle constructors
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS) {
+            return ext::make_shared<BlackProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS));
+        }), py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
+            "Constructs from term structures (handles created internally).")
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<StochasticProcess1D::discretization>& d,
+                         bool forceDiscretization) {
+            return ext::make_shared<BlackProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS), d, forceDiscretization);
+        }), py::arg("x0"), py::arg("riskFreeTS"), py::arg("blackVolTS"),
+            py::arg("discretization"), py::arg("forceDiscretization") = false,
+            "Constructs from term structures with discretization (handles created internally).");
 
     // GarmanKohlhagenProcess (FX options)
     py::class_<GarmanKohlagenProcess, GeneralizedBlackScholesProcess,
                ext::shared_ptr<GarmanKohlagenProcess>>(
         m, "GarmanKohlhagenProcess",
         "Garman-Kohlhagen process for FX options.")
+        // Handle-based constructors
         .def(py::init<const Handle<Quote>&,
                       const Handle<YieldTermStructure>&,
                       const Handle<YieldTermStructure>&,
@@ -104,5 +178,33 @@ void ql_processes::blackscholesprocess(py::module_& m) {
                       bool>(),
              py::arg("x0"), py::arg("foreignRiskFreeTS"),
              py::arg("domesticRiskFreeTS"), py::arg("blackVolTS"),
-             py::arg("discretization"), py::arg("forceDiscretization") = false);
+             py::arg("discretization"), py::arg("forceDiscretization") = false)
+        // Hidden handle constructors
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& foreignRiskFreeTS,
+                         const ext::shared_ptr<YieldTermStructure>& domesticRiskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS) {
+            return ext::make_shared<GarmanKohlagenProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(foreignRiskFreeTS),
+                Handle<YieldTermStructure>(domesticRiskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS));
+        }), py::arg("x0"), py::arg("foreignRiskFreeTS"),
+            py::arg("domesticRiskFreeTS"), py::arg("blackVolTS"),
+            "Constructs from term structures (handles created internally).")
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& foreignRiskFreeTS,
+                         const ext::shared_ptr<YieldTermStructure>& domesticRiskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<StochasticProcess1D::discretization>& d,
+                         bool forceDiscretization) {
+            return ext::make_shared<GarmanKohlagenProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(foreignRiskFreeTS),
+                Handle<YieldTermStructure>(domesticRiskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS), d, forceDiscretization);
+        }), py::arg("x0"), py::arg("foreignRiskFreeTS"),
+            py::arg("domesticRiskFreeTS"), py::arg("blackVolTS"),
+            py::arg("discretization"), py::arg("forceDiscretization") = false,
+            "Constructs from term structures with discretization (handles created internally).");
 }

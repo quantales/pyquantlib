@@ -96,9 +96,9 @@ CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
 
 **Symptom:** Error like "discount date before reference date" or similar when calling `discount()`, `NPV()`, etc.
 
-**Cause:** `Settings.evaluationDate` defaults to today's system date. If your term structure or instrument dates don't align with this, QuantLib throws an error.
+**Cause:** `Settings.evaluationDate` defaults to today's system date. If term structure or instrument dates don't align with this, QuantLib throws an error.
 
-**Solution:** Always set `evaluationDate` explicitly at the start of your code:
+**Solution:** Always set `evaluationDate` explicitly at the start of the code:
 
 ```python
 import pyquantlib as ql
@@ -165,7 +165,7 @@ process = ql.GeneralizedBlackScholesProcess(
 1. Reduce `requiredSamples` for Monte Carlo
 2. Use fewer time steps
 3. Process in batches
-4. Ensure you're not holding references to old objects
+4. Ensure no references to old objects are held
 
 ## Platform-Specific Issues
 
@@ -178,7 +178,7 @@ process = ql.GeneralizedBlackScholesProcess(
 
 **Solutions:**
 1. Install [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-2. Ensure you built QuantLib as static (`-DBUILD_SHARED_LIBS=OFF`)
+2. Ensure QuantLib was built as static (`-DBUILD_SHARED_LIBS=OFF`)
 3. Match Python and QuantLib architectures (both x64 or both x86)
 
 ### macOS: "Library not loaded" or "symbol not found"
@@ -192,7 +192,7 @@ ls -la /usr/local/lib/libQuantLib*
 # NOT libQuantLib.dylib (shared)
 ```
 
-If you see `.dylib`, rebuild QuantLib with `-DBUILD_SHARED_LIBS=OFF`.
+If `.dylib` appears, rebuild QuantLib with `-DBUILD_SHARED_LIBS=OFF`.
 
 ### Linux: Import hangs or crashes
 
@@ -202,7 +202,7 @@ If you see `.dylib`, rebuild QuantLib with `-DBUILD_SHARED_LIBS=OFF`.
 
 ## Getting Help
 
-If your issue isn't covered here:
+If the issue isn't covered here:
 
 1. Check [existing issues](https://github.com/quantales/pyquantlib/issues)
 2. Search [QuantLib mailing list](https://sourceforge.net/projects/quantlib/lists/quantlib-users) for related QuantLib issues

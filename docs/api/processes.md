@@ -33,19 +33,26 @@ risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
 dividend = ql.FlatForward(today, 0.0, dc)
 volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
 
-# Create process
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend),
-    ql.YieldTermStructureHandle(risk_free),
-    ql.BlackVolTermStructureHandle(volatility),
-)
+# Create process (Pythonic API: handles created internally)
+process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
 # Access process properties
 print(process.x0())              # Initial value (spot)
 print(process.riskFreeRate())    # Risk-free rate handle
 print(process.dividendYield())   # Dividend yield handle
 print(process.blackVolatility()) # Volatility handle
+```
+
+For advanced use cases requiring relinkable handles:
+
+```python
+# Explicit handle construction
+process = ql.GeneralizedBlackScholesProcess(
+    ql.QuoteHandle(spot),
+    ql.YieldTermStructureHandle(dividend),
+    ql.YieldTermStructureHandle(risk_free),
+    ql.BlackVolTermStructureHandle(volatility),
+)
 ```
 
 ### BlackScholesProcess
@@ -115,11 +122,9 @@ theta = 0.04   # Long-term variance
 sigma = 0.5    # Vol of vol
 rho = -0.7     # Spot-vol correlation (typically negative for equities)
 
-# Create Heston process
+# Create Heston process (Pythonic API: handles created internally)
 heston_process = ql.HestonProcess(
-    ql.YieldTermStructureHandle(risk_free),
-    ql.YieldTermStructureHandle(dividend),
-    ql.QuoteHandle(spot),
+    risk_free, dividend, spot,
     v0, kappa, theta, sigma, rho,
 )
 

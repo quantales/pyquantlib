@@ -28,8 +28,16 @@ void ql_pricingengines::analyticeuropeanengine(py::module_& m) {
         .def(py::init<const ext::shared_ptr<GeneralizedBlackScholesProcess>&>(),
              py::arg("process"),
             "Constructs engine with a Black-Scholes process.")
+        // Handle-based constructor (explicit)
         .def(py::init<const ext::shared_ptr<GeneralizedBlackScholesProcess>&,
                       const Handle<YieldTermStructure>&>(),
              py::arg("process"), py::arg("discountCurve"),
-            "Constructs engine with separate discount curve.");
+            "Constructs engine with separate discount curve.")
+        // Hidden handle constructor
+        .def(py::init([](const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
+                         const ext::shared_ptr<YieldTermStructure>& discountCurve) {
+            return ext::make_shared<AnalyticEuropeanEngine>(
+                process, Handle<YieldTermStructure>(discountCurve));
+        }), py::arg("process"), py::arg("discountCurve"),
+            "Constructs engine with separate discount curve (handle created internally).");
 }

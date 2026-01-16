@@ -142,3 +142,70 @@ def test_put_option(market_env):
     npv = option.NPV()
     assert npv > 0
     assert option.delta() < 0  # Put has negative delta
+
+
+def test_analytic_engine_hidden_discount_curve():
+    """Test AnalyticEuropeanEngine with hidden handle discount curve."""
+    today = ql.Date(26, 6, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, 0.05, dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, 0.20, dc)
+    discount_ts = ql.FlatForward(today, 0.10, dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot, dividend_ts, risk_free_ts, vol_ts
+    )
+
+    # Hidden handle for discount curve
+    engine = ql.AnalyticEuropeanEngine(process, discount_ts)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+
+    assert option.NPV() > 0
+
+
+def test_analytic_engine_hidden_vs_explicit_discount():
+    """Compare hidden and explicit discount curve constructors."""
+    today = ql.Date(26, 6, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, 0.05, dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, 0.20, dc)
+    discount_ts = ql.FlatForward(today, 0.10, dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot, dividend_ts, risk_free_ts, vol_ts
+    )
+
+    # Explicit handle
+    engine_explicit = ql.AnalyticEuropeanEngine(
+        process, ql.YieldTermStructureHandle(discount_ts)
+    )
+
+    # Hidden handle
+    engine_hidden = ql.AnalyticEuropeanEngine(process, discount_ts)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+
+    option1 = ql.VanillaOption(payoff, exercise)
+    option1.setPricingEngine(engine_explicit)
+
+    option2 = ql.VanillaOption(payoff, exercise)
+    option2.setPricingEngine(engine_hidden)
+
+    assert option1.NPV() == pytest.approx(option2.NPV(), rel=1e-10)

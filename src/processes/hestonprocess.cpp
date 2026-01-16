@@ -38,6 +38,7 @@ void ql_processes::hestonprocess(py::module_& m) {
         .value("BroadieKayaExactSchemeTrapezoidal", HestonProcess::BroadieKayaExactSchemeTrapezoidal)
         .export_values();
 
+    // Handle-based constructor (explicit)
     cls.def(py::init<Handle<YieldTermStructure>,
                      Handle<YieldTermStructure>,
                      Handle<Quote>,
@@ -47,6 +48,23 @@ void ql_processes::hestonprocess(py::module_& m) {
             py::arg("v0"), py::arg("kappa"), py::arg("theta"),
             py::arg("sigma"), py::arg("rho"),
             py::arg("d") = HestonProcess::QuadraticExponentialMartingale)
+        // Hidden handle constructor
+        .def(py::init([](const ext::shared_ptr<YieldTermStructure>& riskFreeRate,
+                         const ext::shared_ptr<YieldTermStructure>& dividendYield,
+                         const ext::shared_ptr<Quote>& s0,
+                         Real v0, Real kappa, Real theta,
+                         Real sigma, Real rho,
+                         HestonProcess::Discretization d) {
+            return ext::make_shared<HestonProcess>(
+                Handle<YieldTermStructure>(riskFreeRate),
+                Handle<YieldTermStructure>(dividendYield),
+                Handle<Quote>(s0),
+                v0, kappa, theta, sigma, rho, d);
+        }), py::arg("riskFreeRate"), py::arg("dividendYield"), py::arg("s0"),
+            py::arg("v0"), py::arg("kappa"), py::arg("theta"),
+            py::arg("sigma"), py::arg("rho"),
+            py::arg("d") = HestonProcess::QuadraticExponentialMartingale,
+            "Constructs from term structures (handles created internally).")
         .def("v0", &HestonProcess::v0,
             "Returns the initial variance.")
         .def("rho", &HestonProcess::rho,

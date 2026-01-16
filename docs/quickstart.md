@@ -1,6 +1,6 @@
 # Quick Start
 
-This guide walks you through your first PyQuantLib program: pricing a European call option using the Black-Scholes model.
+This guide walks through a first PyQuantLib program: pricing a European call option using the Black-Scholes model.
 
 ## Basic Usage
 
@@ -27,7 +27,7 @@ rate = ql.SimpleQuote(0.05)     # Risk-free rate (5%)
 vol = ql.SimpleQuote(0.20)      # Volatility (20%)
 ```
 
-Quotes are observable: when you change a quote's value, any dependent calculations automatically update.
+Quotes are observable: when a quote's value changes, any dependent calculations automatically update.
 
 ### Term Structures
 
@@ -53,12 +53,20 @@ Note the use of `QuoteHandle`: handles provide a layer of indirection that enabl
 Combine market data into a stochastic process:
 
 ```python
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend),
-    ql.YieldTermStructureHandle(risk_free),
-    ql.BlackVolTermStructureHandle(volatility),
-)
+process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
+```
+
+That's it. PyQuantLib wraps the term structures in handles internally, providing a clean, Pythonic API.
+
+```{note}
+For advanced use cases requiring relinkable handles, explicit handle constructors are also available:
+
+    process = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(dividend),
+        ql.YieldTermStructureHandle(risk_free),
+        ql.BlackVolTermStructureHandle(volatility),
+    )
 ```
 
 ### Creating an Option
@@ -177,9 +185,7 @@ sigma = 0.5    # Vol of vol
 rho = -0.7     # Correlation
 
 heston_process = ql.HestonProcess(
-    ql.YieldTermStructureHandle(risk_free),
-    ql.YieldTermStructureHandle(dividend),
-    ql.QuoteHandle(spot),
+    risk_free, dividend, spot,
     v0, kappa, theta, sigma, rho,
 )
 

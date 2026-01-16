@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before you begin, ensure you have:
+Before building, ensure the following are installed:
 
 - **Python 3.9+**
 - **CMake 3.18+**
@@ -16,7 +16,7 @@ Before you begin, ensure you have:
 ## QuantLib Build Requirements
 
 ```{important}
-PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`. Pre-built packages (Homebrew, vcpkg, apt) are **not compatible**: you must build from source.
+PyQuantLib requires QuantLib built as a **static library** with `std::shared_ptr`. Pre-built packages (Homebrew, vcpkg, apt) are **not compatible** and QuantLib must be built from source.
 ```
 
 ### Why These Requirements?

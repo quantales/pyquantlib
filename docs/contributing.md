@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to PyQuantLib!
+Contributions to PyQuantLib are welcome!
 
 ## Development Setup
 
@@ -113,7 +113,7 @@ void bind_simplequote(BindingManager& manager) {
 ### File Headers
 
 Each file lists its contributors (see existing files for a template).
-When adding a new file, or modifying an existing file substantially, add your copyright line.
+When adding a new file, or modifying an existing file substantially, add the appropriate copyright line.
 
 ### Includes
 
