@@ -2,6 +2,58 @@
 
 Pricing engines currently available in PyQuantLib.
 
+## Black Formula Functions
+
+Standalone functions for Black-76 (lognormal) and Bachelier (normal) option pricing.
+
+### Black-76 (Lognormal)
+
+| Function | Description |
+|----------|-------------|
+| `blackFormula(optionType, strike, forward, stdDev, discount=1.0, displacement=0.0)` | Option price |
+| `blackFormulaImpliedStdDev(optionType, strike, forward, blackPrice, ...)` | Implied volatility × √T |
+| `blackFormulaImpliedStdDevApproximation(...)` | Fast implied vol approximation |
+| `blackFormulaStdDevDerivative(strike, forward, stdDev, ...)` | Vega / √T |
+| `blackFormulaVolDerivative(strike, forward, stdDev, expiry, ...)` | Vega |
+| `blackFormulaForwardDerivative(optionType, strike, forward, stdDev, ...)` | Delta (forward) |
+| `blackFormulaCashItmProbability(optionType, strike, forward, stdDev, ...)` | N(d2) |
+| `blackFormulaAssetItmProbability(optionType, strike, forward, stdDev, ...)` | N(d1) |
+
+### Bachelier (Normal)
+
+| Function | Description |
+|----------|-------------|
+| `bachelierBlackFormula(optionType, strike, forward, stdDev, discount=1.0)` | Option price |
+| `bachelierBlackFormulaImpliedVol(optionType, strike, forward, tte, price, ...)` | Implied vol |
+| `bachelierBlackFormulaStdDevDerivative(strike, forward, stdDev, ...)` | Vega component |
+
+### Usage
+
+```python
+import pyquantlib as ql
+
+# Black-76 call price
+forward = 100.0
+strike = 100.0
+vol = 0.20
+T = 1.0
+stdDev = vol * (T ** 0.5)  # volatility × √T
+
+price = ql.blackFormula(ql.OptionType.Call, strike, forward, stdDev)
+print(f"Call price: {price:.4f}")
+
+# Implied volatility
+impliedStdDev = ql.blackFormulaImpliedStdDev(
+    ql.OptionType.Call, strike, forward, price
+)
+impliedVol = impliedStdDev / (T ** 0.5)
+print(f"Implied vol: {impliedVol:.2%}")
+
+# Greeks
+vega = ql.blackFormulaVolDerivative(strike, forward, stdDev, T)
+print(f"Vega: {vega:.4f}")
+```
+
 ## AnalyticEuropeanEngine
 
 Closed-form Black-Scholes pricing for European options.
