@@ -49,6 +49,31 @@ pytest -v
 ruff check tests/ pyquantlib/
 ```
 
+### Building Documentation
+
+```bash
+# Install docs dependencies (first time only)
+pip install -e ".[docs]"
+
+# Build HTML docs
+cd docs
+sphinx-build -b html . _build/html
+
+# View locally
+# Windows:
+start _build/html/index.html
+# macOS:
+open _build/html/index.html
+# Linux:
+xdg-open _build/html/index.html
+```
+
+Or use the convenience script:
+
+```bash
+python scripts/build_docs.py
+```
+
 ### Building Wheels
 
 ```bash
