@@ -92,6 +92,23 @@ CMAKE_BUILD_PARALLEL_LEVEL=8 pip install -e .
 
 ## Runtime Issues
 
+### QuantLib error when discounting or computing prices
+
+**Symptom:** Error like "discount date before reference date" or similar when calling `discount()`, `NPV()`, etc.
+
+**Cause:** `Settings.evaluationDate` defaults to today's system date. If your term structure or instrument dates don't align with this, QuantLib throws an error.
+
+**Solution:** Always set `evaluationDate` explicitly at the start of your code:
+
+```python
+import pyquantlib as ql
+
+today = ql.Date(15, 1, 2025)
+ql.Settings.instance().evaluationDate = today
+
+# Now all date-dependent calculations use this date
+```
+
 ### "no day counter implementation provided"
 
 **Symptom:** Error at import or when creating certain objects.
