@@ -14,11 +14,34 @@ import sys
 from pathlib import Path
 
 
+def normalize_stub(content: str) -> str:
+    """Normalize stub file by sorting imports."""
+    lines = content.replace("\r\n", "\n").split("\n")
+    
+    # Separate imports from rest
+    imports = []
+    rest = []
+    in_imports = True
+    
+    for line in lines:
+        if in_imports and (line.startswith("import ") or line.startswith("from ") or line == ""):
+            imports.append(line)
+        else:
+            in_imports = False
+            rest.append(line)
+    
+    # Sort non-empty imports
+    non_empty = sorted([i for i in imports if i.strip()])
+    empty = [i for i in imports if not i.strip()]
+    
+    return "\n".join(non_empty + empty + rest)
+
+
 def files_equal(file1: Path, file2: Path) -> bool:
-    """Compare files, ignoring line ending differences."""
+    """Compare files, ignoring line ending differences and import order."""
     try:
-        text1 = file1.read_text(encoding="utf-8").replace("\r\n", "\n")
-        text2 = file2.read_text(encoding="utf-8").replace("\r\n", "\n")
+        text1 = normalize_stub(file1.read_text(encoding="utf-8"))
+        text2 = normalize_stub(file2.read_text(encoding="utf-8"))
         return text1 == text2
     except Exception:
         return False
@@ -112,7 +135,9 @@ def main():
             src_path = temp_pkg / src
             dst_path = pkg_dir / dst
             if src_path.exists():
-                shutil.copy2(src_path, dst_path)
+                # Normalize before writing
+                content = normalize_stub(src_path.read_text(encoding="utf-8"))
+                dst_path.write_text(content, encoding="utf-8")
                 print(f"  Updated {dst}")
             else:
                 print(f"  Warning: {src} not found")
