@@ -14,6 +14,7 @@ Arrays, matrices, and optimization.
 
 ```python
 import pyquantlib as ql
+import numpy as np
 
 # Create from list
 arr = ql.Array([1.0, 2.0, 3.0])
@@ -21,10 +22,19 @@ arr = ql.Array([1.0, 2.0, 3.0])
 # Create with size and default value
 arr = ql.Array(10, 0.0)
 
-# NumPy interoperability
-import numpy as np
-np_arr = np.array(arr)
+# NumPy interoperability (zero-copy view)
+np_arr = np.array(arr, copy=False)
 arr2 = ql.Array(np_arr)
+```
+
+### Automatic Conversion
+
+Functions expecting `Array` accept Python lists and numpy arrays directly:
+
+```python
+# Both work identically
+result = ql.DotProduct(ql.Array([1, 2, 3]), ql.Array([4, 5, 6]))
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # automatic conversion
 ```
 
 ## Matrix
@@ -39,18 +49,23 @@ arr2 = ql.Array(np_arr)
 
 ```python
 import pyquantlib as ql
-
-# Create a 3x3 matrix
-mat = ql.Matrix(3, 3, 0.0)
-
-# Set values
-mat[0][0] = 1.0
-mat[1][1] = 1.0
-mat[2][2] = 1.0
-
-# NumPy interoperability
 import numpy as np
-np_mat = np.array(mat)
+
+# Create a 3x3 identity matrix
+mat = ql.Matrix(3, 3, 0.0)
+mat[0, 0] = 1.0
+mat[1, 1] = 1.0
+mat[2, 2] = 1.0
+
+# Create from numpy array
+np_mat = np.array([[1, 2], [3, 4]], dtype=float)
+mat = ql.Matrix(np_mat)
+
+# Create from list of lists
+mat = ql.Matrix([[1, 2], [3, 4]])
+
+# NumPy interoperability (zero-copy view)
+np_view = np.array(mat, copy=False)
 ```
 
 ## Optimization

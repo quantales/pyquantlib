@@ -252,6 +252,34 @@ See `include/pyquantlib/trampolines.h` for the current inventory.
 
 Custom type casters enable automatic conversion between Python and C++ types.
 
+### Location
+
+All type casters are included only in `main.cpp`:
+
+```
+include/pyquantlib/
+└── type_casters/
+    ├── date.h             # Date ↔ datetime.date
+    └── array.h            # Array ↔ numpy/list
+```
+
+### Why No Matrix Type Caster?
+
+Matrix does **not** have a type caster because type casters and `shared_ptr` holders conflict in pybind11. Additionally, the type caster's `cast()` function (C++ to Python) cannot call `py::cast()` without causing infinite recursion.
+
+Instead, Matrix provides constructors that accept numpy arrays and list of lists:
+
+```python
+import numpy as np
+import pyquantlib as ql
+
+# Create from numpy array
+mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
+
+# Create from list of lists
+mat = ql.Matrix([[1, 2], [3, 4]])
+```
+
 ### Date Type Caster
 
 Converts between `datetime.date` / `datetime.datetime` and `QuantLib::Date`:
@@ -333,6 +361,33 @@ import numpy as np
 arr = ql.Array([1.0, 2.0, 3.0])      # From list
 arr = ql.Array(np.array([1, 2, 3]))  # From numpy
 ```
+
+### Type Casters vs Holders (Why Matrix Has No Type Caster)
+
+Type casters and `shared_ptr` holders are **mutually exclusive** in pybind11. When a type caster is defined for a type, pybind11 treats it as a value type with copy semantics. Attempting to use a holder causes a compilation error:
+
+```
+error C2338: static_assert failed: 'Holder classes are only supported for custom types'
+```
+
+Additionally, type casters that coexist with `py::class_` bindings face a recursion problem: the `cast()` function (C++ to Python) cannot call `py::cast()` without infinite recursion.
+
+This is why Matrix uses a `shared_ptr` holder and explicit constructors instead of a type caster:
+
+```python
+# Matrix requires explicit conversion
+mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
+correlation = ql.Matrix([[1.0, 0.5], [0.5, 1.0]])
+```
+
+**When type casters work** (value types without holders):
+- `Array`: No holder, type caster works for automatic list/numpy conversion
+- `Date`: No holder, type caster works for automatic datetime conversion
+
+**When to use holders instead** (reference types):
+- Objects with shared ownership: `Matrix`, `Instrument`, `PricingEngine`, `TermStructure`
+- Inheritance hierarchies with Python subclassing
+- Objects that maintain identity across the Python/C++ boundary
 
 ## Handle Patterns
 
