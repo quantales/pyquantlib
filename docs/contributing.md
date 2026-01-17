@@ -33,12 +33,50 @@ pytest -v                      # Verbose
 ruff check tests/ pyquantlib/
 ```
 
-## Adding New Bindings
+## Adding or Updating Bindings
 
-1. Create `.cpp` file in appropriate `src/` subdirectory
-2. Declare binding function in `include/pyquantlib/pyquantlib.h`
-3. Register in module's `all.cpp`
-4. Add tests in `tests/`
+### Workflow
+
+When adding or modifying bindings, follow these steps:
+
+1. **C++ bindings**: Create/update `.cpp` file in `src/`
+2. **Tests**: Add tests in `tests/`
+3. **Build and verify**: `pip install -e . && pytest`
+4. **API docs**: Update examples in `docs/api/` if needed
+5. **Stubs**: Maintainer regenerates (contributors skip this step)
+
+### File Checklist
+
+- [ ] Add/update `.cpp` file in appropriate `src/` subdirectory
+- [ ] Declare binding function in `include/pyquantlib/pyquantlib.h`
+- [ ] Register in module's `all.cpp`
+- [ ] Consider hidden handle constructors for classes using handles
+- [ ] Add tests in `tests/`
+- [ ] Update API docs examples (if user-facing API changed)
+
+### Hidden Handles (Recommended)
+
+For a more Pythonic API, consider adding overloads that accept raw objects instead of handles:
+
+```cpp
+// Explicit handle (for power users who need relinking)
+.def(py::init<const Handle<Quote>&, const DayCounter&>(), ...)
+
+// Hidden handle (simpler for common use cases)
+.def(py::init([](const ext::shared_ptr<Quote>& quote, const DayCounter& dc) {
+    return ext::make_shared<MyClass>(Handle<Quote>(quote), dc);
+}), py::arg("quote"), py::arg("dayCounter"),
+    "Constructs from quote (handle created internally).")
+```
+
+When using `Handle<T>` in lambdas, include the header that fully defines `T` so the compiler sees its inheritance to `Observable`. Otherwise MSVC fails with "cannot convert from shared_ptr<T> to shared_ptr<Observable>".
+
+Example includes:
+```cpp
+#include <ql/quote.hpp>                                   // for Handle<Quote>
+#include <ql/termstructures/yieldtermstructure.hpp>       // for Handle<YieldTermStructure>
+#include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>  // for Handle<BlackVolTermStructure>
+```
 
 ### Example
 
