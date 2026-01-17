@@ -135,27 +135,27 @@ curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())  # Works
 
 **Solution:** Check engine documentation or use a different engine.
 
-### Quote changes don't trigger repricing
+### Can't switch to a different quote or term structure
 
-**Symptom:** Changing a `SimpleQuote` value doesn't update dependent calculations.
+**Symptom:** Need to replace a quote or term structure with a different object, but changes don't propagate.
 
-**Cause:** You may have passed the quote value directly instead of using a handle.
+**Cause:** Hidden handles don't support relinking to a different object.
 
-**Solution:** Always use handles:
+**Solution:** Use relinkable handles when switching objects is needed:
 
 ```python
-# WRONG: Value copied, no observer relationship
-process = ql.GeneralizedBlackScholesProcess(
-    spot.value(),  # Copies the number
-    ...
-)
+# Hidden handles: setValue() works, but can't switch objects
+spot = ql.SimpleQuote(100.0)
+process = ql.GeneralizedBlackScholesProcess(spot, ...)
+spot.setValue(105.0)  # Works
 
-# RIGHT: Handle maintains observer relationship
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),  # Links to quote
-    ...
-)
+# Relinkable handles: can switch to different objects
+spot_handle = ql.RelinkableQuoteHandle(ql.SimpleQuote(100.0))
+process = ql.GeneralizedBlackScholesProcess(spot_handle, ...)
+spot_handle.linkTo(ql.SimpleQuote(105.0))  # Switch to new quote
 ```
+
+See {doc}`handles` for more details.
 
 ### Memory issues with large calculations
 

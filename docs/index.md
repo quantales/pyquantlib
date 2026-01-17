@@ -45,7 +45,7 @@ As with any Python binding, performance-critical loops should remain in C++. PyQ
 
 ## Features
 
-* **Pythonic API**: Native `datetime.date`, {doc}`NumPy arrays <numpy>`, hidden handles
+* **Pythonic API**: Native `datetime.date`, {doc}`NumPy arrays <numpy>`, {doc}`hidden handles <handles>`
 * **Pure C++ bindings**: No SWIG or Cython to learn
 * **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
 * **Python subclassing**: Prototype custom engines and instruments without recompilation
@@ -105,6 +105,7 @@ quickstart
 
 examples/index
 numpy
+handles
 ```
 
 ```{toctree}
