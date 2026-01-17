@@ -220,4 +220,9 @@ void ql_math::matrix(py::module_& m) {
     m.def("transpose", &transpose,
         py::arg("matrix"),
         "Returns the transpose of a matrix.");
+
+    // Enable implicit conversion from Python lists and numpy arrays
+    // This allows passing lists/arrays directly to functions expecting Matrix
+    py::implicitly_convertible<py::list, Matrix>();
+    py::implicitly_convertible<py::array, Matrix>();
 }

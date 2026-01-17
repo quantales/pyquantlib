@@ -364,3 +364,23 @@ def test_matrix_repr_str():
     m_large = ql.Matrix(20, 20, 1.0)
     assert "..." in repr(m_large)
     assert "..." in str(m_large)
+
+
+# --- Implicit conversion ---
+
+def test_matrix_implicit_conversion_list():
+    """List of lists can be passed directly to functions expecting Matrix."""
+    data = [[1., 2.], [3., 4.]]
+    result = ql.transpose(data)
+    assert result.rows() == 2
+    assert result.columns() == 2
+    assert_array_almost_equal(np.array(result), [[1., 3.], [2., 4.]])
+
+
+def test_matrix_implicit_conversion_numpy():
+    """Numpy arrays can be passed directly to functions expecting Matrix."""
+    data = np.array([[1., 2.], [3., 4.]])
+    result = ql.transpose(data)
+    assert result.rows() == 2
+    assert result.columns() == 2
+    assert_array_almost_equal(np.array(result), [[1., 3.], [2., 4.]])

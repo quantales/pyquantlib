@@ -249,7 +249,7 @@ See `include/pyquantlib/trampolines.h` for the current inventory.
 2. **Use `override`**: If it doesn't compile with `override`, the method isn't virtual
 3. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
 
-## Type Casters and Implicit Conversion
+## Implicit Conversion
 
 PyQuantLib uses `py::implicitly_convertible` to enable seamless Python/C++ type conversion.
 
@@ -295,14 +295,25 @@ py::implicitly_convertible<py::list, Array>();
 py::implicitly_convertible<py::array, Array>();
 ```
 
-### Matrix: Explicit Construction
+### Matrix: Implicit Conversion
 
-Matrix requires explicit construction because it uses a `shared_ptr` holder:
+`Matrix` also uses `py::implicitly_convertible` to allow passing 2D lists and numpy arrays directly to functions:
 
 ```python
-# Matrix requires explicit conversion
-mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
-mat = ql.Matrix([[1, 2], [3, 4]])
+import pyquantlib as ql
+import numpy as np
+
+# All work identically
+result = ql.transpose(ql.Matrix([[1, 2], [3, 4]]))
+result = ql.transpose([[1, 2], [3, 4]])
+result = ql.transpose(np.array([[1, 2], [3, 4]]))
+```
+
+This is implemented via constructors that accept `py::list` and `py::array`, plus:
+
+```cpp
+py::implicitly_convertible<py::list, Matrix>();
+py::implicitly_convertible<py::array, Matrix>();
 ```
 
 ### Summary
@@ -311,7 +322,7 @@ mat = ql.Matrix([[1, 2], [3, 4]])
 |------|---------|---------------------|
 | Date | `py::class_` + `implicitly_convertible<py::object>` | Yes |
 | Array | `py::class_` + `implicitly_convertible<py::list/array>` + buffer protocol | Yes |
-| Matrix | `py::class_` with `shared_ptr` holder + buffer protocol | No |
+| Matrix | `py::class_` + `implicitly_convertible<py::list/array>` + buffer protocol | Yes |
 
 ### Buffer Protocol vs Implicit Conversion
 
@@ -384,7 +395,7 @@ The copy on input is unavoidable because QuantLib functions expect `QuantLib::Ar
 | Speed | Slower for large data | Instant (zero-copy) |
 | Sync | Changes independent | Changes affect both |
 | Direction | Python → C++ | Bidirectional |
-| Used by | `Date`, `Array` (input) | `Array`, `Matrix` (output) |
+| Used by | `Date`, `Array`, `Matrix` (input) | `Array`, `Matrix` (output) |
 
 ## Handle Patterns
 
@@ -508,11 +519,11 @@ Source files are auto-detected by CMake: no need to edit `CMakeLists.txt`.
 - **Easier maintenance**: Update virtual methods once
 - **Documentation**: Clear inventory of overridable classes
 
-### Why Custom Type Casters?
+### Why Implicit Conversion?
 
-- **Pythonic API**: Users work with `datetime.date`, not `ql.Date`
-- **NumPy integration**: Seamless array interoperability
-- **Gradual migration**: Can add more casters without API breaks
+- **Pythonic API**: Users work with `datetime.date`, lists, and numpy arrays directly
+- **NumPy integration**: Seamless array and matrix interoperability
+- **Gradual adoption**: Can add more conversions without API breaks
 
 ### Why Static QuantLib?
 

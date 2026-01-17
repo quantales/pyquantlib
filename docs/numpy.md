@@ -44,14 +44,16 @@ Zero-copy views share memory with the original object. Modifying the view modifi
 
 ### Python → QuantLib
 
-Matrix requires explicit construction (no automatic conversion):
+Functions expecting `Matrix` accept 2D lists and numpy arrays directly:
 
 ```python
-# From numpy array
-mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
+import pyquantlib as ql
+import numpy as np
 
-# From list of lists
-mat = ql.Matrix([[1, 2], [3, 4]])
+# All three work identically
+result = ql.transpose(ql.Matrix([[1, 2], [3, 4]]))
+result = ql.transpose([[1, 2], [3, 4]])
+result = ql.transpose(np.array([[1, 2], [3, 4]]))
 ```
 
 ### QuantLib → NumPy
@@ -82,7 +84,7 @@ row = mat[0]  # numpy array view of first row
 | Type | Python → QuantLib | QuantLib → NumPy |
 |------|-------------------|------------------|
 | Array | Automatic (list, numpy) | `np.array(arr)` or `np.array(arr, copy=False)` |
-| Matrix | Explicit `ql.Matrix(...)` | `np.array(mat)` or `np.array(mat, copy=False)` |
+| Matrix | Automatic (list of lists, numpy) | `np.array(mat)` or `np.array(mat, copy=False)` |
 
 ## Performance Tips
 
