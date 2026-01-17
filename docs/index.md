@@ -39,13 +39,13 @@ This design prioritizes transparency, maintainability, and long-term alignment w
 
 PyQuantLib uses pybind11, which provides a thin, low-overhead C++/Python boundary. Function calls are dispatched directly to QuantLib's C++ implementation, with no runtime code generation or reflection.
 
-In practice, the dominant cost in typical QuantLib usage (pricing, curve construction, calibration) remains the underlying C++ computation, not the binding layer. Where applicable, PyQuantLib supports zero-copy data exchange with NumPy arrays.
+In practice, the dominant cost in typical QuantLib usage (pricing, curve construction, calibration) remains the underlying C++ computation, not the binding layer. Where applicable, PyQuantLib supports {doc}`zero-copy data exchange <numpy>` with NumPy arrays.
 
 As with any Python binding, performance-critical loops should remain in C++. PyQuantLib is designed to expose QuantLib's APIs efficiently, while preserving Python's productivity for orchestration, configuration, and analysis.
 
 ## Features
 
-* **Pythonic API**: Native `datetime.date`, NumPy arrays, hidden handles
+* **Pythonic API**: Native `datetime.date`, {doc}`NumPy arrays <numpy>`, hidden handles
 * **Pure C++ bindings**: No SWIG or Cython to learn
 * **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
 * **Python subclassing**: Prototype custom engines and instruments without recompilation
@@ -104,6 +104,7 @@ quickstart
 :caption: User Guide
 
 examples/index
+numpy
 ```
 
 ```{toctree}

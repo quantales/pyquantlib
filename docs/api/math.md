@@ -2,6 +2,10 @@
 
 Arrays, matrices, and optimization.
 
+```{seealso}
+{doc}`/numpy` for detailed NumPy interoperability documentation.
+```
+
 ## Array
 
 ```{eval-rst}
