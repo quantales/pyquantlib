@@ -40,17 +40,17 @@ Term structures describe how rates or volatilities vary over time:
 ```python
 dc = ql.Actual365Fixed()  # Day counter for year fractions
 
-# Flat risk-free rate curve
-risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+# Flat risk-free rate curve (pass quote directly)
+risk_free = ql.FlatForward(today, rate, dc)
 
 # Flat dividend yield curve
 dividend = ql.FlatForward(today, 0.0, dc)
 
-# Flat volatility surface
-volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+# Flat volatility surface (pass quote directly)
+volatility = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 ```
 
-Note the use of `QuoteHandle`: handles provide a layer of indirection that enables the observer pattern.
+PyQuantLib supports hidden handles: pass objects directly without wrapping in `QuoteHandle`. Handles are created internally.
 
 ### The Black-Scholes Process
 
@@ -60,11 +60,14 @@ Combine market data into a stochastic process:
 process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 ```
 
-That's it. PyQuantLib wraps the term structures in handles internally, providing a clean, Pythonic API.
+Same here: pass term structures directly. PyQuantLib wraps them in handles internally.
 
 ```{note}
 For advanced use cases requiring relinkable handles, explicit handle constructors are also available:
 
+    risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+    volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+    
     process = ql.GeneralizedBlackScholesProcess(
         ql.QuoteHandle(spot),
         ql.YieldTermStructureHandle(dividend),

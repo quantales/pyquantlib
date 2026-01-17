@@ -74,13 +74,13 @@ spot = ql.SimpleQuote(100.0)
 rate = ql.SimpleQuote(0.05)
 vol = ql.SimpleQuote(0.20)
 
-# Term structures
+# Term structures (pass quotes directly, handles created internally)
 dc = ql.Actual365Fixed()
-risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+risk_free = ql.FlatForward(today, rate, dc)
 dividend = ql.FlatForward(today, 0.0, dc)
-volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+volatility = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
-# Black-Scholes process (handles created internally)
+# Black-Scholes process (pass objects directly)
 process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
 # European call option

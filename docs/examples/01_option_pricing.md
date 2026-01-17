@@ -6,7 +6,7 @@ European option pricing with Black-Scholes.
 View the full notebook: [01_option_pricing.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/01_option_pricing.ipynb)
 ```
 
-Users familiar with QuantLib-Python (SWIG) will find the API similar.
+PyQuantLib offers a cleaner API than QuantLib-Python (SWIG) with hidden handles: pass objects directly without wrapping in handles.
 
 ## Quick Preview
 
@@ -22,19 +22,14 @@ spot = ql.SimpleQuote(100.0)
 rate = ql.SimpleQuote(0.05)
 vol = ql.SimpleQuote(0.20)
 
-# Term structures
+# Term structures (pass quotes directly, handles created internally)
 dc = ql.Actual365Fixed()
-risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+risk_free = ql.FlatForward(today, rate, dc)
 dividend = ql.FlatForward(today, 0.0, dc)
-volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+volatility = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
-# Process
-process = ql.GeneralizedBlackScholesProcess(
-    ql.QuoteHandle(spot),
-    ql.YieldTermStructureHandle(dividend),
-    ql.YieldTermStructureHandle(risk_free),
-    ql.BlackVolTermStructureHandle(volatility),
-)
+# Process (pass objects directly)
+process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
 # Option
 payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
@@ -62,7 +57,7 @@ Theta: -6.4140
 
 ## Live Updates
 
-Changing a quote triggers automatic repricing:
+Changing a quote triggers automatic repricing. This works seamlessly with hidden handles:
 
 ```python
 spot.setValue(105.0)
