@@ -1,12 +1,58 @@
 /* PyQuantLib documentation custom styles */
 
-/* Headline sizes */
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1rem; }
-h5 { font-size: 0.875rem; }
-h6 { font-size: 0.85rem; }
+/* Headline sizes and spacing */
+h1 { 
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-brand-primary);
+}
+
+h2 { 
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-background-border);
+}
+
+h3 { 
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-foreground-secondary);
+}
+
+h4 { 
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+h5 { 
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h6 { 
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-foreground-secondary);
+}
+
+/* Reduce top margin when heading follows another heading */
+h1 + h2 { margin-top: 1.5rem; }
+h2 + h3 { margin-top: 1.5rem; }
+h3 + h4 { margin-top: 1rem; }
 
 /* Code block styling - use Furo defaults with subtle refinements */
 .highlight pre {
