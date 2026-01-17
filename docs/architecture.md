@@ -310,8 +310,81 @@ mat = ql.Matrix([[1, 2], [3, 4]])
 | Type | Binding | Automatic Conversion |
 |------|---------|---------------------|
 | Date | `py::class_` + `implicitly_convertible<py::object>` | Yes |
-| Array | `py::class_` + `implicitly_convertible<py::list/array>` | Yes |
-| Matrix | `py::class_` with `shared_ptr` holder | No |
+| Array | `py::class_` + `implicitly_convertible<py::list/array>` + buffer protocol | Yes |
+| Matrix | `py::class_` with `shared_ptr` holder + buffer protocol | No |
+
+### Buffer Protocol vs Implicit Conversion
+
+These two pybind11 mechanisms achieve similar user experiences but work very differently under the hood.
+
+#### Implicit Conversion (Copy)
+
+`py::implicitly_convertible` is a **conversion bridge** that creates a new object by copying data:
+
+```cpp
+py::implicitly_convertible<py::list, Array>();
+```
+
+When pybind11 sees a Python list but needs a `QuantLib::Array`, it calls the registered constructor, allocating new memory and copying values.
+
+**Characteristics:**
+- Creates a new C++ object (copy)
+- One-way: Python input → new C++ object
+- Changes to one do not affect the other
+- Cost: proportional to data size
+
+**Best for:** Value types like `Date`, small structs, or when memory layouts differ (e.g., `datetime.date` vs `QuantLib::Date`).
+
+#### Buffer Protocol (Zero-Copy)
+
+The buffer protocol is a **memory window** that shares memory between Python and C++:
+
+```cpp
+pyArray.def_buffer([](Array& a) -> py::buffer_info {
+    return py::buffer_info(a.begin(), sizeof(Real), ...);
+});
+```
+
+This tells Python: "This C++ object has a block of memory here. You can wrap a NumPy array around this exact address."
+
+**Characteristics:**
+- No data copying (shares memory)
+- Two-way: modifications in Python affect C++ and vice versa
+- Cost: near zero (just pointer passing)
+- Requires compatible memory layouts
+
+**Best for:** Container types like arrays, matrices, images.
+
+#### PyQuantLib's Approach
+
+**Array** uses both mechanisms:
+
+```python
+# BUFFER PROTOCOL (zero-copy): QuantLib → NumPy
+ql_arr = ql.Array([1, 2, 3])
+np_view = np.array(ql_arr, copy=False)  # Shares memory, instant
+np_view[0] = 99  # Modifies ql_arr too!
+
+# IMPLICIT CONVERSION (copy): Python → QuantLib
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # Creates temporary Arrays
+```
+
+The copy on input is unavoidable because QuantLib functions expect `QuantLib::Array`, not `numpy.ndarray`. For performance-critical code with large arrays, work directly with `ql.Array` objects to avoid repeated conversions.
+
+**Date** uses only implicit conversion because `datetime.date` and `QuantLib::Date` have completely different memory layouts. Since dates are small (just 3 integers), the copy is instant.
+
+**Matrix** uses only buffer protocol (no implicit conversion) because `shared_ptr` holders and `implicitly_convertible` conflict in pybind11.
+
+#### Comparison
+
+| Aspect | Implicit Conversion | Buffer Protocol |
+|--------|---------------------|-----------------|
+| Mechanism | Calls constructor | Exposes raw memory |
+| Data access | Copy (new object) | Reference (shared memory) |
+| Speed | Slower for large data | Instant (zero-copy) |
+| Sync | Changes independent | Changes affect both |
+| Direction | Python → C++ | Bidirectional |
+| Used by | `Date`, `Array` (input) | `Array`, `Matrix` (output) |
 
 ## Handle Patterns
 

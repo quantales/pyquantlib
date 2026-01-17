@@ -81,7 +81,7 @@ row = mat[0]  # numpy array view of first row
 
 | Type | Python → QuantLib | QuantLib → NumPy |
 |------|-------------------|------------------|
-| Array | Automatic (list, tuple, numpy) | `np.array(arr)` or `np.array(arr, copy=False)` |
+| Array | Automatic (list, numpy) | `np.array(arr)` or `np.array(arr, copy=False)` |
 | Matrix | Explicit `ql.Matrix(...)` | `np.array(mat)` or `np.array(mat, copy=False)` |
 
 ## Performance Tips
@@ -90,3 +90,32 @@ row = mat[0]  # numpy array view of first row
 2. **Use copies** when the source object may be modified or destroyed
 3. **Pass lists directly** to functions expecting Array (avoids intermediate numpy conversion)
 4. **Pre-allocate matrices** with `ql.Matrix(rows, cols)` when building incrementally
+5. **Reuse `ql.Array` objects** in loops to avoid repeated conversion overhead
+
+## How It Works
+
+PyQuantLib uses two pybind11 mechanisms for numpy interoperability:
+
+| Direction | Mechanism | Cost |
+|-----------|-----------|------|
+| QuantLib → NumPy | Buffer protocol | Zero-copy (shared memory) |
+| Python → QuantLib | Implicit conversion | Copy (new object created) |
+
+**Zero-copy views** (QuantLib → NumPy) share memory:
+
+```python
+ql_arr = ql.Array([1, 2, 3])
+np_view = np.array(ql_arr, copy=False)
+np_view[0] = 99  # Also modifies ql_arr!
+```
+
+**Automatic conversion** (Python → QuantLib) creates copies:
+
+```python
+# Each call creates temporary ql.Array objects
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])
+```
+
+For large arrays in performance-critical code, create `ql.Array` objects once and reuse them.
+
+See {doc}`/architecture` for implementation details.
