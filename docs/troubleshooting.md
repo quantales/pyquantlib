@@ -2,6 +2,10 @@
 
 Common issues and solutions when building or using PyQuantLib.
 
+```{seealso}
+{doc}`building` for complete build instructions.
+```
+
 ## Build Issues
 
 ### Settings.evaluationDate not persisting (Linux/macOS)

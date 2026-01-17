@@ -2,6 +2,10 @@
 
 This document describes the internal design of PyQuantLib: useful for contributors and those interested in how the bindings work.
 
+```{seealso}
+{doc}`building` for build setup and {doc}`contributing` for development workflow.
+```
+
 ## Overview
 
 PyQuantLib uses [pybind11](https://github.com/pybind/pybind11) to create Python bindings for QuantLib. The architecture is designed around several key principles:

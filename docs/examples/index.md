@@ -2,6 +2,10 @@
 
 Jupyter notebooks demonstrating PyQuantLib usage.
 
+```{note}
+These examples require PyQuantLib to be installed. See {doc}`/installation` for setup.
+```
+
 Users familiar with QuantLib-Python (SWIG) will find the API similar.
 
 ## Available Examples

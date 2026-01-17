@@ -2,26 +2,17 @@
 
 Contributions to PyQuantLib are welcome!
 
-## Development Setup
+## Getting Started
 
-For detailed setup instructions, see the {doc}`installation` guide.
-
-### Quick Start
+For setup instructions, see {doc}`building`.
 
 ```bash
-# Clone
 git clone https://github.com/quantales/pyquantlib.git
 cd pyquantlib
-
-# Virtual environment
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-
-# Install
+source venv/bin/activate
 pip install -r requirements-dev.txt
 pip install -e .
-
-# Test
 pytest
 ```
 
@@ -30,55 +21,16 @@ pytest
 ### Running Tests
 
 ```bash
-# All tests
-pytest
-
-# With coverage
-pytest --cov=pyquantlib
-
-# Specific file
-pytest tests/test_date.py
-
-# Verbose
-pytest -v
+pytest                         # All tests
+pytest --cov=pyquantlib        # With coverage
+pytest tests/test_date.py      # Specific file
+pytest -v                      # Verbose
 ```
 
 ### Linting
 
 ```bash
 ruff check tests/ pyquantlib/
-```
-
-### Building Documentation
-
-```bash
-# Install docs dependencies (first time only)
-pip install -e ".[docs]"
-
-# Build HTML docs
-cd docs
-sphinx-build -b html . _build/html
-
-# View locally
-# Windows:
-start _build/html/index.html
-# macOS:
-open _build/html/index.html
-# Linux:
-xdg-open _build/html/index.html
-```
-
-Or use the convenience script:
-
-```bash
-python scripts/build_docs.py
-```
-
-### Building Wheels
-
-```bash
-python -m build
-# Output in dist/
 ```
 
 ## Adding New Bindings
@@ -88,7 +40,7 @@ python -m build
 3. Register in module's `all.cpp`
 4. Add tests in `tests/`
 
-### Example Binding
+### Example
 
 ```cpp
 // src/quotes/simplequote.cpp
@@ -112,8 +64,7 @@ void bind_simplequote(BindingManager& manager) {
 
 ### File Headers
 
-Each file lists its contributors (see existing files for a template).
-When adding a new file, or modifying an existing file substantially, add the appropriate copyright line.
+Each file lists its contributors. When adding or substantially modifying a file, add the appropriate copyright line.
 
 ### Includes
 
@@ -174,7 +125,7 @@ Date date() const override {
     PYBIND11_OVERRIDE_PURE(Date, Coupon, date,);
 }
 
-// If override causes error, method is non-virtual: remove it
+// If override causes error: remove from trampoline
 ```
 
 ## Type Stubs

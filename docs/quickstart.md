@@ -2,6 +2,10 @@
 
 This guide walks through a first PyQuantLib program: pricing a European call option using the Black-Scholes model.
 
+```{note}
+This guide assumes PyQuantLib is installed. See {doc}`installation` for setup instructions.
+```
+
 ## Basic Usage
 
 ### Import and Setup

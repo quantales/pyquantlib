@@ -49,7 +49,7 @@ As with any Python binding, performance-critical loops should remain in C++. PyQ
 * **Pure C++ bindings**: No SWIG or Cython to learn
 * **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
 * **Python subclassing**: Prototype custom engines and instruments without recompilation
-* **Modern tooling**: scikit-build-core, CMake presets, CI/CD ready
+* **Modern tooling**: {doc}`scikit-build-core <building>`, CMake presets, CI/CD ready
 
 ## Quick Example
 
@@ -96,6 +96,7 @@ print(f"Theta: {option.theta():.4f}")  # -6.4140
 :caption: Getting Started
 
 installation
+building
 quickstart
 ```
 

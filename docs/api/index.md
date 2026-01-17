@@ -2,6 +2,10 @@
 
 This section provides documentation for PyQuantLib classes and functions.
 
+```{seealso}
+{doc}`/quickstart` for a tutorial, {doc}`/installation` for setup.
+```
+
 ## Module Overview
 
 PyQuantLib organizes QuantLib classes into logical groups:
