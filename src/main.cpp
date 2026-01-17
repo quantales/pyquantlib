@@ -17,7 +17,6 @@
 #include "pyquantlib/version.h"
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/binding_manager.h"
-#include "pyquantlib/type_casters/date.h"
 
 namespace py = pybind11;
 

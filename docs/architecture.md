@@ -22,9 +22,7 @@ pyquantlib/
 ├── include/pyquantlib/
 │   ├── binding_manager.h      # Central orchestration
 │   ├── trampolines.h          # Python subclassing support
-│   ├── pyquantlib.h           # Forward declarations
-│   └── type_casters/          # Custom type conversions
-│       └── date.h             # Date ↔ datetime.date
+│   └── pyquantlib.h           # Forward declarations
 ├── src/
 │   ├── main.cpp               # Module entry point
 │   ├── submodules.cpp         # Creates base submodule
@@ -253,22 +251,28 @@ See `include/pyquantlib/trampolines.h` for the current inventory.
 
 ## Type Casters and Implicit Conversion
 
-PyQuantLib uses pybind11 mechanisms to enable seamless Python/C++ type conversion.
+PyQuantLib uses `py::implicitly_convertible` to enable seamless Python/C++ type conversion.
 
-### Date Type Caster
+### Date: Implicit Conversion
 
-The Date type caster in `include/pyquantlib/type_casters/date.h` enables automatic conversion between `datetime.date` and `QuantLib::Date`:
+`Date` uses `py::implicitly_convertible` to allow passing `datetime.date` or `datetime.datetime` directly to functions:
 
 ```python
 from datetime import date
 import pyquantlib as ql
 
-# datetime.date works where QuantLib::Date is expected
-today = date(2025, 6, 15)
-ql.Settings.instance().evaluationDate = today  # Automatic conversion
+# All work identically
+d1 = date(2024, 5, 1)
+d2 = date(2024, 5, 10)
+delta = ql.daysBetween(d1, d2)  # datetime.date accepted directly
+delta = ql.daysBetween(ql.Date(d1), ql.Date(d2))  # explicit also works
 ```
 
-This works because `Date` has no `py::class_` binding (only the type caster handles it).
+This is implemented via a constructor that accepts `py::object` (duck-typed for date attributes), plus:
+
+```cpp
+py::implicitly_convertible<py::object, QuantLib::Date>();
+```
 
 ### Array: Implicit Conversion
 
@@ -305,8 +309,8 @@ mat = ql.Matrix([[1, 2], [3, 4]])
 
 | Type | Binding | Automatic Conversion |
 |------|---------|---------------------|
-| Date | Type caster only | Yes |
-| Array | `py::class_` + `implicitly_convertible` | Yes |
+| Date | `py::class_` + `implicitly_convertible<py::object>` | Yes |
+| Array | `py::class_` + `implicitly_convertible<py::list/array>` | Yes |
 | Matrix | `py::class_` with `shared_ptr` holder | No |
 
 ## Handle Patterns

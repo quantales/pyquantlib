@@ -196,4 +196,8 @@ void ql_time::date(py::module_& m)
     m.def("daysBetween", QuantLib::daysBetween,
         py::arg("d1"), py::arg("d2"),
         "Difference in days (including fraction) between dates.");
+
+    // Enable implicit conversion from Python datetime.date/datetime to QuantLib::Date
+    // This allows passing datetime objects directly to functions expecting Date
+    py::implicitly_convertible<py::object, QuantLib::Date>();
 }

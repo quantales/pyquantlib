@@ -62,3 +62,61 @@ def test_days_between():
     d2 = ql.Date(10, ql.Month.May, 2024)
     delta = ql.daysBetween(d1, d2)
     assert delta == 9
+
+
+# --- datetime.date interoperability ---
+
+def test_date_from_datetime():
+    """datetime.date can be passed to Date constructor."""
+    from datetime import date
+    py_date = date(2024, 6, 15)
+    ql_date = ql.Date(py_date)
+    assert ql_date.year() == 2024
+    assert ql_date.month() == ql.Month.June
+    assert ql_date.dayOfMonth() == 15
+
+
+def test_date_to_datetime():
+    """Date can be converted to datetime.date."""
+    from datetime import date
+    ql_date = ql.Date(15, ql.Month.June, 2024)
+    py_date = ql_date.to_date()
+    assert py_date == date(2024, 6, 15)
+
+
+def test_date_from_date_static():
+    """Date.from_date() converts datetime.date to Date."""
+    from datetime import date
+    py_date = date(2024, 6, 15)
+    ql_date = ql.Date.from_date(py_date)
+    assert isinstance(ql_date, ql.Date)
+    assert ql_date.year() == 2024
+
+
+def test_settings_evaluation_date_datetime():
+    """Settings.evaluationDate accepts datetime.date."""
+    from datetime import date
+    py_date = date(2024, 6, 15)
+    ql.Settings.instance().evaluationDate = ql.Date(py_date)
+    result = ql.Settings.instance().evaluationDate
+    assert isinstance(result, ql.Date)
+    assert result.year() == 2024
+
+
+def test_days_between_datetime_direct():
+    """datetime.date can be passed directly to daysBetween."""
+    from datetime import date
+    d1 = date(2024, 5, 1)
+    d2 = date(2024, 5, 10)
+    delta = ql.daysBetween(d1, d2)
+    assert delta == 9
+
+
+def test_date_from_datetime_datetime():
+    """datetime.datetime can also be passed (time part ignored)."""
+    from datetime import datetime
+    dt = datetime(2024, 6, 15, 10, 30, 0)
+    ql_date = ql.Date(dt)
+    assert ql_date.year() == 2024
+    assert ql_date.month() == ql.Month.June
+    assert ql_date.dayOfMonth() == 15
