@@ -397,6 +397,26 @@ The copy on input is unavoidable because QuantLib functions expect `QuantLib::Ar
 | Direction | Python → C++ | Bidirectional |
 | Used by | `Date`, `Array`, `Matrix` (input) | `Array`, `Matrix` (output) |
 
+### Design Note: Why Not Custom Type Casters?
+
+pybind11 offers custom type casters (`pybind11::detail::type_caster<T>`) as another conversion mechanism. This approach was initially tried but abandoned due to fundamental conflicts:
+
+**1. Translation unit isolation**
+
+Type casters must be visible (included) at every binding site to work for function arguments. If the type caster is included only in `main.cpp`, bindings in other files (like `array.cpp` where `DotProduct` is defined) won't see it, and automatic conversion won't work.
+
+**2. Infinite recursion when included globally**
+
+The obvious fix is to include the type caster in every file (e.g., via a common header). But this triggers infinite recursion: the caster's `cast()` function (C++ → Python) needs to return a Python object. If `py::cast(src)` is called inside it, pybind11 looks up the type caster for `T`, finds the custom caster, and calls `cast()` again. Stack overflow.
+
+**3. Workaround loses bound methods**
+
+The only way to avoid recursion is to manually construct a different Python type in `cast()` (e.g., return `datetime.date` instead of `ql.Date`). But then functions returning dates would return `datetime.date` objects, and users would lose access to all bound QuantLib methods (`serialNumber()`, `dayOfYear()`, date arithmetic, etc.).
+
+**The solution: py::implicitly_convertible**
+
+`py::implicitly_convertible<From, To>` avoids all these issues. It simply tells pybind11: "If the input doesn't match exactly, try converting using a constructor." It works alongside `py::class_` bindings without conflict, and functions still return the proper bound type with all methods available.
+
 ## Handle Patterns
 
 QuantLib uses `Handle<T>` and `RelinkableHandle<T>` extensively. PyQuantLib provides helper templates for binding these.
