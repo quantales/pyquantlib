@@ -22,9 +22,14 @@ arr = ql.Array([1.0, 2.0, 3.0])
 # Create with size and default value
 arr = ql.Array(10, 0.0)
 
-# NumPy interoperability (zero-copy view)
-np_arr = np.array(arr, copy=False)
-arr2 = ql.Array(np_arr)
+# Create from numpy array
+arr = ql.Array(np.array([1, 2, 3]))
+
+# Convert to numpy (copy)
+np_arr = np.array(arr)
+
+# Convert to numpy (zero-copy view, shares memory)
+np_view = np.array(arr, copy=False)
 ```
 
 ### Automatic Conversion
@@ -58,13 +63,15 @@ mat[1, 1] = 1.0
 mat[2, 2] = 1.0
 
 # Create from numpy array
-np_mat = np.array([[1, 2], [3, 4]], dtype=float)
-mat = ql.Matrix(np_mat)
+mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
 
 # Create from list of lists
 mat = ql.Matrix([[1, 2], [3, 4]])
 
-# NumPy interoperability (zero-copy view)
+# Convert to numpy (copy)
+np_arr = np.array(mat)
+
+# Convert to numpy (zero-copy view, shares memory)
 np_view = np.array(mat, copy=False)
 ```
 
