@@ -8,20 +8,16 @@ PyQuantLib provides seamless integration with NumPy for numerical arrays and mat
 
 ### Python → QuantLib
 
-Construct `Array` explicitly from lists or numpy arrays:
+Functions expecting `Array` accept Python lists and numpy arrays directly:
 
 ```python
 import pyquantlib as ql
 import numpy as np
 
-# From Python list
-arr = ql.Array([1.0, 2.0, 3.0])
-
-# From numpy array
-arr = ql.Array(np.array([1.0, 2.0, 3.0]))
-
-# Use in functions
+# All three work identically
 result = ql.DotProduct(ql.Array([1, 2, 3]), ql.Array([4, 5, 6]))
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])
+result = ql.DotProduct(np.array([1, 2, 3]), np.array([4, 5, 6]))
 ```
 
 ### QuantLib → NumPy
@@ -85,11 +81,12 @@ row = mat[0]  # numpy array view of first row
 
 | Type | Python → QuantLib | QuantLib → NumPy |
 |------|-------------------|------------------|
-| Array | `ql.Array(list)` or `ql.Array(np_array)` | `np.array(arr)` or `np.array(arr, copy=False)` |
-| Matrix | `ql.Matrix(list)` or `ql.Matrix(np_array)` | `np.array(mat)` or `np.array(mat, copy=False)` |
+| Array | Automatic (list, tuple, numpy) | `np.array(arr)` or `np.array(arr, copy=False)` |
+| Matrix | Explicit `ql.Matrix(...)` | `np.array(mat)` or `np.array(mat, copy=False)` |
 
 ## Performance Tips
 
 1. **Use zero-copy views** when reading data and the source object stays alive
 2. **Use copies** when the source object may be modified or destroyed
-3. **Pre-allocate matrices** with `ql.Matrix(rows, cols)` when building incrementally
+3. **Pass lists directly** to functions expecting Array (avoids intermediate numpy conversion)
+4. **Pre-allocate matrices** with `ql.Matrix(rows, cols)` when building incrementally

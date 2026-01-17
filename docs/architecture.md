@@ -24,8 +24,7 @@ pyquantlib/
 │   ├── trampolines.h          # Python subclassing support
 │   ├── pyquantlib.h           # Forward declarations
 │   └── type_casters/          # Custom type conversions
-│       ├── date.h             # Date ↔ datetime.date
-│       └── array.h            # Array ↔ numpy/list
+│       └── date.h             # Date ↔ datetime.date
 ├── src/
 │   ├── main.cpp               # Module entry point
 │   ├── submodules.cpp         # Creates base submodule
@@ -252,13 +251,13 @@ See `include/pyquantlib/trampolines.h` for the current inventory.
 2. **Use `override`**: If it doesn't compile with `override`, the method isn't virtual
 3. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
 
-## Type Casters
+## Type Casters and Implicit Conversion
 
-Custom type casters in `include/pyquantlib/type_casters/` are included only in `main.cpp`.
+PyQuantLib uses pybind11 mechanisms to enable seamless Python/C++ type conversion.
 
 ### Date Type Caster
 
-The Date type caster enables automatic conversion between `datetime.date` and `QuantLib::Date`:
+The Date type caster in `include/pyquantlib/type_casters/date.h` enables automatic conversion between `datetime.date` and `QuantLib::Date`:
 
 ```python
 from datetime import date
@@ -271,40 +270,44 @@ ql.Settings.instance().evaluationDate = today  # Automatic conversion
 
 This works because `Date` has no `py::class_` binding (only the type caster handles it).
 
-### Array and Matrix: Explicit Construction
+### Array: Implicit Conversion
 
-Both `Array` and `Matrix` require explicit construction:
+`Array` uses `py::implicitly_convertible` to allow passing lists and numpy arrays directly to functions:
 
 ```python
-import numpy as np
 import pyquantlib as ql
+import numpy as np
 
-# Array: explicit construction required
-arr = ql.Array([1.0, 2.0, 3.0])
-arr = ql.Array(np.array([1, 2, 3]))
-
-# Matrix: explicit construction required
-mat = ql.Matrix([[1, 2], [3, 4]])
-mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
+# All work identically
+result = ql.DotProduct(ql.Array([1, 2, 3]), ql.Array([4, 5, 6]))
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])
+result = ql.DotProduct(np.array([1, 2, 3]), np.array([4, 5, 6]))
 ```
 
-### Why No Automatic Conversion for Array/Matrix?
+This is implemented via constructors that accept `py::list` and `py::array`, plus:
 
-Although `type_casters/array.h` exists, it cannot enable automatic conversion because:
+```cpp
+py::implicitly_convertible<py::list, Array>();
+py::implicitly_convertible<py::array, Array>();
+```
 
-1. **`py::class_` binding conflict**: Both Array and Matrix have `py::class_` bindings (for methods like indexing, iteration, buffer protocol). When a type caster coexists with `py::class_`, the `cast()` function calls `py::cast()` which invokes the type caster again, causing infinite recursion.
+### Matrix: Explicit Construction
 
-2. **Translation unit isolation**: Type casters must be visible at binding sites. Including the type caster globally causes stack overflow due to the recursion above.
+Matrix requires explicit construction because it uses a `shared_ptr` holder:
 
-The Array type caster remains in `main.cpp` for potential return value conversion, but explicit construction is the supported pattern for both Array and Matrix.
+```python
+# Matrix requires explicit conversion
+mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
+mat = ql.Matrix([[1, 2], [3, 4]])
+```
 
-### Type Casters vs py::class_ Bindings
+### Summary
 
 | Type | Binding | Automatic Conversion |
 |------|---------|---------------------|
 | Date | Type caster only | Yes |
-| Array | `py::class_` + type caster | No (recursion conflict) |
-| Matrix | `py::class_` with holder | No |
+| Array | `py::class_` + `implicitly_convertible` | Yes |
+| Matrix | `py::class_` with `shared_ptr` holder | No |
 
 ## Handle Patterns
 

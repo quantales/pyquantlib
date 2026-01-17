@@ -209,4 +209,9 @@ void ql_math::array(py::module_& m) {
     m.def("Pow", py::overload_cast<const Array&, Real>(&Pow),
         py::arg("array"), py::arg("exponent"),
         "Returns element-wise power.");
+
+    // Enable implicit conversion from Python lists and numpy arrays
+    // This allows passing lists/arrays directly to functions expecting Array
+    py::implicitly_convertible<py::list, Array>();
+    py::implicitly_convertible<py::array, Array>();
 }

@@ -325,3 +325,25 @@ def test_array_unary_functions():
 
     arr_pow = ql.Array([1.0, 2.0, 3.0])
     assert approx_equal_array(ql.Pow(arr_pow, 2.0), [1.0, 4.0, 9.0])
+
+
+# --- Implicit conversion ---
+
+def test_array_implicit_conversion_list():
+    """Lists can be passed directly to functions expecting Array."""
+    result = ql.DotProduct([1.0, 2.0, 3.0], [4.0, 5.0, 6.0])
+    assert result == pytest.approx(32.0)
+
+
+def test_array_implicit_conversion_numpy():
+    """Numpy arrays can be passed directly to functions expecting Array."""
+    a = np.array([1.0, 2.0, 3.0])
+    b = np.array([4.0, 5.0, 6.0])
+    result = ql.DotProduct(a, b)
+    assert result == pytest.approx(32.0)
+
+
+def test_array_implicit_conversion_mixed():
+    """Mixed list and numpy array work together."""
+    result = ql.DotProduct([1.0, 2.0, 3.0], np.array([4.0, 5.0, 6.0]))
+    assert result == pytest.approx(32.0)
