@@ -104,3 +104,31 @@ def test_localconstantvol_in_handle():
 
     retrieved = handle.currentLink()
     assert retrieved.localVol(1.0, 100.0) == pytest.approx(volatility)
+
+
+def test_localconstantvol_hidden_handle_reference_date():
+    """Test LocalConstantVol with Quote (hidden handle) using reference date."""
+    ref_date = ql.Date(15, 6, 2024)
+    dc = ql.Actual365Fixed()
+
+    vol_quote = ql.SimpleQuote(0.25)
+    lcv = ql.LocalConstantVol(ref_date, vol_quote, dc)
+
+    assert lcv.localVol(1.0, 100.0) == pytest.approx(0.25)
+
+    # Quote changes propagate
+    vol_quote.setValue(0.30)
+    assert lcv.localVol(1.0, 100.0) == pytest.approx(0.30)
+
+
+def test_localconstantvol_hidden_handle_settlement_days():
+    """Test LocalConstantVol with Quote (hidden handle) using settlement days."""
+    today = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = today
+
+    vol_quote = ql.SimpleQuote(0.20)
+    lcv = ql.LocalConstantVol(2, ql.TARGET(), vol_quote, ql.Actual365Fixed())
+
+    expected_ref = ql.TARGET().advance(today, 2, ql.Days)
+    assert lcv.referenceDate() == expected_ref
+    assert lcv.localVol(1.0, 100.0) == pytest.approx(0.20)

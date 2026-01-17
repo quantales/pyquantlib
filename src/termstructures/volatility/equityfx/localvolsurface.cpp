@@ -13,6 +13,9 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/termstructures/volatility/equityfx/localvolsurface.hpp>
+#include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
+#include <ql/termstructures/yieldtermstructure.hpp>
+#include <ql/quote.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -42,5 +45,31 @@ void ql_termstructures::localvolsurface(py::module_& m) {
             py::arg("riskFreeTS"),
             py::arg("dividendTS"),
             py::arg("underlying"),
-            "Constructs from Black vol surface and fixed underlying value.");
+            "Constructs from Black vol surface and fixed underlying value.")
+        // Hidden handles with quote for underlying
+        .def(py::init([](const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<YieldTermStructure>& dividendTS,
+                         const ext::shared_ptr<Quote>& underlying) {
+            return ext::make_shared<LocalVolSurface>(
+                Handle<BlackVolTermStructure>(blackVolTS),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<YieldTermStructure>(dividendTS),
+                Handle<Quote>(underlying));
+        }), py::arg("blackVolTS"), py::arg("riskFreeTS"),
+            py::arg("dividendTS"), py::arg("underlying"),
+            "Constructs from term structures and quote (handles created internally).")
+        // Hidden handles with fixed underlying value
+        .def(py::init([](const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<YieldTermStructure>& dividendTS,
+                         Real underlying) {
+            return ext::make_shared<LocalVolSurface>(
+                Handle<BlackVolTermStructure>(blackVolTS),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<YieldTermStructure>(dividendTS),
+                underlying);
+        }), py::arg("blackVolTS"), py::arg("riskFreeTS"),
+            py::arg("dividendTS"), py::arg("underlying"),
+            "Constructs from term structures and fixed value (handles created internally).");
 }

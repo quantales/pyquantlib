@@ -158,3 +158,41 @@ def test_localvolsurface_in_handle():
 
     retrieved = handle.currentLink()
     assert retrieved.localVol(1.0, 100.0) == pytest.approx(0.20)
+
+
+def test_localvolsurface_hidden_handles_with_quote():
+    """Test LocalVolSurface with term structures (hidden handles) and quote."""
+    ref_date = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = ref_date
+    dc = ql.Actual365Fixed()
+
+    spot_quote = ql.SimpleQuote(100.0)
+    risk_free = ql.FlatForward(ref_date, 0.05, dc)
+    dividend = ql.FlatForward(ref_date, 0.02, dc)
+    black_vol = ql.BlackConstantVol(ref_date, ql.TARGET(), 0.20, dc)
+
+    # Hidden handles: pass term structures directly
+    lvs = ql.LocalVolSurface(black_vol, risk_free, dividend, spot_quote)
+
+    assert lvs.localVol(1.0, 100.0) == pytest.approx(0.20)
+
+    # Quote changes propagate
+    spot_quote.setValue(110.0)
+    # Local vol should still work (may differ slightly due to spot change)
+    assert lvs.localVol(1.0, 100.0) == pytest.approx(0.20, rel=0.01)
+
+
+def test_localvolsurface_hidden_handles_with_fixed_value():
+    """Test LocalVolSurface with term structures (hidden handles) and fixed value."""
+    ref_date = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = ref_date
+    dc = ql.Actual365Fixed()
+
+    risk_free = ql.FlatForward(ref_date, 0.05, dc)
+    dividend = ql.FlatForward(ref_date, 0.02, dc)
+    black_vol = ql.BlackConstantVol(ref_date, ql.TARGET(), 0.20, dc)
+
+    # Hidden handles with fixed underlying value
+    lvs = ql.LocalVolSurface(black_vol, risk_free, dividend, 100.0)
+
+    assert lvs.localVol(1.0, 100.0) == pytest.approx(0.20)

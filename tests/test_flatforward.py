@@ -114,3 +114,33 @@ def test_flatforward_in_yts_handle():
     expected_discount = math.exp(-rate * 1.0)
 
     assert retrieved.discount(future_date) == pytest.approx(expected_discount)
+
+
+def test_flatforward_hidden_handle_reference_date():
+    """Test FlatForward with Quote (hidden handle) using reference date."""
+    today = ql.Date(15, 6, 2024)
+    dc = ql.Actual365Fixed()
+
+    rate_quote = ql.SimpleQuote(0.05)
+    ff = ql.FlatForward(today, rate_quote, dc)
+
+    one_year = today + ql.Period(1, ql.Years)
+    zero_rate = ff.zeroRate(one_year, dc, ql.Continuous)
+    assert zero_rate.rate() == pytest.approx(0.05)
+
+    # Quote changes propagate
+    rate_quote.setValue(0.06)
+    zero_rate_updated = ff.zeroRate(one_year, dc, ql.Continuous)
+    assert zero_rate_updated.rate() == pytest.approx(0.06)
+
+
+def test_flatforward_hidden_handle_settlement_days():
+    """Test FlatForward with Quote (hidden handle) using settlement days."""
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    rate_quote = ql.SimpleQuote(0.04)
+    ff = ql.FlatForward(2, calendar, rate_quote, dc, ql.Compounded, ql.Annual)
+
+    assert ff.settlementDays() == 2
+    assert ff.compounding() == ql.Compounded

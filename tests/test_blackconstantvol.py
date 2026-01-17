@@ -108,3 +108,31 @@ def test_blackconstantvol_in_handle():
 
     retrieved = handle.currentLink()
     assert retrieved.blackVol(1.0, 100.0) == pytest.approx(volatility)
+
+
+def test_blackconstantvol_hidden_handle_reference_date():
+    """Test BlackConstantVol with Quote (hidden handle) using reference date."""
+    ref_date = ql.Date(15, 6, 2024)
+    dc = ql.Actual365Fixed()
+
+    vol_quote = ql.SimpleQuote(0.25)
+    bcv = ql.BlackConstantVol(ref_date, ql.TARGET(), vol_quote, dc)
+
+    assert bcv.blackVol(1.0, 100.0) == pytest.approx(0.25)
+
+    # Quote changes propagate
+    vol_quote.setValue(0.30)
+    assert bcv.blackVol(1.0, 100.0) == pytest.approx(0.30)
+
+
+def test_blackconstantvol_hidden_handle_settlement_days():
+    """Test BlackConstantVol with Quote (hidden handle) using settlement days."""
+    today = ql.Date(15, 6, 2024)
+    ql.Settings.instance().evaluationDate = today
+
+    vol_quote = ql.SimpleQuote(0.20)
+    bcv = ql.BlackConstantVol(2, ql.TARGET(), vol_quote, ql.Actual365Fixed())
+
+    expected_ref = ql.TARGET().advance(today, 2, ql.Days)
+    assert bcv.referenceDate() == expected_ref
+    assert bcv.blackVol(1.0, 100.0) == pytest.approx(0.20)

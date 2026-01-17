@@ -39,6 +39,18 @@ void ql_termstructures::flatforward(py::module_& m) {
             py::arg("compounding") = Continuous,
             py::arg("frequency") = Annual,
             "Constructs from reference date and quote handle.")
+        // Reference date + quote (hidden handle)
+        .def(py::init([](const Date& referenceDate,
+                         const ext::shared_ptr<Quote>& forward,
+                         const DayCounter& dayCounter,
+                         Compounding compounding,
+                         Frequency frequency) {
+            return ext::make_shared<FlatForward>(
+                referenceDate, Handle<Quote>(forward), dayCounter,
+                compounding, frequency);
+        }), py::arg("referenceDate"), py::arg("forward"), py::arg("dayCounter"),
+            py::arg("compounding") = Continuous, py::arg("frequency") = Annual,
+            "Constructs from reference date and quote (handle created internally).")
         // Settlement days + rate
         .def(py::init<Natural, const Calendar&, Rate, const DayCounter&,
                       Compounding, Frequency>(),
@@ -59,6 +71,20 @@ void ql_termstructures::flatforward(py::module_& m) {
             py::arg("compounding") = Continuous,
             py::arg("frequency") = Annual,
             "Constructs from settlement days and quote handle.")
+        // Settlement days + quote (hidden handle)
+        .def(py::init([](Natural settlementDays,
+                         const Calendar& calendar,
+                         const ext::shared_ptr<Quote>& forward,
+                         const DayCounter& dayCounter,
+                         Compounding compounding,
+                         Frequency frequency) {
+            return ext::make_shared<FlatForward>(
+                settlementDays, calendar, Handle<Quote>(forward), dayCounter,
+                compounding, frequency);
+        }), py::arg("settlementDays"), py::arg("calendar"), py::arg("forward"),
+            py::arg("dayCounter"), py::arg("compounding") = Continuous,
+            py::arg("frequency") = Annual,
+            "Constructs from settlement days and quote (handle created internally).")
         .def("compounding", &FlatForward::compounding,
             "Returns the compounding convention.")
         .def("compoundingFrequency", &FlatForward::compoundingFrequency,

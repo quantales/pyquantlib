@@ -35,6 +35,14 @@ void ql_termstructures::localconstantvol(py::module_& m) {
             py::arg("volatility"),
             py::arg("dayCounter"),
             "Constructs from reference date and quote handle.")
+        // Reference date + quote (hidden handle)
+        .def(py::init([](const Date& referenceDate,
+                         const ext::shared_ptr<Quote>& volatility,
+                         const DayCounter& dayCounter) {
+            return ext::make_shared<LocalConstantVol>(
+                referenceDate, Handle<Quote>(volatility), dayCounter);
+        }), py::arg("referenceDate"), py::arg("volatility"), py::arg("dayCounter"),
+            "Constructs from reference date and quote (handle created internally).")
         // Settlement days + volatility value
         .def(py::init<Natural, const Calendar&, Volatility, const DayCounter&>(),
             py::arg("settlementDays"),
@@ -48,5 +56,15 @@ void ql_termstructures::localconstantvol(py::module_& m) {
             py::arg("calendar"),
             py::arg("volatility"),
             py::arg("dayCounter"),
-            "Constructs from settlement days and quote handle.");
+            "Constructs from settlement days and quote handle.")
+        // Settlement days + quote (hidden handle)
+        .def(py::init([](Natural settlementDays,
+                         const Calendar& calendar,
+                         const ext::shared_ptr<Quote>& volatility,
+                         const DayCounter& dayCounter) {
+            return ext::make_shared<LocalConstantVol>(
+                settlementDays, calendar, Handle<Quote>(volatility), dayCounter);
+        }), py::arg("settlementDays"), py::arg("calendar"),
+            py::arg("volatility"), py::arg("dayCounter"),
+            "Constructs from settlement days and quote (handle created internally).");
 }
