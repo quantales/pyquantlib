@@ -6,20 +6,18 @@ This section provides documentation for PyQuantLib classes and functions.
 
 PyQuantLib organizes QuantLib classes into logical groups:
 
-| Module | Description |
-|--------|-------------|
-| **Time** | Date arithmetic, calendars, day counters, schedules |
-| **Core** | Settings, constants, rounding, interest rates |
-| **Math** | Arrays, matrices, optimization |
-| **Quotes** | Market observables (spot, rates, vol) |
-| **Currencies** | Currency definitions and exchange rates |
-| **Cash Flows** | Coupon and cash flow implementations |
-| **Indexes** | Interest rate and other indexes |
-| **Term Structures** | Yield curves, volatility surfaces |
-| **Processes** | Stochastic processes (Black-Scholes, Heston) |
-| **Models** | Pricing models (Heston, etc.) |
-| **Instruments** | Financial instruments (options, etc.) |
-| **Pricing Engines** | Analytic, Monte Carlo, finite difference |
+- **Time**: Date arithmetic, calendars, day counters, schedules
+- **Core**: Settings, constants, rounding, interest rates
+- **Math**: Arrays, matrices, optimization
+- **Quotes**: Market observables (spot, rates, vol)
+- **Currencies**: Currency definitions and exchange rates
+- **Cash Flows**: Coupon and cash flow implementations
+- **Indexes**: Interest rate and other indexes
+- **Term Structures**: Yield curves, volatility surfaces
+- **Processes**: Stochastic processes (Black-Scholes, Heston)
+- **Models**: Pricing models (Heston, etc.)
+- **Instruments**: Financial instruments (options, etc.)
+- **Pricing Engines**: Analytic, Monte Carlo, finite difference
 
 ## Import Conventions
 
