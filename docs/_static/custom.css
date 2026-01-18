@@ -54,10 +54,17 @@ h1 + h2 { margin-top: 1.5rem; }
 h2 + h3 { margin-top: 1.5rem; }
 h3 + h4 { margin-top: 1rem; }
 
-/* Code block styling - use Furo defaults with subtle refinements */
+/* Code block styling */
 .highlight pre {
     padding: 1em;
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    background: var(--color-background-secondary);
+}
+
+/* Dark mode adjustment */
+body[data-theme="dark"] .highlight pre {
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Inline code styling */
@@ -68,16 +75,39 @@ code.literal {
     font-size: 0.9em;
 }
 
-/* Make tables more readable */
+/* Subtle bordered table with hover and stripes */
 table.docutils {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-background-border);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
-table.docutils td,
 table.docutils th {
-    padding: 8px 12px;
-    border: 1px solid var(--color-table-border);
+    padding: 5px 12px;
+    text-align: left;
+    font-weight: 600;
+    background: var(--color-background-secondary);
+    border-bottom: 1px solid var(--color-background-border);
+}
+
+table.docutils td {
+    padding: 4px 12px;
+    border-bottom: 1px solid var(--color-background-border);
+}
+
+table.docutils tr:last-child td {
+    border-bottom: none;
+}
+
+table.docutils tbody tr:nth-child(even) {
+    background: var(--color-background-secondary);
+}
+
+table.docutils tr:hover {
+    background: var(--color-background-hover);
 }
 
 /* API documentation improvements */
