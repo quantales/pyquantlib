@@ -39,6 +39,21 @@ pyquantlib/
     └── _pyquantlib/           # Compiled extension
 ```
 
+### File Mapping Convention
+
+PyQuantLib mirrors QuantLib's directory structure. Each QuantLib header has a corresponding binding file:
+
+| QuantLib Header | PyQuantLib Binding |
+|-----------------|-------------------|
+| `ql/pricingengines/vanilla/mcamericanengine.hpp` | `src/pricingengines/vanilla/mcamericanengine.cpp` |
+| `ql/termstructures/yield/flatforward.hpp` | `src/termstructures/yield/flatforward.cpp` |
+| `ql/time/date.hpp` | `src/time/date.cpp` |
+| `ql/instrument.hpp` | `src/core/instrument.cpp` |
+
+Top-level QuantLib files (e.g., `ql/instrument.hpp`) go to `src/core/`.
+
+This 1:1 mapping makes it easy to locate bindings and ensures comprehensive coverage.
+
 ## Key Components
 
 ### BindingManager

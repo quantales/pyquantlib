@@ -334,12 +334,27 @@ pyquantlib/
 
 ## Adding New Bindings
 
-See the existing bindings in `src/` for examples. The general pattern is:
+### File Mapping Convention
 
-1. Create a new `.cpp` file in the appropriate subdirectory
+PyQuantLib mirrors QuantLib's directory structure. Each QuantLib header should have a corresponding binding file:
+
+| QuantLib Header | PyQuantLib Binding |
+|-----------------|-------------------|
+| `ql/pricingengines/vanilla/mcamericanengine.hpp` | `src/pricingengines/vanilla/mcamericanengine.cpp` |
+| `ql/termstructures/yield/flatforward.hpp` | `src/termstructures/yield/flatforward.cpp` |
+| `ql/time/date.hpp` | `src/time/date.cpp` |
+| `ql/instrument.hpp` | `src/core/instrument.cpp` |
+
+Top-level QuantLib files (e.g., `ql/instrument.hpp`) go to `src/core/`.
+
+### Steps to Add a Binding
+
+1. Create a new `.cpp` file in the appropriate subdirectory (matching QuantLib's structure)
 2. Declare the binding function in `include/pyquantlib/pyquantlib.h`
 3. Register the binding in the module's `all.cpp` file
 4. Add tests in `tests/`
+
+See the existing bindings in `src/` for examples.
 
 ---
 
