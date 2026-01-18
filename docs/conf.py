@@ -146,5 +146,19 @@ def process_signature(app, what, name, obj, options, signature, return_annotatio
     return signature, return_annotation
 
 
+def process_docstring(app, what, name, obj, options, lines):
+    """Clean up pybind11 overloaded signatures in docstrings."""
+    for i, line in enumerate(lines):
+        # Remove module paths
+        line = re.sub(r"pyquantlib\._pyquantlib\.", "", line)
+        # Remove typing. prefix
+        line = re.sub(r"typing\.", "", line)
+        # Remove self parameter in overloaded signatures
+        line = re.sub(r"\(self: [^,]+, ", "(", line)
+        line = re.sub(r"\(self: [^)]+\)", "()", line)
+        lines[i] = line
+
+
 def setup(app):
     app.connect("autodoc-process-signature", process_signature)
+    app.connect("autodoc-process-docstring", process_docstring)
