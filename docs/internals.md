@@ -213,9 +213,10 @@ py::class_<QuantLib::Quote,
 
 ### Guidelines for Contributors
 
-1. **Only virtual methods**: Non-virtual methods bypass the trampoline
+1. **Only virtual methods**: Non-virtual methods cannot be overridden from Python. C++ calls bypass the trampoline and go directly to the base class. Including non-virtual methods gives the false impression they are overridable.
 2. **Use `override`**: If it doesn't compile with `override`, the method isn't virtual: remove it from the trampoline
-3. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
+3. **`PYBIND11_OVERRIDE_PURE` vs `PYBIND11_OVERRIDE`**: Use `PYBIND11_OVERRIDE_PURE` for pure virtual methods (`= 0`), which throws if not implemented in Python. Use `PYBIND11_OVERRIDE` for virtual methods with a base implementation, which falls back to C++ if not overridden.
+4. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
 
 All trampolines are in `include/pyquantlib/trampolines.h`.
 

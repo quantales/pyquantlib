@@ -173,16 +173,7 @@ This behavior is not explicitly documented in pybind11, but is a consequence of 
 
 ### Trampoline Classes
 
-Only include **virtual** methods. Use `override` to verify:
-
-```cpp
-// If this compiles, method is virtual: keep it
-Date date() const override {
-    PYBIND11_OVERRIDE_PURE(Date, Coupon, date,);
-}
-
-// If override causes error: remove from trampoline
-```
+See {doc}`internals` for trampoline implementation details and guidelines.
 
 ## Type Stubs
 
