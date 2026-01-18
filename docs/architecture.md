@@ -1,6 +1,6 @@
 # Architecture
 
-This document provides a high-level overview of PyQuantLib's design.
+This section provides a high-level overview of PyQuantLib's design.
 
 ```{seealso}
 - {doc}`internals` for detailed implementation: BindingManager, module patterns, trampolines

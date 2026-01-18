@@ -1,6 +1,6 @@
 # Internals
 
-This document describes PyQuantLib's internal architecture: useful for contributors and those interested in how the bindings work.
+This section describes PyQuantLib's internal architecture: useful for contributors and those interested in how the bindings work.
 
 ```{seealso}
 {doc}`architecture` for design decisions, {doc}`building` for build setup, {doc}`contributing` for development workflow, and {doc}`extending` for Python subclassing.
