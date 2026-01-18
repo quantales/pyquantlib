@@ -193,6 +193,11 @@ namespace ql_pricingengines {
     void stulzengine(py::module_&);
     void fd2dblackscholesvanillaengine(py::module_&);
     void mceuropeanbasketengine(py::module_&);
+    void baroneadesiwhaleyengine(py::module_&);
+    void bjerksundstenslandengine(py::module_&);
+    void fdblackscholesvanillaengine(py::module_&);
+    void binomialengine(py::module_&);
+    void mcamericanengine(py::module_&);
 }
 
 namespace ql_methods {

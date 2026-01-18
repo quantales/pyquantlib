@@ -43,4 +43,14 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "Fd2dBlackScholesVanillaEngine - 2D FD basket option pricing");
     manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
+    manager.addFunction(ql_pricingengines::baroneadesiwhaleyengine, m,
+        "BaroneAdesiWhaleyApproximationEngine - Barone-Adesi-Whaley American approximation");
+    manager.addFunction(ql_pricingengines::bjerksundstenslandengine, m,
+        "BjerksundStenslandApproximationEngine - Bjerksund-Stensland American approximation");
+    manager.addFunction(ql_pricingengines::fdblackscholesvanillaengine, m,
+        "FdBlackScholesVanillaEngine - 1D finite-difference vanilla option pricing");
+    manager.addFunction(ql_pricingengines::binomialengine, m,
+        "BinomialVanillaEngine - binomial tree vanilla option pricing");
+    manager.addFunction(ql_pricingengines::mcamericanengine, m,
+        "MCAmericanEngine - Monte Carlo American option pricing (Longstaff-Schwartz)");
 }
