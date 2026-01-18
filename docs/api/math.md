@@ -10,8 +10,6 @@
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Array
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -35,8 +33,6 @@ result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # automatic conversion
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Matrix
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -53,40 +49,34 @@ np_view = np.array(mat, copy=False)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.EndCriteria
-   :members:
-   :undoc-members:
 ```
 
 ### LevenbergMarquardt
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LevenbergMarquardt
-   :members:
-   :undoc-members:
 ```
 
 ### Problem
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Problem
-   :members:
-   :undoc-members:
 ```
 
 ### Constraints
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoConstraint
-   :members:
+   
 
 .. autoclass:: pyquantlib.PositiveConstraint
-   :members:
+   
 
 .. autoclass:: pyquantlib.BoundaryConstraint
-   :members:
+   
 
 .. autoclass:: pyquantlib.CompositeConstraint
-   :members:
+   
 ```
 
 ```{note}

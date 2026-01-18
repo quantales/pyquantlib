@@ -4,12 +4,8 @@
 
 ### AnalyticEuropeanEngine
 
-Closed-form Black-Scholes pricing for European options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticEuropeanEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -26,12 +22,8 @@ print(f"Vega:  {option.vega():.4f}")
 
 ### AnalyticHestonEngine
 
-Closed-form pricing for European options under Heston stochastic volatility.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticHestonEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -51,32 +43,20 @@ engine = ql.AnalyticHestonEngine(heston_model)
 
 ### BaroneAdesiWhaleyApproximationEngine
 
-Barone-Adesi and Whaley (1987) quadratic approximation for American options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BaroneAdesiWhaleyApproximationEngine
-   :members:
-   :undoc-members:
 ```
 
 ### BjerksundStenslandApproximationEngine
 
-Bjerksund and Stensland (1993) approximation for American options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BjerksundStenslandApproximationEngine
-   :members:
-   :undoc-members:
 ```
 
 ### BinomialVanillaEngine
 
-Binomial tree pricing for vanilla options (European, American, Bermudan).
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BinomialVanillaEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -87,12 +67,8 @@ Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`
 
 ### FdBlackScholesVanillaEngine
 
-1D finite difference engine for vanilla options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesVanillaEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -106,12 +82,8 @@ engine = ql.FdBlackScholesVanillaEngine(
 
 ### MCEuropeanEngine
 
-Monte Carlo pricing for European vanilla options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCEuropeanEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -128,12 +100,8 @@ print(f"Error: {option.errorEstimate():.6f}")
 
 ### MCAmericanEngine
 
-Monte Carlo pricing for American options using Longstaff-Schwartz least-squares regression.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCAmericanEngine
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -151,42 +119,26 @@ engine = ql.MCAmericanEngine(
 
 ### MCEuropeanBasketEngine
 
-Monte Carlo pricing for European basket options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCEuropeanBasketEngine
-   :members:
-   :undoc-members:
 ```
 
 ### Fd2dBlackScholesVanillaEngine
 
-2D finite difference engine for spread and basket options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Fd2dBlackScholesVanillaEngine
-   :members:
-   :undoc-members:
 ```
 
 ### KirkEngine
 
-Kirk approximation for spread options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.KirkEngine
-   :members:
-   :undoc-members:
 ```
 
 ### StulzEngine
 
-Stulz approximation for two-asset options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.StulzEngine
-   :members:
-   :undoc-members:
 ```
 
 ## Functions

@@ -4,12 +4,8 @@
 
 ### FlatForward
 
-A yield curve with constant forward rate.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FlatForward
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -29,28 +25,20 @@ rate_quote.setValue(0.06)  # Curve updates automatically
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.YieldTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ### RelinkableYieldTermStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableYieldTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ## Volatility Term Structures
 
 ### BlackConstantVol
 
-Constant Black volatility surface.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackConstantVol
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -63,28 +51,20 @@ const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
 ### BlackVarianceSurface
 
-Volatility surface interpolated from market data.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackVarianceSurface
-   :members:
-   :undoc-members:
 ```
 
 ### BlackVolTermStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackVolTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ### RelinkableBlackVolTermStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableBlackVolTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ## Local Volatility
@@ -93,16 +73,12 @@ Volatility surface interpolated from market data.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LocalConstantVol
-   :members:
-   :undoc-members:
 ```
 
 ### LocalVolSurface
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LocalVolSurface
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -114,8 +90,6 @@ print(local_surface.localVol(1.0, 100.0))
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedLocalVolSurface
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -132,24 +106,18 @@ surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoExceptLocalVolSurface
-   :members:
-   :undoc-members:
 ```
 
 ### LocalVolTermStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LocalVolTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ### RelinkableLocalVolTermStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableLocalVolTermStructureHandle
-   :members:
-   :undoc-members:
 ```
 
 ```{note}

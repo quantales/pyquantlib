@@ -4,12 +4,8 @@
 
 ### Settings
 
-The global `Settings` singleton controls evaluation date and other global parameters.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Settings
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -24,8 +20,6 @@ today = settings.evaluationDate
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.InterestRate
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -38,23 +32,21 @@ equivalent = rate.equivalentRate(ql.Continuous, ql.NoFrequency, 1.0)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Rounding
-   :members:
-   :undoc-members:
 
 .. autoclass:: pyquantlib.UpRounding
-   :members:
+   
 
 .. autoclass:: pyquantlib.DownRounding
-   :members:
+   
 
 .. autoclass:: pyquantlib.ClosestRounding
-   :members:
+   
 
 .. autoclass:: pyquantlib.CeilingTruncation
-   :members:
+   
 
 .. autoclass:: pyquantlib.FloorTruncation
-   :members:
+   
 ```
 
 ## Enumerations
@@ -63,8 +55,6 @@ equivalent = rate.equivalentRate(ql.Continuous, ql.NoFrequency, 1.0)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Compounding
-   :members:
-   :undoc-members:
 ```
 
 | Value | Description |

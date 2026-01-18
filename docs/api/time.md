@@ -6,24 +6,18 @@
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Date
-   :members:
-   :undoc-members:
 ```
 
 ### Period
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Period
-   :members:
-   :undoc-members:
 ```
 
 ### TimeGrid
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.TimeGrid
-   :members:
-   :undoc-members:
 ```
 
 ## Calendars
@@ -32,8 +26,6 @@
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Calendar
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -72,8 +64,6 @@ next_bd = target.adjust(date, ql.Following)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DayCounter
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -104,18 +94,12 @@ yf = dc.yearFraction(start, end)  # ~0.5
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Schedule
-   :members:
-   :undoc-members:
 ```
 
 ### MakeSchedule
 
-Builder for creating schedules.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MakeSchedule
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -134,32 +118,24 @@ schedule = ql.MakeSchedule() \
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.TimeUnit
-   :members:
-   :undoc-members:
 ```
 
 ### Weekday
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Weekday
-   :members:
-   :undoc-members:
 ```
 
 ### Month
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Month
-   :members:
-   :undoc-members:
 ```
 
 ### BusinessDayConvention
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BusinessDayConvention
-   :members:
-   :undoc-members:
 ```
 
 | Convention | Description |
@@ -174,16 +150,12 @@ schedule = ql.MakeSchedule() \
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DateGeneration
-   :members:
-   :undoc-members:
 ```
 
 ### Frequency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Frequency
-   :members:
-   :undoc-members:
 ```
 
 | Frequency | Periods per year |

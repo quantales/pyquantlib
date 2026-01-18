@@ -6,8 +6,6 @@
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Currency
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -29,12 +27,8 @@ print(usd.symbol()) # "$"
 
 ### Money
 
-Represents an amount in a specific currency.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Money
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -45,12 +39,8 @@ print(usd_amount.currency())
 
 ### ExchangeRate
 
-Represents an exchange rate between two currencies.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ExchangeRate
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -60,12 +50,8 @@ usd_amount = rate.exchange(eur_amount)
 
 ### ExchangeRateManager
 
-Global manager for exchange rates.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ExchangeRateManager
-   :members:
-   :undoc-members:
 ```
 
 ## Major Currency Classes
@@ -74,33 +60,28 @@ Global manager for exchange rates.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.USDCurrency
-   :members:
 ```
 
 ### EURCurrency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.EURCurrency
-   :members:
 ```
 
 ### GBPCurrency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.GBPCurrency
-   :members:
 ```
 
 ### JPYCurrency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.JPYCurrency
-   :members:
 ```
 
 ### CHFCurrency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CHFCurrency
-   :members:
 ```

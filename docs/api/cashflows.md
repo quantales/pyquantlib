@@ -4,12 +4,8 @@
 
 ### SimpleCashFlow
 
-A simple cash flow with a fixed amount and payment date.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.SimpleCashFlow
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -20,32 +16,20 @@ print(cf.date())    # June 15th, 2026
 
 ### Redemption
 
-A redemption (principal) cash flow.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Redemption
-   :members:
-   :undoc-members:
 ```
 
 ### AmortizingPayment
 
-An amortizing payment cash flow.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AmortizingPayment
-   :members:
-   :undoc-members:
 ```
 
 ### FixedRateCoupon
 
-A coupon with a fixed interest rate.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedRateCoupon
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -60,12 +44,8 @@ print(coupon.rate())
 
 ### FixedRateLeg
 
-Builder for a leg (sequence) of fixed rate coupons.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedRateLeg
-   :members:
-   :undoc-members:
 ```
 
 ```python

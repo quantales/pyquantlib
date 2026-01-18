@@ -4,12 +4,8 @@
 
 ### HestonModel
 
-The Heston stochastic volatility model.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonModel
-   :members:
-   :undoc-members:
 ```
 
 | Parameter | Symbol | Description |
@@ -35,44 +31,28 @@ option.setPricingEngine(engine)
 
 ### PiecewiseTimeDependentHestonModel
 
-Heston model with time-dependent parameters.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseTimeDependentHestonModel
-   :members:
-   :undoc-members:
 ```
 
 ### HestonModelHandle
 
-Handle for Heston model (for lazy evaluation).
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonModelHandle
-   :members:
-   :undoc-members:
 ```
 
 ## Parameters
 
 ### Parameter
 
-Base class for model parameters.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Parameter
-   :members:
-   :undoc-members:
 ```
 
 ### ConstantParameter
 
-A constant (time-independent) parameter.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConstantParameter
-   :members:
-   :undoc-members:
 ```
 
 ```{note}

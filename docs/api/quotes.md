@@ -4,12 +4,8 @@
 
 ### SimpleQuote
 
-The most common quote type: a value that can be set and observed.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.SimpleQuote
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -20,22 +16,14 @@ print(spot.value())  # 105.0
 
 ### DerivedQuote
 
-A quote whose value is computed from another quote.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.DerivedQuote
-   :members:
-   :undoc-members:
 ```
 
 ### CompositeQuote
 
-A quote whose value is computed from two other quotes.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.CompositeQuote
-   :members:
-   :undoc-members:
 ```
 
 ## Handles
@@ -46,16 +34,12 @@ Handles provide a layer of indirection for quotes and term structures, enabling 
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.QuoteHandle
-   :members:
-   :undoc-members:
 ```
 
 ### RelinkableQuoteHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableQuoteHandle
-   :members:
-   :undoc-members:
 ```
 
 ```python

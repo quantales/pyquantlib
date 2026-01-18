@@ -4,12 +4,8 @@
 
 ### GeneralizedBlackScholesProcess
 
-The most flexible Black-Scholes process: supports term structure handles.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.GeneralizedBlackScholesProcess
-   :members:
-   :undoc-members:
 ```
 
 ```python
@@ -32,34 +28,22 @@ process = ql.GeneralizedBlackScholesProcess(
 
 ### BlackScholesProcess
 
-Black-Scholes process without dividends.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackScholesProcess
-   :members:
-   :undoc-members:
 ```
 
 ### BlackScholesMertonProcess
 
-Black-Scholes-Merton process with continuous dividend yield.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackScholesMertonProcess
-   :members:
-   :undoc-members:
 ```
 
 ## Heston Process
 
 ### HestonProcess
 
-Stochastic volatility process.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonProcess
-   :members:
-   :undoc-members:
 ```
 
 | Parameter | Symbol | Description |
@@ -81,12 +65,8 @@ heston_process = ql.HestonProcess(
 
 ### StochasticProcessArray
 
-Array of correlated stochastic processes for basket options.
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.StochasticProcessArray
-   :members:
-   :undoc-members:
 ```
 
 ```{note}
