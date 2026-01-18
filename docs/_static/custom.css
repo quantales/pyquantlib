@@ -81,10 +81,17 @@ table.docutils th {
 }
 
 /* API documentation improvements */
-.py.class > dt,
-.py.function > dt,
-.py.method > dt {
-    padding: 0.5em;
+dl.py {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+/* Align class/function signatures with the indented content below */
+dl.py.class > dt.sig,
+dl.py.function > dt.sig,
+dl.py.method > dt.sig {
+    margin-left: 1.5em;
+    padding: 0.5em 0.75em;
     background: var(--color-api-background);
     border-radius: 4px;
     font-family: var(--font-stack--monospace);
