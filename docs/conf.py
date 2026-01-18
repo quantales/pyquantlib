@@ -4,6 +4,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+import re
 import sys
 
 # -- Path setup --------------------------------------------------------------
@@ -18,8 +19,6 @@ copyright = "2025, Yassine Idyiahia"
 author = "Yassine Idyiahia"
 
 # Version info - read directly to avoid importing compiled module
-import re
-
 version_file = os.path.join(os.path.dirname(__file__), "..", "pyquantlib", "version.py")
 try:
     with open(version_file) as f:
@@ -106,10 +105,12 @@ autodoc_default_options = {
     "members": True,
     "undoc-members": True,
     "show-inheritance": True,
+    "special-members": "__init__",
 }
 
 autodoc_member_order = "groupwise"
 autodoc_typehints = "description"
+autodoc_typehints_format = "short"
 
 # -- Options for intersphinx -------------------------------------------------
 
@@ -128,3 +129,22 @@ napoleon_include_init_with_doc = True
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: "
 copybutton_prompt_is_regexp = True
+
+# -- Autodoc signature cleanup -----------------------------------------------
+
+
+def process_signature(app, what, name, obj, options, signature, return_annotation):
+    """Clean up pybind11 signatures."""
+    if signature:
+        # Remove module paths: pyquantlib._pyquantlib.ClassName -> ClassName
+        signature = re.sub(r"pyquantlib\._pyquantlib\.", "", signature)
+        # Remove self parameter
+        signature = re.sub(r"\(self: [^,]+, ", "(", signature)
+        signature = re.sub(r"\(self: [^)]+\)", "()", signature)
+    if return_annotation:
+        return_annotation = re.sub(r"pyquantlib\._pyquantlib\.", "", return_annotation)
+    return signature, return_annotation
+
+
+def setup(app):
+    app.connect("autodoc-process-signature", process_signature)
