@@ -2,11 +2,9 @@
 
 ## Compatibility
 
-| Component | Requirement |
-|-----------|-------------|
-| Python | 3.9, 3.10, 3.11, 3.12 |
-| QuantLib | 1.40+ |
-| Platforms | Windows, macOS, Linux |
+- **Python**: 3.9, 3.10, 3.11, 3.12
+- **QuantLib**: 1.40+
+- **Platforms**: Windows, macOS, Linux
 
 PyQuantLib provides bindings for a subset of QuantLib. Foundational components are available: time handling, term structures, common instruments, and pricing engines. Coverage is actively growing. See the {doc}`api/index` for what's available.
 
