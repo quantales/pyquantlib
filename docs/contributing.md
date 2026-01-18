@@ -175,6 +175,27 @@ This behavior is not explicitly documented in pybind11, but is a consequence of 
 
 See {doc}`internals` for trampoline implementation details and guidelines.
 
+### Error Handling in Tests
+
+PyQuantLib raises two types of exceptions:
+
+| Exception | Source | When |
+|-----------|--------|------|
+| `RuntimeError` | PyQuantLib wrapper | Validation in the binding code (e.g., invalid RNG type) |
+| `ql.Error` | QuantLib internals | QuantLib's own error checks (e.g., invalid parameters) |
+
+```python
+# RuntimeError: PyQuantLib wrapper validates input
+with pytest.raises(RuntimeError, match="Unsupported RNG type"):
+    ql.MCEuropeanEngine(process, "invalid_rng", ...)
+
+# ql.Error: QuantLib validates internally
+with pytest.raises(ql.Error, match="two underlyings"):
+    ql.StulzEngine(process_array)  # requires exactly 2 processes
+```
+
+Use `RuntimeError` for errors thrown in the wrapper code (`std::runtime_error`) and `ql.Error` for errors originating from QuantLib.
+
 ## Type Stubs
 
 PyQuantLib includes `.pyi` stub files for IDE autocompletion and type checking. These are generated using `pybind11-stubgen`.
