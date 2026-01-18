@@ -96,17 +96,18 @@ print(f"Theta: {option.theta():.4f}")  # -6.4140
 :caption: Getting Started
 
 installation
-building
 quickstart
+building
 ```
 
 ```{toctree}
 :maxdepth: 2
 :caption: User Guide
 
-examples/index
 numpy
 handles
+extending
+examples/index
 ```
 
 ```{toctree}
@@ -121,6 +122,7 @@ api/index
 :caption: Development
 
 architecture
+internals
 contributing
 troubleshooting
 changelog

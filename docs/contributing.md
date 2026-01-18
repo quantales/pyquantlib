@@ -131,26 +131,44 @@ Keep concise:
 
 ### Bridge-Pattern Classes
 
-QuantLib's `DayCounter` and `Calendar` have empty default constructors that create invalid objects.
+QuantLib's `DayCounter` and `Calendar` use the bridge (pimpl) pattern. Their default constructors create objects with no implementation (null internal pointer). These "empty" objects throw errors when used, e.g., "no day counter implementation provided".
+
+In pybind11 bindings, default argument values are evaluated at module import time. If a binding uses `DayCounter()` as a default, the invalid object is created during import, which can cause import failures if any code path touches it.
+
+**Convention:** Use a concrete default like `Actual365Fixed()` instead:
 
 ```cpp
 // BAD: Causes import failure
 py::arg("dayCounter") = DayCounter()
 
-// GOOD: Use concrete default
+// GOOD: Concrete default
 py::arg("dayCounter") = Actual365Fixed()
+
+// GOOD: Required argument (no default)
+py::arg("dayCounter")
 ```
+
+This convention is used throughout the codebase (`TermStructure`, `YieldTermStructure`, etc.).
 
 ### Enum Pass-by-Reference
 
-Never pass enums by reference:
+pybind11 enum values are singletons. Passing them by reference to C++ functions that modify them corrupts the singleton for all subsequent uses in the Python session.
 
 ```cpp
-// BAD
-.def("check", [](const Foo& self, SomeEnum& e) { ... })
+// BAD: corrupts enum singleton
+.def("check", [](const Foo& self, SomeEnum& e) {
+    return self.check(e);  // e modified in place → singleton corrupted
+})
 
-// GOOD
-.def("check", [](const Foo& self, SomeEnum e) { ... })
+// GOOD: pass by value, return tuple with modified value
+.def("check", [](const Foo& self, SomeEnum e) {
+    bool result = self.check(e);
+    return py::make_tuple(result, e);
+})
+```
+
+```{note}
+This behavior is not explicitly documented in pybind11, but is a consequence of how `py::enum_` implements singletons internally. pybind11 v3 introduced `py::native_enum` which uses Python's native `enum` module and is recommended for new bindings. This may behave differently but has not been tested in PyQuantLib.
 ```
 
 ### Trampoline Classes
@@ -168,13 +186,31 @@ Date date() const override {
 
 ## Type Stubs
 
-After changing bindings, maintainer regenerates stubs:
+PyQuantLib includes `.pyi` stub files for IDE autocompletion and type checking. These are generated using `pybind11-stubgen`.
+
+`pybind11-stubgen` produces non-deterministic import ordering across platforms. The same bindings on Windows vs Linux generate identical stubs but with imports in different order:
+
+```python
+# Windows might produce:
+from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess as BlackScholesMertonProcess
+from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess
+
+# Linux might produce:
+from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess
+from pyquantlib._pyquantlib import GeneralizedBlackScholesProcess as BlackScholesMertonProcess
+```
+
+This causes spurious diffs and merge conflicts. To avoid this, the maintainer regenerates stubs on a single platform (Windows) after merging PRs.
+
+Contributors can regenerate stubs locally, but should not include regenerated stubs in pull requests.
 
 ```bash
 python scripts/stubgen.py
 ```
 
-Contributors should **not** regenerate stubs in PRs.
+```{note}
+Stub validation is not included in CI due to the cross-platform non-determinism described above.
+```
 
 ## Questions?
 

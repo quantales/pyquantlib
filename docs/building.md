@@ -43,6 +43,32 @@ cmake --build --preset dev-windows
 
 Presets auto-detect the virtual environment Python.
 
+### CMake Structure
+
+The `CMakeLists.txt` configures the pybind11 module:
+
+```cmake
+# CMakeLists.txt (simplified)
+cmake_minimum_required(VERSION 3.18)
+project(pyquantlib)
+
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(pybind11 CONFIG REQUIRED)
+find_package(QuantLib REQUIRED)
+
+# Auto-detect all source files
+file(GLOB_RECURSE PYQUANTLIB_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/src/*.cpp"
+)
+
+pybind11_add_module(_pyquantlib MODULE ${PYQUANTLIB_SOURCES})
+
+target_link_libraries(_pyquantlib PRIVATE QuantLib::QuantLib)
+target_include_directories(_pyquantlib PRIVATE include)
+```
+
+Source files are discovered automatically via `GLOB_RECURSE`: adding a new `.cpp` file to `src/` includes it in the build without editing `CMakeLists.txt`.
+
 ## QuantLib Requirements
 
 ```{important}
@@ -245,7 +271,7 @@ CMAKE_ARGS="-DQuantLib_ROOT=/path/to/quantlib" pip install -e .
 
 ### Wrong QuantLib Version
 
-If you have multiple QuantLib installations, ensure the static build is found first:
+If multiple QuantLib installations exist, ensure the static build is found first:
 
 ```bash
 # Check which QuantLib is found

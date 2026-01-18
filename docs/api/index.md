@@ -157,6 +157,7 @@ processes
 models
 instruments
 pricingengines
+extensions
 ```
 
 ```{note}

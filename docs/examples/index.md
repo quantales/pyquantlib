@@ -14,6 +14,8 @@ Users familiar with QuantLib-Python (SWIG) will find the API similar.
 :maxdepth: 1
 
 01_option_pricing
+02_numpy_interoperability
+03_modified_kirk_engine
 ```
 
 ## Running the Examples
@@ -21,7 +23,7 @@ Users familiar with QuantLib-Python (SWIG) will find the API similar.
 ### Prerequisites
 
 ```bash
-pip install jupyter matplotlib
+pip install -e ".[examples]"
 ```
 
 ### Launch
@@ -36,3 +38,5 @@ jupyter notebook
 | Notebook | Description |
 |----------|-------------|
 | {doc}`01_option_pricing` | European option pricing with Black-Scholes |
+| {doc}`02_numpy_interoperability` | Array and Matrix conversion with NumPy |
+| {doc}`03_modified_kirk_engine` | Custom Python pricing engine for spread options |

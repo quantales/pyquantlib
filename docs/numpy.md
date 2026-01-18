@@ -2,22 +2,46 @@
 
 PyQuantLib provides seamless integration with NumPy for numerical arrays and matrices.
 
+## Implicit Conversion
+
+Lists and numpy arrays can be passed directly to functions expecting `Array` or `Matrix`:
+
+```python
+import pyquantlib as ql
+import numpy as np
+
+# Lists work directly in functions
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])
+
+# Numpy arrays work too
+a = np.array([1.0, 2.0, 3.0])
+b = np.array([4.0, 5.0, 6.0])
+result = ql.DotProduct(a, b)
+
+# Matrix functions accept list of lists or 2D numpy arrays
+transposed = ql.transpose([[1, 2], [3, 4]])
+```
+
+`ql.Array` and `ql.Matrix` can also be constructed explicitly when needed.
+
 ## Array
 
 `ql.Array` is a 1-dimensional array of real numbers.
 
 ### Python → QuantLib
 
-Functions expecting `Array` accept Python lists and numpy arrays directly:
-
 ```python
 import pyquantlib as ql
 import numpy as np
 
-# All three work identically
-result = ql.DotProduct(ql.Array([1, 2, 3]), ql.Array([4, 5, 6]))
+# Explicit construction from Python list
+arr = ql.Array([1.0, 2.0, 3.0])
+
+# Explicit construction from numpy array
+arr = ql.Array(np.array([1.0, 2.0, 3.0]))
+
+# Or pass directly (implicit conversion)
 result = ql.DotProduct([1, 2, 3], [4, 5, 6])
-result = ql.DotProduct(np.array([1, 2, 3]), np.array([4, 5, 6]))
 ```
 
 ### QuantLib → NumPy
@@ -44,16 +68,15 @@ Zero-copy views share memory with the original object. Modifying the view modifi
 
 ### Python → QuantLib
 
-Functions expecting `Matrix` accept 2D lists and numpy arrays directly:
-
 ```python
-import pyquantlib as ql
-import numpy as np
+# Explicit construction from numpy array
+mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
 
-# All three work identically
-result = ql.transpose(ql.Matrix([[1, 2], [3, 4]]))
-result = ql.transpose([[1, 2], [3, 4]])
-result = ql.transpose(np.array([[1, 2], [3, 4]]))
+# Explicit construction from list of lists
+mat = ql.Matrix([[1, 2], [3, 4]])
+
+# Or pass directly (implicit conversion)
+transposed = ql.transpose([[1, 2], [3, 4]])
 ```
 
 ### QuantLib → NumPy
@@ -83,41 +106,11 @@ row = mat[0]  # numpy array view of first row
 
 | Type | Python → QuantLib | QuantLib → NumPy |
 |------|-------------------|------------------|
-| Array | Automatic (list, numpy) | `np.array(arr)` or `np.array(arr, copy=False)` |
-| Matrix | Automatic (list of lists, numpy) | `np.array(mat)` or `np.array(mat, copy=False)` |
+| Array | `ql.Array(list)` or `ql.Array(np_array)` | `np.array(arr)` or `np.array(arr, copy=False)` |
+| Matrix | `ql.Matrix(list)` or `ql.Matrix(np_array)` | `np.array(mat)` or `np.array(mat, copy=False)` |
 
 ## Performance Tips
 
 1. **Use zero-copy views** when reading data and the source object stays alive
 2. **Use copies** when the source object may be modified or destroyed
-3. **Pass lists directly** to functions expecting Array (avoids intermediate numpy conversion)
-4. **Pre-allocate matrices** with `ql.Matrix(rows, cols)` when building incrementally
-5. **Reuse `ql.Array` objects** in loops to avoid repeated conversion overhead
-
-## How It Works
-
-PyQuantLib uses two pybind11 mechanisms for numpy interoperability:
-
-| Direction | Mechanism | Cost |
-|-----------|-----------|------|
-| QuantLib → NumPy | Buffer protocol | Zero-copy (shared memory) |
-| Python → QuantLib | Implicit conversion | Copy (new object created) |
-
-**Zero-copy views** (QuantLib → NumPy) share memory:
-
-```python
-ql_arr = ql.Array([1, 2, 3])
-np_view = np.array(ql_arr, copy=False)
-np_view[0] = 99  # Also modifies ql_arr!
-```
-
-**Automatic conversion** (Python → QuantLib) creates copies:
-
-```python
-# Each call creates temporary ql.Array objects
-result = ql.DotProduct([1, 2, 3], [4, 5, 6])
-```
-
-For large arrays in performance-critical code, create `ql.Array` objects once and reuse them.
-
-See {doc}`/architecture` for implementation details.
+3. **Pre-allocate matrices** with `ql.Matrix(rows, cols)` when building incrementally
