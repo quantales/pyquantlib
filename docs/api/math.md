@@ -1,12 +1,12 @@
 # Math Module
 
-Arrays, matrices, and optimization.
-
 ```{seealso}
 {doc}`/numpy` for detailed NumPy interoperability documentation.
 ```
 
-## Array
+## Classes
+
+### Array
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Array
@@ -14,39 +14,24 @@ Arrays, matrices, and optimization.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
 import pyquantlib as ql
 import numpy as np
 
-# Create from list
 arr = ql.Array([1.0, 2.0, 3.0])
-
-# Create with size and default value
-arr = ql.Array(10, 0.0)
-
-# Create from numpy array
 arr = ql.Array(np.array([1, 2, 3]))
 
-# Convert to numpy (copy)
-np_arr = np.array(arr)
-
-# Convert to numpy (zero-copy view, shares memory)
+# Zero-copy view to numpy
 np_view = np.array(arr, copy=False)
 ```
-
-### Automatic Conversion
 
 Functions expecting `Array` accept Python lists and numpy arrays directly:
 
 ```python
-# Both work identically
-result = ql.DotProduct(ql.Array([1, 2, 3]), ql.Array([4, 5, 6]))
 result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # automatic conversion
 ```
 
-## Matrix
+### Matrix
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Matrix
@@ -54,28 +39,11 @@ result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # automatic conversion
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-import numpy as np
-
-# Create a 3x3 identity matrix
-mat = ql.Matrix(3, 3, 0.0)
-mat[0, 0] = 1.0
-mat[1, 1] = 1.0
-mat[2, 2] = 1.0
-
-# Create from numpy array
+mat = ql.Matrix([[1, 2], [3, 4]])
 mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
 
-# Create from list of lists
-mat = ql.Matrix([[1, 2], [3, 4]])
-
-# Convert to numpy (copy)
-np_arr = np.array(mat)
-
-# Convert to numpy (zero-copy view, shares memory)
+# Zero-copy view to numpy
 np_view = np.array(mat, copy=False)
 ```
 
@@ -87,22 +55,6 @@ np_view = np.array(mat, copy=False)
 .. autoclass:: pyquantlib.EndCriteria
    :members:
    :undoc-members:
-```
-
-### Constraints
-
-```{eval-rst}
-.. autoclass:: pyquantlib.NoConstraint
-   :members:
-
-.. autoclass:: pyquantlib.PositiveConstraint
-   :members:
-
-.. autoclass:: pyquantlib.BoundaryConstraint
-   :members:
-
-.. autoclass:: pyquantlib.CompositeConstraint
-   :members:
 ```
 
 ### LevenbergMarquardt
@@ -121,20 +73,20 @@ np_view = np.array(mat, copy=False)
    :undoc-members:
 ```
 
-### Usage Example
+### Constraints
 
-```python
-import pyquantlib as ql
+```{eval-rst}
+.. autoclass:: pyquantlib.NoConstraint
+   :members:
 
-# Define optimization problem
-end_criteria = ql.EndCriteria(1000, 100, 1e-8, 1e-8, 1e-8)
-optimizer = ql.LevenbergMarquardt()
-constraint = ql.NoConstraint()
+.. autoclass:: pyquantlib.PositiveConstraint
+   :members:
 
-# Solve (requires custom CostFunction implementation from pyquantlib.base)
-# from pyquantlib.base import CostFunction
-# problem = ql.Problem(cost_function, constraint, initial_values)
-# optimizer.minimize(problem, end_criteria)
+.. autoclass:: pyquantlib.BoundaryConstraint
+   :members:
+
+.. autoclass:: pyquantlib.CompositeConstraint
+   :members:
 ```
 
 ```{note}

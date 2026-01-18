@@ -1,8 +1,6 @@
 # Quotes Module
 
-Market observables and handles for lazy evaluation.
-
-## Quote Classes
+## Classes
 
 ### SimpleQuote
 
@@ -14,23 +12,10 @@ The most common quote type: a value that can be set and observed.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-# Create a quote
 spot = ql.SimpleQuote(100.0)
-
-# Read value
-print(spot.value())  # 100.0
-
-# Update value (triggers observers)
 spot.setValue(105.0)
 print(spot.value())  # 105.0
-
-# Check if value is set
-print(spot.isValid())  # True
 ```
 
 ### DerivedQuote
@@ -73,25 +58,14 @@ Handles provide a layer of indirection for quotes and term structures, enabling 
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-# Create quote and handle
 spot = ql.SimpleQuote(100.0)
 handle = ql.QuoteHandle(spot)
-
-# Use in term structures, processes, etc.
-process = ql.GeneralizedBlackScholesProcess(
-    handle,  # spot handle
-    ...
-)
 
 # Relinkable handles can be redirected
 relinkable = ql.RelinkableQuoteHandle(spot)
 new_spot = ql.SimpleQuote(105.0)
-relinkable.linkTo(new_spot)  # Now points to new_spot
+relinkable.linkTo(new_spot)
 ```
 
 ## Observer Pattern
@@ -99,18 +73,10 @@ relinkable.linkTo(new_spot)  # Now points to new_spot
 Quotes participate in QuantLib's observer pattern. When a quote's value changes, all dependent calculations are automatically invalidated:
 
 ```python
-import pyquantlib as ql
-
-# Setup
 spot = ql.SimpleQuote(100.0)
 # ... create option using spot handle ...
 
-# Option NPV computed with spot = 100
-npv1 = option.NPV()
-
-# Change spot
+npv1 = option.NPV()  # computed with spot = 100
 spot.setValue(105.0)
-
-# Option NPV automatically recomputed with spot = 105
-npv2 = option.NPV()
+npv2 = option.NPV()  # automatically recomputed with spot = 105
 ```

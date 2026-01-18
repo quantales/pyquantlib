@@ -1,7 +1,5 @@
 # Processes Module
 
-Stochastic processes for asset price dynamics.
-
 ## Black-Scholes Processes
 
 ### GeneralizedBlackScholesProcess
@@ -14,38 +12,15 @@ The most flexible Black-Scholes process: supports term structure handles.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
-dc = ql.Actual365Fixed()
-
-# Market data
 spot = ql.SimpleQuote(100.0)
-rate = ql.SimpleQuote(0.05)
-vol = ql.SimpleQuote(0.20)
-
-# Term structures
-risk_free = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+risk_free = ql.FlatForward(today, 0.05, dc)
 dividend = ql.FlatForward(today, 0.0, dc)
-volatility = ql.BlackConstantVol(today, ql.TARGET(), ql.QuoteHandle(vol), dc)
+volatility = ql.BlackConstantVol(today, ql.TARGET(), 0.20, dc)
 
-# Create process (Pythonic API: handles created internally)
+# Pythonic API: handles created internally
 process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
-# Access process properties
-print(process.x0())              # Initial value (spot)
-print(process.riskFreeRate())    # Risk-free rate handle
-print(process.dividendYield())   # Dividend yield handle
-print(process.blackVolatility()) # Volatility handle
-```
-
-For advanced use cases requiring relinkable handles:
-
-```python
 # Explicit handle construction
 process = ql.GeneralizedBlackScholesProcess(
     ql.QuoteHandle(spot),
@@ -77,6 +52,8 @@ Black-Scholes-Merton process with continuous dividend yield.
 
 ## Heston Process
 
+### HestonProcess
+
 Stochastic volatility process.
 
 ```{eval-rst}
@@ -84,8 +61,6 @@ Stochastic volatility process.
    :members:
    :undoc-members:
 ```
-
-### Model Parameters
 
 | Parameter | Symbol | Description |
 |-----------|--------|-------------|
@@ -95,45 +70,11 @@ Stochastic volatility process.
 | `sigma` | $\sigma$ | Vol of vol |
 | `rho` | $\rho$ | Correlation between spot and vol |
 
-### Dynamics
-
-$$dS_t = (r - q) S_t dt + \sqrt{v_t} S_t dW^S_t$$
-$$dv_t = \kappa(\theta - v_t) dt + \sigma \sqrt{v_t} dW^v_t$$
-$$\langle dW^S, dW^v \rangle = \rho dt$$
-
-### Usage
-
 ```python
-import pyquantlib as ql
-
-today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
-dc = ql.Actual365Fixed()
-
-# Market data
-spot = ql.SimpleQuote(100.0)
-risk_free = ql.FlatForward(today, 0.05, dc)
-dividend = ql.FlatForward(today, 0.02, dc)
-
-# Heston parameters
-v0 = 0.04      # Initial variance (vol = 20%)
-kappa = 1.0    # Mean reversion speed
-theta = 0.04   # Long-term variance
-sigma = 0.5    # Vol of vol
-rho = -0.7     # Spot-vol correlation (typically negative for equities)
-
-# Create Heston process (Pythonic API: handles created internally)
 heston_process = ql.HestonProcess(
     risk_free, dividend, spot,
-    v0, kappa, theta, sigma, rho,
+    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
 )
-
-# Access parameters
-print(heston_process.v0())
-print(heston_process.kappa())
-print(heston_process.theta())
-print(heston_process.sigma())
-print(heston_process.rho())
 ```
 
 ## Multi-Asset Processes

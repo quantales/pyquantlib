@@ -134,10 +134,15 @@ from pyquantlib.base import (
    :nosignatures:
 
    AnalyticEuropeanEngine
-   MCEuropeanEngine
    AnalyticHestonEngine
-   Fd2dBlackScholesVanillaEngine
+   BaroneAdesiWhaleyApproximationEngine
+   BjerksundStenslandApproximationEngine
+   BinomialVanillaEngine
+   FdBlackScholesVanillaEngine
+   MCEuropeanEngine
+   MCAmericanEngine
    MCEuropeanBasketEngine
+   Fd2dBlackScholesVanillaEngine
 ```
 
 ## Detailed Documentation

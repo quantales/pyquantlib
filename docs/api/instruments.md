@@ -1,7 +1,5 @@
 # Instruments Module
 
-Financial instruments: options, payoffs, and exercise types.
-
 ## Options
 
 ### VanillaOption
@@ -14,6 +12,16 @@ A standard European or American option on a single underlying.
    :undoc-members:
 ```
 
+```python
+payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
+option = ql.VanillaOption(payoff, exercise)
+
+option.setPricingEngine(engine)
+print(f"NPV: {option.NPV():.4f}")
+print(f"Delta: {option.delta():.4f}")
+```
+
 ### BasketOption
 
 An option on a basket of underlyings.
@@ -22,29 +30,6 @@ An option on a basket of underlyings.
 .. autoclass:: pyquantlib.BasketOption
    :members:
    :undoc-members:
-```
-
-### Usage
-
-```python
-import pyquantlib as ql
-
-today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
-
-# Create a European call option
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)  # Call with K=100
-exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
-option = ql.VanillaOption(payoff, exercise)
-
-# Assign engine and price
-option.setPricingEngine(engine)
-print(f"NPV:   {option.NPV():.4f}")
-print(f"Delta: {option.delta():.4f}")
-print(f"Gamma: {option.gamma():.4f}")
-print(f"Vega:  {option.vega():.4f}")
-print(f"Theta: {option.theta():.4f}")
-print(f"Rho:   {option.rho():.4f}")
 ```
 
 ## Payoffs
@@ -64,33 +49,35 @@ Standard call/put payoff.
 | `Call` | $\max(S - K, 0)$ |
 | `Put` | $\max(K - S, 0)$ |
 
-### Option Type
-
-Use `ql.Call` or `ql.Put` directly, or `ql.OptionType` enum:
-
 ```python
-import pyquantlib as ql
-
-# Direct usage
 call_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
 put_payoff = ql.PlainVanillaPayoff(ql.Put, 100.0)
-
-# Using OptionType enum
-call_payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
 ```
 
-### Basket Payoffs
+### MinBasketPayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MinBasketPayoff
    :members:
+```
 
+### MaxBasketPayoff
+
+```{eval-rst}
 .. autoclass:: pyquantlib.MaxBasketPayoff
    :members:
+```
 
+### AverageBasketPayoff
+
+```{eval-rst}
 .. autoclass:: pyquantlib.AverageBasketPayoff
    :members:
+```
 
+### SpreadBasketPayoff
+
+```{eval-rst}
 .. autoclass:: pyquantlib.SpreadBasketPayoff
    :members:
 ```
@@ -127,50 +114,8 @@ Exercise on specific dates.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-today = ql.Date(15, 6, 2025)
-expiry = today + ql.Period("1Y")
-
-# European: exercise only at expiry
 european = ql.EuropeanExercise(expiry)
-
-# American: exercise anytime from today to expiry
 american = ql.AmericanExercise(today, expiry)
-
-# Bermudan: exercise on specific dates
-dates = [today + ql.Period(f"{i}M") for i in range(3, 13, 3)]
-bermudan = ql.BermudanExercise(dates)
-```
-
-## Instrument Workflow
-
-1. Create payoff and exercise
-2. Create instrument
-3. Create pricing engine
-4. Assign engine to instrument
-5. Query results (NPV, Greeks)
-
-```python
-import pyquantlib as ql
-
-# 1. Payoff and exercise
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-exercise = ql.EuropeanExercise(ql.Date(15, 6, 2026))
-
-# 2. Instrument
-option = ql.VanillaOption(payoff, exercise)
-
-# 3. Engine (requires process setup)
-engine = ql.AnalyticEuropeanEngine(process)
-
-# 4. Assign
-option.setPricingEngine(engine)
-
-# 5. Results
-print(option.NPV())
-print(option.delta())
+bermudan = ql.BermudanExercise([date1, date2, date3])
 ```

@@ -1,8 +1,8 @@
 # Currencies Module
 
-Currency definitions, exchange rates, and money.
+## Classes
 
-## Currency
+### Currency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Currency
@@ -10,9 +10,14 @@ Currency definitions, exchange rates, and money.
    :undoc-members:
 ```
 
-### Available Currencies
+```python
+usd = ql.USDCurrency()
+print(usd.name())   # "U.S. dollar"
+print(usd.code())   # "USD"
+print(usd.symbol()) # "$"
+```
 
-PyQuantLib provides currency definitions for major currencies:
+#### Available Currencies
 
 | Region | Currencies |
 |--------|------------|
@@ -22,22 +27,7 @@ PyQuantLib provides currency definitions for major currencies:
 | Middle East/Africa | AED, SAR, ILS, ZAR, EGP, KES, NGN |
 | Crypto | BTC, ETH, LTC, XRP, DASH, ZEC |
 
-### Usage
-
-```python
-import pyquantlib as ql
-
-# Create currency
-usd = ql.USDCurrency()
-eur = ql.EURCurrency()
-
-print(usd.name())           # "U.S. dollar"
-print(usd.code())           # "USD"
-print(usd.numericCode())    # 840
-print(usd.symbol())         # "$"
-```
-
-## Money
+### Money
 
 Represents an amount in a specific currency.
 
@@ -47,20 +37,13 @@ Represents an amount in a specific currency.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-# Create money amounts
 usd_amount = ql.Money(100.0, ql.USDCurrency())
-eur_amount = ql.Money(85.0, ql.EURCurrency())
-
-print(usd_amount.value())      # 100.0
-print(usd_amount.currency())   # USDCurrency
+print(usd_amount.value())
+print(usd_amount.currency())
 ```
 
-## ExchangeRate
+### ExchangeRate
 
 Represents an exchange rate between two currencies.
 
@@ -70,22 +53,12 @@ Represents an exchange rate between two currencies.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-# Create exchange rate: 1 EUR = 1.10 USD
-eur = ql.EURCurrency()
-usd = ql.USDCurrency()
-rate = ql.ExchangeRate(eur, usd, 1.10)
-
-# Convert money
-eur_amount = ql.Money(100.0, eur)
+rate = ql.ExchangeRate(ql.EURCurrency(), ql.USDCurrency(), 1.10)
 usd_amount = rate.exchange(eur_amount)
 ```
 
-## ExchangeRateManager
+### ExchangeRateManager
 
 Global manager for exchange rates.
 
@@ -95,23 +68,39 @@ Global manager for exchange rates.
    :undoc-members:
 ```
 
-## Currency Classes
+## Major Currency Classes
 
-### Major Currencies
+### USDCurrency
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.USDCurrency
    :members:
+```
 
+### EURCurrency
+
+```{eval-rst}
 .. autoclass:: pyquantlib.EURCurrency
    :members:
+```
 
+### GBPCurrency
+
+```{eval-rst}
 .. autoclass:: pyquantlib.GBPCurrency
    :members:
+```
 
+### JPYCurrency
+
+```{eval-rst}
 .. autoclass:: pyquantlib.JPYCurrency
    :members:
+```
 
+### CHFCurrency
+
+```{eval-rst}
 .. autoclass:: pyquantlib.CHFCurrency
    :members:
 ```

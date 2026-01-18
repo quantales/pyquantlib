@@ -1,8 +1,8 @@
 # Time Module
 
-Date arithmetic, calendars, day counters, and schedule generation.
+## Classes
 
-## Date
+### Date
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Date
@@ -10,7 +10,7 @@ Date arithmetic, calendars, day counters, and schedule generation.
    :undoc-members:
 ```
 
-## Period
+### Period
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Period
@@ -18,7 +18,17 @@ Date arithmetic, calendars, day counters, and schedule generation.
    :undoc-members:
 ```
 
-## Calendar
+### TimeGrid
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TimeGrid
+   :members:
+   :undoc-members:
+```
+
+## Calendars
+
+### Calendar
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Calendar
@@ -26,7 +36,19 @@ Date arithmetic, calendars, day counters, and schedule generation.
    :undoc-members:
 ```
 
-### Available Calendars
+```python
+import pyquantlib as ql
+
+target = ql.TARGET()
+us = ql.UnitedStates(ql.UnitedStates.NYSE)
+
+date = ql.Date(25, 12, 2025)
+print(target.isBusinessDay(date))  # False (Christmas)
+
+next_bd = target.adjust(date, ql.Following)
+```
+
+#### Available Calendars
 
 | Region | Calendars |
 |--------|-----------|
@@ -36,56 +58,17 @@ Date arithmetic, calendars, day counters, and schedule generation.
 | **Asia-Pacific** | `Japan`, `China`, `HongKong`, `Singapore`, `Australia`, `NewZealand`, `India`, `SouthKorea`, `Taiwan`, `Indonesia`, `Thailand` |
 | **Middle East/Africa** | `SaudiArabia`, `Israel`, `SouthAfrica`, `Botswana` |
 
-### Usage
+#### UnitedStates Variants
 
-```python
-import pyquantlib as ql
+`NYSE`, `GovernmentBond`, `SOFR`, `FederalReserve`
 
-# Create calendars
-target = ql.TARGET()
-us = ql.UnitedStates(ql.UnitedStates.NYSE)
-uk = ql.UnitedKingdom(ql.UnitedKingdom.Exchange)
+#### UnitedKingdom Variants
 
-# Check if date is a business day
-date = ql.Date(25, 12, 2025)
-print(target.isBusinessDay(date))  # False (Christmas)
+`Exchange`, `Metals`, `Settlement`
 
-# Get next business day
-next_bd = target.adjust(date, ql.Following)
+## Day Counters
 
-# Count business days
-start = ql.Date(1, 6, 2025)
-end = ql.Date(30, 6, 2025)
-print(target.businessDaysBetween(start, end))
-
-# Joint calendar (holiday if holiday in ANY calendar)
-joint = ql.JointCalendar(target, us)
-```
-
-### UnitedStates Market Variants
-
-```python
-import pyquantlib as ql
-
-# Different US market calendars
-nyse = ql.UnitedStates(ql.UnitedStates.NYSE)
-govt_bond = ql.UnitedStates(ql.UnitedStates.GovernmentBond)
-sofr = ql.UnitedStates(ql.UnitedStates.SOFR)
-federal_reserve = ql.UnitedStates(ql.UnitedStates.FederalReserve)
-```
-
-### UnitedKingdom Market Variants
-
-```python
-import pyquantlib as ql
-
-# Different UK market calendars
-exchange = ql.UnitedKingdom(ql.UnitedKingdom.Exchange)
-metals = ql.UnitedKingdom(ql.UnitedKingdom.Metals)
-settlement = ql.UnitedKingdom(ql.UnitedKingdom.Settlement)
-```
-
-## DayCounter
+### DayCounter
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DayCounter
@@ -93,7 +76,14 @@ settlement = ql.UnitedKingdom(ql.UnitedKingdom.Settlement)
    :undoc-members:
 ```
 
-### Available Day Counters
+```python
+dc = ql.Actual365Fixed()
+start = ql.Date(1, 6, 2025)
+end = ql.Date(1, 12, 2025)
+yf = dc.yearFraction(start, end)  # ~0.5
+```
+
+#### Available Day Counters
 
 | Day Counter | Description |
 |-------------|-------------|
@@ -108,26 +98,9 @@ settlement = ql.UnitedKingdom(ql.UnitedKingdom.Settlement)
 | `OneDayCounter` | Returns 1 for any period |
 | `SimpleDayCounter` | Simple day counter |
 
-### Usage
+## Schedules
 
-```python
-import pyquantlib as ql
-
-dc = ql.Actual365Fixed()
-
-start = ql.Date(1, 6, 2025)
-end = ql.Date(1, 12, 2025)
-
-# Year fraction
-yf = dc.yearFraction(start, end)
-print(yf)  # ~0.5
-
-# Day count
-days = dc.dayCount(start, end)
-print(days)  # 183
-```
-
-## Schedule
+### Schedule
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Schedule
@@ -145,35 +118,14 @@ Builder for creating schedules.
    :undoc-members:
 ```
 
-### Usage
-
 ```python
-import pyquantlib as ql
-
-today = ql.Date(15, 6, 2025)
-
-# Build a schedule using MakeSchedule
 schedule = ql.MakeSchedule() \
     .fromDate(today) \
     .to(today + ql.Period("5Y")) \
     .withFrequency(ql.Semiannual) \
     .withCalendar(ql.TARGET()) \
     .withConvention(ql.ModifiedFollowing) \
-    .withTerminationDateConvention(ql.ModifiedFollowing) \
-    .withRule(ql.DateGeneration.Forward) \
     .value()
-
-# Iterate over dates
-for date in schedule:
-    print(date)
-```
-
-## TimeGrid
-
-```{eval-rst}
-.. autoclass:: pyquantlib.TimeGrid
-   :members:
-   :undoc-members:
 ```
 
 ## Enumerations
