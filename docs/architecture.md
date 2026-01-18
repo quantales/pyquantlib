@@ -14,6 +14,7 @@ PyQuantLib uses [pybind11](https://github.com/pybind/pybind11) to create Python 
 
 - **Deferred registration**: Bindings are collected and executed in dependency order
 - **Clean namespaces**: Abstract base classes in `pyquantlib.base`, concrete classes in main module
+- **Enum convenience**: Enum values also exported to root namespace (`ql.June` in addition to `ql.Month.June`)
 - **Pythonic types**: Native Python objects (`datetime.date`, `numpy.ndarray`) where possible
 - **Python extensibility**: Trampoline classes enable subclassing QuantLib ABCs in Python
 

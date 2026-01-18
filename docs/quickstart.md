@@ -157,6 +157,21 @@ ql.VanillaOption, ql.BasketOption
 ql.AnalyticEuropeanEngine, ql.MCEuropeanEngine, ql.AnalyticHestonEngine
 ```
 
+### Enum Convenience
+
+Enum values are exported to the root namespace for convenience:
+
+```python
+# Both work identically
+date1 = ql.Date(15, ql.Month.June, 2025)
+date2 = ql.Date(15, ql.June, 2025)  # Shorter
+
+# Same for weekdays, time units, etc.
+ql.Monday             # ql.Weekday.Monday
+ql.Months             # ql.TimeUnit.Months
+ql.ModifiedFollowing  # ql.BusinessDayConvention.ModifiedFollowing
+```
+
 ### Abstract Base Classes
 
 For subclassing QuantLib abstractions, import from `pyquantlib.base`:
