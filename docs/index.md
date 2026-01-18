@@ -24,16 +24,35 @@ There are existing Python bindings for QuantLib:
 * **[QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG)**: official bindings generated using SWIG
 * **[PyQL](https://github.com/enthought/pyql)**: bindings implemented using Cython
 
-Both are mature and high-quality projects. However, they introduce an additional abstraction layer and a third language beyond C++ and Python—either SWIG's interface definition language or Cython's Python/C hybrid syntax. This increases the cognitive load when navigating the binding code, debugging issues, or keeping the wrappers in sync with upstream QuantLib changes.
+Both are mature projects. However, they introduce an additional language beyond C++ and Python: SWIG's interface definition language or Cython's hybrid syntax. This increases cognitive load when navigating binding code or keeping wrappers in sync with upstream QuantLib.
 
-PyQuantLib is built on [pybind11](https://github.com/pybind/pybind11), with all bindings written in standard C++. The wrapper code directly exposes QuantLib's C++ APIs, with no intermediate DSL or code generation step. As a result:
+PyQuantLib is built on [pybind11](https://github.com/pybind/pybind11), with all bindings written in standard C++. The wrapper code directly exposes QuantLib's C++ APIs, with no intermediate DSL or code generation step.
 
-* Bindings are type-safe and resolved at compile time
-* Debugging can be done with standard C++ tools (compiler errors, debuggers, sanitizers)
-* The wrapper code closely mirrors the QuantLib headers and class structure
-* C++ developers can contribute immediately, without learning an additional binding language
+### Pythonic API
 
-This design prioritizes transparency, maintainability, and long-term alignment with the QuantLib codebase.
+Pass Python types directly to functions:
+
+```python
+result = ql.DotProduct([1, 2, 3], [4, 5, 6])
+transposed = ql.transpose([[1, 2], [3, 4]])
+date = ql.Date(15, ql.June, 2025)  # or datetime.date(2025, 6, 15)
+```
+
+### Zero-Copy NumPy Integration
+
+Buffer protocol for efficient, bidirectional data exchange:
+
+```python
+arr = ql.Array([1, 2, 3, 4, 5])
+np_view = np.array(arr, copy=False)  # shared memory, no copy
+```
+
+### Developer Experience
+
+* No additional language beyond C++ and Python (no SWIG, no Cython)
+* Type-safe bindings resolved at compile time
+* Debugging with standard C++ tools
+* Wrapper code mirrors QuantLib headers and class structure
 
 ## Performance
 
@@ -45,10 +64,10 @@ As with any Python binding, performance-critical loops should remain in C++. PyQ
 
 ## Features
 
-* **Pythonic API**: Native `datetime.date`, {doc}`NumPy arrays <numpy>`, {doc}`hidden handles <handles>`
-* **Pure C++ bindings**: No SWIG or Cython to learn
-* **Full docstrings and type hints**: IDE-friendly with `.pyi` stubs
-* **Python subclassing**: Prototype custom engines and instruments without recompilation
+* **Pythonic API**: Implicit conversion, {doc}`hidden handles <handles>`, native `datetime.date`
+* **NumPy integration**: {doc}`Zero-copy data exchange <numpy>` via buffer protocol
+* **Type hints**: IDE-friendly with complete `.pyi` stubs
+* **Python subclassing**: Extend QuantLib classes without C++ recompilation
 * **Modern tooling**: {doc}`scikit-build-core <building>`, CMake presets, CI/CD ready
 
 ## Quick Example

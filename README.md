@@ -13,13 +13,16 @@
 
 ## Overview
 
-PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. Unlike the SWIG-based [QuantLib-Python](https://github.com/lballabio/QuantLib-SWIG), PyQuantLib uses [pybind11](https://github.com/pybind/pybind11) for cleaner integration and modern build tooling.
+PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. Built with [pybind11](https://github.com/pybind/pybind11), it offers a more Pythonic API than existing alternatives.
 
 ## Features
 
-- **Modern build system** - Built with pybind11 and scikit-build-core
-- **Cross-platform** - Windows, macOS, and Linux support
-- **Clean module organization** - Abstract base classes in `pyquantlib.base`
+- **Pythonic API**: Pass Python objects directly to functions (implicit conversion)
+- **Zero-copy NumPy**: Buffer protocol for efficient, bidirectional data exchange
+- **Full operators**: Arithmetic, iteration, indexing on Array/Matrix types
+- **Type hints**: IDE-friendly with complete `.pyi` stub files
+- **Python subclassing**: Extend QuantLib classes without C++ recompilation
+- **Modern build**: scikit-build-core, CMake presets, cross-platform CI/CD
 
 ## Installation
 
