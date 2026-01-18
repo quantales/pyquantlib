@@ -54,6 +54,19 @@ Top-level QuantLib files (e.g., `ql/instrument.hpp`) go to `src/core/`.
 
 This 1:1 mapping makes it easy to locate bindings and ensures comprehensive coverage.
 
+### Test File Organization
+
+Test files are grouped by QuantLib subdirectory:
+
+| QuantLib Path | Test File |
+|---------------|-----------|
+| `ql/pricingengines/vanilla/*.hpp` | `tests/test_pricingengines_vanilla.py` |
+| `ql/pricingengines/basket/*.hpp` | `tests/test_pricingengines_basket.py` |
+| `ql/time/*.hpp` | `tests/test_time.py` |
+| `ql/math/*.hpp` | `tests/test_math.py` |
+
+For directories with multiple related files, group into `test_<module>_<subdir>.py` or `test_<module>.py`.
+
 ## Key Components
 
 ### BindingManager
