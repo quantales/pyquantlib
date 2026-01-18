@@ -54,6 +54,43 @@ When adding or modifying bindings, follow these steps:
 - [ ] Add tests in `tests/`
 - [ ] Update API docs examples (if user-facing API changed)
 
+### API Documentation
+
+API docs in `docs/api/` use a consistent 3-level heading structure:
+
+```
+# Module Name (h1)
+  ## Group Name (h2) - mirrors QuantLib subdirectory
+    ### ClassName (h3) - one per class
+```
+
+Each class entry uses Sphinx `autoclass` to pull documentation from C++ docstrings:
+
+````markdown
+### NewClassName
+
+Brief description (one line).
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NewClassName
+   :members:
+   :undoc-members:
+```
+
+```python
+# Optional usage example
+engine = ql.NewClassName(process)
+```
+````
+
+| Part | Source |
+|------|--------|
+| `autoclass` directive | Automated from C++ docstrings |
+| Brief description | Manual (one line) |
+| Usage examples | Manual (optional) |
+
+For new classes, the minimum required is the `autoclass` directive with a brief description.
+
 ### Hidden Handles (Recommended)
 
 For a more Pythonic API, consider adding overloads that accept raw objects instead of handles:
@@ -117,7 +154,7 @@ Each file lists its contributors. When adding or substantially modifying a file,
 
 ### Docstrings
 
-Keep concise:
+Docstrings in pybind11 bindings are automatically pulled into the API documentation via Sphinx `autoclass`. Keep them concise:
 
 ```cpp
 // GOOD
@@ -125,6 +162,13 @@ Keep concise:
 
 // AVOID
 .def("value", &Quote::value, "This method returns the current value of the quote object.")
+```
+
+Class-level docstrings appear in the API reference, so write them as brief descriptions:
+
+```cpp
+py::class_<SimpleQuote, Quote, ext::shared_ptr<SimpleQuote>>(
+    m, "SimpleQuote", "Simple quote with settable value.")
 ```
 
 ## Common Pitfalls
