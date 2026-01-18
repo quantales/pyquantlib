@@ -35,15 +35,15 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 option(PYQUANTLIB_DETAILED_ERRORS "Enable detailed pybind11 error messages" ON)
 
 # ==============================================================================
-# Version from pyproject.toml
+# Version from pyquantlib/version.py (single source of truth)
 # ==============================================================================
 
-file(READ "${CMAKE_SOURCE_DIR}/pyproject.toml" PYPROJECT_CONTENTS)
-string(REGEX MATCH "version *= *\"([0-9]+\\.[0-9]+\\.[0-9]+)\"" _ "${PYPROJECT_CONTENTS}")
+file(READ "${CMAKE_SOURCE_DIR}/pyquantlib/version.py" VERSION_PY_CONTENTS)
+string(REGEX MATCH "__version__ *= *\"([0-9]+\\.[0-9]+\\.[0-9]+)\"" _ "${VERSION_PY_CONTENTS}")
 set(PYQUANTLIB_VERSION "${CMAKE_MATCH_1}")
 
 if(NOT PYQUANTLIB_VERSION)
-    message(WARNING "Could not parse version from pyproject.toml, using 0.0.0")
+    message(WARNING "Could not parse version from version.py, using 0.0.0")
     set(PYQUANTLIB_VERSION "0.0.0")
 endif()
 
