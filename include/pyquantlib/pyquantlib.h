@@ -132,6 +132,8 @@ namespace ql_cashflows {
 
 namespace ql_indexes {
     void interestrateindex(py::module_&);
+    void iborindex(py::module_&);
+    void euribor(py::module_&);
 }
 
 namespace ql_termstructures {
