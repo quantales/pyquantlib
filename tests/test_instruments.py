@@ -16,6 +16,33 @@ def test_swap_type_enum():
     assert int(ql.SwapType.Receiver) == -1
 
 
+def test_swap_arguments():
+    """Test SwapArguments class."""
+    args = ql.SwapArguments()
+    assert args is not None
+    assert args.legs == []
+    assert args.payer == []
+
+
+def test_swap_results():
+    """Test SwapResults class."""
+    results = ql.SwapResults()
+    assert results is not None
+    results.reset()
+
+
+def test_fixedvsfloatingswap_arguments():
+    """Test FixedVsFloatingSwapArguments class."""
+    args = ql.FixedVsFloatingSwapArguments()
+    assert args is not None
+
+
+def test_fixedvsfloatingswap_results():
+    """Test FixedVsFloatingSwapResults class."""
+    results = ql.FixedVsFloatingSwapResults()
+    assert results is not None
+
+
 def test_swap_construction_two_legs():
     """Test Swap construction from two legs."""
     # Create simple fixed cash flows as legs
@@ -92,3 +119,120 @@ def test_swap_legs_accessor():
 
     leg1_retrieved = swap.leg(1)
     assert len(leg1_retrieved) == 1
+
+
+# --- VanillaSwap ---
+
+
+@pytest.fixture
+def swap_env():
+    """Market environment for VanillaSwap tests."""
+    today = ql.Date(15, ql.February, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    settlement = calendar.advance(today, ql.Period(2, ql.Days))
+
+    # Yield curve
+    dc = ql.Actual365Fixed()
+    rate = 0.05
+    flat_curve = ql.FlatForward(settlement, rate, dc)
+
+    # Index
+    euribor = ql.Euribor6M(flat_curve)
+
+    # Schedules
+    start = calendar.advance(settlement, ql.Period(1, ql.Years))
+    maturity = calendar.advance(start, ql.Period(5, ql.Years))
+
+    fixed_schedule = ql.Schedule(
+        start, maturity,
+        ql.Period(ql.Annual),
+        calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Forward, False,
+    )
+
+    float_schedule = ql.Schedule(
+        start, maturity,
+        ql.Period(ql.Semiannual),
+        calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False,
+    )
+
+    return {
+        "calendar": calendar,
+        "settlement": settlement,
+        "flat_curve": flat_curve,
+        "euribor": euribor,
+        "fixed_schedule": fixed_schedule,
+        "float_schedule": float_schedule,
+        "fixed_dc": ql.Thirty360(ql.Thirty360.European),
+        "float_dc": euribor.dayCounter(),
+    }
+
+
+def test_vanillaswap_construction(swap_env):
+    """Test VanillaSwap construction."""
+    swap = ql.VanillaSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        0.05,
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.0,
+        swap_env["float_dc"],
+    )
+
+    assert swap is not None
+    assert swap.type() == ql.SwapType.Payer
+    assert swap.nominal() == 1000000.0
+    assert swap.fixedRate() == 0.05
+    assert swap.spread() == 0.0
+
+
+def test_vanillaswap_inspectors(swap_env):
+    """Test VanillaSwap inspectors."""
+    swap = ql.VanillaSwap(
+        ql.SwapType.Receiver,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        0.04,
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.001,
+        swap_env["float_dc"],
+    )
+
+    assert swap.type() == ql.SwapType.Receiver
+    assert swap.fixedRate() == 0.04
+    assert swap.spread() == 0.001
+    assert len(swap.fixedLeg()) > 0
+    assert len(swap.floatingLeg()) > 0
+
+
+def test_vanillaswap_legs(swap_env):
+    """Test VanillaSwap leg accessors."""
+    swap = ql.VanillaSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        0.05,
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.0,
+        swap_env["float_dc"],
+    )
+
+    fixed_leg = swap.fixedLeg()
+    floating_leg = swap.floatingLeg()
+
+    # 5-year swap with annual fixed payments = 5 coupons
+    assert len(fixed_leg) == 5
+    # 5-year swap with semiannual float payments = 10 coupons
+    assert len(floating_leg) == 10

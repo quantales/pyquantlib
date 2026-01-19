@@ -19,6 +19,10 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
 
     manager.addFunction(ql_instruments::swap, m,
         "Swap - interest rate swap base class");
+    manager.addFunction(ql_instruments::fixedvsfloatingswap, m,
+        "FixedVsFloatingSwap - fixed vs floating swap base class");
+    manager.addFunction(ql_instruments::vanillaswap, m,
+        "VanillaSwap - fixed vs floating swap");
     manager.addFunction(ql_instruments::strikedtypepayoff, m,
         "StrikedTypePayoff - payoff with strike and option type");
     manager.addFunction(ql_instruments::payoffs, m,

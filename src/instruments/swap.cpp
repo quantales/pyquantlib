@@ -12,6 +12,8 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
+#include <ql/instrument.hpp>
+#include <ql/pricingengine.hpp>
 #include <ql/instruments/swap.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -25,6 +27,29 @@ void ql_instruments::swap(py::module_& m) {
         "Swap type: Payer or Receiver.")
         .value("Payer", Swap::Payer)
         .value("Receiver", Swap::Receiver);
+
+    // Swap::arguments
+    py::class_<Swap::arguments, PricingEngine::arguments,
+        ext::shared_ptr<Swap::arguments>>(
+        m, "SwapArguments",
+        "Arguments for swap pricing.")
+        .def(py::init<>())
+        .def_readwrite("legs", &Swap::arguments::legs)
+        .def_readwrite("payer", &Swap::arguments::payer)
+        .def("validate", &Swap::arguments::validate);
+
+    // Swap::results
+    py::class_<Swap::results, Instrument::results,
+        ext::shared_ptr<Swap::results>>(
+        m, "SwapResults",
+        "Results from swap pricing.")
+        .def(py::init<>())
+        .def_readwrite("legNPV", &Swap::results::legNPV)
+        .def_readwrite("legBPS", &Swap::results::legBPS)
+        .def_readwrite("startDiscounts", &Swap::results::startDiscounts)
+        .def_readwrite("endDiscounts", &Swap::results::endDiscounts)
+        .def_readwrite("npvDateDiscount", &Swap::results::npvDateDiscount)
+        .def("reset", &Swap::results::reset);
 
     // Swap class
     py::class_<Swap, Instrument, ext::shared_ptr<Swap>>(
