@@ -41,6 +41,51 @@ option.setPricingEngine(engine)
 .. autoclass:: pyquantlib.HestonModelHandle
 ```
 
+### BatesModel
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BatesModel
+```
+
+Extends `HestonModel` with jump parameters:
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `lambda` | $\lambda$ | Jump intensity |
+| `nu` | $\nu$ | Mean jump size |
+| `delta` | $\delta$ | Jump size volatility |
+
+```python
+bates_process = ql.BatesProcess(
+    risk_free, dividend, spot,
+    0.04, 1.0, 0.04, 0.5, -0.7,  # v0, kappa, theta, sigma, rho
+    0.1, -0.05, 0.1,              # lambda, nu, delta
+)
+model = ql.BatesModel(bates_process)
+engine = ql.BatesEngine(model)
+```
+
+## Short Rate Models
+
+### Vasicek
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Vasicek
+```
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `r0` | $r_0$ | Initial short rate |
+| `a` | $a$ | Mean reversion speed |
+| `b` | $b$ | Long-term mean rate |
+| `sigma` | $\sigma$ | Volatility |
+
+The Vasicek model follows the SDE: $dr_t = a(b - r_t)dt + \sigma dW_t$
+
+```python
+vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.03, sigma=0.01)
+```
+
 ## Parameters
 
 ### Parameter

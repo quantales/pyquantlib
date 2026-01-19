@@ -61,6 +61,28 @@ heston_process = ql.HestonProcess(
 )
 ```
 
+### BatesProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BatesProcess
+```
+
+Extends `HestonProcess` with jump parameters:
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `lambda` | $\lambda$ | Jump intensity |
+| `nu` | $\nu$ | Mean jump size |
+| `delta` | $\delta$ | Jump size volatility |
+
+```python
+bates_process = ql.BatesProcess(
+    risk_free, dividend, spot,
+    0.04, 1.0, 0.04, 0.5, -0.7,  # v0, kappa, theta, sigma, rho
+    0.1, -0.05, 0.1,              # lambda, nu, delta
+)
+```
+
 ## Multi-Asset Processes
 
 ### StochasticProcessArray

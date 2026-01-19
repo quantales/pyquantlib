@@ -20,6 +20,12 @@ print(f"Gamma: {option.gamma():.4f}")
 print(f"Vega:  {option.vega():.4f}")
 ```
 
+### IntegralEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.IntegralEngine
+```
+
 ### AnalyticHestonEngine
 
 ```{eval-rst}
@@ -39,6 +45,35 @@ engine = ql.AnalyticHestonEngine(heston_model)
 
 ```{note}
 `AnalyticHestonEngine` computes NPV only. Greeks under Heston require finite difference engines.
+```
+
+### AnalyticBlackVasicekEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticBlackVasicekEngine
+```
+
+European option pricing with stochastic Vasicek interest rates.
+
+```python
+vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.05, sigma=0.01)
+engine = ql.AnalyticBlackVasicekEngine(process, vasicek, correlation=0.5)
+```
+
+### BatesEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BatesEngine
+```
+
+```python
+bates_process = ql.BatesProcess(
+    risk_free, dividend, spot,
+    0.04, 1.0, 0.04, 0.5, -0.7,  # Heston params
+    0.1, -0.05, 0.1,              # Jump params
+)
+model = ql.BatesModel(bates_process)
+engine = ql.BatesEngine(model)
 ```
 
 ### BaroneAdesiWhaleyApproximationEngine
@@ -113,6 +148,22 @@ engine = ql.MCAmericanEngine(
     requiredTolerance=0.02,
     seed=42,
 )
+```
+
+### QdFpAmericanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QdFpAmericanEngine
+```
+
+High-performance American option engine based on QD+ fixed-point iteration.
+
+```python
+engine = ql.QdFpAmericanEngine(process)
+```
+
+```{warning}
+`QdFpAmericanEngine.calculate()` may crash on Windows. Use alternative American engines if needed.
 ```
 
 ## Basket Engines
