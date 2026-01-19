@@ -25,4 +25,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "HestonProcess - stochastic volatility process");
     manager.addFunction(ql_processes::stochasticprocessarray, m,
         "StochasticProcessArray - array of correlated 1D processes");
+    manager.addFunction(ql_processes::batesprocess, m,
+        "BatesProcess - Heston process with jumps");
 }

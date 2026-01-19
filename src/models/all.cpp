@@ -29,4 +29,8 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "HestonModelHandle - handle to Heston model");
     manager.addFunction(ql_models::piecewisetimedependenthestonmodel, m,
         "PiecewiseTimeDependentHestonModel - time-dependent Heston model");
+    manager.addFunction(ql_models::vasicek, m,
+        "Vasicek - Vasicek short-rate model");
+    manager.addFunction(ql_models::batesmodel, m,
+        "BatesModel - Heston model with jumps");
 }

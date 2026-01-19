@@ -53,4 +53,12 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BinomialVanillaEngine - binomial tree vanilla option pricing");
     manager.addFunction(ql_pricingengines::mcamericanengine, m,
         "MCAmericanEngine - Monte Carlo American option pricing (Longstaff-Schwartz)");
+    manager.addFunction(ql_pricingengines::integralengine, m,
+        "IntegralEngine - European option pricing using integral approach");
+    manager.addFunction(ql_pricingengines::qdfpamericanengine, m,
+        "QdFpAmericanEngine - QD+ fixed-point American option pricing");
+    manager.addFunction(ql_pricingengines::analyticeuropeanvasicekengine, m,
+        "AnalyticBlackVasicekEngine - European option with stochastic Vasicek rates");
+    manager.addFunction(ql_pricingengines::batesengine, m,
+        "BatesEngine - Analytic Bates model pricing");
 }

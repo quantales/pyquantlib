@@ -159,6 +159,7 @@ namespace ql_processes {
     void blackscholesprocess(py::module_&);
     void hestonprocess(py::module_&);
     void stochasticprocessarray(py::module_&);
+    void batesprocess(py::module_&);
 }
 
 namespace ql_models {
@@ -168,6 +169,8 @@ namespace ql_models {
     void hestonmodel(py::module_&);
     void hestonmodelhandle(py::module_&);
     void piecewisetimedependenthestonmodel(py::module_&);
+    void vasicek(py::module_&);
+    void batesmodel(py::module_&);
 }
 
 namespace ql_instruments {
@@ -198,6 +201,10 @@ namespace ql_pricingengines {
     void fdblackscholesvanillaengine(py::module_&);
     void binomialengine(py::module_&);
     void mcamericanengine(py::module_&);
+    void integralengine(py::module_&);
+    void qdfpamericanengine(py::module_&);
+    void analyticeuropeanvasicekengine(py::module_&);
+    void batesengine(py::module_&);
 }
 
 namespace ql_methods {
