@@ -9,7 +9,9 @@ Users familiar with QuantLib-Python (SWIG) will find the API similar.
 | Notebook | Description |
 |----------|-------------|
 | [01_option_pricing.ipynb](01_option_pricing.ipynb) | European option pricing with Black-Scholes |
-| [02_modified_kirk_engine.ipynb](02_modified_kirk_engine.ipynb) | Spread options with Modified Kirk approximation |
+| [02_numpy_interoperability.ipynb](02_numpy_interoperability.ipynb) | NumPy arrays and implicit conversion |
+| [03_modified_kirk_engine.ipynb](03_modified_kirk_engine.ipynb) | Spread options with Modified Kirk approximation |
+| [04_equity_option.ipynb](04_equity_option.ipynb) | Comprehensive pricing engines (QuantLib EquityOption example) |
 
 ## Running the Examples
 
