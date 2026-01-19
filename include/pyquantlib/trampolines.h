@@ -33,6 +33,7 @@
 #include <ql/payoff.hpp>
 #include <ql/instruments/payoffs.hpp>
 #include <ql/instruments/swap.hpp>
+#include <ql/instruments/swaption.hpp>
 #include <ql/instruments/oneassetoption.hpp>
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/instruments/multiassetoption.hpp>
@@ -939,5 +940,29 @@ public:
                              QuantLib::DiscountFactor df) const override {
         PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SpreadBlackScholesVanillaEngine,
                                calculate, f1, f2, strike, optionType, variance1, variance2, df);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Swaption Engine Trampolines
+// -----------------------------------------------------------------------------
+using SwaptionGenericEngine = QuantLib::GenericEngine<QuantLib::Swaption::arguments,
+                                                       QuantLib::Swaption::results>;
+
+class PySwaptionGenericEngine : public SwaptionGenericEngine {
+public:
+    using SwaptionGenericEngine::SwaptionGenericEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, SwaptionGenericEngine, calculate,);
+    }
+};
+
+class PySwaptionEngine : public QuantLib::Swaption::engine {
+public:
+    using QuantLib::Swaption::engine::engine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::Swaption::engine, calculate,);
     }
 };

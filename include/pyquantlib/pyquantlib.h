@@ -179,6 +179,7 @@ namespace ql_instruments {
     void swap(py::module_&);
     void fixedvsfloatingswap(py::module_&);
     void vanillaswap(py::module_&);
+    void swaption(py::module_&);
     void strikedtypepayoff(py::module_&);
     void payoffs(py::module_&);
     void oneassetoption(py::module_&);
