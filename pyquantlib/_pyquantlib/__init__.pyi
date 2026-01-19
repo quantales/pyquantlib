@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BasketOption', 'BasketOptionEngine', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'Biweekly', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CeilingTruncation', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'EulerDiscretization', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'Hundsdorfer', 'Hungary', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'Vasicek', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'weeks', 'yearFractionToDate', 'years']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -255,6 +255,14 @@ class AmortizingPayment(SimpleCashFlow):
         """
         Constructs an amortizing payment with the given amount and date.
         """
+class AnalyticBlackVasicekEngine(base.PricingEngine):
+    """
+    European option engine with stochastic Vasicek interest rates.
+    """
+    def __init__(self, bsProcess: GeneralizedBlackScholesProcess, vasicekProcess: Vasicek, correlation: typing.SupportsFloat) -> None:
+        """
+        Constructs with BS process, Vasicek model, and correlation.
+        """
 class AnalyticEuropeanEngine(base.OneAssetOption.engine):
     """
     Analytic pricing engine for European vanilla options.
@@ -268,6 +276,11 @@ class AnalyticEuropeanEngine(base.OneAssetOption.engine):
     def __init__(self, process: GeneralizedBlackScholesProcess, discountCurve: YieldTermStructureHandle) -> None:
         """
         Constructs engine with separate discount curve.
+        """
+    @typing.overload
+    def __init__(self, process: GeneralizedBlackScholesProcess, discountCurve: base.YieldTermStructure) -> None:
+        """
+        Constructs engine with separate discount curve (handle created internally).
         """
 class AnalyticHestonEngine(base.GenericHestonModelEngine):
     """
@@ -825,6 +838,19 @@ class BYRCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class BaroneAdesiWhaleyApproximationEngine(base.PricingEngine):
+    """
+    Barone-Adesi and Whaley approximation engine for American options (1987).
+    """
+    @staticmethod
+    def criticalPrice(payoff: base.StrikedTypePayoff, riskFreeDiscount: typing.SupportsFloat, dividendDiscount: typing.SupportsFloat, variance: typing.SupportsFloat, tolerance: typing.SupportsFloat = 1e-06) -> float:
+        """
+        Computes the critical price for early exercise.
+        """
+    def __init__(self, process: GeneralizedBlackScholesProcess) -> None:
+        """
+        Constructs from a Black-Scholes process.
+        """
 class BasketOption(base.MultiAssetOption):
     """
     Basket option on multiple assets.
@@ -837,6 +863,66 @@ class BasketOptionEngine(base.PricingEngine):
     """
     Base class for basket option engines.
     """
+class BatesEngine(AnalyticHestonEngine):
+    """
+    Analytic pricing engine for the Bates model.
+    """
+    @typing.overload
+    def __init__(self, model: BatesModel, integrationOrder: typing.SupportsInt = 144) -> None:
+        """
+        Constructs with Bates model and integration order.
+        """
+    @typing.overload
+    def __init__(self, model: BatesModel, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+        """
+        Constructs with Bates model, relative tolerance, and max evaluations.
+        """
+class BatesModel(HestonModel):
+    """
+    Bates stochastic volatility model with jumps.
+    """
+    def __init__(self, process: BatesProcess) -> None:
+        """
+        Constructs from a Bates process.
+        """
+    def delta(self) -> float:
+        """
+        Returns jump size volatility.
+        """
+    def lambda_(self) -> float:
+        """
+        Returns jump intensity.
+        """
+    def nu(self) -> float:
+        """
+        Returns mean jump size.
+        """
+class BatesProcess(HestonProcess):
+    """
+    Bates stochastic volatility process with jumps.
+    """
+    @typing.overload
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, lambda: typing.SupportsFloat, nu: typing.SupportsFloat, delta: typing.SupportsFloat, discretization: HestonProcess.Discretization = ...) -> None:
+        """
+        Constructs Bates process with Heston parameters plus jump parameters.
+        """
+    @typing.overload
+    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, lambda: typing.SupportsFloat, nu: typing.SupportsFloat, delta: typing.SupportsFloat, discretization: HestonProcess.Discretization = ...) -> None:
+        """
+        Constructs with term structures and quote (handles created internally).
+        """
+    def delta(self) -> float:
+        """
+        Returns jump size volatility.
+        """
+    def lambda_(self) -> float:
+        """
+        Returns jump intensity.
+        """
+    def nu(self) -> float:
+        """
+        Returns mean jump size.
+        """
 class BermudanExercise(Exercise):
     """
     Bermudan-style exercise (discrete dates).
@@ -861,6 +947,14 @@ class BespokeCalendar(Calendar):
         """
         ! marks the passed day as part of the weekend
         """
+class BjerksundStenslandApproximationEngine(base.PricingEngine):
+    """
+    Bjerksund and Stensland approximation engine for American options (1993).
+    """
+    def __init__(self, process: GeneralizedBlackScholesProcess) -> None:
+        """
+        Constructs from a Black-Scholes process.
+        """
 class BjerksundStenslandSpreadEngine(base.SpreadBlackScholesVanillaEngine):
     """
     Bjerksund-Stensland analytical approximation for spread options.
@@ -884,6 +978,11 @@ class BlackConstantVol(base.BlackVolatilityTermStructure):
         Constructs from reference date and quote handle.
         """
     @typing.overload
+    def __init__(self, referenceDate: Date, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and quote (handle created internally).
+        """
+    @typing.overload
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and constant volatility.
@@ -892,6 +991,11 @@ class BlackConstantVol(base.BlackVolatilityTermStructure):
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and quote (handle created internally).
         """
 class BlackProcess(GeneralizedBlackScholesProcess):
     """
@@ -903,6 +1007,16 @@ class BlackProcess(GeneralizedBlackScholesProcess):
     @typing.overload
     def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
         ...
+    @typing.overload
+    def __init__(self, x0: base.Quote, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure) -> None:
+        """
+        Constructs from term structures (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, x0: base.Quote, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        """
+        Constructs from term structures with discretization (handles created internally).
+        """
 class BlackScholesProcess(GeneralizedBlackScholesProcess):
     """
     Black-Scholes process with no dividend yield.
@@ -913,6 +1027,16 @@ class BlackScholesProcess(GeneralizedBlackScholesProcess):
     @typing.overload
     def __init__(self, x0: QuoteHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
         ...
+    @typing.overload
+    def __init__(self, x0: base.Quote, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure) -> None:
+        """
+        Constructs from term structures (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, x0: base.Quote, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        """
+        Constructs from term structures with discretization (handles created internally).
+        """
 class BlackVarianceSurface(base.BlackVarianceTermStructure):
     """
     Black volatility surface modelled as a variance surface.
@@ -1635,6 +1759,45 @@ class Canada(Calendar):
     Settlement: typing.ClassVar[Canada.Market]  # value = <Market.Settlement: 0>
     TSX: typing.ClassVar[Canada.Market]  # value = <Market.TSX: 1>
     def __init__(self, market: Canada.Market = ...) -> None:
+        ...
+class CashDividendModel:
+    """
+    Cash dividend model for finite difference engines.
+    
+    Members:
+    
+      Spot : Spot adjustment model.
+    
+      Escrowed : Escrowed dividend model.
+    """
+    Escrowed: typing.ClassVar[CashDividendModel]  # value = <CashDividendModel.Escrowed: 1>
+    Spot: typing.ClassVar[CashDividendModel]  # value = <CashDividendModel.Spot: 0>
+    __members__: typing.ClassVar[dict[str, CashDividendModel]]  # value = {'Spot': <CashDividendModel.Spot: 0>, 'Escrowed': <CashDividendModel.Escrowed: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
         ...
 class CeilingTruncation(Rounding):
     """
@@ -2802,6 +2965,24 @@ class Fd2dBlackScholesVanillaEngine(BasketOptionEngine):
         """
         Constructs with two processes, correlation, and optional grid/scheme parameters.
         """
+class FdBlackScholesVanillaEngine(base.PricingEngine):
+    """
+    Finite-differences Black-Scholes vanilla option engine.
+    """
+    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38, cashDividendModel: CashDividendModel = ...) -> None:
+        """
+        Constructs a finite-difference Black-Scholes engine.
+        
+        Parameters:
+          process: Black-Scholes process
+          tGrid: Number of time steps
+          xGrid: Number of spatial grid points
+          dampingSteps: Damping steps near maturity
+          schemeDesc: FD scheme (Douglas, CrankNicolson, etc.)
+          localVol: Use local volatility
+          illegalLocalVolOverwrite: Override for illegal local vol values
+          cashDividendModel: Spot or Escrowed
+        """
 class FdmSchemeDesc:
     """
     Finite difference scheme descriptor.
@@ -3101,6 +3282,11 @@ class FlatForward(base.YieldTermStructure):
         Constructs from reference date and quote handle.
         """
     @typing.overload
+    def __init__(self, referenceDate: Date, forward: base.Quote, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from reference date and quote (handle created internally).
+        """
+    @typing.overload
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from settlement days and forward rate.
@@ -3109,6 +3295,11 @@ class FlatForward(base.YieldTermStructure):
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: QuoteHandle, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from settlement days and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: base.Quote, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from settlement days and quote (handle created internally).
         """
     def compounding(self) -> Compounding:
         """
@@ -3367,6 +3558,16 @@ class GarmanKohlhagenProcess(GeneralizedBlackScholesProcess):
     @typing.overload
     def __init__(self, x0: QuoteHandle, foreignRiskFreeTS: YieldTermStructureHandle, domesticRiskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
         ...
+    @typing.overload
+    def __init__(self, x0: base.Quote, foreignRiskFreeTS: base.YieldTermStructure, domesticRiskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure) -> None:
+        """
+        Constructs from term structures (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, x0: base.Quote, foreignRiskFreeTS: base.YieldTermStructure, domesticRiskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, discretization: base.StochasticProcess1D.discretization, forceDiscretization: bool = False) -> None:
+        """
+        Constructs from term structures with discretization (handles created internally).
+        """
 class GeneralizedBlackScholesProcess(base.StochasticProcess1D):
     """
     Generalized Black-Scholes-Merton stochastic process.
@@ -3377,6 +3578,16 @@ class GeneralizedBlackScholesProcess(base.StochasticProcess1D):
     @typing.overload
     def __init__(self, x0: QuoteHandle, dividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, discretization: base.StochasticProcess1D.discretization) -> None:
         ...
+    @typing.overload
+    def __init__(self, x0: base.Quote, dividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure) -> None:
+        """
+        Constructs from term structures (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, x0: base.Quote, dividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, discretization: base.StochasticProcess1D.discretization) -> None:
+        """
+        Constructs from term structures with discretization (handles created internally).
+        """
     def blackVolatility(self) -> BlackVolTermStructureHandle:
         """
         Returns the Black volatility term structure handle.
@@ -3781,8 +3992,14 @@ class HestonProcess(base.StochasticProcess):
     QuadraticExponential: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponential: 4>
     QuadraticExponentialMartingale: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponentialMartingale: 5>
     Reflection: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.Reflection: 2>
+    @typing.overload
     def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, d: HestonProcess.Discretization = ...) -> None:
         ...
+    @typing.overload
+    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, d: HestonProcess.Discretization = ...) -> None:
+        """
+        Constructs from term structures (handles created internally).
+        """
     def dividendYield(self) -> YieldTermStructureHandle:
         """
         Returns the dividend yield term structure handle.
@@ -4296,6 +4513,14 @@ class Indonesia(Calendar):
     JSX: typing.ClassVar[Indonesia.Market]  # value = <Market.JSX: 1>
     def __init__(self, m: Indonesia.Market = ...) -> None:
         ...
+class IntegralEngine(base.PricingEngine):
+    """
+    Pricing engine for European options using integral approach.
+    """
+    def __init__(self, process: GeneralizedBlackScholesProcess) -> None:
+        """
+        Constructs with a Black-Scholes process.
+        """
 class Integration:
     """
     Integration methods for Heston engine.
@@ -4880,6 +5105,11 @@ class LocalConstantVol(base.LocalVolTermStructure):
         Constructs from reference date and quote handle.
         """
     @typing.overload
+    def __init__(self, referenceDate: Date, volatility: base.Quote, dayCounter: DayCounter) -> None:
+        """
+        Constructs from reference date and quote (handle created internally).
+        """
+    @typing.overload
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and constant volatility.
@@ -4888,6 +5118,11 @@ class LocalConstantVol(base.LocalVolTermStructure):
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote handle.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+        """
+        Constructs from settlement days and quote (handle created internally).
         """
 class LocalVolSurface(base.LocalVolTermStructure):
     """
@@ -4902,6 +5137,16 @@ class LocalVolSurface(base.LocalVolTermStructure):
     def __init__(self, blackVolTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat) -> None:
         """
         Constructs from Black vol surface and fixed underlying value.
+        """
+    @typing.overload
+    def __init__(self, blackVolTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: base.Quote) -> None:
+        """
+        Constructs from term structures and quote (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, blackVolTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat) -> None:
+        """
+        Constructs from term structures and fixed value (handles created internally).
         """
 class LocalVolTermStructureHandle:
     """
@@ -5734,6 +5979,16 @@ class NoExceptLocalVolSurface(LocalVolSurface):
         """
         Constructs with fixed underlying value.
         """
+    @typing.overload
+    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: base.Quote, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+        """
+        Constructs from term structures and quote (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+        """
+        Constructs from term structures and fixed value (handles created internally).
+        """
 class Norway(Calendar):
     """
     ! Holidays:
@@ -6187,6 +6442,60 @@ class Poland(Calendar):
     WSE: typing.ClassVar[Poland.Market]  # value = <Market.WSE: 1>
     def __init__(self) -> None:
         ...
+class PolynomialType:
+    """
+    Polynomial basis types for Longstaff-Schwartz regression.
+    
+    Members:
+    
+      Monomial
+    
+      Laguerre
+    
+      Hermite
+    
+      Hyperbolic
+    
+      Legendre
+    
+      Chebyshev
+    
+      Chebyshev2nd
+    """
+    Chebyshev: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Chebyshev: 5>
+    Chebyshev2nd: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Chebyshev2nd: 6>
+    Hermite: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Hermite: 2>
+    Hyperbolic: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Hyperbolic: 3>
+    Laguerre: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Laguerre: 1>
+    Legendre: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Legendre: 4>
+    Monomial: typing.ClassVar[PolynomialType]  # value = <PolynomialType.Monomial: 0>
+    __members__: typing.ClassVar[dict[str, PolynomialType]]  # value = {'Monomial': <PolynomialType.Monomial: 0>, 'Laguerre': <PolynomialType.Laguerre: 1>, 'Hermite': <PolynomialType.Hermite: 2>, 'Hyperbolic': <PolynomialType.Hyperbolic: 3>, 'Legendre': <PolynomialType.Legendre: 4>, 'Chebyshev': <PolynomialType.Chebyshev: 5>, 'Chebyshev2nd': <PolynomialType.Chebyshev2nd: 6>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class PositiveConstraint(base.Constraint):
     """
     Constraint enforcing positive values.
@@ -6235,6 +6544,105 @@ class QARCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class QdFpAmericanEngine(base.PricingEngine):
+    """
+    High performance American option engine based on QD+ fixed-point iteration.
+    """
+    @staticmethod
+    def accurateScheme() -> QdFpIterationScheme:
+        """
+        Returns the accurate iteration scheme (default).
+        """
+    @staticmethod
+    def fastScheme() -> QdFpIterationScheme:
+        """
+        Returns the fast iteration scheme.
+        """
+    @staticmethod
+    def highPrecisionScheme() -> QdFpIterationScheme:
+        """
+        Returns the high precision iteration scheme.
+        """
+    @typing.overload
+    def __init__(self, process: GeneralizedBlackScholesProcess) -> None:
+        """
+        Constructs with process using default accurate scheme.
+        """
+    @typing.overload
+    def __init__(self, process: GeneralizedBlackScholesProcess, iterationScheme: QdFpIterationScheme, fpEquation: QdFpFixedPointEquation = ...) -> None:
+        """
+        Constructs with process, iteration scheme, and fixed-point equation type.
+        """
+class QdFpFixedPointEquation:
+    """
+    Fixed point equation type for QD+ American engine.
+    
+    Members:
+    
+      FP_A
+    
+      FP_B
+    
+      Auto
+    """
+    Auto: typing.ClassVar[QdFpFixedPointEquation]  # value = <QdFpFixedPointEquation.Auto: 2>
+    FP_A: typing.ClassVar[QdFpFixedPointEquation]  # value = <QdFpFixedPointEquation.FP_A: 0>
+    FP_B: typing.ClassVar[QdFpFixedPointEquation]  # value = <QdFpFixedPointEquation.FP_B: 1>
+    __members__: typing.ClassVar[dict[str, QdFpFixedPointEquation]]  # value = {'FP_A': <QdFpFixedPointEquation.FP_A: 0>, 'FP_B': <QdFpFixedPointEquation.FP_B: 1>, 'Auto': <QdFpFixedPointEquation.Auto: 2>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class QdFpIterationScheme:
+    """
+    Base class for QD+ fixed-point iteration schemes.
+    """
+class QdFpLegendreScheme(QdFpIterationScheme):
+    """
+    Gauss-Legendre (l,m,n)-p iteration scheme.
+    """
+    def __init__(self, l: typing.SupportsInt, m: typing.SupportsInt, n: typing.SupportsInt, p: typing.SupportsInt) -> None:
+        """
+        Constructs with integration order l, iteration steps m, Chebyshev nodes n, and final integration order p.
+        """
+class QdFpLegendreTanhSinhScheme(QdFpLegendreScheme):
+    """
+    Legendre-Tanh-Sinh (l,m,n)-eps iteration scheme.
+    """
+    def __init__(self, l: typing.SupportsInt, m: typing.SupportsInt, n: typing.SupportsInt, eps: typing.SupportsFloat) -> None:
+        """
+        Constructs with integration order l, iteration steps m, Chebyshev nodes n, and tanh-sinh precision eps.
+        """
+class QdFpTanhSinhIterationScheme(QdFpIterationScheme):
+    """
+    Tanh-sinh (m,n)-eps iteration scheme.
+    """
+    def __init__(self, m: typing.SupportsInt, n: typing.SupportsInt, eps: typing.SupportsFloat) -> None:
+        """
+        Constructs with iteration steps m, Chebyshev nodes n, and tanh-sinh precision eps.
+        """
 class QuoteHandle:
     """
     Handle to Quote objects
@@ -8336,6 +8744,35 @@ class VanillaOption(base.OneAssetOption):
     """
     def __init__(self, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
+class Vasicek(base.CalibratedModel):
+    """
+    Vasicek short-rate model: dr = a(b - r)dt + sigma*dW.
+    """
+    def __init__(self, r0: typing.SupportsFloat = 0.05, a: typing.SupportsFloat = 0.1, b: typing.SupportsFloat = 0.05, sigma: typing.SupportsFloat = 0.01, lambda: typing.SupportsFloat = 0.0) -> None:
+        """
+        Constructs Vasicek model with initial rate, mean reversion, long-term rate, volatility, and risk premium.
+        """
+    def a(self) -> float:
+        """
+        Returns mean reversion speed.
+        """
+    def b(self) -> float:
+        """
+        Returns long-term mean rate.
+        """
+    def r0(self) -> float:
+        """
+        Returns initial short rate.
+        """
+    def sigma(self) -> float:
+        """
+        Returns volatility.
+        """
+    @property
+    def lambda_(self) -> float:
+        """
+        Returns risk premium.
+        """
 class Weekday:
     """
     Days of the week enumeration.
@@ -8533,6 +8970,22 @@ def Abs(array: Array) -> Array:
     """
     Returns element-wise absolute values.
     """
+def BinomialVanillaEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt) -> base.PricingEngine:
+    """
+    Binomial tree pricing engine for vanilla options.
+    
+    Parameters:
+      process: Black-Scholes process
+      treeType: Tree type - one of:
+        'jr' or 'jarrowrudd': Jarrow-Rudd
+        'crr' or 'coxrossrubinstein': Cox-Ross-Rubinstein
+        'eqp' or 'additiveeqp': Additive equal probabilities
+        'trigeorgis': Trigeorgis
+        'tian': Tian
+        'lr' or 'leisenreimer': Leisen-Reimer
+        'joshi' or 'joshi4': Joshi
+      timeSteps: Number of time steps (minimum 2)
+    """
 def DotProduct(a1: Array, a2: Array) -> float:
     """
     Returns the dot product of two arrays.
@@ -8544,6 +8997,25 @@ def Exp(array: Array) -> Array:
 def Log(array: Array) -> Array:
     """
     Returns element-wise natural logarithms.
+    """
+def MCAmericanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, controlVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0, polynomialOrder: typing.SupportsInt = 2, polynomialType: PolynomialType = ..., calibrationSamples: typing.SupportsInt = 2048) -> base.PricingEngine:
+    """
+    Monte Carlo American option pricing engine (Longstaff-Schwartz).
+    
+    Parameters:
+      process: Black-Scholes process
+      rngType: 'pseudorandom' or 'lowdiscrepancy'
+      timeSteps: Number of time steps
+      timeStepsPerYear: Time steps per year (alternative to timeSteps)
+      antitheticVariate: Use antithetic variates
+      controlVariate: Use control variate (European option)
+      requiredSamples: Number of samples
+      requiredTolerance: Target tolerance (alternative to requiredSamples)
+      maxSamples: Maximum samples
+      seed: Random seed (0 for random)
+      polynomialOrder: Order of regression polynomial
+      polynomialType: Polynomial basis type (Monomial, Laguerre, etc.)
+      calibrationSamples: Samples for regression calibration
     """
 def MCEuropeanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
     """
@@ -8659,6 +9131,8 @@ August: Month  # value = <Month.August: 8>
 Bimonthly: Frequency  # value = <Frequency.Bimonthly: 6>
 Biweekly: Frequency  # value = <Frequency.Biweekly: 26>
 Call: OptionType  # value = <OptionType.Call: 1>
+Chebyshev: PolynomialType  # value = <PolynomialType.Chebyshev: 5>
+Chebyshev2nd: PolynomialType  # value = <PolynomialType.Chebyshev2nd: 6>
 Compounded: Compounding  # value = <Compounding.Compounded: 1>
 CompoundedThenSimple: Compounding  # value = <Compounding.CompoundedThenSimple: 4>
 Continuous: Compounding  # value = <Compounding.Continuous: 2>
@@ -8670,6 +9144,7 @@ Dec: Month  # value = <Month.December: 12>
 December: Month  # value = <Month.December: 12>
 Douglas: FdmSchemeType  # value = <FdmSchemeType.Douglas: 1>
 EPSILON: float = 2.220446049250313e-16
+Escrowed: CashDividendModel  # value = <CashDividendModel.Escrowed: 1>
 EveryFourthMonth: Frequency  # value = <Frequency.EveryFourthMonth: 3>
 EveryFourthWeek: Frequency  # value = <Frequency.EveryFourthWeek: 13>
 ExplicitEuler: FdmSchemeType  # value = <FdmSchemeType.ExplicitEuler: 5>
@@ -8679,8 +9154,10 @@ Following: BusinessDayConvention  # value = <BusinessDayConvention.Following: 0>
 Fri: Weekday  # value = <Weekday.Friday: 6>
 Friday: Weekday  # value = <Weekday.Friday: 6>
 HalfMonthModifiedFollowing: BusinessDayConvention  # value = <BusinessDayConvention.HalfMonthModifiedFollowing: 5>
+Hermite: PolynomialType  # value = <PolynomialType.Hermite: 2>
 Hours: TimeUnit  # value = <TimeUnit.Hours: 4>
 Hundsdorfer: FdmSchemeType  # value = <FdmSchemeType.Hundsdorfer: 0>
+Hyperbolic: PolynomialType  # value = <PolynomialType.Hyperbolic: 3>
 ImplicitEuler: FdmSchemeType  # value = <FdmSchemeType.ImplicitEuler: 4>
 Jan: Month  # value = <Month.January: 1>
 January: Month  # value = <Month.January: 1>
@@ -8690,6 +9167,8 @@ Jul: Month  # value = <Month.July: 7>
 July: Month  # value = <Month.July: 7>
 Jun: Month  # value = <Month.June: 6>
 June: Month  # value = <Month.June: 6>
+Laguerre: PolynomialType  # value = <PolynomialType.Laguerre: 1>
+Legendre: PolynomialType  # value = <PolynomialType.Legendre: 4>
 MAX_INTEGER: int = 2147483647
 MAX_REAL: float = 1.7976931348623157e+308
 MIN_INTEGER: int = -2147483648
@@ -8707,6 +9186,7 @@ ModifiedFollowing: BusinessDayConvention  # value = <BusinessDayConvention.Modif
 ModifiedPreceding: BusinessDayConvention  # value = <BusinessDayConvention.ModifiedPreceding: 3>
 Mon: Weekday  # value = <Weekday.Monday: 2>
 Monday: Weekday  # value = <Weekday.Monday: 2>
+Monomial: PolynomialType  # value = <PolynomialType.Monomial: 0>
 Monthly: Frequency  # value = <Frequency.Monthly: 12>
 Months: TimeUnit  # value = <TimeUnit.Months: 2>
 Nearest: BusinessDayConvention  # value = <BusinessDayConvention.Nearest: 6>
@@ -8728,6 +9208,7 @@ Sep: Month  # value = <Month.September: 9>
 September: Month  # value = <Month.September: 9>
 Simple: Compounding  # value = <Compounding.Simple: 0>
 SimpleThenCompounded: Compounding  # value = <Compounding.SimpleThenCompounded: 3>
+Spot: CashDividendModel  # value = <CashDividendModel.Spot: 0>
 Sun: Weekday  # value = <Weekday.Sunday: 1>
 Sunday: Weekday  # value = <Weekday.Sunday: 1>
 Thu: Weekday  # value = <Weekday.Thursday: 5>
