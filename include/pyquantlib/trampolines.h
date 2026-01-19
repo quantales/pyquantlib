@@ -32,6 +32,7 @@
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
 #include <ql/instruments/payoffs.hpp>
+#include <ql/instruments/swap.hpp>
 #include <ql/instruments/oneassetoption.hpp>
 #include <ql/instruments/vanillaoption.hpp>
 #include <ql/instruments/multiassetoption.hpp>
@@ -743,6 +744,30 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::OneAssetOption, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Swap Engine Trampolines
+// -----------------------------------------------------------------------------
+using SwapGenericEngine = QuantLib::GenericEngine<QuantLib::Swap::arguments,
+                                                   QuantLib::Swap::results>;
+
+class PySwapGenericEngine : public SwapGenericEngine {
+public:
+    using SwapGenericEngine::SwapGenericEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, SwapGenericEngine, calculate,);
+    }
+};
+
+class PySwapEngine : public QuantLib::Swap::engine {
+public:
+    using QuantLib::Swap::engine::engine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::Swap::engine, calculate,);
     }
 };
 

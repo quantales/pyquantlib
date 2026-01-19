@@ -31,6 +31,16 @@ def test_swap_results():
     results.reset()
 
 
+def test_swap_engine_class():
+    """Test Swap.engine base class exists."""
+    assert hasattr(ql.Swap, "engine")
+
+
+def test_swap_generic_engine_class():
+    """Test SwapGenericEngine exists in base module."""
+    assert hasattr(ql.base, "SwapGenericEngine")
+
+
 def test_fixedvsfloatingswap_arguments():
     """Test FixedVsFloatingSwapArguments class."""
     args = ql.FixedVsFloatingSwapArguments()
@@ -236,3 +246,65 @@ def test_vanillaswap_legs(swap_env):
     assert len(fixed_leg) == 5
     # 5-year swap with semiannual float payments = 10 coupons
     assert len(floating_leg) == 10
+
+
+def test_vanillaswap_pricing(swap_env):
+    """Test VanillaSwap pricing with DiscountingSwapEngine."""
+    swap = ql.VanillaSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        0.05,
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.0,
+        swap_env["float_dc"],
+    )
+
+    engine = ql.DiscountingSwapEngine(swap_env["flat_curve"])
+    swap.setPricingEngine(engine)
+
+    npv = swap.NPV()
+    fair_rate = swap.fairRate()
+
+    assert npv == pytest.approx(5339.542841940245, abs=1e-6)
+    assert fair_rate == pytest.approx(0.051301228549385104, rel=1e-5)
+
+
+def test_vanillaswap_fair_rate(swap_env):
+    """Test that swap at fair rate has zero NPV."""
+    # First get fair rate
+    swap = ql.VanillaSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        0.05,  # dummy rate
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.0,
+        swap_env["float_dc"],
+    )
+
+    engine = ql.DiscountingSwapEngine(swap_env["flat_curve"])
+    swap.setPricingEngine(engine)
+
+    fair_rate = swap.fairRate()
+
+    # Create swap at fair rate
+    fair_swap = ql.VanillaSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        swap_env["fixed_schedule"],
+        fair_rate,
+        swap_env["fixed_dc"],
+        swap_env["float_schedule"],
+        swap_env["euribor"],
+        0.0,
+        swap_env["float_dc"],
+    )
+    fair_swap.setPricingEngine(engine)
+
+    # NPV should be approximately zero
+    assert abs(fair_swap.NPV()) < 1e-6

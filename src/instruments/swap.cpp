@@ -12,6 +12,7 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
+#include "pyquantlib/trampolines.h"
 #include <ql/instrument.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/instruments/swap.hpp>
@@ -22,6 +23,8 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_instruments::swap(py::module_& m) {
+    py::module_ base = m.def_submodule("base", "Abstract base classes");
+
     // Swap::Type enum
     py::enum_<Swap::Type>(m, "SwapType",
         "Swap type: Payer or Receiver.")
@@ -52,7 +55,7 @@ void ql_instruments::swap(py::module_& m) {
         .def("reset", &Swap::results::reset);
 
     // Swap class
-    py::class_<Swap, Instrument, ext::shared_ptr<Swap>>(
+    auto pySwap = py::class_<Swap, Instrument, ext::shared_ptr<Swap>>(
         m, "Swap",
         "Interest rate swap base class.")
         // Two-leg constructor
@@ -97,4 +100,18 @@ void ql_instruments::swap(py::module_& m) {
             "Returns the end discount factor for leg j.")
         .def("npvDateDiscount", &Swap::npvDateDiscount,
             "Returns the discount factor at the NPV date.");
+
+    // GenericEngine<Swap::arguments, Swap::results>
+    py::class_<SwapGenericEngine, PySwapGenericEngine,
+               ext::shared_ptr<SwapGenericEngine>, PricingEngine, Observer>(
+        base, "SwapGenericEngine",
+        "Generic base engine for swaps.")
+        .def(py::init_alias<>());
+
+    // Swap::engine
+    py::class_<Swap::engine, PySwapEngine,
+               ext::shared_ptr<Swap::engine>, SwapGenericEngine>(
+        pySwap, "engine",
+        "Pricing engine for swaps.")
+        .def(py::init_alias<>());
 }

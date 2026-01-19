@@ -210,6 +210,7 @@ namespace ql_pricingengines {
     void qdfpamericanengine(py::module_&);
     void analyticeuropeanvasicekengine(py::module_&);
     void batesengine(py::module_&);
+    void discountingswapengine(py::module_&);
 }
 
 namespace ql_methods {

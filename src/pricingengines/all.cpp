@@ -61,4 +61,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticBlackVasicekEngine - European option with stochastic Vasicek rates");
     manager.addFunction(ql_pricingengines::batesengine, m,
         "BatesEngine - Analytic Bates model pricing");
+    manager.addFunction(ql_pricingengines::discountingswapengine, m,
+        "DiscountingSwapEngine - Discounting engine for swaps");
 }
