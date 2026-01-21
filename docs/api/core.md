@@ -4,16 +4,50 @@
 
 ### Settings
 
-```{eval-rst}
-.. autoclass:: pyquantlib.Settings
-```
+Global repository for run-time library settings.
+
+`ql.Settings` is exported as the singleton instance, allowing direct property access.
+
+#### Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `evaluationDate` | `Date` | The evaluation date for pricing calculations |
+| `includeReferenceDateEvents` | `bool` | Whether events on the reference date are included |
+| `includeTodaysCashFlows` | `bool` or `None` | Whether to include today's cash flows |
+| `enforcesTodaysHistoricFixings` | `bool` | Whether to enforce historic fixings for today |
+
+#### Methods
+
+| Method | Description |
+|--------|-------------|
+| `instance()` | Returns the singleton instance |
+| `setEvaluationDate(date)` | Sets the evaluation date |
+| `anchorEvaluationDate()` | Prevents the evaluation date from advancing automatically |
+| `resetEvaluationDate()` | Resets evaluation date to today and allows automatic advancement |
+
+#### Example
 
 ```python
 import pyquantlib as ql
 
-settings = ql.Settings.instance()
-settings.evaluationDate = ql.Date(15, 6, 2025)
-today = settings.evaluationDate
+# Set evaluation date
+ql.Settings.evaluationDate = ql.Date(15, 6, 2025)
+
+# Anchor the date (prevents automatic advancement)
+ql.Settings.anchorEvaluationDate()
+
+# Configure cash flow settings
+ql.Settings.includeReferenceDateEvents = True
+ql.Settings.includeTodaysCashFlows = True
+ql.Settings.enforcesTodaysHistoricFixings = False
+
+# Reset to today with automatic advancement
+ql.Settings.resetEvaluationDate()
+```
+
+```{tip}
+Both `ql.Settings.evaluationDate` and `ql.Settings.instance().evaluationDate` work identically.
 ```
 
 ### InterestRate
