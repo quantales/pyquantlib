@@ -173,6 +173,7 @@ namespace ql_models {
     void piecewisetimedependenthestonmodel(py::module_&);
     void onefactormodel(py::module_&);
     void vasicek(py::module_&);
+    void hullwhite(py::module_&);
     void batesmodel(py::module_&);
 }
 
