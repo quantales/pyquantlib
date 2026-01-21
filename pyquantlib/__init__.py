@@ -15,6 +15,10 @@ __ql_version__ = _ql.__ql_version__                     # QuantLib C++ version
 __ql_hexversion__ = _ql.__ql_hexversion__
 __boost_version__ = _ql.__boost_version__               # Boost version used at QuantLib compile-time
 
+# Export Settings as the singleton instance to allow direct property access:
+#   ql.Settings.evaluationDate = date  # Works correctly
+Settings = _ql.Settings.instance()
+
 del _ql
 
 

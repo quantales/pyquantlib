@@ -22,9 +22,8 @@ using namespace QuantLib;
 
 void ql_models::hullwhite(py::module_& m) {
     // HullWhite model
-    // NOTE: TermStructureConsistentModel is NOT specified as a base to avoid
-    // pybind11 diamond inheritance issues. The termStructure() method is bound directly.
-    py::class_<HullWhite, Vasicek, ext::shared_ptr<HullWhite>>(
+    py::class_<HullWhite, Vasicek, TermStructureConsistentModel,
+               ext::shared_ptr<HullWhite>>(
         m, "HullWhite",
         "Hull-White extended Vasicek model: dr = (theta(t) - a*r)dt + sigma*dW.")
         // Constructor with handle
@@ -43,9 +42,6 @@ void ql_models::hullwhite(py::module_& m) {
             py::arg("a") = 0.1,
             py::arg("sigma") = 0.01,
             "Constructs Hull-White model from term structure.")
-        // From TermStructureConsistentModel (bound directly)
-        .def("termStructure", &HullWhite::termStructure,
-            "Returns the term structure handle.")
         // Methods
         .def("discountBondOption",
             py::overload_cast<Option::Type, Real, Time, Time>(
