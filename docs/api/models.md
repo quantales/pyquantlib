@@ -84,6 +84,66 @@ The Vasicek model follows the SDE: $dr_t = a(b - r_t)dt + \sigma dW_t$
 
 ```python
 vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.03, sigma=0.01)
+
+# Price a discount bond option
+price = vasicek.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
+```
+
+### HullWhite
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HullWhite
+```
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `a` | $a$ | Mean reversion speed |
+| `sigma` | $\sigma$ | Volatility |
+
+The Hull-White model extends Vasicek with time-dependent drift to fit the initial term structure: $dr_t = (\theta(t) - a \cdot r_t)dt + \sigma dW_t$
+
+```python
+# Create a term structure
+today = ql.Date(15, 1, 2026)
+ql.Settings.instance().evaluationDate = today
+curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+
+# Hull-White model fitted to the curve
+hw = ql.HullWhite(curve, a=0.1, sigma=0.01)
+
+# Access the fitted term structure
+ts_handle = hw.termStructure()
+
+# Price a discount bond option
+price = hw.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
+
+# Compute futures convexity bias
+bias = ql.HullWhite.convexityBias(95.0, 0.25, 0.5, 0.01, 0.1)
+```
+
+### ShortRateModelHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ShortRateModelHandle
+```
+
+```python
+model = ql.Vasicek(r0=0.05)
+handle = ql.ShortRateModelHandle(model)
+```
+
+### RelinkableShortRateModelHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RelinkableShortRateModelHandle
+```
+
+```python
+model1 = ql.Vasicek(r0=0.03)
+model2 = ql.Vasicek(r0=0.05)
+
+handle = ql.RelinkableShortRateModelHandle(model1)
+handle.linkTo(model2)  # Switch to different model
 ```
 
 ## Parameters
@@ -101,5 +161,6 @@ vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.03, sigma=0.01)
 ```
 
 ```{note}
-Abstract base classes `CalibratedModel` and `CalibrationHelper` are available in `pyquantlib.base` for custom model implementations.
+Abstract base classes are available in `pyquantlib.base` for custom model implementations:
+`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `AffineModel`, `TermStructureConsistentModel`.
 ```
