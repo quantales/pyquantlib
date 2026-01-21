@@ -121,5 +121,5 @@ surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
 ```
 
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, and `LocalVolTermStructure` are available in `pyquantlib.base` for custom implementations.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, and `SmileSection` are available in `pyquantlib.base` for custom implementations.
 ```

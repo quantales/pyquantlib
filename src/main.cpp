@@ -50,6 +50,7 @@ PYBIND11_MODULE(_pyquantlib, m) {
     instruments_bindings(manager);       // Financial instruments
     methods_bindings(manager);           // Numerical methods
     pricingengines_bindings(manager);    // Pricing engines
+    experimental_bindings(manager);      // Experimental features
 
     // Finalize all bindings
     manager.finalize();

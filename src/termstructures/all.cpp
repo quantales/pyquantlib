@@ -57,4 +57,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "FixedLocalVolSurface with strike/time grid");
     manager.addFunction(ql_termstructures::noexceptlocalvolsurface, m,
         "NoExceptLocalVolSurface with fallback value");
+
+    // Smile sections
+    manager.addFunction(ql_termstructures::smilesection, b,
+        "SmileSection ABC");
 }

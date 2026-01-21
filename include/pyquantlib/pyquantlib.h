@@ -44,6 +44,7 @@ DECLARE_MODULE_BINDINGS(models_bindings);
 DECLARE_MODULE_BINDINGS(instruments_bindings);
 DECLARE_MODULE_BINDINGS(pricingengines_bindings);
 DECLARE_MODULE_BINDINGS(methods_bindings);
+DECLARE_MODULE_BINDINGS(experimental_bindings);
 
 // -----------------------------------------------------------------------------
 // Individual binding declarations
@@ -154,6 +155,7 @@ namespace ql_termstructures {
     void localvolsurface(py::module_&);
     void fixedlocalvolsurface(py::module_&);
     void noexceptlocalvolsurface(py::module_&);
+    void smilesection(py::module_&);
 }
 
 namespace ql_processes {
@@ -218,4 +220,8 @@ namespace ql_pricingengines {
 
 namespace ql_methods {
     void fdmbackwardsolver(py::module_&);
+}
+
+namespace ql_experimental {
+    void svismilesection(py::module_&);
 }

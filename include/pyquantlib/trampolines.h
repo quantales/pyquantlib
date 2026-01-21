@@ -25,6 +25,7 @@
 #include <ql/termstructures/voltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
+#include <ql/termstructures/volatility/smilesection.hpp>
 #include <ql/exercise.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/pricingengines/genericmodelengine.hpp>
@@ -459,6 +460,38 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::LocalVolTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// SmileSection Trampoline
+// -----------------------------------------------------------------------------
+class PySmileSection : public QuantLib::SmileSection {
+public:
+    using QuantLib::SmileSection::SmileSection;
+
+    PySmileSection() : SmileSection() {}
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SmileSection, minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SmileSection, maxStrike,);
+    }
+
+    QuantLib::Real atmLevel() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SmileSection, atmLevel,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::SmileSection, update,);
+    }
+
+protected:
+    QuantLib::Volatility volatilityImpl(QuantLib::Rate strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility, QuantLib::SmileSection,
+                               volatilityImpl, strike);
     }
 };
 

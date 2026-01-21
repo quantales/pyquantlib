@@ -22,6 +22,7 @@ PyQuantLib organizes QuantLib classes into logical groups:
 - **Models**: Pricing models (Heston, etc.)
 - **Instruments**: Financial instruments (options, etc.)
 - **Pricing Engines**: Analytic, Monte Carlo, finite difference
+- **Experimental**: Experimental QuantLib features (SVI, etc.)
 
 ## Import Conventions
 
@@ -162,6 +163,7 @@ processes
 models
 instruments
 pricingengines
+experimental
 extensions
 ```
 
