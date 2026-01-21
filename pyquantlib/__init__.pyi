@@ -89,6 +89,7 @@ from pyquantlib._pyquantlib import DayCounter
 from pyquantlib._pyquantlib import DengLiZhouBasketEngine
 from pyquantlib._pyquantlib import Denmark
 from pyquantlib._pyquantlib import DerivedQuote
+from pyquantlib._pyquantlib import DiscountingSwapEngine
 from pyquantlib._pyquantlib import DotProduct
 from pyquantlib._pyquantlib import DownRounding
 from pyquantlib._pyquantlib import EEKCurrency
@@ -101,6 +102,13 @@ from pyquantlib._pyquantlib import EURCurrency
 from pyquantlib._pyquantlib import EndCriteria
 from pyquantlib._pyquantlib import Error
 from pyquantlib._pyquantlib import EulerDiscretization
+from pyquantlib._pyquantlib import Euribor
+from pyquantlib._pyquantlib import Euribor1M
+from pyquantlib._pyquantlib import Euribor1W
+from pyquantlib._pyquantlib import Euribor1Y
+from pyquantlib._pyquantlib import Euribor365
+from pyquantlib._pyquantlib import Euribor3M
+from pyquantlib._pyquantlib import Euribor6M
 from pyquantlib._pyquantlib import EuropeanExercise
 from pyquantlib._pyquantlib import ExchangeRate
 from pyquantlib._pyquantlib import ExchangeRateManager
@@ -117,6 +125,9 @@ from pyquantlib._pyquantlib import FixedLocalVolExtrapolation
 from pyquantlib._pyquantlib import FixedLocalVolSurface
 from pyquantlib._pyquantlib import FixedRateCoupon
 from pyquantlib._pyquantlib import FixedRateLeg
+from pyquantlib._pyquantlib import FixedVsFloatingSwap
+from pyquantlib._pyquantlib import FixedVsFloatingSwapArguments
+from pyquantlib._pyquantlib import FixedVsFloatingSwapResults
 from pyquantlib._pyquantlib import FlatForward
 from pyquantlib._pyquantlib import FloorTruncation
 from pyquantlib._pyquantlib import France
@@ -137,6 +148,7 @@ from pyquantlib._pyquantlib import HestonModel
 from pyquantlib._pyquantlib import HestonModelHandle
 from pyquantlib._pyquantlib import HestonProcess
 from pyquantlib._pyquantlib import HongKong
+from pyquantlib._pyquantlib import HullWhite
 from pyquantlib._pyquantlib import Hungary
 from pyquantlib._pyquantlib import IDRCurrency
 from pyquantlib._pyquantlib import IEPCurrency
@@ -146,6 +158,7 @@ from pyquantlib._pyquantlib import IQDCurrency
 from pyquantlib._pyquantlib import IRRCurrency
 from pyquantlib._pyquantlib import ISKCurrency
 from pyquantlib._pyquantlib import ITLCurrency
+from pyquantlib._pyquantlib import IborIndex
 from pyquantlib._pyquantlib import Iceland
 from pyquantlib._pyquantlib import India
 from pyquantlib._pyquantlib import Indonesia
@@ -210,6 +223,7 @@ from pyquantlib._pyquantlib import ObservableValue_Date
 from pyquantlib._pyquantlib import OneDayCounter
 from pyquantlib._pyquantlib import OperatorSplittingSpreadEngine
 from pyquantlib._pyquantlib import OptionType
+from pyquantlib._pyquantlib import OvernightIndex
 from pyquantlib._pyquantlib import PEHCurrency
 from pyquantlib._pyquantlib import PEICurrency
 from pyquantlib._pyquantlib import PENCurrency
@@ -242,6 +256,7 @@ from pyquantlib._pyquantlib import Redemption
 from pyquantlib._pyquantlib import RelinkableBlackVolTermStructureHandle
 from pyquantlib._pyquantlib import RelinkableLocalVolTermStructureHandle
 from pyquantlib._pyquantlib import RelinkableQuoteHandle
+from pyquantlib._pyquantlib import RelinkableShortRateModelHandle
 from pyquantlib._pyquantlib import RelinkableYieldTermStructureHandle
 from pyquantlib._pyquantlib import Romania
 from pyquantlib._pyquantlib import Rounding
@@ -254,7 +269,9 @@ from pyquantlib._pyquantlib import SKKCurrency
 from pyquantlib._pyquantlib import SaudiArabia
 from pyquantlib._pyquantlib import SavedSettings
 from pyquantlib._pyquantlib import Schedule
-from pyquantlib._pyquantlib import Settings
+from pyquantlib._pyquantlib import SettlementMethod
+from pyquantlib._pyquantlib import SettlementType
+from pyquantlib._pyquantlib import ShortRateModelHandle
 from pyquantlib._pyquantlib import SimpleCashFlow
 from pyquantlib._pyquantlib import SimpleDayCounter
 from pyquantlib._pyquantlib import SimpleQuote
@@ -266,6 +283,13 @@ from pyquantlib._pyquantlib import SpreadBasketPayoff
 from pyquantlib._pyquantlib import Sqrt
 from pyquantlib._pyquantlib import StochasticProcessArray
 from pyquantlib._pyquantlib import StulzEngine
+from pyquantlib._pyquantlib import Swap
+from pyquantlib._pyquantlib import SwapArguments
+from pyquantlib._pyquantlib import SwapResults
+from pyquantlib._pyquantlib import SwapType
+from pyquantlib._pyquantlib import Swaption
+from pyquantlib._pyquantlib import SwaptionArguments
+from pyquantlib._pyquantlib import SwaptionPriceType
 from pyquantlib._pyquantlib import Sweden
 from pyquantlib._pyquantlib import Switzerland
 from pyquantlib._pyquantlib import TARGET
@@ -293,7 +317,9 @@ from pyquantlib._pyquantlib import UpRounding
 from pyquantlib._pyquantlib import VEBCurrency
 from pyquantlib._pyquantlib import VNDCurrency
 from pyquantlib._pyquantlib import VanillaOption
+from pyquantlib._pyquantlib import VanillaSwap
 from pyquantlib._pyquantlib import Vasicek
+from pyquantlib._pyquantlib import VolatilityType
 from pyquantlib._pyquantlib import Weekday
 from pyquantlib._pyquantlib import WeekendsOnly
 from pyquantlib._pyquantlib import XOFCurrency
@@ -324,7 +350,7 @@ from pyquantlib._pyquantlib import transpose
 from pyquantlib._pyquantlib import weeks
 from pyquantlib._pyquantlib import yearFractionToDate
 from pyquantlib._pyquantlib import years
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'Vasicek', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'boost_version_str', 'boost_version_tuple', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'version', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborIndex', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Swap', 'SwapArguments', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'boost_version_str', 'boost_version_tuple', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'version', 'weeks', 'yearFractionToDate', 'years']
 def boost_version_str() -> str:
     ...
 def boost_version_tuple() -> tuple[int, int, int]:
@@ -412,6 +438,7 @@ Seconds: _pyquantlib.TimeUnit  # value = <TimeUnit.Seconds: 6>
 Semiannual: _pyquantlib.Frequency  # value = <Frequency.Semiannual: 2>
 Sep: _pyquantlib.Month  # value = <Month.September: 9>
 September: _pyquantlib.Month  # value = <Month.September: 9>
+Settings: _pyquantlib.Settings  # value = <pyquantlib._pyquantlib.Settings object>
 Simple: _pyquantlib.Compounding  # value = <Compounding.Simple: 0>
 SimpleThenCompounded: _pyquantlib.Compounding  # value = <Compounding.SimpleThenCompounded: 3>
 Spot: _pyquantlib.CashDividendModel  # value = <CashDividendModel.Spot: 0>

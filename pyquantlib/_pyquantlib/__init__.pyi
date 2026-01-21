@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'Vasicek', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborIndex', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'Swap', 'SwapArguments', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'transpose', 'weeks', 'yearFractionToDate', 'years']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -2629,6 +2629,24 @@ class DerivedQuote(base.Quote):
         """
         Creates a derived quote from another quote and a Python function.
         """
+class DiscountingSwapEngine(Swap.engine):
+    """
+    Discounting engine for swaps.
+    """
+    @typing.overload
+    def __init__(self, discountCurve: YieldTermStructureHandle, includeSettlementDateFlows: bool | None = None, settlementDate: Date = ..., npvDate: Date = ...) -> None:
+        """
+        Constructs discounting swap engine.
+        """
+    @typing.overload
+    def __init__(self, discountCurve: base.YieldTermStructure, includeSettlementDateFlows: bool | None = None, settlementDate: Date = ..., npvDate: Date = ...) -> None:
+        """
+        Constructs discounting swap engine from term structure.
+        """
+    def discountCurve(self) -> YieldTermStructureHandle:
+        """
+        Returns the discount curve handle.
+        """
 class DownRounding(Rounding):
     """
     Down-rounding.
@@ -2822,6 +2840,104 @@ class EulerDiscretization(base.StochasticProcess1D.discretization):
     Euler discretization for 1D stochastic processes.
     """
     def __init__(self) -> None:
+        ...
+class Euribor(IborIndex):
+    """
+    Euribor index fixed by the ECB.
+    """
+    @typing.overload
+    def __init__(self, tenor: Period) -> None:
+        """
+        Constructs Euribor index with given tenor.
+        """
+    @typing.overload
+    def __init__(self, tenor: Period, h: ...) -> None:
+        """
+        Constructs Euribor index with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, tenor: Period, forwardingTermStructure: ...) -> None:
+        """
+        Constructs Euribor index with forwarding term structure.
+        """
+class Euribor1M(Euribor):
+    """
+    1-month Euribor index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        ...
+class Euribor1W(Euribor):
+    """
+    1-week Euribor index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        ...
+class Euribor1Y(Euribor):
+    """
+    1-year Euribor index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        ...
+class Euribor365(IborIndex):
+    """
+    Actual/365 Euribor index.
+    """
+    @typing.overload
+    def __init__(self, tenor: Period) -> None:
+        """
+        Constructs Euribor365 index with given tenor.
+        """
+    @typing.overload
+    def __init__(self, tenor: Period, h: ...) -> None:
+        """
+        Constructs Euribor365 index with forwarding term structure handle.
+        """
+class Euribor3M(Euribor):
+    """
+    3-month Euribor index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        ...
+class Euribor6M(Euribor):
+    """
+    6-month Euribor index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        ...
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
         ...
 class EuropeanExercise(Exercise):
     """
@@ -3266,6 +3382,191 @@ class FixedRateLeg:
     def withPaymentCalendar(self, calendar: Calendar) -> FixedRateLeg:
         ...
     def withPaymentLag(self, lag: typing.SupportsInt) -> FixedRateLeg:
+        ...
+class FixedVsFloatingSwap(Swap):
+    """
+    Fixed vs floating swap base class.
+    """
+    def fairRate(self) -> float:
+        """
+        Returns the fair fixed rate.
+        """
+    def fairSpread(self) -> float:
+        """
+        Returns the fair spread.
+        """
+    def fixedDayCount(self) -> DayCounter:
+        """
+        Returns the fixed leg day counter.
+        """
+    def fixedLeg(self) -> list[base.CashFlow]:
+        """
+        Returns the fixed leg cash flows.
+        """
+    def fixedLegBPS(self) -> float:
+        """
+        Returns the BPS of the fixed leg.
+        """
+    def fixedLegNPV(self) -> float:
+        """
+        Returns the NPV of the fixed leg.
+        """
+    def fixedNominals(self) -> list[float]:
+        """
+        Returns the fixed leg nominals.
+        """
+    def fixedRate(self) -> float:
+        """
+        Returns the fixed rate.
+        """
+    def fixedSchedule(self) -> Schedule:
+        """
+        Returns the fixed leg schedule.
+        """
+    def floatingDayCount(self) -> DayCounter:
+        """
+        Returns the floating leg day counter.
+        """
+    def floatingLeg(self) -> list[base.CashFlow]:
+        """
+        Returns the floating leg cash flows.
+        """
+    def floatingLegBPS(self) -> float:
+        """
+        Returns the BPS of the floating leg.
+        """
+    def floatingLegNPV(self) -> float:
+        """
+        Returns the NPV of the floating leg.
+        """
+    def floatingNominals(self) -> list[float]:
+        """
+        Returns the floating leg nominals.
+        """
+    def floatingSchedule(self) -> Schedule:
+        """
+        Returns the floating leg schedule.
+        """
+    def iborIndex(self) -> IborIndex:
+        """
+        Returns the IBOR index.
+        """
+    def nominal(self) -> float:
+        """
+        Returns the nominal (throws if not constant).
+        """
+    def nominals(self) -> list[float]:
+        """
+        Returns the nominals (throws if different for legs).
+        """
+    def paymentConvention(self) -> BusinessDayConvention:
+        """
+        Returns the payment business day convention.
+        """
+    def spread(self) -> float:
+        """
+        Returns the floating leg spread.
+        """
+    def type(self) -> SwapType:
+        """
+        Returns the swap type (Payer or Receiver).
+        """
+class FixedVsFloatingSwapArguments(SwapArguments):
+    """
+    Arguments for fixed vs floating swap pricing.
+    """
+    type: SwapType
+    def __init__(self) -> None:
+        ...
+    @property
+    def fixedCoupons(self) -> list[float]:
+        ...
+    @fixedCoupons.setter
+    def fixedCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def fixedNominals(self) -> list[float]:
+        ...
+    @fixedNominals.setter
+    def fixedNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def fixedPayDates(self) -> list[Date]:
+        ...
+    @fixedPayDates.setter
+    def fixedPayDates(self, arg0: collections.abc.Sequence[Date]) -> None:
+        ...
+    @property
+    def fixedResetDates(self) -> list[Date]:
+        ...
+    @fixedResetDates.setter
+    def fixedResetDates(self, arg0: collections.abc.Sequence[Date]) -> None:
+        ...
+    @property
+    def floatingAccrualTimes(self) -> list[float]:
+        ...
+    @floatingAccrualTimes.setter
+    def floatingAccrualTimes(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def floatingCoupons(self) -> list[float]:
+        ...
+    @floatingCoupons.setter
+    def floatingCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def floatingFixingDates(self) -> list[Date]:
+        ...
+    @floatingFixingDates.setter
+    def floatingFixingDates(self, arg0: collections.abc.Sequence[Date]) -> None:
+        ...
+    @property
+    def floatingNominals(self) -> list[float]:
+        ...
+    @floatingNominals.setter
+    def floatingNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def floatingPayDates(self) -> list[Date]:
+        ...
+    @floatingPayDates.setter
+    def floatingPayDates(self, arg0: collections.abc.Sequence[Date]) -> None:
+        ...
+    @property
+    def floatingResetDates(self) -> list[Date]:
+        ...
+    @floatingResetDates.setter
+    def floatingResetDates(self, arg0: collections.abc.Sequence[Date]) -> None:
+        ...
+    @property
+    def floatingSpreads(self) -> list[float]:
+        ...
+    @floatingSpreads.setter
+    def floatingSpreads(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def nominal(self) -> float:
+        ...
+    @nominal.setter
+    def nominal(self, arg0: typing.SupportsFloat) -> None:
+        ...
+class FixedVsFloatingSwapResults(SwapResults):
+    """
+    Results from fixed vs floating swap pricing.
+    """
+    def __init__(self) -> None:
+        ...
+    @property
+    def fairRate(self) -> float:
+        ...
+    @fairRate.setter
+    def fairRate(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def fairSpread(self) -> float:
+        ...
+    @fairSpread.setter
+    def fairSpread(self, arg0: typing.SupportsFloat) -> None:
         ...
 class FlatForward(base.YieldTermStructure):
     """
@@ -4129,6 +4430,29 @@ class HongKong(Calendar):
     HKEx: typing.ClassVar[HongKong.Market]  # value = <Market.HKEx: 0>
     def __init__(self, m: HongKong.Market = ...) -> None:
         ...
+class HullWhite(Vasicek, base.TermStructureConsistentModel):
+    """
+    Hull-White extended Vasicek model: dr = (theta(t) - a*r)dt + sigma*dW.
+    """
+    @staticmethod
+    def convexityBias(futurePrice: typing.SupportsFloat, t: typing.SupportsFloat, T: typing.SupportsFloat, sigma: typing.SupportsFloat, a: typing.SupportsFloat) -> float:
+        """
+        Computes futures convexity bias.
+        """
+    @typing.overload
+    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01) -> None:
+        """
+        Constructs Hull-White model with term structure, mean reversion, and volatility.
+        """
+    @typing.overload
+    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01) -> None:
+        """
+        Constructs Hull-White model from term structure.
+        """
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+        """
+        Returns discount bond option price.
+        """
 class Hungary(Calendar):
     """
     ! Holidays:
@@ -4228,6 +4552,41 @@ class ITLCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class IborIndex(base.InterestRateIndex):
+    """
+    Base class for IBOR indexes (e.g. Euribor, Libor).
+    """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter) -> None:
+        """
+        Constructs an IBOR index without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, h: ...) -> None:
+        """
+        Constructs an IBOR index with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, forwardingTermStructure: ...) -> None:
+        """
+        Constructs an IBOR index with forwarding term structure.
+        """
+    def businessDayConvention(self) -> BusinessDayConvention:
+        """
+        Returns the business day convention.
+        """
+    def clone(self, forwardingTermStructure: ...) -> IborIndex:
+        """
+        Returns a copy linked to a different forwarding curve.
+        """
+    def endOfMonth(self) -> bool:
+        """
+        Returns True if end-of-month adjustment applies.
+        """
+    def forwardingTermStructure(self) -> ...:
+        """
+        Returns the forwarding term structure handle.
+        """
 class Iceland(Calendar):
     """
     ! Holidays for the Iceland stock exchange
@@ -6138,6 +6497,20 @@ class OptionType:
     @property
     def value(self) -> int:
         ...
+class OvernightIndex(IborIndex):
+    """
+    Base class for overnight indexes.
+    """
+    @typing.overload
+    def __init__(self, familyName: str, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter) -> None:
+        """
+        Constructs an overnight index without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter, h: ...) -> None:
+        """
+        Constructs an overnight index with forwarding term structure handle.
+        """
 class PEHCurrency(Currency):
     """
     ! The ISO three-letter code was PEH. A numeric code is not available;
@@ -6784,6 +7157,24 @@ class RelinkableQuoteHandle(QuoteHandle):
         """
         Links the handle to a new object instance. Notifies observers.
         """
+class RelinkableShortRateModelHandle(ShortRateModelHandle):
+    """
+    Relinkable handle to a short-rate model.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.ShortRateModel, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: base.ShortRateModel, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
 class RelinkableYieldTermStructureHandle(YieldTermStructureHandle):
     """
     Relinkable handle to YieldTermStructure.
@@ -7328,6 +7719,131 @@ class Settings:
     @includeTodaysCashFlows.setter
     def includeTodaysCashFlows(self, arg1: bool | None) -> None:
         ...
+class SettlementMethod:
+    """
+    Swaption settlement method.
+    
+    Members:
+    
+      PhysicalOTC
+    
+      PhysicalCleared
+    
+      CollateralizedCashPrice
+    
+      ParYieldCurve
+    """
+    CollateralizedCashPrice: typing.ClassVar[SettlementMethod]  # value = <SettlementMethod.CollateralizedCashPrice: 2>
+    ParYieldCurve: typing.ClassVar[SettlementMethod]  # value = <SettlementMethod.ParYieldCurve: 3>
+    PhysicalCleared: typing.ClassVar[SettlementMethod]  # value = <SettlementMethod.PhysicalCleared: 1>
+    PhysicalOTC: typing.ClassVar[SettlementMethod]  # value = <SettlementMethod.PhysicalOTC: 0>
+    __members__: typing.ClassVar[dict[str, SettlementMethod]]  # value = {'PhysicalOTC': <SettlementMethod.PhysicalOTC: 0>, 'PhysicalCleared': <SettlementMethod.PhysicalCleared: 1>, 'CollateralizedCashPrice': <SettlementMethod.CollateralizedCashPrice: 2>, 'ParYieldCurve': <SettlementMethod.ParYieldCurve: 3>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class SettlementType:
+    """
+    Swaption settlement type.
+    
+    Members:
+    
+      Physical
+    
+      Cash
+    """
+    Cash: typing.ClassVar[SettlementType]  # value = <SettlementType.Cash: 1>
+    Physical: typing.ClassVar[SettlementType]  # value = <SettlementType.Physical: 0>
+    __members__: typing.ClassVar[dict[str, SettlementType]]  # value = {'Physical': <SettlementType.Physical: 0>, 'Cash': <SettlementType.Cash: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class ShortRateModelHandle:
+    """
+    Handle to a short-rate model.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: ShortRateModelHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: base.ShortRateModel, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: ShortRateModelHandle) -> bool:
+        ...
+    def __ne__(self, arg0: ShortRateModelHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.ShortRateModel:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.ShortRateModel:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
 class SimpleCashFlow(base.CashFlow):
     """
     Simple cash flow paying a fixed amount on a given date.
@@ -7751,6 +8267,259 @@ class StulzEngine(BasketOptionEngine):
         """
         Constructs with two Black-Scholes processes and correlation.
         """
+class Swap(base.Instrument):
+    """
+    Interest rate swap base class.
+    """
+    class engine(base.SwapGenericEngine):
+        """
+        Pricing engine for swaps.
+        """
+        def __init__(self) -> None:
+            ...
+    @typing.overload
+    def __init__(self, firstLeg: collections.abc.Sequence[base.CashFlow], secondLeg: collections.abc.Sequence[base.CashFlow]) -> None:
+        """
+        Constructs swap from two legs. First leg is paid, second is received.
+        """
+    @typing.overload
+    def __init__(self, legs: collections.abc.Sequence[collections.abc.Sequence[base.CashFlow]], payer: collections.abc.Sequence[bool]) -> None:
+        """
+        Constructs multi-leg swap.
+        """
+    def endDiscounts(self, j: typing.SupportsInt) -> float:
+        """
+        Returns the end discount factor for leg j.
+        """
+    def isExpired(self) -> bool:
+        """
+        Returns True if the swap has expired.
+        """
+    def leg(self, j: typing.SupportsInt) -> list[base.CashFlow]:
+        """
+        Returns leg j.
+        """
+    def legBPS(self, j: typing.SupportsInt) -> float:
+        """
+        Returns the BPS of leg j.
+        """
+    def legNPV(self, j: typing.SupportsInt) -> float:
+        """
+        Returns the NPV of leg j.
+        """
+    def legs(self) -> list[list[base.CashFlow]]:
+        """
+        Returns all legs.
+        """
+    def maturityDate(self) -> Date:
+        """
+        Returns the maturity date.
+        """
+    def npvDateDiscount(self) -> float:
+        """
+        Returns the discount factor at the NPV date.
+        """
+    def numberOfLegs(self) -> int:
+        """
+        Returns the number of legs.
+        """
+    def payer(self, j: typing.SupportsInt) -> bool:
+        """
+        Returns True if leg j is paid.
+        """
+    def startDate(self) -> Date:
+        """
+        Returns the start date.
+        """
+    def startDiscounts(self, j: typing.SupportsInt) -> float:
+        """
+        Returns the start discount factor for leg j.
+        """
+class SwapArguments(base.PricingEngine.arguments):
+    """
+    Arguments for swap pricing.
+    """
+    def __init__(self) -> None:
+        ...
+    def validate(self) -> None:
+        ...
+    @property
+    def legs(self) -> list[list[base.CashFlow]]:
+        ...
+    @legs.setter
+    def legs(self, arg0: collections.abc.Sequence[collections.abc.Sequence[base.CashFlow]]) -> None:
+        ...
+    @property
+    def payer(self) -> list[float]:
+        ...
+    @payer.setter
+    def payer(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+class SwapResults(base.Instrument.results):
+    """
+    Results from swap pricing.
+    """
+    def __init__(self) -> None:
+        ...
+    def reset(self) -> None:
+        ...
+    @property
+    def endDiscounts(self) -> list[float]:
+        ...
+    @endDiscounts.setter
+    def endDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def legBPS(self) -> list[float]:
+        ...
+    @legBPS.setter
+    def legBPS(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def legNPV(self) -> list[float]:
+        ...
+    @legNPV.setter
+    def legNPV(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+    @property
+    def npvDateDiscount(self) -> float:
+        ...
+    @npvDateDiscount.setter
+    def npvDateDiscount(self, arg0: typing.SupportsFloat) -> None:
+        ...
+    @property
+    def startDiscounts(self) -> list[float]:
+        ...
+    @startDiscounts.setter
+    def startDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        ...
+class SwapType:
+    """
+    Swap type: Payer or Receiver.
+    
+    Members:
+    
+      Payer
+    
+      Receiver
+    """
+    Payer: typing.ClassVar[SwapType]  # value = <SwapType.Payer: 1>
+    Receiver: typing.ClassVar[SwapType]  # value = <SwapType.Receiver: -1>
+    __members__: typing.ClassVar[dict[str, SwapType]]  # value = {'Payer': <SwapType.Payer: 1>, 'Receiver': <SwapType.Receiver: -1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class Swaption(base.Option):
+    """
+    Option to enter into an interest rate swap.
+    """
+    class engine(base.SwaptionGenericEngine):
+        """
+        Base class for swaption pricing engines.
+        """
+        def __init__(self) -> None:
+            ...
+    def __init__(self, swap: FixedVsFloatingSwap, exercise: Exercise, delivery: SettlementType = ..., settlementMethod: SettlementMethod = ...) -> None:
+        """
+        Constructs a swaption.
+        """
+    def impliedVolatility(self, price: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, guess: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0, priceType: SwaptionPriceType = ...) -> float:
+        """
+        Returns the implied volatility.
+        """
+    def isExpired(self) -> bool:
+        """
+        Returns True if the swaption has expired.
+        """
+    def settlementMethod(self) -> SettlementMethod:
+        """
+        Returns the settlement method.
+        """
+    def settlementType(self) -> SettlementType:
+        """
+        Returns the settlement type.
+        """
+    def type(self) -> SwapType:
+        """
+        Returns the underlying swap type.
+        """
+    def underlying(self) -> FixedVsFloatingSwap:
+        """
+        Returns the underlying swap.
+        """
+class SwaptionArguments(FixedVsFloatingSwapArguments, base.Option.arguments):
+    """
+    Arguments for swaption pricing.
+    """
+    settlementMethod: SettlementMethod
+    settlementType: SettlementType
+    swap: FixedVsFloatingSwap
+    def __init__(self) -> None:
+        ...
+    def validate(self) -> None:
+        ...
+class SwaptionPriceType:
+    """
+    Swaption price type for implied volatility.
+    
+    Members:
+    
+      Spot
+    
+      Forward
+    """
+    Forward: typing.ClassVar[SwaptionPriceType]  # value = <SwaptionPriceType.Forward: 1>
+    Spot: typing.ClassVar[SwaptionPriceType]  # value = <SwaptionPriceType.Spot: 0>
+    __members__: typing.ClassVar[dict[str, SwaptionPriceType]]  # value = {'Spot': <SwaptionPriceType.Spot: 0>, 'Forward': <SwaptionPriceType.Forward: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class Sweden(Calendar):
     """
     ! Holidays:
@@ -8744,7 +9513,15 @@ class VanillaOption(base.OneAssetOption):
     """
     def __init__(self, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
-class Vasicek(base.CalibratedModel):
+class VanillaSwap(FixedVsFloatingSwap):
+    """
+    Plain vanilla swap: fixed vs IBOR floating leg.
+    """
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat, fixedDayCount: DayCounter, floatSchedule: Schedule, iborIndex: IborIndex, spread: typing.SupportsFloat, floatingDayCount: DayCounter, paymentConvention: pyquantlib._pyquantlib.BusinessDayConvention | None = None, useIndexedCoupons: bool | None = None) -> None:
+        """
+        Constructs a vanilla swap.
+        """
+class Vasicek(base.OneFactorAffineModel):
     """
     Vasicek short-rate model: dr = a(b - r)dt + sigma*dW.
     """
@@ -8760,6 +9537,10 @@ class Vasicek(base.CalibratedModel):
         """
         Returns long-term mean rate.
         """
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+        """
+        Returns discount bond option price.
+        """
     def r0(self) -> float:
         """
         Returns initial short rate.
@@ -8773,6 +9554,45 @@ class Vasicek(base.CalibratedModel):
         """
         Returns risk premium.
         """
+class VolatilityType:
+    """
+    Volatility type for implied volatility calculation.
+    
+    Members:
+    
+      ShiftedLognormal
+    
+      Normal
+    """
+    Normal: typing.ClassVar[VolatilityType]  # value = <VolatilityType.Normal: 1>
+    ShiftedLognormal: typing.ClassVar[VolatilityType]  # value = <VolatilityType.ShiftedLognormal: 0>
+    __members__: typing.ClassVar[dict[str, VolatilityType]]  # value = {'ShiftedLognormal': <VolatilityType.ShiftedLognormal: 0>, 'Normal': <VolatilityType.Normal: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class Weekday:
     """
     Days of the week enumeration.

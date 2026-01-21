@@ -5,7 +5,19 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'TermStructure', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'VolatilityTermStructure', 'YieldTermStructure']
+class AffineModel(pyquantlib._pyquantlib.Observable):
+    """
+    Abstract base class for affine models.
+    """
+    def discount(self, t: typing.SupportsFloat) -> float:
+        """
+        Returns implied discount factor at time t.
+        """
+    def discountBondOption(self, type: pyquantlib._pyquantlib.OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+        """
+        Returns discount bond option price.
+        """
 class BasketPayoff(Payoff):
     """
     Abstract base class for basket payoffs.
@@ -599,6 +611,18 @@ class OneAssetOptionGenericEngine(PricingEngine, Observer):
     """
     def __init__(self) -> None:
         ...
+class OneFactorAffineModel(OneFactorModel, AffineModel):
+    """
+    Abstract base class for single-factor affine short-rate models.
+    """
+    def discountBond(self, now: typing.SupportsFloat, maturity: typing.SupportsFloat, rate: typing.SupportsFloat) -> float:
+        """
+        Returns the discount bond price P(now, maturity, rate).
+        """
+class OneFactorModel(ShortRateModel):
+    """
+    Abstract base class for single-factor short-rate models.
+    """
 class OptimizationMethod:
     """
     Abstract base class for optimization methods.
@@ -719,6 +743,14 @@ class Quote(pyquantlib._pyquantlib.Observable):
         """
         Returns the current value of the quote.
         """
+class ShortRateModel(CalibratedModel):
+    """
+    Abstract base class for short-rate models.
+    """
+    def tree(self, grid: pyquantlib._pyquantlib.TimeGrid) -> ...:
+        """
+        Returns a lattice for the given time grid.
+        """
 class SpreadBlackScholesVanillaEngine(pyquantlib._pyquantlib.BasketOptionEngine):
     """
     Abstract base class for spread option pricing engines.
@@ -809,6 +841,18 @@ class StrikedTypePayoff(Payoff):
         """
         Returns the strike price.
         """
+class SwapGenericEngine(PricingEngine, Observer):
+    """
+    Generic base engine for swaps.
+    """
+    def __init__(self) -> None:
+        ...
+class SwaptionGenericEngine(PricingEngine, Observer):
+    """
+    Generic base engine for swaptions.
+    """
+    def __init__(self) -> None:
+        ...
 class TermStructure(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for term structures.
@@ -855,6 +899,14 @@ class TermStructure(Observer, pyquantlib._pyquantlib.Observable):
     def timeFromReference(self, date: pyquantlib._pyquantlib.Date) -> float:
         """
         Returns the time from the reference date to the given date.
+        """
+class TermStructureConsistentModel(pyquantlib._pyquantlib.Observable):
+    """
+    Abstract base class for models consistent with a term structure.
+    """
+    def termStructure(self) -> pyquantlib._pyquantlib.YieldTermStructureHandle:
+        """
+        Returns the term structure handle.
         """
 class VolatilityTermStructure(TermStructure):
     """
