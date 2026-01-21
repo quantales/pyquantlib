@@ -13,6 +13,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/trampolines.h"
+#include "pyquantlib/binding_manager.h"
 #include <ql/models/model.hpp>
 #include <ql/math/optimization/constraint.hpp>
 #include <pybind11/pybind11.h>
@@ -52,4 +53,20 @@ void ql_models::model(py::module_& m) {
             "Returns problem values from last calibration.")
         .def("functionEvaluation", &CalibratedModel::functionEvaluation,
             "Returns number of function evaluations.");
+
+    // ShortRateModel ABC
+    py::class_<ShortRateModel, CalibratedModel, ext::shared_ptr<ShortRateModel>>(
+        base, "ShortRateModel",
+        "Abstract base class for short-rate models.")
+        .def("tree", &ShortRateModel::tree,
+            py::arg("grid"),
+            "Returns a lattice for the given time grid.");
+
+    // Handle<ShortRateModel>
+    bindHandle<ShortRateModel>(m, "ShortRateModelHandle",
+        "Handle to a short-rate model.");
+
+    // RelinkableHandle<ShortRateModel>
+    bindRelinkableHandle<ShortRateModel>(m, "RelinkableShortRateModelHandle",
+        "Relinkable handle to a short-rate model.");            
 }
