@@ -1,6 +1,6 @@
 # SVI Volatility Smile
 
-SVI volatility smile parametrization and visualization.
+SVI volatility smile parametrization, visualization, and **pure Python implementation**.
 
 ```{note}
 View the full notebook: [05_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/05_svi_smile.ipynb)
@@ -45,15 +45,18 @@ where $k = \log(K/F)$ is log-moneyness.
 
 The notebook includes interactive plots showing how each parameter affects the smile shape.
 
-## Validation
+## Pure Python Implementation
+
+The notebook demonstrates **extending QuantLib in pure Python** using `SviSmileSection` from `pyquantlib.extensions`:
 
 ```python
-# Check no-arbitrage constraints
-ql.checkSviParameters(0.04, 0.1, 0.3, -0.4, 0.0, 1.0)
+from pyquantlib.extensions import SviSmileSection
 
-# Compute total variance directly
-k = 0.1  # log-moneyness
-w = ql.sviTotalVariance(0.04, 0.1, 0.3, -0.4, 0.0, k)
+# Pure Python - same API as C++
+py_smile = SviSmileSection(1.0, 100.0, params)
+print(py_smile.volatility(100.0))
 ```
 
-Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/05_svi_smile.ipynb) for visualization and detailed examples.
+This showcases PyQuantLib's flexibility for rapid prototyping without C++ compilation, with the C++ implementation serving as a benchmark for validation.
+
+Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/05_svi_smile.ipynb) for visualization, benchmarking, and detailed examples.
