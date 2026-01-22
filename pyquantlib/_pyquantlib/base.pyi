@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -750,6 +750,78 @@ class ShortRateModel(CalibratedModel):
     def tree(self, grid: pyquantlib._pyquantlib.TimeGrid) -> ...:
         """
         Returns a lattice for the given time grid.
+        """
+class SmileSection(pyquantlib._pyquantlib.Observable, Observer):
+    """
+    Abstract base class for volatility smile sections.
+    """
+    def __init__(self) -> None:
+        ...
+    def atmLevel(self) -> float:
+        """
+        Returns ATM level (forward).
+        """
+    def dayCounter(self) -> pyquantlib._pyquantlib.DayCounter:
+        """
+        Returns the day counter.
+        """
+    def density(self, strike: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, gap: typing.SupportsFloat = 0.0001) -> float:
+        """
+        Returns the probability density at the given strike.
+        """
+    def digitalOptionPrice(self, strike: typing.SupportsFloat, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat = 1.0, gap: typing.SupportsFloat = 1e-05) -> float:
+        """
+        Returns the digital option price at the given strike.
+        """
+    def exerciseDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the exercise date.
+        """
+    def exerciseTime(self) -> float:
+        """
+        Returns the time to exercise.
+        """
+    def maxStrike(self) -> float:
+        """
+        Returns maximum strike.
+        """
+    def minStrike(self) -> float:
+        """
+        Returns minimum strike.
+        """
+    def optionPrice(self, strike: typing.SupportsFloat, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat = 1.0) -> float:
+        """
+        Returns the option price at the given strike.
+        """
+    def referenceDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the reference date.
+        """
+    def shift(self) -> float:
+        """
+        Returns the shift for shifted lognormal volatility.
+        """
+    def variance(self, strike: typing.SupportsFloat) -> float:
+        """
+        Returns variance at the given strike.
+        """
+    def vega(self, strike: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> float:
+        """
+        Returns the vega at the given strike.
+        """
+    @typing.overload
+    def volatility(self, strike: typing.SupportsFloat) -> float:
+        """
+        Returns volatility at the given strike.
+        """
+    @typing.overload
+    def volatility(self, strike: typing.SupportsFloat, volatilityType: ..., shift: typing.SupportsFloat = 0.0) -> float:
+        """
+        Returns volatility at the given strike with specified type.
+        """
+    def volatilityType(self) -> ...:
+        """
+        Returns the volatility type.
         """
 class SpreadBlackScholesVanillaEngine(pyquantlib._pyquantlib.BasketOptionEngine):
     """
