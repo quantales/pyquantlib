@@ -129,6 +129,36 @@ curve = ql.FlatForward(today, 0.05)  # May fail
 curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())  # Works
 ```
 
+### "Tried to call pure virtual function" when pricing
+
+**Symptom:** Runtime error when calling `NPV()` or other pricing methods:
+```
+RuntimeError: Tried to call pure virtual function "QuantLib::SomeEngine::calculate"
+```
+
+**Cause:** The pricing engine object was destroyed before `NPV()` was called. This happens when creating engines as temporaries (they get garbage collected immediately).
+
+**Wrong approach:**
+```python
+# BAD - engine is destroyed before NPV() call
+option.setPricingEngine(KirkEngine(process1, process2, correlation))
+price = option.NPV()  # FAILS - engine is gone!
+```
+
+**Solution:** Keep the engine object alive:
+```python
+# GOOD - engine stays in scope
+engine = KirkEngine(process1, process2, correlation)
+option.setPricingEngine(engine)
+price = option.NPV()  # Works!
+```
+
+This applies to **all pricing engines**, not just Python extensions. When `setPricingEngine()` is called, QuantLib stores a pointer to the engine, so the engine object must remain alive during pricing.
+
+```{note}
+This is a C++ object lifetime issue. Python's garbage collector doesn't know that QuantLib still needs the engine, so it destroys temporary objects immediately.
+```
+
 ### Greeks return Null
 
 **Symptom:** Greeks like `delta()` return `ql.QL_NULL_REAL` instead of a number.
