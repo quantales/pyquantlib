@@ -244,3 +244,48 @@ def test_gkp_hidden_handles(raw_market_data):
 
     assert process is not None
     assert isinstance(process, ql.GarmanKohlhagenProcess)
+
+
+# --- External LocalVolTermStructure constructor ---
+
+
+def test_gbsp_with_local_vol(raw_market_data):
+    """Test GeneralizedBlackScholesProcess with external local vol."""
+    local_vol = ql.LocalConstantVol(
+        raw_market_data["today"],
+        0.20,
+        raw_market_data["dc"],
+    )
+    local_vol_handle = ql.LocalVolTermStructureHandle(local_vol)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(raw_market_data["spot"]),
+        ql.YieldTermStructureHandle(raw_market_data["dividend_ts"]),
+        ql.YieldTermStructureHandle(raw_market_data["risk_free_ts"]),
+        ql.BlackVolTermStructureHandle(raw_market_data["vol_ts"]),
+        local_vol_handle,
+    )
+
+    assert process is not None
+    assert isinstance(process, ql.GeneralizedBlackScholesProcess)
+    assert process.localVolatility() is not None
+
+
+def test_gbsp_with_local_vol_hidden_handle(raw_market_data):
+    """Test GeneralizedBlackScholesProcess with local vol using hidden handles."""
+    local_vol = ql.LocalConstantVol(
+        raw_market_data["today"],
+        0.20,
+        raw_market_data["dc"],
+    )
+
+    process = ql.GeneralizedBlackScholesProcess(
+        raw_market_data["spot"],
+        raw_market_data["dividend_ts"],
+        raw_market_data["risk_free_ts"],
+        raw_market_data["vol_ts"],
+        local_vol,
+    )
+
+    assert process is not None
+    assert isinstance(process, ql.GeneralizedBlackScholesProcess)

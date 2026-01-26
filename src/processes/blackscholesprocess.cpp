@@ -13,6 +13,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/processes/blackscholesprocess.hpp>
+#include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -64,6 +65,29 @@ void ql_processes::blackscholesprocess(py::module_& m) {
         }), py::arg("x0"), py::arg("dividendTS"), py::arg("riskFreeTS"),
             py::arg("blackVolTS"), py::arg("discretization"),
             "Constructs from term structures with discretization (handles created internally).")
+        // Handle-based constructor with external local vol
+        .def(py::init<const Handle<Quote>&,
+                      const Handle<YieldTermStructure>&,
+                      const Handle<YieldTermStructure>&,
+                      const Handle<BlackVolTermStructure>&,
+                      const Handle<LocalVolTermStructure>&>(),
+             py::arg("x0"), py::arg("dividendTS"), py::arg("riskFreeTS"),
+             py::arg("blackVolTS"), py::arg("localVolTS"))
+        // Hidden handle constructor with external local vol
+        .def(py::init([](const ext::shared_ptr<Quote>& x0,
+                         const ext::shared_ptr<YieldTermStructure>& dividendTS,
+                         const ext::shared_ptr<YieldTermStructure>& riskFreeTS,
+                         const ext::shared_ptr<BlackVolTermStructure>& blackVolTS,
+                         const ext::shared_ptr<LocalVolTermStructure>& localVolTS) {
+            return ext::make_shared<GeneralizedBlackScholesProcess>(
+                Handle<Quote>(x0),
+                Handle<YieldTermStructure>(dividendTS),
+                Handle<YieldTermStructure>(riskFreeTS),
+                Handle<BlackVolTermStructure>(blackVolTS),
+                Handle<LocalVolTermStructure>(localVolTS));
+        }), py::arg("x0"), py::arg("dividendTS"), py::arg("riskFreeTS"),
+            py::arg("blackVolTS"), py::arg("localVolTS"),
+            "Constructs with external local vol (handles created internally).")
         .def("stateVariable", &GeneralizedBlackScholesProcess::stateVariable,
             "Returns the state variable handle.")
         .def("dividendYield", &GeneralizedBlackScholesProcess::dividendYield,
