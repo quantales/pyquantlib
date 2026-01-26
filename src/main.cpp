@@ -38,8 +38,8 @@ PYBIND11_MODULE(_pyquantlib, m) {
     patterns_bindings(manager);          // Observer/Observable pattern
     utilities_bindings(manager);         // Utility classes
     time_bindings(manager);              // Date, Calendar, Period, etc.
-    core_bindings(manager);              // Constants, Settings, etc.
     math_bindings(manager);              // Array, Matrix, math functions
+    core_bindings(manager);              // Constants, Settings, etc.
     quotes_bindings(manager);            // Quote implementations
     currencies_bindings(manager);        // Currency definitions
     cashflows_bindings(manager);         // Cash flow implementations

@@ -14,6 +14,7 @@
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/trampolines.h"
 #include <ql/termstructure.hpp>
+#include <ql/math/interpolations/extrapolation.hpp>
 #include <ql/time/daycounters/actual365fixed.hpp>
 #include <pybind11/pybind11.h>
 
@@ -22,7 +23,7 @@ using namespace QuantLib;
 
 void ql_core::termstructure(py::module_& m) {
     py::class_<TermStructure, PyTermStructure, ext::shared_ptr<TermStructure>,
-               Observer, Observable>(m, "TermStructure",
+               Observer, Observable, Extrapolator>(m, "TermStructure",
         "Abstract base class for term structures.")
         .def(py::init<DayCounter>(),
             py::arg("dayCounter") = Actual365Fixed(),

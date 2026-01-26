@@ -32,8 +32,8 @@ DECLARE_MODULE_BINDINGS(submodules_bindings);
 DECLARE_MODULE_BINDINGS(patterns_bindings);
 DECLARE_MODULE_BINDINGS(utilities_bindings);
 DECLARE_MODULE_BINDINGS(time_bindings);
-DECLARE_MODULE_BINDINGS(core_bindings);
 DECLARE_MODULE_BINDINGS(math_bindings);
+DECLARE_MODULE_BINDINGS(core_bindings);
 DECLARE_MODULE_BINDINGS(quotes_bindings);
 DECLARE_MODULE_BINDINGS(currencies_bindings);
 DECLARE_MODULE_BINDINGS(cashflows_bindings);
@@ -78,6 +78,20 @@ namespace ql_time {
     void schedule(py::module_&);
 }
 
+namespace ql_math {
+    void array(py::module_&);
+    void matrix(py::module_&);
+    void rounding(py::module_&);
+    void constraint(py::module_&);
+    void constraints(py::module_&);
+    void costfunction(py::module_&);
+    void optimizationmethod(py::module_&);
+    void endcriteria(py::module_&);
+    void problem(py::module_&);
+    void levenbergmarquardt(py::module_&);
+    void extrapolation(py::module_&);
+}
+
 namespace ql_core {
     void constants(py::module_&);
     void quote(py::module_&);
@@ -99,19 +113,6 @@ namespace ql_core {
     void timegrid(py::module_&);
     void payoff(py::module_&);
     void stochasticprocess(py::module_&);
-}
-
-namespace ql_math {
-    void array(py::module_&);
-    void matrix(py::module_&);
-    void rounding(py::module_&);
-    void constraint(py::module_&);
-    void constraints(py::module_&);
-    void costfunction(py::module_&);
-    void optimizationmethod(py::module_&);
-    void endcriteria(py::module_&);
-    void problem(py::module_&);
-    void levenbergmarquardt(py::module_&);
 }
 
 namespace ql_quotes {

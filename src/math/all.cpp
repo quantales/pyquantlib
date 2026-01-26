@@ -29,4 +29,5 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     manager.addFunction(ql_math::endcriteria, m, "End criteria for optimization");
     manager.addFunction(ql_math::problem, m, "Optimization problem");
     manager.addFunction(ql_math::levenbergmarquardt, m, "Levenberg-Marquardt optimizer");
+    manager.addFunction(ql_math::extrapolation, b, "Extrapolator base class");
 }
