@@ -12,14 +12,22 @@ def main():
 
     # Uninstall package
     print("Uninstalling pyquantlib...")
-    subprocess.run(
+    result = subprocess.run(
         [sys.executable, "-m", "pip", "uninstall", "pyquantlib", "-y"],
         capture_output=True,
+        text=True,
     )
+    if result.returncode == 0:
+        print("  Successfully uninstalled pyquantlib")
+    else:
+        print(f"  Failed to uninstall (exit code {result.returncode})")
+        if result.stderr:
+            print(f"  Error: {result.stderr.strip()}")
 
     # Directories to remove
     dirs_to_clean = [
         root / "build",
+        root / "_skbuild",
         root / "dist",
         root / ".eggs",
         root / "pyquantlib.egg-info",
