@@ -158,10 +158,11 @@ else()
     # Find library - handle different naming conventions
     if(WIN32)
         # Windows: QuantLib-x64-mt.lib (Release) or QuantLib-x64-mt-gd.lib (Debug)
+        # Also check for -s suffix (static library variant)
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-            set(_ql_lib_names QuantLib-x64-mt-gd QuantLib-x64-mt QuantLib)
+            set(_ql_lib_names QuantLib-x64-mt-gd QuantLib-x64-mt-s-gd QuantLib-x64-mt QuantLib)
         else()
-            set(_ql_lib_names QuantLib-x64-mt QuantLib)
+            set(_ql_lib_names QuantLib-x64-mt-s QuantLib-x64-mt QuantLib)
         endif()
     else()
         # Unix: libQuantLib.a or libQuantLib.so

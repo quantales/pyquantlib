@@ -44,6 +44,7 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 cmake -DBUILD_SHARED_LIBS=OFF \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DQL_USE_STD_SHARED_PTR=ON \
+      -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL \  # Windows only
       -DCMAKE_BUILD_TYPE=Release \
       ...
 ```
@@ -53,6 +54,7 @@ cmake -DBUILD_SHARED_LIBS=OFF \
 | `BUILD_SHARED_LIBS=OFF` | Static build prevents Settings singleton issues on Linux/macOS |
 | `CMAKE_POSITION_INDEPENDENT_CODE=ON` | Required for static libs in Python modules |
 | `QL_USE_STD_SHARED_PTR=ON` | pybind11 uses `std::shared_ptr` as default holder |
+| `CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL` | **Windows only**: Python extensions require dynamic runtime (`/MD`) |
 
 **Note**: Pre-built packages (Homebrew, vcpkg, apt) use shared builds and `boost::shared_ptr` — they are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 

@@ -30,10 +30,13 @@ PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type
 | `BUILD_SHARED_LIBS` | `OFF` | **Required on Linux/macOS** - static build prevents singleton issues |
 | `CMAKE_POSITION_INDEPENDENT_CODE` | `ON` | **Required** - needed for static libs in Python modules |
 | `QL_USE_STD_SHARED_PTR` | `ON` | **Required** - must be explicitly set |
+| `CMAKE_MSVC_RUNTIME_LIBRARY` | `MultiThreadedDLL` | **Required on Windows** - Python extensions use dynamic runtime (`/MD`) |
 | `QL_USE_STD_OPTIONAL` | `ON` | Default as of QuantLib 1.40 |
 | `QL_USE_STD_ANY` | `ON` | Default as of QuantLib 1.40 |
 
 **Why static builds?** QuantLib's `Settings` singleton uses a static local variable. When QuantLib is a shared library, Python loads modules with `RTLD_LOCAL`, which can cause the singleton to exist in multiple instances. Static linking embeds QuantLib into the Python module, ensuring a single singleton instance.
+
+**Windows runtime library**: On Windows, `CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL` ensures QuantLib uses the dynamic C/C++ runtime (`/MD`). Python extensions require the dynamic runtime, so QuantLib must match to avoid linker errors. This setting is independent from `BUILD_SHARED_LIBS` — a static library (`.lib`) can use dynamic runtime linkage.
 
 **Pre-built packages won't work**: Homebrew, vcpkg, and apt packages use shared builds and default settings (`boost::shared_ptr`) — they are incompatible with PyQuantLib.
 
@@ -72,6 +75,7 @@ cmake .. -G "Visual Studio 16 2019" -A x64 ^
     -DBUILD_SHARED_LIBS=OFF ^
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON ^
     -DQL_USE_STD_SHARED_PTR=ON ^
+    -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_INSTALL_PREFIX=C:/QuantLib ^
     -DBoost_ROOT=C:/vcpkg/installed/x64-windows
@@ -465,6 +469,17 @@ If `Settings.evaluationDate` changes don't persist across module boundaries, Qua
 ### "undefined symbol" or segmentation fault at import
 
 This usually means QuantLib was built with `boost::shared_ptr` (the default) instead of `std::shared_ptr`. Rebuild QuantLib with `QL_USE_STD_SHARED_PTR=ON`.
+
+### Link error: "mismatch detected for 'RuntimeLibrary'" (Windows)
+
+If the build fails with errors like:
+```
+error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease'
+```
+
+This means QuantLib was built with the static runtime (`/MT`) but Python extensions require the dynamic runtime (`/MD`).
+
+**Solution**: Rebuild QuantLib with `-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL`.
 
 ### CMake can't find QuantLib
 
