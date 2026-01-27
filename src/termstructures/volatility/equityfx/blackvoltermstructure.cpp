@@ -92,19 +92,22 @@ void ql_termstructures::blackvoltermstructure(py::module_& m) {
             "Returns the Black forward variance between two times.");
 
     // BlackVolatilityTermStructure - adapter for volatility-based implementations
+    // Subclasses must implement: blackVolImpl(t, strike), maxDate(), minStrike(), maxStrike()
     py::class_<BlackVolatilityTermStructure, PyBlackVolatilityTermStructure,
                ext::shared_ptr<BlackVolatilityTermStructure>, BlackVolTermStructure>(
         m, "BlackVolatilityTermStructure",
         "Abstract adapter for Black volatility term structures (volatility-based).")
-        .def(py::init<const Date&, const Calendar&, BusinessDayConvention,
-                      const DayCounter&>(),
+        .def(py::init_alias<>(),
+            "Default constructor for Python subclassing.")
+        .def(py::init_alias<const Date&, const Calendar&, BusinessDayConvention,
+                            const DayCounter&>(),
             py::arg("referenceDate"),
             py::arg("calendar") = Calendar(),
             py::arg("businessDayConvention") = Following,
             py::arg("dayCounter") = Actual365Fixed(),
             "Constructs with reference date.")
-        .def(py::init<Natural, const Calendar&, BusinessDayConvention,
-                      const DayCounter&>(),
+        .def(py::init_alias<Natural, const Calendar&, BusinessDayConvention,
+                            const DayCounter&>(),
             py::arg("settlementDays"),
             py::arg("calendar"),
             py::arg("businessDayConvention") = Following,

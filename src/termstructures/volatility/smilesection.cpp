@@ -25,7 +25,20 @@ void ql_termstructures::smilesection(py::module_& m) {
                Observable, Observer>(
         m, "SmileSection",
         "Abstract base class for volatility smile sections.")
-        .def(py::init_alias<>())
+        .def(py::init_alias<>(),
+            "Default constructor for Python subclassing.")
+        .def(py::init_alias<Time, const DayCounter&, VolatilityType, Rate>(),
+            py::arg("exerciseTime"),
+            py::arg("dc"),
+            py::arg("type"),
+            py::arg("shift"),
+            "Constructs with exercise time (all args required).")
+        .def(py::init([](Time exerciseTime, const DayCounter& dc) {
+            return new PySmileSection(exerciseTime, dc, ShiftedLognormal, 0.0);
+        }),
+            py::arg("exerciseTime"),
+            py::arg("dc") = Actual365Fixed(),
+            "Constructs with exercise time.")
         // SmileSection interface
         .def("minStrike", &SmileSection::minStrike,
             "Returns minimum strike.")
