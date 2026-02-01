@@ -11,9 +11,9 @@ except ImportError as e:
 # base = _ql.base
 # sys.modules['pyquantlib.base'] = _ql.base
 
-__ql_version__ = _ql.__ql_version__                     # QuantLib C++ version
-__ql_hexversion__ = _ql.__ql_hexversion__
-__boost_version__ = _ql.__boost_version__               # Boost version used at QuantLib compile-time
+QL_VERSION = _ql.QL_VERSION                 # QuantLib C++ version
+QL_VERSION_HEX = _ql.QL_VERSION_HEX         # QuantLib hex version for comparison
+BOOST_VERSION = _ql.BOOST_VERSION           # Boost version (compile-time integer)
 
 # Export Settings as the singleton instance to allow direct property access:
 #   ql.Settings.evaluationDate = date  # Works correctly
@@ -24,7 +24,7 @@ del _ql
 
 # Helpers for readable Boost version
 def boost_version_tuple() -> tuple[int, int, int]:
-    v = __boost_version__
+    v = BOOST_VERSION
     return v // 100000, (v // 100) % 1000, v % 100
 
 

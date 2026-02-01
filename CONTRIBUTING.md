@@ -209,7 +209,7 @@ pip install -e . -v
 pytest
 
 # Or run a quick smoke test
-python -c "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.__ql_version__}')"
+python -c "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.QL_VERSION}')"
 ```
 
 ---

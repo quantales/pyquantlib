@@ -34,7 +34,7 @@ def main():
         # Show version
         subprocess.run([
             sys.executable, "-c",
-            "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.__ql_version__}')"
+            "import pyquantlib as ql; print(f'PyQuantLib {ql.__version__} with QuantLib {ql.QL_VERSION}')"
         ])
     else:
         print()

@@ -24,9 +24,9 @@ PYBIND11_MODULE(_pyquantlib, m) {
     // Module metadata
     m.doc() = "PyQuantLib: Python bindings for QuantLib";
     m.attr("__version__") = PYQUANTLIB_VERSION;
-    m.attr("__ql_version__") = QL_VERSION;
-    m.attr("__ql_hexversion__") = QL_HEX_VERSION;
-    m.attr("__boost_version__") = QuantLib::compiledBoostVersion();
+    m.attr("QL_VERSION") = QL_VERSION;
+    m.attr("QL_VERSION_HEX") = QL_HEX_VERSION;
+    m.attr("BOOST_VERSION") = QuantLib::compiledBoostVersion();
 
     // Pybind11 exception translation for QuantLib exceptions
     py::register_exception<QuantLib::Error>(m, "Error");

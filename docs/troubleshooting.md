@@ -244,6 +244,6 @@ If the issue isn't covered here:
    - Python version (`python --version`)
    - OS and version
    - PyQuantLib version (`python -c "import pyquantlib as ql; print(ql.__version__)"`)
-   - QuantLib version (`python -c "import pyquantlib as ql; print(ql.__ql_version__)"`)
+   - QuantLib version (`python -c "import pyquantlib as ql; print(ql.QL_VERSION)"`)
    - Full error traceback
    - Minimal code to reproduce
