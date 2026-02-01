@@ -97,3 +97,27 @@ def test_treeswaptionengine_pricing(swaption_env):
 
     npv = env["swaption"].NPV()
     assert npv == pytest.approx(15996.569867907741, rel=1e-5)
+
+
+# --- JamshidianSwaptionEngine ---
+
+
+def test_jamshidianswaptionengine_construction(swaption_env):
+    """Test JamshidianSwaptionEngine construction."""
+    env = swaption_env
+
+    model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    engine = ql.JamshidianSwaptionEngine(model)
+    assert engine is not None
+
+
+def test_jamshidianswaptionengine_pricing(swaption_env):
+    """Test JamshidianSwaptionEngine swaption pricing."""
+    env = swaption_env
+
+    model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    engine = ql.JamshidianSwaptionEngine(model)
+    env["swaption"].setPricingEngine(engine)
+
+    npv = env["swaption"].NPV()
+    assert npv == pytest.approx(15860.419233975226, rel=1e-5)
