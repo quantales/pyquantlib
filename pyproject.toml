@@ -61,7 +61,7 @@ Homepage = "https://github.com/quantales/pyquantlib"
 Documentation = "https://pyquantlib.readthedocs.io"
 Repository = "https://github.com/quantales/pyquantlib"
 Issues = "https://github.com/quantales/pyquantlib/issues"
-Changelog = "https://github.com/quantales/pyquantlib/blob/main/CHANGELOG.md"
+Changelog = "https://pyquantlib.readthedocs.io/en/latest/changelog.html"
 
 [project.optional-dependencies]
 dev = [
