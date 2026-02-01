@@ -119,7 +119,7 @@ Theta: -6.4140
 
 ## Responding to Market Changes
 
-Because we used `Quote` objects, the option automatically reprices when market data changes:
+Because `Quote` objects were used, the option automatically reprices when market data changes:
 
 ```python
 # Spot moves from 100 to 105

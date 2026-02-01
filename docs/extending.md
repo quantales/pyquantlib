@@ -13,11 +13,11 @@ Base classes are organized by category:
 | Patterns | `Observer`, `Observable`, `LazyObject` |
 | Market Data | `Quote` |
 | Cash Flows | `CashFlow`, `Coupon` |
-| Term Structures | `YieldTermStructure`, `BlackVolTermStructure` |
+| Term Structures | `YieldTermStructure`, `BlackVolTermStructure`, `SmileSection` |
 | Processes | `StochasticProcess`, `StochasticProcess1D` |
 | Models | `CalibratedModel` |
 | Instruments | `Instrument` |
-| Pricing Engines | `PricingEngine`, `GenericEngine` |
+| Pricing Engines | `PricingEngine`, `GenericEngine`, `SpreadBlackScholesVanillaEngine` |
 
 To discover all available base classes:
 
@@ -37,22 +37,22 @@ from pyquantlib.base import Quote
 
 class OscillatingQuote(Quote):
     """Quote that oscillates around a base value."""
-    
+
     def __init__(self, base_value, amplitude=0.1):
         super().__init__()
         self._base = base_value
         self._amplitude = amplitude
         self._start = time.time()
-    
+
     def value(self):
         elapsed = time.time() - self._start
         return self._base * (1 + self._amplitude * math.sin(elapsed))
-    
+
     def isValid(self):
         return True
 ```
 
-Use it anywhere a `Quote` is expected:
+The custom quote can be used anywhere a `Quote` is expected:
 
 ```python
 import pyquantlib as ql
@@ -69,9 +69,13 @@ vol_surface = ql.BlackConstantVol(
 )
 ```
 
-## Example: Custom Smile Section
+## Pure Python Extensions
 
-The `pyquantlib.extensions` module contains `SviSmileSection`, a pure Python implementation of the SVI volatility smile. It subclasses `SmileSection` and implements the required virtual methods:
+The `pyquantlib.extensions` module contains two complete examples of Python extensions that can be used in production or as templates for custom implementations.
+
+### SVI Smile Section
+
+`SviSmileSection` implements the SVI (Stochastic Volatility Inspired) volatility parametrization. It subclasses `SmileSection` to provide a volatility smile that can be used with any QuantLib component expecting a smile section.
 
 ```python
 import math
@@ -104,7 +108,7 @@ class SviSmileSection(SmileSection):
         return math.sqrt(max(w, 1e-10) / self._time)
 ```
 
-Use it anywhere a `SmileSection` is expected:
+Usage:
 
 ```python
 from pyquantlib.extensions import SviSmileSection
@@ -116,7 +120,63 @@ print(f"ATM vol: {smile.volatility(100.0):.4f}")
 print(f"90 strike: {smile.volatility(90.0):.4f}")
 ```
 
-See `pyquantlib/extensions/svi_smile_section.py` for the complete implementation with parameter validation, and {doc}`examples/04_svi_smile` for usage examples.
+See {doc}`examples/04_svi_smile` for a complete example including comparison with the C++ implementation.
+
+### Modified Kirk Engine
+
+`ModifiedKirkEngine` implements the Modified Kirk approximation for spread option pricing. It subclasses `SpreadBlackScholesVanillaEngine` and demonstrates how to build a custom pricing engine in pure Python.
+
+The modification adds a skew correction term from Alos & Leon (2015) that improves accuracy for high correlation cases.
+
+```python
+from pyquantlib.base import SpreadBlackScholesVanillaEngine
+
+class ModifiedKirkEngine(SpreadBlackScholesVanillaEngine):
+    """Modified Kirk engine with skew correction for spread options."""
+
+    def __init__(self, process1, process2, correlation):
+        super().__init__(process1, process2, correlation)
+        self._process1 = process1
+        self._process2 = process2
+        self._rho = correlation
+
+    def calculate(self):
+        # Get instrument arguments
+        args = self.getArguments()
+        exercise = args.exercise
+        payoff = args.payoff
+
+        # Extract parameters...
+        strike = payoff.basePayoff().strike()
+        optionType = payoff.basePayoff().optionType()
+
+        # Compute price using Modified Kirk formula
+        price = self._calculate_price(...)
+
+        # Set results
+        results = self.getResults()
+        results.value = price
+```
+
+Usage:
+
+```python
+import pyquantlib as ql
+from pyquantlib.extensions import ModifiedKirkEngine
+
+# Create spread option
+payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 5.0)
+spread_payoff = ql.SpreadBasketPayoff(payoff)
+exercise = ql.EuropeanExercise(expiry)
+option = ql.BasketOption(spread_payoff, exercise)
+
+# Use custom engine
+engine = ModifiedKirkEngine(process1, process2, correlation=0.95)
+option.setPricingEngine(engine)
+print(f"NPV: {option.NPV():.4f}")
+```
+
+See {doc}`examples/05_modified_kirk_engine` for a complete walkthrough including comparison with QuantLib's built-in `KirkEngine`.
 
 ## How It Works
 
@@ -147,7 +207,7 @@ For prototyping and moderate workloads, Python extensions work well.
 
 ## See Also
 
-- {doc}`api/extensions` for built-in Python extensions
-- {doc}`examples/04_svi_smile` for a complete SVI smile example
-- {doc}`examples/05_modified_kirk_engine` for a custom pricing engine example
+- {doc}`api/extensions` for the complete API reference
+- {doc}`examples/04_svi_smile` for the SVI smile section example
+- {doc}`examples/05_modified_kirk_engine` for the custom pricing engine example
 - `include/pyquantlib/trampolines.h` for the full list of supported base classes
