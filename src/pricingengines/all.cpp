@@ -63,4 +63,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BatesEngine - Analytic Bates model pricing");
     manager.addFunction(ql_pricingengines::discountingswapengine, m,
         "DiscountingSwapEngine - Discounting engine for swaps");
+    manager.addFunction(ql_pricingengines::treeswaptionengine, m,
+        "TreeSwaptionEngine - Lattice engine for swaptions");
 }
