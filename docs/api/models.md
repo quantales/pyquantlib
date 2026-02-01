@@ -121,6 +121,37 @@ price = hw.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
 bias = ql.HullWhite.convexityBias(95.0, 0.25, 0.5, 0.01, 0.1)
 ```
 
+### BlackKarasinski
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackKarasinski
+```
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `a` | $a$ | Mean reversion speed |
+| `sigma` | $\sigma$ | Volatility |
+
+The Black-Karasinski model is a lognormal short-rate model: $d(\ln r_t) = (\theta(t) - a \ln r_t)dt + \sigma dW_t$
+
+Unlike Hull-White, Black-Karasinski ensures positive interest rates since $r_t = e^{x_t}$ where $x_t$ follows an Ornstein-Uhlenbeck process.
+
+```python
+# Create a term structure
+today = ql.Date(15, 1, 2026)
+ql.Settings.instance().evaluationDate = today
+curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+
+# Black-Karasinski model fitted to the curve
+bk = ql.BlackKarasinski(curve, a=0.1, sigma=0.1)
+
+# Access the fitted term structure
+ts_handle = bk.termStructure()
+
+# Model parameters via CalibratedModel interface
+params = bk.params()  # [a, sigma]
+```
+
 ### ShortRateModelHandle
 
 ```{eval-rst}

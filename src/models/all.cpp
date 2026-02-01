@@ -35,6 +35,8 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "Vasicek - Vasicek short-rate model");
     manager.addFunction(ql_models::hullwhite, m,
         "HullWhite - Hull-White extended Vasicek model");
+    manager.addFunction(ql_models::blackkarasinski, m,
+        "BlackKarasinski - Black-Karasinski short-rate model");
     manager.addFunction(ql_models::batesmodel, m,
         "BatesModel - Heston model with jumps");
 }

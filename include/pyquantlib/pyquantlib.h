@@ -177,6 +177,7 @@ namespace ql_models {
     void onefactormodel(py::module_&);
     void vasicek(py::module_&);
     void hullwhite(py::module_&);
+    void blackkarasinski(py::module_&);
     void batesmodel(py::module_&);
 }
 

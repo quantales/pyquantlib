@@ -220,3 +220,47 @@ def test_hullwhite_term_structure(flat_curve):
 
     ts_handle = model.termStructure()
     assert not ts_handle.empty()
+
+
+# --- BlackKarasinski ---
+
+
+def test_blackkarasinski_construction(flat_curve):
+    """Test BlackKarasinski model construction with defaults."""
+    model = ql.BlackKarasinski(flat_curve)
+    assert model is not None
+
+
+def test_blackkarasinski_construction_with_params(flat_curve):
+    """Test BlackKarasinski model construction with parameters."""
+    model = ql.BlackKarasinski(flat_curve, a=0.1, sigma=0.1)
+    assert model is not None
+
+
+def test_blackkarasinski_params(flat_curve):
+    """Test BlackKarasinski params() returns calibratable parameters."""
+    model = ql.BlackKarasinski(flat_curve, a=0.1, sigma=0.1)
+
+    params = model.params()
+    # BlackKarasinski has 2 parameters: a (mean reversion) and sigma (volatility)
+    assert len(params) == 2
+    assert params[0] == pytest.approx(0.1)  # a
+    assert params[1] == pytest.approx(0.1)  # sigma
+
+
+def test_blackkarasinski_inheritance(flat_curve):
+    """Test BlackKarasinski inherits from expected base classes."""
+    model = ql.BlackKarasinski(flat_curve)
+    assert isinstance(model, ql.base.OneFactorModel)
+    assert isinstance(model, ql.base.ShortRateModel)
+    assert isinstance(model, ql.base.CalibratedModel)
+    assert isinstance(model, ql.base.TermStructureConsistentModel)
+    assert isinstance(model, ql.Observable)
+
+
+def test_blackkarasinski_term_structure(flat_curve):
+    """Test BlackKarasinski termStructure accessor."""
+    model = ql.BlackKarasinski(flat_curve, a=0.1, sigma=0.1)
+
+    ts_handle = model.termStructure()
+    assert not ts_handle.empty()
