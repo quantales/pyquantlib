@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -135,6 +135,11 @@ class BlackVolatilityTermStructure(BlackVolTermStructure):
     """
     Abstract adapter for Black volatility term structures (volatility-based).
     """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Default constructor for Python subclassing.
+        """
     @typing.overload
     def __init__(self, referenceDate: pyquantlib._pyquantlib.Date, calendar: pyquantlib._pyquantlib.Calendar = ..., businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
@@ -288,6 +293,22 @@ class Event(pyquantlib._pyquantlib.Observable):
     def date(self) -> pyquantlib._pyquantlib.Date:
         """
         Returns the date of the event.
+        """
+class Extrapolator:
+    """
+    Base class for term structures supporting extrapolation.
+    """
+    def allowsExtrapolation(self) -> bool:
+        """
+        Returns true if extrapolation is enabled.
+        """
+    def disableExtrapolation(self, b: bool = True) -> None:
+        """
+        Disables or enables extrapolation.
+        """
+    def enableExtrapolation(self, b: bool = True) -> None:
+        """
+        Enables or disables extrapolation.
         """
 class GenericHestonModelEngine(PricingEngine):
     """
@@ -755,8 +776,21 @@ class SmileSection(pyquantlib._pyquantlib.Observable, Observer):
     """
     Abstract base class for volatility smile sections.
     """
+    @typing.overload
     def __init__(self) -> None:
-        ...
+        """
+        Default constructor for Python subclassing.
+        """
+    @typing.overload
+    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter, type: ..., shift: typing.SupportsFloat) -> None:
+        """
+        Constructs with exercise time (all args required).
+        """
+    @typing.overload
+    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with exercise time.
+        """
     def atmLevel(self) -> float:
         """
         Returns ATM level (forward).
@@ -837,15 +871,15 @@ class StochasticProcess(Observer, pyquantlib._pyquantlib.Observable):
     """
     def __init__(self) -> None:
         ...
-    def diffusion(self, t: typing.SupportsFloat, x: ...) -> ...:
+    def diffusion(self, t: typing.SupportsFloat, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Matrix:
         """
         Returns the diffusion matrix at time t given state x.
         """
-    def drift(self, t: typing.SupportsFloat, x: ...) -> ...:
+    def drift(self, t: typing.SupportsFloat, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
         """
         Returns the drift at time t given state x.
         """
-    def evolve(self, t0: typing.SupportsFloat, x0: ..., dt: typing.SupportsFloat, dw: ...) -> ...:
+    def evolve(self, t0: typing.SupportsFloat, x0: pyquantlib._pyquantlib.Array, dt: typing.SupportsFloat, dw: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
         """
         Evolves the process from state x0 at time t0.
         """
@@ -853,7 +887,7 @@ class StochasticProcess(Observer, pyquantlib._pyquantlib.Observable):
         """
         Returns the number of Brownian factors.
         """
-    def initialValues(self) -> ...:
+    def initialValues(self) -> pyquantlib._pyquantlib.Array:
         """
         Returns the initial values.
         """
@@ -925,7 +959,7 @@ class SwaptionGenericEngine(PricingEngine, Observer):
     """
     def __init__(self) -> None:
         ...
-class TermStructure(Observer, pyquantlib._pyquantlib.Observable):
+class TermStructure(Observer, pyquantlib._pyquantlib.Observable, Extrapolator):
     """
     Abstract base class for term structures.
     """

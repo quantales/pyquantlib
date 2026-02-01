@@ -2182,7 +2182,7 @@ class Currency:
         """
         Returns the ISO 4217 numeric code, e.g., 840.
         """
-    def rounding(self) -> ...:
+    def rounding(self) -> Rounding:
         """
         Returns the rounding convention for this currency.
         """
@@ -3888,6 +3888,14 @@ class GeneralizedBlackScholesProcess(base.StochasticProcess1D):
     def __init__(self, x0: base.Quote, dividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, discretization: base.StochasticProcess1D.discretization) -> None:
         """
         Constructs from term structures with discretization (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, x0: QuoteHandle, dividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, blackVolTS: BlackVolTermStructureHandle, localVolTS: LocalVolTermStructureHandle) -> None:
+        ...
+    @typing.overload
+    def __init__(self, x0: base.Quote, dividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, blackVolTS: base.BlackVolTermStructure, localVolTS: base.LocalVolTermStructure) -> None:
+        """
+        Constructs with external local vol (handles created internally).
         """
     def blackVolatility(self) -> BlackVolTermStructureHandle:
         """
