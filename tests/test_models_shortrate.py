@@ -342,3 +342,173 @@ def test_g2_discount_bond_option(flat_curve):
 
     price = model.discountBondOption(option_type, strike, maturity, bond_maturity)
     assert price == pytest.approx(0.002942653462519429, rel=1e-5)
+
+
+# --- CalibrationHelper base classes ---
+
+
+def test_calibrationhelper_base_exists():
+    """Test CalibrationHelper base class exists."""
+    assert hasattr(ql.base, "CalibrationHelper")
+
+
+def test_blackcalibrationhelper_base_exists():
+    """Test BlackCalibrationHelper base class exists."""
+    assert hasattr(ql.base, "BlackCalibrationHelper")
+
+
+def test_calibration_error_type_enum():
+    """Test CalibrationErrorType enum values."""
+    assert hasattr(ql, "CalibrationErrorType")
+    assert hasattr(ql.CalibrationErrorType, "RelativePriceError")
+    assert hasattr(ql.CalibrationErrorType, "PriceError")
+    assert hasattr(ql.CalibrationErrorType, "ImpliedVolError")
+
+
+# --- RateAveraging ---
+
+
+def test_rate_averaging_type_enum():
+    """Test RateAveraging.Type enum values."""
+    assert hasattr(ql, "RateAveraging")
+    assert hasattr(ql.RateAveraging, "Type")
+    assert hasattr(ql.RateAveraging.Type, "Simple")
+    assert hasattr(ql.RateAveraging.Type, "Compound")
+
+
+# --- SwaptionHelper ---
+
+
+@pytest.fixture
+def swaption_helper_env():
+    """Environment for SwaptionHelper tests."""
+    today = ql.Date(15, ql.January, 2026)
+    ql.Settings.instance().evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+
+    index = ql.Euribor6M(curve)
+    vol = ql.SimpleQuote(0.20)
+
+    return {
+        "today": today,
+        "curve": curve,
+        "index": index,
+        "vol": vol,
+        "fixed_leg_tenor": ql.Period(1, ql.Years),
+        "fixed_leg_dc": ql.Thirty360(ql.Thirty360.BondBasis),
+        "floating_leg_dc": ql.Actual360(),
+    }
+
+
+def test_swaptionhelper_construction_period_period(swaption_helper_env):
+    """Test SwaptionHelper construction with period maturity and length."""
+    env = swaption_helper_env
+
+    helper = ql.SwaptionHelper(
+        maturity=ql.Period(1, ql.Years),
+        length=ql.Period(5, ql.Years),
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    assert helper is not None
+
+
+def test_swaptionhelper_construction_date_period(swaption_helper_env):
+    """Test SwaptionHelper construction with exercise date and length."""
+    env = swaption_helper_env
+
+    exercise_date = env["today"] + ql.Period(1, ql.Years)
+
+    helper = ql.SwaptionHelper(
+        exerciseDate=exercise_date,
+        length=ql.Period(5, ql.Years),
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    assert helper is not None
+
+
+def test_swaptionhelper_construction_date_date(swaption_helper_env):
+    """Test SwaptionHelper construction with exercise and end dates."""
+    env = swaption_helper_env
+
+    exercise_date = env["today"] + ql.Period(1, ql.Years)
+    end_date = env["today"] + ql.Period(6, ql.Years)
+
+    helper = ql.SwaptionHelper(
+        exerciseDate=exercise_date,
+        endDate=end_date,
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    assert helper is not None
+
+
+def test_swaptionhelper_inheritance(swaption_helper_env):
+    """Test SwaptionHelper inherits from expected base classes."""
+    env = swaption_helper_env
+
+    helper = ql.SwaptionHelper(
+        maturity=ql.Period(1, ql.Years),
+        length=ql.Period(5, ql.Years),
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    assert isinstance(helper, ql.base.BlackCalibrationHelper)
+    assert isinstance(helper, ql.base.CalibrationHelper)
+
+
+def test_swaptionhelper_underlying(swaption_helper_env):
+    """Test SwaptionHelper underlying accessor."""
+    env = swaption_helper_env
+
+    helper = ql.SwaptionHelper(
+        maturity=ql.Period(1, ql.Years),
+        length=ql.Period(5, ql.Years),
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    swap = helper.underlying()
+    assert swap is not None
+    assert isinstance(swap, ql.FixedVsFloatingSwap)
+
+
+def test_swaptionhelper_swaption(swaption_helper_env):
+    """Test SwaptionHelper swaption accessor."""
+    env = swaption_helper_env
+
+    helper = ql.SwaptionHelper(
+        maturity=ql.Period(1, ql.Years),
+        length=ql.Period(5, ql.Years),
+        volatility=env["vol"],
+        index=env["index"],
+        fixedLegTenor=env["fixed_leg_tenor"],
+        fixedLegDayCounter=env["fixed_leg_dc"],
+        floatingLegDayCounter=env["floating_leg_dc"],
+        termStructure=env["curve"],
+    )
+    swaption = helper.swaption()
+    assert swaption is not None
+    assert isinstance(swaption, ql.Swaption)

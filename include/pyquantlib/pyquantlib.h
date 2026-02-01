@@ -143,6 +143,7 @@ namespace ql_termstructures {
     void yieldtermstructurehandle(py::module_&);
     void relinkableyieldtermstructurehandle(py::module_&);
     void flatforward(py::module_&);
+    void volatilitytype(py::module_&);
     void voltermstructure(py::module_&);
     void blackvoltermstructure(py::module_&);
     void blackvoltermstructurehandle(py::module_&);
@@ -181,6 +182,7 @@ namespace ql_models {
     void blackkarasinski(py::module_&);
     void g2(py::module_&);
     void batesmodel(py::module_&);
+    void swaptionhelper(py::module_&);
 }
 
 namespace ql_instruments {

@@ -42,6 +42,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     manager.addFunction(ql_termstructures::relinkablelocalvoltermstructurehandle, m,
         "RelinkableHandle<LocalVolTermStructure>");
 
+    // Enums
+    manager.addFunction(ql_termstructures::volatilitytype, m,
+        "VolatilityType - ShiftedLognormal or Normal");
+
     // Concrete implementations
     manager.addFunction(ql_termstructures::flatforward, m,
         "FlatForward yield curve");

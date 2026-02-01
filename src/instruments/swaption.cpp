@@ -25,12 +25,6 @@ using namespace QuantLib;
 void ql_instruments::swaption(py::module_& m) {
     py::module_ base = m.def_submodule("base", "Abstract base classes");
 
-    // VolatilityType enum (used by impliedVolatility)
-    py::enum_<VolatilityType>(m, "VolatilityType",
-        "Volatility type for implied volatility calculation.")
-        .value("ShiftedLognormal", VolatilityType::ShiftedLognormal)
-        .value("Normal", VolatilityType::Normal);
-
     // Settlement::Type enum
     py::enum_<Settlement::Type>(m, "SettlementType",
         "Swaption settlement type.")

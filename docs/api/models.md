@@ -212,6 +212,61 @@ handle = ql.RelinkableShortRateModelHandle(model1)
 handle.linkTo(model2)  # Switch to different model
 ```
 
+## Calibration Helpers
+
+### CalibrationErrorType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CalibrationErrorType
+   :members:
+   :undoc-members:
+```
+
+### RateAveraging
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RateAveraging
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RateAveraging.Type
+   :members:
+   :undoc-members:
+```
+
+### SwaptionHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwaptionHelper
+```
+
+Used for calibrating short-rate models to market swaption prices.
+
+```python
+# Create market environment
+today = ql.Date(15, 1, 2026)
+ql.Settings.instance().evaluationDate = today
+curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+index = ql.Euribor6M(curve)
+
+# Create swaption helper with 20% implied volatility
+vol = ql.SimpleQuote(0.20)
+helper = ql.SwaptionHelper(
+    maturity=ql.Period(1, ql.Years),
+    length=ql.Period(5, ql.Years),
+    volatility=vol,
+    index=index,
+    fixedLegTenor=ql.Period(1, ql.Years),
+    fixedLegDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
+    floatingLegDayCounter=ql.Actual360(),
+    termStructure=curve,
+)
+
+# Access underlying instruments
+swap = helper.underlying()
+swaption = helper.swaption()
+```
+
 ## Parameters
 
 ### Parameter
@@ -228,5 +283,5 @@ handle.linkTo(model2)  # Switch to different model
 
 ```{note}
 Abstract base classes are available in `pyquantlib.base` for custom model implementations:
-`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`.
+`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `CalibrationHelper`, `BlackCalibrationHelper`.
 ```

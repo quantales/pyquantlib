@@ -43,4 +43,6 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "G2 - Two-additive-factor Gaussian model G2++");
     manager.addFunction(ql_models::batesmodel, m,
         "BatesModel - Heston model with jumps");
+    manager.addFunction(ql_models::swaptionhelper, m,
+        "SwaptionHelper - calibration helper for swaptions");
 }

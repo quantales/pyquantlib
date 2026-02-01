@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -62,6 +62,42 @@ class BasketPayoff(Payoff):
     def name(self) -> str:
         """
         Returns the payoff name.
+        """
+class BlackCalibrationHelper(CalibrationHelper, LazyObject):
+    """
+    Base class for Black76-based calibration helpers.
+    """
+    def blackPrice(self, volatility: typing.SupportsFloat) -> float:
+        """
+        Returns Black price for given volatility.
+        """
+    def calibrationError(self) -> float:
+        """
+        Returns the calibration error.
+        """
+    def impliedVolatility(self, targetValue: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+        """
+        Returns implied Black volatility.
+        """
+    def marketValue(self) -> float:
+        """
+        Returns the market value from quoted volatility.
+        """
+    def modelValue(self) -> float:
+        """
+        Returns the model value.
+        """
+    def setPricingEngine(self, engine: PricingEngine) -> None:
+        """
+        Sets the pricing engine.
+        """
+    def volatility(self) -> pyquantlib._pyquantlib.QuoteHandle:
+        """
+        Returns the volatility handle.
+        """
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
+        """
+        Returns the volatility type.
         """
 class BlackVarianceTermStructure(BlackVolTermStructure):
     """
@@ -782,7 +818,7 @@ class SmileSection(pyquantlib._pyquantlib.Observable, Observer):
         Default constructor for Python subclassing.
         """
     @typing.overload
-    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter, type: ..., shift: typing.SupportsFloat) -> None:
+    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter, type: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat) -> None:
         """
         Constructs with exercise time (all args required).
         """
@@ -849,11 +885,11 @@ class SmileSection(pyquantlib._pyquantlib.Observable, Observer):
         Returns volatility at the given strike.
         """
     @typing.overload
-    def volatility(self, strike: typing.SupportsFloat, volatilityType: ..., shift: typing.SupportsFloat = 0.0) -> float:
+    def volatility(self, strike: typing.SupportsFloat, volatilityType: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat = 0.0) -> float:
         """
         Returns volatility at the given strike with specified type.
         """
-    def volatilityType(self) -> ...:
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
         """
         Returns the volatility type.
         """
