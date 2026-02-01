@@ -152,6 +152,41 @@ ts_handle = bk.termStructure()
 params = bk.params()  # [a, sigma]
 ```
 
+### G2
+
+```{eval-rst}
+.. autoclass:: pyquantlib.G2
+```
+
+| Parameter | Symbol | Description |
+|-----------|--------|-------------|
+| `a` | $a$ | First factor mean reversion speed |
+| `sigma` | $\sigma$ | First factor volatility |
+| `b` | $b$ | Second factor mean reversion speed |
+| `eta` | $\eta$ | Second factor volatility |
+| `rho` | $\rho$ | Correlation between factors |
+
+The G2++ model is a two-additive-factor Gaussian model where the short rate is:
+$r_t = \varphi(t) + x_t + y_t$
+
+with $dx_t = -a x_t dt + \sigma dW^1_t$ and $dy_t = -b y_t dt + \eta dW^2_t$, and $dW^1_t dW^2_t = \rho dt$.
+
+```python
+# Create a term structure
+today = ql.Date(15, 1, 2026)
+ql.Settings.instance().evaluationDate = today
+curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+
+# G2++ model fitted to the curve
+g2 = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+
+# Parameter accessors
+print(g2.a(), g2.sigma(), g2.b(), g2.eta(), g2.rho())
+
+# Price a discount bond option
+price = g2.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
+```
+
 ### ShortRateModelHandle
 
 ```{eval-rst}
@@ -193,5 +228,5 @@ handle.linkTo(model2)  # Switch to different model
 
 ```{note}
 Abstract base classes are available in `pyquantlib.base` for custom model implementations:
-`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `AffineModel`, `TermStructureConsistentModel`.
+`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`.
 ```

@@ -264,3 +264,81 @@ def test_blackkarasinski_term_structure(flat_curve):
 
     ts_handle = model.termStructure()
     assert not ts_handle.empty()
+
+
+# --- TwoFactorModel base classes ---
+
+
+def test_twofactormodel_base_exists():
+    """Test TwoFactorModel base class exists."""
+    assert hasattr(ql.base, "TwoFactorModel")
+
+
+# --- G2 ---
+
+
+def test_g2_construction(flat_curve):
+    """Test G2 model construction with defaults."""
+    model = ql.G2(flat_curve)
+    assert model is not None
+
+
+def test_g2_construction_with_params(flat_curve):
+    """Test G2 model construction with parameters."""
+    model = ql.G2(flat_curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+    assert model is not None
+
+
+def test_g2_parameter_accessors(flat_curve):
+    """Test G2 parameter accessors."""
+    a, sigma, b, eta, rho = 0.1, 0.02, 0.15, 0.03, -0.5
+
+    model = ql.G2(flat_curve, a=a, sigma=sigma, b=b, eta=eta, rho=rho)
+
+    assert model.a() == pytest.approx(a)
+    assert model.sigma() == pytest.approx(sigma)
+    assert model.b() == pytest.approx(b)
+    assert model.eta() == pytest.approx(eta)
+    assert model.rho() == pytest.approx(rho)
+
+
+def test_g2_params(flat_curve):
+    """Test G2 params() returns calibratable parameters."""
+    model = ql.G2(flat_curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+
+    params = model.params()
+    # G2 has 5 parameters: a, sigma, b, eta, rho
+    assert len(params) == 5
+
+
+def test_g2_inheritance(flat_curve):
+    """Test G2 inherits from expected base classes."""
+    model = ql.G2(flat_curve)
+    assert isinstance(model, ql.base.TwoFactorModel)
+    assert isinstance(model, ql.base.ShortRateModel)
+    assert isinstance(model, ql.base.CalibratedModel)
+    assert isinstance(model, ql.base.AffineModel)
+    assert isinstance(model, ql.base.TermStructureConsistentModel)
+    assert isinstance(model, ql.Observable)
+
+
+def test_g2_term_structure(flat_curve):
+    """Test G2 termStructure accessor."""
+    model = ql.G2(flat_curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+
+    ts_handle = model.termStructure()
+    assert not ts_handle.empty()
+
+
+def test_g2_discount_bond_option(flat_curve):
+    """Test G2 discountBondOption."""
+    model = ql.G2(flat_curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+
+    # Price a call option on a discount bond
+    option_type = ql.OptionType.Call
+    strike = 0.95
+    maturity = 1.0
+    bond_maturity = 2.0
+
+    price = model.discountBondOption(option_type, strike, maturity, bond_maturity)
+    assert price == pytest.approx(0.002942653462519429, rel=1e-5)
