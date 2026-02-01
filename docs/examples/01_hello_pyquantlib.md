@@ -3,7 +3,7 @@
 European option pricing with Black-Scholes.
 
 ```{note}
-View the full notebook: [01_option_pricing.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/01_option_pricing.ipynb)
+View the full notebook: [01_hello_pyquantlib.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/01_hello_pyquantlib.ipynb)
 ```
 
 PyQuantLib offers a cleaner API than QuantLib-Python (SWIG) with hidden handles: pass objects directly without wrapping in handles.
@@ -70,4 +70,4 @@ The full notebook includes spot ladder visualization showing:
 - Option value vs intrinsic value
 - Delta convergence to 0/1 for deep OTM/ITM and Gamma peak at ATM
 
-Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/01_option_pricing.ipynb) to run the plots.
+Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/01_hello_pyquantlib.ipynb) to run the plots.

@@ -3,7 +3,7 @@
 SVI volatility smile parametrization, visualization, and **pure Python implementation**.
 
 ```{note}
-View the full notebook: [05_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/05_svi_smile.ipynb)
+View the full notebook: [04_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/04_svi_smile.ipynb)
 ```
 
 The Stochastic Volatility Inspired (SVI) model is a popular parametric form for volatility smiles, widely used in equity and FX markets.
@@ -59,4 +59,4 @@ print(py_smile.volatility(100.0))
 
 This showcases PyQuantLib's flexibility for rapid prototyping without C++ compilation, with the C++ implementation serving as a benchmark for validation.
 
-Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/05_svi_smile.ipynb) for visualization, benchmarking, and detailed examples.
+Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/04_svi_smile.ipynb) for visualization, benchmarking, and detailed examples.

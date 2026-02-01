@@ -3,7 +3,7 @@
 Spread option pricing with a custom Python engine.
 
 ```{note}
-View the full notebook: [03_modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/03_modified_kirk_engine.ipynb)
+View the full notebook: [05_modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/05_modified_kirk_engine.ipynb)
 ```
 
 ## Overview
@@ -81,7 +81,7 @@ The full notebook reproduces Figures 1-5 from Harutyunyan & Masip Borrás (2018)
 - Modified Kirk remains stable even at ρ = 0.999
 - Comparison against Monte Carlo benchmark
 
-Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/03_modified_kirk_engine.ipynb) for the complete analysis with visualizations.
+Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/examples/05_modified_kirk_engine.ipynb) for the complete analysis with visualizations.
 
 ## References
 

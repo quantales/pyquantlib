@@ -69,50 +69,54 @@ vol_surface = ql.BlackConstantVol(
 )
 ```
 
-## Example: Custom Pricing Engine
+## Example: Custom Smile Section
 
-The `pyquantlib.extensions` module contains an example of a custom pricing engine: `ModifiedKirkEngine` for spread options.
-
-```python
-from pyquantlib.extensions import ModifiedKirkEngine
-
-# Create spread option
-payoff = ql.PlainVanillaPayoff(ql.Option.Call, 5.0)
-spread_payoff = ql.SpreadBasketPayoff(payoff)
-exercise = ql.EuropeanExercise(expiry)
-option = ql.BasketOption(spread_payoff, exercise)
-
-# Use custom engine
-engine = ModifiedKirkEngine(process1, process2, correlation=0.95)
-option.setPricingEngine(engine)
-print(f"NPV: {option.NPV():.4f}")
-```
-
-The engine subclasses `SpreadBlackScholesVanillaEngine` and implements the `calculate()` method:
+The `pyquantlib.extensions` module contains `SviSmileSection`, a pure Python implementation of the SVI volatility smile. It subclasses `SmileSection` and implements the required virtual methods:
 
 ```python
-from pyquantlib.base import SpreadBlackScholesVanillaEngine
+import math
+from pyquantlib.base import SmileSection
 
-class ModifiedKirkEngine(SpreadBlackScholesVanillaEngine):
-    def __init__(self, process1, process2, correlation):
-        super().__init__(process1, process2, correlation)
-        # Store parameters...
-    
-    def calculate(self):
-        # Get instrument arguments
-        args = self.getArguments()
-        exercise = args.exercise
-        payoff = args.payoff
-        
-        # Compute price...
-        price = self._compute_price(...)
-        
-        # Set results
-        results = self.getResults()
-        results.value = price
+class SviSmileSection(SmileSection):
+    """SVI smile section: w(k) = a + b*(rho*(k-m) + sqrt((k-m)^2 + sigma^2))"""
+
+    def __init__(self, time_to_expiry, forward, svi_params):
+        super().__init__()
+        self._time = time_to_expiry
+        self._forward = forward
+        self._a, self._b, self._sigma, self._rho, self._m = svi_params
+
+    def minStrike(self):
+        return 0.0
+
+    def maxStrike(self):
+        return float("inf")
+
+    def atmLevel(self):
+        return self._forward
+
+    def volatilityImpl(self, strike):
+        k = math.log(strike / self._forward)
+        w = self._a + self._b * (
+            self._rho * (k - self._m)
+            + math.sqrt((k - self._m) ** 2 + self._sigma ** 2)
+        )
+        return math.sqrt(max(w, 1e-10) / self._time)
 ```
 
-See `examples/03_modified_kirk_engine.ipynb` for a complete walkthrough.
+Use it anywhere a `SmileSection` is expected:
+
+```python
+from pyquantlib.extensions import SviSmileSection
+
+params = [0.04, 0.1, 0.3, -0.4, 0.0]  # [a, b, sigma, rho, m]
+smile = SviSmileSection(1.0, 100.0, params)
+
+print(f"ATM vol: {smile.volatility(100.0):.4f}")
+print(f"90 strike: {smile.volatility(90.0):.4f}")
+```
+
+See `pyquantlib/extensions/svi_smile_section.py` for the complete implementation with parameter validation, and {doc}`examples/04_svi_smile` for usage examples.
 
 ## How It Works
 
@@ -144,5 +148,6 @@ For prototyping and moderate workloads, Python extensions work well.
 ## See Also
 
 - {doc}`api/extensions` for built-in Python extensions
-- `examples/03_modified_kirk_engine.ipynb` for a complete engine example
+- {doc}`examples/04_svi_smile` for a complete SVI smile example
+- {doc}`examples/05_modified_kirk_engine` for a custom pricing engine example
 - `include/pyquantlib/trampolines.h` for the full list of supported base classes

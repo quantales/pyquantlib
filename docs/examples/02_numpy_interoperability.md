@@ -96,4 +96,4 @@ Download the [full notebook](https://github.com/quantales/pyquantlib/blob/main/e
 ## See Also
 
 - {doc}`/numpy` for detailed conversion reference
-- {doc}`01_option_pricing` for basic PyQuantLib usage
+- {doc}`01_hello_pyquantlib` for basic PyQuantLib usage

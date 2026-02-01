@@ -17,13 +17,14 @@ Benefits of pure Python extensions:
 
 Example
 -------
->>> from pyquantlib.extensions import ModifiedKirkEngine, SviSmileSection
->>> engine = ModifiedKirkEngine(process1, process2, correlation=0.95)
->>> option.setPricingEngine(engine)
->>>
+>>> from pyquantlib.extensions import SviSmileSection, ModifiedKirkEngine
 >>> # Pure Python SVI smile - validates against ql.SviSmileSection
 >>> smile = SviSmileSection(1.0, 100.0, [0.04, 0.1, 0.3, -0.4, 0.0])
 >>> print(smile.volatility(100.0))
+>>>
+>>> # Modified Kirk engine for spread options
+>>> engine = ModifiedKirkEngine(process1, process2, correlation=0.95)
+>>> option.setPricingEngine(engine)
 """
 
 from pyquantlib.extensions.modified_kirk_engine import ModifiedKirkEngine

@@ -13,10 +13,10 @@ Users familiar with QuantLib-Python (SWIG) will find the API similar.
 ```{toctree}
 :maxdepth: 1
 
-01_option_pricing
+01_hello_pyquantlib
 02_numpy_interoperability
-03_modified_kirk_engine
-05_svi_smile
+04_svi_smile
+05_modified_kirk_engine
 ```
 
 ## Running the Examples
@@ -38,7 +38,7 @@ jupyter notebook
 
 | Notebook | Description |
 |----------|-------------|
-| {doc}`01_option_pricing` | European option pricing with Black-Scholes |
+| {doc}`01_hello_pyquantlib` | European option pricing with Black-Scholes |
 | {doc}`02_numpy_interoperability` | Array and Matrix conversion with NumPy |
-| {doc}`03_modified_kirk_engine` | Custom Python pricing engine for spread options |
-| {doc}`05_svi_smile` | SVI volatility smile parametrization |
+| {doc}`04_svi_smile` | SVI volatility smile parametrization |
+| {doc}`05_modified_kirk_engine` | Custom Python pricing engine for spread options |
