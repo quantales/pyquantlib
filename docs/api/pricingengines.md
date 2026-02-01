@@ -192,6 +192,72 @@ engine = ql.QdFpAmericanEngine(process)
 .. autoclass:: pyquantlib.StulzEngine
 ```
 
+## Swaption Engines
+
+### TreeSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeSwaptionEngine
+```
+
+Numerical lattice engine for swaptions using short-rate models.
+
+```python
+model = ql.HullWhite(curve, a=0.1, sigma=0.01)
+engine = ql.TreeSwaptionEngine(model, timeSteps=100)
+swaption.setPricingEngine(engine)
+```
+
+### JamshidianSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.JamshidianSwaptionEngine
+```
+
+Analytic swaption engine using Jamshidian's bond option decomposition.
+
+```python
+model = ql.HullWhite(curve, a=0.1, sigma=0.01)
+engine = ql.JamshidianSwaptionEngine(model)
+swaption.setPricingEngine(engine)
+```
+
+### G2SwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.G2SwaptionEngine
+```
+
+Swaption engine for the G2++ two-factor model.
+
+```python
+model = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+engine = ql.G2SwaptionEngine(model, range=6.0, intervals=200)
+swaption.setPricingEngine(engine)
+```
+
+### FdHullWhiteSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHullWhiteSwaptionEngine
+```
+
+Finite-differences swaption engine for the Hull-White model.
+
+```python
+model = ql.HullWhite(curve, a=0.1, sigma=0.01)
+engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=100)
+swaption.setPricingEngine(engine)
+```
+
+## Swap Engines
+
+### DiscountingSwapEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountingSwapEngine
+```
+
 ## Functions
 
 ### Black-76 (Lognormal)

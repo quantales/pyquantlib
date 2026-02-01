@@ -69,4 +69,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "JamshidianSwaptionEngine - Analytic swaption engine using bond option decomposition");
     manager.addFunction(ql_pricingengines::g2swaptionengine, m,
         "G2SwaptionEngine - Swaption engine for G2++ two-factor model");
+    manager.addFunction(ql_pricingengines::fdhullwhiteswaptionengine, m,
+        "FdHullWhiteSwaptionEngine - FD swaption engine for Hull-White model");
 }

@@ -145,3 +145,38 @@ def test_g2swaptionengine_pricing(swaption_env):
 
     npv = env["swaption"].NPV()
     assert npv == pytest.approx(12050.213410784432, rel=1e-5)
+
+
+# --- FdHullWhiteSwaptionEngine ---
+
+
+def test_fdhullwhiteswaptionengine_construction(swaption_env):
+    """Test FdHullWhiteSwaptionEngine construction."""
+    env = swaption_env
+
+    model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    engine = ql.FdHullWhiteSwaptionEngine(model)
+    assert engine is not None
+
+
+def test_fdhullwhiteswaptionengine_with_params(swaption_env):
+    """Test FdHullWhiteSwaptionEngine construction with parameters."""
+    env = swaption_env
+
+    model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    engine = ql.FdHullWhiteSwaptionEngine(
+        model, tGrid=50, xGrid=50, dampingSteps=0
+    )
+    assert engine is not None
+
+
+def test_fdhullwhiteswaptionengine_pricing(swaption_env):
+    """Test FdHullWhiteSwaptionEngine swaption pricing."""
+    env = swaption_env
+
+    model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=100)
+    env["swaption"].setPricingEngine(engine)
+
+    npv = env["swaption"].NPV()
+    assert npv == pytest.approx(15859.08141102643, rel=1e-5)
