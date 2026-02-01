@@ -15,13 +15,10 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(cashflows_bindings) {
-    auto m = manager.module();
-    auto b = manager.getSubmodule("base");
-
     // Abstract base classes
-    manager.addFunction(ql_cashflows::coupon, b, "Coupon ABC");
+    ADD_BASE_BINDING(manager, ql_cashflows::coupon, "Coupon ABC");
 
     // Concrete implementations
-    manager.addFunction(ql_cashflows::simplecashflow, m, "SimpleCashFlow");
-    manager.addFunction(ql_cashflows::fixedratecoupon, m, "FixedRateCoupon");
+    ADD_MAIN_BINDING(manager, ql_cashflows::simplecashflow, "SimpleCashFlow");
+    ADD_MAIN_BINDING(manager, ql_cashflows::fixedratecoupon, "FixedRateCoupon");
 }

@@ -15,8 +15,6 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(currencies_bindings) {
-    auto m = manager.module();
-
-    manager.addFunction(ql_currencies::all_currencies, m, "Currency definitions");
-    manager.addFunction(ql_currencies::exchangeratemanager, m, "ExchangeRateManager");
+    ADD_MAIN_BINDING(manager, ql_currencies::all_currencies, "Currency definitions");
+    ADD_MAIN_BINDING(manager, ql_currencies::exchangeratemanager, "ExchangeRateManager");
 }

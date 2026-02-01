@@ -15,62 +15,60 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
-    auto m = manager.module();
-
-    manager.addFunction(ql_pricingengines::blackformula, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::blackformula,
         "Black formula functions for option pricing");
-    manager.addFunction(ql_pricingengines::genericmodelengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::genericmodelengine,
         "GenericModelEngine - Generic option engine based on a model");
-    manager.addFunction(ql_pricingengines::analyticeuropeanengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::analyticeuropeanengine,
         "AnalyticEuropeanEngine - Black-Scholes European option pricing");
-    manager.addFunction(ql_pricingengines::analytichestonengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::analytichestonengine,
         "AnalyticHestonEngine - Heston stochastic volatility pricing");
-    manager.addFunction(ql_pricingengines::mceuropeanengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::mceuropeanengine,
         "MCEuropeanEngine - Monte Carlo European option pricing");
-    manager.addFunction(ql_pricingengines::spreadblackscholesvanillaengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::spreadblackscholesvanillaengine,
         "SpreadBlackScholesVanillaEngine - spread option pricing base class");
-    manager.addFunction(ql_pricingengines::kirkengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::kirkengine,
         "KirkEngine - Kirk spread option pricing");
-    manager.addFunction(ql_pricingengines::bjerksundstenslandspreadengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::bjerksundstenslandspreadengine,
         "BjerksundStenslandSpreadEngine - Bjerksund-Stensland spread option pricing");
-    manager.addFunction(ql_pricingengines::operatorsplittingspreadengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::operatorsplittingspreadengine,
         "OperatorSplittingSpreadEngine - Operator splitting spread option pricing");
-    manager.addFunction(ql_pricingengines::denglizhoubasketengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::denglizhoubasketengine,
         "DengLiZhouBasketEngine - Deng-Li-Zhou N-dim basket option pricing");
-    manager.addFunction(ql_pricingengines::stulzengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::stulzengine,
         "StulzEngine - Stulz 2D min/max basket option pricing");
-    manager.addFunction(ql_pricingengines::fd2dblackscholesvanillaengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::fd2dblackscholesvanillaengine,
         "Fd2dBlackScholesVanillaEngine - 2D FD basket option pricing");
-    manager.addFunction(ql_pricingengines::mceuropeanbasketengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::mceuropeanbasketengine,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
-    manager.addFunction(ql_pricingengines::baroneadesiwhaleyengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::baroneadesiwhaleyengine,
         "BaroneAdesiWhaleyApproximationEngine - Barone-Adesi-Whaley American approximation");
-    manager.addFunction(ql_pricingengines::bjerksundstenslandengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::bjerksundstenslandengine,
         "BjerksundStenslandApproximationEngine - Bjerksund-Stensland American approximation");
-    manager.addFunction(ql_pricingengines::fdblackscholesvanillaengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::fdblackscholesvanillaengine,
         "FdBlackScholesVanillaEngine - 1D finite-difference vanilla option pricing");
-    manager.addFunction(ql_pricingengines::binomialengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::binomialengine,
         "BinomialVanillaEngine - binomial tree vanilla option pricing");
-    manager.addFunction(ql_pricingengines::mcamericanengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::mcamericanengine,
         "MCAmericanEngine - Monte Carlo American option pricing (Longstaff-Schwartz)");
-    manager.addFunction(ql_pricingengines::integralengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::integralengine,
         "IntegralEngine - European option pricing using integral approach");
-    manager.addFunction(ql_pricingengines::qdfpamericanengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::qdfpamericanengine,
         "QdFpAmericanEngine - QD+ fixed-point American option pricing");
-    manager.addFunction(ql_pricingengines::analyticeuropeanvasicekengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::analyticeuropeanvasicekengine,
         "AnalyticBlackVasicekEngine - European option with stochastic Vasicek rates");
-    manager.addFunction(ql_pricingengines::batesengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::batesengine,
         "BatesEngine - Analytic Bates model pricing");
-    manager.addFunction(ql_pricingengines::discountingswapengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::discountingswapengine,
         "DiscountingSwapEngine - Discounting engine for swaps");
-    manager.addFunction(ql_pricingengines::treeswaptionengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::treeswaptionengine,
         "TreeSwaptionEngine - Lattice engine for swaptions");
-    manager.addFunction(ql_pricingengines::jamshidianswaptionengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::jamshidianswaptionengine,
         "JamshidianSwaptionEngine - Analytic swaption engine using bond option decomposition");
-    manager.addFunction(ql_pricingengines::g2swaptionengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::g2swaptionengine,
         "G2SwaptionEngine - Swaption engine for G2++ two-factor model");
-    manager.addFunction(ql_pricingengines::fdhullwhiteswaptionengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::fdhullwhiteswaptionengine,
         "FdHullWhiteSwaptionEngine - FD swaption engine for Hull-White model");
-    manager.addFunction(ql_pricingengines::fdg2swaptionengine, m,
+    ADD_MAIN_BINDING(manager, ql_pricingengines::fdg2swaptionengine,
         "FdG2SwaptionEngine - FD swaption engine for G2++ two-factor model");
 }

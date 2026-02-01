@@ -15,54 +15,51 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(termstructures_bindings) {
-    auto m = manager.module();
-    auto b = manager.getSubmodule("base");
-
     // Abstract base classes
-    manager.addFunction(ql_termstructures::yieldtermstructure, b,
+    ADD_BASE_BINDING(manager, ql_termstructures::yieldtermstructure,
         "YieldTermStructure ABC");
-    manager.addFunction(ql_termstructures::voltermstructure, b,
+    ADD_BASE_BINDING(manager, ql_termstructures::voltermstructure,
         "VolatilityTermStructure ABC");
-    manager.addFunction(ql_termstructures::blackvoltermstructure, b,
+    ADD_BASE_BINDING(manager, ql_termstructures::blackvoltermstructure,
         "BlackVolTermStructure ABC");
-    manager.addFunction(ql_termstructures::localvoltermstructure, b,
+    ADD_BASE_BINDING(manager, ql_termstructures::localvoltermstructure,
         "LocalVolTermStructure ABC");
 
     // Handle types
-    manager.addFunction(ql_termstructures::yieldtermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::yieldtermstructurehandle,
         "Handle<YieldTermStructure>");
-    manager.addFunction(ql_termstructures::relinkableyieldtermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::relinkableyieldtermstructurehandle,
         "RelinkableHandle<YieldTermStructure>");
-    manager.addFunction(ql_termstructures::blackvoltermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::blackvoltermstructurehandle,
         "Handle<BlackVolTermStructure>");
-    manager.addFunction(ql_termstructures::relinkableblackvoltermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::relinkableblackvoltermstructurehandle,
         "RelinkableHandle<BlackVolTermStructure>");
-    manager.addFunction(ql_termstructures::localvoltermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::localvoltermstructurehandle,
         "Handle<LocalVolTermStructure>");
-    manager.addFunction(ql_termstructures::relinkablelocalvoltermstructurehandle, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::relinkablelocalvoltermstructurehandle,
         "RelinkableHandle<LocalVolTermStructure>");
 
     // Enums
-    manager.addFunction(ql_termstructures::volatilitytype, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::volatilitytype,
         "VolatilityType - ShiftedLognormal or Normal");
 
     // Concrete implementations
-    manager.addFunction(ql_termstructures::flatforward, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::flatforward,
         "FlatForward yield curve");
-    manager.addFunction(ql_termstructures::blackconstantvol, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::blackconstantvol,
         "BlackConstantVol volatility surface");
-    manager.addFunction(ql_termstructures::blackvariancesurface, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::blackvariancesurface,
         "BlackVarianceSurface volatility surface");
-    manager.addFunction(ql_termstructures::localconstantvol, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::localconstantvol,
         "LocalConstantVol volatility surface");
-    manager.addFunction(ql_termstructures::localvolsurface, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::localvolsurface,
         "LocalVolSurface from Black vol");
-    manager.addFunction(ql_termstructures::fixedlocalvolsurface, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::fixedlocalvolsurface,
         "FixedLocalVolSurface with strike/time grid");
-    manager.addFunction(ql_termstructures::noexceptlocalvolsurface, m,
+    ADD_MAIN_BINDING(manager, ql_termstructures::noexceptlocalvolsurface,
         "NoExceptLocalVolSurface with fallback value");
 
     // Smile sections
-    manager.addFunction(ql_termstructures::smilesection, b,
+    ADD_BASE_BINDING(manager, ql_termstructures::smilesection,
         "SmileSection ABC");
 }

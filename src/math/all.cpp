@@ -16,18 +16,15 @@
 
 
 DECLARE_MODULE_BINDINGS(math_bindings) {
-    auto m = manager.module();
-    auto b = manager.getSubmodule("base");
-    
-    manager.addFunction(ql_math::array, m, "Mathematical array for vector operations");
-    manager.addFunction(ql_math::matrix, m, "Mathematical matrix for linear algebra");
-    manager.addFunction(ql_math::rounding, m, "Rounding conventions");
-    manager.addFunction(ql_math::constraint, b, "Constraint ABC");
-    manager.addFunction(ql_math::constraints, m, "Concrete constraint implementations");
-    manager.addFunction(ql_math::costfunction, b, "CostFunction ABC");
-    manager.addFunction(ql_math::optimizationmethod, b, "OptimizationMethod ABC");
-    manager.addFunction(ql_math::endcriteria, m, "End criteria for optimization");
-    manager.addFunction(ql_math::problem, m, "Optimization problem");
-    manager.addFunction(ql_math::levenbergmarquardt, m, "Levenberg-Marquardt optimizer");
-    manager.addFunction(ql_math::extrapolation, b, "Extrapolator base class");
+    ADD_MAIN_BINDING(manager, ql_math::array, "Mathematical array for vector operations");
+    ADD_MAIN_BINDING(manager, ql_math::matrix, "Mathematical matrix for linear algebra");
+    ADD_MAIN_BINDING(manager, ql_math::rounding, "Rounding conventions");
+    ADD_BASE_BINDING(manager, ql_math::constraint, "Constraint ABC");
+    ADD_MAIN_BINDING(manager, ql_math::constraints, "Concrete constraint implementations");
+    ADD_BASE_BINDING(manager, ql_math::costfunction, "CostFunction ABC");
+    ADD_BASE_BINDING(manager, ql_math::optimizationmethod, "OptimizationMethod ABC");
+    ADD_MAIN_BINDING(manager, ql_math::endcriteria, "End criteria for optimization");
+    ADD_MAIN_BINDING(manager, ql_math::problem, "Optimization problem");
+    ADD_MAIN_BINDING(manager, ql_math::levenbergmarquardt, "Levenberg-Marquardt optimizer");
+    ADD_BASE_BINDING(manager, ql_math::extrapolation, "Extrapolator base class");
 }

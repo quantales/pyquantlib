@@ -15,9 +15,7 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(experimental_bindings) {
-    auto m = manager.module();
-
     // Volatility
-    manager.addFunction(ql_experimental::svismilesection, m,
+    ADD_MAIN_BINDING(manager, ql_experimental::svismilesection,
         "SviSmileSection (Stochastic Volatility Inspired)");
 }

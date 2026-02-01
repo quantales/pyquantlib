@@ -15,9 +15,7 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(methods_bindings) {
-    auto m = manager.module();
-
     // finitedifferences/solvers
-    manager.addFunction(ql_methods::fdmbackwardsolver, m,
+    ADD_MAIN_BINDING(manager, ql_methods::fdmbackwardsolver,
         "FdmSchemeDesc and FdmSchemeType from fdmbackwardsolver.hpp");
 }

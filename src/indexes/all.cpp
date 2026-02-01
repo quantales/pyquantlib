@@ -15,10 +15,7 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(indexes_bindings) {
-    auto m = manager.module();
-    auto b = manager.getSubmodule("base");
-
-    manager.addFunction(ql_indexes::interestrateindex, b, "InterestRateIndex ABC");
-    manager.addFunction(ql_indexes::iborindex, m, "IborIndex - IBOR index base class");
-    manager.addFunction(ql_indexes::euribor, m, "Euribor - Euribor indexes");
+    ADD_BASE_BINDING(manager, ql_indexes::interestrateindex, "InterestRateIndex ABC");
+    ADD_MAIN_BINDING(manager, ql_indexes::iborindex, "IborIndex - IBOR index base class");
+    ADD_MAIN_BINDING(manager, ql_indexes::euribor, "Euribor - Euribor indexes");
 }

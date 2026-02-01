@@ -15,34 +15,32 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(models_bindings) {
-    auto m = manager.module();
-
-    manager.addFunction(ql_models::model, m,
+    ADD_MAIN_BINDING(manager, ql_models::model,
         "CalibratedModel - base class for calibrated models");
-    manager.addFunction(ql_models::parameter, m,
+    ADD_MAIN_BINDING(manager, ql_models::parameter,
         "Parameter - model parameter with constraints");
-    manager.addFunction(ql_models::calibrationhelper, m,
+    ADD_MAIN_BINDING(manager, ql_models::calibrationhelper,
         "CalibrationHelper - base class for calibration helpers");
-    manager.addFunction(ql_models::hestonmodel, m,
+    ADD_MAIN_BINDING(manager, ql_models::hestonmodel,
         "HestonModel - Heston stochastic volatility model");
-    manager.addFunction(ql_models::hestonmodelhandle, m,
+    ADD_MAIN_BINDING(manager, ql_models::hestonmodelhandle,
         "HestonModelHandle - handle to Heston model");
-    manager.addFunction(ql_models::piecewisetimedependenthestonmodel, m,
+    ADD_MAIN_BINDING(manager, ql_models::piecewisetimedependenthestonmodel,
         "PiecewiseTimeDependentHestonModel - time-dependent Heston model");
-    manager.addFunction(ql_models::onefactormodel, m,
+    ADD_MAIN_BINDING(manager, ql_models::onefactormodel,
         "OneFactorModel - single-factor short-rate model base classes");
-    manager.addFunction(ql_models::twofactormodel, m,
+    ADD_MAIN_BINDING(manager, ql_models::twofactormodel,
         "TwoFactorModel - two-factor short-rate model base class");
-    manager.addFunction(ql_models::vasicek, m,
+    ADD_MAIN_BINDING(manager, ql_models::vasicek,
         "Vasicek - Vasicek short-rate model");
-    manager.addFunction(ql_models::hullwhite, m,
+    ADD_MAIN_BINDING(manager, ql_models::hullwhite,
         "HullWhite - Hull-White extended Vasicek model");
-    manager.addFunction(ql_models::blackkarasinski, m,
+    ADD_MAIN_BINDING(manager, ql_models::blackkarasinski,
         "BlackKarasinski - Black-Karasinski short-rate model");
-    manager.addFunction(ql_models::g2, m,
+    ADD_MAIN_BINDING(manager, ql_models::g2,
         "G2 - Two-additive-factor Gaussian model G2++");
-    manager.addFunction(ql_models::batesmodel, m,
+    ADD_MAIN_BINDING(manager, ql_models::batesmodel,
         "BatesModel - Heston model with jumps");
-    manager.addFunction(ql_models::swaptionhelper, m,
+    ADD_MAIN_BINDING(manager, ql_models::swaptionhelper,
         "SwaptionHelper - calibration helper for swaptions");
 }

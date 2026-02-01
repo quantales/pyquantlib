@@ -15,9 +15,7 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(quotes_bindings) {
-    auto m = manager.module();
-
-    manager.addFunction(ql_quotes::simplequote, m, "SimpleQuote");
-    manager.addFunction(ql_quotes::derivedquote, m, "DerivedQuote");
-    manager.addFunction(ql_quotes::compositequote, m, "CompositeQuote");
+    ADD_MAIN_BINDING(manager, ql_quotes::simplequote, "SimpleQuote");
+    ADD_MAIN_BINDING(manager, ql_quotes::derivedquote, "DerivedQuote");
+    ADD_MAIN_BINDING(manager, ql_quotes::compositequote, "CompositeQuote");
 }
