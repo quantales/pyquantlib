@@ -71,4 +71,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "G2SwaptionEngine - Swaption engine for G2++ two-factor model");
     manager.addFunction(ql_pricingengines::fdhullwhiteswaptionengine, m,
         "FdHullWhiteSwaptionEngine - FD swaption engine for Hull-White model");
+    manager.addFunction(ql_pricingengines::fdg2swaptionengine, m,
+        "FdG2SwaptionEngine - FD swaption engine for G2++ two-factor model");
 }

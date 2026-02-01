@@ -250,6 +250,20 @@ engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=100)
 swaption.setPricingEngine(engine)
 ```
 
+### FdG2SwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdG2SwaptionEngine
+```
+
+Finite-differences swaption engine for the G2++ two-factor model.
+
+```python
+model = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
+swaption.setPricingEngine(engine)
+```
+
 ## Swap Engines
 
 ### DiscountingSwapEngine
