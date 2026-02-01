@@ -17,7 +17,7 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 **Alpha Status**: This project is under active development. API may change.
 ```
 
-## Why PyQuantLib?
+## Motivation
 
 There are existing Python bindings for QuantLib:
 
@@ -50,9 +50,10 @@ np_view = np.array(arr, copy=False)  # shared memory, no copy
 ### Developer Experience
 
 * No additional language beyond C++ and Python (no SWIG, no Cython)
-* Type-safe bindings resolved at compile time
-* Debugging with standard C++ tools
+* Type-safe bindings resolved at compile time (signature mismatches fail at build, not runtime)
+* Debugging with standard C++ tools (no generated code obscuring the call stack)
 * Wrapper code mirrors QuantLib headers and class structure
+* IDE autocompletion via `.pyi` type stubs
 
 ## Performance
 
