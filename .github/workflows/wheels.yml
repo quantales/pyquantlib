@@ -1,0 +1,204 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# Build wheels for multiple platforms using cibuildwheel.
+# QuantLib is built from source during the wheel build process.
+
+name: Build wheels
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/**"
+      - "include/**"
+      - "CMakeLists.txt"
+      - "pyproject.toml"
+      - ".github/workflows/wheels.yml"
+  release:
+    types: [published]
+
+env:
+  QUANTLIB_VERSION: "1.40"
+  BOOST_VERSION: "1.86.0"
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.21
+        env:
+          # Build for CPython only (no PyPy)
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_SKIP: "*-musllinux_*"
+
+          # macOS: Build universal2 wheels on macos-13, skip on macos-14 (ARM only)
+          CIBW_ARCHS_MACOS: "${{ matrix.os == 'macos-14' && 'arm64' || 'x86_64' }}"
+          CIBW_ARCHS_LINUX: "x86_64"
+          CIBW_ARCHS_WINDOWS: "AMD64"
+
+          # Environment variables for build
+          CIBW_ENVIRONMENT: >
+            QUANTLIB_VERSION=${{ env.QUANTLIB_VERSION }}
+            BOOST_VERSION=${{ env.BOOST_VERSION }}
+
+          # Linux: Build QuantLib in manylinux container
+          CIBW_BEFORE_ALL_LINUX: |
+            yum install -y wget tar gzip
+
+            # Install Boost headers
+            BOOST_VERSION_UNDERSCORE=$(echo $BOOST_VERSION | tr '.' '_')
+            wget -q https://archives.boost.io/release/$BOOST_VERSION/source/boost_${BOOST_VERSION_UNDERSCORE}.tar.gz
+            tar xzf boost_${BOOST_VERSION_UNDERSCORE}.tar.gz
+            mkdir -p /usr/local/include
+            cp -r boost_${BOOST_VERSION_UNDERSCORE}/boost /usr/local/include/
+            rm -rf boost_${BOOST_VERSION_UNDERSCORE}*
+
+            # Build QuantLib
+            wget -q https://github.com/lballabio/QuantLib/releases/download/v${QUANTLIB_VERSION}/QuantLib-${QUANTLIB_VERSION}.tar.gz
+            tar xzf QuantLib-${QUANTLIB_VERSION}.tar.gz
+            cd QuantLib-${QUANTLIB_VERSION}
+            mkdir build && cd build
+            cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DQL_USE_STD_SHARED_PTR=ON \
+              -DQL_USE_STD_OPTIONAL=ON \
+              -DQL_USE_STD_ANY=ON \
+              -DQL_BUILD_EXAMPLES=OFF \
+              -DQL_BUILD_TEST_SUITE=OFF \
+              -DQL_BUILD_BENCHMARK=OFF
+            cmake --build . --parallel $(nproc)
+            cmake --install .
+            cd ../..
+            rm -rf QuantLib-${QUANTLIB_VERSION}*
+
+          CIBW_ENVIRONMENT_LINUX: >
+            QuantLib_ROOT=/usr/local
+            Boost_INCLUDE_DIR=/usr/local/include
+
+          # macOS: Build QuantLib
+          CIBW_BEFORE_ALL_MACOS: |
+            brew install boost cmake
+
+            # Build QuantLib
+            wget -q https://github.com/lballabio/QuantLib/releases/download/v${QUANTLIB_VERSION}/QuantLib-${QUANTLIB_VERSION}.tar.gz
+            tar xzf QuantLib-${QUANTLIB_VERSION}.tar.gz
+            cd QuantLib-${QUANTLIB_VERSION}
+            mkdir build && cd build
+            cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DQL_USE_STD_SHARED_PTR=ON \
+              -DQL_USE_STD_OPTIONAL=ON \
+              -DQL_USE_STD_ANY=ON \
+              -DQL_BUILD_EXAMPLES=OFF \
+              -DQL_BUILD_TEST_SUITE=OFF \
+              -DQL_BUILD_BENCHMARK=OFF
+            cmake --build . --parallel $(sysctl -n hw.ncpu)
+            sudo cmake --install .
+            cd ../..
+            rm -rf QuantLib-${QUANTLIB_VERSION}*
+
+          CIBW_ENVIRONMENT_MACOS: >
+            QuantLib_ROOT=/usr/local
+
+          # Windows: Build QuantLib
+          CIBW_BEFORE_ALL_WINDOWS: |
+            # Download Boost headers
+            $BOOST_VERSION_UNDERSCORE = "$env:BOOST_VERSION" -replace '\.', '_'
+            Invoke-WebRequest -Uri "https://archives.boost.io/release/$env:BOOST_VERSION/source/boost_${BOOST_VERSION_UNDERSCORE}.zip" -OutFile boost.zip
+            Expand-Archive -Path boost.zip -DestinationPath C:/boost-temp
+            mkdir C:/boost/include -Force
+            Move-Item "C:/boost-temp/boost_${BOOST_VERSION_UNDERSCORE}/boost" "C:/boost/include/boost"
+            Remove-Item -Recurse -Force C:/boost-temp, boost.zip
+
+            # Build QuantLib
+            Invoke-WebRequest -Uri "https://github.com/lballabio/QuantLib/releases/download/v$env:QUANTLIB_VERSION/QuantLib-$env:QUANTLIB_VERSION.tar.gz" -OutFile QuantLib.tar.gz
+            tar xzf QuantLib.tar.gz
+            cd "QuantLib-$env:QUANTLIB_VERSION"
+            mkdir build -Force
+            cd build
+            cmake .. -G "Visual Studio 17 2022" -A x64 `
+              -DCMAKE_BUILD_TYPE=Release `
+              -DCMAKE_INSTALL_PREFIX=C:/quantlib `
+              -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL `
+              -DQL_USE_STD_SHARED_PTR=ON `
+              -DQL_USE_STD_OPTIONAL=ON `
+              -DQL_USE_STD_ANY=ON `
+              -DQL_BUILD_EXAMPLES=OFF `
+              -DQL_BUILD_TEST_SUITE=OFF `
+              -DQL_BUILD_BENCHMARK=OFF `
+              -DBoost_INCLUDE_DIR=C:/boost/include
+            cmake --build . --config Release --parallel
+            cmake --install . --config Release
+            cd ../..
+            Remove-Item -Recurse -Force "QuantLib-$env:QUANTLIB_VERSION", QuantLib.tar.gz
+
+          CIBW_ENVIRONMENT_WINDOWS: >
+            QuantLib_ROOT=C:/quantlib
+            Boost_INCLUDE_DIR=C:/boost/include
+
+          # Run tests
+          CIBW_TEST_REQUIRES: pytest numpy
+          CIBW_TEST_COMMAND: pytest {project}/tests -v --ignore={project}/tests/test_pricingengines_vanilla.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build sdist
+        run: pipx run build --sdist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  upload_pypi:
+    name: Upload to PyPI
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pyquantlib
+
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: sdist
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
