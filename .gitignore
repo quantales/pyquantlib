@@ -49,6 +49,7 @@ dmypy.json
 
 # Jupyter
 .ipynb_checkpoints/
+.virtual_documents/
 
 # ------------------------------------------------------------------------------
 # C++ / CMake
