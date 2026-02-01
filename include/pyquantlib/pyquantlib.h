@@ -224,6 +224,7 @@ namespace ql_pricingengines {
     void discountingswapengine(py::module_&);
     void treeswaptionengine(py::module_&);
     void jamshidianswaptionengine(py::module_&);
+    void g2swaptionengine(py::module_&);
 }
 
 namespace ql_methods {

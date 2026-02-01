@@ -67,4 +67,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "TreeSwaptionEngine - Lattice engine for swaptions");
     manager.addFunction(ql_pricingengines::jamshidianswaptionengine, m,
         "JamshidianSwaptionEngine - Analytic swaption engine using bond option decomposition");
+    manager.addFunction(ql_pricingengines::g2swaptionengine, m,
+        "G2SwaptionEngine - Swaption engine for G2++ two-factor model");
 }

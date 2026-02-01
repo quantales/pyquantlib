@@ -121,3 +121,27 @@ def test_jamshidianswaptionengine_pricing(swaption_env):
 
     npv = env["swaption"].NPV()
     assert npv == pytest.approx(15860.419233975226, rel=1e-5)
+
+
+# --- G2SwaptionEngine ---
+
+
+def test_g2swaptionengine_construction(swaption_env):
+    """Test G2SwaptionEngine construction."""
+    env = swaption_env
+
+    model = ql.G2(env["curve"], a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+    engine = ql.G2SwaptionEngine(model, range=6.0, intervals=200)
+    assert engine is not None
+
+
+def test_g2swaptionengine_pricing(swaption_env):
+    """Test G2SwaptionEngine swaption pricing."""
+    env = swaption_env
+
+    model = ql.G2(env["curve"], a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+    engine = ql.G2SwaptionEngine(model, range=6.0, intervals=200)
+    env["swaption"].setPricingEngine(engine)
+
+    npv = env["swaption"].NPV()
+    assert npv == pytest.approx(12050.213410784432, rel=1e-5)
