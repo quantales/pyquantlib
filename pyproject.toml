@@ -19,10 +19,10 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
 authors = [
-    { name = "Yassine Idyiahia", email = "quantales@users.noreply.github.com" },
+    { name = "Yassine Idyiahia", email = "yassine.id@gmail.com" },
 ]
 maintainers = [
-    { name = "Yassine Idyiahia", email = "quantales@users.noreply.github.com" },
+    { name = "Yassine Idyiahia", email = "yassine.id@gmail.com" },
 ]
 keywords = [
     "quantlib",
