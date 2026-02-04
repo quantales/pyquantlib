@@ -1,9 +1,45 @@
+"""
+Tests for quotes module.
+
+Corresponds to src/quotes/*.cpp bindings.
+"""
+
 import pytest
 
 import pyquantlib as ql
 
 
-# Helper observer for testing notifications
+# =============================================================================
+# Constants
+# =============================================================================
+
+
+def test_constants_exist():
+    """Test numeric constants exist."""
+    assert hasattr(ql, 'MIN_INTEGER')
+    assert hasattr(ql, 'MAX_INTEGER')
+    assert hasattr(ql, 'MIN_REAL')
+    assert hasattr(ql, 'MAX_REAL')
+    assert hasattr(ql, 'MIN_POSITIVE_REAL')
+    assert hasattr(ql, 'EPSILON')
+
+
+def test_constants_values():
+    """Test numeric constants have expected values."""
+    assert ql.MIN_INTEGER < 0
+    assert ql.MAX_INTEGER > 0
+    assert ql.MIN_REAL < 0
+    assert ql.MAX_REAL > 0
+    assert ql.MIN_POSITIVE_REAL > 0
+    assert ql.EPSILON > 0
+    assert ql.EPSILON < 1e-10
+
+
+# =============================================================================
+# Helper Observer
+# =============================================================================
+
+
 class QuoteObserver(ql.base.Observer):
     def __init__(self):
         super().__init__()

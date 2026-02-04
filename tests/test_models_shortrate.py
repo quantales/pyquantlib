@@ -1,4 +1,8 @@
-"""Tests for ql/models/shortrate/*.hpp bindings."""
+"""
+Tests for short-rate models.
+
+Corresponds to src/models/shortrate/*.cpp bindings.
+"""
 
 import pytest
 

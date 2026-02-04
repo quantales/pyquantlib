@@ -1,4 +1,8 @@
-"""Tests for ql/pricingengines/swaption/*.hpp bindings."""
+"""
+Tests for swaption pricing engines.
+
+Corresponds to src/pricingengines/swaption/*.cpp bindings.
+"""
 
 import pytest
 

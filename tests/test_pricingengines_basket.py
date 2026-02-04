@@ -1,12 +1,18 @@
-"""Tests for basket options, basket payoffs, and basket pricing engines."""
+"""
+Tests for basket option pricing engines.
+
+Corresponds to src/pricingengines/basket/*.cpp bindings.
+"""
 
 import pytest
 
 import pyquantlib as ql
 
+
 # =============================================================================
 # Fixtures
 # =============================================================================
+
 
 @pytest.fixture
 def market_data():
@@ -41,8 +47,9 @@ def make_bs_process(spot, vol, rate_handle, div_handle, today, cal, dc):
 
 
 # =============================================================================
-# Basket Payoff Tests
+# Basket Payoffs
 # =============================================================================
+
 
 def test_minbasketpayoff():
     """Test MinBasketPayoff accumulation and payoff."""
@@ -100,8 +107,9 @@ def test_spreadbasketpayoff():
 
 
 # =============================================================================
-# BasketOption & StochasticProcessArray Tests
+# BasketOption & StochasticProcessArray
 # =============================================================================
+
 
 def test_basketoption_construction():
     """Test BasketOption construction and inheritance."""
@@ -114,7 +122,6 @@ def test_basketoption_construction():
     assert option is not None
     assert hasattr(option, 'delta')
     assert hasattr(option, 'gamma')
-
 
 
 def test_stochasticprocessarray(market_data):
@@ -140,7 +147,7 @@ def test_stochasticprocessarray(market_data):
 
 
 # =============================================================================
-# KirkEngine Tests
+# KirkEngine
 # =============================================================================
 
 
@@ -164,7 +171,6 @@ def test_kirkengine_spread_call(market_data):
     assert option.NPV() == pytest.approx(4.395356851239796, rel=1e-4)
 
 
-
 def test_kirkengine_spread_put(market_data):
     """Test KirkEngine pricing for spread put option."""
     today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
@@ -183,7 +189,6 @@ def test_kirkengine_spread_put(market_data):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(3.3613630233276273, rel=1e-4)
-
 
 
 def test_kirkengine_correlation_effect(market_data):
@@ -212,7 +217,7 @@ def test_kirkengine_correlation_effect(market_data):
 
 
 # =============================================================================
-# BjerksundStenslandSpreadEngine Tests
+# BjerksundStenslandSpreadEngine
 # =============================================================================
 
 
@@ -239,7 +244,7 @@ def test_bjerksundstenslandspreadengine(market_data):
 
 
 # =============================================================================
-# OperatorSplittingSpreadEngine Tests
+# OperatorSplittingSpreadEngine
 # =============================================================================
 
 
@@ -266,7 +271,7 @@ def test_operatorsplittingspreadengine(market_data):
 
 
 # =============================================================================
-# DengLiZhouBasketEngine Tests
+# DengLiZhouBasketEngine
 # =============================================================================
 
 
@@ -298,7 +303,7 @@ def test_denglizhoubasketengine_spread(market_data):
 
 
 # =============================================================================
-# StulzEngine Tests
+# StulzEngine
 # =============================================================================
 
 
@@ -322,7 +327,6 @@ def test_stulzengine_max_call(market_data):
     assert npv == pytest.approx(10.560030575324275, rel=1e-4)
 
 
-
 def test_stulzengine_min_put(market_data):
     """Test StulzEngine for min put option (worst-of)."""
     today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
@@ -344,7 +348,7 @@ def test_stulzengine_min_put(market_data):
 
 
 # =============================================================================
-# Fd2dBlackScholesVanillaEngine Tests
+# Fd2dBlackScholesVanillaEngine
 # =============================================================================
 
 
@@ -366,7 +370,6 @@ def test_fd2dblackscholesvanillaengine_spread(market_data):
 
     npv = option.NPV()
     assert npv == pytest.approx(4.400354122712496, rel=1e-4)
-
 
 
 def test_fd2dblackscholesvanillaengine_max(market_data):
@@ -391,7 +394,7 @@ def test_fd2dblackscholesvanillaengine_max(market_data):
 
 
 # =============================================================================
-# MCEuropeanBasketEngine Tests
+# MCEuropeanBasketEngine
 # =============================================================================
 
 
@@ -421,7 +424,6 @@ def test_mceuropeanbasketengine_spread(market_data):
     assert option.NPV() == pytest.approx(4.356413313262689, rel=1e-4)
 
 
-
 def test_mceuropeanbasketengine_max(market_data):
     """Test MCEuropeanBasketEngine for max call option (best-of)."""
     today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
@@ -448,7 +450,6 @@ def test_mceuropeanbasketengine_max(market_data):
     assert option.NPV() == pytest.approx(9.702167314835238, rel=1e-4)
 
 
-
 def test_mceuropeanbasketengine_min(market_data):
     """Test MCEuropeanBasketEngine for min put option (worst-of)."""
     today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
@@ -473,7 +474,6 @@ def test_mceuropeanbasketengine_min(market_data):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(8.74709879269745, rel=1e-4)
-
 
 
 def test_mceuropeanbasketengine_average(market_data):
@@ -506,7 +506,6 @@ def test_mceuropeanbasketengine_average(market_data):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(6.184441003464529, rel=1e-4)
-
 
 
 def test_mcldeuropeanbasketengine(market_data):

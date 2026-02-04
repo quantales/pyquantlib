@@ -1,11 +1,173 @@
-"""Tests for ql/indexes/*.hpp bindings."""
+"""
+Tests for indexes module.
+
+Corresponds to src/indexes/*.cpp bindings.
+"""
 
 import pytest
 
 import pyquantlib as ql
 
 
-# --- IborIndex ---
+# =============================================================================
+# Index (ABC)
+# =============================================================================
+
+
+def test_index_abc_exists():
+    """Tests that Index ABC is accessible."""
+    assert hasattr(ql.base, 'Index')
+
+
+def test_index_zombie():
+    """Tests that direct instantiation creates a zombie object."""
+    zombie = ql.base.Index()
+
+    with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
+        zombie.name()
+
+    with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
+        zombie.fixingCalendar()
+
+
+def test_index_python_inheritance():
+    """Tests creating a custom Index class in Python."""
+
+    class CustomIndex(ql.base.Index):
+        def __init__(self, name, calendar):
+            super().__init__()
+            self._name = name
+            self._calendar = calendar
+            self._fixings = {}
+
+        def name(self):
+            return self._name
+
+        def fixingCalendar(self):
+            return self._calendar
+
+        def isValidFixingDate(self, date):
+            return self._calendar.isBusinessDay(date)
+
+        def fixing(self, date, forecastTodaysFixing=False):
+            return self._fixings.get(date.serialNumber(), 0.0)
+
+        def update(self):
+            pass
+
+    idx = CustomIndex("TEST", ql.TARGET())
+
+    assert idx.name() == "TEST"
+    assert idx.fixingCalendar().name() == "TARGET"
+
+
+# =============================================================================
+# InterestRateIndex (ABC)
+# =============================================================================
+
+
+def test_interestrateindex_abc_exists():
+    """Test InterestRateIndex ABC is accessible."""
+    assert hasattr(ql.base, 'InterestRateIndex')
+
+
+def test_interestrateindex_zombie():
+    """Direct instantiation creates a zombie that fails on pure virtual calls."""
+    calendar = ql.TARGET()
+    day_counter = ql.Actual360()
+    eur = ql.EURCurrency()
+    tenor = ql.Period(6, ql.Months)
+
+    zombie = ql.base.InterestRateIndex("DUMMY", tenor, 2, eur, calendar, day_counter)
+    assert zombie is not None
+
+    with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
+        zombie.maturityDate(ql.Date.todaysDate())
+
+
+def test_interestrateindex_python_custom():
+    """Test Python subclass implementing pure virtual methods."""
+
+    class MyIndex(ql.base.InterestRateIndex):
+        def __init__(self, family_name, tenor, fixing_days, currency, calendar, day_counter):
+            super().__init__(family_name, tenor, fixing_days, currency, calendar, day_counter)
+            self._fixings = {}
+
+        def maturityDate(self, valueDate):
+            return self.fixingCalendar().advance(valueDate, self.tenor())
+
+        def forecastFixing(self, fixingDate):
+            return 0.05
+
+        def fixing(self, d, forecastTodaysFixing=False):
+            if d in self._fixings:
+                return self._fixings[d]
+            if forecastTodaysFixing:
+                return self.forecastFixing(d)
+            raise ql.Error(f"Fixing not available for {self.name()} on {d}")
+
+        def update(self):
+            pass
+
+        def addFixing(self, d, value):
+            self._fixings[d] = value
+
+    calendar = ql.TARGET()
+    day_counter = ql.Actual360()
+    eur = ql.EURCurrency()
+    tenor = ql.Period(6, ql.Months)
+
+    my_index = MyIndex("MyEUR6M", tenor, 2, eur, calendar, day_counter)
+
+    assert my_index.familyName() == "MyEUR6M"
+    assert my_index.tenor() == tenor
+    assert my_index.currency() == eur
+    assert my_index.dayCounter().name() == day_counter.name()
+
+
+def test_interestrateindex_python_fixing():
+    """Test fixing logic in Python subclass."""
+
+    class MyIndex(ql.base.InterestRateIndex):
+        def __init__(self, family_name, tenor, fixing_days, currency, calendar, day_counter):
+            super().__init__(family_name, tenor, fixing_days, currency, calendar, day_counter)
+            self._fixings = {}
+
+        def maturityDate(self, valueDate):
+            return self.fixingCalendar().advance(valueDate, self.tenor())
+
+        def forecastFixing(self, fixingDate):
+            return 0.05
+
+        def fixing(self, d, forecastTodaysFixing=False):
+            if d in self._fixings:
+                return self._fixings[d]
+            if forecastTodaysFixing:
+                return self.forecastFixing(d)
+            raise ql.Error("No fixing")
+
+        def update(self):
+            pass
+
+        def addFixing(self, d, value):
+            self._fixings[d] = value
+
+    calendar = ql.TARGET()
+    my_index = MyIndex("TEST", ql.Period(6, ql.Months), 2, ql.EURCurrency(), calendar, ql.Actual360())
+
+    today = ql.Date(14, 6, 2024)
+    fixing_date = my_index.fixingDate(today)
+
+    my_index.addFixing(fixing_date, 0.045)
+    assert my_index.fixing(fixing_date) == pytest.approx(0.045)
+
+    future_date = calendar.advance(today, 1, ql.Years)
+    assert my_index.fixing(future_date, True) == pytest.approx(0.05)
+
+
+# =============================================================================
+# IborIndex
+# =============================================================================
 
 
 @pytest.fixture
@@ -73,7 +235,9 @@ def test_iborindex_clone(yield_curve):
     assert cloned is not None
 
 
-# --- Euribor ---
+# =============================================================================
+# Euribor
+# =============================================================================
 
 
 def test_euribor_construction():

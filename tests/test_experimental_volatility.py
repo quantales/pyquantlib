@@ -1,4 +1,8 @@
-"""Tests for ql/experimental/volatility/*.hpp bindings."""
+"""
+Tests for experimental volatility module.
+
+Corresponds to src/experimental/volatility/*.cpp bindings.
+"""
 
 import math
 

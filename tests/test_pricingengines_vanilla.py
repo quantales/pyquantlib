@@ -1,6 +1,108 @@
+"""
+Tests for vanilla option pricing engines.
+
+Corresponds to src/pricingengines/vanilla/*.cpp bindings.
+"""
+
 import pytest
 
 import pyquantlib as ql
+from pyquantlib.base import PricingEngine
+
+
+# =============================================================================
+# PricingEngine ABC
+# =============================================================================
+
+
+class MyArguments(PricingEngine.arguments):
+    """Custom arguments class for testing."""
+    def __init__(self):
+        super().__init__()
+        self.spot_price = None
+
+    def validate(self):
+        if self.spot_price is None or self.spot_price <= 0:
+            raise ql.Error("Spot price must be positive.")
+
+
+class MyResults(PricingEngine.results):
+    """Custom results class for testing."""
+    def __init__(self):
+        super().__init__()
+        self.value = None
+
+    def reset(self):
+        self.value = None
+
+
+class MyPricingEngine(PricingEngine):
+    """Custom pricing engine for testing."""
+    def __init__(self, multiplier):
+        super().__init__()
+        self._multiplier = multiplier
+        self._arguments = MyArguments()
+        self._results = MyResults()
+
+    def getArguments(self):
+        return self._arguments
+
+    def getResults(self):
+        return self._results
+
+    def calculate(self):
+        self.getArguments().validate()
+        self.getResults().value = self.getArguments().spot_price * self._multiplier
+
+    def reset(self):
+        self.getResults().reset()
+
+    def update(self):
+        self.notifyObservers()
+
+
+def test_pricingengine_custom_calculate():
+    """Test custom engine calculate method."""
+    engine = MyPricingEngine(multiplier=1.5)
+    engine.getArguments().spot_price = 100.0
+
+    engine.calculate()
+
+    assert engine.getResults().value == pytest.approx(150.0)
+
+
+def test_pricingengine_custom_reset():
+    """Test custom engine reset method."""
+    engine = MyPricingEngine(multiplier=1.5)
+    engine.getArguments().spot_price = 100.0
+    engine.calculate()
+
+    engine.reset()
+
+    assert engine.getResults().value is None
+
+
+def test_pricingengine_arguments_validate():
+    """Test custom arguments validation."""
+    engine = MyPricingEngine(multiplier=1.5)
+    engine.getArguments().spot_price = -10.0
+
+    with pytest.raises(ql.Error, match="Spot price must be positive"):
+        engine.calculate()
+
+
+def test_pricingengine_inheritance_hierarchy():
+    """Test PricingEngine inheritance hierarchy."""
+    engine = MyPricingEngine(multiplier=1.0)
+
+    assert isinstance(engine, PricingEngine)
+    assert isinstance(engine.getArguments(), PricingEngine.arguments)
+    assert isinstance(engine.getResults(), PricingEngine.results)
+
+
+# =============================================================================
+# American Option Environment
+# =============================================================================
 
 
 @pytest.fixture
@@ -34,7 +136,9 @@ def american_env():
     return {"option": option, "process": process, "payoff": payoff}
 
 
-# --- Barone-Adesi-Whaley ---
+# =============================================================================
+# Barone-Adesi-Whaley
+# =============================================================================
 
 
 def test_baw_construction(american_env):
@@ -53,7 +157,9 @@ def test_baw_pricing(american_env):
     assert npv == pytest.approx(4.459, abs=0.01)
 
 
-# --- Bjerksund-Stensland ---
+# =============================================================================
+# Bjerksund-Stensland
+# =============================================================================
 
 
 def test_bjerksund_stensland_construction(american_env):
@@ -72,7 +178,9 @@ def test_bjerksund_stensland_pricing(american_env):
     assert npv == pytest.approx(4.453, abs=0.01)
 
 
-# --- Finite Differences ---
+# =============================================================================
+# Finite Differences
+# =============================================================================
 
 
 def test_fd_construction(american_env):
@@ -121,7 +229,9 @@ def test_fd_schemes(american_env):
         assert npv > 0
 
 
-# --- Binomial ---
+# =============================================================================
+# Binomial
+# =============================================================================
 
 
 def test_binomial_construction(american_env):
@@ -178,7 +288,9 @@ def test_binomial_case_insensitive(american_env):
     assert engine3 is not None
 
 
-# --- MC American (Longstaff-Schwartz) ---
+# =============================================================================
+# MCAmericanEngine (Longstaff-Schwartz)
+# =============================================================================
 
 
 def test_mc_american_construction(american_env):
@@ -248,7 +360,9 @@ def test_mc_american_invalid_rng(american_env):
         )
 
 
-# --- European Option Environment ---
+# =============================================================================
+# European Option Environment
+# =============================================================================
 
 
 @pytest.fixture
@@ -282,7 +396,9 @@ def european_env():
     return {"option": option, "process": process, "settlement": settlement}
 
 
-# --- IntegralEngine ---
+# =============================================================================
+# IntegralEngine
+# =============================================================================
 
 
 def test_integral_engine_construction(european_env):
@@ -302,7 +418,156 @@ def test_integral_engine_pricing(european_env):
     assert 3.8 < npv < 4.5
 
 
-# --- QdFpAmericanEngine ---
+# =============================================================================
+# MCEuropeanEngine
+# =============================================================================
+
+
+@pytest.fixture
+def mc_env():
+    """Market environment for MC engine tests."""
+    today = ql.Date(20, 2, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, 0.05, dc)
+    dividend_ts = ql.FlatForward(today, 0.01, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, 0.20, dc)
+
+    spot = ql.SimpleQuote(100.0)
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(dividend_ts),
+        ql.YieldTermStructureHandle(risk_free_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = today + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+    option = ql.VanillaOption(payoff, exercise)
+
+    return {"option": option, "process": process}
+
+
+def test_mc_european_pseudorandom(mc_env):
+    """Test MCEuropeanEngine with pseudorandom RNG."""
+    engine = ql.MCEuropeanEngine(
+        process=mc_env["process"],
+        rngType="pseudorandom",
+        timeSteps=10,
+        requiredSamples=1000,
+        seed=42,
+    )
+
+    assert engine is not None
+
+
+def test_mc_european_lowdiscrepancy(mc_env):
+    """Test MCEuropeanEngine with low discrepancy RNG."""
+    engine = ql.MCEuropeanEngine(
+        process=mc_env["process"],
+        rngType="lowdiscrepancy",
+        timeSteps=10,
+        requiredSamples=1000,
+    )
+
+    assert engine is not None
+
+
+def test_mc_european_pricing(mc_env):
+    """Test MC engine produces reasonable prices."""
+    option = mc_env["option"]
+
+    engine = ql.MCEuropeanEngine(
+        process=mc_env["process"],
+        rngType="pseudorandom",
+        timeSteps=52,
+        requiredSamples=10000,
+        seed=12345,
+    )
+
+    option.setPricingEngine(engine)
+    npv = option.NPV()
+
+    expected_npv = 9.687424197269415
+    assert npv == pytest.approx(expected_npv, abs=1e-4)
+
+
+def test_mc_european_lowdiscrepancy_pricing(mc_env):
+    """Test low discrepancy MC pricing."""
+    option = mc_env["option"]
+
+    engine = ql.MCEuropeanEngine(
+        process=mc_env["process"],
+        rngType="lowdiscrepancy",
+        timeSteps=1,
+        requiredSamples=10000,
+        seed=12345,
+    )
+
+    option.setPricingEngine(engine)
+    npv = option.NPV()
+
+    expected_npv = 9.818793862668565
+    assert npv == pytest.approx(expected_npv, abs=1e-4)
+
+
+def test_mc_european_antithetic(mc_env):
+    """Test MC engine with antithetic variates."""
+    option = mc_env["option"]
+
+    engine = ql.MCEuropeanEngine(
+        process=mc_env["process"],
+        rngType="pseudorandom",
+        timeSteps=10,
+        antitheticVariate=True,
+        requiredSamples=5000,
+        maxSamples=100000,
+        seed=8675309,
+    )
+
+    option.setPricingEngine(engine)
+    npv = option.NPV()
+
+    expected_npv = 9.8862132025707
+    assert npv == pytest.approx(expected_npv, abs=1e-2)
+
+
+def test_mc_european_invalid_rng(mc_env):
+    """Test error handling for invalid RNG type."""
+    with pytest.raises(RuntimeError, match="Unsupported RNG type"):
+        ql.MCEuropeanEngine(
+            mc_env["process"], "invalid_rng", timeSteps=10, requiredSamples=1000
+        )
+
+
+def test_mc_european_seed_reproducibility(mc_env):
+    """Test same seed produces reproducible results."""
+    engine1 = ql.MCEuropeanEngine(
+        mc_env["process"], "pseudorandom", timeSteps=10, requiredSamples=1000, seed=42
+    )
+    engine2 = ql.MCEuropeanEngine(
+        mc_env["process"], "pseudorandom", timeSteps=10, requiredSamples=1000, seed=42
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = mc_env["option"].exercise()
+
+    option1 = ql.VanillaOption(payoff, exercise)
+    option2 = ql.VanillaOption(payoff, exercise)
+
+    option1.setPricingEngine(engine1)
+    option2.setPricingEngine(engine2)
+
+    assert option1.NPV() == pytest.approx(option2.NPV(), abs=1e-10)
+
+
+# =============================================================================
+# QdFpAmericanEngine
+# =============================================================================
 
 
 def test_qdfp_construction(american_env):
@@ -373,7 +638,9 @@ def test_qdfp_fixed_point_equation_enum():
     assert ql.QdFpFixedPointEquation.Auto is not None
 
 
-# --- AnalyticBlackVasicekEngine ---
+# =============================================================================
+# AnalyticBlackVasicekEngine
+# =============================================================================
 
 
 def test_analytic_vasicek_construction(european_env):
@@ -401,7 +668,141 @@ def test_analytic_vasicek_pricing(european_env):
     npv = option.NPV()
     assert npv == pytest.approx(3.87770155721401, rel=1e-5)
 
-# --- BatesEngine ---
+
+# =============================================================================
+# AnalyticHestonEngine
+# =============================================================================
+
+
+@pytest.fixture
+def heston_env():
+    """Standard Heston market environment."""
+    today = ql.Date(20, 2, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+
+    spot = ql.SimpleQuote(100.0)
+    rate = ql.SimpleQuote(0.05)
+    div = ql.SimpleQuote(0.02)
+
+    risk_free_ts = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+    dividend_ts = ql.FlatForward(today, ql.QuoteHandle(div), dc)
+
+    # Heston parameters
+    v0 = 0.04      # Initial variance
+    kappa = 2.0    # Mean reversion
+    theta = 0.04   # Long-term variance
+    sigma = 0.3    # Vol of vol
+    rho = -0.7     # Correlation
+
+    process = ql.HestonProcess(
+        ql.YieldTermStructureHandle(risk_free_ts),
+        ql.YieldTermStructureHandle(dividend_ts),
+        ql.QuoteHandle(spot),
+        v0, kappa, theta, sigma, rho,
+    )
+
+    model = ql.HestonModel(process)
+
+    return {"model": model, "process": process, "today": today}
+
+
+def test_heston_model_parameters(heston_env):
+    """Test HestonModel parameter accessors."""
+    model = heston_env["model"]
+
+    assert model.v0() == pytest.approx(0.04)
+    assert model.kappa() == pytest.approx(2.0)
+    assert model.theta() == pytest.approx(0.04)
+    assert model.sigma() == pytest.approx(0.3)
+    assert model.rho() == pytest.approx(-0.7)
+
+
+def test_analytic_heston_engine_lobatto(heston_env):
+    """Test AnalyticHestonEngine with Gauss-Lobatto integration."""
+    model = heston_env["model"]
+    today = heston_env["today"]
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.AnalyticHestonEngine(model, 1e-8, 1000)
+    option.setPricingEngine(engine)
+
+    npv = option.NPV()
+    assert npv == pytest.approx(9.0595, abs=0.01)
+
+
+def test_analytic_heston_engine_laguerre(heston_env):
+    """Test AnalyticHestonEngine with Gauss-Laguerre integration."""
+    model = heston_env["model"]
+    today = heston_env["today"]
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.AnalyticHestonEngine(model, 144)
+    option.setPricingEngine(engine)
+
+    npv = option.NPV()
+    assert npv == pytest.approx(9.0595, abs=0.01)
+
+
+def test_analytic_heston_engine_full_control(heston_env):
+    """Test AnalyticHestonEngine with full control constructor."""
+    model = heston_env["model"]
+    today = heston_env["today"]
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(payoff, exercise)
+
+    integration = ql.Integration.gaussLaguerre(128)
+    engine = ql.AnalyticHestonEngine(
+        model,
+        ql.ComplexLogFormula.Gatheral,
+        integration,
+    )
+    option.setPricingEngine(engine)
+
+    npv = option.NPV()
+    assert npv == pytest.approx(9.0595, abs=0.01)
+
+
+def test_integration_methods():
+    """Test various integration method constructors."""
+    assert ql.Integration.gaussLaguerre(128) is not None
+    assert ql.Integration.gaussLegendre(128) is not None
+    assert ql.Integration.gaussChebyshev(128) is not None
+    assert ql.Integration.gaussLobatto(1e-8, 1e-8, 1000) is not None
+    assert ql.Integration.gaussKronrod(1e-8, 1000) is not None
+    assert ql.Integration.simpson(1e-8, 1000) is not None
+    assert ql.Integration.discreteSimpson(1000) is not None
+    assert ql.Integration.expSinh(1e-8) is not None
+
+
+def test_complex_log_formula_enum():
+    """Test ComplexLogFormula enum values."""
+    assert ql.ComplexLogFormula.Gatheral is not None
+    assert ql.ComplexLogFormula.BranchCorrection is not None
+    assert ql.ComplexLogFormula.AndersenPiterbarg is not None
+
+
+def test_heston_model_handle(heston_env):
+    """Test HestonModelHandle."""
+    model = heston_env["model"]
+    handle = ql.HestonModelHandle(model)
+
+    assert handle.currentLink() is not None
+    assert handle.currentLink().v0() == pytest.approx(0.04)
+
+
+# =============================================================================
+# BatesEngine
+# =============================================================================
 
 
 @pytest.fixture

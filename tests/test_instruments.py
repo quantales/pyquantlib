@@ -1,11 +1,364 @@
-"""Tests for ql/instruments/*.hpp bindings."""
+"""
+Tests for instruments module.
+
+Corresponds to src/instruments/*.cpp bindings.
+"""
 
 import pytest
 
 import pyquantlib as ql
+from pyquantlib.base import Payoff
 
 
-# --- Swap ---
+# =============================================================================
+# Payoff (ABC)
+# =============================================================================
+
+
+def test_payoff_abc_exists():
+    """Test Payoff ABC is accessible."""
+    assert hasattr(ql.base, 'Payoff')
+
+
+def test_payoff_zombie():
+    """Test direct instantiation creates zombie."""
+    zombie = Payoff()
+
+    with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
+        zombie.name()
+
+
+def test_payoff_custom_subclass():
+    """Test Python subclass implementing Payoff."""
+
+    class MyPayoff(Payoff):
+        def __init__(self, strike):
+            super().__init__()
+            self._strike = strike
+
+        def name(self):
+            return "MyPayoff"
+
+        def description(self):
+            return f"Custom payoff with strike {self._strike}"
+
+        def __call__(self, price):
+            return max(price - self._strike, 0.0)
+
+    payoff = MyPayoff(100.0)
+
+    assert payoff.name() == "MyPayoff"
+    assert "strike 100" in payoff.description()
+    assert payoff(110.0) == 10.0
+    assert payoff(90.0) == 0.0
+
+
+def test_plainvanillapayoff_creation():
+    """Test PlainVanillaPayoff creation."""
+    call = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    put = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+
+    assert call.optionType() == ql.OptionType.Call
+    assert call.strike() == 100.0
+    assert put.optionType() == ql.OptionType.Put
+    assert put.strike() == 100.0
+
+
+# =============================================================================
+# Exercise
+# =============================================================================
+
+
+def test_europeanexercise_creation():
+    """Test EuropeanExercise creation."""
+    exercise_date = ql.Date(15, 6, 2025)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    assert isinstance(exercise, ql.EuropeanExercise)
+    assert isinstance(exercise, ql.Exercise)
+    assert len(exercise.dates()) == 1
+    assert exercise.dates()[0] == exercise_date
+    assert exercise.lastDate() == exercise_date
+
+
+def test_americanexercise_creation():
+    """Test AmericanExercise creation."""
+    earliest_date = ql.Date(15, 2, 2025)
+    latest_date = ql.Date(15, 8, 2025)
+    exercise = ql.AmericanExercise(earliest_date, latest_date)
+
+    assert isinstance(exercise, ql.AmericanExercise)
+    assert exercise.dates() == [earliest_date, latest_date]
+    assert exercise.lastDate() == latest_date
+
+
+def test_bermudanexercise_creation():
+    """Test BermudanExercise creation."""
+    dates = [
+        ql.Date(1, 3, 2025),
+        ql.Date(1, 6, 2025),
+        ql.Date(1, 9, 2025),
+        ql.Date(1, 12, 2025)
+    ]
+    exercise = ql.BermudanExercise(dates)
+
+    assert isinstance(exercise, ql.BermudanExercise)
+    assert exercise.dates() == dates
+    assert exercise.lastDate() == ql.Date(1, 12, 2025)
+
+
+# =============================================================================
+# Option types
+# =============================================================================
+
+
+def test_optiontype_enum():
+    """Test OptionType enum values."""
+    assert ql.OptionType.Call == ql.Call
+    assert ql.OptionType.Put == ql.Put
+    assert ql.Call != ql.Put
+
+
+def test_option_abc_exists():
+    """Test Option ABC is accessible."""
+    assert hasattr(ql.base, 'Option')
+
+
+def test_greeks_class():
+    """Test Greeks class."""
+    greeks = ql.Greeks()
+
+    greeks.delta = 0.5
+    greeks.gamma = 0.1
+    greeks.theta = -0.02
+    greeks.vega = 0.25
+    greeks.rho = 0.03
+    greeks.dividendRho = 0.01
+
+    assert greeks.delta == 0.5
+    assert greeks.gamma == 0.1
+    assert greeks.theta == -0.02
+    assert greeks.vega == 0.25
+    assert greeks.rho == 0.03
+    assert greeks.dividendRho == 0.01
+
+
+def test_moregreeks_class():
+    """Test MoreGreeks class."""
+    more_greeks = ql.MoreGreeks()
+
+    more_greeks.itmCashProbability = 0.6
+    more_greeks.strikeSensitivity = -0.5
+
+    assert more_greeks.itmCashProbability == 0.6
+    assert more_greeks.strikeSensitivity == -0.5
+
+
+# =============================================================================
+# VanillaOption
+# =============================================================================
+
+
+@pytest.fixture
+def option_market_env():
+    """Standard market environment for option pricing."""
+    today = ql.Date(20, 2, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    rate = ql.SimpleQuote(0.05)
+    vol = ql.SimpleQuote(0.20)
+
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, ql.QuoteHandle(rate), dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, ql.QuoteHandle(vol), dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(dividend_ts),
+        ql.YieldTermStructureHandle(risk_free_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    return {"today": today, "process": process}
+
+
+def test_vanillaoption_creation(option_market_env):
+    """Test VanillaOption creation."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    option = ql.VanillaOption(payoff, exercise)
+    assert option is not None
+
+
+def test_vanillaoption_analytic_european_engine(option_market_env):
+    """Test AnalyticEuropeanEngine pricing."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    option = ql.VanillaOption(payoff, exercise)
+    engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
+    option.setPricingEngine(engine)
+
+    # ATM call with 20% vol, 5% rate, 1Y maturity
+    npv = option.NPV()
+    assert npv > 0
+    assert npv == pytest.approx(10.45, abs=0.1)
+
+
+def test_vanillaoption_greeks(option_market_env):
+    """Test Greeks calculation."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    option = ql.VanillaOption(payoff, exercise)
+    engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
+    option.setPricingEngine(engine)
+
+    # Check all Greeks are available
+    assert 0 < option.delta() < 1
+    assert option.gamma() > 0
+    assert option.vega() > 0
+    assert option.theta() < 0  # Time decay
+    assert option.rho() > 0
+
+
+def test_vanillaoption_analytic_engine_with_discount_curve():
+    """Test AnalyticEuropeanEngine with separate discount curve."""
+    today = ql.Date(26, 6, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    process_rate = ql.SimpleQuote(0.05)
+    discount_rate = ql.SimpleQuote(0.10)
+    vol = ql.SimpleQuote(0.20)
+
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    process_ts = ql.FlatForward(today, ql.QuoteHandle(process_rate), dc)
+    discount_ts = ql.FlatForward(today, ql.QuoteHandle(discount_rate), dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, ql.QuoteHandle(vol), dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(dividend_ts),
+        ql.YieldTermStructureHandle(process_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = today + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+    option = ql.VanillaOption(payoff, exercise)
+
+    # Engine with separate discount curve
+    engine = ql.AnalyticEuropeanEngine(
+        process, ql.YieldTermStructureHandle(discount_ts)
+    )
+    option.setPricingEngine(engine)
+
+    # Expected values from dev repo test
+    assert option.NPV() == pytest.approx(9.9409, abs=1e-4)
+    assert option.delta() == pytest.approx(0.6058, abs=1e-4)
+    assert option.vega() == pytest.approx(35.6940, abs=1e-4)
+    assert option.gamma() == pytest.approx(0.0178, abs=1e-4)
+    assert option.theta() == pytest.approx(-5.6042, abs=1e-4)
+
+
+def test_vanillaoption_put(option_market_env):
+    """Test put option pricing."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    option = ql.VanillaOption(payoff, exercise)
+    engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
+    option.setPricingEngine(engine)
+
+    npv = option.NPV()
+    assert npv > 0
+    assert option.delta() < 0  # Put has negative delta
+
+
+def test_vanillaoption_analytic_engine_hidden_discount_curve():
+    """Test AnalyticEuropeanEngine with hidden handle discount curve."""
+    today = ql.Date(26, 6, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, 0.05, dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, 0.20, dc)
+    discount_ts = ql.FlatForward(today, 0.10, dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot, dividend_ts, risk_free_ts, vol_ts
+    )
+
+    # Hidden handle for discount curve
+    engine = ql.AnalyticEuropeanEngine(process, discount_ts)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+
+    assert option.NPV() > 0
+
+
+def test_vanillaoption_analytic_engine_hidden_vs_explicit_discount():
+    """Compare hidden and explicit discount curve constructors."""
+    today = ql.Date(26, 6, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+
+    risk_free_ts = ql.FlatForward(today, 0.05, dc)
+    dividend_ts = ql.FlatForward(today, 0.0, dc)
+    vol_ts = ql.BlackConstantVol(today, cal, 0.20, dc)
+    discount_ts = ql.FlatForward(today, 0.10, dc)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot, dividend_ts, risk_free_ts, vol_ts
+    )
+
+    # Explicit handle
+    engine_explicit = ql.AnalyticEuropeanEngine(
+        process, ql.YieldTermStructureHandle(discount_ts)
+    )
+
+    # Hidden handle
+    engine_hidden = ql.AnalyticEuropeanEngine(process, discount_ts)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+
+    option1 = ql.VanillaOption(payoff, exercise)
+    option1.setPricingEngine(engine_explicit)
+
+    option2 = ql.VanillaOption(payoff, exercise)
+    option2.setPricingEngine(engine_hidden)
+
+    assert option1.NPV() == pytest.approx(option2.NPV(), rel=1e-10)
+
+
+# =============================================================================
+# Swap
+# =============================================================================
 
 
 def test_swap_type_enum():
@@ -55,11 +408,9 @@ def test_fixedvsfloatingswap_results():
 
 def test_swap_construction_two_legs():
     """Test Swap construction from two legs."""
-    # Create simple fixed cash flows as legs
     today = ql.Date(15, ql.June, 2025)
     ql.Settings.instance().evaluationDate = today
 
-    # Simple legs with fixed cash flows
     leg1 = [ql.SimpleCashFlow(100.0, today + ql.Period(1, ql.Years))]
     leg2 = [ql.SimpleCashFlow(105.0, today + ql.Period(1, ql.Years))]
 
@@ -79,7 +430,6 @@ def test_swap_construction_multi_leg():
     leg2 = [ql.SimpleCashFlow(50.0, today + ql.Period(1, ql.Years))]
     leg3 = [ql.SimpleCashFlow(50.0, today + ql.Period(1, ql.Years))]
 
-    # payer[i] = True means leg i is paid
     swap = ql.Swap([leg1, leg2, leg3], [True, False, False])
 
     assert swap.numberOfLegs() == 3
@@ -131,7 +481,9 @@ def test_swap_legs_accessor():
     assert len(leg1_retrieved) == 1
 
 
-# --- VanillaSwap ---
+# =============================================================================
+# VanillaSwap
+# =============================================================================
 
 
 @pytest.fixture
@@ -274,7 +626,6 @@ def test_vanillaswap_pricing(swap_env):
 
 def test_vanillaswap_fair_rate(swap_env):
     """Test that swap at fair rate has zero NPV."""
-    # First get fair rate
     swap = ql.VanillaSwap(
         ql.SwapType.Payer,
         1000000.0,
@@ -310,16 +661,18 @@ def test_vanillaswap_fair_rate(swap_env):
     assert abs(fair_swap.NPV()) < 1e-6
 
 
-# --- Swaption ---
+# =============================================================================
+# Swaption
+# =============================================================================
 
 
-def test_settlement_type_enum():
+def test_swaption_settlementtype_enum():
     """Test SettlementType enum values."""
     assert ql.SettlementType.Physical is not None
     assert ql.SettlementType.Cash is not None
 
 
-def test_settlement_method_enum():
+def test_swaption_settlementmethod_enum():
     """Test SettlementMethod enum values."""
     assert ql.SettlementMethod.PhysicalOTC is not None
     assert ql.SettlementMethod.PhysicalCleared is not None
@@ -327,13 +680,13 @@ def test_settlement_method_enum():
     assert ql.SettlementMethod.ParYieldCurve is not None
 
 
-def test_swaption_price_type_enum():
+def test_swaption_pricetype_enum():
     """Test SwaptionPriceType enum values."""
     assert ql.SwaptionPriceType.Spot is not None
     assert ql.SwaptionPriceType.Forward is not None
 
 
-def test_volatility_type_enum():
+def test_volatilitytype_enum():
     """Test VolatilityType enum values."""
     assert ql.VolatilityType.ShiftedLognormal is not None
     assert ql.VolatilityType.Normal is not None
@@ -347,7 +700,6 @@ def test_swaption_arguments():
 
 def test_swaption_construction(swap_env):
     """Test Swaption construction."""
-    # Create underlying swap
     swap = ql.VanillaSwap(
         ql.SwapType.Payer,
         1000000.0,
@@ -360,11 +712,9 @@ def test_swaption_construction(swap_env):
         swap_env["float_dc"],
     )
 
-    # Create European exercise
     exercise_date = swap_env["fixed_schedule"].dates()[0]
     exercise = ql.EuropeanExercise(exercise_date)
 
-    # Create swaption
     swaption = ql.Swaption(swap, exercise)
 
     assert swaption is not None
@@ -438,7 +788,6 @@ def test_swaption_bermudan(swap_env):
         swap_env["float_dc"],
     )
 
-    # Exercise dates from fixed schedule
     exercise_dates = list(swap_env["fixed_schedule"].dates())[:-1]  # Exclude maturity
     exercise = ql.BermudanExercise(exercise_dates)
 
