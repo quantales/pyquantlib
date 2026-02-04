@@ -164,8 +164,10 @@ def test_fdhullwhiteswaptionengine_with_params(swaption_env):
     env = swaption_env
 
     model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
+    # NOTE: xGrid must be a multiple of 40 due to suspected QuantLib bug
+    # (non-deterministic results with other grid sizes on MSVC Release builds)
     engine = ql.FdHullWhiteSwaptionEngine(
-        model, tGrid=50, xGrid=50, dampingSteps=0
+        model, tGrid=50, xGrid=80, dampingSteps=0
     )
     assert engine is not None
 
@@ -175,11 +177,13 @@ def test_fdhullwhiteswaptionengine_pricing(swaption_env):
     env = swaption_env
 
     model = ql.HullWhite(env["curve"], a=0.1, sigma=0.01)
-    engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=100)
+    # NOTE: xGrid must be a multiple of 40 due to suspected QuantLib bug
+    # (non-deterministic results with other grid sizes on MSVC Release builds)
+    engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=200)
     env["swaption"].setPricingEngine(engine)
 
     npv = env["swaption"].NPV()
-    assert npv == pytest.approx(15859.08141102643, rel=1e-5)
+    assert npv == pytest.approx(15860.169093245760, rel=1e-5)
 
 
 # --- FdG2SwaptionEngine ---
