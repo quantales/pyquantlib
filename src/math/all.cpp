@@ -27,4 +27,9 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(manager, ql_math::problem, "Optimization problem");
     ADD_MAIN_BINDING(manager, ql_math::levenbergmarquardt, "Levenberg-Marquardt optimizer");
     ADD_BASE_BINDING(manager, ql_math::extrapolation, "Extrapolator base class");
+    ADD_BASE_BINDING(manager, ql_math::interpolation, "Interpolation base class");
+    ADD_MAIN_BINDING(manager, ql_math::linearinterpolation, "Linear interpolation");
+    ADD_MAIN_BINDING(manager, ql_math::loglinearinterpolation, "Log-linear interpolation");
+    ADD_MAIN_BINDING(manager, ql_math::backwardflatinterpolation, "Backward-flat interpolation");
+    ADD_MAIN_BINDING(manager, ql_math::cubicinterpolation, "Cubic interpolation");
 }

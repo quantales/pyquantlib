@@ -816,3 +816,352 @@ def test_matrix_implicit_conversion_numpy():
     assert result.rows() == 2
     assert result.columns() == 2
     assert_array_almost_equal(np.array(result), [[1., 3.], [2., 4.]])
+
+
+# =============================================================================
+# Interpolation - Base Class
+# =============================================================================
+
+
+def test_interpolation_base_class_exists():
+    """Test Interpolation base class is in base submodule."""
+    assert hasattr(ql.base, "Interpolation")
+
+
+def test_interpolation_isinstance():
+    """Test concrete interpolations are instances of base Interpolation."""
+    x = [1.0, 2.0, 3.0]
+    y = [1.0, 4.0, 9.0]
+    interp = ql.LinearInterpolation(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+
+
+# =============================================================================
+# LinearInterpolation
+# =============================================================================
+
+
+def test_linearinterpolation_construction():
+    """Test LinearInterpolation construction."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 4.0, 9.0, 16.0]
+    interp = ql.LinearInterpolation(x, y)
+    assert interp is not None
+
+
+def test_linearinterpolation_call():
+    """Test LinearInterpolation evaluation."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0, 30.0]
+    interp = ql.LinearInterpolation(x, y)
+
+    # At nodes
+    assert interp(1.0) == pytest.approx(10.0)
+    assert interp(2.0) == pytest.approx(20.0)
+    assert interp(3.0) == pytest.approx(30.0)
+
+    # Between nodes (linear interpolation)
+    assert interp(1.5) == pytest.approx(15.0)
+    assert interp(2.5) == pytest.approx(25.0)
+
+
+def test_linearinterpolation_xmin_xmax():
+    """Test LinearInterpolation xMin and xMax methods."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 4.0, 9.0, 16.0]
+    interp = ql.LinearInterpolation(x, y)
+
+    assert interp.xMin() == pytest.approx(1.0)
+    assert interp.xMax() == pytest.approx(4.0)
+
+
+def test_linearinterpolation_derivative():
+    """Test LinearInterpolation derivative method."""
+    x = [0.0, 1.0, 2.0]
+    y = [0.0, 2.0, 4.0]  # y = 2x, derivative = 2
+    interp = ql.LinearInterpolation(x, y)
+
+    assert interp.derivative(0.5) == pytest.approx(2.0)
+    assert interp.derivative(1.5) == pytest.approx(2.0)
+
+
+def test_linearinterpolation_primitive():
+    """Test LinearInterpolation primitive (integral) method."""
+    x = [0.0, 1.0, 2.0]
+    y = [1.0, 1.0, 1.0]  # constant y=1, integral from 0 to x is x
+    interp = ql.LinearInterpolation(x, y)
+
+    assert interp.primitive(0.0) == pytest.approx(0.0)
+    assert interp.primitive(1.0) == pytest.approx(1.0)
+    assert interp.primitive(2.0) == pytest.approx(2.0)
+
+
+def test_linearinterpolation_data_lifetime():
+    """Test LinearInterpolation data lifetime (no dangling pointers)."""
+    def create_interp():
+        x = [1.0, 2.0, 3.0]
+        y = [10.0, 20.0, 30.0]
+        return ql.LinearInterpolation(x, y)
+
+    interp = create_interp()
+    # Data should still be valid after local variables are gone
+    assert interp(1.5) == pytest.approx(15.0)
+    assert interp.xMin() == pytest.approx(1.0)
+    assert interp.xMax() == pytest.approx(3.0)
+
+
+def test_linearinterpolation_validation():
+    """Test LinearInterpolation input validation."""
+    with pytest.raises(ql.Error):
+        ql.LinearInterpolation([1.0], [1.0])  # Need at least 2 points
+
+    with pytest.raises(ql.Error):
+        ql.LinearInterpolation([1.0, 2.0], [1.0])  # Size mismatch
+
+
+# =============================================================================
+# LogLinearInterpolation
+# =============================================================================
+
+
+def test_loglinearinterpolation_construction():
+    """Test LogLinearInterpolation construction."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 2.0, 4.0, 8.0]
+    interp = ql.LogLinearInterpolation(x, y)
+    assert interp is not None
+
+
+def test_loglinearinterpolation_call():
+    """Test LogLinearInterpolation evaluation."""
+    x = [1.0, 2.0]
+    y = [1.0, math.e]  # y = e^(x-1)
+    interp = ql.LogLinearInterpolation(x, y)
+
+    assert interp(1.0) == pytest.approx(1.0)
+    assert interp(2.0) == pytest.approx(math.e)
+    # Log-linear interpolates in log space
+    assert interp(1.5) == pytest.approx(math.exp(0.5))
+
+
+def test_loglinearinterpolation_data_lifetime():
+    """Test LogLinearInterpolation data lifetime."""
+    def create_interp():
+        x = [1.0, 2.0, 3.0]
+        y = [1.0, 2.0, 4.0]
+        return ql.LogLinearInterpolation(x, y)
+
+    interp = create_interp()
+    assert interp.xMin() == pytest.approx(1.0)
+    assert interp.xMax() == pytest.approx(3.0)
+    assert interp(1.0) == pytest.approx(1.0)
+
+
+# =============================================================================
+# BackwardFlatInterpolation
+# =============================================================================
+
+
+def test_backwardflatinterpolation_construction():
+    """Test BackwardFlatInterpolation construction."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0, 30.0]
+    interp = ql.BackwardFlatInterpolation(x, y)
+    assert interp is not None
+
+
+def test_backwardflatinterpolation_call():
+    """Test BackwardFlatInterpolation evaluation."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0, 30.0]
+    interp = ql.BackwardFlatInterpolation(x, y)
+
+    # At nodes
+    assert interp(1.0) == pytest.approx(10.0)
+    assert interp(2.0) == pytest.approx(20.0)
+    assert interp(3.0) == pytest.approx(30.0)
+
+    # Between nodes - backward flat uses left value
+    assert interp(1.5) == pytest.approx(20.0)
+    assert interp(2.5) == pytest.approx(30.0)
+
+
+def test_backwardflatinterpolation_single_point():
+    """Test BackwardFlatInterpolation with single point."""
+    x = [1.0]
+    y = [10.0]
+    interp = ql.BackwardFlatInterpolation(x, y)
+    assert interp(1.0) == pytest.approx(10.0)
+
+
+def test_backwardflatinterpolation_data_lifetime():
+    """Test BackwardFlatInterpolation data lifetime."""
+    def create_interp():
+        x = [1.0, 2.0, 3.0]
+        y = [10.0, 20.0, 30.0]
+        return ql.BackwardFlatInterpolation(x, y)
+
+    interp = create_interp()
+    assert interp(1.5) == pytest.approx(20.0)
+
+
+# =============================================================================
+# CubicInterpolation
+# =============================================================================
+
+
+def test_cubicinterpolation_enums():
+    """Test CubicInterpolation enums exist."""
+    # DerivativeApprox
+    assert hasattr(ql, "CubicDerivativeApprox")
+    assert hasattr(ql.CubicDerivativeApprox, "Spline")
+    assert hasattr(ql.CubicDerivativeApprox, "Kruger")
+    assert hasattr(ql.CubicDerivativeApprox, "Akima")
+
+    # BoundaryCondition
+    assert hasattr(ql, "CubicBoundaryCondition")
+    assert hasattr(ql.CubicBoundaryCondition, "NotAKnot")
+    assert hasattr(ql.CubicBoundaryCondition, "FirstDerivative")
+    assert hasattr(ql.CubicBoundaryCondition, "SecondDerivative")
+
+
+def test_cubicinterpolation_construction_defaults():
+    """Test CubicInterpolation construction with defaults."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 4.0, 9.0, 16.0]
+    interp = ql.CubicInterpolation(x, y)
+    assert interp is not None
+
+
+def test_cubicinterpolation_construction_explicit():
+    """Test CubicInterpolation construction with explicit parameters."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 4.0, 9.0, 16.0]
+    interp = ql.CubicInterpolation(
+        x, y,
+        derivativeApprox=ql.CubicDerivativeApprox.Spline,
+        monotonic=False,
+        leftCondition=ql.CubicBoundaryCondition.SecondDerivative,
+        leftConditionValue=0.0,
+        rightCondition=ql.CubicBoundaryCondition.SecondDerivative,
+        rightConditionValue=0.0
+    )
+    assert interp is not None
+
+
+def test_cubicinterpolation_call():
+    """Test CubicInterpolation evaluation."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 8.0, 27.0, 64.0]  # y = x^3
+    interp = ql.CubicInterpolation(x, y)
+
+    # At nodes
+    assert interp(1.0) == pytest.approx(1.0)
+    assert interp(2.0) == pytest.approx(8.0)
+    assert interp(3.0) == pytest.approx(27.0)
+    assert interp(4.0) == pytest.approx(64.0)
+
+
+def test_cubicinterpolation_smooth():
+    """Test CubicInterpolation produces smooth curve."""
+    x = [0.0, 1.0, 2.0, 3.0]
+    y = [0.0, 1.0, 4.0, 9.0]
+    interp = ql.CubicInterpolation(x, y)
+
+    # Derivative should be continuous (smooth) - test between nodes
+    eps = 1e-6
+    for xi in [0.5, 1.5, 2.5]:
+        left = interp.derivative(xi - eps)
+        right = interp.derivative(xi + eps)
+        assert left == pytest.approx(right, rel=1e-3)
+
+
+def test_cubicinterpolation_data_lifetime():
+    """Test CubicInterpolation data lifetime."""
+    def create_interp():
+        x = [1.0, 2.0, 3.0, 4.0]
+        y = [1.0, 4.0, 9.0, 16.0]
+        return ql.CubicInterpolation(x, y)
+
+    interp = create_interp()
+    assert interp(2.0) == pytest.approx(4.0)
+
+
+# =============================================================================
+# CubicNaturalSpline
+# =============================================================================
+
+
+def test_cubicnaturalspline_construction():
+    """Test CubicNaturalSpline construction."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 4.0, 9.0, 16.0]
+    interp = ql.CubicNaturalSpline(x, y)
+    assert interp is not None
+    assert isinstance(interp, ql.base.Interpolation)
+
+
+def test_cubicnaturalspline_call():
+    """Test CubicNaturalSpline evaluation."""
+    x = [0.0, 1.0, 2.0, 3.0]
+    y = [0.0, 1.0, 4.0, 9.0]
+    interp = ql.CubicNaturalSpline(x, y)
+
+    assert interp(0.0) == pytest.approx(0.0)
+    assert interp(1.0) == pytest.approx(1.0)
+    assert interp(2.0) == pytest.approx(4.0)
+    assert interp(3.0) == pytest.approx(9.0)
+
+
+def test_cubicnaturalspline_natural_boundary():
+    """Test CubicNaturalSpline has zero second derivative at boundaries."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0]
+    y = [0.0, 1.0, 0.0, 1.0, 0.0]
+    interp = ql.CubicNaturalSpline(x, y)
+
+    # Natural spline: second derivative is zero at endpoints
+    eps = 1e-6
+    # Approximate second derivative
+    d2_left = (interp.derivative(eps) - interp.derivative(0.0)) / eps
+    d2_right = (interp.derivative(4.0) - interp.derivative(4.0 - eps)) / eps
+    assert d2_left == pytest.approx(0.0, abs=0.1)
+    assert d2_right == pytest.approx(0.0, abs=0.1)
+
+
+# =============================================================================
+# MonotonicCubicNaturalSpline
+# =============================================================================
+
+
+def test_monotoniccubicnaturalspline_construction():
+    """Test MonotonicCubicNaturalSpline construction."""
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [1.0, 2.0, 3.0, 4.0]
+    interp = ql.MonotonicCubicNaturalSpline(x, y)
+    assert interp is not None
+    assert isinstance(interp, ql.base.Interpolation)
+
+
+def test_monotoniccubicnaturalspline_monotonicity():
+    """Test MonotonicCubicNaturalSpline preserves monotonicity."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [1.0, 2.0, 3.0, 4.0, 5.0]  # Monotonic increasing
+    interp = ql.MonotonicCubicNaturalSpline(x, y)
+
+    # Check monotonicity between all nodes
+    prev = interp(1.0)
+    for xi in [1.2, 1.5, 1.8, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]:
+        curr = interp(xi)
+        assert curr >= prev, f"Monotonicity violated at x={xi}"
+        prev = curr
+
+
+def test_monotoniccubicnaturalspline_data_lifetime():
+    """Test MonotonicCubicNaturalSpline data lifetime."""
+    def create_interp():
+        x = [1.0, 2.0, 3.0, 4.0]
+        y = [1.0, 2.0, 3.0, 4.0]
+        return ql.MonotonicCubicNaturalSpline(x, y)
+
+    interp = create_interp()
+    assert interp(2.5) == pytest.approx(2.5, rel=0.1)

@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -475,6 +475,46 @@ class InterestRateIndex(Index):
     def valueDate(self, fixingDate: pyquantlib._pyquantlib.Date) -> pyquantlib._pyquantlib.Date:
         """
         Returns the value date for the given fixing date.
+        """
+class Interpolation(Extrapolator):
+    """
+    Base class for 1-D interpolations.
+    """
+    def __call__(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
+        """
+        Returns interpolated value at x.
+        """
+    def derivative(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
+        """
+        Returns first derivative at x.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if interpolation is not initialized.
+        """
+    def isInRange(self, x: typing.SupportsFloat) -> bool:
+        """
+        Returns true if x is in the interpolation range.
+        """
+    def primitive(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
+        """
+        Returns primitive (integral) at x.
+        """
+    def secondDerivative(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
+        """
+        Returns second derivative at x.
+        """
+    def update(self) -> None:
+        """
+        Updates the interpolation after data changes.
+        """
+    def xMax(self) -> float:
+        """
+        Returns maximum x value.
+        """
+    def xMin(self) -> float:
+        """
+        Returns minimum x value.
         """
 class LazyObject(Observer, pyquantlib._pyquantlib.Observable):
     """

@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloorTruncation', 'Following', 'France', 'Frequency', 'Fri', 'Friday', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborIndex', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parameter', 'Period', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'sviTotalVariance', 'transpose', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DerivedQuote', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloorTruncation', 'Following', 'FourthOrder', 'France', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborIndex', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'Period', 'Periodic', 'PiecewiseTimeDependentHestonModel', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'sviTotalVariance', 'transpose', 'weeks', 'yearFractionToDate', 'years']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -838,6 +838,14 @@ class BYRCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class BackwardFlatInterpolation(base.Interpolation):
+    """
+    Backward-flat interpolation between discrete points.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs interpolation from x and y arrays.
+        """
 class BaroneAdesiWhaleyApproximationEngine(base.PricingEngine):
     """
     Barone-Adesi and Whaley approximation engine for American options (1987).
@@ -2201,6 +2209,130 @@ class ConstantParameter(Parameter):
     @typing.overload
     def __init__(self, value: typing.SupportsFloat, constraint: base.Constraint) -> None:
         ...
+class CubicBoundaryCondition:
+    """
+    Boundary conditions for cubic interpolation.
+    
+    Members:
+    
+      NotAKnot
+    
+      FirstDerivative
+    
+      SecondDerivative
+    
+      Periodic
+    
+      Lagrange
+    """
+    FirstDerivative: typing.ClassVar[CubicBoundaryCondition]  # value = <CubicBoundaryCondition.FirstDerivative: 1>
+    Lagrange: typing.ClassVar[CubicBoundaryCondition]  # value = <CubicBoundaryCondition.Lagrange: 4>
+    NotAKnot: typing.ClassVar[CubicBoundaryCondition]  # value = <CubicBoundaryCondition.NotAKnot: 0>
+    Periodic: typing.ClassVar[CubicBoundaryCondition]  # value = <CubicBoundaryCondition.Periodic: 3>
+    SecondDerivative: typing.ClassVar[CubicBoundaryCondition]  # value = <CubicBoundaryCondition.SecondDerivative: 2>
+    __members__: typing.ClassVar[dict[str, CubicBoundaryCondition]]  # value = {'NotAKnot': <CubicBoundaryCondition.NotAKnot: 0>, 'FirstDerivative': <CubicBoundaryCondition.FirstDerivative: 1>, 'SecondDerivative': <CubicBoundaryCondition.SecondDerivative: 2>, 'Periodic': <CubicBoundaryCondition.Periodic: 3>, 'Lagrange': <CubicBoundaryCondition.Lagrange: 4>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class CubicDerivativeApprox:
+    """
+    Derivative approximation methods for cubic interpolation.
+    
+    Members:
+    
+      Spline
+    
+      SplineOM1
+    
+      SplineOM2
+    
+      FourthOrder
+    
+      Parabolic
+    
+      FritschButland
+    
+      Akima
+    
+      Kruger
+    
+      Harmonic
+    """
+    Akima: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.Akima: 6>
+    FourthOrder: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.FourthOrder: 3>
+    FritschButland: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.FritschButland: 5>
+    Harmonic: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.Harmonic: 8>
+    Kruger: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.Kruger: 7>
+    Parabolic: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.Parabolic: 4>
+    Spline: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.Spline: 0>
+    SplineOM1: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.SplineOM1: 1>
+    SplineOM2: typing.ClassVar[CubicDerivativeApprox]  # value = <CubicDerivativeApprox.SplineOM2: 2>
+    __members__: typing.ClassVar[dict[str, CubicDerivativeApprox]]  # value = {'Spline': <CubicDerivativeApprox.Spline: 0>, 'SplineOM1': <CubicDerivativeApprox.SplineOM1: 1>, 'SplineOM2': <CubicDerivativeApprox.SplineOM2: 2>, 'FourthOrder': <CubicDerivativeApprox.FourthOrder: 3>, 'Parabolic': <CubicDerivativeApprox.Parabolic: 4>, 'FritschButland': <CubicDerivativeApprox.FritschButland: 5>, 'Akima': <CubicDerivativeApprox.Akima: 6>, 'Kruger': <CubicDerivativeApprox.Kruger: 7>, 'Harmonic': <CubicDerivativeApprox.Harmonic: 8>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class CubicInterpolation(base.Interpolation):
+    """
+    Cubic interpolation between discrete points.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat], derivativeApprox: CubicDerivativeApprox = ..., monotonic: bool = False, leftCondition: CubicBoundaryCondition = ..., leftConditionValue: typing.SupportsFloat = 0.0, rightCondition: CubicBoundaryCondition = ..., rightConditionValue: typing.SupportsFloat = 0.0) -> None:
+        """
+        Constructs cubic interpolation from x and y arrays.
+        """
+class CubicNaturalSpline(base.Interpolation):
+    """
+    Natural cubic spline interpolation.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs interpolation from x and y arrays.
+        """
 class Currency:
     """
     Currency specification.
@@ -5593,6 +5725,14 @@ class LevenbergMarquardt(base.OptimizationMethod):
         """
         Creates a Levenberg-Marquardt optimizer.
         """
+class LinearInterpolation(base.Interpolation):
+    """
+    Linear interpolation between discrete points.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs interpolation from x and y arrays.
+        """
 class LocalConstantVol(base.LocalVolTermStructure):
     """
     Constant local volatility term structure.
@@ -5691,6 +5831,14 @@ class LocalVolTermStructureHandle:
     def get(self) -> base.LocalVolTermStructure:
         """
         Returns the underlying shared_ptr. Raises error if empty.
+        """
+class LogLinearInterpolation(base.Interpolation):
+    """
+    Log-linear interpolation between discrete points.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs interpolation from x and y arrays.
         """
 class MADCurrency(Currency):
     """
@@ -6157,6 +6305,14 @@ class Money:
     def value(self) -> float:
         """
         Returns the amount.
+        """
+class MonotonicCubicNaturalSpline(base.Interpolation):
+    """
+    Monotonic natural cubic spline interpolation.
+    """
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+        """
+        Constructs interpolation from x and y arrays.
         """
 class Month:
     """
@@ -10252,6 +10408,7 @@ def years(period: Period) -> float:
     """
     Convert a Period to years.
     """
+Akima: CubicDerivativeApprox  # value = <CubicDerivativeApprox.Akima: 6>
 Annual: Frequency  # value = <Frequency.Annual: 1>
 Apr: Month  # value = <Month.April: 4>
 April: Month  # value = <Month.April: 4>
@@ -10280,10 +10437,14 @@ EveryFourthWeek: Frequency  # value = <Frequency.EveryFourthWeek: 13>
 ExplicitEuler: FdmSchemeType  # value = <FdmSchemeType.ExplicitEuler: 5>
 Feb: Month  # value = <Month.February: 2>
 February: Month  # value = <Month.February: 2>
+FirstDerivative: CubicBoundaryCondition  # value = <CubicBoundaryCondition.FirstDerivative: 1>
 Following: BusinessDayConvention  # value = <BusinessDayConvention.Following: 0>
+FourthOrder: CubicDerivativeApprox  # value = <CubicDerivativeApprox.FourthOrder: 3>
 Fri: Weekday  # value = <Weekday.Friday: 6>
 Friday: Weekday  # value = <Weekday.Friday: 6>
+FritschButland: CubicDerivativeApprox  # value = <CubicDerivativeApprox.FritschButland: 5>
 HalfMonthModifiedFollowing: BusinessDayConvention  # value = <BusinessDayConvention.HalfMonthModifiedFollowing: 5>
+Harmonic: CubicDerivativeApprox  # value = <CubicDerivativeApprox.Harmonic: 8>
 Hermite: PolynomialType  # value = <PolynomialType.Hermite: 2>
 Hours: TimeUnit  # value = <TimeUnit.Hours: 4>
 Hundsdorfer: FdmSchemeType  # value = <FdmSchemeType.Hundsdorfer: 0>
@@ -10297,6 +10458,8 @@ Jul: Month  # value = <Month.July: 7>
 July: Month  # value = <Month.July: 7>
 Jun: Month  # value = <Month.June: 6>
 June: Month  # value = <Month.June: 6>
+Kruger: CubicDerivativeApprox  # value = <CubicDerivativeApprox.Kruger: 7>
+Lagrange: CubicBoundaryCondition  # value = <CubicBoundaryCondition.Lagrange: 4>
 Laguerre: PolynomialType  # value = <PolynomialType.Laguerre: 1>
 Legendre: PolynomialType  # value = <PolynomialType.Legendre: 4>
 MAX_INTEGER: int = 2147483647
@@ -10321,12 +10484,15 @@ Monthly: Frequency  # value = <Frequency.Monthly: 12>
 Months: TimeUnit  # value = <TimeUnit.Months: 2>
 Nearest: BusinessDayConvention  # value = <BusinessDayConvention.Nearest: 6>
 NoFrequency: Frequency  # value = <Frequency.NoFrequency: -1>
+NotAKnot: CubicBoundaryCondition  # value = <CubicBoundaryCondition.NotAKnot: 0>
 Nov: Month  # value = <Month.November: 11>
 November: Month  # value = <Month.November: 11>
 Oct: Month  # value = <Month.October: 10>
 October: Month  # value = <Month.October: 10>
 Once: Frequency  # value = <Frequency.Once: 0>
 OtherFrequency: Frequency  # value = <Frequency.OtherFrequency: 999>
+Parabolic: CubicDerivativeApprox  # value = <CubicDerivativeApprox.Parabolic: 4>
+Periodic: CubicBoundaryCondition  # value = <CubicBoundaryCondition.Periodic: 3>
 Preceding: BusinessDayConvention  # value = <BusinessDayConvention.Preceding: 2>
 Put: OptionType  # value = <OptionType.Put: -1>
 QL_VERSION: str = '1.40'
@@ -10334,12 +10500,16 @@ QL_VERSION_HEX: int = 20971760
 Quarterly: Frequency  # value = <Frequency.Quarterly: 4>
 Sat: Weekday  # value = <Weekday.Saturday: 7>
 Saturday: Weekday  # value = <Weekday.Saturday: 7>
+SecondDerivative: CubicBoundaryCondition  # value = <CubicBoundaryCondition.SecondDerivative: 2>
 Seconds: TimeUnit  # value = <TimeUnit.Seconds: 6>
 Semiannual: Frequency  # value = <Frequency.Semiannual: 2>
 Sep: Month  # value = <Month.September: 9>
 September: Month  # value = <Month.September: 9>
 Simple: Compounding  # value = <Compounding.Simple: 0>
 SimpleThenCompounded: Compounding  # value = <Compounding.SimpleThenCompounded: 3>
+Spline: CubicDerivativeApprox  # value = <CubicDerivativeApprox.Spline: 0>
+SplineOM1: CubicDerivativeApprox  # value = <CubicDerivativeApprox.SplineOM1: 1>
+SplineOM2: CubicDerivativeApprox  # value = <CubicDerivativeApprox.SplineOM2: 2>
 Spot: CashDividendModel  # value = <CashDividendModel.Spot: 0>
 Sun: Weekday  # value = <Weekday.Sunday: 1>
 Sunday: Weekday  # value = <Weekday.Sunday: 1>

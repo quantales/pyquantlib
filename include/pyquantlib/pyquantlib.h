@@ -90,6 +90,11 @@ namespace ql_math {
     void problem(py::module_&);
     void levenbergmarquardt(py::module_&);
     void extrapolation(py::module_&);
+    void interpolation(py::module_&);
+    void linearinterpolation(py::module_&);
+    void loglinearinterpolation(py::module_&);
+    void backwardflatinterpolation(py::module_&);
+    void cubicinterpolation(py::module_&);
 }
 
 namespace ql_core {
