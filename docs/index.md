@@ -143,6 +143,7 @@ api/index
 
 architecture
 internals
+design/index
 contributing
 troubleshooting
 changelog
