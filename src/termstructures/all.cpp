@@ -16,50 +16,60 @@
 
 DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     // Abstract base classes
-    ADD_BASE_BINDING(manager, ql_termstructures::yieldtermstructure,
+    ADD_BASE_BINDING(ql_termstructures::yieldtermstructure,
         "YieldTermStructure ABC");
-    ADD_BASE_BINDING(manager, ql_termstructures::voltermstructure,
+    ADD_BASE_BINDING(ql_termstructures::voltermstructure,
         "VolatilityTermStructure ABC");
-    ADD_BASE_BINDING(manager, ql_termstructures::blackvoltermstructure,
+    ADD_BASE_BINDING(ql_termstructures::blackvoltermstructure,
         "BlackVolTermStructure ABC");
-    ADD_BASE_BINDING(manager, ql_termstructures::localvoltermstructure,
+    ADD_BASE_BINDING(ql_termstructures::localvoltermstructure,
         "LocalVolTermStructure ABC");
 
     // Handle types
-    ADD_MAIN_BINDING(manager, ql_termstructures::yieldtermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::yieldtermstructurehandle,
         "Handle<YieldTermStructure>");
-    ADD_MAIN_BINDING(manager, ql_termstructures::relinkableyieldtermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::relinkableyieldtermstructurehandle,
         "RelinkableHandle<YieldTermStructure>");
-    ADD_MAIN_BINDING(manager, ql_termstructures::blackvoltermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::blackvoltermstructurehandle,
         "Handle<BlackVolTermStructure>");
-    ADD_MAIN_BINDING(manager, ql_termstructures::relinkableblackvoltermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::relinkableblackvoltermstructurehandle,
         "RelinkableHandle<BlackVolTermStructure>");
-    ADD_MAIN_BINDING(manager, ql_termstructures::localvoltermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::localvoltermstructurehandle,
         "Handle<LocalVolTermStructure>");
-    ADD_MAIN_BINDING(manager, ql_termstructures::relinkablelocalvoltermstructurehandle,
+    ADD_MAIN_BINDING(ql_termstructures::relinkablelocalvoltermstructurehandle,
         "RelinkableHandle<LocalVolTermStructure>");
 
     // Enums
-    ADD_MAIN_BINDING(manager, ql_termstructures::volatilitytype,
+    ADD_MAIN_BINDING(ql_termstructures::volatilitytype,
         "VolatilityType - ShiftedLognormal or Normal");
 
     // Concrete implementations
-    ADD_MAIN_BINDING(manager, ql_termstructures::flatforward,
+    ADD_MAIN_BINDING(ql_termstructures::flatforward,
         "FlatForward yield curve");
-    ADD_MAIN_BINDING(manager, ql_termstructures::blackconstantvol,
+    ADD_MAIN_BINDING(ql_termstructures::blackconstantvol,
         "BlackConstantVol volatility surface");
-    ADD_MAIN_BINDING(manager, ql_termstructures::blackvariancesurface,
+    ADD_MAIN_BINDING(ql_termstructures::blackvariancesurface,
         "BlackVarianceSurface volatility surface");
-    ADD_MAIN_BINDING(manager, ql_termstructures::localconstantvol,
+    ADD_MAIN_BINDING(ql_termstructures::localconstantvol,
         "LocalConstantVol volatility surface");
-    ADD_MAIN_BINDING(manager, ql_termstructures::localvolsurface,
+    ADD_MAIN_BINDING(ql_termstructures::localvolsurface,
         "LocalVolSurface from Black vol");
-    ADD_MAIN_BINDING(manager, ql_termstructures::fixedlocalvolsurface,
+    ADD_MAIN_BINDING(ql_termstructures::fixedlocalvolsurface,
         "FixedLocalVolSurface with strike/time grid");
-    ADD_MAIN_BINDING(manager, ql_termstructures::noexceptlocalvolsurface,
+    ADD_MAIN_BINDING(ql_termstructures::noexceptlocalvolsurface,
         "NoExceptLocalVolSurface with fallback value");
 
     // Smile sections
-    ADD_BASE_BINDING(manager, ql_termstructures::smilesection,
+    ADD_BASE_BINDING(ql_termstructures::smilesection,
         "SmileSection ABC");
+
+    // Rate helpers and curve bootstrapping
+    ADD_MAIN_BINDING(ql_termstructures::ratehelper,
+        "Pillar, RateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::ratehelpers,
+        "DepositRateHelper, FraRateHelper, SwapRateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::oisratehelper,
+        "OISRateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::piecewiseyieldcurve,
+        "PiecewiseYieldCurve instantiations");
 }

@@ -17,25 +17,25 @@
 
 DECLARE_MODULE_BINDINGS(time_bindings) {
     // Basic time types
-    ADD_MAIN_BINDING(manager, ql_time::weekday, "Weekday enum (Monday, Tuesday, etc.)");
-    ADD_MAIN_BINDING(manager, ql_time::date, "Date class");
-    ADD_MAIN_BINDING(manager, ql_time::timeunit, "TimeUnit enum (Days, Weeks, Months, Years)");
-    ADD_MAIN_BINDING(manager, ql_time::frequency, "Frequency enum (Annual, Semiannual, Quarterly, etc.)");
-    ADD_MAIN_BINDING(manager, ql_time::period, "Time period with length and units");
+    ADD_MAIN_BINDING(ql_time::weekday, "Weekday enum (Monday, Tuesday, etc.)");
+    ADD_MAIN_BINDING(ql_time::date, "Date class");
+    ADD_MAIN_BINDING(ql_time::timeunit, "TimeUnit enum (Days, Weeks, Months, Years)");
+    ADD_MAIN_BINDING(ql_time::frequency, "Frequency enum (Annual, Semiannual, Quarterly, etc.)");
+    ADD_MAIN_BINDING(ql_time::period, "Time period with length and units");
 
     // Business day conventions
-    ADD_MAIN_BINDING(manager, ql_time::businessdayconvention, "Business day conventions");
+    ADD_MAIN_BINDING(ql_time::businessdayconvention, "Business day conventions");
 
     // Calendar
-    ADD_MAIN_BINDING(manager, ql_time::calendar, "Calendar base class");
-    ADD_MAIN_BINDING(manager, ql_time::calendars, "Specific calendar implementations (US, UK, etc.)");
-    ADD_MAIN_BINDING(manager, ql_time::calendarvector, "A vector of Calendar objects, exposed as a Python list");
+    ADD_MAIN_BINDING(ql_time::calendar, "Calendar base class");
+    ADD_MAIN_BINDING(ql_time::calendars, "Specific calendar implementations (US, UK, etc.)");
+    ADD_MAIN_BINDING(ql_time::calendarvector, "A vector of Calendar objects, exposed as a Python list");
 
     // Day counters
-    ADD_MAIN_BINDING(manager, ql_time::daycounter, "Day count convention base class");
-    ADD_MAIN_BINDING(manager, ql_time::daycounters, "Day count implementations (Actual360, 30/360, etc.)");
+    ADD_MAIN_BINDING(ql_time::daycounter, "Day count convention base class");
+    ADD_MAIN_BINDING(ql_time::daycounters, "Day count implementations (Actual360, 30/360, etc.)");
 
     // Schedule
-    ADD_MAIN_BINDING(manager, ql_time::dategenerationrule, "Date generation rules enum");
-    ADD_MAIN_BINDING(manager, ql_time::schedule, "Schedule class");
+    ADD_MAIN_BINDING(ql_time::dategenerationrule, "Date generation rules enum");
+    ADD_MAIN_BINDING(ql_time::schedule, "Schedule class");
 }

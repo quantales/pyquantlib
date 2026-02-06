@@ -81,10 +81,10 @@ manager.finalize();             // Execute all bindings in order
 DECLARE_MODULE_BINDINGS(time_bindings);
 
 // Add binding to base submodule
-ADD_BASE_BINDING(manager, ql_patterns::observable, "Observable");
+ADD_BASE_BINDING(ql_patterns::observable, "Observable");
 
 // Add binding to main module
-ADD_MAIN_BINDING(manager, ql_time::date, "Date");
+ADD_MAIN_BINDING(ql_time::date, "Date");
 ```
 
 ### Why Deferred Execution?

@@ -16,7 +16,7 @@
 
 
 DECLARE_MODULE_BINDINGS(patterns_bindings) {
-    ADD_BASE_BINDING(manager, ql_patterns::observer, "Observer ABC");
-    ADD_MAIN_BINDING(manager, ql_patterns::observable, "Observable");
-    ADD_BASE_BINDING(manager, ql_patterns::lazyobject, "LazyObject ABC");
+    ADD_BASE_BINDING(ql_patterns::observer, "Observer ABC");
+    ADD_MAIN_BINDING(ql_patterns::observable, "Observable");
+    ADD_BASE_BINDING(ql_patterns::lazyobject, "LazyObject ABC");
 }

@@ -15,6 +15,6 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(utilities_bindings) {
-    ADD_MAIN_BINDING(manager, ql_utilities::observablevalue, "ObservableValue - observable wrapper for values");
-    ADD_MAIN_BINDING(manager, ql_utilities::null, "Null - QuantLib Null utilities");
+    ADD_MAIN_BINDING(ql_utilities::observablevalue, "ObservableValue - observable wrapper for values");
+    ADD_MAIN_BINDING(ql_utilities::null, "Null - QuantLib Null utilities");
 }

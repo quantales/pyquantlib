@@ -15,60 +15,60 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
-    ADD_MAIN_BINDING(manager, ql_pricingengines::blackformula,
+    ADD_MAIN_BINDING(ql_pricingengines::blackformula,
         "Black formula functions for option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::genericmodelengine,
+    ADD_MAIN_BINDING(ql_pricingengines::genericmodelengine,
         "GenericModelEngine - Generic option engine based on a model");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::analyticeuropeanengine,
+    ADD_MAIN_BINDING(ql_pricingengines::analyticeuropeanengine,
         "AnalyticEuropeanEngine - Black-Scholes European option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::analytichestonengine,
+    ADD_MAIN_BINDING(ql_pricingengines::analytichestonengine,
         "AnalyticHestonEngine - Heston stochastic volatility pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::mceuropeanengine,
+    ADD_MAIN_BINDING(ql_pricingengines::mceuropeanengine,
         "MCEuropeanEngine - Monte Carlo European option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::spreadblackscholesvanillaengine,
+    ADD_MAIN_BINDING(ql_pricingengines::spreadblackscholesvanillaengine,
         "SpreadBlackScholesVanillaEngine - spread option pricing base class");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::kirkengine,
+    ADD_MAIN_BINDING(ql_pricingengines::kirkengine,
         "KirkEngine - Kirk spread option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::bjerksundstenslandspreadengine,
+    ADD_MAIN_BINDING(ql_pricingengines::bjerksundstenslandspreadengine,
         "BjerksundStenslandSpreadEngine - Bjerksund-Stensland spread option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::operatorsplittingspreadengine,
+    ADD_MAIN_BINDING(ql_pricingengines::operatorsplittingspreadengine,
         "OperatorSplittingSpreadEngine - Operator splitting spread option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::denglizhoubasketengine,
+    ADD_MAIN_BINDING(ql_pricingengines::denglizhoubasketengine,
         "DengLiZhouBasketEngine - Deng-Li-Zhou N-dim basket option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::stulzengine,
+    ADD_MAIN_BINDING(ql_pricingengines::stulzengine,
         "StulzEngine - Stulz 2D min/max basket option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::fd2dblackscholesvanillaengine,
+    ADD_MAIN_BINDING(ql_pricingengines::fd2dblackscholesvanillaengine,
         "Fd2dBlackScholesVanillaEngine - 2D FD basket option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::mceuropeanbasketengine,
+    ADD_MAIN_BINDING(ql_pricingengines::mceuropeanbasketengine,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::baroneadesiwhaleyengine,
+    ADD_MAIN_BINDING(ql_pricingengines::baroneadesiwhaleyengine,
         "BaroneAdesiWhaleyApproximationEngine - Barone-Adesi-Whaley American approximation");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::bjerksundstenslandengine,
+    ADD_MAIN_BINDING(ql_pricingengines::bjerksundstenslandengine,
         "BjerksundStenslandApproximationEngine - Bjerksund-Stensland American approximation");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::fdblackscholesvanillaengine,
+    ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesvanillaengine,
         "FdBlackScholesVanillaEngine - 1D finite-difference vanilla option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::binomialengine,
+    ADD_MAIN_BINDING(ql_pricingengines::binomialengine,
         "BinomialVanillaEngine - binomial tree vanilla option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::mcamericanengine,
+    ADD_MAIN_BINDING(ql_pricingengines::mcamericanengine,
         "MCAmericanEngine - Monte Carlo American option pricing (Longstaff-Schwartz)");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::integralengine,
+    ADD_MAIN_BINDING(ql_pricingengines::integralengine,
         "IntegralEngine - European option pricing using integral approach");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::qdfpamericanengine,
+    ADD_MAIN_BINDING(ql_pricingengines::qdfpamericanengine,
         "QdFpAmericanEngine - QD+ fixed-point American option pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::analyticeuropeanvasicekengine,
+    ADD_MAIN_BINDING(ql_pricingengines::analyticeuropeanvasicekengine,
         "AnalyticBlackVasicekEngine - European option with stochastic Vasicek rates");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::batesengine,
+    ADD_MAIN_BINDING(ql_pricingengines::batesengine,
         "BatesEngine - Analytic Bates model pricing");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::discountingswapengine,
+    ADD_MAIN_BINDING(ql_pricingengines::discountingswapengine,
         "DiscountingSwapEngine - Discounting engine for swaps");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::treeswaptionengine,
+    ADD_MAIN_BINDING(ql_pricingengines::treeswaptionengine,
         "TreeSwaptionEngine - Lattice engine for swaptions");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::jamshidianswaptionengine,
+    ADD_MAIN_BINDING(ql_pricingengines::jamshidianswaptionengine,
         "JamshidianSwaptionEngine - Analytic swaption engine using bond option decomposition");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::g2swaptionengine,
+    ADD_MAIN_BINDING(ql_pricingengines::g2swaptionengine,
         "G2SwaptionEngine - Swaption engine for G2++ two-factor model");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::fdhullwhiteswaptionengine,
+    ADD_MAIN_BINDING(ql_pricingengines::fdhullwhiteswaptionengine,
         "FdHullWhiteSwaptionEngine - FD swaption engine for Hull-White model");
-    ADD_MAIN_BINDING(manager, ql_pricingengines::fdg2swaptionengine,
+    ADD_MAIN_BINDING(ql_pricingengines::fdg2swaptionengine,
         "FdG2SwaptionEngine - FD swaption engine for G2++ two-factor model");
 }

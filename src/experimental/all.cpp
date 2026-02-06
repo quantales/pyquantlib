@@ -16,6 +16,6 @@
 
 DECLARE_MODULE_BINDINGS(experimental_bindings) {
     // Volatility
-    ADD_MAIN_BINDING(manager, ql_experimental::svismilesection,
+    ADD_MAIN_BINDING(ql_experimental::svismilesection,
         "SviSmileSection (Stochastic Volatility Inspired)");
 }

@@ -130,10 +130,10 @@ private:
 #define DECLARE_MODULE_BINDINGS(name) void name(BindingManager& manager)
 
 // Helper macros for common binding patterns
-#define ADD_BASE_BINDING(manager, register_func, description) \
+#define ADD_BASE_BINDING(register_func, description) \
     manager.addFunction(register_func, manager.getSubmodule("base"), description)
 
-#define ADD_MAIN_BINDING(manager, register_func, description) \
+#define ADD_MAIN_BINDING(register_func, description) \
     manager.addFunction(register_func, manager.module(), description)
 
 /**

@@ -15,14 +15,14 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(processes_bindings) {
-    ADD_MAIN_BINDING(manager, ql_processes::eulerdiscretization,
+    ADD_MAIN_BINDING(ql_processes::eulerdiscretization,
         "EulerDiscretization - Euler scheme for SDE discretization");
-    ADD_MAIN_BINDING(manager, ql_processes::blackscholesprocess,
+    ADD_MAIN_BINDING(ql_processes::blackscholesprocess,
         "BlackScholesProcess - geometric Brownian motion processes");
-    ADD_MAIN_BINDING(manager, ql_processes::hestonprocess,
+    ADD_MAIN_BINDING(ql_processes::hestonprocess,
         "HestonProcess - stochastic volatility process");
-    ADD_MAIN_BINDING(manager, ql_processes::stochasticprocessarray,
+    ADD_MAIN_BINDING(ql_processes::stochasticprocessarray,
         "StochasticProcessArray - array of correlated 1D processes");
-    ADD_MAIN_BINDING(manager, ql_processes::batesprocess,
+    ADD_MAIN_BINDING(ql_processes::batesprocess,
         "BatesProcess - Heston process with jumps");
 }

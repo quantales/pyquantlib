@@ -15,24 +15,24 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(instruments_bindings) {
-    ADD_MAIN_BINDING(manager, ql_instruments::swap,
+    ADD_MAIN_BINDING(ql_instruments::swap,
         "Swap - interest rate swap base class");
-    ADD_MAIN_BINDING(manager, ql_instruments::fixedvsfloatingswap,
+    ADD_MAIN_BINDING(ql_instruments::fixedvsfloatingswap,
         "FixedVsFloatingSwap - fixed vs floating swap base class");
-    ADD_MAIN_BINDING(manager, ql_instruments::vanillaswap,
+    ADD_MAIN_BINDING(ql_instruments::vanillaswap,
         "VanillaSwap - fixed vs floating swap");
-    ADD_MAIN_BINDING(manager, ql_instruments::swaption,
+    ADD_MAIN_BINDING(ql_instruments::swaption,
         "Swaption - option to enter a swap");
-    ADD_MAIN_BINDING(manager, ql_instruments::strikedtypepayoff,
+    ADD_MAIN_BINDING(ql_instruments::strikedtypepayoff,
         "StrikedTypePayoff - payoff with strike and option type");
-    ADD_MAIN_BINDING(manager, ql_instruments::payoffs,
+    ADD_MAIN_BINDING(ql_instruments::payoffs,
         "PlainVanillaPayoff - plain vanilla option payoffs");
-    ADD_MAIN_BINDING(manager, ql_instruments::oneassetoption,
+    ADD_MAIN_BINDING(ql_instruments::oneassetoption,
         "OneAssetOption - base class for single-asset options");
-    ADD_MAIN_BINDING(manager, ql_instruments::vanillaoption,
+    ADD_MAIN_BINDING(ql_instruments::vanillaoption,
         "VanillaOption - plain vanilla options");
-    ADD_MAIN_BINDING(manager, ql_instruments::multiassetoption,
+    ADD_MAIN_BINDING(ql_instruments::multiassetoption,
         "MultiAssetOption - base class for multi-asset options");
-    ADD_MAIN_BINDING(manager, ql_instruments::basketoption,
+    ADD_MAIN_BINDING(ql_instruments::basketoption,
         "BasketOption - basket options and payoffs");
 }
