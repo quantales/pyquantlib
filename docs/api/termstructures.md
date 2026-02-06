@@ -33,6 +33,126 @@ rate_quote.setValue(0.06)  # Curve updates automatically
 .. autoclass:: pyquantlib.RelinkableYieldTermStructureHandle
 ```
 
+## Rate Helpers
+
+### Pillar
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Pillar
+   :members:
+   :undoc-members:
+```
+
+### RateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RateHelper
+   :members:
+```
+
+### DepositRateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DepositRateHelper
+```
+
+Rate helper for bootstrapping over deposit rates.
+
+```python
+euribor6m = ql.Euribor6M(curve_handle)
+helper = ql.DepositRateHelper(0.032, euribor6m)
+```
+
+### FraRateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FraRateHelper
+```
+
+Rate helper for bootstrapping over FRA rates.
+
+```python
+helper = ql.FraRateHelper(0.035, 3, euribor6m)  # 3x9 FRA
+```
+
+### SwapRateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwapRateHelper
+```
+
+Rate helper for bootstrapping over swap rates.
+
+```python
+helper = ql.SwapRateHelper(
+    0.04, ql.Period(5, ql.Years), ql.TARGET(),
+    ql.Annual, ql.Unadjusted,
+    ql.Thirty360(ql.Thirty360.BondBasis), euribor6m
+)
+swap = helper.swap()  # access underlying VanillaSwap
+```
+
+### OISRateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OISRateHelper
+```
+
+Rate helper for bootstrapping over OIS rates.
+
+```python
+overnight_index = ql.OvernightIndex("ESTR", 0, ql.EURCurrency(),
+                                     ql.TARGET(), ql.Actual360(), curve)
+helper = ql.OISRateHelper(2, ql.Period(1, ql.Years), 0.035, overnight_index)
+```
+
+## Piecewise Yield Curves
+
+### PiecewiseLogLinearDiscount
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLogLinearDiscount
+```
+
+### PiecewiseLinearDiscount
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLinearDiscount
+```
+
+### PiecewiseLinearZero
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLinearZero
+```
+
+### PiecewiseCubicZero
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseCubicZero
+```
+
+### PiecewiseFlatForward
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseFlatForward
+```
+
+Piecewise yield curves bootstrap a term structure from market instruments.
+
+```python
+helpers = [
+    ql.DepositRateHelper(0.032, euribor6m),
+    ql.SwapRateHelper(0.04, ql.Period(5, ql.Years), ql.TARGET(),
+                      ql.Annual, ql.Unadjusted,
+                      ql.Thirty360(ql.Thirty360.BondBasis), euribor6m),
+]
+
+curve = ql.PiecewiseLogLinearDiscount(today, helpers, ql.Actual365Fixed())
+print(curve.discount(1.0))
+print(curve.nodes())
+```
+
 ## Volatility Term Structures
 
 ### BlackConstantVol

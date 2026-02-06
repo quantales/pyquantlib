@@ -168,6 +168,10 @@ namespace ql_termstructures {
     void fixedlocalvolsurface(py::module_&);
     void noexceptlocalvolsurface(py::module_&);
     void smilesection(py::module_&);
+    void ratehelper(py::module_&);
+    void ratehelpers(py::module_&);
+    void oisratehelper(py::module_&);
+    void piecewiseyieldcurve(py::module_&);
 }
 
 namespace ql_processes {

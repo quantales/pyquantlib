@@ -945,6 +945,11 @@ class SpreadBlackScholesVanillaEngine(pyquantlib._pyquantlib.BasketOptionEngine)
         """
         Constructs with two Black-Scholes processes and correlation.
         """
+    @property
+    def correlation(self) -> float:
+        """
+        Correlation between the two processes
+        """
 class StochasticProcess(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for stochastic processes.
