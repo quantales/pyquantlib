@@ -71,7 +71,7 @@ vol_surface = ql.BlackConstantVol(
 
 ## Pure Python Extensions
 
-The `pyquantlib.extensions` module contains two complete examples of Python extensions that can be used in production or as templates for custom implementations.
+The `pyquantlib.extensions` module provides complete Python extension examples that can be used in production or as templates for custom implementations.
 
 ### SVI Smile Section
 
@@ -128,6 +128,10 @@ See [04_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examp
 
 The modification adds a skew correction term from Alos & Leon (2015) that improves accuracy for high correlation cases.
 
+```{important}
+When subclassing pricing engines, **only override the calculation method with numeric parameters**, not the parameter extraction method. Let the C++ base class handle object lifetime management. See {doc}`design/python-subclassing` for details.
+```
+
 ```python
 from pyquantlib.base import SpreadBlackScholesVanillaEngine
 
@@ -136,26 +140,33 @@ class ModifiedKirkEngine(SpreadBlackScholesVanillaEngine):
 
     def __init__(self, process1, process2, correlation):
         super().__init__(process1, process2, correlation)
-        self._process1 = process1
-        self._process2 = process2
-        self._rho = correlation
+        # C++ base class manages process lifetime - no need to store them
 
-    def calculate(self):
-        # Get instrument arguments
-        args = self.getArguments()
-        exercise = args.exercise
-        payoff = args.payoff
+    def calculate(
+        self,
+        f1: float,          # Forward price of first asset
+        f2: float,          # Forward price of second asset
+        strike: float,      # Strike price
+        optionType,         # Call or Put
+        variance1: float,   # Variance of first asset
+        variance2: float,   # Variance of second asset
+        df: float,          # Discount factor
+    ) -> float:
+        """
+        Calculate spread option price using Modified Kirk approximation.
 
-        # Extract parameters...
-        strike = payoff.basePayoff().strike()
-        optionType = payoff.basePayoff().optionType()
+        This method is called by the C++ base class after it extracts
+        all parameters from the instrument. This avoids Python/C++
+        object lifetime issues.
+        """
+        # Access correlation from base class property
+        rho = self.correlation
 
-        # Compute price using Modified Kirk formula
-        price = self._calculate_price(...)
+        # Compute price using Modified Kirk formula with numeric parameters
+        price = self._calculate_price(f1, f2, strike, optionType,
+                                     variance1, variance2, df, rho)
 
-        # Set results
-        results = self.getResults()
-        results.value = price
+        return price
 ```
 
 Usage:
@@ -204,6 +215,22 @@ For prototyping and moderate workloads, Python extensions work well.
 2. **Implement all pure virtual methods** to avoid runtime errors
 3. **Return correct types**: QuantLib expects specific return types
 4. **Handle exceptions gracefully**: Exceptions in callbacks can cause issues
+5. **Minimize Python/C++ boundary crossings during execution**
+   - ✓ **Do**: Override methods with simple types (numbers, enums, strings)
+   - ✓ **Do**: Let C++ base class handle object access and lifetime management
+   - ✗ **Don't**: Access C++ objects (handles, term structures, processes) from Python
+   - ✗ **Don't**: Extract parameters yourself - let the base class do it
+
+   **Why**: Temporary Python wrappers around C++ objects can cause dangling
+   references and access violations. Keep C++ object access in C++, keep
+   computation in Python.
+
+   **Examples**:
+   - Pricing engines: Override `calculate(f1, f2, ...)` not `calculate()`
+   - Term structures: Override `discountImpl(time)` not `discount(date)`
+   - Processes: Override `drift(t, x)` with numbers, not object accessors
+
+   See {doc}`design/python-subclassing` for detailed explanation.
 
 ## See Also
 

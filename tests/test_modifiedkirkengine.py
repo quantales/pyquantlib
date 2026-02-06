@@ -13,17 +13,30 @@ def market_setup():
     cal = ql.NullCalendar()
 
     rate_ts = ql.FlatForward(today, 0.05, dc)
+    rate_handle = ql.YieldTermStructureHandle(rate_ts)
+
     div_ts = ql.FlatForward(today, 0.02, dc)
+    div_handle = ql.YieldTermStructureHandle(div_ts)
+
+    # Store created objects to keep them alive
+    _refs = []
 
     def make_process(spot, vol):
-        spot_h = ql.QuoteHandle(ql.SimpleQuote(spot))
+        # Keep underlying objects alive to prevent garbage collection
+        quote = ql.SimpleQuote(spot)
+        spot_handle = ql.QuoteHandle(quote)
         vol_ts = ql.BlackConstantVol(today, cal, vol, dc)
-        return ql.GeneralizedBlackScholesProcess(
-            spot_h,
-            ql.YieldTermStructureHandle(div_ts),
-            ql.YieldTermStructureHandle(rate_ts),
-            ql.BlackVolTermStructureHandle(vol_ts),
+        vol_handle = ql.BlackVolTermStructureHandle(vol_ts)
+
+        process = ql.GeneralizedBlackScholesProcess(
+            spot_handle,
+            div_handle,
+            rate_handle,
+            vol_handle,
         )
+        # Store references to keep ALL objects alive
+        _refs.append((quote, spot_handle, vol_ts, vol_handle))
+        return process
 
     return today, make_process
 

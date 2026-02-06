@@ -74,65 +74,9 @@ class ModifiedKirkEngine(ql.base.SpreadBlackScholesVanillaEngine):
         if not -1.0 <= correlation <= 1.0:
             raise ValueError(f"Correlation must be in [-1, 1], got {correlation}")
         super().__init__(process1, process2, correlation)
-        self._process1 = process1
-        self._process2 = process2
-        self._rho = correlation
+        # C++ base class manages process lifetime via process1_, process2_, rho_
 
-    def calculate(self, *args):
-        """Calculate spread option price using Modified Kirk approximation."""
-        if len(args) == 0:
-            self._calculate_from_instrument()
-        elif len(args) == 7:
-            f1, f2, strike, optionType, variance1, variance2, df = args
-            return self._calculate_price(f1, f2, strike, optionType, variance1, variance2, df)
-        else:
-            raise TypeError(f"calculate() takes 0 or 7 arguments, got {len(args)}")
-
-    def _calculate_from_instrument(self):
-        """Extract parameters from instrument and compute price."""
-        args = self.getArguments()
-        exercise = args.exercise
-        payoff = args.payoff
-
-        exercise_date = exercise.lastDate()
-        ref_date = ql.Settings.instance().evaluationDate
-        dc = ql.Actual365Fixed()
-        T = dc.yearFraction(ref_date, exercise_date)
-
-        if T <= 0:
-            results = self.getResults()
-            results.value = 0.0
-            return
-
-        process1 = self._process1
-        process2 = self._process2
-
-        S1 = process1.x0()
-        S2 = process2.x0()
-
-        r1 = process1.riskFreeRate().currentLink()
-        q1 = process1.dividendYield().currentLink()
-        r2 = process2.riskFreeRate().currentLink()
-        q2 = process2.dividendYield().currentLink()
-
-        df = r1.discount(T)
-        f1 = S1 * q1.discount(T) / r1.discount(T)
-        f2 = S2 * q2.discount(T) / r2.discount(T)
-
-        vol1 = process1.blackVolatility().currentLink().blackVol(T, f1)
-        vol2 = process2.blackVolatility().currentLink().blackVol(T, f2)
-        variance1 = vol1 * vol1 * T
-        variance2 = vol2 * vol2 * T
-
-        strike = payoff.basePayoff().strike()
-        optionType = payoff.basePayoff().optionType()
-
-        price = self._calculate_price(f1, f2, strike, optionType, variance1, variance2, df)
-
-        results = self.getResults()
-        results.value = price
-
-    def _calculate_price(
+    def calculate(
         self,
         f1: float,
         f2: float,
@@ -142,7 +86,35 @@ class ModifiedKirkEngine(ql.base.SpreadBlackScholesVanillaEngine):
         variance2: float,
         df: float,
     ) -> float:
-        """Calculate spread option price using Modified Kirk approximation."""
+        """
+        Calculate spread option price using Modified Kirk approximation.
+
+        This method is called by the C++ base class's calculate() after it
+        extracts all parameters from the instrument. This avoids Python/C++
+        object lifetime issues.
+
+        Parameters
+        ----------
+        f1 : float
+            Forward price of first asset
+        f2 : float
+            Forward price of second asset
+        strike : float
+            Strike price
+        optionType : OptionType
+            Call or Put
+        variance1 : float
+            Variance of first asset (sigma1^2 * T)
+        variance2 : float
+            Variance of second asset (sigma2^2 * T)
+        df : float
+            Discount factor
+
+        Returns
+        -------
+        float
+            Option price
+        """
         sigma1 = math.sqrt(variance1) if variance1 > 0 else 0.0
         sigma2 = math.sqrt(variance2) if variance2 > 0 else 0.0
 
@@ -157,13 +129,14 @@ class ModifiedKirkEngine(ql.base.SpreadBlackScholesVanillaEngine):
         w = f2 / K_eff
 
         # Kirk's volatility
-        a_squared = sigma1**2 - 2.0 * self._rho * sigma1 * sigma2 * w + (sigma2 * w) ** 2
+        rho = self.correlation
+        a_squared = sigma1**2 - 2.0 * rho * sigma1 * sigma2 * w + (sigma2 * w) ** 2
         if a_squared <= 0:
             a_squared = 1e-10
         sigma_kirk = math.sqrt(a_squared)
 
         # Skew correction (Alòs & León 2015)
-        numerator_term = (sigma2 * w - self._rho * sigma1) ** 2
+        numerator_term = (sigma2 * w - rho * sigma1) ** 2
         skew_factor = (sigma2**2 * f2 * strike) / (K_eff**2)
 
         if sigma_kirk > 1e-10:

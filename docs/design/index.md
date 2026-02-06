@@ -13,4 +13,5 @@ interpolation
 settings-singleton
 hidden-handles
 bridge-defaults
+python-subclassing
 ```

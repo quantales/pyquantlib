@@ -19,6 +19,15 @@
 namespace py = pybind11;
 using namespace QuantLib;
 
+// Helper struct to access protected member (correlation)
+struct SpreadBlackScholesVanillaEngineHelper : SpreadBlackScholesVanillaEngine {
+    using SpreadBlackScholesVanillaEngine::SpreadBlackScholesVanillaEngine;
+
+    static Real get_correlation(const SpreadBlackScholesVanillaEngine& self) {
+        return static_cast<const SpreadBlackScholesVanillaEngineHelper&>(self).rho_;
+    }
+};
+
 void ql_pricingengines::spreadblackscholesvanillaengine(py::module_& m) {
     py::module_ base = m.def_submodule("base", "Abstract base classes");
 
@@ -30,5 +39,8 @@ void ql_pricingengines::spreadblackscholesvanillaengine(py::module_& m) {
                       ext::shared_ptr<GeneralizedBlackScholesProcess>,
                       Real>(),
             py::arg("process1"), py::arg("process2"), py::arg("correlation"),
-            "Constructs with two Black-Scholes processes and correlation.");
+            "Constructs with two Black-Scholes processes and correlation.")
+        .def_property_readonly("correlation",
+            &SpreadBlackScholesVanillaEngineHelper::get_correlation,
+            "Correlation between the two processes");
 }

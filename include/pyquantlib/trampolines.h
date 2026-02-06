@@ -963,9 +963,8 @@ class PySpreadBlackScholesVanillaEngine : public QuantLib::SpreadBlackScholesVan
 public:
     using QuantLib::SpreadBlackScholesVanillaEngine::SpreadBlackScholesVanillaEngine;
 
-    void calculate() const override {
-        PYBIND11_OVERRIDE(void, QuantLib::SpreadBlackScholesVanillaEngine, calculate,);
-    }
+    // Don't override the no-arg calculate() - always use C++ base implementation
+    // This allows Python subclasses to only override the 7-arg version
 
     QuantLib::Real calculate(QuantLib::Real f1, QuantLib::Real f2, QuantLib::Real strike,
                              QuantLib::Option::Type optionType,
