@@ -215,6 +215,8 @@ pybind11 enum values are singletons. Passing them by reference to C++ functions 
 This behavior is not explicitly documented in pybind11, but is a consequence of how `py::enum_` implements singletons internally. pybind11 v3 introduced `py::native_enum` which uses Python's native `enum` module and is recommended for new bindings. This may behave differently but has not been tested in PyQuantLib.
 ```
 
+See {doc}`design/enum-singletons` for the full story of how this issue was discovered and debugged.
+
 ### Trampoline Classes
 
 See {doc}`internals` for trampoline implementation details and guidelines.

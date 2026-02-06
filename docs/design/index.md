@@ -15,4 +15,5 @@ hidden-handles
 bridge-defaults
 python-subclassing
 protected-members
+enum-singletons
 ```
