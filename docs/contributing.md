@@ -179,20 +179,41 @@ QuantLib's `DayCounter` and `Calendar` use the bridge (pimpl) pattern. Their def
 
 In pybind11 bindings, default argument values are evaluated at module import time. If a binding uses `DayCounter()` as a default, the invalid object is created during import, which can cause import failures if any code path touches it.
 
-**Convention:** Use a concrete default like `Actual365Fixed()` instead:
+There are three fixes, depending on the situation:
 
 ```cpp
 // BAD: Causes import failure
 py::arg("dayCounter") = DayCounter()
 
-// GOOD: Concrete default
+// FIX 1: Concrete default (when any valid value works)
 py::arg("dayCounter") = Actual365Fixed()
 
-// GOOD: Required argument (no default)
+// FIX 2: Required argument (when no sensible default exists)
 py::arg("dayCounter")
+
+// FIX 3: py::none() sentinel (when DayCounter() carries semantic meaning)
+// Used when the null default means "use the index's day counter" or similar
+.def(py::init([](/* ... */, const py::object& dayCounter, /* ... */) {
+    DayCounter dc;
+    if (!dayCounter.is_none())
+        dc = dayCounter.cast<DayCounter>();
+    // ... pass dc to C++ constructor
+}), py::arg("dayCounter") = py::none())
 ```
 
-This convention is used throughout the codebase (`TermStructure`, `YieldTermStructure`, etc.).
+| Situation | Fix |
+|-----------|-----|
+| Default is arbitrary (any valid value works) | Replace with a concrete default |
+| No sensible default exists in C++ | Make the parameter required |
+| Default is a sentinel with semantic meaning | Use `py::none()` + lambda |
+
+Most bindings fall into the first category. The third applies when the C++ null default triggers fallback behavior (e.g., `FloatingRateCoupon` using the index's day counter, or `Null<Natural>()` for optional lookback days). Getting this wrong produces silent, incorrect results.
+
+See {doc}`design/bridge-defaults` for the full story.
+
+```{note}
+The same `py::none()` + lambda pattern works for `Null<T>()` sentinels, which pybind11 also cannot convert as default arguments.
+```
 
 ### Enum Pass-by-Reference
 

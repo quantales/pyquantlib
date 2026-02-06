@@ -404,3 +404,493 @@ def test_fixedrateleg_multiple_notionals(leg_data):
     assert len(leg) == 4
     for i, coupon in enumerate(leg):
         assert coupon.nominal() == pytest.approx(notionals[i])
+
+
+# =============================================================================
+# FloatingRateCouponPricer (ABC)
+# =============================================================================
+
+
+def test_floatingratecouponpricer_base_exists():
+    """Test FloatingRateCouponPricer ABC is accessible."""
+    assert hasattr(ql.base, "FloatingRateCouponPricer")
+
+
+# =============================================================================
+# BlackIborCouponPricer
+# =============================================================================
+
+
+def test_blackiborcouponpricer_construction():
+    """Test BlackIborCouponPricer default construction."""
+    pricer = ql.BlackIborCouponPricer()
+    assert pricer is not None
+    assert isinstance(pricer, ql.base.FloatingRateCouponPricer)
+
+
+# =============================================================================
+# FloatingRateCoupon
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def ibor_data():
+    """Common data for floating rate coupon tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.May, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    day_counter = ql.Actual360()
+
+    rate_curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    index = ql.Euribor6M(rate_curve)
+
+    effective_date = ql.Date(15, ql.May, 2025)
+    termination_date = ql.Date(15, ql.May, 2027)
+    tenor = ql.Period("6M")
+
+    schedule = ql.Schedule(
+        effective_date, termination_date, tenor, calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+
+    yield {
+        "schedule": schedule,
+        "index": index,
+        "nominal": 1_000_000.0,
+        "day_counter": day_counter,
+        "rate_curve": rate_curve,
+        "calendar": calendar,
+        "today": today,
+    }
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_floatingratecoupon_construction(ibor_data):
+    """Test FloatingRateCoupon construction."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    nominal = ibor_data["nominal"]
+
+    coupon = ql.FloatingRateCoupon(
+        schedule[1], nominal, schedule[0], schedule[1],
+        2, index
+    )
+
+    assert coupon.nominal() == pytest.approx(nominal)
+    assert coupon.fixingDays() == 2
+    assert coupon.gearing() == pytest.approx(1.0)
+    assert coupon.spread() == pytest.approx(0.0)
+    assert not coupon.isInArrears()
+
+
+def test_floatingratecoupon_inheritance(ibor_data):
+    """Test FloatingRateCoupon inheritance hierarchy."""
+    schedule = ibor_data["schedule"]
+    coupon = ql.FloatingRateCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, ibor_data["index"]
+    )
+    assert isinstance(coupon, ql.base.Coupon)
+    assert isinstance(coupon, ql.base.CashFlow)
+
+
+def test_floatingratecoupon_with_gearing_spread(ibor_data):
+    """Test FloatingRateCoupon with gearing and spread."""
+    schedule = ibor_data["schedule"]
+    coupon = ql.FloatingRateCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, ibor_data["index"],
+        gearing=0.5, spread=0.01
+    )
+    assert coupon.gearing() == pytest.approx(0.5)
+    assert coupon.spread() == pytest.approx(0.01)
+
+
+def test_floatingratecoupon_set_pricer(ibor_data):
+    """Test FloatingRateCoupon setPricer."""
+    schedule = ibor_data["schedule"]
+    coupon = ql.FloatingRateCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, ibor_data["index"]
+    )
+    pricer = ql.BlackIborCouponPricer()
+    coupon.setPricer(pricer)
+    assert coupon.pricer() is not None
+
+
+# =============================================================================
+# IborCoupon
+# =============================================================================
+
+
+def test_iborcoupon_construction(ibor_data):
+    """Test IborCoupon construction."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    nominal = ibor_data["nominal"]
+
+    coupon = ql.IborCoupon(
+        schedule[1], nominal, schedule[0], schedule[1],
+        2, index
+    )
+
+    assert coupon.nominal() == pytest.approx(nominal)
+    assert coupon.fixingDays() == 2
+    assert isinstance(coupon, ql.FloatingRateCoupon)
+    assert isinstance(coupon, ql.base.Coupon)
+
+
+def test_iborcoupon_ibor_index(ibor_data):
+    """Test IborCoupon iborIndex accessor."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+
+    coupon = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+
+    assert coupon.iborIndex() is not None
+    assert coupon.fixingDate() is not None
+
+
+def test_iborcoupon_fixing_dates(ibor_data):
+    """Test IborCoupon fixing date methods."""
+    schedule = ibor_data["schedule"]
+    coupon = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, ibor_data["index"]
+    )
+    pricer = ql.BlackIborCouponPricer()
+    coupon.setPricer(pricer)
+
+    fixing_date = coupon.fixingDate()
+    value_date = coupon.fixingValueDate()
+    maturity_date = coupon.fixingMaturityDate()
+    end_date = coupon.fixingEndDate()
+
+    assert fixing_date < value_date
+    assert value_date < maturity_date
+    assert end_date <= maturity_date
+
+
+def test_iborcoupon_rate(ibor_data):
+    """Test IborCoupon rate computation with future fixing."""
+    # Use a schedule entirely in the future so no past fixings needed
+    today = ibor_data["today"]
+    calendar = ibor_data["calendar"]
+    future_start = calendar.advance(today, ql.Period("6M"))
+    future_end = calendar.advance(future_start, ql.Period("6M"))
+
+    coupon = ql.IborCoupon(
+        future_end, 1_000_000.0, future_start, future_end,
+        2, ibor_data["index"]
+    )
+    pricer = ql.BlackIborCouponPricer()
+    coupon.setPricer(pricer)
+
+    rate = coupon.rate()
+    assert rate > 0
+    assert rate < 1.0  # Sanity check
+
+
+# =============================================================================
+# IborCoupon::Settings
+# =============================================================================
+
+
+def test_iborcouponsettings_singleton():
+    """Test IborCouponSettings singleton access."""
+    settings = ql.IborCouponSettings.instance()
+    assert settings is not None
+
+
+def test_iborcouponsettings_par_coupons():
+    """Test IborCouponSettings par/indexed coupon switching."""
+    settings = ql.IborCouponSettings.instance()
+
+    settings.createAtParCoupons()
+    assert settings.usingAtParCoupons()
+
+    settings.createIndexedCoupons()
+    assert not settings.usingAtParCoupons()
+
+    # Restore default
+    settings.createAtParCoupons()
+
+
+# =============================================================================
+# IborLeg
+# =============================================================================
+
+
+def test_iborleg_builder(ibor_data):
+    """Test IborLeg builder pattern."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    nominal = ibor_data["nominal"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(nominal) \
+            .build()
+
+    assert len(leg) == 4  # 2 years / 6M = 4 coupons
+    first = leg[0]
+    assert isinstance(first, ql.IborCoupon)
+    assert first.nominal() == pytest.approx(nominal)
+
+
+def test_iborleg_with_spread(ibor_data):
+    """Test IborLeg with spread."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withSpreads(0.005) \
+            .build()
+
+    for cf in leg:
+        coupon = cf
+        assert coupon.spread() == pytest.approx(0.005)
+
+
+def test_iborleg_with_gearing(ibor_data):
+    """Test IborLeg with gearing."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withGearings(0.75) \
+            .build()
+
+    for cf in leg:
+        coupon = cf
+        assert coupon.gearing() == pytest.approx(0.75)
+
+
+def test_iborleg_with_payment_lag(ibor_data):
+    """Test IborLeg with payment lag."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withPaymentLag(2) \
+            .build()
+
+    assert len(leg) == 4
+
+
+def test_iborleg_in_arrears(ibor_data):
+    """Test IborLeg in-arrears flag."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .inArrears() \
+            .build()
+
+    for cf in leg:
+        coupon = cf
+        assert coupon.isInArrears()
+
+
+# =============================================================================
+# setCouponPricer
+# =============================================================================
+
+
+def test_setcouponpricer(ibor_data):
+    """Test setCouponPricer function."""
+    # Use a schedule entirely in the future so no past fixings needed
+    today = ibor_data["today"]
+    calendar = ibor_data["calendar"]
+    future_start = calendar.advance(today, ql.Period("6M"))
+    future_end = calendar.advance(future_start, ql.Period("2Y"))
+    tenor = ql.Period("6M")
+
+    schedule = ql.Schedule(
+        future_start, future_end, tenor, calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    index = ibor_data["index"]
+
+    leg = ql.IborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .build()
+
+    pricer = ql.BlackIborCouponPricer()
+    ql.setCouponPricer(leg, pricer)
+
+    # Verify pricer was set by computing rate
+    for cf in leg:
+        coupon = cf
+        rate = coupon.rate()
+        assert rate > 0
+
+
+# =============================================================================
+# OvernightIndexedCoupon
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def overnight_data():
+    """Common data for overnight coupon tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.May, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    rate_curve = ql.FlatForward(today, 0.035, ql.Actual365Fixed())
+    handle = ql.YieldTermStructureHandle(rate_curve)
+    index = ql.OvernightIndex(
+        "TESTON", 0, ql.EURCurrency(), calendar,
+        ql.Actual360(), handle
+    )
+
+    # Use future dates to avoid needing past fixings
+    effective_date = calendar.advance(today, ql.Period("6M"))
+    termination_date = calendar.advance(effective_date, ql.Period("1Y"))
+    tenor = ql.Period("3M")
+
+    schedule = ql.Schedule(
+        effective_date, termination_date, tenor, calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+
+    yield {
+        "schedule": schedule,
+        "index": index,
+        "nominal": 10_000_000.0,
+        "rate_curve": rate_curve,
+        "calendar": calendar,
+        "today": today,
+    }
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_overnightindexedcoupon_construction(overnight_data):
+    """Test OvernightIndexedCoupon construction."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+    nominal = overnight_data["nominal"]
+
+    coupon = ql.OvernightIndexedCoupon(
+        schedule[1], nominal, schedule[0], schedule[1],
+        index
+    )
+
+    assert coupon.nominal() == pytest.approx(nominal)
+    assert isinstance(coupon, ql.FloatingRateCoupon)
+    assert isinstance(coupon, ql.base.Coupon)
+
+
+def test_overnightindexedcoupon_averaging(overnight_data):
+    """Test OvernightIndexedCoupon averaging method."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+
+    coupon_compound = ql.OvernightIndexedCoupon(
+        schedule[1], 10_000_000.0, schedule[0], schedule[1],
+        index, averagingMethod=ql.RateAveraging.Type.Compound
+    )
+    assert coupon_compound.averagingMethod() == ql.RateAveraging.Type.Compound
+
+    coupon_simple = ql.OvernightIndexedCoupon(
+        schedule[1], 10_000_000.0, schedule[0], schedule[1],
+        index, averagingMethod=ql.RateAveraging.Type.Simple
+    )
+    assert coupon_simple.averagingMethod() == ql.RateAveraging.Type.Simple
+
+
+def test_overnightindexedcoupon_fixing_dates(overnight_data):
+    """Test OvernightIndexedCoupon fixing dates."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+
+    coupon = ql.OvernightIndexedCoupon(
+        schedule[1], 10_000_000.0, schedule[0], schedule[1],
+        index
+    )
+
+    fixing_dates = coupon.fixingDates()
+    value_dates = coupon.valueDates()
+    dt = coupon.dt()
+
+    assert len(fixing_dates) > 0
+    assert len(value_dates) > 0
+    assert len(dt) > 0
+
+
+def test_overnightindexedcoupon_with_spread(overnight_data):
+    """Test OvernightIndexedCoupon with spread."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+
+    coupon = ql.OvernightIndexedCoupon(
+        schedule[1], 10_000_000.0, schedule[0], schedule[1],
+        index, spread=0.002
+    )
+    assert coupon.spread() == pytest.approx(0.002)
+
+
+# =============================================================================
+# OvernightLeg
+# =============================================================================
+
+
+def test_overnightleg_builder(overnight_data):
+    """Test OvernightLeg builder pattern."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+    nominal = overnight_data["nominal"]
+
+    leg = ql.OvernightLeg(schedule, index) \
+            .withNotionals(nominal) \
+            .build()
+
+    assert len(leg) == 4  # 1 year / 3M = 4 coupons
+    first = leg[0]
+    assert isinstance(first, ql.OvernightIndexedCoupon)
+    assert first.nominal() == pytest.approx(nominal)
+
+
+def test_overnightleg_with_spread(overnight_data):
+    """Test OvernightLeg with spread."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+
+    leg = ql.OvernightLeg(schedule, index) \
+            .withNotionals(10_000_000.0) \
+            .withSpreads(0.001) \
+            .build()
+
+    for cf in leg:
+        coupon = cf
+        assert coupon.spread() == pytest.approx(0.001)
+
+
+def test_overnightleg_simple_averaging(overnight_data):
+    """Test OvernightLeg with simple averaging."""
+    schedule = overnight_data["schedule"]
+    index = overnight_data["index"]
+
+    leg = ql.OvernightLeg(schedule, index) \
+            .withNotionals(10_000_000.0) \
+            .withAveragingMethod(ql.RateAveraging.Type.Simple) \
+            .build()
+
+    for cf in leg:
+        coupon = cf
+        assert coupon.averagingMethod() == ql.RateAveraging.Type.Simple

@@ -135,6 +135,11 @@ namespace ql_cashflows {
     void coupon(py::module_&);
     void simplecashflow(py::module_&);
     void fixedratecoupon(py::module_&);
+    void couponpricer_base(py::module_&);
+    void couponpricer(py::module_&);
+    void floatingratecoupon(py::module_&);
+    void iborcoupon(py::module_&);
+    void overnightindexedcoupon(py::module_&);
 }
 
 namespace ql_indexes {

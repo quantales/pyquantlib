@@ -17,8 +17,18 @@
 DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     // Abstract base classes
     ADD_BASE_BINDING(manager, ql_cashflows::coupon, "Coupon ABC");
+    ADD_BASE_BINDING(manager, ql_cashflows::couponpricer_base,
+        "FloatingRateCouponPricer ABC");
 
     // Concrete implementations
     ADD_MAIN_BINDING(manager, ql_cashflows::simplecashflow, "SimpleCashFlow");
     ADD_MAIN_BINDING(manager, ql_cashflows::fixedratecoupon, "FixedRateCoupon");
+    ADD_MAIN_BINDING(manager, ql_cashflows::floatingratecoupon,
+        "FloatingRateCoupon");
+    ADD_MAIN_BINDING(manager, ql_cashflows::couponpricer,
+        "BlackIborCouponPricer, setCouponPricer");
+    ADD_MAIN_BINDING(manager, ql_cashflows::iborcoupon,
+        "IborCoupon, IborLeg");
+    ADD_MAIN_BINDING(manager, ql_cashflows::overnightindexedcoupon,
+        "OvernightIndexedCoupon, OvernightLeg");
 }

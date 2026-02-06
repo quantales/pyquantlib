@@ -22,17 +22,6 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_models::swaptionhelper(py::module_& m) {
-    // RateAveraging enum
-    py::class_<RateAveraging> rateAvgClass(m, "RateAveraging",
-        "Rate averaging methods for multi-fixing coupons.");
-
-    py::enum_<RateAveraging::Type>(rateAvgClass, "Type",
-        "Rate averaging type.")
-        .value("Simple", RateAveraging::Simple,
-            "Simple averaging: sum of sub-period interest amounts.")
-        .value("Compound", RateAveraging::Compound,
-            "Compound averaging: compounded sub-period rates.");
-
     // SwaptionHelper
     py::class_<SwaptionHelper, BlackCalibrationHelper,
                ext::shared_ptr<SwaptionHelper>>(
