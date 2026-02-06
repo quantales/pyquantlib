@@ -222,7 +222,7 @@ Clean separation:
 
 ## The One Property We Needed
 
-The Python implementation needs access to `correlation`. We exposed it as a read-only property:
+The Python implementation needs access to `correlation`. The `rho_` member is protected in the C++ base class, so exposing it required a helper struct pattern:
 
 ```cpp
 struct SpreadBlackScholesVanillaEngineHelper : SpreadBlackScholesVanillaEngine {
@@ -236,7 +236,7 @@ struct SpreadBlackScholesVanillaEngineHelper : SpreadBlackScholesVanillaEngine {
     "Correlation between the two processes");
 ```
 
-This is safe because it returns a simple `Real`, not a reference to a managed object.
+This is safe because it returns a simple `Real`, not a reference to a managed object. For the full story on accessing protected members in pybind11 bindings, see {doc}`protected-members`.
 
 ## Why This Pattern is the Winner
 
@@ -267,9 +267,9 @@ The trampoline pattern should enforce this separation. Python should not overrid
 After the fix:
 ```
 tests/test_modifiedkirkengine.py::test_pricing_integration PASSED
-NPV = 2.3438472642728536 ✓
-No access violations ✓
-Clean execution ✓
+NPV = 2.3438472642728536
+No access violations
+Clean execution
 ```
 
 The Modified Kirk engine now works perfectly, pricing spread options with the enhanced formula while respecting the proper boundaries between C++ and Python.
