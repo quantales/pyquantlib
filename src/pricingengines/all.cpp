@@ -77,4 +77,18 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BlackCapFloorEngine - Black-formula cap/floor engine");
     ADD_MAIN_BINDING(ql_pricingengines::bacheliercapfloorengine,
         "BachelierCapFloorEngine - Bachelier (normal) cap/floor engine");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticbarrierengine,
+        "AnalyticBarrierEngine - Analytic barrier option engine");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticdoublebarrierengine,
+        "AnalyticDoubleBarrierEngine - Analytic double barrier option engine");
+    ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesbarrierengine,
+        "FdBlackScholesBarrierEngine - FD barrier option engine");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousgeometricasianengine,
+        "AnalyticContinuousGeometricAveragePriceAsianEngine - Continuous geometric Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticdiscretegeometricasianengine,
+        "AnalyticDiscreteGeometricAveragePriceAsianEngine - Discrete geometric Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdiscretearithmeticapengine,
+        "MCDiscreteArithmeticAPEngine - MC discrete arithmetic Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::turnbullwakemanasianengine,
+        "TurnbullWakemanAsianEngine - Turnbull-Wakeman Asian approximation");
 }

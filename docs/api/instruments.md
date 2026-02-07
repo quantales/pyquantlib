@@ -157,6 +157,83 @@ print(f"Delta: {option.delta():.4f}")
 .. autoclass:: pyquantlib.BasketOption
 ```
 
+## Barrier Options
+
+### BarrierOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BarrierOption
+```
+
+| Barrier Type | Description |
+|-------------|-------------|
+| `DownIn` | Activated when spot falls below barrier |
+| `UpIn` | Activated when spot rises above barrier |
+| `DownOut` | Knocked out when spot falls below barrier |
+| `UpOut` | Knocked out when spot rises above barrier |
+
+```python
+payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+exercise = ql.EuropeanExercise(expiry)
+
+option = ql.BarrierOption(ql.BarrierType.DownOut, 80.0, 0.0, payoff, exercise)
+option.setPricingEngine(ql.AnalyticBarrierEngine(process))
+print(option.NPV())
+```
+
+### DoubleBarrierOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DoubleBarrierOption
+```
+
+| Type | Description |
+|------|-------------|
+| `KnockOut` | Knocked out if either barrier is hit |
+| `KnockIn` | Activated if either barrier is hit |
+| `KIKO` | Lower KI, upper KO |
+| `KOKI` | Lower KO, upper KI |
+
+```python
+option = ql.DoubleBarrierOption(
+    ql.DoubleBarrierType.KnockOut, 80.0, 120.0, 0.0, payoff, exercise,
+)
+option.setPricingEngine(ql.AnalyticDoubleBarrierEngine(process))
+print(option.NPV())
+```
+
+## Asian Options
+
+### ContinuousAveragingAsianOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousAveragingAsianOption
+```
+
+### DiscreteAveragingAsianOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscreteAveragingAsianOption
+```
+
+```python
+fixing_dates = [today + ql.Period(f"{i}M") for i in range(1, 13)]
+
+# Geometric average (analytic)
+asian_geom = ql.DiscreteAveragingAsianOption(
+    ql.AverageType.Geometric, 0.0, 0, fixing_dates, payoff, exercise,
+)
+asian_geom.setPricingEngine(
+    ql.AnalyticDiscreteGeometricAveragePriceAsianEngine(process)
+)
+
+# Arithmetic average (Turnbull-Wakeman approximation)
+asian_arith = ql.DiscreteAveragingAsianOption(
+    ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
+)
+asian_arith.setPricingEngine(ql.TurnbullWakemanAsianEngine(process))
+```
+
 ## Payoffs
 
 ### PlainVanillaPayoff

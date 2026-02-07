@@ -264,6 +264,84 @@ engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
 swaption.setPricingEngine(engine)
 ```
 
+## Barrier Engines
+
+### AnalyticBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticBarrierEngine
+```
+
+Analytic pricing using Haug's formulas.
+
+```python
+engine = ql.AnalyticBarrierEngine(process)
+```
+
+### AnalyticDoubleBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDoubleBarrierEngine
+```
+
+Analytic double barrier engine using Ikeda-Kunitomo series.
+
+```python
+engine = ql.AnalyticDoubleBarrierEngine(process, series=5)
+```
+
+### FdBlackScholesBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdBlackScholesBarrierEngine
+```
+
+Finite-differences barrier option engine.
+
+```python
+engine = ql.FdBlackScholesBarrierEngine(process, tGrid=100, xGrid=100)
+```
+
+## Asian Engines
+
+### AnalyticContinuousGeometricAveragePriceAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticContinuousGeometricAveragePriceAsianEngine
+```
+
+### AnalyticDiscreteGeometricAveragePriceAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDiscreteGeometricAveragePriceAsianEngine
+```
+
+### TurnbullWakemanAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TurnbullWakemanAsianEngine
+```
+
+Moment-matching approximation for discrete arithmetic average price Asian options.
+
+```python
+engine = ql.TurnbullWakemanAsianEngine(process)
+```
+
+### MCDiscreteArithmeticAPEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MCDiscreteArithmeticAPEngine
+```
+
+Monte Carlo engine for discrete arithmetic average price Asian options.
+
+```python
+engine = ql.MCDiscreteArithmeticAPEngine(
+    process, requiredSamples=100000, seed=42, controlVariate=True,
+)
+```
+
 ## Cap/Floor Engines
 
 ### BlackCapFloorEngine

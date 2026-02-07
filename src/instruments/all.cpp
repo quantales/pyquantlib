@@ -49,4 +49,16 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "CapFloor - interest rate caps, floors, and collars");
     ADD_MAIN_BINDING(ql_instruments::forwardrateagreement,
         "ForwardRateAgreement - FRA instrument");
+    ADD_MAIN_BINDING(ql_instruments::barriertype,
+        "BarrierType - barrier type enum");
+    ADD_MAIN_BINDING(ql_instruments::barrieroption,
+        "BarrierOption - barrier option on a single asset");
+    ADD_MAIN_BINDING(ql_instruments::doublebarriertype,
+        "DoubleBarrierType - double barrier type enum");
+    ADD_MAIN_BINDING(ql_instruments::doublebarrieroption,
+        "DoubleBarrierOption - double barrier option on a single asset");
+    ADD_MAIN_BINDING(ql_instruments::averagetype,
+        "AverageType - averaging type enum");
+    ADD_MAIN_BINDING(ql_instruments::asianoption,
+        "AsianOption - Asian options with averaging");
 }

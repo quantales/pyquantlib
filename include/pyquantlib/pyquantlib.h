@@ -227,6 +227,12 @@ namespace ql_instruments {
     void overnightindexedswap(py::module_&);
     void capfloor(py::module_&);
     void forwardrateagreement(py::module_&);
+    void barriertype(py::module_&);
+    void barrieroption(py::module_&);
+    void doublebarriertype(py::module_&);
+    void doublebarrieroption(py::module_&);
+    void averagetype(py::module_&);
+    void asianoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -261,6 +267,13 @@ namespace ql_pricingengines {
     void fdg2swaptionengine(py::module_&);
     void blackcapfloorengine(py::module_&);
     void bacheliercapfloorengine(py::module_&);
+    void analyticbarrierengine(py::module_&);
+    void analyticdoublebarrierengine(py::module_&);
+    void fdblackscholesbarrierengine(py::module_&);
+    void analyticcontinuousgeometricasianengine(py::module_&);
+    void analyticdiscretegeometricasianengine(py::module_&);
+    void mcdiscretearithmeticapengine(py::module_&);
+    void turnbullwakemanasianengine(py::module_&);
 }
 
 namespace ql_methods {

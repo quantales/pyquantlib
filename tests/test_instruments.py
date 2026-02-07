@@ -1270,3 +1270,173 @@ def test_forwardrateagreement_par_rate(capfloor_env):
     )
     # Short position: opposite sign to long
     assert fra.NPV() == pytest.approx(73.2880, rel=1e-3)
+
+
+# =============================================================================
+# BarrierType enum
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def barrier_env():
+    """Setup for barrier option tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    expiry = today + ql.Period("1Y")
+    exercise = ql.EuropeanExercise(expiry)
+    call_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+
+    return {
+        "exercise": exercise,
+        "call_payoff": call_payoff,
+    }
+
+
+def test_barriertype_values():
+    """Test BarrierType enum values."""
+    assert ql.BarrierType.DownIn is not None
+    assert ql.BarrierType.UpIn is not None
+    assert ql.BarrierType.DownOut is not None
+    assert ql.BarrierType.UpOut is not None
+
+
+# =============================================================================
+# BarrierOption
+# =============================================================================
+
+
+def test_barrieroption_construction(barrier_env):
+    """Test BarrierOption construction with various barrier types."""
+    for bt in [ql.BarrierType.DownOut, ql.BarrierType.DownIn,
+               ql.BarrierType.UpOut, ql.BarrierType.UpIn]:
+        opt = ql.BarrierOption(
+            bt, 80.0, 0.0,
+            barrier_env["call_payoff"], barrier_env["exercise"],
+        )
+        assert opt is not None
+        assert not opt.isExpired()
+
+
+def test_barrieroption_with_rebate(barrier_env):
+    """Test BarrierOption construction with non-zero rebate."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 5.0,
+        barrier_env["call_payoff"], barrier_env["exercise"],
+    )
+    assert opt is not None
+
+
+# =============================================================================
+# DoubleBarrierType enum
+# =============================================================================
+
+
+def test_doublebarriertype_values():
+    """Test DoubleBarrierType enum values."""
+    assert ql.DoubleBarrierType.KnockIn is not None
+    assert ql.DoubleBarrierType.KnockOut is not None
+    assert ql.DoubleBarrierType.KIKO is not None
+    assert ql.DoubleBarrierType.KOKI is not None
+
+
+# =============================================================================
+# DoubleBarrierOption
+# =============================================================================
+
+
+def test_doublebarrieroption_construction(barrier_env):
+    """Test DoubleBarrierOption construction."""
+    for bt in [ql.DoubleBarrierType.KnockOut, ql.DoubleBarrierType.KnockIn,
+               ql.DoubleBarrierType.KIKO, ql.DoubleBarrierType.KOKI]:
+        opt = ql.DoubleBarrierOption(
+            bt, 80.0, 120.0, 0.0,
+            barrier_env["call_payoff"], barrier_env["exercise"],
+        )
+        assert opt is not None
+        assert not opt.isExpired()
+
+
+# =============================================================================
+# AverageType enum
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def asian_env():
+    """Setup for Asian option tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    expiry = today + ql.Period("1Y")
+    exercise = ql.EuropeanExercise(expiry)
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+
+    # Monthly fixing dates
+    fixing_dates = []
+    d = today + ql.Period("1M")
+    while d <= expiry:
+        fixing_dates.append(d)
+        d = d + ql.Period("1M")
+
+    return {
+        "exercise": exercise,
+        "payoff": payoff,
+        "fixing_dates": fixing_dates,
+    }
+
+
+def test_averagetype_values():
+    """Test AverageType enum values."""
+    assert ql.AverageType.Arithmetic is not None
+    assert ql.AverageType.Geometric is not None
+
+
+# =============================================================================
+# ContinuousAveragingAsianOption
+# =============================================================================
+
+
+def test_continuous_asian_construction(asian_env):
+    """Test ContinuousAveragingAsianOption construction."""
+    for avg in [ql.AverageType.Geometric, ql.AverageType.Arithmetic]:
+        opt = ql.ContinuousAveragingAsianOption(
+            avg, asian_env["payoff"], asian_env["exercise"],
+        )
+        assert opt is not None
+        assert not opt.isExpired()
+
+
+# =============================================================================
+# DiscreteAveragingAsianOption
+# =============================================================================
+
+
+def test_discrete_asian_accumulator_constructor(asian_env):
+    """Test DiscreteAveragingAsianOption with accumulator constructor."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0,
+        asian_env["fixing_dates"], asian_env["payoff"], asian_env["exercise"],
+    )
+    assert opt is not None
+    assert not opt.isExpired()
+
+
+def test_discrete_asian_fixingdates_constructor(asian_env):
+    """Test DiscreteAveragingAsianOption with all-fixing-dates constructor."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, asian_env["fixing_dates"],
+        asian_env["payoff"], asian_env["exercise"],
+    )
+    assert opt is not None
+    assert not opt.isExpired()
+
+
+def test_discrete_asian_with_past_fixings(asian_env):
+    """Test DiscreteAveragingAsianOption with past fixings."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, asian_env["fixing_dates"],
+        asian_env["payoff"], asian_env["exercise"],
+        allPastFixings=[100.0, 101.0],
+    )
+    assert opt is not None
