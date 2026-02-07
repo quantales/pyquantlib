@@ -1,3 +1,9 @@
+"""
+Tests for models module.
+
+Corresponds to src/models/*.cpp bindings.
+"""
+
 import pytest
 
 import pyquantlib as ql

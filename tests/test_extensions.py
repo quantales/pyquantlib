@@ -1,3 +1,9 @@
+"""
+Tests for Python extensions.
+
+Corresponds to pyquantlib/extensions/*.py.
+"""
+
 import pytest
 
 import pyquantlib as ql

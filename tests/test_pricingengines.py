@@ -1,8 +1,17 @@
-"""Tests for Black formula bindings."""
+"""
+Tests for pricing engines module.
+
+Corresponds to src/pricingengines/*.cpp bindings.
+"""
 
 import pytest
 
 import pyquantlib as ql
+
+
+# =============================================================================
+# Black Formula
+# =============================================================================
 
 
 def test_black_formula_call():
@@ -15,7 +24,7 @@ def test_black_formula_put():
     """blackFormula returns correct put price."""
     price = ql.blackFormula(ql.OptionType.Put, 100.0, 100.0, 0.2, 1.0)
     # ATM: call = put
-    assert price == pytest.approx(7.965567455405804, rel=1e-10)  
+    assert price == pytest.approx(7.965567455405804, rel=1e-10)
 
 
 def test_black_formula_displacement():
