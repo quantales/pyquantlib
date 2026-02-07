@@ -73,4 +73,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "FdHullWhiteSwaptionEngine - FD swaption engine for Hull-White model");
     ADD_MAIN_BINDING(ql_pricingengines::fdg2swaptionengine,
         "FdG2SwaptionEngine - FD swaption engine for G2++ two-factor model");
+    ADD_MAIN_BINDING(ql_pricingengines::blackcapfloorengine,
+        "BlackCapFloorEngine - Black-formula cap/floor engine");
+    ADD_MAIN_BINDING(ql_pricingengines::bacheliercapfloorengine,
+        "BachelierCapFloorEngine - Bachelier (normal) cap/floor engine");
 }

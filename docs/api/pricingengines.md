@@ -264,6 +264,36 @@ engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
 swaption.setPricingEngine(engine)
 ```
 
+## Cap/Floor Engines
+
+### BlackCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCapFloorEngine
+```
+
+Black-formula cap/floor engine (lognormal volatility).
+
+```python
+engine = ql.BlackCapFloorEngine(curve, 0.20)
+cap.setPricingEngine(engine)
+print(cap.NPV())
+```
+
+### BachelierCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BachelierCapFloorEngine
+```
+
+Bachelier (normal volatility) cap/floor engine.
+
+```python
+engine = ql.BachelierCapFloorEngine(curve, 0.005)
+cap.setPricingEngine(engine)
+print(cap.NPV())
+```
+
 ## Bond Engines
 
 ### DiscountingBondEngine

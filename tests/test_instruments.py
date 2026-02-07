@@ -1044,3 +1044,229 @@ def test_overnightindexedswap_overnight_leg(ois_setup):
     )
     leg = ois.overnightLeg()
     assert len(leg) > 0
+
+
+# =============================================================================
+# CapFloor, Cap, Floor, Collar
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def capfloor_env():
+    """Setup for cap/floor tests: curve, index, floating leg."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.04, dc)
+    euribor = ql.Euribor6M(curve)
+
+    schedule = ql.Schedule(
+        ql.Date(17, ql.January, 2025),
+        ql.Date(17, ql.January, 2030),
+        ql.Period(6, ql.Months),
+        ql.TARGET(),
+        ql.ModifiedFollowing,
+        ql.ModifiedFollowing,
+        ql.DateGeneration.Forward,
+        False,
+    )
+
+    leg = ql.IborLeg(schedule, euribor).withNotionals([1_000_000.0]).build()
+
+    return {
+        "today": today,
+        "curve": curve,
+        "euribor": euribor,
+        "leg": leg,
+    }
+
+
+def test_cap_construction(capfloor_env):
+    """Test Cap construction."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    assert cap is not None
+    assert cap.type() == ql.CapFloorType.Cap
+
+
+def test_floor_construction(capfloor_env):
+    """Test Floor construction."""
+    floor = ql.Floor(capfloor_env["leg"], [0.03])
+    assert floor is not None
+    assert floor.type() == ql.CapFloorType.Floor
+
+
+def test_collar_construction(capfloor_env):
+    """Test Collar construction."""
+    collar = ql.Collar(capfloor_env["leg"], [0.05], [0.03])
+    assert collar is not None
+    assert collar.type() == ql.CapFloorType.Collar
+
+
+def test_capfloor_generic_construction(capfloor_env):
+    """Test CapFloor generic constructor with strikes."""
+    cf = ql.CapFloor(ql.CapFloorType.Cap, capfloor_env["leg"], [0.05])
+    assert cf is not None
+    assert cf.type() == ql.CapFloorType.Cap
+
+
+def test_cap_inspectors(capfloor_env):
+    """Test Cap inspector methods."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    assert cap.startDate() == ql.Date(17, ql.January, 2025)
+    assert cap.maturityDate() == ql.Date(17, ql.January, 2030)
+    assert not cap.isExpired()
+    assert all(r == pytest.approx(0.05) for r in cap.capRates())
+
+
+def test_cap_pricing(capfloor_env):
+    """Test Cap pricing with BlackCapFloorEngine."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(7405.716086124158, rel=1e-6)
+
+
+def test_floor_pricing(capfloor_env):
+    """Test Floor pricing with BlackCapFloorEngine."""
+    floor = ql.Floor(capfloor_env["leg"], [0.03])
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    floor.setPricingEngine(engine)
+    assert floor.NPV() == pytest.approx(4272.838146959026, rel=1e-6)
+
+
+def test_collar_pricing(capfloor_env):
+    """Test Collar pricing with BlackCapFloorEngine."""
+    collar = ql.Collar(capfloor_env["leg"], [0.05], [0.03])
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    collar.setPricingEngine(engine)
+    assert collar.NPV() == pytest.approx(3132.877939165133, rel=1e-6)
+
+
+def test_capfloor_parity(capfloor_env):
+    """Test cap-floor parity: collar NPV = cap NPV - floor NPV."""
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    floor = ql.Floor(capfloor_env["leg"], [0.03])
+    floor.setPricingEngine(engine)
+    collar = ql.Collar(capfloor_env["leg"], [0.05], [0.03])
+    collar.setPricingEngine(engine)
+
+    assert collar.NPV() == pytest.approx(cap.NPV() - floor.NPV(), abs=1e-6)
+
+
+def test_cap_atm_rate(capfloor_env):
+    """Test Cap ATM rate calculation."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap.setPricingEngine(engine)
+    atm = cap.atmRate(capfloor_env["curve"])
+    assert atm == pytest.approx(0.03985, abs=0.001)
+
+
+def test_cap_implied_volatility(capfloor_env):
+    """Test Cap implied volatility recovery."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap.setPricingEngine(engine)
+    implied = cap.impliedVolatility(
+        cap.NPV(), ql.YieldTermStructureHandle(capfloor_env["curve"]), 0.20
+    )
+    assert implied == pytest.approx(0.20, abs=1e-4)
+
+
+def test_cap_bachelier_pricing(capfloor_env):
+    """Test Cap pricing with BachelierCapFloorEngine."""
+    cap = ql.Cap(capfloor_env["leg"], [0.05])
+    engine = ql.BachelierCapFloorEngine(capfloor_env["curve"], 0.005)
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(1606.1185633197292, rel=1e-6)
+
+
+# =============================================================================
+# ForwardRateAgreement
+# =============================================================================
+
+
+def test_forwardrateagreement_construction(capfloor_env):
+    """Test ForwardRateAgreement construction."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.PositionType.Long,
+        0.04,
+        1_000_000.0,
+        capfloor_env["curve"],
+    )
+    assert fra is not None
+    assert not fra.isExpired()
+
+
+def test_forwardrateagreement_npv(capfloor_env):
+    """Test FRA NPV calculation."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.PositionType.Long,
+        0.04,
+        1_000_000.0,
+        capfloor_env["curve"],
+    )
+    assert fra.NPV() == pytest.approx(-73.2880, rel=1e-3)
+
+
+def test_forwardrateagreement_amount(capfloor_env):
+    """Test FRA payoff amount."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.PositionType.Long,
+        0.04,
+        1_000_000.0,
+        capfloor_env["curve"],
+    )
+    assert fra.amount() == pytest.approx(-75.2658, rel=1e-3)
+
+
+def test_forwardrateagreement_forward_rate(capfloor_env):
+    """Test FRA forward rate."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.PositionType.Long,
+        0.04,
+        1_000_000.0,
+        capfloor_env["curve"],
+    )
+    fwd = fra.forwardRate()
+    assert fwd.rate() == pytest.approx(0.03985, abs=0.001)
+
+
+def test_forwardrateagreement_fixing_date(capfloor_env):
+    """Test FRA fixing date."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.PositionType.Long,
+        0.04,
+        1_000_000.0,
+        capfloor_env["curve"],
+    )
+    assert fra.fixingDate() == ql.Date(11, ql.September, 2025)
+
+
+def test_forwardrateagreement_par_rate(capfloor_env):
+    """Test FRA with par-rate approximation constructor."""
+    fra = ql.ForwardRateAgreement(
+        capfloor_env["euribor"],
+        ql.Date(15, ql.September, 2025),
+        ql.Date(15, ql.March, 2026),
+        ql.PositionType.Short,
+        0.04,
+        1_000_000.0,
+        ql.YieldTermStructureHandle(capfloor_env["curve"]),
+    )
+    # Short position: opposite sign to long
+    assert fra.NPV() == pytest.approx(73.2880, rel=1e-3)

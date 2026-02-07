@@ -76,6 +76,63 @@ print(ois.NPV())
 print(ois.fairRate())
 ```
 
+## Caps, Floors, and Collars
+
+### CapFloor
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CapFloor
+   :members:
+```
+
+### Cap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Cap
+```
+
+### Floor
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Floor
+```
+
+### Collar
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Collar
+```
+
+```python
+leg = ql.IborLeg(schedule, euribor).withNotionals([1_000_000.0]).build()
+
+cap = ql.Cap(leg, [0.05])
+floor = ql.Floor(leg, [0.03])
+collar = ql.Collar(leg, [0.05], [0.03])
+
+cap.setPricingEngine(ql.BlackCapFloorEngine(curve, 0.20))
+print(cap.NPV())
+print(cap.impliedVolatility(cap.NPV(), curve_handle, 0.20))
+```
+
+## Forward Rate Agreement
+
+### ForwardRateAgreement
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardRateAgreement
+   :members:
+```
+
+```python
+fra = ql.ForwardRateAgreement(
+    euribor, value_date, ql.PositionType.Long,
+    0.04, 1_000_000.0, curve,
+)
+print(fra.NPV())
+print(fra.forwardRate())
+```
+
 ## Options
 
 ### VanillaOption

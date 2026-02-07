@@ -225,6 +225,8 @@ namespace ql_instruments {
     void multiassetoption(py::module_&);
     void basketoption(py::module_&);
     void overnightindexedswap(py::module_&);
+    void capfloor(py::module_&);
+    void forwardrateagreement(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -257,6 +259,8 @@ namespace ql_pricingengines {
     void g2swaptionengine(py::module_&);
     void fdhullwhiteswaptionengine(py::module_&);
     void fdg2swaptionengine(py::module_&);
+    void blackcapfloorengine(py::module_&);
+    void bacheliercapfloorengine(py::module_&);
 }
 
 namespace ql_methods {

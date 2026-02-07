@@ -45,4 +45,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "BasketOption - basket options and payoffs");
     ADD_MAIN_BINDING(ql_instruments::overnightindexedswap,
         "OvernightIndexedSwap - OIS swap");
+    ADD_MAIN_BINDING(ql_instruments::capfloor,
+        "CapFloor - interest rate caps, floors, and collars");
+    ADD_MAIN_BINDING(ql_instruments::forwardrateagreement,
+        "ForwardRateAgreement - FRA instrument");
 }
