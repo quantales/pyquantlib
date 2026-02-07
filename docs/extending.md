@@ -120,7 +120,7 @@ print(f"ATM vol: {smile.volatility(100.0):.4f}")
 print(f"90 strike: {smile.volatility(90.0):.4f}")
 ```
 
-See [04_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/04_svi_smile.ipynb) for a complete example including comparison with the C++ implementation.
+See [svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/svi_smile.ipynb) for a complete example including comparison with the C++ implementation.
 
 ### Modified Kirk Engine
 
@@ -187,7 +187,7 @@ option.setPricingEngine(engine)
 print(f"NPV: {option.NPV():.4f}")
 ```
 
-See [05_modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/05_modified_kirk_engine.ipynb) for a complete walkthrough including comparison with QuantLib's built-in `KirkEngine`.
+See [modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/modified_kirk_engine.ipynb) for a complete walkthrough including comparison with QuantLib's built-in `KirkEngine`.
 
 ## How It Works
 
@@ -235,6 +235,6 @@ For prototyping and moderate workloads, Python extensions work well.
 ## See Also
 
 - {doc}`api/extensions` for the complete API reference
-- [04_svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/04_svi_smile.ipynb) for the SVI smile section example
-- [05_modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/05_modified_kirk_engine.ipynb) for the custom pricing engine example
+- [svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/svi_smile.ipynb) for the SVI smile section example
+- [modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/modified_kirk_engine.ipynb) for the custom pricing engine example
 - `include/pyquantlib/trampolines.h` for the full list of supported base classes

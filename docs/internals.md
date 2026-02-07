@@ -1,33 +1,9 @@
 # Internals
 
-This section describes PyQuantLib's internal architecture: useful for contributors and those interested in how the bindings work.
+Implementation reference for PyQuantLib's binding infrastructure: the BindingManager API, module patterns, trampoline implementation, and handle templates.
 
 ```{seealso}
-{doc}`architecture` for design decisions, {doc}`building` for build setup, {doc}`contributing` for development workflow, and {doc}`extending` for Python subclassing.
-```
-
-## Project Structure
-
-```
-pyquantlib/
-├── include/pyquantlib/
-│   ├── binding_manager.h      # Central orchestration
-│   ├── trampolines.h          # Python subclassing support
-│   └── pyquantlib.h           # Forward declarations
-├── src/
-│   ├── main.cpp               # Module entry point
-│   ├── submodules.cpp         # Creates base submodule
-│   ├── time/                  # Time module bindings
-│   │   ├── all.cpp            # Aggregates time bindings
-│   │   ├── date.cpp
-│   │   ├── calendar.cpp
-│   │   └── ...
-│   ├── core/                  # Core module bindings
-│   ├── math/                  # Math module bindings
-│   └── ...                    # Other domain modules
-└── pyquantlib/
-    ├── __init__.py            # Python package init
-    └── _pyquantlib/           # Compiled extension
+{doc}`architecture` for high-level design and rationale, {doc}`extending` for the Python subclassing guide, {doc}`contributing` for development workflow.
 ```
 
 ## BindingManager
@@ -87,15 +63,7 @@ ADD_BASE_BINDING(ql_patterns::observable, "Observable");
 ADD_MAIN_BINDING(ql_time::date, "Date");
 ```
 
-### Why Deferred Execution?
-
-pybind11 requires base classes to be bound before derived classes. The BindingManager solves this by:
-
-1. Collecting all binding functions during module initialization
-2. Executing them in the correct order via `finalize()`
-3. Providing clear error messages if dependencies fail
-
-## Module Organization
+## Module Patterns
 
 Each QuantLib domain maps to a source directory with a consistent structure.
 

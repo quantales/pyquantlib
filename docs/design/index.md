@@ -1,10 +1,10 @@
 # Design Notes
 
-Behind-the-scenes stories about interesting design challenges encountered while building PyQuantLib.
+Behind-the-scenes stories about design challenges encountered while building PyQuantLib.
 
-Binding C++ to Python is often straightforward. But sometimes, a C++ design pattern fundamentally clashes with Python's memory model or object semantics. QuantLib is a sophisticated library with idioms that do not always translate cleanly to Python. These articles capture the non-obvious cases where we had to get creative.
+Each note covers a specific problem: the symptoms, the investigation, the failed attempts, and the solution. They document why certain patterns exist in the codebase and offer other binding authors lessons from similar challenges.
 
-These notes help contributors understand why certain patterns exist in the codebase, give other binding authors lessons from similar challenges, and offer the curious a window into the detective work behind seemingly simple APIs.
+For a high-level overview of the tensions that shaped PyQuantLib's architecture, see {doc}`/architecture`.
 
 ```{toctree}
 :maxdepth: 1

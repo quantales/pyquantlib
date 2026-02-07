@@ -139,11 +139,17 @@ api/index
 
 ```{toctree}
 :maxdepth: 2
-:caption: Development
+:caption: Architecture
 
 architecture
 internals
 design/index
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: Development
+
 contributing
 troubleshooting
 changelog
