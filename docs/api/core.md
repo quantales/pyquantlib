@@ -1,6 +1,6 @@
 # Core Module
 
-## Classes
+## Settings
 
 ### Settings
 
@@ -50,6 +50,8 @@ ql.Settings.resetEvaluationDate()
 Both `ql.Settings.evaluationDate` and `ql.Settings.instance().evaluationDate` work identically.
 ```
 
+## Interest Rate
+
 ### InterestRate
 
 ```{eval-rst}
@@ -62,30 +64,45 @@ df = rate.discountFactor(1.0)
 equivalent = rate.equivalentRate(ql.Continuous, ql.NoFrequency, 1.0)
 ```
 
+## Rounding
+
 ### Rounding
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Rounding
+```
 
+### UpRounding
+
+```{eval-rst}
 .. autoclass:: pyquantlib.UpRounding
-   
+```
 
+### DownRounding
+
+```{eval-rst}
 .. autoclass:: pyquantlib.DownRounding
-   
+```
 
+### ClosestRounding
+
+```{eval-rst}
 .. autoclass:: pyquantlib.ClosestRounding
-   
+```
 
+### CeilingTruncation
+
+```{eval-rst}
 .. autoclass:: pyquantlib.CeilingTruncation
-   
+```
 
+### FloorTruncation
+
+```{eval-rst}
 .. autoclass:: pyquantlib.FloorTruncation
-   
 ```
 
 ## Enumerations
-
-### Compounding
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Compounding

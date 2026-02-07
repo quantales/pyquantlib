@@ -1,6 +1,6 @@
 # Cash Flows Module
 
-## Classes
+## Cash Flows
 
 ### SimpleCashFlow
 
@@ -25,6 +25,8 @@ print(cf.date())    # June 15th, 2026
 ```{eval-rst}
 .. autoclass:: pyquantlib.AmortizingPayment
 ```
+
+## Coupons
 
 ### FixedRateCoupon
 

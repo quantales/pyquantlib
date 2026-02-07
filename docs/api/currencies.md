@@ -1,6 +1,6 @@
 # Currencies Module
 
-## Classes
+## Currency Framework
 
 ### Currency
 
@@ -54,7 +54,7 @@ usd_amount = rate.exchange(eur_amount)
 .. autoclass:: pyquantlib.ExchangeRateManager
 ```
 
-## Major Currency Classes
+## Currency Implementations
 
 ### USDCurrency
 

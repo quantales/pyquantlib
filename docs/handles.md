@@ -1,4 +1,4 @@
-# Handles
+# QuantLib Handles
 
 QuantLib uses handles extensively for term structures, quotes, and other market data. PyQuantLib provides both explicit handle usage and a simplified "hidden handles" API.
 

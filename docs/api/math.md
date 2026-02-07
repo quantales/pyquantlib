@@ -4,7 +4,7 @@
 {doc}`/numpy` for detailed NumPy interoperability documentation.
 ```
 
-## Classes
+## Linear Algebra
 
 ### Array
 

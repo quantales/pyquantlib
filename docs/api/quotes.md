@@ -1,6 +1,6 @@
 # Quotes Module
 
-## Classes
+## Quotes
 
 ### SimpleQuote
 
@@ -25,10 +25,6 @@ print(spot.value())  # 105.0
 ```{eval-rst}
 .. autoclass:: pyquantlib.CompositeQuote
 ```
-
-## Handles
-
-Handles provide a layer of indirection for quotes and term structures, enabling the observer pattern.
 
 ### QuoteHandle
 

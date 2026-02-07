@@ -1,6 +1,6 @@
 # Time Module
 
-## Classes
+## Date and Time
 
 ### Date
 
