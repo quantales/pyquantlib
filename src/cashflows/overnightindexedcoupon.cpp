@@ -20,16 +20,6 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_cashflows::overnightindexedcoupon(py::module_& m) {
-    // RateAveraging enum (used by OvernightIndexedCoupon and SwaptionHelper)
-    py::class_<RateAveraging> rateAvg(m, "RateAveraging",
-        "Rate averaging methods for multi-fixing coupons.");
-    py::enum_<RateAveraging::Type>(rateAvg, "Type",
-        "Rate averaging type.")
-        .value("Simple", RateAveraging::Simple,
-            "Simple averaging: sum of sub-period interest amounts.")
-        .value("Compound", RateAveraging::Compound,
-            "Compound averaging: compounded sub-period rates.");
-
     py::class_<OvernightIndexedCoupon, FloatingRateCoupon,
                ext::shared_ptr<OvernightIndexedCoupon>>(
         m, "OvernightIndexedCoupon",

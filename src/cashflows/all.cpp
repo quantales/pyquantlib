@@ -27,6 +27,8 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
         "FloatingRateCoupon");
     ADD_MAIN_BINDING(ql_cashflows::couponpricer,
         "BlackIborCouponPricer, setCouponPricer");
+    ADD_MAIN_BINDING(ql_cashflows::rateaveraging,
+        "RateAveraging enum");
     ADD_MAIN_BINDING(ql_cashflows::iborcoupon,
         "IborCoupon, IborLeg");
     ADD_MAIN_BINDING(ql_cashflows::overnightindexedcoupon,
