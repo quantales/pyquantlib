@@ -7,12 +7,9 @@ Corresponds to src/termstructures/yield/*.cpp bindings:
 - piecewiseyieldcurve.cpp (PiecewiseYieldCurve instantiations)
 """
 
-import math
-
 import pytest
 
 import pyquantlib as ql
-
 
 # =============================================================================
 # Fixtures
@@ -75,8 +72,13 @@ def test_pillar_enum_distinct():
 
 
 def test_ratehelper_exists():
-    """Test RateHelper class exists."""
-    assert hasattr(ql, "RateHelper")
+    """Test RateHelper class exists in base submodule."""
+    assert hasattr(ql.base, "RateHelper")
+
+
+def test_relativedateratehelper_exists():
+    """Test RelativeDateRateHelper class exists in base submodule."""
+    assert hasattr(ql.base, "RelativeDateRateHelper")
 
 
 # =============================================================================
@@ -366,6 +368,27 @@ def test_oisratehelper_optional_params(ois_env):
     assert helper is not None
 
 
+def test_oisratehelper_averaging_method(ois_env):
+    """Test OISRateHelper with explicit RateAveraging parameter."""
+    helper_compound = ql.OISRateHelper(
+        2,
+        ql.Period(1, ql.Years),
+        0.035,
+        ois_env["overnight_index"],
+        averagingMethod=ql.RateAveraging.Type.Compound,
+    )
+    assert helper_compound is not None
+
+    helper_simple = ql.OISRateHelper(
+        2,
+        ql.Period(1, ql.Years),
+        0.035,
+        ois_env["overnight_index"],
+        averagingMethod=ql.RateAveraging.Type.Simple,
+    )
+    assert helper_simple is not None
+
+
 # =============================================================================
 # PiecewiseYieldCurve
 # =============================================================================
@@ -377,7 +400,11 @@ def test_piecewise_classes_exist():
     assert hasattr(ql, "PiecewiseLinearDiscount")
     assert hasattr(ql, "PiecewiseLinearZero")
     assert hasattr(ql, "PiecewiseCubicZero")
+    assert hasattr(ql, "PiecewiseLinearForward")
+    assert hasattr(ql, "PiecewiseBackwardFlatForward")
     assert hasattr(ql, "PiecewiseFlatForward")
+    # PiecewiseFlatForward is an alias for PiecewiseBackwardFlatForward
+    assert ql.PiecewiseFlatForward is ql.PiecewiseBackwardFlatForward
 
 
 def _build_helpers(today, calendar, euribor6m):
@@ -507,6 +534,37 @@ def test_piecewise_flat_forward(curve_env):
         curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
     )
     curve = ql.PiecewiseFlatForward(
+        curve_env["today"], helpers, curve_env["day_counter"]
+    )
+    assert curve is not None
+    assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+
+def test_piecewise_linear_forward(curve_env):
+    """Test PiecewiseLinearForward bootstrapping."""
+    helpers = _build_helpers(
+        curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
+    )
+    curve = ql.PiecewiseLinearForward(
+        curve_env["today"], helpers, curve_env["day_counter"]
+    )
+    assert curve is not None
+    assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+    # Check forward rate is reasonable
+    five_years = curve_env["today"] + ql.Period(5, ql.Years)
+    zero_5y = curve.zeroRate(
+        five_years, curve_env["day_counter"], ql.Continuous
+    )
+    assert zero_5y.rate() == pytest.approx(0.039, abs=0.005)
+
+
+def test_piecewise_backward_flat_forward(curve_env):
+    """Test PiecewiseBackwardFlatForward bootstrapping."""
+    helpers = _build_helpers(
+        curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
+    )
+    curve = ql.PiecewiseBackwardFlatForward(
         curve_env["today"], helpers, curve_env["day_counter"]
     )
     assert curve is not None

@@ -46,9 +46,17 @@ rate_quote.setValue(0.06)  # Curve updates automatically
 ### RateHelper
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.RateHelper
+.. autoclass:: pyquantlib.base.RateHelper
    :members:
 ```
+
+### RelativeDateRateHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.RelativeDateRateHelper
+```
+
+Rate helper with date schedule that updates when the evaluation date changes. Base class for `DepositRateHelper`, `FraRateHelper`, `SwapRateHelper`, and `OISRateHelper`.
 
 ### DepositRateHelper
 
@@ -104,6 +112,12 @@ Rate helper for bootstrapping over OIS rates.
 overnight_index = ql.OvernightIndex("ESTR", 0, ql.EURCurrency(),
                                      ql.TARGET(), ql.Actual360(), curve)
 helper = ql.OISRateHelper(2, ql.Period(1, ql.Years), 0.035, overnight_index)
+
+# With explicit averaging method
+helper = ql.OISRateHelper(
+    2, ql.Period(1, ql.Years), 0.035, overnight_index,
+    averagingMethod=ql.RateAveraging.Type.Simple,
+)
 ```
 
 ## Piecewise Yield Curves
@@ -132,11 +146,19 @@ helper = ql.OISRateHelper(2, ql.Period(1, ql.Years), 0.035, overnight_index)
 .. autoclass:: pyquantlib.PiecewiseCubicZero
 ```
 
-### PiecewiseFlatForward
+### PiecewiseLinearForward
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.PiecewiseFlatForward
+.. autoclass:: pyquantlib.PiecewiseLinearForward
 ```
+
+### PiecewiseBackwardFlatForward
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseBackwardFlatForward
+```
+
+`PiecewiseFlatForward` is an alias for `PiecewiseBackwardFlatForward`.
 
 Piecewise yield curves bootstrap a term structure from market instruments.
 
@@ -241,5 +263,5 @@ surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
 ```
 
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, and `SmileSection` are available in `pyquantlib.base` for custom implementations.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `RateHelper`, and `RelativeDateRateHelper` are available in `pyquantlib.base`.
 ```

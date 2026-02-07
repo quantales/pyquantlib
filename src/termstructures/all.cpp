@@ -64,8 +64,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "SmileSection ABC");
 
     // Rate helpers and curve bootstrapping
-    ADD_MAIN_BINDING(ql_termstructures::ratehelper,
-        "Pillar, RateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::pillar,
+        "Pillar enum");
+    ADD_BASE_BINDING(ql_termstructures::ratehelper,
+        "RateHelper, RelativeDateRateHelper ABCs");
     ADD_MAIN_BINDING(ql_termstructures::ratehelpers,
         "DepositRateHelper, FraRateHelper, SwapRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::oisratehelper,

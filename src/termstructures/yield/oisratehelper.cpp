@@ -21,7 +21,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::oisratehelper(py::module_& m) {
-    py::class_<OISRateHelper, RateHelper,
+    py::class_<OISRateHelper, RelativeDateRateHelper,
                ext::shared_ptr<OISRateHelper>>(
         m, "OISRateHelper",
         "Rate helper for bootstrapping over OIS rates.")

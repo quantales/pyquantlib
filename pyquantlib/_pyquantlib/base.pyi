@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -850,6 +850,46 @@ class Quote(pyquantlib._pyquantlib.Observable):
         """
         Returns the current value of the quote.
         """
+class RateHelper(Observer, pyquantlib._pyquantlib.Observable):
+    """
+    Rate helper for bootstrapping yield curves.
+    """
+    def earliestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the earliest date.
+        """
+    def impliedQuote(self) -> float:
+        """
+        Returns the implied quote from the term structure.
+        """
+    def latestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest date.
+        """
+    def latestRelevantDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest relevant date.
+        """
+    def maturityDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the maturity date.
+        """
+    def pillarDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the pillar date.
+        """
+    def quote(self) -> pyquantlib._pyquantlib.QuoteHandle:
+        """
+        Returns the market quote handle.
+        """
+    def quoteError(self) -> float:
+        """
+        Returns the difference between market and implied quotes.
+        """
+class RelativeDateRateHelper(RateHelper):
+    """
+    Rate helper with date schedule relative to evaluation date.
+    """
 class ShortRateModel(CalibratedModel):
     """
     Abstract base class for short-rate models.

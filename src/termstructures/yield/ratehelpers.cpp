@@ -20,7 +20,7 @@
 namespace py = pybind11;
 using namespace QuantLib;
 
-void ql_termstructures::ratehelper(py::module_& m) {
+void ql_termstructures::pillar(py::module_& m) {
     // Pillar enum (from bootstraphelper.hpp)
     py::class_<Pillar> pillar(m, "Pillar",
         "Pillar date calculation types for rate helpers.");
@@ -32,7 +32,9 @@ void ql_termstructures::ratehelper(py::module_& m) {
             "Use the last relevant date for pricing.")
         .value("CustomDate", Pillar::CustomDate,
             "Use a custom pillar date.");
+}
 
+void ql_termstructures::ratehelper(py::module_& m) {
     // RateHelper base class (typedef for BootstrapHelper<YieldTermStructure>)
     py::class_<RateHelper, ext::shared_ptr<RateHelper>, Observer, Observable>(
         m, "RateHelper",
@@ -53,11 +55,17 @@ void ql_termstructures::ratehelper(py::module_& m) {
              "Returns the latest date.")
         .def("latestRelevantDate", &RateHelper::latestRelevantDate,
              "Returns the latest relevant date.");
+
+    // RelativeDateRateHelper (typedef for RelativeDateBootstrapHelper<YieldTermStructure>)
+    py::class_<RelativeDateRateHelper, RateHelper,
+               ext::shared_ptr<RelativeDateRateHelper>>(
+        m, "RelativeDateRateHelper",
+        "Rate helper with date schedule relative to evaluation date.");
 }
 
 void ql_termstructures::ratehelpers(py::module_& m) {
     // --- DepositRateHelper ---
-    py::class_<DepositRateHelper, RateHelper,
+    py::class_<DepositRateHelper, RelativeDateRateHelper,
                ext::shared_ptr<DepositRateHelper>>(
         m, "DepositRateHelper",
         "Rate helper for bootstrapping over deposit rates.")
@@ -94,7 +102,7 @@ void ql_termstructures::ratehelpers(py::module_& m) {
             "Constructs from rate and explicit market conventions.");
 
     // --- FraRateHelper ---
-    py::class_<FraRateHelper, RateHelper,
+    py::class_<FraRateHelper, RelativeDateRateHelper,
                ext::shared_ptr<FraRateHelper>>(
         m, "FraRateHelper",
         "Rate helper for bootstrapping over FRA rates.")
@@ -161,7 +169,7 @@ void ql_termstructures::ratehelpers(py::module_& m) {
             "Constructs from rate, period to start, and Ibor index.");
 
     // --- SwapRateHelper ---
-    py::class_<SwapRateHelper, RateHelper,
+    py::class_<SwapRateHelper, RelativeDateRateHelper,
                ext::shared_ptr<SwapRateHelper>>(
         m, "SwapRateHelper",
         "Rate helper for bootstrapping over swap rates.")
