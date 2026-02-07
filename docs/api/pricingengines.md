@@ -264,6 +264,20 @@ engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
 swaption.setPricingEngine(engine)
 ```
 
+## Bond Engines
+
+### DiscountingBondEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountingBondEngine
+```
+
+```python
+engine = ql.DiscountingBondEngine(curve_handle)
+bond.setPricingEngine(engine)
+print(bond.cleanPrice())
+```
+
 ## Swap Engines
 
 ### DiscountingSwapEngine

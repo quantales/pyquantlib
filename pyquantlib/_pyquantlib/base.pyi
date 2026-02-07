@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -186,6 +186,12 @@ class BlackVolatilityTermStructure(BlackVolTermStructure):
         """
         Constructs with settlement days.
         """
+class BondGenericEngine(PricingEngine, Observer):
+    """
+    Generic base engine for bonds.
+    """
+    def __init__(self) -> None:
+        ...
 class CalibratedModel(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for calibrated models.

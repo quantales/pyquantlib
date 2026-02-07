@@ -59,6 +59,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticBlackVasicekEngine - European option with stochastic Vasicek rates");
     ADD_MAIN_BINDING(ql_pricingengines::batesengine,
         "BatesEngine - Analytic Bates model pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::discountingbondengine,
+        "DiscountingBondEngine - Discounting engine for bonds");
     ADD_MAIN_BINDING(ql_pricingengines::discountingswapengine,
         "DiscountingSwapEngine - Discounting engine for swaps");
     ADD_MAIN_BINDING(ql_pricingengines::treeswaptionengine,

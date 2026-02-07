@@ -1,5 +1,54 @@
 # Instruments Module
 
+## Bonds
+
+### Bond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Bond
+   :members:
+```
+
+### ZeroCouponBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroCouponBond
+```
+
+```python
+bond = ql.ZeroCouponBond(2, ql.TARGET(), 100.0, maturity_date)
+bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
+print(bond.cleanPrice())
+```
+
+### FixedRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FixedRateBond
+```
+
+```python
+bond = ql.FixedRateBond(2, 100.0, schedule, [0.05],
+                         ql.Thirty360(ql.Thirty360.BondBasis))
+bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
+print(bond.cleanPrice())
+print(bond.bondYield(ql.Thirty360(ql.Thirty360.BondBasis),
+                      ql.Compounded, ql.Annual))
+```
+
+### FloatingRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FloatingRateBond
+```
+
+```python
+bond = ql.FloatingRateBond(2, 100.0, schedule, euribor6m,
+                            ql.Actual360(), spreads=[0.005])
+bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
+print(bond.cleanPrice())
+```
+
 ## Options
 
 ### VanillaOption

@@ -795,3 +795,93 @@ def test_swaption_bermudan(swap_env):
 
     assert swaption is not None
     assert not swaption.isExpired()
+
+
+# =============================================================================
+# Bond (base class)
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def bond_env():
+    """Common data for bond base class tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+
+    issue_date = ql.Date(15, ql.January, 2025)
+    maturity_date = ql.Date(15, ql.January, 2030)
+
+    schedule = ql.Schedule(
+        issue_date, maturity_date,
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False
+    )
+
+    yield {
+        "today": today,
+        "schedule": schedule,
+    }
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_bondpricetype_exists():
+    """Test BondPriceType enum values exist."""
+    assert hasattr(ql, "BondPriceType")
+    assert ql.BondPriceType.Clean is not None
+    assert ql.BondPriceType.Dirty is not None
+
+
+def test_bondprice_construction():
+    """Test BondPrice construction."""
+    price = ql.BondPrice(99.5, ql.BondPriceType.Clean)
+    assert price.amount() == pytest.approx(99.5)
+    assert price.type() == ql.BondPriceType.Clean
+
+
+def test_bond_exists():
+    """Test Bond class exists."""
+    assert hasattr(ql, "Bond")
+
+
+def test_bond_is_tradable(bond_env):
+    """Test Bond isTradable method."""
+    bond = ql.FixedRateBond(
+        2, 100.0, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis)
+    )
+    assert bond.isTradable() is True
+
+
+def test_bond_is_expired(bond_env):
+    """Test Bond isExpired method."""
+    bond = ql.FixedRateBond(
+        2, 100.0, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis)
+    )
+    assert bond.isExpired() is False
+
+
+def test_bond_notionals(bond_env):
+    """Test Bond notionals method."""
+    bond = ql.FixedRateBond(
+        2, 100.0, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis)
+    )
+    notionals = bond.notionals()
+    assert len(notionals) > 0
+    assert notionals[0] == pytest.approx(100.0)
+
+
+def test_bond_settlement_value(bond_env):
+    """Test Bond settlementValue from clean price."""
+    bond = ql.FixedRateBond(
+        2, 100.0, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis)
+    )
+    sv = bond.settlementValue(100.0)
+    assert sv > 0.0

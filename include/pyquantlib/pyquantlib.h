@@ -200,6 +200,10 @@ namespace ql_models {
 }
 
 namespace ql_instruments {
+    void bond(py::module_&);
+    void fixedratebond(py::module_&);
+    void zerocouponbond(py::module_&);
+    void floatingratebond(py::module_&);
     void swap(py::module_&);
     void fixedvsfloatingswap(py::module_&);
     void vanillaswap(py::module_&);
@@ -235,6 +239,7 @@ namespace ql_pricingengines {
     void qdfpamericanengine(py::module_&);
     void analyticeuropeanvasicekengine(py::module_&);
     void batesengine(py::module_&);
+    void discountingbondengine(py::module_&);
     void discountingswapengine(py::module_&);
     void treeswaptionengine(py::module_&);
     void jamshidianswaptionengine(py::module_&);

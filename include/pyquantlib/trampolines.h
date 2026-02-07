@@ -33,6 +33,7 @@
 #include <ql/option.hpp>
 #include <ql/payoff.hpp>
 #include <ql/instruments/payoffs.hpp>
+#include <ql/instruments/bond.hpp>
 #include <ql/instruments/swap.hpp>
 #include <ql/instruments/swaption.hpp>
 #include <ql/instruments/oneassetoption.hpp>
@@ -802,6 +803,30 @@ public:
 
     void calculate() const override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::Swap::engine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Bond Engine Trampolines
+// -----------------------------------------------------------------------------
+using BondGenericEngine = QuantLib::GenericEngine<QuantLib::Bond::arguments,
+                                                   QuantLib::Bond::results>;
+
+class PyBondGenericEngine : public BondGenericEngine {
+public:
+    using BondGenericEngine::BondGenericEngine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, BondGenericEngine, calculate,);
+    }
+};
+
+class PyBondEngine : public QuantLib::Bond::engine {
+public:
+    using QuantLib::Bond::engine::engine;
+
+    void calculate() const override {
+        PYBIND11_OVERRIDE_PURE(void, QuantLib::Bond::engine, calculate,);
     }
 };
 

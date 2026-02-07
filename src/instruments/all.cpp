@@ -15,6 +15,14 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(instruments_bindings) {
+    ADD_MAIN_BINDING(ql_instruments::bond,
+        "Bond - base class for bonds");
+    ADD_MAIN_BINDING(ql_instruments::fixedratebond,
+        "FixedRateBond - fixed rate bond");
+    ADD_MAIN_BINDING(ql_instruments::zerocouponbond,
+        "ZeroCouponBond - zero coupon bond");
+    ADD_MAIN_BINDING(ql_instruments::floatingratebond,
+        "FloatingRateBond - floating rate bond");
     ADD_MAIN_BINDING(ql_instruments::swap,
         "Swap - interest rate swap base class");
     ADD_MAIN_BINDING(ql_instruments::fixedvsfloatingswap,
