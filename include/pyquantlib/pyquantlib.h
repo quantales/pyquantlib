@@ -95,6 +95,8 @@ namespace ql_math {
     void loglinearinterpolation(py::module_&);
     void backwardflatinterpolation(py::module_&);
     void cubicinterpolation(py::module_&);
+    void normaldistribution(py::module_&);
+    void bivariatenormaldistribution(py::module_&);
 }
 
 namespace ql_core {

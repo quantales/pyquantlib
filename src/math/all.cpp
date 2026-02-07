@@ -32,4 +32,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::loglinearinterpolation, "Log-linear interpolation");
     ADD_MAIN_BINDING(ql_math::backwardflatinterpolation, "Backward-flat interpolation");
     ADD_MAIN_BINDING(ql_math::cubicinterpolation, "Cubic interpolation");
+    ADD_MAIN_BINDING(ql_math::normaldistribution, "Normal distribution functions");
+    ADD_MAIN_BINDING(ql_math::bivariatenormaldistribution, "Bivariate cumulative normal distribution");
 }

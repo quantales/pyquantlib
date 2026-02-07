@@ -189,3 +189,65 @@ The abstract base class `Interpolation` is available in `pyquantlib.base` for ty
 ```{note}
 Abstract base classes like `Constraint`, `OptimizationMethod`, and `CostFunction` are available in `pyquantlib.base` for subclassing.
 ```
+
+## Distributions
+
+### NormalDistribution
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NormalDistribution
+```
+
+Normal (Gaussian) probability density function.
+
+```python
+pdf = ql.NormalDistribution()       # standard normal (mean=0, sigma=1)
+pdf(0.0)                            # ~0.3989 (peak)
+pdf.derivative(0.0)                 # 0.0 (at the peak)
+
+pdf2 = ql.NormalDistribution(average=5.0, sigma=2.0)
+```
+
+### CumulativeNormalDistribution
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CumulativeNormalDistribution
+```
+
+Cumulative distribution function of the normal distribution.
+
+```python
+cdf = ql.CumulativeNormalDistribution()
+cdf(0.0)    # 0.5
+cdf(1.96)   # ~0.975
+```
+
+### InverseCumulativeNormal
+
+```{eval-rst}
+.. autoclass:: pyquantlib.InverseCumulativeNormal
+```
+
+Inverse of the cumulative normal distribution (quantile function).
+
+```python
+inv = ql.InverseCumulativeNormal()
+inv(0.5)    # 0.0
+inv(0.975)  # ~1.96
+
+# Static method for standard normal
+ql.InverseCumulativeNormal.standard_value(0.975)  # ~1.96
+```
+
+### BivariateCumulativeNormalDistribution
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BivariateCumulativeNormalDistribution
+```
+
+Cumulative bivariate normal distribution with given correlation.
+
+```python
+bvn = ql.BivariateCumulativeNormalDistribution(rho=0.5)
+bvn(0.0, 0.0)  # P(X<=0, Y<=0) with correlation 0.5
+```
