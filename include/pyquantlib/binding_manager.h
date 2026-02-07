@@ -51,7 +51,7 @@ public:
      * Registers a binding function for execution during finalize().
      */
     void addFunction(void (*register_func)(py::module_&),
-                     py::module_& target_module,
+                     py::module_ target_module,
                      const std::string& description = "") {
         py::object target_copy = target_module;
 
