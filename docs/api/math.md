@@ -251,3 +251,65 @@ Cumulative bivariate normal distribution with given correlation.
 bvn = ql.BivariateCumulativeNormalDistribution(rho=0.5)
 bvn(0.0, 0.0)  # P(X<=0, Y<=0) with correlation 0.5
 ```
+
+## 1-D Solvers
+
+Root-finding algorithms for one-dimensional functions.
+
+### Brent
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Brent
+```
+
+Brent's method combines bisection, secant, and inverse quadratic interpolation.
+
+```python
+solver = ql.Brent()
+root = solver.solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.0, 10.0)  # 2.0
+```
+
+### Bisection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Bisection
+```
+
+Simple bisection method. Robust but slower than Brent.
+
+### Secant
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Secant
+```
+
+Secant method. Faster convergence than bisection, does not require derivative.
+
+### Newton
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Newton
+```
+
+Newton-Raphson method. Requires a separate derivative function.
+
+```python
+solver = ql.Newton()
+root = solver.solve(
+    lambda x: x**2 - 4,       # f(x)
+    lambda x: 2 * x,           # f'(x)
+    1e-10, 1.0, 0.0, 10.0,
+)
+```
+
+All solvers support two calling conventions:
+
+```python
+# Automatic bracketing (guess + step)
+root = solver.solve(f, accuracy, guess, step)
+
+# Explicit bracket
+root = solver.solve(f, accuracy, guess, xMin, xMax)
+```
+
+Common methods: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.

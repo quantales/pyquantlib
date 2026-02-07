@@ -97,6 +97,7 @@ namespace ql_math {
     void cubicinterpolation(py::module_&);
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
+    void solvers1d(py::module_&);
 }
 
 namespace ql_core {
