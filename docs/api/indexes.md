@@ -32,6 +32,92 @@ Additional methods:
 from pyquantlib.base import Index, InterestRateIndex
 ```
 
-```{note}
-Concrete index implementations (SOFR, ESTR, etc.) may be added in future releases.
+## IBOR Indexes
+
+### IborIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.IborIndex
+   :members:
+```
+
+### Euribor
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Euribor
+```
+
+```python
+euribor6m = ql.Euribor(ql.Period(6, ql.Months), curve)
+```
+
+## Overnight Indexes
+
+### Sofr
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Sofr
+```
+
+Secured Overnight Financing Rate (USD).
+
+```python
+sofr = ql.Sofr()           # without curve
+sofr = ql.Sofr(curve)      # with forwarding curve
+```
+
+### Estr
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Estr
+```
+
+Euro Short-Term Rate (EUR).
+
+```python
+estr = ql.Estr(curve)
+```
+
+### Sonia
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Sonia
+```
+
+Sterling Overnight Index Average (GBP).
+
+```python
+sonia = ql.Sonia(curve)
+```
+
+## Swap Indexes
+
+### SwapIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwapIndex
+```
+
+```python
+euribor6m = ql.Euribor(ql.Period(6, ql.Months), curve)
+swap_index = ql.SwapIndex(
+    "EurSwap", ql.Period(5, ql.Years), 2,
+    ql.EURCurrency(), ql.TARGET(),
+    ql.Period(1, ql.Years), ql.Unadjusted,
+    ql.Thirty360(ql.Thirty360.BondBasis), euribor6m,
+)
+```
+
+### OvernightIndexedSwapIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OvernightIndexedSwapIndex
+```
+
+```python
+estr = ql.Estr(curve)
+ois_index = ql.OvernightIndexedSwapIndex(
+    "EstrSwap", ql.Period(1, ql.Years), 2,
+    ql.EURCurrency(), estr,
+)
 ```

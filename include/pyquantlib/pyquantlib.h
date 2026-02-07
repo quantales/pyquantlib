@@ -147,6 +147,10 @@ namespace ql_indexes {
     void interestrateindex(py::module_&);
     void iborindex(py::module_&);
     void euribor(py::module_&);
+    void sofr(py::module_&);
+    void estr(py::module_&);
+    void sonia(py::module_&);
+    void swapindex(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -174,6 +178,10 @@ namespace ql_termstructures {
     void ratehelpers(py::module_&);
     void oisratehelper(py::module_&);
     void piecewiseyieldcurve(py::module_&);
+    void zerocurve(py::module_&);
+    void discountcurve(py::module_&);
+    void forwardcurve(py::module_&);
+    void zerospreadedtermstructure(py::module_&);
 }
 
 namespace ql_processes {
@@ -216,6 +224,7 @@ namespace ql_instruments {
     void vanillaoption(py::module_&);
     void multiassetoption(py::module_&);
     void basketoption(py::module_&);
+    void overnightindexedswap(py::module_&);
 }
 
 namespace ql_pricingengines {

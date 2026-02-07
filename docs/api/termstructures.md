@@ -120,6 +120,67 @@ helper = ql.OISRateHelper(
 )
 ```
 
+## Interpolated Yield Curves
+
+### ZeroCurve
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroCurve
+```
+
+Zero rate curve with linear interpolation.
+
+```python
+dates = [today, today + ql.Period(1, ql.Years), today + ql.Period(5, ql.Years)]
+rates = [0.03, 0.035, 0.04]
+curve = ql.ZeroCurve(dates, rates, ql.Actual365Fixed())
+print(curve.zeroRate(target_date, dc, ql.Continuous).rate())
+print(curve.nodes())
+```
+
+### DiscountCurve
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountCurve
+```
+
+Discount factor curve with log-linear interpolation.
+
+```python
+dfs = [1.0, 0.965, 0.835]
+curve = ql.DiscountCurve(dates, dfs, ql.Actual365Fixed())
+print(curve.discount(target_date))
+```
+
+### ForwardCurve
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardCurve
+```
+
+Forward rate curve with backward-flat interpolation.
+
+```python
+forwards = [0.03, 0.035, 0.04]
+curve = ql.ForwardCurve(dates, forwards, ql.Actual365Fixed())
+print(curve.forwardRate(d1, d2, dc, ql.Continuous).rate())
+```
+
+### ZeroSpreadedTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroSpreadedTermStructure
+```
+
+Yield term structure with an additive spread over a base curve.
+
+```python
+base = ql.FlatForward(today, 0.03, dc)
+spread = ql.SimpleQuote(0.005)
+spreaded = ql.ZeroSpreadedTermStructure(base, spread)
+spread.setValue(0.01)  # spread updates dynamically
+```
+
 ## Piecewise Yield Curves
 
 ### PiecewiseLogLinearDiscount

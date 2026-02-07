@@ -43,4 +43,6 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "MultiAssetOption - base class for multi-asset options");
     ADD_MAIN_BINDING(ql_instruments::basketoption,
         "BasketOption - basket options and payoffs");
+    ADD_MAIN_BINDING(ql_instruments::overnightindexedswap,
+        "OvernightIndexedSwap - OIS swap");
 }

@@ -74,4 +74,14 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "OISRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyieldcurve,
         "PiecewiseYieldCurve instantiations");
+
+    // Interpolated yield curves
+    ADD_MAIN_BINDING(ql_termstructures::zerocurve,
+        "ZeroCurve - zero rate curve with linear interpolation");
+    ADD_MAIN_BINDING(ql_termstructures::discountcurve,
+        "DiscountCurve - discount factor curve with log-linear interpolation");
+    ADD_MAIN_BINDING(ql_termstructures::forwardcurve,
+        "ForwardCurve - forward rate curve with backward-flat interpolation");
+    ADD_MAIN_BINDING(ql_termstructures::zerospreadedtermstructure,
+        "ZeroSpreadedTermStructure - yield curve with additive spread");
 }

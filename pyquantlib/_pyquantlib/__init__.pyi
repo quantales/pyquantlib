@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Bond', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloatingRateBond', 'FloatingRateCoupon', 'FloorTruncation', 'Following', 'FourthOrder', 'FraRateHelper', 'France', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseTimeDependentHestonModel', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'setCouponPricer', 'sviTotalVariance', 'transpose', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBlackVasicekEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Bond', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'CashDividendModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'Chile', 'China', 'ClosestRounding', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantParameter', 'Continuous', 'CraigSneyd', 'CrankNicolson', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DotProduct', 'Douglas', 'DownRounding', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'FIMCurrency', 'FRFCurrency', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FloatingRateBond', 'FloatingRateCoupon', 'FloorTruncation', 'Following', 'ForwardCurve', 'FourthOrder', 'FraRateHelper', 'France', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GarmanKohlhagenProcess', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeSchedule', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NewZealand', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseTimeDependentHestonModel', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'Sofr', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'Sqrt', 'StochasticProcessArray', 'StulzEngine', 'Sun', 'Sunday', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCurve', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'setCouponPricer', 'sviTotalVariance', 'transpose', 'weeks', 'yearFractionToDate', 'years']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -3026,6 +3026,40 @@ class DerivedQuote(base.Quote):
         """
         Creates a derived quote from another quote and a Python function.
         """
+class DiscountCurve(base.YieldTermStructure):
+    """
+    Yield curve based on discount factors with log-linear interpolation.
+    """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter) -> None:
+        """
+        Constructs from dates, discount factors, and day counter.
+        """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar) -> None:
+        """
+        Constructs from dates, discount factors, day counter, and calendar.
+        """
+    def data(self) -> list[float]:
+        """
+        Returns the discount factors.
+        """
+    def dates(self) -> list[Date]:
+        """
+        Returns the curve dates.
+        """
+    def discounts(self) -> list[float]:
+        """
+        Returns the discount factors.
+        """
+    def nodes(self) -> list[tuple[Date, float]]:
+        """
+        Returns the (date, discount factor) pairs.
+        """
+    def times(self) -> list[float]:
+        """
+        Returns the curve times.
+        """
 class DiscountingBondEngine(Bond.engine):
     """
     Discounting engine for bonds.
@@ -3250,6 +3284,25 @@ class EndCriteria:
         """
 class Error(Exception):
     pass
+class Estr(OvernightIndex):
+    """
+    Euro Short-Term Rate (ESTR) index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs ESTR without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs ESTR with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        """
+        Constructs ESTR with forwarding term structure.
+        """
 class EulerDiscretization(base.StochasticProcess1D.discretization):
     """
     Euler discretization for 1D stochastic processes.
@@ -4123,6 +4176,40 @@ class FloorTruncation(Rounding):
     """
     def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
         ...
+class ForwardCurve(base.YieldTermStructure):
+    """
+    Yield curve based on forward rates with backward-flat interpolation.
+    """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter) -> None:
+        """
+        Constructs from dates, forward rates, and day counter.
+        """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar) -> None:
+        """
+        Constructs from dates, forward rates, day counter, and calendar.
+        """
+    def data(self) -> list[float]:
+        """
+        Returns the forward rates.
+        """
+    def dates(self) -> list[Date]:
+        """
+        Returns the curve dates.
+        """
+    def forwards(self) -> list[float]:
+        """
+        Returns the forward rates.
+        """
+    def nodes(self) -> list[tuple[Date, float]]:
+        """
+        Returns the (date, forward rate) pairs.
+        """
+    def times(self) -> list[float]:
+        """
+        Returns the curve times.
+        """
 class FraRateHelper(base.RelativeDateRateHelper):
     """
     Rate helper for bootstrapping over FRA rates.
@@ -7312,6 +7399,52 @@ class OvernightIndexedCoupon(FloatingRateCoupon):
         """
         Returns the value dates for the rates to be compounded.
         """
+class OvernightIndexedSwap(FixedVsFloatingSwap):
+    """
+    Overnight indexed swap: fixed vs overnight floating leg.
+    """
+    @typing.overload
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, schedule: Schedule, fixedRate: typing.SupportsFloat, fixedDC: DayCounter, overnightIndex: OvernightIndex, spread: typing.SupportsFloat = 0.0, paymentLag: typing.SupportsInt = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+        """
+        Constructs an overnight indexed swap.
+        """
+    @typing.overload
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat, fixedDC: DayCounter, overnightSchedule: Schedule, overnightIndex: OvernightIndex, spread: typing.SupportsFloat = 0.0, paymentLag: typing.SupportsInt = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+        """
+        Constructs an OIS with separate fixed and overnight schedules.
+        """
+    def averagingMethod(self) -> RateAveraging.Type:
+        """
+        Returns the rate averaging method.
+        """
+    def overnightIndex(self) -> typing.Any:
+        """
+        Returns the overnight index.
+        """
+    def overnightLeg(self) -> list[base.CashFlow]:
+        """
+        Returns the overnight leg cash flows.
+        """
+    def overnightLegBPS(self) -> float:
+        """
+        Returns the BPS of the overnight leg.
+        """
+    def overnightLegNPV(self) -> float:
+        """
+        Returns the NPV of the overnight leg.
+        """
+class OvernightIndexedSwapIndex(SwapIndex):
+    """
+    OIS swap rate index.
+    """
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, overnightIndex: OvernightIndex, telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+        """
+        Constructs an OIS swap rate index.
+        """
+    def overnightIndex(self) -> typing.Any:
+        """
+        Returns the overnight index.
+        """
 class OvernightLeg:
     """
     Helper class for building a leg of overnight indexed coupons.
@@ -9182,6 +9315,44 @@ class Slovakia(Calendar):
     BSSE: typing.ClassVar[Slovakia.Market]  # value = <Market.BSSE: 0>
     def __init__(self, m: Slovakia.Market = ...) -> None:
         ...
+class Sofr(OvernightIndex):
+    """
+    Secured Overnight Financing Rate (SOFR) index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs SOFR without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs SOFR with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        """
+        Constructs SOFR with forwarding term structure.
+        """
+class Sonia(OvernightIndex):
+    """
+    Sterling Overnight Index Average (SONIA) rate.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs SONIA without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs SONIA with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        """
+        Constructs SONIA with forwarding term structure.
+        """
 class SouthAfrica(Calendar):
     """
     ! Holidays:
@@ -9498,6 +9669,53 @@ class SwapArguments(base.PricingEngine.arguments):
     @payer.setter
     def payer(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
         ...
+class SwapIndex(base.InterestRateIndex):
+    """
+    Swap rate index.
+    """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex) -> None:
+        """
+        Constructs a swap index.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountingTermStructure: ...) -> None:
+        """
+        Constructs a swap index with discounting term structure.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountCurve: ...) -> None:
+        """
+        Constructs a swap index with discounting curve.
+        """
+    def discountingTermStructure(self) -> ...:
+        """
+        Returns the discounting term structure handle.
+        """
+    def exogenousDiscount(self) -> bool:
+        """
+        Returns true if using exogenous discounting.
+        """
+    def fixedLegConvention(self) -> BusinessDayConvention:
+        """
+        Returns the fixed leg business day convention.
+        """
+    def fixedLegTenor(self) -> Period:
+        """
+        Returns the fixed leg tenor.
+        """
+    def forwardingTermStructure(self) -> ...:
+        """
+        Returns the forwarding term structure handle.
+        """
+    def iborIndex(self) -> IborIndex:
+        """
+        Returns the IBOR index.
+        """
+    def underlyingSwap(self, fixingDate: Date) -> typing.Any:
+        """
+        Returns the underlying swap for a given fixing date.
+        """
 class SwapRateHelper(base.RelativeDateRateHelper):
     """
     Rate helper for bootstrapping over swap rates.
@@ -11041,6 +11259,54 @@ class ZeroCouponBond(Bond):
     def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, faceAmount: typing.SupportsFloat, maturityDate: Date, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ...) -> None:
         """
         Constructs a zero coupon bond.
+        """
+class ZeroCurve(base.YieldTermStructure):
+    """
+    Yield curve based on zero rates with linear interpolation.
+    """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from dates, yields, and day counter.
+        """
+    @typing.overload
+    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from dates, yields, day counter, and calendar.
+        """
+    def data(self) -> list[float]:
+        """
+        Returns the zero rates.
+        """
+    def dates(self) -> list[Date]:
+        """
+        Returns the curve dates.
+        """
+    def nodes(self) -> list[tuple[Date, float]]:
+        """
+        Returns the (date, rate) pairs.
+        """
+    def times(self) -> list[float]:
+        """
+        Returns the curve times.
+        """
+    def zeroRates(self) -> list[float]:
+        """
+        Returns the zero rates.
+        """
+class ZeroSpreadedTermStructure(base.YieldTermStructure):
+    """
+    Yield curve with an additive spread on zero rates.
+    """
+    @typing.overload
+    def __init__(self, curveHandle: YieldTermStructureHandle, spreadHandle: QuoteHandle, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from yield curve and spread handles.
+        """
+    @typing.overload
+    def __init__(self, curve: base.YieldTermStructure, spread: base.Quote, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+        """
+        Constructs from yield curve and spread (handles created internally).
         """
 def Abs(array: Array) -> Array:
     """

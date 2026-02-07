@@ -49,6 +49,33 @@ bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
 print(bond.cleanPrice())
 ```
 
+## Swaps
+
+### VanillaSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.VanillaSwap
+```
+
+### OvernightIndexedSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OvernightIndexedSwap
+```
+
+Overnight indexed swap: fixed vs overnight floating leg.
+
+```python
+sofr = ql.Sofr(curve)
+ois = ql.OvernightIndexedSwap(
+    ql.SwapType.Receiver, 1_000_000.0, schedule,
+    0.035, ql.Actual360(), sofr,
+)
+ois.setPricingEngine(ql.DiscountingSwapEngine(curve))
+print(ois.NPV())
+print(ois.fairRate())
+```
+
 ## Options
 
 ### VanillaOption
