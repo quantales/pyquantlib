@@ -182,6 +182,8 @@ public:
 
 ### Binding with Trampoline
 
+Most trampolines use the standard `py::class_` pattern:
+
 ```cpp
 py::class_<QuantLib::Quote,
            PyQuote,                              // Trampoline class
@@ -191,12 +193,27 @@ py::class_<QuantLib::Quote,
     .def(py::init_alias<>());                   // Enables Python subclassing
 ```
 
+### Diamond Inheritance: py::classh and trampoline_self_life_support
+
+Some classes require `py::classh` (smart_holder) instead of `py::class_`, and their trampolines may need to inherit from `py::trampoline_self_life_support`. See {doc}`design/diamond-inheritance` for when this applies and why.
+
+```cpp
+// SmileSection inherits from both Observable and Observer (diamond) -- uses py::classh
+py::classh<SmileSection, PySmileSection,
+           Observer, Observable>(m, "SmileSection", "...")
+
+// SabrInterpolatedSmileSection closes the diamond via SmileSection + LazyObject
+py::classh<SabrInterpolatedSmileSection, SmileSection, LazyObject>(
+    m, "SabrInterpolatedSmileSection", "...")
+```
+
 ### Guidelines for Contributors
 
 1. **Only virtual methods**: Non-virtual methods cannot be overridden from Python. C++ calls bypass the trampoline and go directly to the base class. Including non-virtual methods gives the false impression they are overridable.
 2. **Use `override`**: If it doesn't compile with `override`, the method isn't virtual: remove it from the trampoline
 3. **`PYBIND11_OVERRIDE_PURE` vs `PYBIND11_OVERRIDE`**: Use `PYBIND11_OVERRIDE_PURE` for pure virtual methods (`= 0`), which throws if not implemented in Python. Use `PYBIND11_OVERRIDE` for virtual methods with a base implementation, which falls back to C++ if not overridden.
 4. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
+5. **Diamond inheritance**: See the {doc}`design/diamond-inheritance` design notes for when `py::classh` and `trampoline_self_life_support` are required.
 
 All trampolines are in `include/pyquantlib/trampolines.h`.
 
