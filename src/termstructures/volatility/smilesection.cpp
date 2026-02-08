@@ -21,8 +21,8 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::smilesection(py::module_& m) {
-    py::class_<SmileSection, PySmileSection, ext::shared_ptr<SmileSection>,
-               Observable, Observer>(
+    py::classh<SmileSection, PySmileSection,
+               Observer, Observable>(
         m, "SmileSection",
         "Abstract base class for volatility smile sections.")
         .def(py::init_alias<>(),

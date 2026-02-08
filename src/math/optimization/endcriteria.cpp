@@ -20,7 +20,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_math::endcriteria(py::module_& m) {
-    py::class_<EndCriteria> pyEndCriteria(m, "EndCriteria",
+    py::class_<EndCriteria, ext::shared_ptr<EndCriteria>> pyEndCriteria(m, "EndCriteria",
         "Criteria to end optimization processes.");
 
     py::enum_<EndCriteria::Type>(pyEndCriteria, "Type",

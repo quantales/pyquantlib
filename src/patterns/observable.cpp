@@ -23,7 +23,7 @@ using namespace QuantLib;
 
 void ql_patterns::observable(py::module_& m)
 {
-    py::class_<Observable, PyObservable, ext::shared_ptr<Observable>>(m, "Observable",
+    py::classh<Observable, PyObservable>(m, "Observable",
         "Core observable class in QuantLib's Observer pattern\n\n"
         "Maintains a list of observers and notifies them of state changes.")
 
@@ -38,7 +38,7 @@ void ql_patterns::observable(py::module_& m)
 
 void ql_patterns::observer(py::module_& m)
 {
-    py::class_<Observer, PyObserver, ext::shared_ptr<Observer>>(m, "Observer",
+    py::classh<Observer, PyObserver>(m, "Observer",
         "Observer in QuantLib's Observer pattern\n\n"
         "Receives updates from Observable objects. Must implement update().")
         .def(py::init_alias<>())

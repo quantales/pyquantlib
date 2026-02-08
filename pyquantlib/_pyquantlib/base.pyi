@@ -898,7 +898,7 @@ class ShortRateModel(CalibratedModel):
         """
         Returns a lattice for the given time grid.
         """
-class SmileSection(pyquantlib._pyquantlib.Observable, Observer):
+class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for volatility smile sections.
     """

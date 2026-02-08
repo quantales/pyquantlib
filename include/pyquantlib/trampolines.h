@@ -59,7 +59,8 @@ namespace py = pybind11;
 // -----------------------------------------------------------------------------
 // Observer Trampoline
 // -----------------------------------------------------------------------------
-class PyObserver : public QuantLib::Observer {
+class PyObserver : public QuantLib::Observer,
+                   public py::trampoline_self_life_support {
 public:
     using QuantLib::Observer::Observer;
 
@@ -77,7 +78,8 @@ public:
 // -----------------------------------------------------------------------------
 // Observable Trampoline
 // -----------------------------------------------------------------------------
-class PyObservable : public QuantLib::Observable {
+class PyObservable : public QuantLib::Observable,
+                     public py::trampoline_self_life_support {
 public:
     using QuantLib::Observable::Observable;
 
@@ -87,7 +89,8 @@ public:
 // -----------------------------------------------------------------------------
 // LazyObject Trampoline
 // -----------------------------------------------------------------------------
-class PyLazyObject : public QuantLib::LazyObject {
+class PyLazyObject : public QuantLib::LazyObject,
+                     public py::trampoline_self_life_support {
 public:
     using QuantLib::LazyObject::LazyObject;
 
@@ -467,7 +470,8 @@ public:
 // -----------------------------------------------------------------------------
 // SmileSection Trampoline
 // -----------------------------------------------------------------------------
-class PySmileSection : public QuantLib::SmileSection {
+class PySmileSection : public QuantLib::SmileSection,
+                       public py::trampoline_self_life_support {
 public:
     using QuantLib::SmileSection::SmileSection;
 

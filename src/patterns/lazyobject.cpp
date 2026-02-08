@@ -23,7 +23,7 @@ using namespace QuantLib;
 
 void ql_patterns::lazyobject(py::module_& m) {
 
-    py::class_<LazyObject, PyLazyObject, ext::shared_ptr<LazyObject>,
+    py::classh<LazyObject, PyLazyObject,
             Observer, Observable>(m, "LazyObject",
         "Framework for lazy object calculation.\n\n"
         "Derived classes must implement performCalculations().")

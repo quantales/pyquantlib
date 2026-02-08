@@ -270,6 +270,68 @@ const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 .. autoclass:: pyquantlib.RelinkableBlackVolTermStructureHandle
 ```
 
+## SABR Volatility
+
+### SabrSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SabrSmileSection
+```
+
+Parametric SABR smile section defined by alpha, beta, nu, rho.
+
+```python
+params = [0.05, 0.5, 0.4, -0.1]  # alpha, beta, nu, rho
+forward = 0.03
+
+# From exercise time
+section = ql.SabrSmileSection(1.0, forward, params)
+vol = section.volatility(0.03)
+
+# From expiry date
+section = ql.SabrSmileSection(ql.Date(15, 7, 2025), forward, params)
+```
+
+### SabrInterpolatedSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SabrInterpolatedSmileSection
+```
+
+Smile section that calibrates SABR parameters to market strikes and volatilities.
+
+```python
+option_date = ql.Date(15, 7, 2025)
+forward = 0.03
+strikes = [0.01, 0.02, 0.025, 0.03, 0.035, 0.04, 0.05]
+vols = [0.30, 0.22, 0.19, 0.18, 0.185, 0.20, 0.25]
+
+section = ql.SabrInterpolatedSmileSection(
+    option_date, forward, strikes,
+    hasFloatingStrikes=False,
+    atmVolatility=0.18,
+    vols=vols,
+    alpha=0.05, beta=0.5, nu=0.4, rho=-0.1,
+    isBetaFixed=True,
+)
+section.recalculate()
+print(section.alpha(), section.rmsError())
+```
+
+### SABR Free Functions
+
+```{eval-rst}
+.. autofunction:: pyquantlib.sabrVolatility
+.. autofunction:: pyquantlib.shiftedSabrVolatility
+.. autofunction:: pyquantlib.validateSabrParameters
+```
+
+```python
+vol = ql.sabrVolatility(strike, forward, T, alpha, beta, nu, rho)
+vol_shifted = ql.shiftedSabrVolatility(strike, forward, T, alpha, beta, nu, rho, shift)
+ql.validateSabrParameters(alpha, beta, nu, rho)
+```
+
 ## Local Volatility
 
 ### LocalConstantVol

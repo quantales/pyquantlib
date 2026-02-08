@@ -176,6 +176,8 @@ namespace ql_termstructures {
     void fixedlocalvolsurface(py::module_&);
     void noexceptlocalvolsurface(py::module_&);
     void smilesection(py::module_&);
+    void sabrsmilesection(py::module_&);
+    void sabrinterpolatedsmilesection(py::module_&);
     void pillar(py::module_&);
     void ratehelper(py::module_&);
     void ratehelpers(py::module_&);

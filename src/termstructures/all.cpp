@@ -62,6 +62,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     // Smile sections
     ADD_BASE_BINDING(ql_termstructures::smilesection,
         "SmileSection ABC");
+    ADD_MAIN_BINDING(ql_termstructures::sabrsmilesection,
+        "SabrSmileSection and SABR formula functions");
+    ADD_MAIN_BINDING(ql_termstructures::sabrinterpolatedsmilesection,
+        "SabrInterpolatedSmileSection - SABR calibration to market data");
 
     // Rate helpers and curve bootstrapping
     ADD_MAIN_BINDING(ql_termstructures::pillar,

@@ -4,9 +4,12 @@ Tests for termstructures/volatility module.
 Corresponds to src/termstructures/volatility/*.cpp bindings.
 """
 
+import datetime
+
 import pytest
 
 import pyquantlib as ql
+from pyquantlib.base import SmileSection, LazyObject
 
 
 # =============================================================================
@@ -1558,3 +1561,269 @@ def test_noexceptlocalvolsurface_hidden_handles_with_fixed_value():
     nelvs = ql.NoExceptLocalVolSurface(black_vol, risk_free, dividend, 100.0, 0.15)
 
     assert nelvs.localVol(1.0, 100.0) == pytest.approx(0.20)
+
+
+# =============================================================================
+# SABR Formula Free Functions
+# =============================================================================
+
+
+def test_sabrvolatility_atm():
+    """Test SABR formula at the ATM forward."""
+    alpha, beta, nu, rho = 0.05, 0.5, 0.4, -0.1
+    forward = 0.03
+    T = 1.0
+    vol = ql.sabrVolatility(forward, forward, T, alpha, beta, nu, rho)
+    assert vol > 0.0
+    assert vol == pytest.approx(0.29230, rel=1e-3)
+
+
+def test_sabrvolatility_otm():
+    """Test SABR formula for out-of-the-money strikes."""
+    alpha, beta, nu, rho = 0.05, 0.5, 0.4, -0.1
+    forward = 0.03
+    T = 1.0
+    vol_low = ql.sabrVolatility(0.01, forward, T, alpha, beta, nu, rho)
+    vol_atm = ql.sabrVolatility(forward, forward, T, alpha, beta, nu, rho)
+    vol_high = ql.sabrVolatility(0.05, forward, T, alpha, beta, nu, rho)
+    # SABR with negative rho produces a skew
+    assert vol_low > vol_atm  # downside skew
+    assert vol_high > 0.0
+
+
+def test_shiftedsabrvolatility():
+    """Test shifted SABR formula."""
+    alpha, beta, nu, rho = 0.05, 0.5, 0.4, -0.1
+    forward = 0.03
+    T = 1.0
+    shift = 0.02
+    vol = ql.shiftedSabrVolatility(forward, forward, T, alpha, beta, nu, rho, shift)
+    assert vol > 0.0
+
+
+def test_validatesabrparameters_valid():
+    """Test SABR parameter validation with valid params."""
+    ql.validateSabrParameters(0.05, 0.5, 0.4, -0.1)
+
+
+def test_validatesabrparameters_invalid():
+    """Test SABR parameter validation with invalid params."""
+    with pytest.raises(ql.Error):
+        ql.validateSabrParameters(-0.05, 0.5, 0.4, -0.1)  # negative alpha
+    with pytest.raises(ql.Error):
+        ql.validateSabrParameters(0.05, 0.5, -0.4, -0.1)  # negative nu
+    with pytest.raises(ql.Error):
+        ql.validateSabrParameters(0.05, 0.5, 0.4, -1.5)  # |rho| > 1
+
+
+# =============================================================================
+# SabrSmileSection
+# =============================================================================
+
+
+def test_sabrsmilesection_time_constructor():
+    """Test SabrSmileSection construction from exercise time."""
+    params = [0.05, 0.5, 0.4, -0.1]  # alpha, beta, nu, rho
+    section = ql.SabrSmileSection(1.0, 0.03, params)
+    assert section is not None
+    assert isinstance(section, SmileSection)
+    assert section.exerciseTime() == pytest.approx(1.0)
+
+
+def test_sabrsmilesection_date_constructor():
+    """Test SabrSmileSection construction from expiry date."""
+    ql.Settings.evaluationDate = datetime.date(2025, 1, 15)
+    params = [0.05, 0.5, 0.4, -0.1]
+    section = ql.SabrSmileSection(
+        ql.Date(15, 7, 2025), 0.03, params
+    )
+    assert section is not None
+    assert section.exerciseTime() > 0.0
+
+
+def test_sabrsmilesection_volatility():
+    """Test SabrSmileSection volatility computation."""
+    params = [0.05, 0.5, 0.4, -0.1]
+    forward = 0.03
+    section = ql.SabrSmileSection(1.0, forward, params)
+    vol_atm = section.volatility(forward)
+    assert vol_atm > 0.0
+    assert vol_atm == pytest.approx(0.29230, rel=1e-3)
+
+
+def test_sabrsmilesection_accessors():
+    """Test SabrSmileSection parameter accessors."""
+    alpha, beta, nu, rho = 0.05, 0.5, 0.4, -0.1
+    section = ql.SabrSmileSection(1.0, 0.03, [alpha, beta, nu, rho])
+    assert section.alpha() == pytest.approx(alpha)
+    assert section.beta() == pytest.approx(beta)
+    assert section.nu() == pytest.approx(nu)
+    assert section.rho() == pytest.approx(rho)
+
+
+def test_sabrsmilesection_smile_shape():
+    """Test SabrSmileSection produces expected smile shape."""
+    params = [0.05, 0.5, 0.4, -0.1]
+    forward = 0.03
+    section = ql.SabrSmileSection(1.0, forward, params)
+    vol_low = section.volatility(0.01)
+    vol_atm = section.volatility(forward)
+    vol_high = section.volatility(0.05)
+    # Negative rho -> downside skew
+    assert vol_low > vol_atm
+
+
+def test_sabrsmilesection_shifted():
+    """Test SabrSmileSection with shift."""
+    params = [0.05, 0.5, 0.4, -0.1]
+    section = ql.SabrSmileSection(1.0, 0.03, params, shift=0.02)
+    vol = section.volatility(0.03)
+    assert vol > 0.0
+
+
+def test_sabrsmilesection_consistency_with_formula():
+    """Test SabrSmileSection matches sabrVolatility free function."""
+    alpha, beta, nu, rho = 0.05, 0.5, 0.4, -0.1
+    forward = 0.03
+    T = 1.0
+    section = ql.SabrSmileSection(T, forward, [alpha, beta, nu, rho])
+    strike = 0.025
+    vol_section = section.volatility(strike)
+    vol_formula = ql.sabrVolatility(strike, forward, T, alpha, beta, nu, rho)
+    assert vol_section == pytest.approx(vol_formula, rel=1e-6)
+
+
+# =============================================================================
+# SabrInterpolatedSmileSection
+# =============================================================================
+
+
+@pytest.fixture
+def sabr_market_data():
+    """Market data for SABR interpolation tests."""
+    ql.Settings.evaluationDate = datetime.date(2025, 1, 15)
+    return {
+        "optionDate": ql.Date(15, 7, 2025),
+        "forward": 0.03,
+        "strikes": [0.01, 0.02, 0.025, 0.03, 0.035, 0.04, 0.05],
+        "vols": [0.30, 0.22, 0.19, 0.18, 0.185, 0.20, 0.25],
+    }
+
+
+def test_sabrinterpolatedsmilesection_construction(sabr_market_data):
+    """Test SabrInterpolatedSmileSection construction and calibration."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        hasFloatingStrikes=False,
+        atmVolatility=0.18,
+        vols=d["vols"],
+        alpha=0.05, beta=0.5, nu=0.4, rho=-0.1
+    )
+    assert section is not None
+
+
+def test_sabrinterpolatedsmilesection_isinstance(sabr_market_data):
+    """Test SabrInterpolatedSmileSection inheritance checks."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    assert isinstance(section, SmileSection)
+    assert isinstance(section, LazyObject)
+
+
+def test_sabrinterpolatedsmilesection_calibration(sabr_market_data):
+    """Test SabrInterpolatedSmileSection calibration results."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    section.recalculate()
+    # Calibrated parameters should be reasonable
+    assert 0.0 < section.alpha() < 1.0
+    assert 0.0 <= section.beta() <= 1.0
+    assert section.nu() >= 0.0
+    assert -1.0 <= section.rho() <= 1.0
+    # Calibration should have small error
+    assert section.rmsError() < 0.05
+    assert section.maxError() < 0.1
+
+
+def test_sabrinterpolatedsmilesection_volatility(sabr_market_data):
+    """Test calibrated volatility at market strikes."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    section.recalculate()
+    # Calibrated vol at ATM should be close to market ATM vol
+    vol_atm = section.volatility(d["forward"])
+    assert vol_atm == pytest.approx(d["vols"][3], abs=0.02)
+
+
+def test_sabrinterpolatedsmilesection_fixed_beta(sabr_market_data):
+    """Test calibration with fixed beta."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1,
+        isBetaFixed=True
+    )
+    section.recalculate()
+    assert section.beta() == pytest.approx(0.5)
+
+
+def test_sabrinterpolatedsmilesection_lazyobject_methods(sabr_market_data):
+    """Test LazyObject methods (recalculate, freeze, unfreeze)."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    section.recalculate()
+    alpha1 = section.alpha()
+    # Freeze and recalculate should give same result
+    section.freeze()
+    section.recalculate()
+    assert section.alpha() == pytest.approx(alpha1)
+    # Unfreeze
+    section.unfreeze()
+
+
+def test_sabrinterpolatedsmilesection_endcriteria(sabr_market_data):
+    """Test end criteria reporting after calibration."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    section.recalculate()
+    ec = section.endCriteria()
+    assert ec is not None
+
+
+def test_sabrinterpolatedsmilesection_smilesection_methods(sabr_market_data):
+    """Test inherited SmileSection methods."""
+    d = sabr_market_data
+    section = ql.SabrInterpolatedSmileSection(
+        d["optionDate"], d["forward"], d["strikes"],
+        False, 0.18, d["vols"],
+        0.05, 0.5, 0.4, -0.1
+    )
+    section.recalculate()
+    # SmileSection methods
+    assert section.exerciseTime() > 0.0
+    assert section.volatility(0.03) > 0.0
+    assert section.variance(0.03) > 0.0
+    price = section.optionPrice(0.03)
+    assert price >= 0.0
