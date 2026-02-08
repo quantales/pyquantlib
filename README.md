@@ -20,7 +20,6 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 - **Pythonic API**: Pass Python objects directly to functions (implicit conversion)
 - **Zero-copy NumPy**: Buffer protocol for efficient, bidirectional data exchange
-- **Full operators**: Arithmetic, iteration, indexing on Array/Matrix types
 - **Type hints**: IDE-friendly with complete `.pyi` stub files
 - **Python subclassing**: Extend QuantLib classes without C++ recompilation
 - **Modern build**: scikit-build-core, CMake presets, cross-platform CI/CD
