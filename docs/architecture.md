@@ -135,13 +135,13 @@ Test files group by QuantLib subdirectory:
 
 ## Core Mechanisms
 
-### Deferred Registration
+### Two-Phase Initialization
 
-pybind11 requires base classes to be registered before derived classes. In a project with hundreds of classes across many files, managing this ordering manually is fragile.
+pybind11 requires base classes to be registered before derived classes. In a project with hundreds of classes across many files, the ordering matters.
 
-The `BindingManager` solves this by collecting binding functions during initialization and executing them in dependency order via `finalize()`. Each domain module registers its bindings; the manager ensures `Observable` is bound before `Quote`, `Quote` before `SimpleQuote`, and so on.
+The `BindingManager` separates registration from execution. Each domain module calls `addFunction` to enqueue its binding functions, and a single `finalize()` call executes them all in insertion order. The ordering is manual but centralized: `main.cpp` lists modules in dependency order (patterns before quotes, quotes before instruments), and each module's `all.cpp` lists its own classes in the right sequence. When the ordering is wrong, pybind11 raises an error at import time, making it straightforward to diagnose and fix.
 
-This also provides error isolation: if a binding fails, the error message identifies which registration caused it, rather than producing a cryptic pybind11 template error.
+The two-phase design also provides error isolation: if a binding fails, the error message identifies which registration caused it, rather than producing a cryptic pybind11 template error.
 
 See {doc}`internals` for the BindingManager API and macros.
 
@@ -232,9 +232,9 @@ See {doc}`design/settings-singleton` for the full investigation.
 
 Abstract base classes live in `pyquantlib.base`, separate from the main namespace. This signals that these classes are for subclassing, not direct instantiation. A user writing `from pyquantlib.base import Quote` is making an explicit choice to extend the library, while `import pyquantlib as ql` provides only concrete, ready-to-use classes.
 
-### Why Deferred Registration?
+### Why Two-Phase Initialization?
 
-pybind11 requires base classes to be bound before derived classes. Without centralized ordering, adding a new class requires knowing the entire dependency graph. The BindingManager collects all registrations and executes them in the declared order, with clear error messages when something fails. This scales to hundreds of classes without manual dependency tracking.
+pybind11 requires base classes to be bound before derived classes. Without centralized ordering, adding a new class means reasoning about the ordering of every `PYBIND11_MODULE` call and hoping no file gets compiled in the wrong sequence. The BindingManager collects all registrations first, then executes them in insertion order via `finalize()`. The ordering is still manual -- the developer arranges modules in `main.cpp` and classes within each `all.cpp` -- but it is centralized in two visible places rather than scattered across the build system. Clear error messages identify which binding failed.
 
 ### Why a Single Trampolines Header?
 

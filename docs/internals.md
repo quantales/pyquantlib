@@ -12,10 +12,11 @@ The `BindingManager` class is the central orchestrator for module organization a
 
 ### Purpose
 
-1. **Submodule management**: Creates and tracks submodules (`pyquantlib.base`)
-2. **Deferred execution**: Collects binding functions for ordered execution
-3. **sys.modules registration**: Ensures proper Python import behavior
-4. **Helper utilities**: Provides `bindHandle<T>` and `bindRelinkableHandle<T>` templates
+1. **Two-phase initialization**: Collects binding functions first, executes them all via `finalize()`
+2. **Submodule management**: Creates and tracks submodules (`pyquantlib.base`)
+3. **Error isolation**: Wraps each binding execution in try/catch with descriptive error messages
+4. **sys.modules registration**: Ensures proper Python import behavior
+5. **Helper utilities**: Provides `bindHandle<T>` and `bindRelinkableHandle<T>` templates
 
 ### Key Methods
 
@@ -42,13 +43,24 @@ public:
 // In main.cpp
 BindingManager manager(m, "pyquantlib");
 
+// Ordering is manual: modules listed in dependency order.
+// patterns before quotes (Observable before Quote),
+// quotes before instruments (Quote before Instrument), etc.
 submodules_bindings(manager);   // Creates "base" submodule first
-patterns_bindings(manager);     // Observer/Observable (depends on base)
+patterns_bindings(manager);     // Observer/Observable
 time_bindings(manager);         // Date, Calendar, etc.
 // ... other modules
 
-manager.finalize();             // Execute all bindings in order
+manager.finalize();             // Execute all bindings in insertion order
 ```
+
+### Ordering
+
+`finalize()` executes binding functions in insertion order. There is no automatic dependency resolution -- the developer is responsible for arranging modules in `main.cpp` and classes within each `all.cpp` so that base classes are registered before derived classes.
+
+In practice, module boundaries do most of the work. `patterns_bindings` (Observable) naturally runs before `quotes_bindings` (Quote) because the listing in `main.cpp` follows the inheritance hierarchy. Within each `all.cpp`, the entries are short enough to order by inspection.
+
+When the ordering is wrong, pybind11 raises an error at import time. The BindingManager's error isolation identifies the failing binding by its description string, making it straightforward to diagnose and fix by reordering.
 
 ### Convenience Macros
 
