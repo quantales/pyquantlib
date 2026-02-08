@@ -51,6 +51,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "CapFloor - interest rate caps, floors, and collars");
     ADD_MAIN_BINDING(ql_instruments::makecapfloor,
         "MakeCapFloor - helper for constructing caps and floors");
+    ADD_MAIN_BINDING(ql_instruments::makevanillaswap,
+        "MakeVanillaSwap - helper for constructing vanilla swaps");
     ADD_MAIN_BINDING(ql_instruments::forwardrateagreement,
         "ForwardRateAgreement - FRA instrument");
     ADD_MAIN_BINDING(ql_instruments::barriertype,
@@ -65,4 +67,12 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "AverageType - averaging type enum");
     ADD_MAIN_BINDING(ql_instruments::asianoption,
         "AsianOption - Asian options with averaging");
+    ADD_MAIN_BINDING(ql_instruments::makeswaption,
+        "MakeSwaption - helper for constructing swaptions");
+    ADD_MAIN_BINDING(ql_instruments::zerocouponswap,
+        "ZeroCouponSwap - zero-coupon interest rate swap");
+    ADD_MAIN_BINDING(ql_instruments::compositeinstrument,
+        "CompositeInstrument - aggregate of weighted instruments");
+    ADD_MAIN_BINDING(ql_instruments::assetswap,
+        "AssetSwap - bullet bond vs Libor swap");
 }

@@ -204,3 +204,114 @@ def MakeOIS(swapTenor, overnightIndex, fixedRate=None,
         builder = _ql.MakeOIS(swapTenor, overnightIndex, fixedRate)
     _apply_kwargs("MakeOIS", _MAKEOIS_METHODS, builder, kwargs)
     return builder.ois()
+
+
+# ---------------------------------------------------------------------------
+# MakeVanillaSwap
+# ---------------------------------------------------------------------------
+
+_MAKEVANILLASWAP_METHODS = {
+    "receiveFixed": "receiveFixed",
+    "swapType": "withType",
+    "nominal": "withNominal",
+    "settlementDays": "withSettlementDays",
+    "effectiveDate": "withEffectiveDate",
+    "terminationDate": "withTerminationDate",
+    "rule": "withRule",
+    "paymentConvention": "withPaymentConvention",
+    "fixedLegTenor": "withFixedLegTenor",
+    "fixedLegCalendar": "withFixedLegCalendar",
+    "fixedLegConvention": "withFixedLegConvention",
+    "fixedLegTerminationDateConvention": "withFixedLegTerminationDateConvention",
+    "fixedLegRule": "withFixedLegRule",
+    "fixedLegEndOfMonth": "withFixedLegEndOfMonth",
+    "fixedLegFirstDate": "withFixedLegFirstDate",
+    "fixedLegNextToLastDate": "withFixedLegNextToLastDate",
+    "fixedLegDayCount": "withFixedLegDayCount",
+    "floatingLegTenor": "withFloatingLegTenor",
+    "floatingLegCalendar": "withFloatingLegCalendar",
+    "floatingLegConvention": "withFloatingLegConvention",
+    "floatingLegTerminationDateConvention": "withFloatingLegTerminationDateConvention",
+    "floatingLegRule": "withFloatingLegRule",
+    "floatingLegEndOfMonth": "withFloatingLegEndOfMonth",
+    "floatingLegFirstDate": "withFloatingLegFirstDate",
+    "floatingLegNextToLastDate": "withFloatingLegNextToLastDate",
+    "floatingLegDayCount": "withFloatingLegDayCount",
+    "floatingLegSpread": "withFloatingLegSpread",
+    "discountingTermStructure": "withDiscountingTermStructure",
+    "indexedCoupons": "withIndexedCoupons",
+    "atParCoupons": "withAtParCoupons",
+    "pricingEngine": "withPricingEngine",
+}
+
+
+def MakeVanillaSwap(swapTenor, iborIndex, fixedRate=None,
+                    forwardStart=None, **kwargs):
+    """Build a VanillaSwap from keyword arguments.
+
+    Parameters
+    ----------
+    swapTenor : Period
+        Tenor of the swap.
+    iborIndex : IborIndex
+        The floating rate index.
+    fixedRate : float, optional
+        Fixed rate.  ``None`` for par rate.
+    forwardStart : Period, optional
+        Forward start period.
+    **kwargs
+        Builder options mapped to ``with*`` methods (e.g. ``nominal``,
+        ``pricingEngine``, ``fixedLegDayCount``, ``floatingLegSpread``, ...).
+
+    Returns
+    -------
+    VanillaSwap
+    """
+    if forwardStart is not None:
+        builder = _ql.MakeVanillaSwap(swapTenor, iborIndex,
+                                      fixedRate, forwardStart)
+    else:
+        builder = _ql.MakeVanillaSwap(swapTenor, iborIndex, fixedRate)
+    _apply_kwargs("MakeVanillaSwap", _MAKEVANILLASWAP_METHODS, builder, kwargs)
+    return builder.swap()
+
+
+# ---------------------------------------------------------------------------
+# MakeSwaption
+# ---------------------------------------------------------------------------
+
+_MAKESWAPTION_METHODS = {
+    "nominal": "withNominal",
+    "settlementType": "withSettlementType",
+    "settlementMethod": "withSettlementMethod",
+    "optionConvention": "withOptionConvention",
+    "exerciseDate": "withExerciseDate",
+    "underlyingType": "withUnderlyingType",
+    "indexedCoupons": "withIndexedCoupons",
+    "atParCoupons": "withAtParCoupons",
+    "pricingEngine": "withPricingEngine",
+}
+
+
+def MakeSwaption(swapIndex, optionTenor, strike=None, **kwargs):
+    """Build a Swaption from keyword arguments.
+
+    Parameters
+    ----------
+    swapIndex : SwapIndex
+        The swap index.
+    optionTenor : Period or Date
+        Option tenor (Period) or fixing date (Date).
+    strike : float, optional
+        Strike rate.  ``None`` for ATM.
+    **kwargs
+        Builder options mapped to ``with*`` methods (e.g. ``nominal``,
+        ``pricingEngine``, ``settlementType``, ...).
+
+    Returns
+    -------
+    Swaption
+    """
+    builder = _ql.MakeSwaption(swapIndex, optionTenor, strike)
+    _apply_kwargs("MakeSwaption", _MAKESWAPTION_METHODS, builder, kwargs)
+    return builder.swaption()

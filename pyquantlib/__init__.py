@@ -25,6 +25,8 @@ del _ql
 from .builders import MakeCapFloor as MakeCapFloor  # noqa: E402, F811
 from .builders import MakeOIS as MakeOIS  # noqa: E402, F811
 from .builders import MakeSchedule as MakeSchedule  # noqa: E402, F811
+from .builders import MakeSwaption as MakeSwaption  # noqa: E402, F811
+from .builders import MakeVanillaSwap as MakeVanillaSwap  # noqa: E402, F811
 
 
 # Helpers for readable Boost version

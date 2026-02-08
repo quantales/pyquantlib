@@ -144,6 +144,7 @@ namespace ql_cashflows {
     void rateaveraging(py::module_&);
     void iborcoupon(py::module_&);
     void overnightindexedcoupon(py::module_&);
+    void duration(py::module_&);
 }
 
 namespace ql_indexes {
@@ -233,6 +234,10 @@ namespace ql_instruments {
     void makeois(py::module_&);
     void capfloor(py::module_&);
     void makecapfloor(py::module_&);
+    void makevanillaswap(py::module_&);
+    void makeswaption(py::module_&);
+    void zerocouponswap(py::module_&);
+    void compositeinstrument(py::module_&);
     void forwardrateagreement(py::module_&);
     void barriertype(py::module_&);
     void barrieroption(py::module_&);
@@ -240,6 +245,7 @@ namespace ql_instruments {
     void doublebarrieroption(py::module_&);
     void averagetype(py::module_&);
     void asianoption(py::module_&);
+    void assetswap(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -274,6 +280,8 @@ namespace ql_pricingengines {
     void fdg2swaptionengine(py::module_&);
     void blackcapfloorengine(py::module_&);
     void bacheliercapfloorengine(py::module_&);
+    void blackswaptionengine(py::module_&);
+    void bondfunctions(py::module_&);
     void analyticbarrierengine(py::module_&);
     void analyticdoublebarrierengine(py::module_&);
     void fdblackscholesbarrierengine(py::module_&);

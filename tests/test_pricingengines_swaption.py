@@ -223,3 +223,91 @@ def test_fdg2swaptionengine_pricing(swaption_env):
 
     npv = env["swaption"].NPV()
     assert npv == pytest.approx(11913.177527894266, rel=1e-5)
+
+
+# --- BlackSwaptionEngine ---
+
+
+def test_blackswaptionengine_constant_vol(swaption_env):
+    """Test BlackSwaptionEngine with constant vol."""
+    env = swaption_env
+    engine = ql.BlackSwaptionEngine(env["curve"], 0.20)
+    assert engine is not None
+
+    env["swaption"].setPricingEngine(engine)
+    npv = env["swaption"].NPV()
+    assert npv > 0
+
+
+def test_blackswaptionengine_pricing(swaption_env):
+    """Test BlackSwaptionEngine swaption pricing."""
+    env = swaption_env
+    engine = ql.BlackSwaptionEngine(env["curve"], 0.20)
+    env["swaption"].setPricingEngine(engine)
+
+    npv = env["swaption"].NPV()
+    assert npv == pytest.approx(19361.82, abs=10.0)
+
+
+def test_blackswaptionengine_quote_vol(swaption_env):
+    """Test BlackSwaptionEngine with Quote vol."""
+    env = swaption_env
+    vol_quote = ql.SimpleQuote(0.20)
+    engine = ql.BlackSwaptionEngine(env["curve"], vol_quote)
+    env["swaption"].setPricingEngine(engine)
+
+    npv1 = env["swaption"].NPV()
+    vol_quote.setValue(0.30)
+    npv2 = env["swaption"].NPV()
+    assert npv2 > npv1
+
+
+def test_blackswaptionengine_handle_constructor(swaption_env):
+    """Test BlackSwaptionEngine with explicit YieldTermStructureHandle."""
+    env = swaption_env
+    engine = ql.BlackSwaptionEngine(
+        ql.YieldTermStructureHandle(env["curve"]), 0.20,
+    )
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() > 0
+
+
+def test_blackswaptionengine_displacement(swaption_env):
+    """Test BlackSwaptionEngine with displacement (shifted lognormal)."""
+    env = swaption_env
+    engine = ql.BlackSwaptionEngine(env["curve"], 0.20, displacement=0.01)
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() > 0
+
+
+# --- BachelierSwaptionEngine ---
+
+
+def test_bachelierswaptionengine_construction(swaption_env):
+    """Test BachelierSwaptionEngine construction."""
+    env = swaption_env
+    engine = ql.BachelierSwaptionEngine(env["curve"], 0.005)
+    assert engine is not None
+
+
+def test_bachelierswaptionengine_pricing(swaption_env):
+    """Test BachelierSwaptionEngine swaption pricing."""
+    env = swaption_env
+    engine = ql.BachelierSwaptionEngine(env["curve"], 0.005)
+    env["swaption"].setPricingEngine(engine)
+
+    npv = env["swaption"].NPV()
+    assert npv > 0
+
+
+def test_bachelierswaptionengine_quote_vol(swaption_env):
+    """Test BachelierSwaptionEngine with Quote vol."""
+    env = swaption_env
+    vol_quote = ql.SimpleQuote(0.005)
+    engine = ql.BachelierSwaptionEngine(env["curve"], vol_quote)
+    env["swaption"].setPricingEngine(engine)
+
+    npv1 = env["swaption"].NPV()
+    vol_quote.setValue(0.010)
+    npv2 = env["swaption"].NPV()
+    assert npv2 > npv1

@@ -91,4 +91,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "MCDiscreteArithmeticAPEngine - MC discrete arithmetic Asian");
     ADD_MAIN_BINDING(ql_pricingengines::turnbullwakemanasianengine,
         "TurnbullWakemanAsianEngine - Turnbull-Wakeman Asian approximation");
+    ADD_MAIN_BINDING(ql_pricingengines::blackswaptionengine,
+        "BlackSwaptionEngine, BachelierSwaptionEngine - swaption engines");
+    ADD_MAIN_BINDING(ql_pricingengines::bondfunctions,
+        "BondFunctions - static bond analytics");
 }

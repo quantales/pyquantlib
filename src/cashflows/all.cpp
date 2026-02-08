@@ -33,4 +33,6 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
         "IborCoupon, IborLeg");
     ADD_MAIN_BINDING(ql_cashflows::overnightindexedcoupon,
         "OvernightIndexedCoupon, OvernightLeg");
+    ADD_MAIN_BINDING(ql_cashflows::duration,
+        "Duration::Type enum");
 }
