@@ -12,7 +12,7 @@ $BOOST_VERSION_UNDERSCORE = $env:BOOST_VERSION -replace '\.', '_'
 Write-Host "Downloading Boost $env:BOOST_VERSION headers..."
 Invoke-WebRequest -Uri "https://archives.boost.io/release/$env:BOOST_VERSION/source/boost_${BOOST_VERSION_UNDERSCORE}.zip" -OutFile boost.zip
 Write-Host "Extracting Boost headers..."
-Expand-Archive -Path boost.zip -DestinationPath C:/boost-temp
+7z x boost.zip -oC:/boost-temp -y | Out-Null
 New-Item -ItemType Directory -Path C:/boost/include -Force | Out-Null
 Move-Item "C:/boost-temp/boost_${BOOST_VERSION_UNDERSCORE}/boost" "C:/boost/include/boost"
 Remove-Item -Recurse -Force C:/boost-temp, boost.zip
