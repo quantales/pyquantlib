@@ -80,6 +80,10 @@ void ql_termstructures::piecewiseyieldcurve(py::module_& m) {
         m, "PiecewiseLinearDiscount",
         "Piecewise yield curve using linear discount factor interpolation.");
 
+    bindPiecewiseCurve<Discount, Cubic>(
+        m, "PiecewiseCubicDiscount",
+        "Piecewise yield curve using cubic discount factor interpolation.");
+
     bindPiecewiseCurve<ZeroYield, Linear>(
         m, "PiecewiseLinearZero",
         "Piecewise yield curve using linear zero-rate interpolation.");

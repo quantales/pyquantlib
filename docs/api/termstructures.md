@@ -228,6 +228,12 @@ spread.setValue(0.01)  # spread updates dynamically
 .. autoclass:: pyquantlib.PiecewiseLinearDiscount
 ```
 
+### PiecewiseCubicDiscount
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseCubicDiscount
+```
+
 ### PiecewiseLinearZero
 
 ```{eval-rst}

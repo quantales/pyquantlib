@@ -172,6 +172,100 @@ void ql_termstructures::oisratehelper(py::module_& m) {
              py::arg("lockoutDays") = 0,
              py::arg("applyObservationShift") = false,
              "Constructs from settlement days, tenor, and quote (handle created internally).")
+        // Dated: Rate + startDate + endDate
+        .def(py::init([](const Date& startDate, const Date& endDate,
+                         Rate fixedRate,
+                         const ext::shared_ptr<OvernightIndex>& overnightIndex,
+                         const Handle<YieldTermStructure>& discountingCurve,
+                         bool telescopicValueDates,
+                         Integer paymentLag,
+                         BusinessDayConvention paymentConvention,
+                         Frequency paymentFrequency,
+                         const py::object& paymentCalendar,
+                         Spread overnightSpread,
+                         Pillar::Choice pillar,
+                         const Date& customPillarDate,
+                         RateAveraging::Type averagingMethod,
+                         const py::object& lookbackDays,
+                         Natural lockoutDays,
+                         bool applyObservationShift) {
+            Calendar payCal;
+            if (!paymentCalendar.is_none())
+                payCal = paymentCalendar.cast<Calendar>();
+            Natural lb = Null<Natural>();
+            if (!lookbackDays.is_none())
+                lb = lookbackDays.cast<Natural>();
+            return ext::make_shared<OISRateHelper>(
+                startDate, endDate, fixedRate, overnightIndex,
+                discountingCurve, telescopicValueDates, paymentLag,
+                paymentConvention, paymentFrequency, payCal,
+                overnightSpread, pillar, customPillarDate,
+                averagingMethod, ext::nullopt, ext::nullopt,
+                Calendar(), lb, lockoutDays, applyObservationShift);
+        }),
+             py::arg("startDate"), py::arg("endDate"),
+             py::arg("fixedRate"), py::arg("overnightIndex"),
+             py::arg("discountingCurve") = Handle<YieldTermStructure>(),
+             py::arg("telescopicValueDates") = false,
+             py::arg("paymentLag") = 0,
+             py::arg("paymentConvention") = Following,
+             py::arg("paymentFrequency") = Annual,
+             py::arg("paymentCalendar") = py::none(),
+             py::arg("overnightSpread") = 0.0,
+             py::arg("pillar") = Pillar::LastRelevantDate,
+             py::arg("customPillarDate") = Date(),
+             py::arg("averagingMethod") = RateAveraging::Compound,
+             py::arg("lookbackDays") = py::none(),
+             py::arg("lockoutDays") = 0,
+             py::arg("applyObservationShift") = false,
+             "Constructs from start date, end date, rate, and overnight index.")
+        // Dated: Handle<Quote> + startDate + endDate
+        .def(py::init([](const Date& startDate, const Date& endDate,
+                         const Handle<Quote>& fixedRate,
+                         const ext::shared_ptr<OvernightIndex>& overnightIndex,
+                         const Handle<YieldTermStructure>& discountingCurve,
+                         bool telescopicValueDates,
+                         Integer paymentLag,
+                         BusinessDayConvention paymentConvention,
+                         Frequency paymentFrequency,
+                         const py::object& paymentCalendar,
+                         Spread overnightSpread,
+                         Pillar::Choice pillar,
+                         const Date& customPillarDate,
+                         RateAveraging::Type averagingMethod,
+                         const py::object& lookbackDays,
+                         Natural lockoutDays,
+                         bool applyObservationShift) {
+            Calendar payCal;
+            if (!paymentCalendar.is_none())
+                payCal = paymentCalendar.cast<Calendar>();
+            Natural lb = Null<Natural>();
+            if (!lookbackDays.is_none())
+                lb = lookbackDays.cast<Natural>();
+            return ext::make_shared<OISRateHelper>(
+                startDate, endDate, fixedRate, overnightIndex,
+                discountingCurve, telescopicValueDates, paymentLag,
+                paymentConvention, paymentFrequency, payCal,
+                overnightSpread, pillar, customPillarDate,
+                averagingMethod, ext::nullopt, ext::nullopt,
+                Calendar(), lb, lockoutDays, applyObservationShift);
+        }),
+             py::arg("startDate"), py::arg("endDate"),
+             py::arg("fixedRate"), py::arg("overnightIndex"),
+             py::arg("discountingCurve") = Handle<YieldTermStructure>(),
+             py::arg("telescopicValueDates") = false,
+             py::arg("paymentLag") = 0,
+             py::arg("paymentConvention") = Following,
+             py::arg("paymentFrequency") = Annual,
+             py::arg("paymentCalendar") = py::none(),
+             py::arg("overnightSpread") = 0.0,
+             py::arg("pillar") = Pillar::LastRelevantDate,
+             py::arg("customPillarDate") = Date(),
+             py::arg("averagingMethod") = RateAveraging::Compound,
+             py::arg("lookbackDays") = py::none(),
+             py::arg("lockoutDays") = 0,
+             py::arg("applyObservationShift") = false,
+             "Constructs from start date, end date, quote handle, and overnight index.")
         .def("swap", &OISRateHelper::swap,
              "Returns the underlying OIS swap.");
 }
