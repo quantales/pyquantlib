@@ -175,6 +175,20 @@ settings.createAtParCoupons()    # default
 settings.createIndexedCoupons()  # alternative
 ```
 
+## Duration
+
+### DurationType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DurationType
+```
+
+| Value | Description |
+|-------|-------------|
+| `Simple` | Simple duration |
+| `Macaulay` | Macaulay duration |
+| `Modified` | Modified duration |
+
 ```{note}
 Abstract base classes `CashFlow`, `Coupon`, and `FloatingRateCouponPricer` are available in `pyquantlib.base` for custom implementations.
 ```

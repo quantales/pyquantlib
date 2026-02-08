@@ -194,6 +194,34 @@ engine = ql.QdFpAmericanEngine(process)
 
 ## Swaption Engines
 
+### BlackSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackSwaptionEngine
+```
+
+Black-formula (lognormal volatility) swaption engine.
+
+```python
+engine = ql.BlackSwaptionEngine(curve, 0.20)
+swaption.setPricingEngine(engine)
+print(swaption.NPV())
+```
+
+### BachelierSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BachelierSwaptionEngine
+```
+
+Bachelier (normal volatility) swaption engine.
+
+```python
+engine = ql.BachelierSwaptionEngine(curve, 0.005)
+swaption.setPricingEngine(engine)
+print(swaption.NPV())
+```
+
 ### TreeSwaptionEngine
 
 ```{eval-rst}
@@ -386,12 +414,77 @@ bond.setPricingEngine(engine)
 print(bond.cleanPrice())
 ```
 
+## Credit Engines
+
+### MidPointCdsEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MidPointCdsEngine
+```
+
+Mid-point CDS pricing engine.
+
+```python
+engine = ql.MidPointCdsEngine(default_curve, 0.4, discount_curve)
+cds.setPricingEngine(engine)
+print(cds.NPV())
+```
+
+### IsdaCdsEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.IsdaCdsEngine
+```
+
+ISDA-standard CDS pricing engine.
+
+```python
+engine = ql.IsdaCdsEngine(default_curve, 0.4, discount_curve)
+cds.setPricingEngine(engine)
+print(cds.NPV())
+```
+
+| Enum | Values |
+|------|--------|
+| `IsdaNumericalFix` | `IsdaNone`, `Taylor` |
+| `IsdaAccrualBias` | `HalfDayBias`, `NoBias` |
+| `IsdaForwardsInCouponPeriod` | `Flat`, `Piecewise` |
+
 ## Swap Engines
 
 ### DiscountingSwapEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscountingSwapEngine
+```
+
+## Bond Functions
+
+### BondFunctions
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BondFunctions
+```
+
+Static functions for bond analytics.
+
+| Function | Description |
+|----------|-------------|
+| `cleanPrice(bond, rate)` | Clean price from yield |
+| `dirtyPrice(bond, rate)` | Dirty price from yield |
+| `bps(bond, rate)` | Basis point sensitivity |
+| `bondYield(bond, cleanPrice, dc, comp, freq)` | Yield from clean price |
+| `duration(bond, rate, type)` | Duration (Modified, Macaulay, or Simple) |
+| `convexity(bond, rate)` | Convexity |
+| `basisPointValue(bond, rate)` | Basis point value |
+| `yieldValueBasisPoint(bond, rate)` | Yield value of a basis point |
+| `zSpread(bond, cleanPrice, curve, dc, comp, freq)` | Z-spread |
+
+```python
+rate = ql.InterestRate(0.05, ql.Actual365Fixed(), ql.Compounded, ql.Annual)
+print(ql.BondFunctions.cleanPrice(bond, rate))
+print(ql.BondFunctions.duration(bond, rate, ql.DurationType.Modified))
+print(ql.BondFunctions.convexity(bond, rate))
 ```
 
 ## Functions

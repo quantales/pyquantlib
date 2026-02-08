@@ -57,6 +57,23 @@ print(bond.cleanPrice())
 .. autoclass:: pyquantlib.VanillaSwap
 ```
 
+### MakeVanillaSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MakeVanillaSwap
+```
+
+Pythonic builder for VanillaSwap. Constructor arguments are positional; builder options are keyword arguments.
+
+```python
+swap = ql.MakeVanillaSwap(
+    ql.Period(5, ql.Years), euribor6m, 0.04,
+    nominal=10_000_000.0,
+    fixedLegDayCount=ql.Thirty360(ql.Thirty360.BondBasis),
+    floatingLegSpread=0.001,
+)
+```
+
 ### OvernightIndexedSwap
 
 ```{eval-rst}
@@ -74,6 +91,39 @@ ois = ql.OvernightIndexedSwap(
 ois.setPricingEngine(ql.DiscountingSwapEngine(curve))
 print(ois.NPV())
 print(ois.fairRate())
+```
+
+### ZeroCouponSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroCouponSwap
+```
+
+Zero-coupon swap: single fixed payment vs floating leg.
+
+```python
+swap = ql.ZeroCouponSwap(
+    ql.SwapType.Receiver, 1_000_000.0, start_date, maturity_date,
+    0.04, ql.Actual365Fixed(), schedule, euribor6m,
+)
+swap.setPricingEngine(ql.DiscountingSwapEngine(curve))
+print(swap.NPV())
+print(swap.fairFixedPayment(curve))
+```
+
+### AssetSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AssetSwap
+```
+
+Asset swap exchanging a bond for a floating rate leg.
+
+```python
+asset_swap = ql.AssetSwap(False, bond, 100.0, schedule, euribor6m, 0.0)
+asset_swap.setPricingEngine(ql.DiscountingSwapEngine(curve))
+print(asset_swap.NPV())
+print(asset_swap.fairSpread())
 ```
 
 ## Caps, Floors, and Collars
@@ -131,6 +181,77 @@ fra = ql.ForwardRateAgreement(
 )
 print(fra.NPV())
 print(fra.forwardRate())
+```
+
+## Swaptions
+
+### Swaption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Swaption
+```
+
+### MakeSwaption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MakeSwaption
+```
+
+Pythonic builder for Swaption. Constructor arguments are positional; builder options are keyword arguments.
+
+```python
+swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), curve, curve)
+swaption = ql.MakeSwaption(
+    swap_index, ql.Period(1, ql.Years), 0.04,
+    pricingEngine=engine,
+)
+```
+
+## Composite Instruments
+
+### CompositeInstrument
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CompositeInstrument
+```
+
+Instrument composed of weighted sub-instruments.
+
+```python
+composite = ql.CompositeInstrument()
+composite.add(option1)           # weight = 1.0
+composite.add(option2)
+composite.subtract(option3)      # weight = -1.0
+composite.add(option4, 0.5)      # weight = 0.5
+print(composite.NPV())
+```
+
+## Credit Instruments
+
+### CreditDefaultSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CreditDefaultSwap
+```
+
+Credit default swap quoted as running spread or upfront + spread.
+
+```python
+cds = ql.CreditDefaultSwap(
+    ql.ProtectionSide.Buyer, 10_000_000.0, 0.01,
+    schedule, ql.Following, ql.Actual360(),
+)
+cds.setPricingEngine(ql.MidPointCdsEngine(
+    default_curve, 0.4, discount_curve,
+))
+print(cds.NPV())
+print(cds.fairSpread())
+```
+
+### cdsMaturity
+
+```{eval-rst}
+.. autofunction:: pyquantlib.cdsMaturity
 ```
 
 ## Options

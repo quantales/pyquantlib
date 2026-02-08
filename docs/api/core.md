@@ -116,6 +116,24 @@ equivalent = rate.equivalentRate(ql.Continuous, ql.NoFrequency, 1.0)
 | `SimpleThenCompounded` | Simple for $t < 1/n$, then compounded |
 | `CompoundedThenSimple` | Compounded for $t \geq 1/n$, then simple |
 
+### ProtectionSide
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ProtectionSide
+```
+
+| Value | Description |
+|-------|-------------|
+| `Buyer` | Protection buyer |
+| `Seller` | Protection seller |
+
+### CdsPricingModel
+
+| Value | Description |
+|-------|-------------|
+| `Midpoint` | Mid-point engine |
+| `ISDA` | ISDA standard engine |
+
 ## Constants
 
 | Constant | Description |

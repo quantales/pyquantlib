@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -325,6 +325,54 @@ class Coupon(CashFlow):
     def referencePeriodStart(self) -> pyquantlib._pyquantlib.Date:
         """
         Returns the reference period start date.
+        """
+class DefaultProbabilityHelper(Observer, pyquantlib._pyquantlib.Observable):
+    """
+    Bootstrap helper for default probability term structures.
+    """
+    def earliestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the earliest date.
+        """
+    def impliedQuote(self) -> float:
+        """
+        Returns the implied quote.
+        """
+    def latestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest date.
+        """
+    def latestRelevantDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest relevant date.
+        """
+    def maturityDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the maturity date.
+        """
+class DefaultProbabilityTermStructure(TermStructure):
+    """
+    Default probability term structure.
+    """
+    def defaultDensity(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
+        """
+        Default density at a given date.
+        """
+    def defaultProbability(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
+        """
+        Default probability to a given date.
+        """
+    def defaultProbabilityBetween(self, date1: pyquantlib._pyquantlib.Date, date2: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
+        """
+        Default probability between two dates.
+        """
+    def hazardRate(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
+        """
+        Hazard rate at a given date.
+        """
+    def survivalProbability(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
+        """
+        Survival probability to a given date.
         """
 class Event(pyquantlib._pyquantlib.Observable):
     """

@@ -385,6 +385,106 @@ surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
 .. autoclass:: pyquantlib.RelinkableLocalVolTermStructureHandle
 ```
 
+## Credit Term Structures
+
+### DefaultProbabilityTermStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DefaultProbabilityTermStructureHandle
+```
+
+### RelinkableDefaultProbabilityTermStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RelinkableDefaultProbabilityTermStructureHandle
+```
+
+### FlatHazardRate
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FlatHazardRate
+```
+
+Flat hazard rate default probability term structure.
+
+```python
+today = ql.Date(15, 1, 2025)
+dc = ql.Actual365Fixed()
+default_curve = ql.FlatHazardRate(today, 0.01, dc)
+print(default_curve.survivalProbability(1.0))  # ~0.99
+print(default_curve.defaultProbability(1.0))   # ~0.01
+print(default_curve.hazardRate(1.0))           # 0.01
+```
+
+### Default Probability Helpers
+
+#### SpreadCdsHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SpreadCdsHelper
+```
+
+Bootstrap helper for spread-quoted CDS.
+
+```python
+helper = ql.SpreadCdsHelper(
+    0.01, ql.Period(5, ql.Years), 1, ql.TARGET(),
+    ql.Quarterly, ql.Following, ql.DateGeneration.TwentiethIMM,
+    ql.Actual360(), 0.4, discount_curve,
+)
+```
+
+#### UpfrontCdsHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UpfrontCdsHelper
+```
+
+Bootstrap helper for upfront-quoted CDS.
+
+```python
+helper = ql.UpfrontCdsHelper(
+    0.02, 0.01, ql.Period(5, ql.Years), 1, ql.TARGET(),
+    ql.Quarterly, ql.Following, ql.DateGeneration.TwentiethIMM,
+    ql.Actual360(), 0.4, discount_curve,
+)
+```
+
+### Piecewise Default Curves
+
+#### PiecewiseLogLinearSurvival
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLogLinearSurvival
+```
+
+#### PiecewiseFlatHazardRate
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseFlatHazardRate
+```
+
+#### PiecewiseBackwardFlatHazard
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseBackwardFlatHazard
+```
+
+Bootstrap a default probability curve from CDS helpers.
+
+```python
+helpers = [
+    ql.SpreadCdsHelper(spread, tenor, 1, ql.TARGET(),
+                       ql.Quarterly, ql.Following,
+                       ql.DateGeneration.TwentiethIMM,
+                       ql.Actual360(), 0.4, discount_curve)
+    for spread, tenor in zip(spreads, tenors)
+]
+curve = ql.PiecewiseLogLinearSurvival(today, helpers, ql.Actual365Fixed())
+print(curve.survivalProbability(1.0))
+print(curve.nodes())
+```
+
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `RateHelper`, and `RelativeDateRateHelper` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, and `RelativeDateRateHelper` are available in `pyquantlib.base`.
 ```
