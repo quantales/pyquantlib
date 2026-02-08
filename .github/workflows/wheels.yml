@@ -100,7 +100,7 @@ jobs:
             mkdir build && cd build
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -DCMAKE_INSTALL_PREFIX=/tmp/quantlib \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
               -DBUILD_SHARED_LIBS=OFF \
               -DQL_USE_STD_SHARED_PTR=ON \
@@ -110,12 +110,12 @@ jobs:
               -DQL_BUILD_TEST_SUITE=OFF \
               -DQL_BUILD_BENCHMARK=OFF
             cmake --build . --parallel $(sysctl -n hw.ncpu)
-            sudo cmake --install .
+            cmake --install .
             cd ../..
             rm -rf QuantLib-${QUANTLIB_VERSION}*
 
           CIBW_ENVIRONMENT_MACOS: >
-            QuantLib_ROOT=/usr/local
+            QuantLib_ROOT=/tmp/quantlib
 
           # Windows: Build QuantLib (PowerShell script, since cibuildwheel uses cmd on Windows)
           CIBW_BEFORE_ALL_WINDOWS: "powershell -ExecutionPolicy Bypass -File {project}/.github/scripts/build-quantlib-windows.ps1"
