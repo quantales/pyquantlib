@@ -190,6 +190,7 @@ namespace ql_termstructures {
     void discountcurve(py::module_&);
     void forwardcurve(py::module_&);
     void zerospreadedtermstructure(py::module_&);
+    void bondhelpers(py::module_&);
     void defaultprobabilitytermstructure(py::module_&);
     void defaultprobabilitytermstructurehandle(py::module_&);
     void flathazardrate(py::module_&);

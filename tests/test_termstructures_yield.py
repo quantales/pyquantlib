@@ -901,3 +901,139 @@ def test_zerospreadedtermstructure_dynamic_spread(curve_data):
         one_year, curve_data["day_counter"], ql.Continuous
     ).rate()
     assert rate_after == pytest.approx(0.04, abs=1e-6)
+
+
+# =============================================================================
+# BondHelper
+# =============================================================================
+
+
+def test_bondhelper_construction(curve_env):
+    """Test BondHelper construction with a pre-built bond."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+
+    schedule = ql.Schedule(
+        today, today + ql.Period("5Y"),
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False,
+    )
+    bond = ql.FixedRateBond(3, 100.0, schedule, [0.04],
+                            ql.Thirty360(ql.Thirty360.BondBasis))
+
+    price = ql.SimpleQuote(101.0)
+    helper = ql.BondHelper(price, bond)
+
+    assert helper.bond() is not None
+    assert helper.priceType() == ql.BondPriceType.Clean
+
+
+def test_bondhelper_dirty_price(curve_env):
+    """Test BondHelper with Dirty price type."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+
+    schedule = ql.Schedule(
+        today, today + ql.Period("3Y"),
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False,
+    )
+    bond = ql.FixedRateBond(3, 100.0, schedule, [0.03],
+                            ql.Thirty360(ql.Thirty360.BondBasis))
+
+    price = ql.SimpleQuote(100.5)
+    helper = ql.BondHelper(price, bond, ql.BondPriceType.Dirty)
+
+    assert helper.priceType() == ql.BondPriceType.Dirty
+
+
+# =============================================================================
+# FixedRateBondHelper
+# =============================================================================
+
+
+def test_fixedratebondhelper_construction(curve_env):
+    """Test FixedRateBondHelper construction with scalar price."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+
+    schedule = ql.Schedule(
+        today, today + ql.Period("5Y"),
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False,
+    )
+    helper = ql.FixedRateBondHelper(
+        101.0, 3, 100.0, schedule, [0.04],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+
+    assert helper.bond() is not None
+    assert helper.priceType() == ql.BondPriceType.Clean
+    assert helper.pillarDate() > today
+
+
+def test_fixedratebondhelper_with_quote(curve_env):
+    """Test FixedRateBondHelper construction with SimpleQuote."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+
+    schedule = ql.Schedule(
+        today, today + ql.Period("5Y"),
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False,
+    )
+    price = ql.SimpleQuote(101.0)
+    helper = ql.FixedRateBondHelper(
+        price, 3, 100.0, schedule, [0.04],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+
+    assert helper.bond() is not None
+
+
+def test_fixedratebondhelper_bootstrap(curve_env):
+    """Test FixedRateBondHelper in yield curve bootstrap."""
+    from datetime import date
+
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+
+    def make_bond_helper(price, maturity, coupon):
+        sched = ql.Schedule(
+            today, maturity,
+            ql.Period(ql.Annual), calendar,
+            ql.Unadjusted, ql.Unadjusted,
+            ql.DateGeneration.Backward, False,
+        )
+        return ql.FixedRateBondHelper(
+            price, 3, 100.0, sched, [coupon],
+            ql.Thirty360(ql.Thirty360.BondBasis),
+        )
+
+    deposit = ql.DepositRateHelper(
+        0.03, ql.Period("6M"), 2, calendar,
+        ql.ModifiedFollowing, True, ql.Actual360(),
+    )
+
+    bond2y = make_bond_helper(100.5, today + ql.Period("2Y"), 0.035)
+    bond5y = make_bond_helper(101.0, today + ql.Period("5Y"), 0.04)
+    bond10y = make_bond_helper(99.5, today + ql.Period("10Y"), 0.045)
+
+    helpers = [deposit, bond2y, bond5y, bond10y]
+    curve = ql.PiecewiseLogLinearDiscount(today, helpers, dc)
+
+    # Discount factors should be monotonically decreasing
+    d2 = curve.discount(today + ql.Period("2Y"))
+    d5 = curve.discount(today + ql.Period("5Y"))
+    d10 = curve.discount(today + ql.Period("10Y"))
+
+    assert 0 < d10 < d5 < d2 < 1.0
+
+    # 5Y zero rate should be roughly in the 3-5% range
+    zero5 = curve.zeroRate(5.0, ql.Continuous).rate()
+    assert 0.03 < zero5 < 0.05

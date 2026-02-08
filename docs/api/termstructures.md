@@ -120,6 +120,39 @@ helper = ql.OISRateHelper(
 )
 ```
 
+### BondHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BondHelper
+```
+
+Bond helper for bootstrapping yield curves from a pre-constructed bond.
+
+```python
+bond = ql.FixedRateBond(3, 100.0, schedule, [0.04], dc)
+helper = ql.BondHelper(ql.SimpleQuote(101.0), bond)
+```
+
+### FixedRateBondHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FixedRateBondHelper
+```
+
+Convenience helper that constructs a fixed-rate bond internally.
+
+```python
+helper = ql.FixedRateBondHelper(
+    101.0,          # clean price
+    3,              # settlement days
+    100.0,          # face amount
+    schedule,
+    [0.04],         # coupon rates
+    ql.Thirty360(ql.Thirty360.BondBasis),
+)
+bond = helper.bond()  # access the underlying FixedRateBond
+```
+
 ## Interpolated Yield Curves
 
 ### ZeroCurve

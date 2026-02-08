@@ -76,6 +76,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "DepositRateHelper, FraRateHelper, SwapRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::oisratehelper,
         "OISRateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::bondhelpers,
+        "BondHelper, FixedRateBondHelper");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyieldcurve,
         "PiecewiseYieldCurve instantiations");
 
