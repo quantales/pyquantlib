@@ -1,18 +1,18 @@
 # The Settings Singleton Mystery
 
-*A tale of duplicate instances and static libraries.*
+*A tale of duplicate instances, static libraries, and Python attribute shadowing.*
 
 Every QuantLib program begins the same way: set the evaluation date.
 
 ```python
 import pyquantlib as ql
 
-ql.Settings.instance().evaluationDate = ql.Date(15, 6, 2025)
+ql.Settings.evaluationDate = ql.Date(15, 6, 2025)
 ```
 
 Simple enough. Except, during early development, this line did absolutely nothing. Prices came out wrong. Discount factors were bizarre. The evaluation date appeared to be stuck at some default value, no matter what we assigned.
 
-This article documents the investigation into why `Settings.evaluationDate` silently failed, and the build configuration change that fixed it.
+This article documents two investigations: a C++ linking bug that created duplicate singletons, and a Python attribute shadowing bug that bypassed the property setter entirely. Both produced the same symptom -- the evaluation date appeared correct but calculations were wrong.
 
 ## The Symptom
 
@@ -135,3 +135,40 @@ Several factors made this bug particularly insidious:
 4. **Singletons are supposed to be single.** The mental model of "one instance" is so ingrained that questioning it feels wrong.
 
 The Settings singleton mystery cost a day of debugging. The fix was a one-line CMake change. Such is the nature of linking bugs: obvious in hindsight, invisible until understood.
+
+## The Python API Trap
+
+With static linking solved, the natural binding was:
+
+```python
+# Expose the Settings class
+ql.Settings.instance().evaluationDate = today
+```
+
+This worked. But during a large pytest run, a subtle variant crept in:
+
+```python
+ql.Settings.evaluationDate = today
+```
+
+The missing `.instance()` call changes everything. `ql.Settings` here is the *class object*, not an instance. Python allows setting arbitrary attributes on classes. So this line silently creates a new class attribute called `evaluationDate` -- a plain `Date` object sitting on the class dict. The property descriptor on the instance is never invoked. QuantLib's C++ singleton never receives the date.
+
+The same debugging pattern repeated: reading `ql.Settings.evaluationDate` returned the "correct" value (the class attribute), but all calculations used the wrong date. The bug surfaced not at the point of assignment, but hundreds of tests later as wrong prices and discount factors.
+
+### The Fix
+
+Export `Settings` as the singleton instance, not the class:
+
+```python
+# In __init__.py
+Settings = _ql.Settings.instance()
+```
+
+Now `ql.Settings` *is* the instance. Both spellings reach the same property setter:
+
+```python
+ql.Settings.evaluationDate = today               # works: property setter on instance
+ql.Settings.instance().evaluationDate = today     # also works: redundant but harmless
+```
+
+The first form is the intended API. The second still works because `instance()` returns `self` (the same singleton). There is no class object in the Python namespace to accidentally shadow.

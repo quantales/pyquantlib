@@ -26,7 +26,7 @@ There are existing Python bindings for QuantLib:
 
 Both are mature projects. However, they introduce an additional language beyond C++ and Python: SWIG's interface definition language or Cython's hybrid syntax. This increases cognitive load when navigating binding code or keeping wrappers in sync with upstream QuantLib.
 
-PyQuantLib is built on [pybind11](https://github.com/pybind/pybind11), with all bindings written in standard C++. The wrapper code directly exposes QuantLib's C++ APIs, with no intermediate DSL or code generation step.
+PyQuantLib is built on [pybind11](https://github.com/pybind/pybind11), with all bindings written in standard C++. No intermediate DSL or code generation step.
 
 ### Pythonic API
 
@@ -55,6 +55,12 @@ np_view = np.array(arr, copy=False)  # shared memory, no copy
 * Wrapper code mirrors QuantLib headers and class structure
 * IDE autocompletion via `.pyi` type stubs
 
+### API Design
+
+PyQuantLib preserves QuantLib's domain model -- class names, method names, and inheritance hierarchy -- so that QuantLib documentation, textbooks, and community knowledge transfer directly to Python. But not everything in QuantLib's API is a QuantLib concept. `Handle<T>` wrappers, builder method chaining, and `Null<Rate>()` sentinels are C++ idioms solving problems Python does not have. PyQuantLib replaces each with its Python equivalent: plain objects instead of handles, keyword arguments instead of method chaining, `None` instead of null sentinels.
+
+See {doc}`design/api-design` for the full story.
+
 ## Performance
 
 PyQuantLib uses pybind11, which provides a thin, low-overhead C++/Python boundary. Function calls are dispatched directly to QuantLib's C++ implementation, with no runtime code generation or reflection.
@@ -78,7 +84,7 @@ import pyquantlib as ql
 
 # Set evaluation date
 today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
+ql.Settings.evaluationDate = today
 
 # Market data
 spot = ql.SimpleQuote(100.0)

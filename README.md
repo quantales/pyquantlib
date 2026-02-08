@@ -73,7 +73,7 @@ import pyquantlib as ql
 
 # Set evaluation date
 today = ql.Date(15, 6, 2025)
-ql.Settings.instance().evaluationDate = today
+ql.Settings.evaluationDate = today
 
 # Market data
 spot = ql.SimpleQuote(100.0)
@@ -116,29 +116,11 @@ Theta: -6.4140
 ## Module Organization
 
 ```python
-import pyquantlib as ql
-
-# Time
-ql.Date, ql.Period, ql.Calendar, ql.Schedule, ql.DayCounter
-
-# Market data
-ql.SimpleQuote, ql.QuoteHandle
-
-# Term structures
-ql.FlatForward, ql.ZeroCurve, ql.BlackConstantVol, ql.BlackVarianceSurface
-
-# Processes
-ql.GeneralizedBlackScholesProcess, ql.HestonProcess
-
-# Instruments
-ql.VanillaOption, ql.BasketOption
-
-# Pricing engines
-ql.AnalyticEuropeanEngine, ql.MCEuropeanEngine, ql.AnalyticHestonEngine
-
-# Abstract base classes (for subclassing)
-from pyquantlib.base import Observer, Observable, LazyObject
+import pyquantlib as ql          # Concrete classes
+from pyquantlib.base import ...  # Abstract base classes (for subclassing)
 ```
+
+Coverage includes dates and calendars, market quotes, yield and volatility term structures, stochastic processes, instruments, and pricing engines. See the [API Reference](https://pyquantlib.readthedocs.io/en/latest/api/index.html) for the complete list.
 
 ## Development
 
