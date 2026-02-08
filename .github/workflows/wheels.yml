@@ -40,6 +40,7 @@ jobs:
           # Build for CPython only (no PyPy)
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-*"
           CIBW_SKIP: "*-musllinux_*"
+          CIBW_BUILD_VERBOSITY: 1
 
           # macOS: Build universal2 wheels on macos-13, skip on macos-14 (ARM only)
           CIBW_ARCHS_MACOS: "${{ matrix.os == 'macos-14' && 'arm64' || 'x86_64' }}"
