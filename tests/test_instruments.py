@@ -1058,7 +1058,7 @@ def test_makeois_kwargs(ois_setup):
         ois_setup["sofr"],
         0.035,
     )
-    assert ois is not None
+    assert ois.fixedRate() == pytest.approx(0.035)
 
 
 def test_makeois_builder_chaining(ois_setup):
@@ -1072,13 +1072,13 @@ def test_makeois_builder_chaining(ois_setup):
         .withPricingEngine(engine)
         .ois()
     )
-    assert ois is not None
+    assert ois.nominal() == pytest.approx(2_000_000.0)
 
 
 def test_makeois_atm(ois_setup):
     """Test MakeOIS with no fixed rate (ATM)."""
     ois = ql.MakeOIS(ql.Period(1, ql.Years), ois_setup["sofr"])
-    assert ois is not None
+    assert isinstance(ois, ql.OvernightIndexedSwap)
 
 
 def test_makeois_kwargs_nominal(ois_setup):
@@ -1087,7 +1087,7 @@ def test_makeois_kwargs_nominal(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         nominal=5_000_000.0,
     )
-    assert ois is not None
+    assert ois.nominal() == pytest.approx(5_000_000.0)
 
 
 def test_makeois_kwargs_swap_type(ois_setup):
@@ -1096,7 +1096,7 @@ def test_makeois_kwargs_swap_type(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         swapType=ql.SwapType.Receiver,
     )
-    assert ois is not None
+    assert ois.type() == ql.SwapType.Receiver
 
 
 def test_makeois_kwargs_receive_fixed(ois_setup):
@@ -1105,7 +1105,7 @@ def test_makeois_kwargs_receive_fixed(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         receiveFixed=True,
     )
-    assert ois is not None
+    assert ois.type() == ql.SwapType.Receiver
 
 
 def test_makeois_kwargs_pricing_engine(ois_setup):
@@ -1115,7 +1115,7 @@ def test_makeois_kwargs_pricing_engine(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         pricingEngine=engine,
     )
-    assert ois is not None
+    assert isinstance(ois.NPV(), float)
 
 
 def test_makeois_kwargs_multiple(ois_setup):
@@ -1125,7 +1125,7 @@ def test_makeois_kwargs_multiple(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         nominal=2_000_000.0, paymentLag=2, pricingEngine=engine,
     )
-    assert ois is not None
+    assert ois.nominal() == pytest.approx(2_000_000.0)
 
 
 def test_makeois_kwargs_forward_start(ois_setup):
@@ -1134,7 +1134,7 @@ def test_makeois_kwargs_forward_start(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         fwdStart=ql.Period(3, ql.Months),
     )
-    assert ois is not None
+    assert ois.startDate() > ois_setup["today"]
 
 
 def test_makeois_kwargs_fixed_leg_daycount(ois_setup):
@@ -1143,7 +1143,7 @@ def test_makeois_kwargs_fixed_leg_daycount(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         fixedLegDayCount=ql.Actual365Fixed(),
     )
-    assert ois is not None
+    assert isinstance(ois, ql.OvernightIndexedSwap)
 
 
 def test_makeois_kwargs_overnight_spread(ois_setup):
@@ -1152,7 +1152,7 @@ def test_makeois_kwargs_overnight_spread(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         overnightLegSpread=0.001,
     )
-    assert ois is not None
+    assert isinstance(ois, ql.OvernightIndexedSwap)
 
 
 def test_makeois_kwargs_averaging_method(ois_setup):
@@ -1170,7 +1170,7 @@ def test_makeois_kwargs_telescopic_dates(ois_setup):
         ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
         telescopicValueDates=True,
     )
-    assert ois is not None
+    assert isinstance(ois, ql.OvernightIndexedSwap)
 
 
 def test_makeois_kwargs_bad_kwarg(ois_setup):
@@ -1389,7 +1389,7 @@ def test_makecapfloor_kwargs_nominal(capfloor_env):
         0.05,
         nominal=5_000_000.0,
     )
-    assert cap is not None
+    assert cap.type() == ql.CapFloorType.Cap
 
 
 def test_makecapfloor_kwargs_pricing_engine(capfloor_env):
@@ -1902,7 +1902,7 @@ def test_makeswaption_atm(mswn_env):
         mswn_env["swap_index"],
         ql.Period(1, ql.Years),
     )
-    assert swaption is not None
+    assert isinstance(swaption, ql.Swaption)
 
 
 def test_makeswaption_kwargs_nominal(mswn_env):
@@ -1913,7 +1913,7 @@ def test_makeswaption_kwargs_nominal(mswn_env):
         0.05,
         nominal=5_000_000.0,
     )
-    assert swaption is not None
+    assert isinstance(swaption, ql.Swaption)
 
 
 def test_makeswaption_kwargs_settlement_type(mswn_env):

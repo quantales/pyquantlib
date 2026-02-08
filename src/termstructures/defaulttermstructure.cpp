@@ -13,6 +13,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/binding_manager.h"
+#include "pyquantlib/trampolines.h"
 #include <ql/termstructures/defaulttermstructure.hpp>
 #include <pybind11/pybind11.h>
 
@@ -20,10 +21,12 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::defaultprobabilitytermstructure(py::module_& m) {
-    py::class_<DefaultProbabilityTermStructure, TermStructure,
+    py::class_<DefaultProbabilityTermStructure,
+               PyDefaultProbabilityTermStructure, TermStructure,
                ext::shared_ptr<DefaultProbabilityTermStructure>>(
         m, "DefaultProbabilityTermStructure",
         "Default probability term structure.")
+        .def(py::init_alias<>())
         .def("survivalProbability",
             static_cast<Probability (DefaultProbabilityTermStructure::*)(
                 const Date&, bool) const>(
