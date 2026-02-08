@@ -64,6 +64,73 @@ def test_plainvanillapayoff_creation():
     assert put.strike() == 100.0
 
 
+def test_cashornothingpayoff():
+    """Test CashOrNothingPayoff construction and evaluation."""
+    payoff = ql.CashOrNothingPayoff(ql.OptionType.Call, 100.0, 10.0)
+    assert payoff.optionType() == ql.OptionType.Call
+    assert payoff.strike() == 100.0
+    assert payoff.cashPayoff() == 10.0
+    assert payoff(110.0) == 10.0
+    assert payoff(90.0) == 0.0
+
+
+def test_assetornothingpayoff():
+    """Test AssetOrNothingPayoff construction and evaluation."""
+    payoff = ql.AssetOrNothingPayoff(ql.OptionType.Put, 100.0)
+    assert payoff.optionType() == ql.OptionType.Put
+    assert payoff.strike() == 100.0
+    assert payoff(90.0) == 90.0
+    assert payoff(110.0) == 0.0
+
+
+def test_gappayoff():
+    """Test GapPayoff construction and evaluation."""
+    payoff = ql.GapPayoff(ql.OptionType.Call, 100.0, 90.0)
+    assert payoff.strike() == 100.0
+    assert payoff.secondStrike() == 90.0
+    # Call gap payoff at S=110: S - secondStrike = 110 - 90 = 20
+    assert payoff(110.0) == 20.0
+    assert payoff(90.0) == 0.0
+
+
+def test_percentagestrikepayoff():
+    """Test PercentageStrikePayoff construction and evaluation."""
+    payoff = ql.PercentageStrikePayoff(ql.OptionType.Call, 1.1)
+    assert payoff.optionType() == ql.OptionType.Call
+    assert payoff.strike() == 1.1
+    # Call at moneyness 1.1: max(S - 1.1*S, 0) = max(-0.1*S, 0) = 0 for S>0
+    assert payoff(100.0) == 0.0
+    # Put at moneyness 0.9: max(0.9*S - S, 0) = 0 for S>0
+    put_payoff = ql.PercentageStrikePayoff(ql.OptionType.Put, 0.9)
+    assert put_payoff(100.0) == 0.0
+
+
+def test_superfundpayoff():
+    """Test SuperFundPayoff construction and evaluation."""
+    payoff = ql.SuperFundPayoff(90.0, 110.0)
+    assert payoff.strike() == 90.0
+    assert payoff.secondStrike() == 110.0
+    # Between strikes: S/lowerStrike
+    assert payoff(100.0) == pytest.approx(100.0 / 90.0)
+    # Below lower strike: 0
+    assert payoff(80.0) == 0.0
+    # Above upper strike: 0
+    assert payoff(120.0) == 0.0
+
+
+def test_supersharepayoff():
+    """Test SuperSharePayoff construction and evaluation."""
+    payoff = ql.SuperSharePayoff(90.0, 110.0, 5.0)
+    assert payoff.strike() == 90.0
+    assert payoff.secondStrike() == 110.0
+    assert payoff.cashPayoff() == 5.0
+    # Between strikes: cashPayoff
+    assert payoff(100.0) == 5.0
+    # Outside strikes: 0
+    assert payoff(80.0) == 0.0
+    assert payoff(120.0) == 0.0
+
+
 # =============================================================================
 # Exercise
 # =============================================================================

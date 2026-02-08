@@ -392,6 +392,93 @@ call_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
 put_payoff = ql.PlainVanillaPayoff(ql.Put, 100.0)
 ```
 
+### CashOrNothingPayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CashOrNothingPayoff
+```
+
+Binary payoff: pays a fixed cash amount if in the money, zero otherwise.
+
+| Type | Payoff |
+|------|--------|
+| `Call` | $C$ if $S > K$, else $0$ |
+| `Put` | $C$ if $S < K$, else $0$ |
+
+```python
+digital_call = ql.CashOrNothingPayoff(ql.Call, 100.0, 10.0)
+```
+
+### AssetOrNothingPayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AssetOrNothingPayoff
+```
+
+Binary payoff: pays the asset value if in the money, zero otherwise.
+
+| Type | Payoff |
+|------|--------|
+| `Call` | $S$ if $S > K$, else $0$ |
+| `Put` | $S$ if $S < K$, else $0$ |
+
+```python
+digital = ql.AssetOrNothingPayoff(ql.Call, 100.0)
+```
+
+### GapPayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GapPayoff
+```
+
+Gap payoff with two strikes. Equivalent to a vanilla minus a digital.
+
+| Type | Payoff |
+|------|--------|
+| `Call` | $S - K_2$ if $S > K_1$, else $0$ |
+| `Put` | $K_2 - S$ if $S < K_1$, else $0$ |
+
+```python
+gap = ql.GapPayoff(ql.Call, 100.0, 90.0)
+```
+
+### PercentageStrikePayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PercentageStrikePayoff
+```
+
+Payoff with strike expressed as a moneyness percentage of the asset price.
+
+```python
+payoff = ql.PercentageStrikePayoff(ql.Call, 1.05)
+```
+
+### SuperFundPayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SuperFundPayoff
+```
+
+Binary superfund payoff: pays $S / K_1$ if $K_1 < S < K_2$, zero otherwise.
+
+```python
+payoff = ql.SuperFundPayoff(90.0, 110.0)
+```
+
+### SuperSharePayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SuperSharePayoff
+```
+
+Binary supershare payoff: pays a fixed cash amount if $K_1 < S < K_2$, zero otherwise.
+
+```python
+payoff = ql.SuperSharePayoff(90.0, 110.0, 5.0)
+```
+
 ### MinBasketPayoff
 
 ```{eval-rst}
