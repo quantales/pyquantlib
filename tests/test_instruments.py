@@ -2362,3 +2362,53 @@ def test_cdsmaturity():
     tenor = ql.Period(5, ql.Years)
     maturity = ql.cdsMaturity(trade_date, tenor, ql.DateGeneration.CDS)
     assert maturity > trade_date
+
+
+# ---------------------------------------------------------------------------
+# Claim
+# ---------------------------------------------------------------------------
+
+
+def test_facevalueclaim_construction():
+    """Test FaceValueClaim construction."""
+    claim = ql.FaceValueClaim()
+    assert claim is not None
+
+
+def test_facevalueclaim_amount():
+    """Test FaceValueClaim returns notional * (1 - recoveryRate)."""
+    claim = ql.FaceValueClaim()
+    d = ql.Date(15, ql.May, 2007)
+    assert claim.amount(d, 1_000_000.0, 0.4) == pytest.approx(600_000.0)
+    assert claim.amount(d, 1_000_000.0, 0.0) == pytest.approx(1_000_000.0)
+    assert claim.amount(d, 1_000_000.0, 1.0) == pytest.approx(0.0)
+
+
+def test_facevalueaccrualclaim_construction():
+    """Test FaceValueAccrualClaim construction with reference bond."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    schedule = ql.Schedule(
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.January, 2030),
+        ql.Period(ql.Annual), ql.TARGET(),
+        ql.Unadjusted, ql.Unadjusted, ql.DateGeneration.Backward, False,
+    )
+    bond = ql.FixedRateBond(2, 1_000_000.0, schedule, [0.05],
+                            ql.Actual365Fixed())
+    claim = ql.FaceValueAccrualClaim(bond)
+    assert claim is not None
+
+
+def test_creditdefaultswap_with_claim(cds_env):
+    """Test CDS construction with explicit claim parameter."""
+    claim = ql.FaceValueClaim()
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Seller,
+        10_000_000.0,
+        0.0150,
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual365Fixed(),
+        claim=claim,
+    )
+    assert cds is not None
+    assert cds.notional() == 10_000_000.0

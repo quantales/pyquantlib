@@ -33,6 +33,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
                          const DayCounter& dayCounter,
                          bool settlesAccrual, bool paysAtDefaultTime,
                          const Date& protectionStart,
+                         const ext::shared_ptr<Claim>& claim,
                          const py::object& lastPeriodDC,
                          bool rebatesAccrual,
                          const Date& tradeDate, Natural cashSettlementDays) {
@@ -42,7 +43,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
             return ext::make_shared<CreditDefaultSwap>(
                 side, notional, spread, schedule, paymentConvention,
                 dayCounter, settlesAccrual, paysAtDefaultTime,
-                protectionStart, ext::shared_ptr<Claim>(),
+                protectionStart, claim,
                 lpdc, rebatesAccrual, tradeDate, cashSettlementDays);
         }),
             py::arg("side"),
@@ -54,6 +55,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
             py::arg("settlesAccrual") = true,
             py::arg("paysAtDefaultTime") = true,
             py::arg("protectionStart") = Date(),
+            py::arg("claim") = ext::shared_ptr<Claim>(),
             py::arg("lastPeriodDayCounter") = py::none(),
             py::arg("rebatesAccrual") = true,
             py::arg("tradeDate") = Date(),
@@ -68,6 +70,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
                          bool settlesAccrual, bool paysAtDefaultTime,
                          const Date& protectionStart,
                          const Date& upfrontDate,
+                         const ext::shared_ptr<Claim>& claim,
                          const py::object& lastPeriodDC,
                          bool rebatesAccrual,
                          const Date& tradeDate, Natural cashSettlementDays) {
@@ -78,7 +81,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
                 side, notional, upfront, spread, schedule,
                 paymentConvention, dayCounter, settlesAccrual,
                 paysAtDefaultTime, protectionStart, upfrontDate,
-                ext::shared_ptr<Claim>(), lpdc, rebatesAccrual,
+                claim, lpdc, rebatesAccrual,
                 tradeDate, cashSettlementDays);
         }),
             py::arg("side"),
@@ -92,6 +95,7 @@ void ql_instruments::creditdefaultswap(py::module_& m) {
             py::arg("paysAtDefaultTime") = true,
             py::arg("protectionStart") = Date(),
             py::arg("upfrontDate") = Date(),
+            py::arg("claim") = ext::shared_ptr<Claim>(),
             py::arg("lastPeriodDayCounter") = py::none(),
             py::arg("rebatesAccrual") = true,
             py::arg("tradeDate") = Date(),

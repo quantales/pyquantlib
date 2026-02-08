@@ -28,6 +28,7 @@
 #include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
 #include <ql/termstructures/volatility/smilesection.hpp>
 #include <ql/exercise.hpp>
+#include <ql/instruments/claim.hpp>
 #include <ql/pricingengine.hpp>
 #include <ql/pricingengines/genericmodelengine.hpp>
 #include <ql/instrument.hpp>
@@ -585,6 +586,22 @@ public:
 
     void calculate() const override {
         PYBIND11_OVERRIDE_PURE(void, QuantLib::PricingEngine, calculate,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Claim Trampoline
+// -----------------------------------------------------------------------------
+class PyClaim : public QuantLib::Claim,
+                public py::trampoline_self_life_support {
+public:
+    using QuantLib::Claim::Claim;
+
+    QuantLib::Real amount(const QuantLib::Date& defaultDate,
+                          QuantLib::Real notional,
+                          QuantLib::Real recoveryRate) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::Claim, amount,
+                               defaultDate, notional, recoveryRate);
     }
 };
 

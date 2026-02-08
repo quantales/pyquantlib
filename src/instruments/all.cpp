@@ -75,6 +75,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "CompositeInstrument - aggregate of weighted instruments");
     ADD_MAIN_BINDING(ql_instruments::assetswap,
         "AssetSwap - bullet bond vs Libor swap");
+    ADD_MAIN_BINDING(ql_instruments::claim,
+        "Claim, FaceValueClaim, FaceValueAccrualClaim");
     ADD_MAIN_BINDING(ql_instruments::creditdefaultswap,
         "CreditDefaultSwap - credit default swap");
 }

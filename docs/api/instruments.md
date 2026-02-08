@@ -228,6 +228,25 @@ print(composite.NPV())
 
 ## Credit Instruments
 
+### Claims
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FaceValueClaim
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FaceValueAccrualClaim
+```
+
+Claim objects define the loss amount on a default event. `FaceValueClaim` returns
+`notional * (1 - recoveryRate)`. `FaceValueAccrualClaim` adds accrued interest
+from a reference bond.
+
+```python
+claim = ql.FaceValueClaim()
+loss = claim.amount(default_date, 1_000_000.0, 0.4)  # 600,000
+```
+
 ### CreditDefaultSwap
 
 ```{eval-rst}

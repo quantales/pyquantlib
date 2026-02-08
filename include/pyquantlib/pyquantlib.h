@@ -255,6 +255,7 @@ namespace ql_instruments {
     void averagetype(py::module_&);
     void asianoption(py::module_&);
     void assetswap(py::module_&);
+    void claim(py::module_&);
     void creditdefaultswap(py::module_&);
 }
 
