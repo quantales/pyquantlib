@@ -53,21 +53,23 @@ jobs:
             BOOST_VERSION=${{ env.BOOST_VERSION }}
 
           # Linux: Build QuantLib in manylinux container
+          # Note: CIBW_ENVIRONMENT is NOT available during before_all,
+          # so we use ${{ env.* }} (evaluated by GitHub Actions before cibuildwheel runs).
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y wget tar gzip
 
             # Install Boost headers
-            BOOST_VERSION_UNDERSCORE=$(echo $BOOST_VERSION | tr '.' '_')
-            wget -q https://archives.boost.io/release/$BOOST_VERSION/source/boost_${BOOST_VERSION_UNDERSCORE}.tar.gz
-            tar xzf boost_${BOOST_VERSION_UNDERSCORE}.tar.gz
+            BOOST_UNDERSCORE=$(echo ${{ env.BOOST_VERSION }} | tr '.' '_')
+            wget -q https://archives.boost.io/release/${{ env.BOOST_VERSION }}/source/boost_${BOOST_UNDERSCORE}.tar.gz
+            tar xzf boost_${BOOST_UNDERSCORE}.tar.gz
             mkdir -p /usr/local/include
-            cp -r boost_${BOOST_VERSION_UNDERSCORE}/boost /usr/local/include/
-            rm -rf boost_${BOOST_VERSION_UNDERSCORE}*
+            cp -r boost_${BOOST_UNDERSCORE}/boost /usr/local/include/
+            rm -rf boost_${BOOST_UNDERSCORE}*
 
             # Build QuantLib
-            wget -q https://github.com/lballabio/QuantLib/releases/download/v${QUANTLIB_VERSION}/QuantLib-${QUANTLIB_VERSION}.tar.gz
-            tar xzf QuantLib-${QUANTLIB_VERSION}.tar.gz
-            cd QuantLib-${QUANTLIB_VERSION}
+            wget -q https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+            tar xzf QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+            cd QuantLib-${{ env.QUANTLIB_VERSION }}
             mkdir build && cd build
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
@@ -83,7 +85,7 @@ jobs:
             cmake --build . --parallel $(nproc)
             cmake --install .
             cd ../..
-            rm -rf QuantLib-${QUANTLIB_VERSION}*
+            rm -rf QuantLib-${{ env.QUANTLIB_VERSION }}*
 
           CIBW_ENVIRONMENT_LINUX: >
             QuantLib_ROOT=/usr/local
@@ -94,9 +96,9 @@ jobs:
             brew install boost cmake
 
             # Build QuantLib
-            wget -q https://github.com/lballabio/QuantLib/releases/download/v${QUANTLIB_VERSION}/QuantLib-${QUANTLIB_VERSION}.tar.gz
-            tar xzf QuantLib-${QUANTLIB_VERSION}.tar.gz
-            cd QuantLib-${QUANTLIB_VERSION}
+            wget -q https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+            tar xzf QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+            cd QuantLib-${{ env.QUANTLIB_VERSION }}
             mkdir build && cd build
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
@@ -112,7 +114,7 @@ jobs:
             cmake --build . --parallel $(sysctl -n hw.ncpu)
             cmake --install .
             cd ../..
-            rm -rf QuantLib-${QUANTLIB_VERSION}*
+            rm -rf QuantLib-${{ env.QUANTLIB_VERSION }}*
 
           CIBW_ENVIRONMENT_MACOS: >
             QuantLib_ROOT=/tmp/quantlib
