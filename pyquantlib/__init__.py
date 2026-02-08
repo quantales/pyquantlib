@@ -21,6 +21,11 @@ Settings = _ql.Settings.instance()
 
 del _ql
 
+# Builder wrapper functions (shadow C++ classes with Pythonic kwargs API)
+from .builders import MakeCapFloor as MakeCapFloor  # noqa: E402, F811
+from .builders import MakeOIS as MakeOIS  # noqa: E402, F811
+from .builders import MakeSchedule as MakeSchedule  # noqa: E402, F811
+
 
 # Helpers for readable Boost version
 def boost_version_tuple() -> tuple[int, int, int]:

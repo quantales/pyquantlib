@@ -933,10 +933,8 @@ def schedule_dates():
     }
 
 
-def test_makeschedule_basic():
-    """Test basic MakeSchedule usage."""
-    maker = ql.MakeSchedule()
-
+def test_makeschedule_kwargs():
+    """Test MakeSchedule kwargs API with all options."""
     effective = ql.Date(1, 1, 2025)
     termination = ql.Date(1, 1, 2026)
     tenor = ql.Period(ql.Monthly)
@@ -947,19 +945,19 @@ def test_makeschedule_basic():
     first_date = ql.Date(15, 1, 2025)
     next_to_last_date = ql.Date(15, 12, 2025)
 
-    maker = (maker.from_(effective)
-            .to(termination)
-            .withTenor(tenor)
-            .withCalendar(calendar)
-            .withConvention(convention)
-            .withTerminationDateConvention(termination_convention)
-            .withRule(rule)
-            .endOfMonth(True)
-            .withFirstDate(first_date)
-            .withNextToLastDate(next_to_last_date)
-            .forwards())
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=effective,
+        terminationDate=termination,
+        forwards=True,
+        tenor=tenor,
+        calendar=calendar,
+        convention=convention,
+        terminationDateConvention=termination_convention,
+        rule=rule,
+        endOfMonth=True,
+        firstDate=first_date,
+        nextToLastDate=next_to_last_date,
+    )
 
     assert isinstance(schedule, ql.Schedule)
     assert schedule.startDate() == effective
@@ -973,32 +971,31 @@ def test_makeschedule_basic():
     assert schedule.endOfMonth()
 
 
-def test_makeschedule_backwards():
-    """Test MakeSchedule backwards generation."""
-    maker = ql.MakeSchedule()
-    maker = (maker.from_(ql.Date(1, 1, 2025))
-        .to(ql.Date(1, 1, 2026))
-        .withTenor(ql.Period("1M"))
-        .backwards())
-    schedule = maker.schedule()
+def test_makeschedule_kwargs_backwards():
+    """Test MakeSchedule backwards generation via kwargs."""
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(1, 1, 2025),
+        terminationDate=ql.Date(1, 1, 2026),
+        backwards=True,
+        tenor=ql.Period("1M"),
+    )
 
     assert schedule.hasRule()
     assert schedule.rule() == ql.DateGeneration.Backward
     assert not schedule.endOfMonth()
 
 
-def test_makeschedule_initialization_and_conversion(schedule_dates):
-    """Test MakeSchedule initialization and conversion to Schedule."""
-    maker = ql.MakeSchedule()
+def test_makeschedule_kwargs_basic(schedule_dates):
+    """Test MakeSchedule kwargs initialization and conversion to Schedule."""
     calendar = ql.TARGET()
 
-    maker.from_(schedule_dates["effective"])
-    maker.to(schedule_dates["termination"])
-    maker.withTenor(ql.Period("6M"))
-    maker.withCalendar(calendar)
-    maker.withConvention(ql.Following)
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=schedule_dates["effective"],
+        terminationDate=schedule_dates["termination"],
+        tenor=ql.Period("6M"),
+        calendar=calendar,
+        convention=ql.Following,
+    )
     assert isinstance(schedule, ql.Schedule)
 
     assert schedule.startDate() == schedule_dates["effective"]
@@ -1010,31 +1007,23 @@ def test_makeschedule_initialization_and_conversion(schedule_dates):
     assert schedule.hasRule()
 
 
-def test_makeschedule_frequency_tenor_conversion(schedule_dates):
-    """Test MakeSchedule frequency-tenor conversion."""
-    eff_date = schedule_dates["effective"]
-    term_date = schedule_dates["termination"]
-    calendar = ql.TARGET()
-    convention = ql.Following
-    term_convention = ql.Following
-    frequency = ql.Semiannual
-
-    maker = ql.MakeSchedule()
-    (
-    maker.from_(eff_date)
-         .to(term_date)
-         .withFrequency(frequency)
-         .withCalendar(calendar)
-         .withConvention(convention)
-         .withTerminationDateConvention(term_convention)
-         .forwards()
+def test_makeschedule_kwargs_frequency(schedule_dates):
+    """Test MakeSchedule frequency-tenor conversion via kwargs."""
+    schedule = ql.MakeSchedule(
+        effectiveDate=schedule_dates["effective"],
+        terminationDate=schedule_dates["termination"],
+        forwards=True,
+        frequency=ql.Semiannual,
+        calendar=ql.TARGET(),
+        convention=ql.Following,
+        terminationDateConvention=ql.Following,
     )
 
-    assert maker.schedule().tenor() == ql.Period("6M")
+    assert schedule.tenor() == ql.Period("6M")
 
 
-def test_makeschedule_forward_properties(schedule_dates):
-    """Test forward-generated schedule properties."""
+def test_makeschedule_kwargs_forward_properties(schedule_dates):
+    """Test forward-generated schedule properties via kwargs."""
     eff_date = schedule_dates["effective"]
     term_date = schedule_dates["termination"]
     calendar = ql.TARGET()
@@ -1042,16 +1031,15 @@ def test_makeschedule_forward_properties(schedule_dates):
     convention = ql.Following
     term_convention = ql.Following
 
-    maker = ql.MakeSchedule()
-    maker.from_(eff_date) \
-         .to(term_date) \
-         .withTenor(tenor) \
-         .withCalendar(calendar) \
-         .withConvention(convention) \
-         .withTerminationDateConvention(term_convention) \
-         .forwards()
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=eff_date,
+        terminationDate=term_date,
+        forwards=True,
+        tenor=tenor,
+        calendar=calendar,
+        convention=convention,
+        terminationDateConvention=term_convention,
+    )
 
     assert isinstance(schedule, ql.Schedule)
     assert schedule.rule() == ql.DateGeneration.Forward
@@ -1067,27 +1055,25 @@ def test_makeschedule_forward_properties(schedule_dates):
     assert schedule.endDate() <= adjusted_term_date
 
 
-def test_makeschedule_backward_properties(schedule_dates):
-    """Test backward-generated schedule properties."""
+def test_makeschedule_kwargs_backward_properties(schedule_dates):
+    """Test backward-generated schedule properties via kwargs."""
     eff_date = schedule_dates["effective"]
     term_date = schedule_dates["termination"]
     calendar = ql.TARGET()
     tenor = ql.Period(3, ql.Months)
     convention = ql.ModifiedFollowing
     term_convention = ql.ModifiedFollowing
-    frequency = ql.Quarterly
 
-    maker = ql.MakeSchedule()
-    maker.from_(eff_date) \
-         .to(term_date) \
-         .withTenor(tenor) \
-         .withFrequency(frequency) \
-         .withCalendar(calendar) \
-         .withConvention(convention) \
-         .withTerminationDateConvention(term_convention) \
-         .backwards()
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=eff_date,
+        terminationDate=term_date,
+        backwards=True,
+        tenor=tenor,
+        frequency=ql.Quarterly,
+        calendar=calendar,
+        convention=convention,
+        terminationDateConvention=term_convention,
+    )
 
     assert isinstance(schedule, ql.Schedule)
     assert schedule.rule() == ql.DateGeneration.Backward
@@ -1101,27 +1087,24 @@ def test_makeschedule_backward_properties(schedule_dates):
     assert schedule.startDate() >= adjusted_eff_date
 
 
-def test_makeschedule_end_of_month_convention():
-    """Test end-of-month convention."""
+def test_makeschedule_kwargs_end_of_month():
+    """Test end-of-month convention via kwargs."""
     eff_date = ql.Date(31, ql.January, 2024)
     term_date = ql.Date(31, ql.July, 2024)
     calendar = ql.TARGET()
-    tenor = ql.Period(1, ql.Months)
     convention = ql.Unadjusted
-    frequency = ql.Monthly
 
-    maker = ql.MakeSchedule()
-    maker.from_(eff_date) \
-         .to(term_date) \
-         .withTenor(tenor) \
-         .withFrequency(frequency) \
-         .withCalendar(calendar) \
-         .withConvention(convention) \
-         .withTerminationDateConvention(convention) \
-         .forwards() \
-         .endOfMonth(True)
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=eff_date,
+        terminationDate=term_date,
+        forwards=True,
+        tenor=ql.Period(1, ql.Months),
+        frequency=ql.Monthly,
+        calendar=calendar,
+        convention=convention,
+        terminationDateConvention=convention,
+        endOfMonth=True,
+    )
 
     assert isinstance(schedule, ql.Schedule)
     assert schedule.endOfMonth()
@@ -1132,8 +1115,8 @@ def test_makeschedule_end_of_month_convention():
         assert is_eom, f"Date {dt_in_sched} at index {i} is not end-of-month"
 
 
-def test_makeschedule_with_first_and_next_to_last_date(schedule_dates):
-    """Test setting first and next-to-last dates."""
+def test_makeschedule_kwargs_first_and_next_to_last_date(schedule_dates):
+    """Test setting first and next-to-last dates via kwargs."""
     eff_date = schedule_dates["effective"]
     term_date = schedule_dates["termination"]
     first_date_override = schedule_dates["first"]
@@ -1143,20 +1126,18 @@ def test_makeschedule_with_first_and_next_to_last_date(schedule_dates):
     assert next_to_last_date_override <= term_date
 
     calendar = ql.TARGET()
-    tenor = ql.Period(3, ql.Months)
     convention = ql.Following
 
-    maker = ql.MakeSchedule()
-    maker.from_(eff_date) \
-         .to(term_date) \
-         .withTenor(tenor) \
-         .withCalendar(calendar) \
-         .withConvention(convention) \
-         .forwards() \
-         .withFirstDate(first_date_override) \
-         .withNextToLastDate(next_to_last_date_override)
-
-    schedule = maker.schedule()
+    schedule = ql.MakeSchedule(
+        effectiveDate=eff_date,
+        terminationDate=term_date,
+        forwards=True,
+        tenor=ql.Period(3, ql.Months),
+        calendar=calendar,
+        convention=convention,
+        firstDate=first_date_override,
+        nextToLastDate=next_to_last_date_override,
+    )
     assert isinstance(schedule, ql.Schedule)
 
     dates_in_schedule = schedule.dates()
@@ -1167,12 +1148,29 @@ def test_makeschedule_with_first_and_next_to_last_date(schedule_dates):
         assert dates_in_schedule[-2] == adjusted_next_to_last_date
 
 
-def test_makeschedule_chaining_returns_self(schedule_dates):
-    """Test MakeSchedule builder methods return self for chaining."""
-    maker = ql.MakeSchedule()
+def test_makeschedule_builder_chaining(schedule_dates):
+    """Test MakeSchedule C++ builder chaining."""
+    from pyquantlib._pyquantlib import MakeSchedule as MakeScheduleBuilder
+
+    maker = MakeScheduleBuilder()
 
     assert maker.from_(schedule_dates["effective"]) is maker
     assert maker.to(schedule_dates["termination"]) is maker
     assert maker.withTenor(ql.Period(1, ql.Years)) is maker
     assert maker.forwards() is maker
     assert maker.endOfMonth(True) is maker
+
+    schedule = maker.schedule()
+    assert isinstance(schedule, ql.Schedule)
+
+
+def test_makeschedule_kwargs_bad_kwarg():
+    """Test MakeSchedule rejects unknown kwargs."""
+    import pytest
+
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        ql.MakeSchedule(
+            effectiveDate=ql.Date(1, 1, 2025),
+            terminationDate=ql.Date(1, 1, 2026),
+            bogusKwarg=42,
+        )

@@ -1047,6 +1047,142 @@ def test_overnightindexedswap_overnight_leg(ois_setup):
 
 
 # =============================================================================
+# MakeOIS
+# =============================================================================
+
+
+def test_makeois_kwargs(ois_setup):
+    """Test MakeOIS kwargs wrapper."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years),
+        ois_setup["sofr"],
+        0.035,
+    )
+    assert ois is not None
+
+
+def test_makeois_builder_chaining(ois_setup):
+    """Test MakeOIS C++ builder chaining."""
+    from pyquantlib._pyquantlib import MakeOIS as MakeOISBuilder
+    engine = ql.DiscountingSwapEngine(ois_setup["curve"])
+    ois = (
+        MakeOISBuilder(ql.Period(1, ql.Years), ois_setup["sofr"], 0.035)
+        .withNominal(2_000_000.0)
+        .withPaymentLag(2)
+        .withPricingEngine(engine)
+        .ois()
+    )
+    assert ois is not None
+
+
+def test_makeois_atm(ois_setup):
+    """Test MakeOIS with no fixed rate (ATM)."""
+    ois = ql.MakeOIS(ql.Period(1, ql.Years), ois_setup["sofr"])
+    assert ois is not None
+
+
+def test_makeois_kwargs_nominal(ois_setup):
+    """Test MakeOIS with nominal kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        nominal=5_000_000.0,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_swap_type(ois_setup):
+    """Test MakeOIS with swapType kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        swapType=ql.SwapType.Receiver,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_receive_fixed(ois_setup):
+    """Test MakeOIS with receiveFixed kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        receiveFixed=True,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_pricing_engine(ois_setup):
+    """Test MakeOIS with pricingEngine kwarg."""
+    engine = ql.DiscountingSwapEngine(ois_setup["curve"])
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        pricingEngine=engine,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_multiple(ois_setup):
+    """Test MakeOIS with multiple kwargs."""
+    engine = ql.DiscountingSwapEngine(ois_setup["curve"])
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        nominal=2_000_000.0, paymentLag=2, pricingEngine=engine,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_forward_start(ois_setup):
+    """Test MakeOIS with forward start."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        fwdStart=ql.Period(3, ql.Months),
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_fixed_leg_daycount(ois_setup):
+    """Test MakeOIS with fixedLegDayCount kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        fixedLegDayCount=ql.Actual365Fixed(),
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_overnight_spread(ois_setup):
+    """Test MakeOIS with overnightLegSpread kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        overnightLegSpread=0.001,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_averaging_method(ois_setup):
+    """Test MakeOIS with averagingMethod kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        averagingMethod=ql.RateAveraging.Type.Simple,
+    )
+    assert ois.averagingMethod() == ql.RateAveraging.Type.Simple
+
+
+def test_makeois_kwargs_telescopic_dates(ois_setup):
+    """Test MakeOIS with telescopicValueDates kwarg."""
+    ois = ql.MakeOIS(
+        ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+        telescopicValueDates=True,
+    )
+    assert ois is not None
+
+
+def test_makeois_kwargs_bad_kwarg(ois_setup):
+    """Test MakeOIS raises TypeError for unknown kwarg."""
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        ql.MakeOIS(
+            ql.Period(1, ql.Years), ois_setup["sofr"], 0.035,
+            badKwarg=42,
+        )
+
+
+# =============================================================================
 # CapFloor, Cap, Floor, Collar
 # =============================================================================
 
@@ -1183,6 +1319,143 @@ def test_cap_bachelier_pricing(capfloor_env):
     engine = ql.BachelierCapFloorEngine(capfloor_env["curve"], 0.005)
     cap.setPricingEngine(engine)
     assert cap.NPV() == pytest.approx(1606.1185633197292, rel=1e-6)
+
+
+# =============================================================================
+# MakeCapFloor
+# =============================================================================
+
+
+def test_makecapfloor_kwargs(capfloor_env):
+    """Test MakeCapFloor kwargs wrapper."""
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+    )
+    assert cap is not None
+    assert cap.type() == ql.CapFloorType.Cap
+
+
+def test_makecapfloor_builder_chaining(capfloor_env):
+    """Test MakeCapFloor C++ builder chaining."""
+    from pyquantlib._pyquantlib import MakeCapFloor as MakeCapFloorBuilder
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap = (
+        MakeCapFloorBuilder(
+            ql.CapFloorType.Cap,
+            ql.Period(5, ql.Years),
+            capfloor_env["euribor"],
+            0.05,
+        )
+        .withNominal(2_000_000.0)
+        .withPricingEngine(engine)
+        .capFloor()
+    )
+    assert cap.NPV() > 0
+
+
+def test_makecapfloor_floor(capfloor_env):
+    """Test MakeCapFloor for floor type."""
+    floor = ql.MakeCapFloor(
+        ql.CapFloorType.Floor,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.03,
+    )
+    assert floor.type() == ql.CapFloorType.Floor
+
+
+def test_makecapfloor_atm(capfloor_env):
+    """Test MakeCapFloor with no strike (ATM) requires engine."""
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        pricingEngine=engine,
+    )
+    assert cap is not None
+    assert cap.type() == ql.CapFloorType.Cap
+
+
+def test_makecapfloor_kwargs_nominal(capfloor_env):
+    """Test MakeCapFloor with nominal kwarg."""
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+        nominal=5_000_000.0,
+    )
+    assert cap is not None
+
+
+def test_makecapfloor_kwargs_pricing_engine(capfloor_env):
+    """Test MakeCapFloor with pricingEngine kwarg."""
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+        pricingEngine=engine,
+    )
+    assert cap.NPV() > 0
+
+
+def test_makecapfloor_kwargs_multiple(capfloor_env):
+    """Test MakeCapFloor with multiple kwargs."""
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+        nominal=2_000_000.0,
+        pricingEngine=engine,
+    )
+    assert cap.NPV() > 0
+
+
+def test_makecapfloor_kwargs_forward_start(capfloor_env):
+    """Test MakeCapFloor with forward start."""
+    cap = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+        forwardStart=ql.Period(1, ql.Years),
+    )
+    assert cap.startDate() > capfloor_env["today"]
+
+
+def test_makecapfloor_kwargs_as_optionlet(capfloor_env):
+    """Test MakeCapFloor as single optionlet via kwarg."""
+    engine = ql.BlackCapFloorEngine(capfloor_env["curve"], 0.20)
+    caplet = ql.MakeCapFloor(
+        ql.CapFloorType.Cap,
+        ql.Period(5, ql.Years),
+        capfloor_env["euribor"],
+        0.05,
+        asOptionlet=True,
+        pricingEngine=engine,
+    )
+    assert caplet is not None
+    assert len(caplet.floatingLeg()) == 1
+
+
+def test_makecapfloor_kwargs_bad_kwarg(capfloor_env):
+    """Test MakeCapFloor raises TypeError for unknown kwarg."""
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        ql.MakeCapFloor(
+            ql.CapFloorType.Cap,
+            ql.Period(5, ql.Years),
+            capfloor_env["euribor"],
+            0.05,
+            badKwarg=42,
+        )
 
 
 # =============================================================================

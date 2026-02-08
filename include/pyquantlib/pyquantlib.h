@@ -230,7 +230,9 @@ namespace ql_instruments {
     void multiassetoption(py::module_&);
     void basketoption(py::module_&);
     void overnightindexedswap(py::module_&);
+    void makeois(py::module_&);
     void capfloor(py::module_&);
+    void makecapfloor(py::module_&);
     void forwardrateagreement(py::module_&);
     void barriertype(py::module_&);
     void barrieroption(py::module_&);

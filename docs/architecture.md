@@ -33,6 +33,8 @@ The tensions that shaped PyQuantLib's architecture:
 
 **Diamond inheritance.** QuantLib classes occasionally inherit from two base classes that share a common virtual ancestor, forming a diamond. pybind11's classic holder system computes pointer offsets at compile time using `static_cast`, which cannot resolve the ambiguous paths through virtual bases. The solution requires migrating the entire inheritance chain to pybind11 3.0's `smart_holder` system. See {doc}`design/diamond-inheritance`.
 
+**Builder pattern translation.** QuantLib's `Make*` builders use C++ method chaining and implicit conversion operators to construct complex objects. Python has no implicit conversion operators, and method chaining with `with*` prefixes is not idiomatic when keyword arguments exist. PyQuantLib exposes both a C++ builder class for chaining and a Python wrapper function that maps keyword arguments to builder methods, returning the result directly. See {doc}`design/builder-pattern`.
+
 These are not hypothetical risks. Each one was discovered through debugging production failures. The {doc}`design notes <design/index>` document these investigations in full.
 
 ## Layered Design
