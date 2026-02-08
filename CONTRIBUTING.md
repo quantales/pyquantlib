@@ -447,6 +447,7 @@ pybind11 enum values are singletons. Never pass by reference and modify:
 
 - Place ABCs in the `base` submodule via `manager.getSubmodule("base")`
 - Use trampolines for classes with pure virtual methods
+- Some classes require `py::classh` and `trampoline_self_life_support` -- see [Diamond Inheritance](docs/design/diamond-inheritance.md)
 - Export concrete implementations to the main module
 
 ---
