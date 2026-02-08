@@ -22,7 +22,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::sabrsmilesection(py::module_& m) {
-    py::classh<SabrSmileSection, SmileSection>(
+    py::class_<SabrSmileSection, SmileSection, ext::shared_ptr<SabrSmileSection>>(
         m, "SabrSmileSection",
         "SABR parametric smile section.")
         .def(py::init<Time, Rate, const std::vector<Real>&, Real, VolatilityType>(),

@@ -156,11 +156,11 @@ The classic pybind11 holder system (`py::class_<T, shared_ptr<T>>`) computes poi
 
 pybind11 3.0 introduced `py::classh` (short for "class with smart_holder"), an alternative holder system designed specifically for complex inheritance. Instead of compile-time `static_cast` offsets, `smart_holder` performs runtime pointer resolution equivalent to `dynamic_cast`.
 
-The migration requires changing every class in the inheritance chain to `smart_holder`. This is "viral": a `smart_holder` child class cannot have a classic-holder parent. The `smart_holder` needs consistent holder semantics all the way up.
+The migration requires changing every class that participates in the diamond to `smart_holder`. The classes that form the diamond -- the shared virtual bases, the middle-layer classes, and the class that closes the diamond -- all need consistent holder semantics. Linear children outside the diamond are unaffected (see [The General Pattern](#the-general-pattern) below).
 
-#### Step 1: Migrate the hierarchy
+#### Step 1: Migrate the diamond participants
 
-Every class from `Observable` through `SabrInterpolatedSmileSection` must use `py::classh`:
+Every class that participates in the diamond from `Observable` through `SabrInterpolatedSmileSection` must use `py::classh`:
 
 ```cpp
 // observable.cpp
@@ -202,17 +202,7 @@ class PySmileSection : public QuantLib::SmileSection,
                        public py::trampoline_self_life_support { ... };
 ```
 
-#### Step 3: Migrate siblings
-
-Any other class that inherits from `SmileSection` must also use `py::classh`, since its parent now uses `smart_holder`:
-
-```cpp
-// sabrsmilesection.cpp
-py::classh<SabrSmileSection, SmileSection>(...)
-
-// svismilesection.cpp
-py::classh<SviSmileSection, SmileSection>(...)
-```
+#### Step 3: Rebuild
 
 After these changes, rebuild. Import the module:
 
@@ -220,7 +210,7 @@ After these changes, rebuild. Import the module:
 Unable to load a custom holder type from a default-holder instance
 ```
 
-**Still broken.** The entire hierarchy uses `smart_holder`. Every trampoline has `trampoline_self_life_support`. Every sibling is migrated. Yet the same error persists.
+**Still broken.** Every diamond participant uses `smart_holder`. Every trampoline has `trampoline_self_life_support`. Yet the same error persists.
 
 ### The Hidden Culprit
 
@@ -268,19 +258,47 @@ The coincidence of needing both fixes simultaneously is what made this problem d
 
 ## The General Pattern
 
-### When to use py::classh
+### It is about geometry, not types
 
-Use `py::classh` (smart_holder) for any class that participates in diamond-shaped virtual inheritance:
+The original investigation led to a natural but imprecise conclusion: "if one class uses `smart_holder`, all its children must too." In practice, the rule is more nuanced. It is not about the types in the hierarchy -- it is about the **geometry** of the inheritance graph.
 
-```cpp
-// If C inherits from both A and B, and A and B share a virtual base:
-py::classh<Base>(m, "Base")
-py::classh<A, Base>(m, "A")
-py::classh<B, Base>(m, "B")
-py::classh<C, A, B>(m, "C")
+#### Linear inheritance is forgiving
+
+When a child inherits from a single parent in a straight line, `static_cast` can compute the pointer offset at compile time. There is no ambiguity. The classic `shared_ptr` holder handles this correctly, even when the parent uses `py::classh`.
+
+```
+Observable (py::classh) --> Quote (py::class_ + shared_ptr)    OK
+Observable (py::classh) --> Index (py::class_ + shared_ptr)    OK
+LazyObject (py::classh) --> CashFlow (py::class_ + shared_ptr) OK
+SmileSection (py::classh) --> SabrSmileSection (py::class_ + shared_ptr) OK
 ```
 
-If one class goes smart, they all must go smart. `smart_holder` is viral up the chain.
+All of these work in PyQuantLib. `Quote`, `Index`, `CashFlow`, `Instrument`, `SabrSmileSection`, and `SviSmileSection` all use classic `shared_ptr` holders despite having `py::classh` parents. The caster sees a single unambiguous path to the parent and resolves it without difficulty.
+
+#### Diamond inheritance is unforgiving
+
+When a child closes a diamond -- inheriting from two parents that share a virtual base -- the offset to the shared base is not at a fixed location. It varies depending on the concrete type and must be resolved dynamically at runtime via vtables. `static_cast` cannot handle this; only `dynamic_cast` (RTTI) can navigate the ambiguity.
+
+```
+     Observable (py::classh)
+      /      \
+     /        \
+SmileSection  LazyObject       <-- both virtually inherit Observable
+     \        /
+      \      /
+SabrInterpolated...            <-- closes the diamond: MUST use py::classh
+```
+
+`SabrInterpolatedSmileSection` inherits `Observable` through two paths. The standard `shared_ptr` caster gets lost in this ambiguity. `smart_holder` includes the runtime logic to navigate it.
+
+#### The refined rule
+
+Use `py::classh` specifically to solve diamond/virtual inheritance ambiguity:
+
+- **The diamond participants** (the shared virtual bases and the classes that close the diamond) must use `py::classh`: `Observable`, `Observer`, `LazyObject`, `SmileSection`, `SabrInterpolatedSmileSection`.
+- **Linear children** can use whichever holder they want (`shared_ptr` or `smart_holder`), because the path to their parent is unambiguous.
+
+In PyQuantLib, `SabrSmileSection` and `SviSmileSection` were originally migrated to `py::classh` as a precaution during the diamond fix. They have since been reverted to `py::class_` with `shared_ptr` -- confirming that linear children of `py::classh` parents do not need `smart_holder`.
 
 ### Holder declarations for shared_ptr parameters
 
