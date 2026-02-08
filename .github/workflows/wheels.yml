@@ -56,6 +56,7 @@ jobs:
           # Note: CIBW_ENVIRONMENT is NOT available during before_all,
           # so we use ${{ env.* }} (evaluated by GitHub Actions before cibuildwheel runs).
           CIBW_BEFORE_ALL_LINUX: |
+            set -ex
             yum install -y wget tar gzip
 
             # Install Boost headers
@@ -70,7 +71,7 @@ jobs:
             wget -q https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
             tar xzf QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
             cd QuantLib-${{ env.QUANTLIB_VERSION }}
-            mkdir build && cd build
+            mkdir -p build && cd build
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -94,18 +95,18 @@ jobs:
 
           # macOS: Build QuantLib
           CIBW_BEFORE_ALL_MACOS: |
+            set -ex
             brew install boost cmake
 
             # Build QuantLib
             curl -sL -o QuantLib.tar.gz https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
             tar xzf QuantLib.tar.gz
             cd QuantLib-${{ env.QUANTLIB_VERSION }}
-            mkdir build && cd build
+            mkdir -p build && cd build
             cmake .. \
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=/tmp/quantlib \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-              -DCMAKE_POLICY_DEFAULT_CMP0167=OLD \
               -DBUILD_SHARED_LIBS=OFF \
               -DQL_USE_STD_SHARED_PTR=ON \
               -DQL_USE_STD_OPTIONAL=ON \
