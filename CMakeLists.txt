@@ -87,6 +87,12 @@ if(NOT DEFINED BOOST_ROOT AND DEFINED ENV{BOOST_ROOT})
     set(BOOST_ROOT "$ENV{BOOST_ROOT}")
 endif()
 
+# CMake 3.30+ removed FindBoost module (CMP0167). Use OLD behavior
+# so find_package(Boost) still works with header-only detection.
+if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 OLD)
+endif()
+
 # We only need Boost headers (QuantLib links Boost if needed)
 find_package(Boost 1.75.0 REQUIRED)
 
