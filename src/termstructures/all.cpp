@@ -88,4 +88,18 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "ForwardCurve - forward rate curve with backward-flat interpolation");
     ADD_MAIN_BINDING(ql_termstructures::zerospreadedtermstructure,
         "ZeroSpreadedTermStructure - yield curve with additive spread");
+
+    // Credit term structures
+    ADD_BASE_BINDING(ql_termstructures::defaultprobabilitytermstructure,
+        "DefaultProbabilityTermStructure ABC");
+    ADD_MAIN_BINDING(ql_termstructures::defaultprobabilitytermstructurehandle,
+        "Handle<DefaultProbabilityTermStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::flathazardrate,
+        "FlatHazardRate - flat hazard rate term structure");
+    ADD_BASE_BINDING(ql_termstructures::defaultprobabilityhelper,
+        "DefaultProbabilityHelper ABC");
+    ADD_MAIN_BINDING(ql_termstructures::defaultprobabilityhelpers,
+        "SpreadCdsHelper, UpfrontCdsHelper");
+    ADD_MAIN_BINDING(ql_termstructures::piecewisedefaultcurve,
+        "PiecewiseDefaultCurve instantiations");
 }

@@ -95,4 +95,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BlackSwaptionEngine, BachelierSwaptionEngine - swaption engines");
     ADD_MAIN_BINDING(ql_pricingengines::bondfunctions,
         "BondFunctions - static bond analytics");
+    ADD_MAIN_BINDING(ql_pricingengines::midpointcdsengine,
+        "MidPointCdsEngine - mid-point CDS engine");
+    ADD_MAIN_BINDING(ql_pricingengines::isdacdsengine,
+        "IsdaCdsEngine - ISDA-compliant CDS engine");
 }

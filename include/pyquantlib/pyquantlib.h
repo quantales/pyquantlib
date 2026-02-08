@@ -121,6 +121,8 @@ namespace ql_core {
     void timegrid(py::module_&);
     void payoff(py::module_&);
     void stochasticprocess(py::module_&);
+    void protectionside(py::module_&);
+    void cdspricingmodel(py::module_&);
 }
 
 namespace ql_quotes {
@@ -188,6 +190,12 @@ namespace ql_termstructures {
     void discountcurve(py::module_&);
     void forwardcurve(py::module_&);
     void zerospreadedtermstructure(py::module_&);
+    void defaultprobabilitytermstructure(py::module_&);
+    void defaultprobabilitytermstructurehandle(py::module_&);
+    void flathazardrate(py::module_&);
+    void defaultprobabilityhelper(py::module_&);
+    void defaultprobabilityhelpers(py::module_&);
+    void piecewisedefaultcurve(py::module_&);
 }
 
 namespace ql_processes {
@@ -246,6 +254,7 @@ namespace ql_instruments {
     void averagetype(py::module_&);
     void asianoption(py::module_&);
     void assetswap(py::module_&);
+    void creditdefaultswap(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -289,6 +298,8 @@ namespace ql_pricingengines {
     void analyticdiscretegeometricasianengine(py::module_&);
     void mcdiscretearithmeticapengine(py::module_&);
     void turnbullwakemanasianengine(py::module_&);
+    void midpointcdsengine(py::module_&);
+    void isdacdsengine(py::module_&);
 }
 
 namespace ql_methods {

@@ -1713,3 +1713,652 @@ def test_discrete_asian_with_past_fixings(asian_env):
         allPastFixings=[100.0, 101.0],
     )
     assert opt is not None
+
+
+# =============================================================================
+# MakeVanillaSwap
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def mvs_env():
+    """Setup for MakeVanillaSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    euribor = ql.Euribor6M(curve)
+
+    return {
+        "today": today,
+        "curve": curve,
+        "euribor": euribor,
+    }
+
+
+def test_makevanillaswap_kwargs(mvs_env):
+    """Test MakeVanillaSwap kwargs wrapper."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+    )
+    assert swap is not None
+    assert isinstance(swap, ql.VanillaSwap)
+
+
+def test_makevanillaswap_atm(mvs_env):
+    """Test MakeVanillaSwap with no fixed rate (ATM)."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+    )
+    assert swap is not None
+
+
+def test_makevanillaswap_kwargs_nominal(mvs_env):
+    """Test MakeVanillaSwap with nominal kwarg."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        nominal=5_000_000.0,
+    )
+    assert swap is not None
+    assert swap.nominal() == 5_000_000.0
+
+
+def test_makevanillaswap_kwargs_receive_fixed(mvs_env):
+    """Test MakeVanillaSwap with receiveFixed kwarg."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        receiveFixed=True,
+    )
+    assert swap.type() == ql.SwapType.Receiver
+
+
+def test_makevanillaswap_kwargs_swap_type(mvs_env):
+    """Test MakeVanillaSwap with swapType kwarg."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        swapType=ql.SwapType.Receiver,
+    )
+    assert swap.type() == ql.SwapType.Receiver
+
+
+def test_makevanillaswap_kwargs_forward_start(mvs_env):
+    """Test MakeVanillaSwap with forward start."""
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        forwardStart=ql.Period(3, ql.Months),
+    )
+    assert swap is not None
+
+
+def test_makevanillaswap_kwargs_pricing_engine(mvs_env):
+    """Test MakeVanillaSwap with pricingEngine kwarg."""
+    engine = ql.DiscountingSwapEngine(mvs_env["curve"])
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        pricingEngine=engine,
+    )
+    assert swap.NPV() != 0
+
+
+def test_makevanillaswap_kwargs_multiple(mvs_env):
+    """Test MakeVanillaSwap with multiple kwargs."""
+    engine = ql.DiscountingSwapEngine(mvs_env["curve"])
+    swap = ql.MakeVanillaSwap(
+        ql.Period(5, ql.Years),
+        mvs_env["euribor"],
+        0.05,
+        nominal=2_000_000.0,
+        floatingLegSpread=0.001,
+        pricingEngine=engine,
+    )
+    assert swap.nominal() == 2_000_000.0
+    assert swap.spread() == 0.001
+
+
+def test_makevanillaswap_builder_chaining(mvs_env):
+    """Test MakeVanillaSwap C++ builder chaining."""
+    from pyquantlib._pyquantlib import MakeVanillaSwap as MakeVanillaSwapBuilder
+    engine = ql.DiscountingSwapEngine(mvs_env["curve"])
+    swap = (
+        MakeVanillaSwapBuilder(
+            ql.Period(5, ql.Years), mvs_env["euribor"], 0.05)
+        .withNominal(2_000_000.0)
+        .withPricingEngine(engine)
+        .swap()
+    )
+    assert swap is not None
+    assert swap.nominal() == 2_000_000.0
+
+
+def test_makevanillaswap_kwargs_bad_kwarg(mvs_env):
+    """Test MakeVanillaSwap raises TypeError for unknown kwarg."""
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        ql.MakeVanillaSwap(
+            ql.Period(5, ql.Years),
+            mvs_env["euribor"],
+            0.05,
+            badKwarg=42,
+        )
+
+
+# =============================================================================
+# MakeSwaption
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def mswn_env():
+    """Setup for MakeSwaption tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    euribor = ql.Euribor6M(curve)
+
+    swap_index = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period(5, ql.Years),
+        2, ql.EURCurrency(), ql.TARGET(),
+        ql.Period(1, ql.Years), ql.Unadjusted,
+        ql.Thirty360(ql.Thirty360.BondBasis), euribor,
+    )
+
+    return {
+        "today": today,
+        "curve": curve,
+        "euribor": euribor,
+        "swap_index": swap_index,
+    }
+
+
+def test_makeswaption_kwargs(mswn_env):
+    """Test MakeSwaption kwargs wrapper."""
+    swaption = ql.MakeSwaption(
+        mswn_env["swap_index"],
+        ql.Period(1, ql.Years),
+        0.05,
+    )
+    assert swaption is not None
+    assert isinstance(swaption, ql.Swaption)
+
+
+def test_makeswaption_atm(mswn_env):
+    """Test MakeSwaption with no strike (ATM)."""
+    swaption = ql.MakeSwaption(
+        mswn_env["swap_index"],
+        ql.Period(1, ql.Years),
+    )
+    assert swaption is not None
+
+
+def test_makeswaption_kwargs_nominal(mswn_env):
+    """Test MakeSwaption with nominal kwarg."""
+    swaption = ql.MakeSwaption(
+        mswn_env["swap_index"],
+        ql.Period(1, ql.Years),
+        0.05,
+        nominal=5_000_000.0,
+    )
+    assert swaption is not None
+
+
+def test_makeswaption_kwargs_settlement_type(mswn_env):
+    """Test MakeSwaption with settlementType kwarg."""
+    swaption = ql.MakeSwaption(
+        mswn_env["swap_index"],
+        ql.Period(1, ql.Years),
+        0.05,
+        settlementType=ql.SettlementType.Cash,
+        settlementMethod=ql.SettlementMethod.ParYieldCurve,
+    )
+    assert swaption.settlementType() == ql.SettlementType.Cash
+
+
+def test_makeswaption_kwargs_underlying_type(mswn_env):
+    """Test MakeSwaption with underlyingType kwarg."""
+    swaption = ql.MakeSwaption(
+        mswn_env["swap_index"],
+        ql.Period(1, ql.Years),
+        0.05,
+        underlyingType=ql.SwapType.Receiver,
+    )
+    assert swaption.type() == ql.SwapType.Receiver
+
+
+def test_makeswaption_kwargs_bad_kwarg(mswn_env):
+    """Test MakeSwaption raises TypeError for unknown kwarg."""
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        ql.MakeSwaption(
+            mswn_env["swap_index"],
+            ql.Period(1, ql.Years),
+            0.05,
+            badKwarg=42,
+        )
+
+
+# =============================================================================
+# ZeroCouponSwap
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def zcs_env():
+    """Setup for ZeroCouponSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.04, dc)
+    euribor = ql.Euribor6M(curve)
+    calendar = ql.TARGET()
+
+    start = calendar.advance(today, ql.Period(2, ql.Days))
+    maturity = calendar.advance(start, ql.Period(5, ql.Years))
+
+    return {
+        "today": today,
+        "curve": curve,
+        "euribor": euribor,
+        "calendar": calendar,
+        "start": start,
+        "maturity": maturity,
+    }
+
+
+def test_zerocouponswap_fixed_payment(zcs_env):
+    """Test ZeroCouponSwap with fixed payment amount."""
+    zcs = ql.ZeroCouponSwap(
+        ql.SwapType.Payer,
+        1_000_000.0,
+        zcs_env["start"],
+        zcs_env["maturity"],
+        1_200_000.0,
+        zcs_env["euribor"],
+        zcs_env["calendar"],
+    )
+    assert zcs is not None
+    assert zcs.type() == ql.SwapType.Payer
+    assert zcs.baseNominal() == 1_000_000.0
+    assert zcs.fixedPayment() == pytest.approx(1_200_000.0)
+
+
+def test_zerocouponswap_fixed_rate(zcs_env):
+    """Test ZeroCouponSwap with fixed rate."""
+    zcs = ql.ZeroCouponSwap(
+        ql.SwapType.Receiver,
+        1_000_000.0,
+        zcs_env["start"],
+        zcs_env["maturity"],
+        0.04,
+        ql.Actual365Fixed(),
+        zcs_env["euribor"],
+        zcs_env["calendar"],
+    )
+    assert zcs.type() == ql.SwapType.Receiver
+    assert zcs.baseNominal() == 1_000_000.0
+
+
+def test_zerocouponswap_pricing(zcs_env):
+    """Test ZeroCouponSwap pricing."""
+    zcs = ql.ZeroCouponSwap(
+        ql.SwapType.Payer,
+        1_000_000.0,
+        zcs_env["start"],
+        zcs_env["maturity"],
+        0.04,
+        ql.Actual365Fixed(),
+        zcs_env["euribor"],
+        zcs_env["calendar"],
+    )
+    engine = ql.DiscountingSwapEngine(zcs_env["curve"])
+    zcs.setPricingEngine(engine)
+
+    npv = zcs.NPV()
+    assert isinstance(npv, float)
+    fair_payment = zcs.fairFixedPayment()
+    assert fair_payment > 0
+
+
+def test_zerocouponswap_legs(zcs_env):
+    """Test ZeroCouponSwap leg accessors."""
+    zcs = ql.ZeroCouponSwap(
+        ql.SwapType.Payer,
+        1_000_000.0,
+        zcs_env["start"],
+        zcs_env["maturity"],
+        1_200_000.0,
+        zcs_env["euribor"],
+        zcs_env["calendar"],
+    )
+    assert len(zcs.fixedLeg()) > 0
+    assert len(zcs.floatingLeg()) > 0
+    assert zcs.startDate() == zcs_env["start"]
+    assert zcs.maturityDate() == zcs_env["maturity"]
+
+
+# =============================================================================
+# CompositeInstrument
+# =============================================================================
+
+
+def test_compositeinstrument_construction():
+    """Test CompositeInstrument construction."""
+    ci = ql.CompositeInstrument()
+    assert ci is not None
+
+
+def test_compositeinstrument_add_subtract(option_market_env):
+    """Test CompositeInstrument add and subtract."""
+    payoff_call = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    payoff_put = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    call = ql.VanillaOption(payoff_call, exercise)
+    put = ql.VanillaOption(payoff_put, exercise)
+
+    engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
+    call.setPricingEngine(engine)
+    put.setPricingEngine(engine)
+
+    ci = ql.CompositeInstrument()
+    ci.add(call)
+    ci.subtract(put)
+
+    # Composite NPV = call - put
+    assert ci.NPV() == pytest.approx(call.NPV() - put.NPV(), abs=1e-6)
+
+
+def test_compositeinstrument_multiplier(option_market_env):
+    """Test CompositeInstrument with multiplier."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise_date = option_market_env["today"] + ql.Period(1, ql.Years)
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    call = ql.VanillaOption(payoff, exercise)
+    engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
+    call.setPricingEngine(engine)
+
+    ci = ql.CompositeInstrument()
+    ci.add(call, 2.0)
+
+    assert ci.NPV() == pytest.approx(2.0 * call.NPV(), abs=1e-6)
+
+
+# =============================================================================
+# AssetSwap
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def assetswap_env():
+    """Setup for AssetSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.04, dc)
+    euribor = ql.Euribor6M(curve)
+
+    calendar = ql.TARGET()
+    issue = ql.Date(15, ql.January, 2024)
+    maturity = ql.Date(15, ql.January, 2029)
+
+    schedule = ql.Schedule(
+        issue, maturity,
+        ql.Period(ql.Annual), calendar,
+        ql.Unadjusted, ql.Unadjusted,
+        ql.DateGeneration.Backward, False,
+    )
+    bond = ql.FixedRateBond(
+        2, 100.0, schedule, [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    bond_engine = ql.DiscountingBondEngine(curve)
+    bond.setPricingEngine(bond_engine)
+
+    return {
+        "today": today,
+        "curve": curve,
+        "euribor": euribor,
+        "bond": bond,
+    }
+
+
+def test_assetswap_construction(assetswap_env):
+    """Test AssetSwap construction."""
+    asw = ql.AssetSwap(
+        True,
+        assetswap_env["bond"],
+        100.0,
+        assetswap_env["euribor"],
+        0.0,
+    )
+    assert asw is not None
+    assert asw.parSwap() is True
+
+
+def test_assetswap_pricing(assetswap_env):
+    """Test AssetSwap pricing."""
+    asw = ql.AssetSwap(
+        True,
+        assetswap_env["bond"],
+        100.0,
+        assetswap_env["euribor"],
+        0.0,
+    )
+    engine = ql.DiscountingSwapEngine(assetswap_env["curve"])
+    asw.setPricingEngine(engine)
+
+    npv = asw.NPV()
+    assert isinstance(npv, float)
+    fair_spread = asw.fairSpread()
+    assert isinstance(fair_spread, float)
+
+
+def test_assetswap_inspectors(assetswap_env):
+    """Test AssetSwap inspector methods."""
+    asw = ql.AssetSwap(
+        True,
+        assetswap_env["bond"],
+        100.0,
+        assetswap_env["euribor"],
+        0.001,
+    )
+    assert asw.payBondCoupon() is True
+    assert asw.spread() == 0.001
+    assert asw.cleanPrice() == 100.0
+    assert asw.bond() is not None
+    assert len(asw.bondLeg()) > 0
+    assert len(asw.floatingLeg()) > 0
+
+
+# =============================================================================
+# ProtectionSide enum
+# =============================================================================
+
+
+def test_protectionside_values():
+    """Test ProtectionSide enum values."""
+    assert ql.ProtectionSide.Buyer is not None
+    assert ql.ProtectionSide.Seller is not None
+
+
+# =============================================================================
+# CdsPricingModel enum
+# =============================================================================
+
+
+def test_cdspricingmodel_values():
+    """Test CdsPricingModel enum values."""
+    assert ql.CdsPricingModel.Midpoint is not None
+    assert ql.CdsPricingModel.ISDA is not None
+
+
+# =============================================================================
+# CreditDefaultSwap
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def cds_env():
+    """Setup for CDS tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    # Discount curve
+    discount_curve = ql.FlatForward(today, 0.02, dc)
+
+    # Default probability curve
+    hazard_rate = 0.01  # 1% annual hazard rate
+    default_curve = ql.FlatHazardRate(today, hazard_rate, dc)
+
+    # CDS schedule
+    start = calendar.advance(today, ql.Period(1, ql.Days))
+    maturity = calendar.advance(start, ql.Period(5, ql.Years))
+    schedule = ql.Schedule(
+        start, maturity,
+        ql.Period(ql.Quarterly), calendar,
+        ql.Following, ql.Unadjusted,
+        ql.DateGeneration.TwentiethIMM, False,
+    )
+
+    return {
+        "today": today,
+        "discount_curve": discount_curve,
+        "default_curve": default_curve,
+        "schedule": schedule,
+        "calendar": calendar,
+    }
+
+
+def test_creditdefaultswap_running_spread(cds_env):
+    """Test CDS construction with running spread only."""
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Buyer,
+        10_000_000.0,
+        0.01,  # 100 bps running spread
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    assert cds is not None
+    assert cds.side() == ql.ProtectionSide.Buyer
+    assert cds.notional() == 10_000_000.0
+    assert cds.runningSpread() == 0.01
+
+
+def test_creditdefaultswap_upfront(cds_env):
+    """Test CDS construction with upfront and running spread."""
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Seller,
+        10_000_000.0,
+        0.02,   # 2% upfront
+        0.005,  # 50 bps running spread
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    assert cds.side() == ql.ProtectionSide.Seller
+    assert cds.notional() == 10_000_000.0
+
+
+def test_creditdefaultswap_inspectors(cds_env):
+    """Test CDS inspector methods."""
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Buyer,
+        10_000_000.0,
+        0.01,
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    assert cds.settlesAccrual() is True
+    assert cds.paysAtDefaultTime() is True
+    assert cds.rebatesAccrual() is True
+    assert not cds.isExpired()
+    assert len(cds.coupons()) > 0
+    assert cds.protectionStartDate() < cds.protectionEndDate()
+
+
+def test_creditdefaultswap_pricing(cds_env):
+    """Test CDS pricing with MidPointCdsEngine."""
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Buyer,
+        10_000_000.0,
+        0.01,
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    engine = ql.MidPointCdsEngine(
+        cds_env["default_curve"],
+        0.4,
+        cds_env["discount_curve"],
+    )
+    cds.setPricingEngine(engine)
+
+    npv = cds.NPV()
+    assert isinstance(npv, float)
+    fair_spread = cds.fairSpread()
+    assert fair_spread > 0
+    assert cds.couponLegNPV() != 0
+    assert cds.defaultLegNPV() != 0
+
+
+def test_creditdefaultswap_fair_spread(cds_env):
+    """Test CDS at fair spread has near-zero NPV."""
+    cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Buyer,
+        10_000_000.0,
+        0.01,
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    engine = ql.MidPointCdsEngine(
+        cds_env["default_curve"],
+        0.4,
+        cds_env["discount_curve"],
+    )
+    cds.setPricingEngine(engine)
+
+    fair_spread = cds.fairSpread()
+
+    # Create CDS at fair spread
+    fair_cds = ql.CreditDefaultSwap(
+        ql.ProtectionSide.Buyer,
+        10_000_000.0,
+        fair_spread,
+        cds_env["schedule"],
+        ql.Following,
+        ql.Actual360(),
+    )
+    fair_cds.setPricingEngine(engine)
+
+    assert abs(fair_cds.NPV()) < 1.0  # near zero for 10M notional
+
+
+def test_cdsmaturity():
+    """Test cdsMaturity free function."""
+    trade_date = ql.Date(15, ql.January, 2025)
+    tenor = ql.Period(5, ql.Years)
+    maturity = ql.cdsMaturity(trade_date, tenor, ql.DateGeneration.CDS)
+    assert maturity > trade_date

@@ -36,4 +36,8 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
     ADD_MAIN_BINDING(ql_core::timegrid, "Time grid for discretized models");
     ADD_MAIN_BINDING(ql_core::payoff, "Payoff ABC");
     ADD_MAIN_BINDING(ql_core::stochasticprocess, "StochasticProcess ABCs");
+    ADD_MAIN_BINDING(ql_core::protectionside,
+        "Protection::Side - Buyer/Seller enum");
+    ADD_MAIN_BINDING(ql_core::cdspricingmodel,
+        "CreditDefaultSwap::PricingModel enum");
 }
