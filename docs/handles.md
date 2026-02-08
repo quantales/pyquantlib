@@ -19,7 +19,7 @@ curve = ql.FlatForward(ql.Date(15, 6, 2025), rate_handle, ql.Actual365Fixed())
 rate_handle.linkTo(ql.SimpleQuote(0.06))
 ```
 
-## Hidden Handles (Pythonic API)
+## Hidden Handles
 
 For simple use cases where relinking is not needed, PyQuantLib accepts raw objects directly and creates handles internally:
 
