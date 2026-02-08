@@ -11,14 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- Sphinx documentation with Read the Docs support
-- Examples directory with Jupyter notebooks
-- API reference documentation
-
 ## [0.1.0] - 2025-XX-XX
 
-Initial alpha release.
+Initial release targeting QuantLib 1.40.
 
 ### Added
 
@@ -26,71 +21,147 @@ Initial alpha release.
 - pybind11-based bindings with scikit-build-core
 - Cross-platform support (Windows, macOS, Linux)
 - Type stub files (`.pyi`) for IDE support
-- Observer/Observable pattern bindings
+- CI with GitHub Actions and cibuildwheel
+- Sphinx documentation with API reference
+
+#### Patterns and Utilities
+- `Observable`, `Observer`, `LazyObject` base classes
+- `ObservableValue`, `Null` sentinels
 
 #### Time Module
-- `Date`, `Period`, `TimeUnit`, `Weekday`, `Month`
+- `Date`, `Period`, `TimeUnit`, `Weekday`, `Month`, `Frequency`
 - `Calendar` with implementations (TARGET, UnitedStates, UnitedKingdom, etc.)
-- `DayCounter` with implementations (Actual365Fixed, Actual360, etc.)
+- `DayCounter` with implementations (Actual365Fixed, Actual360, Thirty360, etc.)
+- `BusinessDayConvention` enum
+- `DateGeneration::Rule` enum
 - `Schedule` and `MakeSchedule` for date generation
-- `TimeGrid` for discretization
 
 #### Core Module
 - `Settings` singleton for global evaluation date
 - `InterestRate` with compounding conversions
-- `Rounding` implementations
-- Mathematical constants
+- `Compounding` enum
+- Mathematical and financial constants
+- `TimeGrid` for discretization
+- `Quote` ABC, `QuoteHandle`, `RelinkableQuoteHandle`
+- `CashFlow` and `Event` ABCs
+- `Index` ABC
+- `Currency`, `Money`, `ExchangeRate`
+- `TermStructure` ABC
+- `Exercise` styles (European, American, Bermudan)
+- `PricingEngine` ABC, `Instrument` ABC
+- `Option` ABC with Greeks results
+- `Payoff` ABC
+- `StochasticProcess`, `StochasticProcess1D` ABCs
+- `Protection::Side` (Buyer, Seller) enum
+- `CreditDefaultSwap::PricingModel` (Midpoint, ISDA) enum
 
 #### Math Module
 - `Array` and `Matrix` with NumPy interoperability
-- Optimization: `EndCriteria`, `Constraint`, `LevenbergMarquardt`
-- `Problem` and `CostFunction` for custom optimization
+- `Rounding` implementations
+- Optimization: `EndCriteria`, `Constraint`, `LevenbergMarquardt`, `Problem`, `CostFunction`
+- Interpolation: `LinearInterpolation`, `LogLinearInterpolation`, `BackwardFlatInterpolation`, `CubicInterpolation`
+- Distributions: `NormalDistribution`, `CumulativeNormalDistribution`, `InverseCumulativeNormal`, `BivariateCumulativeNormalDistribution`
+- 1-D root-finding solvers: `Brent`, `Bisection`, `Secant`, `Ridder`, `FalsePosition`, `Newton`, `NewtonSafe`
 
 #### Market Data
 - `SimpleQuote`, `DerivedQuote`, `CompositeQuote`
-- `QuoteHandle` and `RelinkableQuoteHandle`
 
 #### Currencies
-- Major currency definitions (USD, EUR, GBP, JPY, etc.)
-- `Money` and `ExchangeRate`
+- Major currency definitions (USD, EUR, GBP, JPY, CHF, AUD, CAD, etc.)
+- `ExchangeRateManager`
 
 #### Cash Flows
-- `CashFlow` and `Coupon` base classes
-- `FixedRateCoupon` and `FixedRateLeg`
+- `CashFlow`, `Coupon`, `FloatingRateCoupon` base classes
+- `SimpleCashFlow`, `Redemption`, `AmortizingPayment`
+- `FixedRateCoupon`, `FixedRateLeg`
+- `FloatingRateCouponPricer` ABC, `BlackIborCouponPricer`
+- `IborCoupon`, `IborLeg`
+- `OvernightIndexedCoupon`, `OvernightLeg`
+- `RateAveraging` enum (Simple, Compound)
+- `Duration::Type` enum (Simple, Macaulay, Modified)
+- `setCouponPricer` utility
+
+#### Indexes
+- `InterestRateIndex` base class
+- `IborIndex` with Euribor family (1W through 1Y)
+- Overnight indices: `Sofr`, `Estr`, `Sonia`
+- `SwapIndex`, `EuriborSwapIsdaFixA`
 
 #### Term Structures
-- Yield: `YieldTermStructure`, `FlatForward`, `ZeroCurve`
-- Black vol: `BlackVolTermStructure`, `BlackConstantVol`, `BlackVarianceSurface`
-- Local vol: `LocalVolTermStructure`, `LocalConstantVol`, `LocalVolSurface`, `FixedLocalVolSurface`
+- **Yield curves**: `YieldTermStructure`, `FlatForward`
+- **Interpolated yield curves**: `ZeroCurve`, `DiscountCurve`, `ForwardCurve`
+- **Bootstrapped yield curves**: `PiecewiseLogCubicDiscount`, `PiecewiseLinearZero`, `PiecewiseLogLinearDiscount`, `PiecewiseFlatForward`, `PiecewiseLinearForward`, `PiecewiseCubicZero`
+- **Rate helpers**: `DepositRateHelper`, `FraRateHelper`, `SwapRateHelper`, `OISRateHelper`
+- **Pillar** date choices for bootstrap
+- `ZeroSpreadedTermStructure`
+- **Black vol**: `BlackVolTermStructure`, `BlackConstantVol`, `BlackVarianceSurface`
+- **Local vol**: `LocalVolTermStructure`, `LocalConstantVol`, `LocalVolSurface`, `FixedLocalVolSurface`, `NoExceptLocalVolSurface`
+- **Smile sections**: `SmileSection` ABC, `SabrSmileSection`, `SabrInterpolatedSmileSection`
+- `VolatilityType` enum (ShiftedLognormal, Normal)
+- **Credit**: `DefaultProbabilityTermStructure`, `FlatHazardRate`
+- **Credit helpers**: `SpreadCdsHelper`, `UpfrontCdsHelper`
+- **Bootstrapped default curves**: `PiecewiseLogLinearSurvival`, `PiecewiseFlatHazardRate`, `PiecewiseBackwardFlatHazard`
 - All handle types (relinkable and non-relinkable)
 
 #### Processes
-- `StochasticProcess`, `StochasticProcess1D`
 - `GeneralizedBlackScholesProcess`, `BlackScholesProcess`, `BlackScholesMertonProcess`
-- `HestonProcess`
+- `HestonProcess`, `BatesProcess`
+- `StochasticProcessArray`
+- `EulerDiscretization`
 
 #### Models
-- `HestonModel`
+- `CalibratedModel` ABC, `AffineModel` ABC
+- `HestonModel`, `HestonModelHandle`, `PiecewiseTimeDependentHestonModel`
+- `BatesModel`
+- Short-rate models: `Vasicek`, `HullWhite`, `BlackKarasinski`
+- Two-factor models: `G2`
+- `SwaptionHelper` for model calibration
 
 #### Instruments
-- `Instrument` base class
-- `VanillaOption`, `EuropeanOption`, `BasketOption`
-- Payoffs: `PlainVanillaPayoff`, basket payoffs
-- Exercise types: `EuropeanExercise`, `AmericanExercise`, `BermudanExercise`
+- **Bonds**: `Bond`, `FixedRateBond`, `ZeroCouponBond`, `FloatingRateBond`
+- **Swaps**: `Swap`, `FixedVsFloatingSwap`, `VanillaSwap`, `OvernightIndexedSwap`, `ZeroCouponSwap`
+- **Swap builders**: `MakeVanillaSwap`, `MakeOIS`
+- **Options**: `VanillaOption`, `EuropeanOption`, `BasketOption`
+- **Barrier options**: `BarrierOption`, `DoubleBarrierOption` with type enums
+- **Asian options**: `AsianOption` with `AverageType` enum
+- **Swaptions**: `Swaption`, `MakeSwaption`
+- **Cap/Floor**: `CapFloor`, `MakeCapFloor`
+- **Credit**: `CreditDefaultSwap`, `cdsMaturity` helper
+- `ForwardRateAgreement`
+- `AssetSwap`
+- `CompositeInstrument`
+- Payoffs: `PlainVanillaPayoff`, `CashOrNothingPayoff`, `AssetOrNothingPayoff`, basket payoffs
 
 #### Pricing Engines
-- `AnalyticEuropeanEngine` (Black-Scholes)
-- `MCEuropeanEngine` (Monte Carlo)
-- `AnalyticHestonEngine`
-- Basket engines: `MCEuropeanBasketEngine`, `KirkEngine`, `StulzEngine`
-- `Fd2dBlackScholesVanillaEngine`
+- **European**: `AnalyticEuropeanEngine`, `MCEuropeanEngine`, `IntegralEngine`
+- **American**: `BaroneAdesiWhaleyApproximationEngine`, `BjerksundStenslandApproximationEngine`, `FdBlackScholesVanillaEngine`, `BinomialVanillaEngine`, `MCAmericanEngine`, `QdFpAmericanEngine`
+- **Heston/Bates**: `AnalyticHestonEngine`, `BatesEngine`
+- **Stochastic rates**: `AnalyticBlackVasicekEngine`
+- **Spread**: `KirkEngine`, `BjerksundStenslandSpreadEngine`, `OperatorSplittingSpreadEngine`
+- **Basket**: `MCEuropeanBasketEngine`, `DengLiZhouBasketEngine`, `StulzEngine`, `Fd2dBlackScholesVanillaEngine`
+- **Barrier**: `AnalyticBarrierEngine`, `AnalyticDoubleBarrierEngine`, `FdBlackScholesBarrierEngine`
+- **Asian**: `AnalyticContinuousGeometricAveragePriceAsianEngine`, `AnalyticDiscreteGeometricAveragePriceAsianEngine`, `MCDiscreteArithmeticAPEngine`, `TurnbullWakemanAsianEngine`
+- **Swaption**: `TreeSwaptionEngine`, `JamshidianSwaptionEngine`, `G2SwaptionEngine`, `FdHullWhiteSwaptionEngine`, `FdG2SwaptionEngine`, `BlackSwaptionEngine`, `BachelierSwaptionEngine`
+- **Cap/Floor**: `BlackCapFloorEngine`, `BachelierCapFloorEngine`
+- **Bond**: `DiscountingBondEngine`, `BondFunctions` (static analytics)
+- **Swap**: `DiscountingSwapEngine`
+- **Credit**: `MidPointCdsEngine`, `IsdaCdsEngine`
+- **Utility**: `blackFormula`, `blackFormulaImpliedStdDev`, `GenericModelEngine`
 
 #### Methods
-- Finite difference infrastructure
+- Finite difference infrastructure (`FdmBackwardSolver`)
+
+#### Experimental
+- `SviSmileSection` (SVI volatility smile parameterization)
+
+#### Python Extensions
+- `ModifiedKirkEngine` (pure Python spread option engine)
+- `SviSmileSection` (pure Python SVI implementation)
 
 ### Notes
 - Requires QuantLib 1.40+ built as static library with `std::shared_ptr`
-- API is subject to change during alpha period
+- API is subject to change during beta period
+- `QdFpAmericanEngine` has a known issue on Windows (access violation during `calculate()`)
 
 [Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/quantales/pyquantlib/releases/tag/v0.1.0
