@@ -17,4 +17,5 @@ python-subclassing
 protected-members
 enum-singletons
 cross-tu-holders
+diamond-inheritance
 ```

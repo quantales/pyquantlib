@@ -25,9 +25,13 @@ The tensions that shaped PyQuantLib's architecture:
 
 **Import-time traps.** QuantLib's bridge-pattern classes (`DayCounter`, `Calendar`) have default constructors that create invalid objects. Using these as pybind11 default arguments crashes at import time, before any user code runs. See {doc}`design/bridge-defaults`.
 
+**Protected member access.** Python subclasses that override QuantLib virtual methods sometimes need access to C++ protected members. pybind11 lambdas cannot reach protected fields, and friend declarations require modifying QuantLib headers. A helper struct that inherits from the base class exploits C++ inheritance rules to expose the member without changing upstream code. See {doc}`design/protected-members`.
+
 **Enum mutation.** pybind11 represents enum values as singletons. Passing them by reference to C++ functions that modify the reference corrupts the singleton for the entire Python session. See {doc}`design/enum-singletons`.
 
 **Cross-file type resolution.** pybind11's compile-time type resolution breaks when a method returns `shared_ptr<T>` for a type registered in a different source file. The solution requires deferring type conversion from compile time to runtime. See {doc}`design/cross-tu-holders`.
+
+**Diamond inheritance.** QuantLib classes occasionally inherit from two base classes that share a common virtual ancestor, forming a diamond. pybind11's classic holder system computes pointer offsets at compile time using `static_cast`, which cannot resolve the ambiguous paths through virtual bases. The solution requires migrating the entire inheritance chain to pybind11 3.0's `smart_holder` system. See {doc}`design/diamond-inheritance`.
 
 These are not hypothetical risks. Each one was discovered through debugging production failures. The {doc}`design notes <design/index>` document these investigations in full.
 
