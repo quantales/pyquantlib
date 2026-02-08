@@ -38,7 +38,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.21
         env:
           # Build for CPython only (no PyPy)
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-*"
           CIBW_SKIP: "*-musllinux_*"
 
           # macOS: Build universal2 wheels on macos-13, skip on macos-14 (ARM only)
@@ -116,37 +116,8 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: >
             QuantLib_ROOT=/usr/local
 
-          # Windows: Build QuantLib
-          CIBW_BEFORE_ALL_WINDOWS: |
-            # Download Boost headers
-            $BOOST_VERSION_UNDERSCORE = "$env:BOOST_VERSION" -replace '\.', '_'
-            Invoke-WebRequest -Uri "https://archives.boost.io/release/$env:BOOST_VERSION/source/boost_${BOOST_VERSION_UNDERSCORE}.zip" -OutFile boost.zip
-            Expand-Archive -Path boost.zip -DestinationPath C:/boost-temp
-            mkdir C:/boost/include -Force
-            Move-Item "C:/boost-temp/boost_${BOOST_VERSION_UNDERSCORE}/boost" "C:/boost/include/boost"
-            Remove-Item -Recurse -Force C:/boost-temp, boost.zip
-
-            # Build QuantLib
-            Invoke-WebRequest -Uri "https://github.com/lballabio/QuantLib/releases/download/v$env:QUANTLIB_VERSION/QuantLib-$env:QUANTLIB_VERSION.tar.gz" -OutFile QuantLib.tar.gz
-            tar xzf QuantLib.tar.gz
-            cd "QuantLib-$env:QUANTLIB_VERSION"
-            mkdir build -Force
-            cd build
-            cmake .. -G "Visual Studio 17 2022" -A x64 `
-              -DCMAKE_BUILD_TYPE=Release `
-              -DCMAKE_INSTALL_PREFIX=C:/quantlib `
-              -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL `
-              -DQL_USE_STD_SHARED_PTR=ON `
-              -DQL_USE_STD_OPTIONAL=ON `
-              -DQL_USE_STD_ANY=ON `
-              -DQL_BUILD_EXAMPLES=OFF `
-              -DQL_BUILD_TEST_SUITE=OFF `
-              -DQL_BUILD_BENCHMARK=OFF `
-              -DBoost_INCLUDE_DIR=C:/boost/include
-            cmake --build . --config Release --parallel
-            cmake --install . --config Release
-            cd ../..
-            Remove-Item -Recurse -Force "QuantLib-$env:QUANTLIB_VERSION", QuantLib.tar.gz
+          # Windows: Build QuantLib (PowerShell script, since cibuildwheel uses cmd on Windows)
+          CIBW_BEFORE_ALL_WINDOWS: "powershell -ExecutionPolicy Bypass -File {project}/.github/scripts/build-quantlib-windows.ps1"
 
           CIBW_ENVIRONMENT_WINDOWS: >
             QuantLib_ROOT=C:/quantlib
