@@ -153,6 +153,13 @@ void ql_instruments::bond(py::module_& m) {
         .def("accruedAmount", &Bond::accruedAmount,
             py::arg("d") = Date(),
             "Returns the accrued amount at date d.")
+        // Coupon inspectors
+        .def("previousCouponRate", &Bond::previousCouponRate,
+            py::arg("d") = Date(),
+            "Returns the previous coupon rate at date d.")
+        .def("nextCouponRate", &Bond::nextCouponRate,
+            py::arg("d") = Date(),
+            "Returns the next coupon rate at date d.")
         .def("isExpired", &Bond::isExpired,
             "Returns True if the bond has expired.");
 

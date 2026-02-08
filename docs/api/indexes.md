@@ -66,6 +66,19 @@ sofr = ql.Sofr()           # without curve
 sofr = ql.Sofr(curve)      # with forwarding curve
 ```
 
+### Eonia
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Eonia
+```
+
+Euro Overnight Index Average (EONIA) rate fixed by the ECB.
+
+```python
+eonia = ql.Eonia()           # without curve
+eonia = ql.Eonia(curve)      # with forwarding curve
+```
+
 ### Estr
 
 ```{eval-rst}

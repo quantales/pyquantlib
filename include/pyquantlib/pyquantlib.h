@@ -154,6 +154,7 @@ namespace ql_indexes {
     void iborindex(py::module_&);
     void euribor(py::module_&);
     void sofr(py::module_&);
+    void eonia(py::module_&);
     void estr(py::module_&);
     void sonia(py::module_&);
     void swapindex(py::module_&);

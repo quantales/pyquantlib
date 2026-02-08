@@ -84,13 +84,13 @@ Initial release targeting QuantLib 1.40.
 #### Indexes
 - `InterestRateIndex` base class
 - `IborIndex` with Euribor family (1W through 1Y)
-- Overnight indices: `Sofr`, `Estr`, `Sonia`
+- Overnight indices: `Sofr`, `Eonia`, `Estr`, `Sonia`
 - `SwapIndex`, `EuriborSwapIsdaFixA`
 
 #### Term Structures
 - **Yield curves**: `YieldTermStructure`, `FlatForward`
 - **Interpolated yield curves**: `ZeroCurve`, `DiscountCurve`, `ForwardCurve`
-- **Bootstrapped yield curves**: `PiecewiseLogCubicDiscount`, `PiecewiseLinearZero`, `PiecewiseLogLinearDiscount`, `PiecewiseFlatForward`, `PiecewiseLinearForward`, `PiecewiseCubicZero`
+- **Bootstrapped yield curves**: `PiecewiseCubicDiscount`, `PiecewiseLinearDiscount`, `PiecewiseLogLinearDiscount`, `PiecewiseLinearZero`, `PiecewiseCubicZero`, `PiecewiseLinearForward`, `PiecewiseFlatForward` (alias for `PiecewiseBackwardFlatForward`)
 - **Rate helpers**: `DepositRateHelper`, `FraRateHelper`, `SwapRateHelper`, `OISRateHelper`
 - **Pillar** date choices for bootstrap
 - `ZeroSpreadedTermStructure`
