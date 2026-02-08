@@ -10,7 +10,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/quantales/pyquantlib/blob/main/CONTRIBUTING.md)
 
-> **Alpha Status**: This project is under active development. API may change.
+> **Beta Status**: This project is under active development. API may change.
 
 ## Overview
 
@@ -160,4 +160,4 @@ BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 
 ## Status
 
-PyQuantLib is in early development. For broader QuantLib coverage today, use [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG).
+PyQuantLib is under active development. For broader QuantLib coverage today, use [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG).
