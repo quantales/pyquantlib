@@ -33,9 +33,21 @@ The tensions that shaped PyQuantLib's architecture:
 
 **Diamond inheritance.** QuantLib classes occasionally inherit from two base classes that share a common virtual ancestor, forming a diamond. pybind11's classic holder system computes pointer offsets at compile time using `static_cast`, which cannot resolve the ambiguous paths through virtual bases. The solution requires migrating the entire inheritance chain to pybind11 3.0's `smart_holder` system. See {doc}`design/diamond-inheritance`.
 
-**Builder pattern translation.** QuantLib's `Make*` builders use C++ method chaining and implicit conversion operators to construct complex objects. Python has no implicit conversion operators, and method chaining with `with*` prefixes is not idiomatic when keyword arguments exist. PyQuantLib exposes both a C++ builder class for chaining and a Python wrapper function that maps keyword arguments to builder methods, returning the result directly. See {doc}`design/builder-pattern`.
+**Builder pattern translation.** QuantLib's `Make*` builders use C++ method chaining and implicit conversion operators to construct complex objects. Python has no implicit conversion operators, and method chaining with `with*` prefixes is not idiomatic when keyword arguments exist. PyQuantLib replaces the builder pattern with keyword-argument functions that return the result directly. See {doc}`design/builder-pattern`.
 
 These are not hypothetical risks. Each one was discovered through debugging production failures. The {doc}`design notes <design/index>` document these investigations in full.
+
+## API Design Principle
+
+A recurring question across these challenges is: how closely should PyQuantLib mirror QuantLib's C++ API?
+
+The answer: **mirror the domain model, translate the idioms.**
+
+QuantLib's class names (`FixedRateBond`, `BlackScholesMertonProcess`), method names (`dayCounter()`, `nominal()`), and class hierarchy are quantitative finance vocabulary. PyQuantLib preserves them exactly so that QuantLib documentation, textbooks, and community knowledge transfer directly.
+
+But not everything in QuantLib's API is a QuantLib concept. `Handle<T>` wrappers, builder method chaining, `Null<Rate>()` sentinels, and implicit conversion operators are C++ idioms -- solutions to problems Python does not have. PyQuantLib replaces each with its Python equivalent: plain objects instead of handles, keyword arguments instead of method chaining, `None` instead of null sentinels.
+
+The litmus test: *Is this a QuantLib concept, or a C++ concept?* If it is QuantLib, preserve it. If it is C++, find the Python equivalent. See {doc}`design/api-design` for the full story.
 
 ## Layered Design
 

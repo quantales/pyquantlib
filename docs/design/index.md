@@ -9,6 +9,7 @@ For a high-level overview of the tensions that shaped PyQuantLib's architecture,
 ```{toctree}
 :maxdepth: 1
 
+api-design
 interpolation
 settings-singleton
 hidden-handles

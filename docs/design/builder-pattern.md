@@ -59,9 +59,11 @@ The QuantLib-SWIG choice is deliberately Pythonic. Keyword arguments are Python'
 
 ## The Tension
 
-PyQuantLib has a secondary objective that QuantLib-SWIG does not share: the Python API mirrors the C++ API closely. Every QuantLib class is exposed under its original name, methods keep their C++ names, and the mapping from header to binding file is 1:1. Hiding builders behind functions breaks that contract.
+PyQuantLib preserves QuantLib's domain model -- class names, method names, class hierarchy -- because these are quantitative finance vocabulary, not C++ idioms (see {doc}`api-design`). The question for builders is: is method chaining with `with*` prefixes domain vocabulary, or a C++ idiom?
 
-But exposing only the raw builder creates its own problem. Consider the conversion step. In C++, the builder has an `operator shared_ptr<CapFloor>()` that triggers implicitly:
+It is a C++ idiom. Method chaining exists because C++ lacks keyword arguments. The `with` prefix exists because C++ lacks named parameters. `withNominal(n)` is not a QuantLib concept; it is how C++ spells `nominal=n`.
+
+But even setting aside the chaining question, exposing the raw builder creates a concrete problem. Consider the conversion step. In C++, the builder has an `operator shared_ptr<CapFloor>()` that triggers implicitly:
 
 ```cpp
 shared_ptr<CapFloor> cap = MakeCapFloor(...).withNominal(n);
