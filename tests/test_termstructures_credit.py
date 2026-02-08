@@ -267,6 +267,18 @@ def test_upfrontcdshelper_construction_quote(credit_env):
     assert helper is not None
 
 
+def test_upfrontcdshelper_maturity_date(credit_env):
+    """Test UpfrontCdsHelper maturity date."""
+    helper = ql.UpfrontCdsHelper(
+        0.02, 0.005, ql.Period(5, ql.Years), 0, ql.TARGET(),
+        ql.Quarterly, ql.Following, ql.DateGeneration.TwentiethIMM,
+        ql.Actual360(), 0.4,
+        ql.YieldTermStructureHandle(credit_env["discount_curve"]),
+    )
+    assert helper.maturityDate() > credit_env["today"]
+    assert helper.latestDate() >= helper.maturityDate()
+
+
 # =============================================================================
 # PiecewiseDefaultCurve
 # =============================================================================

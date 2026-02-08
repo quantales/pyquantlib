@@ -64,7 +64,6 @@ namespace ql_utilities {
 namespace ql_time {
     void weekday(py::module_&);
     void date(py::module_&);
-    void datevector(py::module_&);
     void timeunit(py::module_&);
     void frequency(py::module_&);
     void period(py::module_&);

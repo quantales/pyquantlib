@@ -54,14 +54,22 @@ void ql_pricingengines::blackswaptionengine(py::module_& m) {
             py::arg("dayCounter") = Actual365Fixed(),
             py::arg("displacement") = 0.0,
             "Constructs from quote volatility.")
-        // Constructor: explicit handles
+        // Constructor: explicit handles (constant vol)
         .def(py::init<const Handle<YieldTermStructure>&, Volatility,
                        const DayCounter&, Real>(),
             py::arg("discountCurve"),
             py::arg("vol"),
             py::arg("dayCounter") = Actual365Fixed(),
             py::arg("displacement") = 0.0,
-            "Constructs from constant volatility (handle).");
+            "Constructs from constant volatility (handle).")
+        // Constructor: explicit handles (quote vol)
+        .def(py::init<const Handle<YieldTermStructure>&, const Handle<Quote>&,
+                       const DayCounter&, Real>(),
+            py::arg("discountCurve"),
+            py::arg("vol"),
+            py::arg("dayCounter") = Actual365Fixed(),
+            py::arg("displacement") = 0.0,
+            "Constructs from quote volatility (handle).");
 
     // BachelierSwaptionEngine - normal vol swaption engine
     using BachSE = BachelierSwaptionEngine;
@@ -92,11 +100,18 @@ void ql_pricingengines::blackswaptionengine(py::module_& m) {
             py::arg("vol"),
             py::arg("dayCounter") = Actual365Fixed(),
             "Constructs from quote normal volatility.")
-        // Constructor: explicit handles
+        // Constructor: explicit handles (constant vol)
         .def(py::init<const Handle<YieldTermStructure>&, Volatility,
                        const DayCounter&>(),
             py::arg("discountCurve"),
             py::arg("vol"),
             py::arg("dayCounter") = Actual365Fixed(),
-            "Constructs from constant normal volatility (handle).");
+            "Constructs from constant normal volatility (handle).")
+        // Constructor: explicit handles (quote vol)
+        .def(py::init<const Handle<YieldTermStructure>&, const Handle<Quote>&,
+                       const DayCounter&>(),
+            py::arg("discountCurve"),
+            py::arg("vol"),
+            py::arg("dayCounter") = Actual365Fixed(),
+            "Constructs from quote normal volatility (handle).");
 }

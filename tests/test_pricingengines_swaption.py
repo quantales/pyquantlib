@@ -9,9 +9,10 @@ import pytest
 import pyquantlib as ql
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def swaption_env():
     """Environment for swaption pricing tests."""
+    original_date = ql.Settings.instance().evaluationDate
     today = ql.Date(15, ql.January, 2026)
     ql.Settings.instance().evaluationDate = today
 
@@ -59,13 +60,15 @@ def swaption_env():
     exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
     swaption = ql.Swaption(swap, exercise)
 
-    return {
+    yield {
         "today": today,
         "curve": curve,
         "index": index,
         "swap": swap,
         "swaption": swaption,
     }
+
+    ql.Settings.instance().evaluationDate = original_date
 
 
 # --- TreeSwaptionEngine ---
@@ -287,7 +290,8 @@ def test_bachelierswaptionengine_construction(swaption_env):
     """Test BachelierSwaptionEngine construction."""
     env = swaption_env
     engine = ql.BachelierSwaptionEngine(env["curve"], 0.005)
-    assert engine is not None
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() > 0
 
 
 def test_bachelierswaptionengine_pricing(swaption_env):
@@ -311,3 +315,13 @@ def test_bachelierswaptionengine_quote_vol(swaption_env):
     vol_quote.setValue(0.010)
     npv2 = env["swaption"].NPV()
     assert npv2 > npv1
+
+
+def test_bachelierswaptionengine_handle_constructor(swaption_env):
+    """Test BachelierSwaptionEngine with explicit YieldTermStructureHandle."""
+    env = swaption_env
+    engine = ql.BachelierSwaptionEngine(
+        ql.YieldTermStructureHandle(env["curve"]), 0.005,
+    )
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() > 0

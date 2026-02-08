@@ -22,6 +22,7 @@
 #include <ql/indexes/interestrateindex.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
+#include <ql/termstructures/defaulttermstructure.hpp>
 #include <ql/termstructures/voltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
@@ -319,6 +320,39 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::YieldTermStructure, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// DefaultProbabilityTermStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyDefaultProbabilityTermStructure
+    : public QuantLib::DefaultProbabilityTermStructure {
+public:
+    using QuantLib::DefaultProbabilityTermStructure::DefaultProbabilityTermStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date,
+                               QuantLib::DefaultProbabilityTermStructure,
+                               maxDate,);
+    }
+
+    QuantLib::Probability survivalProbabilityImpl(QuantLib::Time t) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Probability,
+                               QuantLib::DefaultProbabilityTermStructure,
+                               survivalProbabilityImpl, t);
+    }
+
+    QuantLib::Real defaultDensityImpl(QuantLib::Time t) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real,
+                               QuantLib::DefaultProbabilityTermStructure,
+                               defaultDensityImpl, t);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void,
+                          QuantLib::DefaultProbabilityTermStructure,
+                          update,);
     }
 };
 

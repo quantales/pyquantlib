@@ -75,7 +75,8 @@ def test_midpointcdsengine_construction_handle(cds_pricing_env):
         0.4,
         ql.YieldTermStructureHandle(env["discount_curve"]),
     )
-    assert engine is not None
+    env["cds"].setPricingEngine(engine)
+    assert isinstance(env["cds"].NPV(), float)
 
 
 def test_midpointcdsengine_hidden_handle(cds_pricing_env):
@@ -86,7 +87,8 @@ def test_midpointcdsengine_hidden_handle(cds_pricing_env):
         0.4,
         env["discount_curve"],
     )
-    assert engine is not None
+    env["cds"].setPricingEngine(engine)
+    assert isinstance(env["cds"].NPV(), float)
 
 
 def test_midpointcdsengine_pricing(cds_pricing_env):
@@ -144,12 +146,9 @@ def test_midpointcdsengine_recovery_rate_effect(cds_pricing_env):
 
 def test_isdacdsengine_enums():
     """Test IsdaCdsEngine enum values."""
-    assert ql.IsdaNumericalFix.IsdaNone is not None
-    assert ql.IsdaNumericalFix.Taylor is not None
-    assert ql.IsdaAccrualBias.HalfDayBias is not None
-    assert ql.IsdaAccrualBias.NoBias is not None
-    assert ql.IsdaForwardsInCouponPeriod.Flat is not None
-    assert ql.IsdaForwardsInCouponPeriod.Piecewise is not None
+    assert ql.IsdaNumericalFix.IsdaNone != ql.IsdaNumericalFix.Taylor
+    assert ql.IsdaAccrualBias.HalfDayBias != ql.IsdaAccrualBias.NoBias
+    assert ql.IsdaForwardsInCouponPeriod.Flat != ql.IsdaForwardsInCouponPeriod.Piecewise
 
 
 def test_isdacdsengine_construction_handle(cds_pricing_env):
@@ -160,7 +159,8 @@ def test_isdacdsengine_construction_handle(cds_pricing_env):
         0.4,
         ql.YieldTermStructureHandle(env["discount_curve"]),
     )
-    assert engine is not None
+    env["cds"].setPricingEngine(engine)
+    assert isinstance(env["cds"].NPV(), float)
 
 
 def test_isdacdsengine_hidden_handle(cds_pricing_env):
@@ -169,7 +169,8 @@ def test_isdacdsengine_hidden_handle(cds_pricing_env):
     engine = ql.IsdaCdsEngine(
         env["default_curve"], 0.4, env["discount_curve"],
     )
-    assert engine is not None
+    env["cds"].setPricingEngine(engine)
+    assert isinstance(env["cds"].NPV(), float)
 
 
 def test_isdacdsengine_pricing(cds_pricing_env):

@@ -192,7 +192,7 @@ def test_bondfunctions_convexity(bond_env):
     assert conv > 0
 
 
-def test_bondfunctions_basisPointValue(bond_env):
+def test_bondfunctions_basis_point_value(bond_env):
     """Test BondFunctions.basisPointValue."""
     bond = ql.FixedRateBond(
         2, 100.0, bond_env["schedule"], [0.05],
@@ -204,7 +204,7 @@ def test_bondfunctions_basisPointValue(bond_env):
     assert bpv == pytest.approx(-0.04574, abs=1e-4)
 
 
-def test_bondfunctions_yieldValueBasisPoint(bond_env):
+def test_bondfunctions_yield_value_basis_point(bond_env):
     """Test BondFunctions.yieldValueBasisPoint."""
     bond = ql.FixedRateBond(
         2, 100.0, bond_env["schedule"], [0.05],
