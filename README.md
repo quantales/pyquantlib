@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/github/quantales/pyquantlib/graph/badge.svg?token=Q1HNBAK7S1)](https://codecov.io/github/quantales/pyquantlib)
 [![PyPI](https://img.shields.io/pypi/v/pyquantlib.svg)](https://pypi.org/project/pyquantlib/)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://github.com/quantales/pyquantlib/blob/main/LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/quantales/pyquantlib/blob/main/CONTRIBUTING.md)
 
 > **Beta Status**: This project is under active development. API may change.
@@ -28,7 +28,7 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 ### Prerequisites
 
-- Python 3.9+
+- Python 3.10+
 - CMake 3.18+
 - C++17 compatible compiler
 - Boost headers

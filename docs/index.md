@@ -4,7 +4,7 @@
 :alt: License
 :target: https://github.com/quantales/pyquantlib/blob/main/LICENSE
 ```
-```{image} https://img.shields.io/badge/Python-3.9%2B-blue.svg
+```{image} https://img.shields.io/badge/Python-3.10%2B-blue.svg
 :alt: Python
 :target: https://www.python.org/downloads/
 ```
