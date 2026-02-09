@@ -12,6 +12,21 @@ name: macOS build
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "include/**"
+      - "CMakeLists.txt"
+      - "pyproject.toml"
+      - ".github/workflows/macos.yml"
+  pull_request:
+    paths:
+      - "src/**"
+      - "include/**"
+      - "CMakeLists.txt"
+      - "pyproject.toml"
+      - ".github/workflows/macos.yml"
 
 env:
   QUANTLIB_VERSION: "1.40"
