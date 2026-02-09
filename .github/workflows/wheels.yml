@@ -107,6 +107,7 @@ jobs:
               -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=/tmp/quantlib \
               -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+              -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
               -DBUILD_SHARED_LIBS=OFF \
               -DQL_USE_STD_SHARED_PTR=ON \
               -DQL_USE_STD_OPTIONAL=ON \
