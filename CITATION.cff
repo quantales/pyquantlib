@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: PyQuantLib
+message: If you use this software, please cite it using the metadata from this file.
+type: software
+authors:
+  - family-names: Idyiahia
+    given-names: Yassine
+repository-code: https://github.com/quantales/pyquantlib
+url: https://pyquantlib.readthedocs.io
+license: BSD-3-Clause
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.18563010
+    description: Zenodo concept DOI (all versions)
+keywords:
+  - quantitative finance
+  - QuantLib
+  - Python bindings
+  - derivatives pricing
+  - fixed income
