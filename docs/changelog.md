@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Cash Flows
+- `CmsCoupon`, `CmsLeg` for Constant Maturity Swap coupons
+- `MeanRevertingPricer` ABC, `CmsCouponPricer` ABC (in `pyquantlib.base`)
+- `LinearTsrPricer` with `LinearTsrPricerSettings` and `LinearTsrPricerStrategy`
+
+#### Indexes
+- Concrete swap index subclasses: `EuriborSwapIsdaFixA`, `EuriborSwapIsdaFixB`, `EuriborSwapIfrFix`, `EurLiborSwapIsdaFixA`, `EurLiborSwapIsdaFixB`, `EurLiborSwapIfrFix`, `UsdLiborSwapIsdaFixAm`, `UsdLiborSwapIsdaFixPm`, `JpyLiborSwapIsdaFixAm`, `JpyLiborSwapIsdaFixPm`, `GbpLiborSwapIsdaFix`, `ChfLiborSwapIsdaFix`
+
+#### Term Structures
+- **Fitted bond discount curves**: `FittedBondDiscountCurve`, `FittingMethod` ABC
+- **Fitting methods**: `NelsonSiegelFitting`, `SvenssonFitting`, `ExponentialSplinesFitting`, `CubicBSplinesFitting`, `SimplePolynomialFitting`, `SpreadFittingMethod`
+- **Swaption volatility**: `SwaptionVolatilityStructure` ABC, `ConstantSwaptionVolatility`, `SwaptionVolatilityDiscrete`, `SwaptionVolatilityMatrix`, `SwaptionVolatilityCube`, `SabrSwaptionVolatilityCube`, handles
+- **Optionlet volatility**: `OptionletVolatilityStructure` ABC, `ConstantOptionletVolatility`, handles
+
+### Fixed
+- Handle constructors now use `shared_ptr_from_python` for safe `shared_ptr` extraction from `py::classh` types with diamond/virtual inheritance
+
 ## [0.1.0] - 2026-02-08
 
 Initial release targeting QuantLib 1.40.
