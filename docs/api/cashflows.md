@@ -93,6 +93,21 @@ coupon = ql.OvernightIndexedCoupon(
 )
 ```
 
+### CmsCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CmsCoupon
+```
+
+Coupon paying a CMS (Constant Maturity Swap) rate.
+
+```python
+coupon = ql.CmsCoupon(
+    payment_date, 1e6, start_date, end_date,
+    2, swap_index
+)
+```
+
 ## Coupon Pricers
 
 ### BlackIborCouponPricer
@@ -106,6 +121,33 @@ Black-formula pricer for Ibor coupons. Attach to a leg with `setCouponPricer`.
 ```python
 pricer = ql.BlackIborCouponPricer()
 ql.setCouponPricer(floating_leg, pricer)
+```
+
+### LinearTsrPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LinearTsrPricer
+```
+
+Linear Terminal Swap Rate pricer for CMS coupons.
+
+```python
+pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
+ql.setCouponPricer(cms_leg, pricer)
+```
+
+### LinearTsrPricerSettings
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LinearTsrPricerSettings
+```
+
+### LinearTsrPricerStrategy
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LinearTsrPricerStrategy
+   :members:
+   :undoc-members:
 ```
 
 ### setCouponPricer
@@ -159,6 +201,19 @@ leg = ql.OvernightLeg(schedule, overnight_index) \
     .build()
 ```
 
+### CmsLeg
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CmsLeg
+```
+
+```python
+leg = ql.CmsLeg(schedule, swap_index) \
+    .withNotionals(1e6) \
+    .withSpreads(0.001) \
+    .build()
+```
+
 ## Settings
 
 ### IborCouponSettings
@@ -190,5 +245,5 @@ settings.createIndexedCoupons()  # alternative
 | `Modified` | Modified duration |
 
 ```{note}
-Abstract base classes `CashFlow`, `Coupon`, and `FloatingRateCouponPricer` are available in `pyquantlib.base` for custom implementations.
+Abstract base classes `CashFlow`, `Coupon`, `FloatingRateCouponPricer`, `MeanRevertingPricer`, and `CmsCouponPricer` are available in `pyquantlib.base` for custom implementations.
 ```

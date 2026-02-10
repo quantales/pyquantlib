@@ -35,4 +35,12 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
         "OvernightIndexedCoupon, OvernightLeg");
     ADD_MAIN_BINDING(ql_cashflows::duration,
         "Duration::Type enum");
+
+    // CMS support
+    ADD_BASE_BINDING(ql_cashflows::cmscouponpricer,
+        "CmsCouponPricer, MeanRevertingPricer ABCs");
+    ADD_MAIN_BINDING(ql_cashflows::cmscoupon,
+        "CmsCoupon, CmsLeg");
+    ADD_MAIN_BINDING(ql_cashflows::lineartsrpricer,
+        "LinearTsrPricer");
 }

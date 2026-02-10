@@ -146,6 +146,9 @@ namespace ql_cashflows {
     void iborcoupon(py::module_&);
     void overnightindexedcoupon(py::module_&);
     void duration(py::module_&);
+    void cmscoupon(py::module_&);
+    void cmscouponpricer(py::module_&);
+    void lineartsrpricer(py::module_&);
 }
 
 namespace ql_indexes {

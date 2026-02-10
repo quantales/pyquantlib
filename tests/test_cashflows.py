@@ -894,3 +894,167 @@ def test_overnightleg_simple_averaging(overnight_data):
     for cf in leg:
         coupon = cf
         assert coupon.averagingMethod() == ql.RateAveraging.Type.Simple
+
+
+# =============================================================================
+# CmsCoupon
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def cms_env():
+    """Common data for CMS tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    flat_curve = ql.FlatForward(today, 0.03, dc)
+    curve_handle = ql.YieldTermStructureHandle(flat_curve)
+
+    euribor6m = ql.Euribor6M(curve_handle)
+    swap_index = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period("10Y"), 2,
+        ql.EURCurrency(), calendar, ql.Period("1Y"),
+        ql.Unadjusted, ql.Thirty360(ql.Thirty360.BondBasis),
+        euribor6m, curve_handle,
+    )
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "flat_curve": flat_curve,
+        "curve_handle": curve_handle,
+        "euribor6m": euribor6m,
+        "swap_index": swap_index,
+    }
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_cmscoupon_construction(cms_env):
+    """Test CmsCoupon construction."""
+    d = cms_env
+    coupon = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2025), 1_000_000.0,
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.July, 2025),
+        2, d["swap_index"]
+    )
+    assert coupon is not None
+    assert coupon.nominal() == pytest.approx(1_000_000.0)
+
+
+def test_cmscoupon_swap_index(cms_env):
+    """Test CmsCoupon returns the swap index."""
+    d = cms_env
+    coupon = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2025), 1_000_000.0,
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.July, 2025),
+        2, d["swap_index"]
+    )
+    idx = coupon.swapIndex()
+    assert idx is not None
+
+
+def test_cmscoupon_is_floatingratecoupon(cms_env):
+    """Test CmsCoupon inherits FloatingRateCoupon."""
+    d = cms_env
+    coupon = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2025), 1_000_000.0,
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.July, 2025),
+        2, d["swap_index"]
+    )
+    assert coupon.gearing() == pytest.approx(1.0)
+    assert coupon.spread() == pytest.approx(0.0)
+
+
+# =============================================================================
+# CmsLeg
+# =============================================================================
+
+
+def test_cmsleg_construction(cms_env):
+    """Test CmsLeg builder constructs a leg."""
+    d = cms_env
+    schedule = ql.Schedule(
+        d["today"], d["today"] + ql.Period("2Y"),
+        ql.Period("6M"), d["calendar"],
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    leg = ql.CmsLeg(schedule, d["swap_index"]) \
+            .withNotionals(1_000_000.0) \
+            .build()
+    assert len(leg) > 0
+
+
+def test_cmsleg_with_spread(cms_env):
+    """Test CmsLeg with spread."""
+    d = cms_env
+    schedule = ql.Schedule(
+        d["today"], d["today"] + ql.Period("2Y"),
+        ql.Period("6M"), d["calendar"],
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    leg = ql.CmsLeg(schedule, d["swap_index"]) \
+            .withNotionals(1_000_000.0) \
+            .withSpreads(0.005) \
+            .build()
+    for cf in leg:
+        assert cf.spread() == pytest.approx(0.005)
+
+
+# =============================================================================
+# CmsCouponPricer / MeanRevertingPricer / LinearTsrPricer
+# =============================================================================
+
+
+def test_cmscouponpricer_abc_exists():
+    """Test CmsCouponPricer ABC is accessible."""
+    assert hasattr(ql.base, "CmsCouponPricer")
+
+
+def test_meanrevertingpricer_abc_exists():
+    """Test MeanRevertingPricer ABC is accessible."""
+    assert hasattr(ql.base, "MeanRevertingPricer")
+
+
+def test_lineartsrpricer_settings():
+    """Test LinearTsrPricerSettings construction and builder."""
+    settings = ql.LinearTsrPricerSettings()
+    assert settings is not None
+    settings.withVegaRatio(0.02)
+    settings.withBSStdDevs(2.5)
+
+
+def test_lineartsrpricer_strategy_enum():
+    """Test LinearTsrPricerStrategy enum values."""
+    assert ql.LinearTsrPricerStrategy.RateBound is not None
+    assert ql.LinearTsrPricerStrategy.VegaRatio is not None
+    assert ql.LinearTsrPricerStrategy.PriceThreshold is not None
+    assert ql.LinearTsrPricerStrategy.BSStdDevs is not None
+
+
+def test_lineartsrpricer_construction(cms_env):
+    """Test LinearTsrPricer construction with hidden handles."""
+    d = cms_env
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
+    assert pricer is not None
+    assert pricer.meanReversion() == pytest.approx(0.01)
+
+
+def test_lineartsrpricer_is_cmscouponpricer(cms_env):
+    """Test LinearTsrPricer inherits CmsCouponPricer."""
+    d = cms_env
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
+    assert isinstance(pricer, ql.base.CmsCouponPricer)
+    assert isinstance(pricer, ql.base.MeanRevertingPricer)
