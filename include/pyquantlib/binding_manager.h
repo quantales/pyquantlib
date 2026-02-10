@@ -18,6 +18,7 @@
 #include <ql/shared_ptr.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include "pyquantlib/shared_ptr_from_python.h"
 #include <functional>
 #include <vector>
 #include <string>
@@ -147,7 +148,12 @@ auto bindHandle(py::module_& m,
 
     return py::class_<HandleType>(m, class_name.c_str(), doc_string.c_str())
         .def(py::init<>(), "Creates an empty handle.")
-        .def(py::init<const QuantLib::ext::shared_ptr<T>&, bool>(),
+        .def(py::init([](const py::object& obj, bool registerAsObserver)
+                           -> HandleType {
+            if (obj.is_none()) return HandleType();
+            return HandleType(shared_ptr_from_python<T>(obj),
+                              registerAsObserver);
+        }),
              py::arg("ptr"),
              py::arg("registerAsObserver") = true,
              "Creates a handle linked to the given object.")
@@ -188,15 +194,27 @@ auto bindRelinkableHandle(py::module_& m,
     return py::class_<RelinkableHandleType, HandleType>(
                m, class_name.c_str(), doc_string.c_str())
         .def(py::init<>(), "Creates an empty relinkable handle.")
-        .def(py::init<const QuantLib::ext::shared_ptr<T>&, bool>(),
+        .def(py::init([](const py::object& obj, bool registerAsObserver)
+                           -> RelinkableHandleType {
+            if (obj.is_none()) return RelinkableHandleType();
+            return RelinkableHandleType(shared_ptr_from_python<T>(obj),
+                                        registerAsObserver);
+        }),
              py::arg("ptr"),
              py::arg("registerAsObserver") = true,
              "Creates a relinkable handle linked to the given object.")
         .def("linkTo",
-             static_cast<void (RelinkableHandleType::*)(
-                 const QuantLib::ext::shared_ptr<T>&, bool)>(
-                 &RelinkableHandleType::linkTo),
-             py::arg("ptr"),
+             [](RelinkableHandleType& self, const py::object& obj,
+                bool registerAsObserver) {
+                 if (obj.is_none()) {
+                     self.linkTo(QuantLib::ext::shared_ptr<T>(),
+                                 registerAsObserver);
+                 } else {
+                     self.linkTo(shared_ptr_from_python<T>(obj),
+                                 registerAsObserver);
+                 }
+             },
+             py::arg("ptr") = py::none(),
              py::arg("registerAsObserver") = true,
              "Links the handle to a new object instance. Notifies observers.");
 }

@@ -1250,3 +1250,106 @@ def test_fittedbonddiscountcurve_zero_rate(curve_env):
     zero_5y = curve.zeroRate(five_years, dc, ql.Continuous)
     assert 0.02 < zero_5y.rate() < 0.06
 
+
+# =============================================================================
+# FittedBondDiscountCurve in Handle (py::classh interop)
+# =============================================================================
+
+
+def test_fittedbonddiscountcurve_in_handle(curve_env):
+    """Test wrapping a FittedBondDiscountCurve in a YieldTermStructureHandle."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(today, helpers, dc, method)
+
+    handle = ql.YieldTermStructureHandle(curve)
+    assert not handle.empty()
+
+    # Discount through handle matches direct access
+    five_years = today + ql.Period("5Y")
+    assert handle.currentLink().discount(five_years) == pytest.approx(
+        curve.discount(five_years)
+    )
+
+
+def test_fittedbonddiscountcurve_in_relinkable_handle(curve_env):
+    """Test FittedBondDiscountCurve with RelinkableYieldTermStructureHandle.linkTo."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(today, helpers, dc, method)
+
+    handle = ql.RelinkableYieldTermStructureHandle()
+    assert handle.empty()
+
+    handle.linkTo(curve)
+    assert not handle.empty()
+    assert handle.currentLink().discount(today) == pytest.approx(1.0)
+
+
+def test_fittedbonddiscountcurve_relinkable_handle_constructor(curve_env):
+    """Test constructing RelinkableYieldTermStructureHandle directly with curve."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(today, helpers, dc, method)
+
+    handle = ql.RelinkableYieldTermStructureHandle(curve)
+    assert not handle.empty()
+
+    five_years = today + ql.Period("5Y")
+    assert handle.currentLink().discount(five_years) == pytest.approx(
+        curve.discount(five_years)
+    )
+
+
+def test_fittedbonddiscountcurve_handle_gc_safety(curve_env):
+    """Test that GC of the Python curve doesn't corrupt a Handle holding it."""
+    import gc
+
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(today, helpers, dc, method)
+
+    handle = ql.YieldTermStructureHandle(curve)
+    five_years = today + ql.Period("5Y")
+    expected = curve.discount(five_years)
+
+    # Drop the only Python reference to the curve
+    del curve
+    gc.collect()
+
+    # Handle must still work -- shared_ptr_from_python prevents GC
+    assert not handle.empty()
+    assert handle.currentLink().discount(five_years) == pytest.approx(expected)
+
+
+def test_spreadfittingmethod_hidden_handle_with_fitted_curve(curve_env):
+    """Test SpreadFittingMethod hidden handle with a FittedBondDiscountCurve."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    reference_curve = ql.FittedBondDiscountCurve(today, helpers, dc, method)
+
+    # Hidden handle: pass the curve directly (not wrapped in a Handle)
+    inner = ql.NelsonSiegelFitting()
+    spread_method = ql.SpreadFittingMethod(inner, reference_curve)
+    assert spread_method is not None
+    assert isinstance(spread_method, ql.base.FittingMethod)

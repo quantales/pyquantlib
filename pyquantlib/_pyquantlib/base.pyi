@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Claim', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -260,6 +260,18 @@ class Claim(pyquantlib._pyquantlib.Observable, Observer):
         """
         Returns the claim amount given default date, notional, and recovery rate.
         """
+class CmsCouponPricer(FloatingRateCouponPricer):
+    """
+    ABC for CMS coupon pricers.
+    """
+    def setSwaptionVolatility(self, volatility: typing.Any = None) -> None:
+        """
+        Sets the swaption volatility handle.
+        """
+    def swaptionVolatility(self) -> ...:
+        """
+        Returns the swaption volatility handle.
+        """
 class Constraint:
     """
     Abstract constraint for optimization.
@@ -411,6 +423,50 @@ class Extrapolator:
     def enableExtrapolation(self, b: bool = True) -> None:
         """
         Enables or disables extrapolation.
+        """
+class FittingMethod:
+    """
+    ABC for bond discount curve fitting methods.
+    """
+    def constrainAtZero(self) -> bool:
+        """
+        Returns whether the curve is constrained at zero.
+        """
+    def discount(self, x: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat) -> float:
+        """
+        Returns the discount factor for given parameters and time.
+        """
+    def errorCode(self) -> pyquantlib._pyquantlib.EndCriteria.Type:
+        """
+        Returns the optimization error code.
+        """
+    def l2(self) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns the L2 regularization array.
+        """
+    def minimumCostValue(self) -> float:
+        """
+        Returns the minimum cost function value.
+        """
+    def numberOfIterations(self) -> int:
+        """
+        Returns the number of optimization iterations.
+        """
+    def optimizationMethod(self) -> OptimizationMethod:
+        """
+        Returns the optimization method.
+        """
+    def size(self) -> int:
+        """
+        Returns the number of fitting parameters.
+        """
+    def solution(self) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns the fitted parameters.
+        """
+    def weights(self) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns the fitting weights.
         """
 class FloatingRateCouponPricer(Observer, pyquantlib._pyquantlib.Observable):
     """
@@ -636,6 +692,18 @@ class LocalVolTermStructure(VolatilityTermStructure):
         """
         Returns the local volatility for the given time and underlying level.
         """
+class MeanRevertingPricer:
+    """
+    ABC for mean-reverting coupon pricers.
+    """
+    def meanReversion(self) -> float:
+        """
+        Returns the mean reversion value.
+        """
+    def setMeanReversion(self, meanReversion: pyquantlib._pyquantlib.QuoteHandle) -> None:
+        """
+        Sets the mean reversion handle.
+        """
 class MultiAssetOption(Option):
     """
     Base class for options on multiple assets.
@@ -837,6 +905,78 @@ class Option(Instrument):
     def payoff(self) -> ...:
         """
         Returns the option payoff.
+        """
+class OptionletVolatilityStructure(VolatilityTermStructure):
+    """
+    Abstract base class for optionlet (caplet/floorlet) volatility structures.
+    """
+    @typing.overload
+    def __init__(self, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with business day convention.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: pyquantlib._pyquantlib.Date, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with reference date.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with settlement days.
+        """
+    @typing.overload
+    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option tenor and strike.
+        """
+    @typing.overload
+    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option date and strike.
+        """
+    @typing.overload
+    def blackVariance(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option time and strike.
+        """
+    def displacement(self) -> float:
+        """
+        Returns the displacement for shifted lognormal volatilities.
+        """
+    @typing.overload
+    def smileSection(self, optionTenor: pyquantlib._pyquantlib.Period, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option tenor.
+        """
+    @typing.overload
+    def smileSection(self, optionDate: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option date.
+        """
+    @typing.overload
+    def smileSection(self, optionTime: typing.SupportsFloat, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option time.
+        """
+    @typing.overload
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option tenor and strike.
+        """
+    @typing.overload
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option date and strike.
+        """
+    @typing.overload
+    def volatility(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option time and strike.
+        """
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
+        """
+        Returns the volatility type.
         """
 class Payoff:
     """
@@ -1150,6 +1290,131 @@ class SwaptionGenericEngine(PricingEngine, Observer):
     """
     def __init__(self) -> None:
         ...
+class SwaptionVolatilityDiscrete(LazyObject, SwaptionVolatilityStructure):
+    """
+    Intermediate class for discrete swaption volatility structures.
+    """
+    def optionDates(self) -> list[pyquantlib._pyquantlib.Date]:
+        """
+        Returns the option dates.
+        """
+    def optionTenors(self) -> list[pyquantlib._pyquantlib.Period]:
+        """
+        Returns the option tenors.
+        """
+    def optionTimes(self) -> list[float]:
+        """
+        Returns the option times.
+        """
+    def swapLengths(self) -> list[float]:
+        """
+        Returns the swap lengths.
+        """
+    def swapTenors(self) -> list[pyquantlib._pyquantlib.Period]:
+        """
+        Returns the swap tenors.
+        """
+class SwaptionVolatilityStructure(VolatilityTermStructure):
+    """
+    Abstract base class for swaption volatility structures.
+    """
+    @typing.overload
+    def __init__(self, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with business day convention.
+        """
+    @typing.overload
+    def __init__(self, referenceDate: pyquantlib._pyquantlib.Date, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with reference date.
+        """
+    @typing.overload
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+        """
+        Constructs with settlement days.
+        """
+    @typing.overload
+    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option tenor and swap tenor.
+        """
+    @typing.overload
+    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option date and swap tenor.
+        """
+    @typing.overload
+    def blackVariance(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns Black variance for option time and swap length.
+        """
+    def maxSwapLength(self) -> float:
+        """
+        Returns the largest swap length for which vols can be returned.
+        """
+    def maxSwapTenor(self) -> pyquantlib._pyquantlib.Period:
+        """
+        Returns the largest swap tenor for which vols can be returned.
+        """
+    @typing.overload
+    def shift(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, extrapolate: bool = False) -> float:
+        """
+        Returns shift for option tenor and swap tenor.
+        """
+    @typing.overload
+    def shift(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, extrapolate: bool = False) -> float:
+        """
+        Returns shift for option date and swap tenor.
+        """
+    @typing.overload
+    def shift(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns shift for option time and swap length.
+        """
+    @typing.overload
+    def smileSection(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option tenor and swap tenor.
+        """
+    @typing.overload
+    def smileSection(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option date and swap tenor.
+        """
+    @typing.overload
+    def smileSection(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, extrapolate: bool = False) -> SmileSection:
+        """
+        Returns smile section for option time and swap length.
+        """
+    @typing.overload
+    def swapLength(self, swapTenor: pyquantlib._pyquantlib.Period) -> float:
+        """
+        Converts swap tenor to swap length.
+        """
+    @typing.overload
+    def swapLength(self, start: pyquantlib._pyquantlib.Date, end: pyquantlib._pyquantlib.Date) -> float:
+        """
+        Converts swap dates to swap length.
+        """
+    @typing.overload
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option tenor and swap tenor.
+        """
+    @typing.overload
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option date and swap tenor.
+        """
+    @typing.overload
+    def volatility(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option time and swap length.
+        """
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
+        """
+        Returns the volatility type.
+        """
 class TermStructure(Observer, pyquantlib._pyquantlib.Observable, Extrapolator):
     """
     Abstract base class for term structures.
