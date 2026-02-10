@@ -1827,3 +1827,178 @@ def test_sabrinterpolatedsmilesection_smilesection_methods(sabr_market_data):
     assert section.variance(0.03) > 0.0
     price = section.optionPrice(0.03)
     assert price >= 0.0
+
+
+# =============================================================================
+# SwaptionVolatilityStructure (ABC)
+# =============================================================================
+
+
+def test_swaptionvolstructure_abc_exists():
+    """Test SwaptionVolatilityStructure ABC is accessible."""
+    assert hasattr(ql.base, "SwaptionVolatilityStructure")
+
+
+def test_swaptionvolstructure_handle_types():
+    """Test swaption vol handle and relinkable handle types exist."""
+    assert hasattr(ql, "SwaptionVolatilityStructureHandle")
+    assert hasattr(ql, "RelinkableSwaptionVolatilityStructureHandle")
+
+
+# =============================================================================
+# ConstantSwaptionVolatility
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def swaption_vol_env():
+    """Common data for swaption volatility tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    yield {
+        "today": today,
+        "calendar": ql.TARGET(),
+        "dc": ql.Actual365Fixed(),
+    }
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_constantswaptionvol_construction(swaption_vol_env):
+    """Test ConstantSwaptionVolatility construction."""
+    d = swaption_vol_env
+    vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    assert vol is not None
+    assert vol.volatilityType() == ql.VolatilityType.ShiftedLognormal
+
+
+def test_constantswaptionvol_query(swaption_vol_env):
+    """Test querying ConstantSwaptionVolatility."""
+    d = swaption_vol_env
+    vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    # Query volatility for 1Y option, 5Y swap
+    v = vol.volatility(ql.Period("1Y"), ql.Period("5Y"), 0.03)
+    assert v == pytest.approx(0.20, abs=1e-12)
+
+
+def test_constantswaptionvol_handle(swaption_vol_env):
+    """Test ConstantSwaptionVolatility with handle."""
+    d = swaption_vol_env
+    vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    handle = ql.SwaptionVolatilityStructureHandle(vol)
+    assert not handle.empty()
+
+
+def test_constantswaptionvol_relinkable_handle(swaption_vol_env):
+    """Test relinkable swaption vol handle."""
+    d = swaption_vol_env
+    vol1 = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    vol2 = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.30, d["dc"]
+    )
+    handle = ql.RelinkableSwaptionVolatilityStructureHandle(vol1)
+    v1 = handle.get().volatility(ql.Period("1Y"), ql.Period("5Y"), 0.03)
+    handle.linkTo(vol2)
+    v2 = handle.get().volatility(ql.Period("1Y"), ql.Period("5Y"), 0.03)
+    assert v1 == pytest.approx(0.20, abs=1e-12)
+    assert v2 == pytest.approx(0.30, abs=1e-12)
+
+
+# =============================================================================
+# SwaptionVolatilityMatrix
+# =============================================================================
+
+
+def test_swaptionvolmatrix_construction(swaption_vol_env):
+    """Test SwaptionVolatilityMatrix construction from Matrix."""
+    d = swaption_vol_env
+    option_tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("5Y")]
+    swap_tenors = [ql.Period("2Y"), ql.Period("5Y"), ql.Period("10Y")]
+    vols = ql.Matrix(3, 3)
+    for i in range(3):
+        for j in range(3):
+            vols[i][j] = 0.20 + 0.01 * i - 0.005 * j
+    matrix = ql.SwaptionVolatilityMatrix(
+        d["calendar"], ql.ModifiedFollowing,
+        option_tenors, swap_tenors, vols, d["dc"]
+    )
+    assert matrix is not None
+    assert len(matrix.optionTenors()) == 3
+    assert len(matrix.swapTenors()) == 3
+
+
+def test_swaptionvolmatrix_query(swaption_vol_env):
+    """Test querying SwaptionVolatilityMatrix."""
+    d = swaption_vol_env
+    option_tenors = [ql.Period("1Y"), ql.Period("5Y")]
+    swap_tenors = [ql.Period("5Y"), ql.Period("10Y")]
+    vols = ql.Matrix(2, 2)
+    vols[0][0] = 0.20
+    vols[0][1] = 0.18
+    vols[1][0] = 0.22
+    vols[1][1] = 0.19
+    matrix = ql.SwaptionVolatilityMatrix(
+        d["calendar"], ql.ModifiedFollowing,
+        option_tenors, swap_tenors, vols, d["dc"]
+    )
+    v = matrix.volatility(ql.Period("1Y"), ql.Period("5Y"), 0.03)
+    assert v == pytest.approx(0.20, abs=1e-10)
+
+
+# =============================================================================
+# OptionletVolatilityStructure (ABC)
+# =============================================================================
+
+
+def test_optionletvolstructure_abc_exists():
+    """Test OptionletVolatilityStructure ABC is accessible."""
+    assert hasattr(ql.base, "OptionletVolatilityStructure")
+
+
+def test_optionletvolstructure_handle_types():
+    """Test optionlet vol handle types exist."""
+    assert hasattr(ql, "OptionletVolatilityStructureHandle")
+    assert hasattr(ql, "RelinkableOptionletVolatilityStructureHandle")
+
+
+# =============================================================================
+# ConstantOptionletVolatility
+# =============================================================================
+
+
+def test_constantoptionletvol_construction(swaption_vol_env):
+    """Test ConstantOptionletVolatility construction."""
+    d = swaption_vol_env
+    vol = ql.ConstantOptionletVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    assert vol is not None
+    assert vol.volatilityType() == ql.VolatilityType.ShiftedLognormal
+
+
+def test_constantoptionletvol_query(swaption_vol_env):
+    """Test querying ConstantOptionletVolatility."""
+    d = swaption_vol_env
+    vol = ql.ConstantOptionletVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    v = vol.volatility(ql.Period("1Y"), 0.03)
+    assert v == pytest.approx(0.20, abs=1e-12)
+
+
+def test_constantoptionletvol_handle(swaption_vol_env):
+    """Test ConstantOptionletVolatility with handle."""
+    d = swaption_vol_env
+    vol = ql.ConstantOptionletVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    handle = ql.OptionletVolatilityStructureHandle(vol)
+    assert not handle.empty()

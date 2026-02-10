@@ -91,6 +91,42 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::zerospreadedtermstructure,
         "ZeroSpreadedTermStructure - yield curve with additive spread");
 
+    // Fitted bond discount curve
+    ADD_BASE_BINDING(ql_termstructures::fittingmethod,
+        "FittingMethod ABC");
+    ADD_MAIN_BINDING(ql_termstructures::fittedbonddiscountcurve,
+        "FittedBondDiscountCurve");
+    ADD_MAIN_BINDING(ql_termstructures::nonlinearfittingmethods,
+        "NelsonSiegel, Svensson, ExponentialSplines, CubicBSplines, SimplePolynomial, Spread");
+
+    // Swaption volatility
+    ADD_BASE_BINDING(ql_termstructures::swaptionvolstructure,
+        "SwaptionVolatilityStructure ABC");
+    ADD_MAIN_BINDING(ql_termstructures::swaptionvolstructurehandle,
+        "Handle<SwaptionVolatilityStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::relinkableswaptionvolstructurehandle,
+        "RelinkableHandle<SwaptionVolatilityStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::constantswaptionvolatility,
+        "ConstantSwaptionVolatility");
+    ADD_BASE_BINDING(ql_termstructures::swaptionvoldiscrete,
+        "SwaptionVolatilityDiscrete intermediate");
+    ADD_MAIN_BINDING(ql_termstructures::swaptionvolmatrix,
+        "SwaptionVolatilityMatrix");
+    ADD_MAIN_BINDING(ql_termstructures::swaptionvolcube,
+        "SwaptionVolatilityCube");
+    ADD_MAIN_BINDING(ql_termstructures::sabrswaptionvolcube,
+        "SabrSwaptionVolatilityCube");
+
+    // Optionlet volatility
+    ADD_BASE_BINDING(ql_termstructures::optionletvolatilitystructure,
+        "OptionletVolatilityStructure ABC");
+    ADD_MAIN_BINDING(ql_termstructures::optionletvolatilitystructurehandle,
+        "Handle<OptionletVolatilityStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::relinkableoptionletvolatilitystructurehandle,
+        "RelinkableHandle<OptionletVolatilityStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::constantoptionletvolatility,
+        "ConstantOptionletVolatility");
+
     // Credit term structures
     ADD_BASE_BINDING(ql_termstructures::defaultprobabilitytermstructure,
         "DefaultProbabilityTermStructure ABC");

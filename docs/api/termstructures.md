@@ -275,6 +275,76 @@ print(curve.discount(1.0))
 print(curve.nodes())
 ```
 
+## Fitted Bond Discount Curves
+
+### FittedBondDiscountCurve
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FittedBondDiscountCurve
+```
+
+Discount curve fitted to a set of bond prices using a parametric fitting method.
+
+```python
+curve = ql.FittedBondDiscountCurve(
+    today, bond_helpers, dc,
+    ql.NelsonSiegelFitting()
+)
+curve.discount(1.0)
+```
+
+### Fitting Methods
+
+#### NelsonSiegelFitting
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NelsonSiegelFitting
+```
+
+#### SvenssonFitting
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SvenssonFitting
+```
+
+#### ExponentialSplinesFitting
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExponentialSplinesFitting
+```
+
+#### CubicBSplinesFitting
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CubicBSplinesFitting
+```
+
+#### SimplePolynomialFitting
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SimplePolynomialFitting
+```
+
+#### SpreadFittingMethod
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SpreadFittingMethod
+```
+
+```python
+# Fit with Nelson-Siegel
+ns = ql.NelsonSiegelFitting()
+curve = ql.FittedBondDiscountCurve(today, helpers, dc, ns)
+
+# Fit with Svensson
+sv = ql.SvenssonFitting()
+curve = ql.FittedBondDiscountCurve(today, helpers, dc, sv)
+
+# Spread fitting over a reference curve
+spread = ql.SpreadFittingMethod(ql.NelsonSiegelFitting(), reference_curve)
+curve = ql.FittedBondDiscountCurve(today, helpers, dc, spread)
+```
+
 ## Volatility Term Structures
 
 ### BlackConstantVol
@@ -424,6 +494,76 @@ surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
 .. autoclass:: pyquantlib.RelinkableLocalVolTermStructureHandle
 ```
 
+## Swaption Volatility Term Structures
+
+### ConstantSwaptionVolatility
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConstantSwaptionVolatility
+```
+
+```python
+const_vol = ql.ConstantSwaptionVolatility(
+    0, ql.TARGET(), ql.Following, 0.20, ql.Actual365Fixed()
+)
+```
+
+### SwaptionVolatilityMatrix
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwaptionVolatilityMatrix
+```
+
+### SwaptionVolatilityCube
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwaptionVolatilityCube
+```
+
+### SabrSwaptionVolatilityCube
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SabrSwaptionVolatilityCube
+```
+
+### SwaptionVolatilityStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwaptionVolatilityStructureHandle
+```
+
+### RelinkableSwaptionVolatilityStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RelinkableSwaptionVolatilityStructureHandle
+```
+
+## Optionlet Volatility Term Structures
+
+### ConstantOptionletVolatility
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConstantOptionletVolatility
+```
+
+```python
+const_vol = ql.ConstantOptionletVolatility(
+    0, ql.TARGET(), ql.Following, 0.20, ql.Actual365Fixed()
+)
+```
+
+### OptionletVolatilityStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OptionletVolatilityStructureHandle
+```
+
+### RelinkableOptionletVolatilityStructureHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RelinkableOptionletVolatilityStructureHandle
+```
+
 ## Credit Term Structures
 
 ### DefaultProbabilityTermStructureHandle
@@ -525,5 +665,5 @@ print(curve.nodes())
 ```
 
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, and `RelativeDateRateHelper` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, and `OptionletVolatilityStructure` are available in `pyquantlib.base`.
 ```

@@ -468,3 +468,62 @@ def test_overnightindexedswapindex_with_averaging(flat_curve):
         averagingMethod=ql.RateAveraging.Type.Simple,
     )
     assert ois_index is not None
+
+
+# =============================================================================
+# Concrete SwapIndex subclasses (src/indexes/swap/)
+# =============================================================================
+
+SWAP_INDEX_CLASSES = [
+    "EuriborSwapIsdaFixA",
+    "EuriborSwapIsdaFixB",
+    "EuriborSwapIfrFix",
+    "EurLiborSwapIsdaFixA",
+    "EurLiborSwapIsdaFixB",
+    "EurLiborSwapIfrFix",
+    "UsdLiborSwapIsdaFixAm",
+    "UsdLiborSwapIsdaFixPm",
+    "JpyLiborSwapIsdaFixAm",
+    "JpyLiborSwapIsdaFixPm",
+    "GbpLiborSwapIsdaFix",
+    "ChfLiborSwapIsdaFix",
+]
+
+
+@pytest.mark.parametrize("cls_name", SWAP_INDEX_CLASSES)
+def test_swapindex_subclass_tenor_only(cls_name):
+    """Test constructing swap index subclasses with tenor only."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    cls = getattr(ql, cls_name)
+    idx = cls(ql.Period("10Y"))
+    assert isinstance(idx, ql.SwapIndex)
+    assert idx.tenor() == ql.Period("10Y")
+
+
+@pytest.mark.parametrize("cls_name", SWAP_INDEX_CLASSES)
+def test_swapindex_subclass_with_curve(cls_name, flat_curve):
+    """Test constructing swap index subclasses with forwarding curve."""
+    cls = getattr(ql, cls_name)
+    idx = cls(ql.Period("5Y"), flat_curve["curve"])
+    assert isinstance(idx, ql.SwapIndex)
+    assert idx.tenor() == ql.Period("5Y")
+
+
+@pytest.mark.parametrize("cls_name", SWAP_INDEX_CLASSES)
+def test_swapindex_subclass_with_two_curves(cls_name, flat_curve):
+    """Test constructing swap index subclasses with forwarding and discounting."""
+    cls = getattr(ql, cls_name)
+    curve = flat_curve["curve"]
+    idx = cls(ql.Period("2Y"), curve, curve)
+    assert isinstance(idx, ql.SwapIndex)
+    assert idx.exogenousDiscount()
+
+
+@pytest.mark.parametrize("cls_name", SWAP_INDEX_CLASSES)
+def test_swapindex_subclass_with_handle(cls_name, flat_curve):
+    """Test constructing swap index subclasses with explicit handle."""
+    cls = getattr(ql, cls_name)
+    handle = ql.YieldTermStructureHandle(flat_curve["curve"])
+    idx = cls(ql.Period("10Y"), handle)
+    assert isinstance(idx, ql.SwapIndex)

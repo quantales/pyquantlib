@@ -160,6 +160,7 @@ namespace ql_indexes {
     void estr(py::module_&);
     void sonia(py::module_&);
     void swapindex(py::module_&);
+    void swapindexes(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -194,12 +195,29 @@ namespace ql_termstructures {
     void forwardcurve(py::module_&);
     void zerospreadedtermstructure(py::module_&);
     void bondhelpers(py::module_&);
+    void fittingmethod(py::module_&);
+    void fittedbonddiscountcurve(py::module_&);
+    void nonlinearfittingmethods(py::module_&);
     void defaultprobabilitytermstructure(py::module_&);
     void defaultprobabilitytermstructurehandle(py::module_&);
     void flathazardrate(py::module_&);
     void defaultprobabilityhelper(py::module_&);
     void defaultprobabilityhelpers(py::module_&);
     void piecewisedefaultcurve(py::module_&);
+    // Swaption volatility
+    void swaptionvolstructure(py::module_&);
+    void swaptionvolstructurehandle(py::module_&);
+    void relinkableswaptionvolstructurehandle(py::module_&);
+    void constantswaptionvolatility(py::module_&);
+    void swaptionvoldiscrete(py::module_&);
+    void swaptionvolmatrix(py::module_&);
+    void swaptionvolcube(py::module_&);
+    void sabrswaptionvolcube(py::module_&);
+    // Optionlet volatility
+    void optionletvolatilitystructure(py::module_&);
+    void optionletvolatilitystructurehandle(py::module_&);
+    void relinkableoptionletvolatilitystructurehandle(py::module_&);
+    void constantoptionletvolatility(py::module_&);
 }
 
 namespace ql_processes {

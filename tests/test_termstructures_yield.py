@@ -1037,3 +1037,216 @@ def test_fixedratebondhelper_bootstrap(curve_env):
     # 5Y zero rate should be roughly in the 3-5% range
     zero5 = curve.zeroRate(5.0, ql.Continuous).rate()
     assert 0.03 < zero5 < 0.05
+
+
+# =============================================================================
+# FittingMethod (base class)
+# =============================================================================
+
+
+def test_fittingmethod_exists():
+    """Test FittingMethod base class exists."""
+    assert hasattr(ql.base, "FittingMethod")
+
+
+# =============================================================================
+# Nonlinear Fitting Methods
+# =============================================================================
+
+
+def test_nelsonsiegelfitting_construction():
+    """Test NelsonSiegelFitting default construction."""
+    method = ql.NelsonSiegelFitting()
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+def test_svensonfitting_construction():
+    """Test SvenssonFitting default construction."""
+    method = ql.SvenssonFitting()
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+def test_exponentialsplinesfitting_construction():
+    """Test ExponentialSplinesFitting default construction."""
+    method = ql.ExponentialSplinesFitting()
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+def test_exponentialsplinesfitting_with_kappa():
+    """Test ExponentialSplinesFitting with fixed kappa."""
+    method = ql.ExponentialSplinesFitting(fixedKappa=0.5)
+    assert method is not None
+
+
+def test_cubicbsplinesfitting_construction():
+    """Test CubicBSplinesFitting construction with knot vector."""
+    knots = [-30.0, -20.0, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 40.0, 50.0]
+    method = ql.CubicBSplinesFitting(knots)
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+def test_simplepolynomialfitting_construction():
+    """Test SimplePolynomialFitting construction."""
+    method = ql.SimplePolynomialFitting(3)
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+def test_spreadfittingmethod_construction(curve_env):
+    """Test SpreadFittingMethod construction with explicit handle."""
+    inner = ql.NelsonSiegelFitting()
+    method = ql.SpreadFittingMethod(inner, curve_env["curve_handle"])
+    assert method is not None
+    assert isinstance(method, ql.base.FittingMethod)
+
+
+# =============================================================================
+# FittedBondDiscountCurve
+# =============================================================================
+
+
+def _build_bond_helpers(today, calendar):
+    """Build bond helpers for FittedBondDiscountCurve tests."""
+    helpers = []
+    coupons_and_prices = [
+        (ql.Period("2Y"), 0.035, 100.5),
+        (ql.Period("3Y"), 0.037, 100.8),
+        (ql.Period("5Y"), 0.040, 101.2),
+        (ql.Period("7Y"), 0.042, 101.0),
+        (ql.Period("10Y"), 0.045, 99.5),
+    ]
+    dc = ql.Thirty360(ql.Thirty360.BondBasis)
+    for tenor, coupon, price in coupons_and_prices:
+        schedule = ql.Schedule(
+            today, today + tenor,
+            ql.Period(ql.Annual), calendar,
+            ql.Unadjusted, ql.Unadjusted,
+            ql.DateGeneration.Backward, False,
+        )
+        helper = ql.FixedRateBondHelper(price, 3, 100.0, schedule, [coupon], dc)
+        helpers.append(helper)
+    return helpers
+
+
+def test_fittedbonddiscountcurve_nelssiegel(curve_env):
+    """Test FittedBondDiscountCurve with NelsonSiegel fitting."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(
+        today, helpers, dc, method,
+    )
+    assert curve is not None
+    assert curve.referenceDate() == today
+
+    # Discount at reference date is 1.0
+    assert curve.discount(today) == pytest.approx(1.0)
+
+    # Discount factors should be positive and less than 1
+    df_5y = curve.discount(today + ql.Period("5Y"))
+    assert 0.0 < df_5y < 1.0
+
+    assert curve.numberOfBonds() == 5
+
+
+def test_fittedbonddiscountcurve_svensson(curve_env):
+    """Test FittedBondDiscountCurve with Svensson fitting."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.SvenssonFitting()
+    curve = ql.FittedBondDiscountCurve(
+        today, helpers, dc, method,
+    )
+    assert curve.discount(today) == pytest.approx(1.0)
+    assert curve.numberOfBonds() == 5
+
+
+def test_fittedbonddiscountcurve_settlement_days(curve_env):
+    """Test FittedBondDiscountCurve with settlement days constructor."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(
+        0, calendar, helpers, dc, method,
+    )
+    assert curve is not None
+    assert curve.numberOfBonds() == 5
+
+
+def test_fittedbonddiscountcurve_fitresults(curve_env):
+    """Test FittedBondDiscountCurve fitResults access."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(
+        today, helpers, dc, method,
+    )
+
+    # Force curve evaluation
+    curve.discount(1.0)
+
+    results = curve.fitResults()
+    assert results is not None
+    assert isinstance(results, ql.base.FittingMethod)
+
+    # NelsonSiegel has 4 parameters
+    solution = results.solution()
+    assert len(solution) == 4
+
+    assert results.numberOfIterations() > 0
+    assert results.minimumCostValue() >= 0.0
+
+
+def test_fittedbonddiscountcurve_discounts_monotonic(curve_env):
+    """Test that fitted discount factors are monotonically decreasing."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(
+        today, helpers, dc, method,
+    )
+
+    prev_df = 1.0
+    for years in [1, 2, 3, 5, 7, 10]:
+        target = today + ql.Period(years, ql.Years)
+        df = curve.discount(target)
+        assert df < prev_df, f"Discount not decreasing at {years}Y"
+        prev_df = df
+
+
+def test_fittedbonddiscountcurve_zero_rate(curve_env):
+    """Test FittedBondDiscountCurve zero rate extraction."""
+    today = curve_env["today"]
+    calendar = curve_env["calendar"]
+    dc = curve_env["day_counter"]
+    helpers = _build_bond_helpers(today, calendar)
+
+    method = ql.NelsonSiegelFitting()
+    curve = ql.FittedBondDiscountCurve(
+        today, helpers, dc, method,
+    )
+
+    # Zero rate at 5 years should be in a reasonable range
+    five_years = today + ql.Period(5, ql.Years)
+    zero_5y = curve.zeroRate(five_years, dc, ql.Continuous)
+    assert 0.02 < zero_5y.rate() < 0.06
+

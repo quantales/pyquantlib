@@ -134,3 +134,85 @@ ois_index = ql.OvernightIndexedSwapIndex(
     ql.EURCurrency(), estr,
 )
 ```
+
+### Concrete Swap Index Subclasses
+
+Standard market swap indexes with pre-configured conventions.
+
+#### EuriborSwapIsdaFixA
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EuriborSwapIsdaFixA
+```
+
+#### EuriborSwapIsdaFixB
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EuriborSwapIsdaFixB
+```
+
+#### EuriborSwapIfrFix
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EuriborSwapIfrFix
+```
+
+#### EurLiborSwapIsdaFixA
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EurLiborSwapIsdaFixA
+```
+
+#### EurLiborSwapIsdaFixB
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EurLiborSwapIsdaFixB
+```
+
+#### EurLiborSwapIfrFix
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EurLiborSwapIfrFix
+```
+
+#### UsdLiborSwapIsdaFixAm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UsdLiborSwapIsdaFixAm
+```
+
+#### UsdLiborSwapIsdaFixPm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UsdLiborSwapIsdaFixPm
+```
+
+#### JpyLiborSwapIsdaFixAm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.JpyLiborSwapIsdaFixAm
+```
+
+#### JpyLiborSwapIsdaFixPm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.JpyLiborSwapIsdaFixPm
+```
+
+#### GbpLiborSwapIsdaFix
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GbpLiborSwapIsdaFix
+```
+
+#### ChfLiborSwapIsdaFix
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ChfLiborSwapIsdaFix
+```
+
+```python
+swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years))
+swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve)
+swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve, discounting_curve)
+```

@@ -27,6 +27,8 @@
 #include <ql/termstructures/volatility/equityfx/blackvoltermstructure.hpp>
 #include <ql/termstructures/volatility/equityfx/localvoltermstructure.hpp>
 #include <ql/termstructures/volatility/smilesection.hpp>
+#include <ql/termstructures/volatility/swaption/swaptionvolstructure.hpp>
+#include <ql/termstructures/volatility/optionlet/optionletvolatilitystructure.hpp>
 #include <ql/exercise.hpp>
 #include <ql/instruments/claim.hpp>
 #include <ql/pricingengine.hpp>
@@ -532,6 +534,96 @@ protected:
     QuantLib::Volatility volatilityImpl(QuantLib::Rate strike) const override {
         PYBIND11_OVERRIDE_PURE(QuantLib::Volatility, QuantLib::SmileSection,
                                volatilityImpl, strike);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// SwaptionVolatilityStructure Trampoline
+// -----------------------------------------------------------------------------
+class PySwaptionVolatilityStructure : public QuantLib::SwaptionVolatilityStructure {
+public:
+    using QuantLib::SwaptionVolatilityStructure::SwaptionVolatilityStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::SwaptionVolatilityStructure,
+                               maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SwaptionVolatilityStructure,
+                               minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::SwaptionVolatilityStructure,
+                               maxStrike,);
+    }
+
+    const QuantLib::Period& maxSwapTenor() const override {
+        PYBIND11_OVERRIDE_PURE(const QuantLib::Period&,
+                               QuantLib::SwaptionVolatilityStructure, maxSwapTenor,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::SwaptionVolatilityStructure, update,);
+    }
+
+protected:
+    QuantLib::ext::shared_ptr<QuantLib::SmileSection> smileSectionImpl(
+            QuantLib::Time optionTime, QuantLib::Time swapLength) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::ext::shared_ptr<QuantLib::SmileSection>,
+                               QuantLib::SwaptionVolatilityStructure,
+                               smileSectionImpl, optionTime, swapLength);
+    }
+
+    QuantLib::Volatility volatilityImpl(
+            QuantLib::Time optionTime, QuantLib::Time swapLength,
+            QuantLib::Rate strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility,
+                               QuantLib::SwaptionVolatilityStructure,
+                               volatilityImpl, optionTime, swapLength, strike);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// OptionletVolatilityStructure Trampoline
+// -----------------------------------------------------------------------------
+class PyOptionletVolatilityStructure : public QuantLib::OptionletVolatilityStructure {
+public:
+    using QuantLib::OptionletVolatilityStructure::OptionletVolatilityStructure;
+
+    QuantLib::Date maxDate() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Date, QuantLib::OptionletVolatilityStructure,
+                               maxDate,);
+    }
+
+    QuantLib::Real minStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::OptionletVolatilityStructure,
+                               minStrike,);
+    }
+
+    QuantLib::Real maxStrike() const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::OptionletVolatilityStructure,
+                               maxStrike,);
+    }
+
+    void update() override {
+        PYBIND11_OVERRIDE(void, QuantLib::OptionletVolatilityStructure, update,);
+    }
+
+protected:
+    QuantLib::ext::shared_ptr<QuantLib::SmileSection> smileSectionImpl(
+            QuantLib::Time optionTime) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::ext::shared_ptr<QuantLib::SmileSection>,
+                               QuantLib::OptionletVolatilityStructure,
+                               smileSectionImpl, optionTime);
+    }
+
+    QuantLib::Volatility volatilityImpl(
+            QuantLib::Time optionTime, QuantLib::Rate strike) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Volatility,
+                               QuantLib::OptionletVolatilityStructure,
+                               volatilityImpl, optionTime, strike);
     }
 };
 

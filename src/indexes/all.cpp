@@ -24,4 +24,6 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
     ADD_MAIN_BINDING(ql_indexes::sonia, "Sonia - SONIA overnight index");
     ADD_MAIN_BINDING(ql_indexes::swapindex,
         "SwapIndex, OvernightIndexedSwapIndex");
+    ADD_MAIN_BINDING(ql_indexes::swapindexes,
+        "Concrete swap index subclasses (Euribor/Libor swap rates)");
 }
