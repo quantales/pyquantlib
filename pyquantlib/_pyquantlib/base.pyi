@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -235,6 +235,25 @@ class CalibrationHelper:
     def calibrationError(self) -> float:
         """
         Returns the calibration error.
+        """
+class CapFloorTermVolatilityStructure(VolatilityTermStructure):
+    """
+    Abstract base class for cap/floor term volatility structures.
+    """
+    @typing.overload
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option tenor and strike.
+        """
+    @typing.overload
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option date and strike.
+        """
+    @typing.overload
+    def volatility(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
+        """
+        Returns volatility for option time and strike.
         """
 class CashFlow(Event, LazyObject):
     """
@@ -906,6 +925,34 @@ class Option(Instrument):
         """
         Returns the option payoff.
         """
+class OptionletStripper(StrippedOptionletBase):
+    """
+    Abstract base class for optionlet strippers.
+    """
+    def iborIndex(self) -> pyquantlib._pyquantlib.IborIndex:
+        """
+        Returns the IBOR index.
+        """
+    def optionletAccrualPeriods(self) -> list[float]:
+        """
+        Returns optionlet accrual periods.
+        """
+    def optionletFixingTenors(self) -> list[pyquantlib._pyquantlib.Period]:
+        """
+        Returns optionlet fixing tenors.
+        """
+    def optionletFrequency(self) -> pyquantlib._pyquantlib.Period | None:
+        """
+        Returns the optionlet frequency.
+        """
+    def optionletPaymentDates(self) -> list[pyquantlib._pyquantlib.Date]:
+        """
+        Returns optionlet payment dates.
+        """
+    def termVolSurface(self) -> pyquantlib._pyquantlib.CapFloorTermVolSurface:
+        """
+        Returns the cap/floor term volatility surface.
+        """
 class OptionletVolatilityStructure(VolatilityTermStructure):
     """
     Abstract base class for optionlet (caplet/floorlet) volatility structures.
@@ -1277,6 +1324,58 @@ class StrikedTypePayoff(Payoff):
     def strike(self) -> float:
         """
         Returns the strike price.
+        """
+class StrippedOptionletBase(LazyObject):
+    """
+    Abstract base class for stripped optionlet volatility data.
+    """
+    def atmOptionletRates(self) -> list[float]:
+        """
+        Returns ATM optionlet rates.
+        """
+    def businessDayConvention(self) -> pyquantlib._pyquantlib.BusinessDayConvention:
+        """
+        Returns the business day convention.
+        """
+    def calendar(self) -> pyquantlib._pyquantlib.Calendar:
+        """
+        Returns the calendar.
+        """
+    def dayCounter(self) -> pyquantlib._pyquantlib.DayCounter:
+        """
+        Returns the day counter.
+        """
+    def displacement(self) -> float:
+        """
+        Returns the displacement for shifted lognormal volatilities.
+        """
+    def optionletFixingDates(self) -> list[pyquantlib._pyquantlib.Date]:
+        """
+        Returns optionlet fixing dates.
+        """
+    def optionletFixingTimes(self) -> list[float]:
+        """
+        Returns optionlet fixing times.
+        """
+    def optionletMaturities(self) -> int:
+        """
+        Returns the number of optionlet maturities.
+        """
+    def optionletStrikes(self, i: typing.SupportsInt) -> list[float]:
+        """
+        Returns optionlet strikes for the i-th maturity.
+        """
+    def optionletVolatilities(self, i: typing.SupportsInt) -> list[float]:
+        """
+        Returns optionlet volatilities for the i-th maturity.
+        """
+    def settlementDays(self) -> int:
+        """
+        Returns the number of settlement days.
+        """
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
+        """
+        Returns the volatility type.
         """
 class SwapGenericEngine(PricingEngine, Observer):
     """

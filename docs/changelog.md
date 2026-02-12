@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Fitting methods**: `NelsonSiegelFitting`, `SvenssonFitting`, `ExponentialSplinesFitting`, `CubicBSplinesFitting`, `SimplePolynomialFitting`, `SpreadFittingMethod`
 - **Swaption volatility**: `SwaptionVolatilityStructure` ABC, `ConstantSwaptionVolatility`, `SwaptionVolatilityDiscrete`, `SwaptionVolatilityMatrix`, `SwaptionVolatilityCube`, `SabrSwaptionVolatilityCube`, handles
 - **Optionlet volatility**: `OptionletVolatilityStructure` ABC, `ConstantOptionletVolatility`, handles
+- **Cap/floor term volatility**: `CapFloorTermVolatilityStructure` ABC, `CapFloorTermVolSurface`
+- **Optionlet stripping**: `StrippedOptionletBase` ABC, `OptionletStripper` ABC, `OptionletStripper1`, `StrippedOptionletAdapter`
 
 ### Fixed
 - Handle constructors now use `shared_ptr_from_python` for safe `shared_ptr` extraction from `py::classh` types with diamond/virtual inheritance

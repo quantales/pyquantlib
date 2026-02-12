@@ -2002,3 +2002,304 @@ def test_constantoptionletvol_handle(swaption_vol_env):
     )
     handle = ql.OptionletVolatilityStructureHandle(vol)
     assert not handle.empty()
+
+
+# =============================================================================
+# CapFloorTermVolatilityStructure (ABC)
+# =============================================================================
+
+
+def test_capfloortermvolstructure_abc_exists():
+    """Test CapFloorTermVolatilityStructure ABC is accessible."""
+    assert hasattr(ql.base, "CapFloorTermVolatilityStructure")
+
+
+# =============================================================================
+# CapFloorTermVolSurface
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def capfloor_vol_env():
+    """Common data for cap/floor volatility tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    option_tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("3Y"),
+                     ql.Period("5Y")]
+    strikes = [0.01, 0.02, 0.03, 0.04, 0.05]
+
+    # Build a 4x5 volatility matrix (tenors x strikes)
+    vols = ql.Matrix(4, 5)
+    vol_data = [
+        [0.25, 0.22, 0.20, 0.22, 0.25],  # 1Y
+        [0.24, 0.21, 0.19, 0.21, 0.24],  # 2Y
+        [0.23, 0.20, 0.18, 0.20, 0.23],  # 3Y
+        [0.22, 0.19, 0.17, 0.19, 0.22],  # 5Y
+    ]
+    for i in range(4):
+        for j in range(5):
+            vols[i][j] = vol_data[i][j]
+
+    surface = ql.CapFloorTermVolSurface(
+        2, calendar, ql.ModifiedFollowing,
+        option_tenors, strikes, vols, dc
+    )
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "option_tenors": option_tenors,
+        "strikes": strikes,
+        "vols": vols,
+        "surface": surface,
+    }
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_capfloortermvolsurface_construction(capfloor_vol_env):
+    """Test CapFloorTermVolSurface construction."""
+    surface = capfloor_vol_env["surface"]
+    assert surface is not None
+
+
+def test_capfloortermvolsurface_inspectors(capfloor_vol_env):
+    """Test CapFloorTermVolSurface inspector methods."""
+    surface = capfloor_vol_env["surface"]
+    assert len(surface.optionTenors()) == 4
+    assert len(surface.strikes()) == 5
+    assert len(surface.optionDates()) == 4
+    assert len(surface.optionTimes()) == 4
+
+
+def test_capfloortermvolsurface_volatility(capfloor_vol_env):
+    """Test CapFloorTermVolSurface volatility query."""
+    surface = capfloor_vol_env["surface"]
+    # Query at a grid point: 1Y tenor, 0.03 strike
+    v = surface.volatility(ql.Period("1Y"), 0.03, True)
+    assert v == pytest.approx(0.20, abs=1e-4)
+
+
+def test_capfloortermvolsurface_strike_range(capfloor_vol_env):
+    """Test CapFloorTermVolSurface strike range."""
+    surface = capfloor_vol_env["surface"]
+    assert surface.minStrike() == pytest.approx(0.01)
+    assert surface.maxStrike() == pytest.approx(0.05)
+
+
+# =============================================================================
+# StrippedOptionletBase (ABC)
+# =============================================================================
+
+
+def test_strippedoptionletbase_abc_exists():
+    """Test StrippedOptionletBase ABC is accessible."""
+    assert hasattr(ql.base, "StrippedOptionletBase")
+
+
+# =============================================================================
+# OptionletStripper (ABC)
+# =============================================================================
+
+
+def test_optionletstripper_abc_exists():
+    """Test OptionletStripper ABC is accessible."""
+    assert hasattr(ql.base, "OptionletStripper")
+
+
+# =============================================================================
+# OptionletStripper1
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def optionlet_strip_env():
+    """Common data for optionlet stripping tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    # Yield curve
+    flat_rate = ql.FlatForward(today, 0.03, dc)
+    ts_handle = ql.YieldTermStructureHandle(flat_rate)
+
+    # Ibor index
+    index = ql.Euribor(ql.Period("6M"), ts_handle)
+
+    # Cap/floor vol surface
+    option_tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("3Y"),
+                     ql.Period("5Y")]
+    strikes = [0.01, 0.02, 0.03, 0.04, 0.05]
+
+    vols = ql.Matrix(4, 5)
+    vol_data = [
+        [0.25, 0.22, 0.20, 0.22, 0.25],
+        [0.24, 0.21, 0.19, 0.21, 0.24],
+        [0.23, 0.20, 0.18, 0.20, 0.23],
+        [0.22, 0.19, 0.17, 0.19, 0.22],
+    ]
+    for i in range(4):
+        for j in range(5):
+            vols[i][j] = vol_data[i][j]
+
+    surface = ql.CapFloorTermVolSurface(
+        2, calendar, ql.ModifiedFollowing,
+        option_tenors, strikes, vols, dc
+    )
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "ts_handle": ts_handle,
+        "index": index,
+        "surface": surface,
+    }
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_optionletstripper1_construction(optionlet_strip_env):
+    """Test OptionletStripper1 construction."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        accuracy=1e-6, maxIter=100, discount=d["ts_handle"]
+    )
+    assert stripper is not None
+
+
+def test_optionletstripper1_results(optionlet_strip_env):
+    """Test OptionletStripper1 produces stripping results."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    # Access results (triggers lazy calculation)
+    n = stripper.optionletMaturities()
+    assert n > 0
+
+    dates = stripper.optionletFixingDates()
+    assert len(dates) == n
+
+    times = stripper.optionletFixingTimes()
+    assert len(times) == n
+
+    for i in range(n):
+        strikes_i = stripper.optionletStrikes(i)
+        vols_i = stripper.optionletVolatilities(i)
+        assert len(strikes_i) > 0
+        assert len(vols_i) == len(strikes_i)
+        # Volatilities should be positive
+        for v in vols_i:
+            assert v > 0
+
+
+def test_optionletstripper1_matrices(optionlet_strip_env):
+    """Test OptionletStripper1 matrix accessors."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    capfloor_prices = stripper.capFloorPrices()
+    assert capfloor_prices.rows() > 0
+    assert capfloor_prices.columns() > 0
+
+    optionlet_prices = stripper.optionletPrices()
+    assert optionlet_prices.rows() > 0
+
+    caplet_vols = stripper.capletVols()
+    assert caplet_vols.rows() > 0
+
+
+def test_optionletstripper1_base_class_methods(optionlet_strip_env):
+    """Test OptionletStripper base class methods accessible via OptionletStripper1."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    assert len(stripper.optionletFixingTenors()) > 0
+    assert len(stripper.optionletPaymentDates()) > 0
+    assert len(stripper.optionletAccrualPeriods()) > 0
+    assert stripper.termVolSurface() is not None
+    assert stripper.iborIndex() is not None
+    assert stripper.volatilityType() == ql.VolatilityType.ShiftedLognormal
+    assert stripper.displacement() == pytest.approx(0.0)
+
+
+def test_optionletstripper1_hidden_handle(optionlet_strip_env):
+    """Test OptionletStripper1 with shared_ptr discount (hidden handle)."""
+    d = optionlet_strip_env
+    flat_rate = ql.FlatForward(d["today"], 0.03, d["dc"])
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=flat_rate
+    )
+    assert stripper.optionletMaturities() > 0
+
+
+# =============================================================================
+# StrippedOptionletAdapter
+# =============================================================================
+
+
+def test_strippedoptionletadapter_construction(optionlet_strip_env):
+    """Test StrippedOptionletAdapter construction from stripper."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    adapter = ql.StrippedOptionletAdapter(stripper)
+    assert adapter is not None
+
+
+def test_strippedoptionletadapter_volatility(optionlet_strip_env):
+    """Test StrippedOptionletAdapter volatility query."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    adapter = ql.StrippedOptionletAdapter(stripper)
+    # Query volatility at a point within the surface
+    vol = adapter.volatility(ql.Period("1Y"), 0.03)
+    assert vol > 0
+    assert vol < 1.0  # reasonable vol range
+
+
+def test_strippedoptionletadapter_properties(optionlet_strip_env):
+    """Test StrippedOptionletAdapter properties."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    adapter = ql.StrippedOptionletAdapter(stripper)
+    assert adapter.maxDate() > d["today"]
+    assert adapter.minStrike() > 0
+    assert adapter.maxStrike() > adapter.minStrike()
+    assert adapter.volatilityType() == ql.VolatilityType.ShiftedLognormal
+    assert adapter.displacement() == pytest.approx(0.0)
+
+
+def test_strippedoptionletadapter_handle(optionlet_strip_env):
+    """Test StrippedOptionletAdapter works with OptionletVolatilityStructureHandle."""
+    d = optionlet_strip_env
+    stripper = ql.OptionletStripper1(
+        d["surface"], d["index"],
+        discount=d["ts_handle"]
+    )
+    adapter = ql.StrippedOptionletAdapter(stripper)
+    handle = ql.OptionletVolatilityStructureHandle(adapter)
+    assert not handle.empty()

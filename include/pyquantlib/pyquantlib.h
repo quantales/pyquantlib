@@ -213,11 +213,19 @@ namespace ql_termstructures {
     void swaptionvolmatrix(py::module_&);
     void swaptionvolcube(py::module_&);
     void sabrswaptionvolcube(py::module_&);
+    // Cap/floor term volatility
+    void capfloortermvolatilitystructure(py::module_&);
+    void capfloortermvolsurface(py::module_&);
     // Optionlet volatility
     void optionletvolatilitystructure(py::module_&);
     void optionletvolatilitystructurehandle(py::module_&);
     void relinkableoptionletvolatilitystructurehandle(py::module_&);
     void constantoptionletvolatility(py::module_&);
+    // Optionlet stripping
+    void strippedoptionletbase(py::module_&);
+    void optionletstripper(py::module_&);
+    void optionletstripper1(py::module_&);
+    void strippedoptionletadapter(py::module_&);
 }
 
 namespace ql_processes {

@@ -117,6 +117,12 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::sabrswaptionvolcube,
         "SabrSwaptionVolatilityCube");
 
+    // Cap/floor term volatility
+    ADD_BASE_BINDING(ql_termstructures::capfloortermvolatilitystructure,
+        "CapFloorTermVolatilityStructure ABC");
+    ADD_MAIN_BINDING(ql_termstructures::capfloortermvolsurface,
+        "CapFloorTermVolSurface");
+
     // Optionlet volatility
     ADD_BASE_BINDING(ql_termstructures::optionletvolatilitystructure,
         "OptionletVolatilityStructure ABC");
@@ -126,6 +132,16 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "RelinkableHandle<OptionletVolatilityStructure>");
     ADD_MAIN_BINDING(ql_termstructures::constantoptionletvolatility,
         "ConstantOptionletVolatility");
+
+    // Optionlet stripping
+    ADD_BASE_BINDING(ql_termstructures::strippedoptionletbase,
+        "StrippedOptionletBase ABC");
+    ADD_BASE_BINDING(ql_termstructures::optionletstripper,
+        "OptionletStripper ABC");
+    ADD_MAIN_BINDING(ql_termstructures::optionletstripper1,
+        "OptionletStripper1");
+    ADD_MAIN_BINDING(ql_termstructures::strippedoptionletadapter,
+        "StrippedOptionletAdapter");
 
     // Credit term structures
     ADD_BASE_BINDING(ql_termstructures::defaultprobabilitytermstructure,

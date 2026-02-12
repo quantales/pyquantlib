@@ -564,6 +564,64 @@ const_vol = ql.ConstantOptionletVolatility(
 .. autoclass:: pyquantlib.RelinkableOptionletVolatilityStructureHandle
 ```
 
+## Cap/Floor Term Volatility
+
+### CapFloorTermVolSurface
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CapFloorTermVolSurface
+```
+
+Cap/floor smile volatility surface interpolating market term volatilities.
+
+```python
+option_tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("5Y")]
+strikes = [0.01, 0.02, 0.03, 0.04, 0.05]
+vols = ql.Matrix(3, 5)  # populate with market volatilities
+
+surface = ql.CapFloorTermVolSurface(
+    2, ql.TARGET(), ql.ModifiedFollowing,
+    option_tenors, strikes, vols, ql.Actual365Fixed()
+)
+print(surface.volatility(ql.Period("1Y"), 0.03))
+```
+
+## Optionlet Stripping
+
+### OptionletStripper1
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OptionletStripper1
+```
+
+Strips optionlet (caplet/floorlet) volatilities from a cap/floor term volatility surface.
+
+```python
+# Build cap/floor vol surface (see above)
+index = ql.Euribor(ql.Period("6M"), ts_handle)
+stripper = ql.OptionletStripper1(surface, index, discount=ts_handle)
+
+# Access stripped optionlet data
+n = stripper.optionletMaturities()
+for i in range(n):
+    print(stripper.optionletStrikes(i))
+    print(stripper.optionletVolatilities(i))
+```
+
+### StrippedOptionletAdapter
+
+```{eval-rst}
+.. autoclass:: pyquantlib.StrippedOptionletAdapter
+```
+
+Adapts stripped optionlet data into an `OptionletVolatilityStructure` for use with pricing engines.
+
+```python
+adapter = ql.StrippedOptionletAdapter(stripper)
+handle = ql.OptionletVolatilityStructureHandle(adapter)
+vol = adapter.volatility(ql.Period("1Y"), 0.03)
+```
+
 ## Credit Term Structures
 
 ### DefaultProbabilityTermStructureHandle
@@ -665,5 +723,5 @@ print(curve.nodes())
 ```
 
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, and `OptionletVolatilityStructure` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, and `OptionletStripper` are available in `pyquantlib.base`.
 ```
