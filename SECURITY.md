@@ -16,9 +16,7 @@ A response will be provided as soon as possible.
 
 ## Supported Versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.1.x   | :white_check_mark: |
+Only the latest release is supported with security fixes. Upgrade to the newest version available on [PyPI](https://pypi.org/project/pyquantlib/).
 
 ## Security Considerations
 
