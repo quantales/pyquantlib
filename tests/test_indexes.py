@@ -744,3 +744,95 @@ def test_uscpi_fixings():
     assert idx.fixing(date1) == pytest.approx(308.417)
     assert idx.fixing(date2) == pytest.approx(310.326)
     idx.clearFixings()
+
+
+# =============================================================================
+# AUCPI / YYAUCPI (Australian CPI)
+# =============================================================================
+
+
+def test_aucpi_construction():
+    """Test AUCPI construction with frequency and revised."""
+    idx = ql.AUCPI(ql.Quarterly, False)
+    assert isinstance(idx, ql.ZeroInflationIndex)
+    assert idx.frequency() == ql.Quarterly
+
+
+def test_aucpi_revised():
+    """Test AUCPI with revised flag."""
+    idx = ql.AUCPI(ql.Quarterly, True)
+    assert idx is not None
+    assert idx.revised() is True
+
+
+def test_aucpi_properties():
+    """Test AUCPI index properties."""
+    idx = ql.AUCPI(ql.Quarterly, False)
+    assert idx.region() == ql.AustraliaRegion()
+    assert idx.currency() == ql.AUDCurrency()
+
+
+def test_yyaucpi_construction():
+    """Test YYAUCPI construction with frequency and revised."""
+    idx = ql.YYAUCPI(ql.Quarterly, False)
+    assert isinstance(idx, ql.YoYInflationIndex)
+    assert idx.frequency() == ql.Quarterly
+
+
+def test_yyaucpi_revised():
+    """Test YYAUCPI with revised flag."""
+    idx = ql.YYAUCPI(ql.Quarterly, True)
+    assert idx is not None
+    assert idx.revised() is True
+
+
+# =============================================================================
+# FRHICP / YYFRHICP (French HICP)
+# =============================================================================
+
+
+def test_frhicp_construction():
+    """Test FRHICP construction."""
+    idx = ql.FRHICP()
+    assert isinstance(idx, ql.ZeroInflationIndex)
+    assert idx.frequency() == ql.Monthly
+
+
+def test_frhicp_properties():
+    """Test FRHICP index properties."""
+    idx = ql.FRHICP()
+    assert idx.region() == ql.FranceRegion()
+    assert idx.currency() == ql.EURCurrency()
+
+
+def test_yyfrhicp_construction():
+    """Test YYFRHICP construction."""
+    idx = ql.YYFRHICP()
+    assert isinstance(idx, ql.YoYInflationIndex)
+    assert idx.frequency() == ql.Monthly
+
+
+# =============================================================================
+# ZACPI / YYZACPI (South African CPI)
+# =============================================================================
+
+
+def test_zacpi_construction():
+    """Test ZACPI construction."""
+    idx = ql.ZACPI()
+    assert isinstance(idx, ql.ZeroInflationIndex)
+    assert idx.frequency() == ql.Monthly
+
+
+def test_zacpi_properties():
+    """Test ZACPI index properties."""
+    idx = ql.ZACPI()
+    assert idx.region() == ql.ZARegion()
+    assert idx.currency() == ql.ZARCurrency()
+
+
+def test_yyzacpi_construction():
+    """Test YYZACPI construction."""
+    idx = ql.YYZACPI()
+    assert isinstance(idx, ql.YoYInflationIndex)
+    assert idx.frequency() == ql.Monthly

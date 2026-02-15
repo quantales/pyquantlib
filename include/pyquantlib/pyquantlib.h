@@ -173,6 +173,9 @@ namespace ql_indexes {
     void ukrpi(py::module_&);
     void euhicp(py::module_&);
     void uscpi(py::module_&);
+    void aucpi(py::module_&);
+    void frhicp(py::module_&);
+    void zacpi(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -242,6 +245,13 @@ namespace ql_termstructures {
     void inflationtermstructure(py::module_&);
     void zeroinflationtermstructurehandle(py::module_&);
     void yoyinflationtermstructurehandle(py::module_&);
+    void seasonality(py::module_&);
+    void inflationhelper(py::module_&);
+    void inflationhelpers(py::module_&);
+    void interpolatedzeroinflationcurve(py::module_&);
+    void interpolatedyoyinflationcurve(py::module_&);
+    void piecewisezeroinflationcurve(py::module_&);
+    void piecewiseyoyinflationcurve(py::module_&);
 }
 
 namespace ql_processes {

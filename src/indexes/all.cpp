@@ -36,4 +36,7 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
     ADD_MAIN_BINDING(ql_indexes::euhicp,
         "EUHICP, EUHICPXT, YYEUHICP, YYEUHICPXT");
     ADD_MAIN_BINDING(ql_indexes::uscpi, "USCPI, YYUSCPI");
+    ADD_MAIN_BINDING(ql_indexes::aucpi, "AUCPI, YYAUCPI");
+    ADD_MAIN_BINDING(ql_indexes::frhicp, "FRHICP, YYFRHICP");
+    ADD_MAIN_BINDING(ql_indexes::zacpi, "ZACPI, YYZACPI");
 }

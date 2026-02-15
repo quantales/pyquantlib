@@ -21,6 +21,7 @@
 #include <ql/index.hpp>
 #include <ql/indexes/interestrateindex.hpp>
 #include <ql/indexes/inflationindex.hpp>
+#include <ql/termstructures/inflation/seasonality.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/termstructures/defaulttermstructure.hpp>
@@ -318,6 +319,30 @@ public:
     QuantLib::Real pastFixing(const QuantLib::Date& fixingDate) const override {
         PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::InflationIndex, pastFixing,
                                fixingDate);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// Seasonality Trampoline
+// -----------------------------------------------------------------------------
+class PySeasonality : public QuantLib::Seasonality {
+public:
+    using QuantLib::Seasonality::Seasonality;
+
+    QuantLib::Rate correctZeroRate(const QuantLib::Date& d, QuantLib::Rate r,
+        const QuantLib::InflationTermStructure& iTS) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Rate, QuantLib::Seasonality,
+                               correctZeroRate, d, r, iTS);
+    }
+
+    QuantLib::Rate correctYoYRate(const QuantLib::Date& d, QuantLib::Rate r,
+        const QuantLib::InflationTermStructure& iTS) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Rate, QuantLib::Seasonality,
+                               correctYoYRate, d, r, iTS);
+    }
+
+    bool isConsistent(const QuantLib::InflationTermStructure& iTS) const override {
+        PYBIND11_OVERRIDE(bool, QuantLib::Seasonality, isConsistent, iTS);
     }
 };
 

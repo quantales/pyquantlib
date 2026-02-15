@@ -14,6 +14,7 @@
 #include "pyquantlib/pyquantlib.h"
 #include "pyquantlib/binding_manager.h"
 #include <ql/termstructures/inflationtermstructure.hpp>
+#include <ql/termstructures/inflation/seasonality.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -33,7 +34,18 @@ void ql_termstructures::inflationtermstructure(py::module_& m) {
         .def("baseDate", &InflationTermStructure::baseDate,
             "Returns the base date.")
         .def("hasSeasonality", &InflationTermStructure::hasSeasonality,
-            "Returns true if a seasonality correction is set.");
+            "Returns true if a seasonality correction is set.")
+        .def("setSeasonality",
+            [](InflationTermStructure& self, const py::object& seasonality) {
+                ext::shared_ptr<Seasonality> s;
+                if (!seasonality.is_none())
+                    s = seasonality.cast<ext::shared_ptr<Seasonality>>();
+                self.setSeasonality(s);
+            },
+            py::arg("seasonality") = py::none(),
+            "Sets the seasonality correction.")
+        .def("seasonality", &InflationTermStructure::seasonality,
+            "Returns the seasonality correction.");
 
     // ZeroInflationTermStructure ABC
     py::class_<ZeroInflationTermStructure, InflationTermStructure,

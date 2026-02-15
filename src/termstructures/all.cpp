@@ -165,4 +165,26 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "Handle<ZeroInflationTermStructure>");
     ADD_MAIN_BINDING(ql_termstructures::yoyinflationtermstructurehandle,
         "Handle<YoYInflationTermStructure>");
+
+    // Seasonality
+    ADD_MAIN_BINDING(ql_termstructures::seasonality,
+        "Seasonality ABC, MultiplicativePriceSeasonality, KerkhofSeasonality");
+
+    // Inflation bootstrap helpers
+    ADD_BASE_BINDING(ql_termstructures::inflationhelper,
+        "ZeroInflationHelper, YoYInflationHelper ABCs");
+    ADD_MAIN_BINDING(ql_termstructures::inflationhelpers,
+        "ZeroCouponInflationSwapHelper, YearOnYearInflationSwapHelper");
+
+    // Interpolated inflation curves
+    ADD_MAIN_BINDING(ql_termstructures::interpolatedzeroinflationcurve,
+        "ZeroInflationCurve (Linear)");
+    ADD_MAIN_BINDING(ql_termstructures::interpolatedyoyinflationcurve,
+        "YoYInflationCurve (Linear)");
+
+    // Piecewise (bootstrapped) inflation curves
+    ADD_MAIN_BINDING(ql_termstructures::piecewisezeroinflationcurve,
+        "PiecewiseZeroInflationCurve (Linear)");
+    ADD_MAIN_BINDING(ql_termstructures::piecewiseyoyinflationcurve,
+        "PiecewiseYoYInflationCurve (Linear)");
 }
