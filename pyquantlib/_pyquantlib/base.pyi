@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationTermStructure', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -586,6 +586,14 @@ class InflationTermStructure(TermStructure):
     def hasSeasonality(self) -> bool:
         """
         Returns true if a seasonality correction is set.
+        """
+    def seasonality(self) -> ...:
+        """
+        Returns the seasonality correction.
+        """
+    def setSeasonality(self, seasonality: typing.Any = None) -> None:
+        """
+        Sets the seasonality correction.
         """
 class Instrument(LazyObject):
     """
@@ -1193,6 +1201,32 @@ class RelativeDateRateHelper(RateHelper):
     """
     Rate helper with date schedule relative to evaluation date.
     """
+class RelativeDateYoYInflationHelper(YoYInflationHelper):
+    """
+    YoY inflation helper with dates relative to evaluation date.
+    """
+class RelativeDateZeroInflationHelper(ZeroInflationHelper):
+    """
+    Zero-inflation helper with dates relative to evaluation date.
+    """
+class Seasonality:
+    """
+    Abstract base class for inflation seasonality corrections.
+    """
+    def __init__(self) -> None:
+        ...
+    def correctYoYRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat, inflationTermStructure: InflationTermStructure) -> float:
+        """
+        Returns the seasonality-corrected year-on-year rate.
+        """
+    def correctZeroRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat, inflationTermStructure: InflationTermStructure) -> float:
+        """
+        Returns the seasonality-corrected zero rate.
+        """
+    def isConsistent(self, inflationTermStructure: InflationTermStructure) -> bool:
+        """
+        Returns true if the seasonality is consistent with the term structure.
+        """
 class ShortRateModel(CalibratedModel):
     """
     Abstract base class for short-rate models.
@@ -1725,6 +1759,38 @@ class YieldTermStructure(TermStructure):
         """
         Returns the zero rate for the given time.
         """
+class YoYInflationHelper(Observer, pyquantlib._pyquantlib.Observable):
+    """
+    Bootstrap helper for year-on-year inflation term structures.
+    """
+    def earliestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the earliest date.
+        """
+    def impliedQuote(self) -> float:
+        """
+        Returns the implied quote.
+        """
+    def latestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest date.
+        """
+    def latestRelevantDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest relevant date.
+        """
+    def maturityDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the maturity date.
+        """
+    def quote(self) -> pyquantlib._pyquantlib.QuoteHandle:
+        """
+        Returns the market quote handle.
+        """
+    def quoteError(self) -> float:
+        """
+        Returns the difference between market and implied quotes.
+        """
 class YoYInflationTermStructure(InflationTermStructure):
     """
     Abstract base class for year-on-year inflation term structures.
@@ -1732,6 +1798,38 @@ class YoYInflationTermStructure(InflationTermStructure):
     def yoyRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
         """
         Returns the year-on-year inflation rate for the given date.
+        """
+class ZeroInflationHelper(Observer, pyquantlib._pyquantlib.Observable):
+    """
+    Bootstrap helper for zero-inflation term structures.
+    """
+    def earliestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the earliest date.
+        """
+    def impliedQuote(self) -> float:
+        """
+        Returns the implied quote.
+        """
+    def latestDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest date.
+        """
+    def latestRelevantDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the latest relevant date.
+        """
+    def maturityDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the maturity date.
+        """
+    def quote(self) -> pyquantlib._pyquantlib.QuoteHandle:
+        """
+        Returns the market quote handle.
+        """
+    def quoteError(self) -> float:
+        """
+        Returns the difference between market and implied quotes.
         """
 class ZeroInflationTermStructure(InflationTermStructure):
     """

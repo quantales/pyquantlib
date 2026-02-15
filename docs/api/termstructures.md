@@ -773,6 +773,77 @@ start, end = ql.inflationPeriod(ql.Date(15, ql.March, 2024), ql.Monthly)
 # start = Date(1, March, 2024), end = Date(31, March, 2024)
 ```
 
+### Seasonality
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.Seasonality
+   :members:
+.. autoclass:: pyquantlib.MultiplicativePriceSeasonality
+   :members:
+.. autoclass:: pyquantlib.KerkhofSeasonality
+   :members:
+```
+
+```python
+factors = [1.0, 1.01, 1.02, 0.99, 0.98, 1.0, 1.01, 1.03, 0.97, 0.98, 1.0, 1.01]
+seasonality = ql.MultiplicativePriceSeasonality(
+    ql.Date(1, ql.January, 2024), ql.Monthly, factors
+)
+curve.setSeasonality(seasonality)
+```
+
+### Inflation Bootstrap Helpers
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.ZeroInflationHelper
+   :members:
+.. autoclass:: pyquantlib.base.YoYInflationHelper
+   :members:
+.. autoclass:: pyquantlib.ZeroCouponInflationSwapHelper
+   :members:
+.. autoclass:: pyquantlib.YearOnYearInflationSwapHelper
+   :members:
+```
+
+```python
+helper = ql.ZeroCouponInflationSwapHelper(
+    0.025,                          # quoted rate
+    ql.Period(3, ql.Months),        # observation lag
+    maturity_date, calendar, ql.ModifiedFollowing,
+    day_counter, cpi_index, ql.CPI.Flat,
+)
+```
+
+### Interpolated Inflation Curves
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroInflationCurve
+   :members:
+.. autoclass:: pyquantlib.YoYInflationCurve
+   :members:
+```
+
+```python
+curve = ql.ZeroInflationCurve(
+    reference_date, dates, rates, ql.Monthly, day_counter
+)
+```
+
+### Piecewise Inflation Curves
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseZeroInflationCurve
+   :members:
+.. autoclass:: pyquantlib.PiecewiseYoYInflationCurve
+   :members:
+```
+
+```python
+curve = ql.PiecewiseZeroInflationCurve(
+    reference_date, base_date, ql.Monthly, day_counter, helpers
+)
+```
+
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, and `YoYInflationTermStructure` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure`, `Seasonality`, `ZeroInflationHelper`, and `YoYInflationHelper` are available in `pyquantlib.base`.
 ```

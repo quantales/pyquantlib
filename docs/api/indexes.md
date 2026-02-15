@@ -351,3 +351,29 @@ yy = ql.YYUSCPI(yoy_inflation_curve)      # with term structure
 .. autoclass:: pyquantlib.UKRPI
 .. autoclass:: pyquantlib.YYUKRPI
 ```
+
+#### Australian CPI
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AUCPI
+.. autoclass:: pyquantlib.YYAUCPI
+```
+
+```python
+cpi = ql.AUCPI(ql.Quarterly, False)          # frequency and revised flag
+cpi = ql.AUCPI(ql.Quarterly, False, zero_inflation_curve)
+```
+
+#### French HICP
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FRHICP
+.. autoclass:: pyquantlib.YYFRHICP
+```
+
+#### South African CPI
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZACPI
+.. autoclass:: pyquantlib.YYZACPI
+```
