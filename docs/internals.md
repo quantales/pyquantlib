@@ -62,6 +62,30 @@ In practice, module boundaries do most of the work. `patterns_bindings` (Observa
 
 When the ordering is wrong, pybind11 raises an error at import time. The BindingManager's error isolation identifies the failing binding by its description string, making it straightforward to diagnose and fix by reordering.
 
+### What Must Be Ordered vs. What Resolves Lazily
+
+Not all type references require strict ordering. The rule is:
+
+**Parent class registration must precede child class registration.** When pybind11 encounters `py::class_<Child, Parent>`, it looks up the `Parent` type immediately. If `Parent` is not yet registered, pybind11 raises an error. This is the only hard ordering constraint.
+
+**Parameter types, return types, and holder types resolve lazily at Python call time.** When `.def(py::init<Args...>())` or `.def("method", &Class::method)` is called, pybind11 stores a function object but does not check that the argument or return types are registered. The actual `type_caster` lookup happens when Python code invokes the function. Since `finalize()` completes all registrations before any Python code runs, cross-module type references in function signatures work without ordering constraints.
+
+This is why `IborIndex` (registered in `indexes_bindings`) can accept `Handle<YieldTermStructure>` and `shared_ptr<YieldTermStructure>` parameters even though `YieldTermStructure` is registered later in `termstructures_bindings`. The same applies to inflation indexes referencing inflation term structure types.
+
+In summary:
+
+| Reference kind | Resolution timing | Ordering required? |
+|----------------|------------------|--------------------|
+| `py::class_<Child, Parent>` | Immediate (registration time) | Yes -- parent first |
+| Constructor/method parameter types | Lazy (Python call time) | No |
+| Method return types | Lazy (Python call time) | No |
+| `py::implicitly_convertible<A, B>` | Lazy (Python call time) | No |
+| `py::arg("x") = default_value` | Immediate (registration time) | Yes -- see {doc}`design/bridge-defaults` |
+
+```{note}
+This lazy resolution applies to the *runtime type registry* used by pybind11's type casters when functions are called from Python. It is distinct from the *compile-time* type caster issue described in {doc}`design/cross-tu-holders`, where template instantiation across translation units requires the `py::cast()` workaround.
+```
+
 ### Convenience Macros
 
 ```cpp
