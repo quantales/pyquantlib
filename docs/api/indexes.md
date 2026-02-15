@@ -37,7 +37,7 @@ from pyquantlib.base import Index, InterestRateIndex
 ### IborIndex
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.base.IborIndex
+.. autoclass:: pyquantlib.IborIndex
    :members:
 ```
 
