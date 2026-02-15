@@ -10,7 +10,7 @@ url: https://pyquantlib.readthedocs.io
 license: BSD-3-Clause
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.18563010
+    value: 10.5281/zenodo.18529027
     description: Zenodo concept DOI (all versions)
 keywords:
   - quantitative finance
