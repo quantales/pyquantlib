@@ -17,12 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Region` base class with concrete regions (`AustraliaRegion`, `EURegion`, `FranceRegion`, `UKRegion`, `USRegion`, `ZARegion`) and `CustomRegion`
 - `InflationIndex` ABC, `ZeroInflationIndex` ABC, `YoYInflationIndex` ABC (in `pyquantlib.base`)
 - `CPI` interpolation struct (`AsIndex`, `Flat`, `Linear`)
-- Concrete inflation indexes: `USCPI`, `YYUSCPI`, `EUHICP`, `EUHICPXT`, `YYEUHICP`, `YYEUHICPXT`, `UKRPI`, `YYUKRPI`
+- Concrete inflation indexes: `USCPI`, `YYUSCPI`, `EUHICP`, `EUHICPXT`, `YYEUHICP`, `YYEUHICPXT`, `UKRPI`, `YYUKRPI`, `AUCPI`, `YYAUCPI`, `FRHICP`, `YYFRHICP`, `ZACPI`, `YYZACPI`
 
 #### Term Structures
 - `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure` ABCs (in `pyquantlib.base`)
 - `ZeroInflationTermStructureHandle`, `RelinkableZeroInflationTermStructureHandle`, `YoYInflationTermStructureHandle`, `RelinkableYoYInflationTermStructureHandle`
 - `inflationPeriod` free function
+- **Seasonality**: `Seasonality` ABC (in `pyquantlib.base`), `MultiplicativePriceSeasonality`, `KerkhofSeasonality`
+- **Inflation bootstrap helpers**: `ZeroInflationHelper`, `YoYInflationHelper` ABCs (in `pyquantlib.base`), `ZeroCouponInflationSwapHelper`, `YearOnYearInflationSwapHelper`
+- **Interpolated inflation curves**: `ZeroInflationCurve`, `YoYInflationCurve` (Linear interpolation)
+- **Piecewise inflation curves**: `PiecewiseZeroInflationCurve`, `PiecewiseYoYInflationCurve` (Linear interpolation)
+- `setSeasonality()` and `seasonality()` on `InflationTermStructure`
 
 ## [0.2.0] - 2026-02-15
 
