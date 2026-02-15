@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Indexes
+- `Region` base class with concrete regions (`AustraliaRegion`, `EURegion`, `FranceRegion`, `UKRegion`, `USRegion`, `ZARegion`) and `CustomRegion`
+- `InflationIndex` ABC, `ZeroInflationIndex` ABC, `YoYInflationIndex` ABC (in `pyquantlib.base`)
+- `CPI` interpolation struct (`AsIndex`, `Flat`, `Linear`)
+- Concrete inflation indexes: `USCPI`, `YYUSCPI`, `EUHICP`, `EUHICPXT`, `YYEUHICP`, `YYEUHICPXT`, `UKRPI`, `YYUKRPI`
+
+#### Term Structures
+- `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure` ABCs (in `pyquantlib.base`)
+- `ZeroInflationTermStructureHandle`, `RelinkableZeroInflationTermStructureHandle`, `YoYInflationTermStructureHandle`, `RelinkableYoYInflationTermStructureHandle`
+- `inflationPeriod` free function
+
 ## [0.2.0] - 2026-02-15
 
 ### Added

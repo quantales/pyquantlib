@@ -216,3 +216,138 @@ swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years))
 swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve)
 swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve, discounting_curve)
 ```
+
+## Regions
+
+Regions identify the geographic area for inflation indexes.
+
+### Region
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Region
+   :members:
+```
+
+### CustomRegion
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CustomRegion
+```
+
+```python
+region = ql.CustomRegion("Brazil", "BR")
+print(region.name(), region.code())
+```
+
+### Concrete Regions
+
+| Class | Name | Code |
+|-------|------|------|
+| `AustraliaRegion` | Australia | AU |
+| `EURegion` | EU | EU |
+| `FranceRegion` | France | FR |
+| `UKRegion` | UK | UK |
+| `USRegion` | USA | US |
+| `ZARegion` | South Africa | ZA |
+
+```python
+us = ql.USRegion()
+print(us.name(), us.code())  # "USA" "US"
+```
+
+## Inflation Indexes
+
+### InflationIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.InflationIndex
+   :members:
+```
+
+Base class for all inflation indexes. Provides `familyName()`, `region()`, `revised()`, `frequency()`, `availabilityLag()`, and `currency()`.
+
+### CPI
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CPI
+   :members:
+   :undoc-members:
+```
+
+CPI interpolation types and the `laggedFixing` static method.
+
+```python
+# Interpolation types
+ql.CPI.AsIndex          # use index's built-in interpolation
+ql.CPI.Flat             # flat (no interpolation within period)
+ql.CPI.Linear           # linear interpolation between fixings
+
+# Compute lagged fixing
+fixing = ql.CPI.laggedFixing(index, date, observationLag, interpolation)
+```
+
+### ZeroInflationIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroInflationIndex
+```
+
+```python
+# Without term structure
+idx = ql.ZeroInflationIndex("CPI", ql.USRegion(), False, ql.Monthly,
+                            ql.Period(3, ql.Months), ql.USDCurrency())
+
+# With term structure (hidden handle)
+idx = ql.ZeroInflationIndex("CPI", ql.USRegion(), False, ql.Monthly,
+                            ql.Period(3, ql.Months), ql.USDCurrency(),
+                            zero_inflation_curve)
+```
+
+### YoYInflationIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationIndex
+```
+
+```python
+# Ratio-based from a zero inflation index
+yoy = ql.YoYInflationIndex(zero_index)
+
+# Quoted year-on-year index
+yoy = ql.YoYInflationIndex("YYUS", ql.USRegion(), False, False,
+                           ql.Monthly, ql.Period(3, ql.Months),
+                           ql.USDCurrency())
+```
+
+### Concrete Inflation Indexes
+
+#### US CPI
+
+```{eval-rst}
+.. autoclass:: pyquantlib.USCPI
+.. autoclass:: pyquantlib.YYUSCPI
+```
+
+```python
+cpi = ql.USCPI()                          # without term structure
+cpi = ql.USCPI(zero_inflation_curve)      # with term structure
+
+yy = ql.YYUSCPI()                         # without term structure
+yy = ql.YYUSCPI(yoy_inflation_curve)      # with term structure
+```
+
+#### EU HICP
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EUHICP
+.. autoclass:: pyquantlib.EUHICPXT
+.. autoclass:: pyquantlib.YYEUHICP
+.. autoclass:: pyquantlib.YYEUHICPXT
+```
+
+#### UK RPI
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UKRPI
+.. autoclass:: pyquantlib.YYUKRPI
+```

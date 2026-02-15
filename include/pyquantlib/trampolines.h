@@ -20,6 +20,7 @@
 #include <ql/cashflows/coupon.hpp>
 #include <ql/index.hpp>
 #include <ql/indexes/interestrateindex.hpp>
+#include <ql/indexes/inflationindex.hpp>
 #include <ql/termstructure.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/termstructures/defaulttermstructure.hpp>
@@ -286,6 +287,37 @@ public:
 
     void update() override {
         PYBIND11_OVERRIDE(void, QuantLib::InterestRateIndex, update,);
+    }
+};
+
+// -----------------------------------------------------------------------------
+// InflationIndex Trampoline
+// -----------------------------------------------------------------------------
+class PyInflationIndex : public QuantLib::InflationIndex {
+public:
+    using QuantLib::InflationIndex::InflationIndex;
+
+    std::string name() const override {
+        PYBIND11_OVERRIDE(std::string, QuantLib::InflationIndex, name,);
+    }
+
+    QuantLib::Calendar fixingCalendar() const override {
+        PYBIND11_OVERRIDE(QuantLib::Calendar, QuantLib::InflationIndex, fixingCalendar,);
+    }
+
+    bool isValidFixingDate(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE(bool, QuantLib::InflationIndex, isValidFixingDate, fixingDate);
+    }
+
+    QuantLib::Real fixing(const QuantLib::Date& fixingDate,
+                          bool forecastTodaysFixing = false) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::InflationIndex, fixing,
+                               fixingDate, forecastTodaysFixing);
+    }
+
+    QuantLib::Real pastFixing(const QuantLib::Date& fixingDate) const override {
+        PYBIND11_OVERRIDE_PURE(QuantLib::Real, QuantLib::InflationIndex, pastFixing,
+                               fixingDate);
     }
 };
 

@@ -156,4 +156,13 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "SpreadCdsHelper, UpfrontCdsHelper");
     ADD_MAIN_BINDING(ql_termstructures::piecewisedefaultcurve,
         "PiecewiseDefaultCurve instantiations");
+
+    // Inflation term structures
+    ADD_BASE_BINDING(ql_termstructures::inflationtermstructure,
+        "InflationTermStructure, ZeroInflationTermStructure, "
+        "YoYInflationTermStructure ABCs");
+    ADD_MAIN_BINDING(ql_termstructures::zeroinflationtermstructurehandle,
+        "Handle<ZeroInflationTermStructure>");
+    ADD_MAIN_BINDING(ql_termstructures::yoyinflationtermstructurehandle,
+        "Handle<YoYInflationTermStructure>");
 }

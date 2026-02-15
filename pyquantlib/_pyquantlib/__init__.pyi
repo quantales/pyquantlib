@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'Austria', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackCapFloorEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Bond', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Brent', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'Collar', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'CraigSneyd', 'CrankNicolson', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EURCurrency', 'EndCriteria', 'Eonia', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'ExponentialSplinesFitting', 'FIMCurrency', 'FRFCurrency', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FittedBondDiscountCurve', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FloatingRateBond', 'FloatingRateCoupon', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardRateAgreement', 'FourthOrder', 'FraRateHelper', 'France', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCDiscreteArithmeticAPEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SabrInterpolatedSmileSection', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'Sofr', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'Sqrt', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'UAHCurrency', 'UGXCurrency', 'USDCurrency', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'Years', 'YieldTermStructureHandle', 'ZARCurrency', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingPayment', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticHestonEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackCapFloorEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'Bond', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Brent', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CPI', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'Collar', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'CraigSneyd', 'CrankNicolson', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CustomRegion', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndCriteria', 'Eonia', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'ExponentialSplinesFitting', 'FIMCurrency', 'FRFCurrency', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FittedBondDiscountCurve', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FloatingRateBond', 'FloatingRateCoupon', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardRateAgreement', 'FourthOrder', 'FraRateHelper', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCDiscreteArithmeticAPEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'Mar', 'March', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableZeroInflationTermStructureHandle', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SabrInterpolatedSmileSection', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'Sofr', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'Sqrt', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USRegion', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'YYEUHICP', 'YYEUHICPXT', 'YYUKRPI', 'YYUSCPI', 'Years', 'YieldTermStructureHandle', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -719,6 +719,12 @@ class Australia(Calendar):
     ASX: typing.ClassVar[Australia.Market]  # value = <Market.ASX: 1>
     Settlement: typing.ClassVar[Australia.Market]  # value = <Market.Settlement: 0>
     def __init__(self, market: Australia.Market = ...) -> None:
+        ...
+class AustraliaRegion(Region):
+    """
+    Australia region.
+    """
+    def __init__(self) -> None:
         ...
 class Austria(Calendar):
     """
@@ -2163,6 +2169,60 @@ class COUCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class CPI:
+    """
+    CPI interpolation methods and utilities.
+    """
+    class InterpolationType:
+        """
+        CPI interpolation type.
+        
+        Members:
+        
+          AsIndex : Same interpolation as the index.
+        
+          Flat : Flat from previous fixing.
+        
+          Linear : Linearly between bracketing fixings.
+        """
+        AsIndex: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.AsIndex: 0>
+        Flat: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.Flat: 1>
+        Linear: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.Linear: 2>
+        __members__: typing.ClassVar[dict[str, CPI.InterpolationType]]  # value = {'AsIndex': <InterpolationType.AsIndex: 0>, 'Flat': <InterpolationType.Flat: 1>, 'Linear': <InterpolationType.Linear: 2>}
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    AsIndex: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.AsIndex: 0>
+    Flat: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.Flat: 1>
+    Linear: typing.ClassVar[CPI.InterpolationType]  # value = <InterpolationType.Linear: 2>
+    @staticmethod
+    def laggedFixing(index: ..., date: Date, observationLag: Period, interpolationType: CPI.InterpolationType) -> float:
+        """
+        Returns the lagged CPI fixing.
+        """
 class CYPCurrency(Currency):
     """
     ! The ISO three-letter code is CYP; the numeric code is 196.
@@ -3614,6 +3674,14 @@ class Currency:
         """
         Returns the triangulation currency, if any.
         """
+class CustomRegion(Region):
+    """
+    Custom region with user-defined name and code.
+    """
+    def __init__(self, name: str, code: str) -> None:
+        """
+        Constructs a custom region.
+        """
 class CzechRepublic(Calendar):
     """
     ! Holidays for the Prague stock exchange (see http://www.pse.cz/):
@@ -4359,12 +4427,56 @@ class ETHCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class EUHICP(ZeroInflationIndex):
+    """
+    EU Harmonised Index of Consumer Prices.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs EUHICP without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs EUHICP with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, zeroInflationTermStructure: ...) -> None:
+        """
+        Constructs EUHICP with a term structure.
+        """
+class EUHICPXT(ZeroInflationIndex):
+    """
+    EU HICP Excluding Tobacco.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs EUHICPXT without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs EUHICPXT with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, zeroInflationTermStructure: ...) -> None:
+        """
+        Constructs EUHICPXT with a term structure.
+        """
 class EURCurrency(Currency):
     """
     ! The ISO three-letter code is EUR; the numeric code is 978.
             It is divided into 100 cents.
     
             \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class EURegion(Region):
+    """
+    European Union region.
     """
     def __init__(self) -> None:
         ...
@@ -5901,6 +6013,12 @@ class France(Calendar):
             ...
     Exchange: typing.ClassVar[France.Market]  # value = <Market.Exchange: 1>
     Settlement: typing.ClassVar[France.Market]  # value = <Market.Settlement: 0>
+    def __init__(self) -> None:
+        ...
+class FranceRegion(Region):
+    """
+    France region.
+    """
     def __init__(self) -> None:
         ...
 class Frequency:
@@ -11086,6 +11204,27 @@ class Redemption(SimpleCashFlow):
         """
         Constructs a redemption with the given amount and date.
         """
+class Region:
+    """
+    Geographic region for inflation indexes.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __eq__(self, arg0: Region) -> bool:
+        ...
+    def __ne__(self, arg0: Region) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def code(self) -> str:
+        """
+        Returns the ISO region code.
+        """
+    def name(self) -> str:
+        """
+        Returns the region name.
+        """
 class RelinkableBlackVolTermStructureHandle(BlackVolTermStructureHandle):
     """
     Relinkable handle to BlackVolTermStructure.
@@ -11215,6 +11354,42 @@ class RelinkableSwaptionVolatilityStructureHandle(SwaptionVolatilityStructureHan
 class RelinkableYieldTermStructureHandle(YieldTermStructureHandle):
     """
     Relinkable handle to YieldTermStructure.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: typing.Any, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: typing.Any = None, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class RelinkableYoYInflationTermStructureHandle(YoYInflationTermStructureHandle):
+    """
+    Relinkable handle to YoYInflationTermStructure.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty relinkable handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: typing.Any, registerAsObserver: bool = True) -> None:
+        """
+        Creates a relinkable handle linked to the given object.
+        """
+    def linkTo(self, ptr: typing.Any = None, registerAsObserver: bool = True) -> None:
+        """
+        Links the handle to a new object instance. Notifies observers.
+        """
+class RelinkableZeroInflationTermStructureHandle(ZeroInflationTermStructureHandle):
+    """
+    Relinkable handle to ZeroInflationTermStructure.
     """
     @typing.overload
     def __init__(self) -> None:
@@ -13651,12 +13826,62 @@ class UGXCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class UKRPI(ZeroInflationIndex):
+    """
+    UK Retail Prices Index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs UKRPI without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs UKRPI with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, zeroInflationTermStructure: ...) -> None:
+        """
+        Constructs UKRPI with a term structure.
+        """
+class UKRegion(Region):
+    """
+    United Kingdom region.
+    """
+    def __init__(self) -> None:
+        ...
+class USCPI(ZeroInflationIndex):
+    """
+    US Consumer Price Index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs USCPI without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs USCPI with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, zeroInflationTermStructure: ...) -> None:
+        """
+        Constructs USCPI with a term structure.
+        """
 class USDCurrency(Currency):
     """
     ! The ISO three-letter code is USD; the numeric code is 840.
             It is divided in 100 cents.
     
             \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class USRegion(Region):
+    """
+    United States region.
     """
     def __init__(self) -> None:
         ...
@@ -14396,6 +14621,82 @@ class XRPCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class YYEUHICP(YoYInflationIndex):
+    """
+    Year-on-year EU HICP.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs YYEUHICP without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs YYEUHICP with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs YYEUHICP with a term structure.
+        """
+class YYEUHICPXT(YoYInflationIndex):
+    """
+    Year-on-year EU HICP Excluding Tobacco.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs YYEUHICPXT without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs YYEUHICPXT with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs YYEUHICPXT with a term structure.
+        """
+class YYUKRPI(YoYInflationIndex):
+    """
+    Year-on-year UK Retail Prices Index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs YYUKRPI without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs YYUKRPI with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs YYUKRPI with a term structure.
+        """
+class YYUSCPI(YoYInflationIndex):
+    """
+    Year-on-year US Consumer Price Index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs YYUSCPI without a term structure.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs YYUSCPI with a term structure handle.
+        """
+    @typing.overload
+    def __init__(self, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs YYUSCPI with a term structure.
+        """
 class YieldTermStructureHandle:
     """
     Handle to YieldTermStructure.
@@ -14437,12 +14738,117 @@ class YieldTermStructureHandle:
         """
         Returns the underlying shared_ptr. Raises error if empty.
         """
+class YoYInflationIndex(base.InflationIndex):
+    """
+    Year-on-year inflation index.
+    """
+    @typing.overload
+    def __init__(self, underlyingIndex: ZeroInflationIndex) -> None:
+        """
+        Constructs a year-on-year index as a ratio of a zero index.
+        """
+    @typing.overload
+    def __init__(self, underlyingIndex: ZeroInflationIndex, h: ...) -> None:
+        """
+        Constructs a year-on-year index with term structure handle.
+        """
+    @typing.overload
+    def __init__(self, underlyingIndex: ZeroInflationIndex, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs a year-on-year index with term structure.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency) -> None:
+        """
+        Constructs a quoted year-on-year index without a term structure.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency, h: ...) -> None:
+        """
+        Constructs a quoted year-on-year index with term structure handle.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency, yoyInflationTermStructure: ...) -> None:
+        """
+        Constructs a quoted year-on-year index with term structure.
+        """
+    def clone(self, h: ...) -> YoYInflationIndex:
+        """
+        Returns a copy linked to a different term structure.
+        """
+    def interpolated(self) -> bool:
+        """
+        Returns true if the index interpolates between fixings.
+        """
+    def lastFixingDate(self) -> Date:
+        """
+        Returns the last available fixing date.
+        """
+    def ratio(self) -> bool:
+        """
+        Returns true if index is defined as a ratio of zero index fixings.
+        """
+    def underlyingIndex(self) -> ZeroInflationIndex:
+        """
+        Returns the underlying zero inflation index (if ratio-based).
+        """
+    def yoyInflationTermStructure(self) -> ...:
+        """
+        Returns the YoY inflation term structure handle.
+        """
+class YoYInflationTermStructureHandle:
+    """
+    Handle to YoYInflationTermStructure.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: YoYInflationTermStructureHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: typing.Any, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: YoYInflationTermStructureHandle) -> bool:
+        ...
+    def __ne__(self, arg0: YoYInflationTermStructureHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.YoYInflationTermStructure:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.YoYInflationTermStructure:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
+        """
 class ZARCurrency(Currency):
     """
     ! The ISO three-letter code is ZAR; the numeric code is 710.
             It is divided into 100 cents.
     
             \\ingroup currencies
+    """
+    def __init__(self) -> None:
+        ...
+class ZARegion(Region):
+    """
+    South Africa region.
     """
     def __init__(self) -> None:
         ...
@@ -14567,6 +14973,78 @@ class ZeroCurve(base.YieldTermStructure):
     def zeroRates(self) -> list[float]:
         """
         Returns the zero rates.
+        """
+class ZeroInflationIndex(base.InflationIndex):
+    """
+    Zero-coupon inflation index.
+    """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency) -> None:
+        """
+        Constructs a zero inflation index without a term structure.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency, h: ...) -> None:
+        """
+        Constructs a zero inflation index with term structure handle.
+        """
+    @typing.overload
+    def __init__(self, familyName: str, region: Region, revised: bool, frequency: Frequency, availabilityLag: Period, currency: Currency, zeroInflationTermStructure: ...) -> None:
+        """
+        Constructs a zero inflation index with term structure.
+        """
+    def clone(self, h: ...) -> ZeroInflationIndex:
+        """
+        Returns a copy linked to a different term structure.
+        """
+    def lastFixingDate(self) -> Date:
+        """
+        Returns the last available fixing date.
+        """
+    def zeroInflationTermStructure(self) -> ...:
+        """
+        Returns the zero inflation term structure handle.
+        """
+class ZeroInflationTermStructureHandle:
+    """
+    Handle to ZeroInflationTermStructure.
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __bool__(self) -> bool:
+        """
+        Checks if the handle is non-empty.
+        """
+    def __eq__(self, arg0: ZeroInflationTermStructureHandle) -> bool:
+        ...
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Creates an empty handle.
+        """
+    @typing.overload
+    def __init__(self, ptr: typing.Any, registerAsObserver: bool = True) -> None:
+        """
+        Creates a handle linked to the given object.
+        """
+    def __lt__(self, arg0: ZeroInflationTermStructureHandle) -> bool:
+        ...
+    def __ne__(self, arg0: ZeroInflationTermStructureHandle) -> bool:
+        ...
+    def asObservable(self) -> Observable:
+        """
+        Converts to Observable for observer registration.
+        """
+    def currentLink(self) -> base.ZeroInflationTermStructure:
+        """
+        Returns the shared_ptr to the current object link.
+        """
+    def empty(self) -> bool:
+        """
+        Returns true if the handle is empty.
+        """
+    def get(self) -> base.ZeroInflationTermStructure:
+        """
+        Returns the underlying shared_ptr. Raises error if empty.
         """
 class ZeroSpreadedTermStructure(base.YieldTermStructure):
     """
@@ -14735,6 +15213,10 @@ def days(period: Period) -> float:
 def daysBetween(d1: Date, d2: Date) -> float:
     """
     Difference in days (including fraction) between dates.
+    """
+def inflationPeriod(date: Date, frequency: Frequency) -> tuple[Date, Date]:
+    """
+    Returns the start and end dates of the inflation period.
     """
 def months(period: Period) -> float:
     """

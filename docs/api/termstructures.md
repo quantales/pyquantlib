@@ -722,6 +722,57 @@ print(curve.survivalProbability(1.0))
 print(curve.nodes())
 ```
 
+## Inflation Term Structures
+
+### InflationTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.InflationTermStructure
+   :members:
+```
+
+Base class for all inflation term structures. Provides `frequency()`, `baseRate()`, `baseDate()`, and `hasSeasonality()`.
+
+### ZeroInflationTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.ZeroInflationTermStructure
+   :members:
+```
+
+Additional method: `zeroRate(date, observationLag, forceLinearInterpolation=False, extrapolate=False)`.
+
+### YoYInflationTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.YoYInflationTermStructure
+   :members:
+```
+
+Additional method: `yoyRate(date, observationLag, forceLinearInterpolation=False, extrapolate=False)`.
+
+### Inflation Handles
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroInflationTermStructureHandle
+.. autoclass:: pyquantlib.RelinkableZeroInflationTermStructureHandle
+.. autoclass:: pyquantlib.YoYInflationTermStructureHandle
+.. autoclass:: pyquantlib.RelinkableYoYInflationTermStructureHandle
+```
+
+### inflationPeriod
+
+```{eval-rst}
+.. autofunction:: pyquantlib.inflationPeriod
+```
+
+Returns the (start, end) date pair for the inflation period containing the given date.
+
+```python
+start, end = ql.inflationPeriod(ql.Date(15, ql.March, 2024), ql.Monthly)
+# start = Date(1, March, 2024), end = Date(31, March, 2024)
+```
+
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, and `OptionletStripper` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, and `YoYInflationTermStructure` are available in `pyquantlib.base`.
 ```

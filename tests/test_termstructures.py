@@ -385,3 +385,75 @@ def test_flatforward_hidden_handle_settlement_days():
 
     assert ff.settlementDays() == 2
     assert ff.compounding() == ql.Compounded
+
+
+# =============================================================================
+# InflationTermStructure ABC
+# =============================================================================
+
+
+def test_inflationtermstructure_abc_exists():
+    """Test that InflationTermStructure ABC is accessible."""
+    assert hasattr(ql.base, "InflationTermStructure")
+
+
+def test_zeroinflationtermstructure_abc_exists():
+    """Test that ZeroInflationTermStructure ABC is accessible."""
+    assert hasattr(ql.base, "ZeroInflationTermStructure")
+
+
+def test_yoyinflationtermstructure_abc_exists():
+    """Test that YoYInflationTermStructure ABC is accessible."""
+    assert hasattr(ql.base, "YoYInflationTermStructure")
+
+
+# =============================================================================
+# Inflation Handles
+# =============================================================================
+
+
+def test_zero_inflation_handle_empty():
+    """Test creating an empty ZeroInflationTermStructure handle."""
+    h = ql.ZeroInflationTermStructureHandle()
+    assert h.empty()
+    assert not h
+
+
+def test_zero_inflation_relinkable_handle():
+    """Test creating a relinkable ZeroInflationTermStructure handle."""
+    h = ql.RelinkableZeroInflationTermStructureHandle()
+    assert h.empty()
+
+
+def test_yoy_inflation_handle_empty():
+    """Test creating an empty YoYInflationTermStructure handle."""
+    h = ql.YoYInflationTermStructureHandle()
+    assert h.empty()
+    assert not h
+
+
+def test_yoy_inflation_relinkable_handle():
+    """Test creating a relinkable YoYInflationTermStructure handle."""
+    h = ql.RelinkableYoYInflationTermStructureHandle()
+    assert h.empty()
+
+
+# =============================================================================
+# inflationPeriod free function
+# =============================================================================
+
+
+def test_inflation_period():
+    """Test inflationPeriod free function."""
+    date = ql.Date(15, ql.March, 2024)
+    start, end = ql.inflationPeriod(date, ql.Monthly)
+    assert start == ql.Date(1, ql.March, 2024)
+    assert end == ql.Date(31, ql.March, 2024)
+
+
+def test_inflation_period_quarterly():
+    """Test inflationPeriod with quarterly frequency."""
+    date = ql.Date(15, ql.May, 2024)
+    start, end = ql.inflationPeriod(date, ql.Quarterly)
+    assert start == ql.Date(1, ql.April, 2024)
+    assert end == ql.Date(30, ql.June, 2024)

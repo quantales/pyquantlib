@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationTermStructure', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -530,6 +530,62 @@ class Index(pyquantlib._pyquantlib.Observable):
     def name(self) -> str:
         """
         Returns the name of the index.
+        """
+class InflationIndex(Index):
+    """
+    Abstract base class for inflation indexes.
+    """
+    def __init__(self, familyName: str, region: pyquantlib._pyquantlib.Region, revised: bool, frequency: pyquantlib._pyquantlib.Frequency, availabilityLag: pyquantlib._pyquantlib.Period, currency: pyquantlib._pyquantlib.Currency) -> None:
+        """
+        Constructs an inflation index.
+        """
+    def availabilityLag(self) -> pyquantlib._pyquantlib.Period:
+        """
+        Returns the availability lag.
+        """
+    def currency(self) -> pyquantlib._pyquantlib.Currency:
+        """
+        Returns the currency.
+        """
+    def familyName(self) -> str:
+        """
+        Returns the family name.
+        """
+    def frequency(self) -> pyquantlib._pyquantlib.Frequency:
+        """
+        Returns the publication frequency.
+        """
+    def pastFixing(self, fixingDate: pyquantlib._pyquantlib.Date) -> float:
+        """
+        Returns the past fixing for the given date.
+        """
+    def region(self) -> pyquantlib._pyquantlib.Region:
+        """
+        Returns the geographic region.
+        """
+    def revised(self) -> bool:
+        """
+        Returns true if the index is revised after publication.
+        """
+class InflationTermStructure(TermStructure):
+    """
+    Abstract base class for inflation term structures.
+    """
+    def baseDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the base date.
+        """
+    def baseRate(self) -> float:
+        """
+        Returns the base rate.
+        """
+    def frequency(self) -> pyquantlib._pyquantlib.Frequency:
+        """
+        Returns the frequency of the inflation index.
+        """
+    def hasSeasonality(self) -> bool:
+        """
+        Returns true if a seasonality correction is set.
         """
 class Instrument(LazyObject):
     """
@@ -1668,4 +1724,20 @@ class YieldTermStructure(TermStructure):
     def zeroRate(self, time: typing.SupportsFloat, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency = ..., extrapolate: bool = False) -> pyquantlib._pyquantlib.InterestRate:
         """
         Returns the zero rate for the given time.
+        """
+class YoYInflationTermStructure(InflationTermStructure):
+    """
+    Abstract base class for year-on-year inflation term structures.
+    """
+    def yoyRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
+        """
+        Returns the year-on-year inflation rate for the given date.
+        """
+class ZeroInflationTermStructure(InflationTermStructure):
+    """
+    Abstract base class for zero-coupon inflation term structures.
+    """
+    def zeroRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
+        """
+        Returns the zero-coupon inflation rate for the given date.
         """

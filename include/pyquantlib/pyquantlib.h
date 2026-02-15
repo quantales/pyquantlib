@@ -164,6 +164,15 @@ namespace ql_indexes {
     void sonia(py::module_&);
     void swapindex(py::module_&);
     void swapindexes(py::module_&);
+    // Inflation
+    void region(py::module_&);
+    void inflationindex(py::module_&);
+    void cpi(py::module_&);
+    void zeroinflationindex(py::module_&);
+    void yoyinflationindex(py::module_&);
+    void ukrpi(py::module_&);
+    void euhicp(py::module_&);
+    void uscpi(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -229,6 +238,10 @@ namespace ql_termstructures {
     void optionletstripper(py::module_&);
     void optionletstripper1(py::module_&);
     void strippedoptionletadapter(py::module_&);
+    // Inflation term structures
+    void inflationtermstructure(py::module_&);
+    void zeroinflationtermstructurehandle(py::module_&);
+    void yoyinflationtermstructurehandle(py::module_&);
 }
 
 namespace ql_processes {

@@ -26,4 +26,14 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
         "SwapIndex, OvernightIndexedSwapIndex");
     ADD_MAIN_BINDING(ql_indexes::swapindexes,
         "Concrete swap index subclasses (Euribor/Libor swap rates)");
+    // Inflation indexes
+    ADD_MAIN_BINDING(ql_indexes::region, "Region - geographic region");
+    ADD_BASE_BINDING(ql_indexes::inflationindex, "InflationIndex ABC");
+    ADD_MAIN_BINDING(ql_indexes::cpi, "CPI interpolation enum and utilities");
+    ADD_MAIN_BINDING(ql_indexes::zeroinflationindex, "ZeroInflationIndex");
+    ADD_MAIN_BINDING(ql_indexes::yoyinflationindex, "YoYInflationIndex");
+    ADD_MAIN_BINDING(ql_indexes::ukrpi, "UKRPI, YYUKRPI");
+    ADD_MAIN_BINDING(ql_indexes::euhicp,
+        "EUHICP, EUHICPXT, YYEUHICP, YYEUHICPXT");
+    ADD_MAIN_BINDING(ql_indexes::uscpi, "USCPI, YYUSCPI");
 }

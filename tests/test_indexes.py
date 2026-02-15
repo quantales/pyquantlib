@@ -8,7 +8,6 @@ import pytest
 
 import pyquantlib as ql
 
-
 # =============================================================================
 # Index (ABC)
 # =============================================================================
@@ -527,3 +526,221 @@ def test_swapindex_subclass_with_handle(cls_name, flat_curve):
     handle = ql.YieldTermStructureHandle(flat_curve["curve"])
     idx = cls(ql.Period("10Y"), handle)
     assert isinstance(idx, ql.SwapIndex)
+
+
+# =============================================================================
+# Region
+# =============================================================================
+
+
+def test_region_concrete_construction():
+    """Test constructing concrete regions."""
+    us = ql.USRegion()
+    assert us.name() == "USA"
+    assert us.code() == "US"
+
+    uk = ql.UKRegion()
+    assert uk.name() == "UK"
+    assert uk.code() == "UK"
+
+    eu = ql.EURegion()
+    assert eu.name() == "EU"
+    assert eu.code() == "EU"
+
+
+def test_region_all_concrete():
+    """Test all concrete region classes exist and construct."""
+    regions = {
+        "AustraliaRegion": ("Australia", "AU"),
+        "EURegion": ("EU", "EU"),
+        "FranceRegion": ("France", "FR"),
+        "UKRegion": ("UK", "UK"),
+        "USRegion": ("USA", "US"),
+        "ZARegion": ("South Africa", "ZA"),
+    }
+    for cls_name, (expected_name, expected_code) in regions.items():
+        cls = getattr(ql, cls_name)
+        r = cls()
+        assert r.name() == expected_name
+        assert r.code() == expected_code
+
+
+def test_custom_region():
+    """Test CustomRegion construction."""
+    r = ql.CustomRegion("Testland", "TL")
+    assert r.name() == "Testland"
+    assert r.code() == "TL"
+
+
+def test_region_equality():
+    """Test Region equality operators."""
+    us1 = ql.USRegion()
+    us2 = ql.USRegion()
+    uk = ql.UKRegion()
+    assert us1 == us2
+    assert us1 != uk
+
+
+def test_region_str():
+    """Test Region string representation."""
+    us = ql.USRegion()
+    assert str(us) == "USA"
+
+
+# =============================================================================
+# InflationIndex (ABC)
+# =============================================================================
+
+
+def test_inflationindex_abc_exists():
+    """Test that InflationIndex ABC is accessible."""
+    assert hasattr(ql.base, "InflationIndex")
+
+
+def test_inflationindex_zombie():
+    """Test that direct instantiation creates a zombie object."""
+    zombie = ql.base.InflationIndex(
+        "TEST", ql.USRegion(), False, ql.Monthly,
+        ql.Period(1, ql.Months), ql.USDCurrency()
+    )
+    with pytest.raises(RuntimeError, match="Tried to call pure virtual function"):
+        zombie.fixing(ql.Date(15, ql.January, 2025))
+
+
+# =============================================================================
+# CPI
+# =============================================================================
+
+
+def test_cpi_enum():
+    """Test CPI InterpolationType enum values."""
+    assert hasattr(ql.CPI, "AsIndex")
+    assert hasattr(ql.CPI, "Flat")
+    assert hasattr(ql.CPI, "Linear")
+    # Values are accessible directly
+    assert ql.CPI.AsIndex != ql.CPI.Flat
+    assert ql.CPI.Flat != ql.CPI.Linear
+
+
+# =============================================================================
+# ZeroInflationIndex
+# =============================================================================
+
+
+def test_zeroinflationindex_construction():
+    """Test ZeroInflationIndex construction without term structure."""
+    idx = ql.ZeroInflationIndex(
+        "CPI", ql.USRegion(), False, ql.Monthly,
+        ql.Period(1, ql.Months), ql.USDCurrency()
+    )
+    assert idx.familyName() == "CPI"
+    assert idx.region() == ql.USRegion()
+    assert idx.revised() is False
+    assert idx.frequency() == ql.Monthly
+    assert idx.availabilityLag() == ql.Period(1, ql.Months)
+    assert isinstance(idx, ql.base.InflationIndex)
+
+
+def test_zeroinflationindex_fixings():
+    """Test adding and retrieving fixings on a ZeroInflationIndex."""
+    idx = ql.ZeroInflationIndex(
+        "CPI", ql.USRegion(), False, ql.Monthly,
+        ql.Period(1, ql.Months), ql.USDCurrency()
+    )
+    # Add a fixing
+    fixing_date = ql.Date(1, ql.January, 2024)
+    idx.addFixing(fixing_date, 308.417)
+    assert idx.fixing(fixing_date) == pytest.approx(308.417)
+
+
+# =============================================================================
+# YoYInflationIndex
+# =============================================================================
+
+
+def test_yoyinflationindex_from_zero():
+    """Test YoYInflationIndex constructed as a ratio of a zero index."""
+    zero_idx = ql.ZeroInflationIndex(
+        "CPI", ql.USRegion(), False, ql.Monthly,
+        ql.Period(1, ql.Months), ql.USDCurrency()
+    )
+    yoy_idx = ql.YoYInflationIndex(zero_idx)
+    assert yoy_idx.ratio() is True
+    assert yoy_idx.underlyingIndex() is not None
+    assert isinstance(yoy_idx, ql.base.InflationIndex)
+
+
+def test_yoyinflationindex_quoted():
+    """Test standalone quoted YoYInflationIndex construction."""
+    yoy_idx = ql.YoYInflationIndex(
+        "YY_CPI", ql.USRegion(), False, ql.Monthly,
+        ql.Period(1, ql.Months), ql.USDCurrency()
+    )
+    assert yoy_idx.familyName() == "YY_CPI"
+    assert yoy_idx.ratio() is False
+
+
+# =============================================================================
+# Concrete Inflation Indexes
+# =============================================================================
+
+
+ZERO_INFLATION_INDEXES = ["USCPI", "UKRPI", "EUHICP", "EUHICPXT"]
+YOY_INFLATION_INDEXES = ["YYUSCPI", "YYUKRPI", "YYEUHICP", "YYEUHICPXT"]
+
+
+@pytest.mark.parametrize("cls_name", ZERO_INFLATION_INDEXES)
+def test_zero_inflation_index_construction(cls_name):
+    """Test constructing concrete zero inflation indexes."""
+    cls = getattr(ql, cls_name)
+    idx = cls()
+    assert isinstance(idx, ql.ZeroInflationIndex)
+    assert isinstance(idx, ql.base.InflationIndex)
+    assert idx.frequency() == ql.Monthly
+
+
+@pytest.mark.parametrize("cls_name", YOY_INFLATION_INDEXES)
+def test_yoy_inflation_index_construction(cls_name):
+    """Test constructing concrete YoY inflation indexes."""
+    cls = getattr(ql, cls_name)
+    idx = cls()
+    assert isinstance(idx, ql.YoYInflationIndex)
+    assert isinstance(idx, ql.base.InflationIndex)
+    assert idx.frequency() == ql.Monthly
+
+
+def test_uscpi_properties():
+    """Test USCPI index properties."""
+    idx = ql.USCPI()
+    assert idx.familyName() == "CPI"
+    assert idx.region() == ql.USRegion()
+    assert idx.currency() == ql.USDCurrency()
+    assert idx.availabilityLag() == ql.Period(1, ql.Months)
+
+
+def test_ukrpi_properties():
+    """Test UKRPI index properties."""
+    idx = ql.UKRPI()
+    assert idx.familyName() == "RPI"
+    assert idx.region() == ql.UKRegion()
+    assert idx.currency() == ql.GBPCurrency()
+
+
+def test_euhicp_properties():
+    """Test EUHICP index properties."""
+    idx = ql.EUHICP()
+    assert idx.familyName() == "HICP"
+    assert idx.region() == ql.EURegion()
+    assert idx.currency() == ql.EURCurrency()
+
+
+def test_uscpi_fixings():
+    """Test adding fixings to USCPI."""
+    idx = ql.USCPI()
+    date1 = ql.Date(1, ql.January, 2024)
+    date2 = ql.Date(1, ql.February, 2024)
+    idx.addFixing(date1, 308.417)
+    idx.addFixing(date2, 310.326)
+    assert idx.fixing(date1) == pytest.approx(308.417)
+    assert idx.fixing(date2) == pytest.approx(310.326)
+    idx.clearFixings()
