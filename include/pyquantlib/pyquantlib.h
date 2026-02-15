@@ -16,10 +16,13 @@
 #include <pybind11/pybind11.h>
 #include "pyquantlib/binding_manager.h"
 
-// Support for boost::shared_ptr when QuantLib uses it
-// QuantLib defines QL_USE_STD_SHARED_PTR when using std::shared_ptr
+// PyQuantLib requires QuantLib built with std::shared_ptr.
+// See CONTRIBUTING.md § "QuantLib Build Requirements" for details.
 #if !defined(QL_USE_STD_SHARED_PTR)
-PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>, true);
+static_assert(false,
+    "PyQuantLib requires QuantLib built with std::shared_ptr. "
+    "Rebuild QuantLib with -DQL_USE_STD_SHARED_PTR=ON. "
+    "See CONTRIBUTING.md for details.");
 #endif
 
 namespace py = pybind11;

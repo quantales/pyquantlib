@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Handle constructors now use `shared_ptr_from_python` for safe `shared_ptr` extraction from `py::classh` types with diamond/virtual inheritance
+- Compile-time check enforcing `QL_USE_STD_SHARED_PTR`; building against QuantLib with `boost::shared_ptr` caused heap corruption at runtime
 
 ## [0.1.0] - 2026-02-08
 
