@@ -27,7 +27,17 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 
 ## Installation
 
-### Prerequisites
+```bash
+pip install pyquantlib
+```
+
+Pre-built wheels are available for Python 3.10--3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked -- no separate installation required.
+
+### From Source
+
+Building from source requires QuantLib built with specific CMake flags. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
+
+#### Prerequisites
 
 - Python 3.10+
 - CMake 3.18+
@@ -35,7 +45,7 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 - Boost headers
 - **QuantLib 1.40+** built with `std::shared_ptr` support (see below)
 
-### QuantLib Build Requirement
+#### QuantLib Build Requirement
 
 > **Important**: PyQuantLib requires QuantLib built from source with specific settings.
 
@@ -57,12 +67,9 @@ cmake -DBUILD_SHARED_LIBS=OFF \
 | `QL_USE_STD_SHARED_PTR=ON` | pybind11 uses `std::shared_ptr` as default holder |
 | `CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL` | **Windows only**: Python extensions require dynamic runtime (`/MD`) |
 
-**Note**: Pre-built packages (Homebrew, vcpkg, apt) use shared builds and `boost::shared_ptr` — they are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
-
-### From Source
+**Note**: Pre-built packages (Homebrew, vcpkg, apt) use shared builds and `boost::shared_ptr` -- they are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
 ```bash
-# After building QuantLib with required flags (see CONTRIBUTING.md)
 pip install git+https://github.com/quantales/pyquantlib.git
 ```
 
