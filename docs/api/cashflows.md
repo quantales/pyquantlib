@@ -156,6 +156,8 @@ ql.setCouponPricer(cms_leg, pricer)
 .. autofunction:: pyquantlib.setCouponPricer
 ```
 
+Also accepts inflation coupon pricers for legs containing `YoYInflationCoupon` cashflows.
+
 ## Leg Builders
 
 ### FixedRateLeg
@@ -230,6 +232,122 @@ settings.createAtParCoupons()    # default
 settings.createIndexedCoupons()  # alternative
 ```
 
+## Inflation Coupons
+
+### InflationCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.InflationCoupon
+   :members:
+   :undoc-members:
+```
+
+Abstract base class for coupons linked to an inflation index.
+
+### ZeroInflationCashFlow
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroInflationCashFlow
+   :members:
+   :undoc-members:
+```
+
+Cash flow paying the zero-inflation rate between two dates.
+
+### YoYInflationCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCoupon
+   :members:
+   :undoc-members:
+```
+
+Coupon paying the year-on-year inflation rate.
+
+### CappedFlooredYoYInflationCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CappedFlooredYoYInflationCoupon
+   :members:
+   :undoc-members:
+```
+
+Year-on-year inflation coupon with cap and/or floor.
+
+### yoyInflationLeg
+
+```{eval-rst}
+.. autoclass:: pyquantlib.yoyInflationLeg
+   :members:
+   :undoc-members:
+```
+
+Builder class for constructing a leg of year-on-year inflation coupons.
+
+```python
+leg = ql.yoyInflationLeg(schedule, calendar, yoy_index, observation_lag) \
+    .withNotionals(1_000_000.0) \
+    .withPaymentDayCounter(ql.Actual365Fixed()) \
+    .build()
+```
+
+## Inflation Coupon Pricers
+
+### InflationCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.InflationCouponPricer
+   :members:
+   :undoc-members:
+```
+
+Abstract base class for inflation coupon pricers.
+
+### YoYInflationCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCouponPricer
+   :members:
+   :undoc-members:
+```
+
+Base pricer for year-on-year inflation coupons.
+
+### BlackYoYInflationCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackYoYInflationCouponPricer
+   :members:
+   :undoc-members:
+```
+
+Black-formula pricer for YoY inflation coupons (lognormal volatility).
+
+### UnitDisplacedBlackYoYInflationCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UnitDisplacedBlackYoYInflationCouponPricer
+   :members:
+   :undoc-members:
+```
+
+Unit-displaced Black-formula pricer for YoY inflation coupons.
+
+### BachelierYoYInflationCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BachelierYoYInflationCouponPricer
+   :members:
+   :undoc-members:
+```
+
+Bachelier (normal volatility) pricer for YoY inflation coupons.
+
+```python
+pricer = ql.BlackYoYInflationCouponPricer(yoy_vol_handle)
+ql.setCouponPricer(yoy_leg, pricer)
+```
+
 ## Duration
 
 ### DurationType
@@ -245,5 +363,5 @@ settings.createIndexedCoupons()  # alternative
 | `Modified` | Modified duration |
 
 ```{note}
-Abstract base classes `CashFlow`, `Coupon`, `FloatingRateCouponPricer`, `MeanRevertingPricer`, and `CmsCouponPricer` are available in `pyquantlib.base` for custom implementations.
+Abstract base classes `CashFlow`, `Coupon`, `FloatingRateCouponPricer`, `MeanRevertingPricer`, `CmsCouponPricer`, `InflationCoupon`, and `InflationCouponPricer` are available in `pyquantlib.base` for custom implementations.
 ```

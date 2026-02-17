@@ -99,4 +99,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "MidPointCdsEngine - mid-point CDS engine");
     ADD_MAIN_BINDING(ql_pricingengines::isdacdsengine,
         "IsdaCdsEngine - ISDA-compliant CDS engine");
+
+    // Inflation engines
+    ADD_MAIN_BINDING(ql_pricingengines::inflationcapfloorengines,
+        "YoYInflation Black/UnitDisplaced/Bachelier CapFloorEngine");
 }

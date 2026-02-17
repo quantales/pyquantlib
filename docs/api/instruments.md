@@ -273,6 +273,91 @@ print(cds.fairSpread())
 .. autofunction:: pyquantlib.cdsMaturity
 ```
 
+## Inflation Swaps
+
+### ZeroCouponInflationSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroCouponInflationSwap
+   :members:
+   :undoc-members:
+```
+
+Zero-coupon inflation swap: fixed rate vs zero-coupon inflation leg.
+
+### YearOnYearInflationSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YearOnYearInflationSwap
+   :members:
+   :undoc-members:
+```
+
+Year-on-year inflation swap: fixed rate vs YoY inflation leg.
+
+## YoY Inflation Caps, Floors, and Collars
+
+### YoYInflationCapFloor
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCapFloor
+   :members:
+   :undoc-members:
+```
+
+### YoYInflationCapFloorType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCapFloorType
+   :members:
+   :undoc-members:
+```
+
+| Value | Description |
+|-------|-------------|
+| `Cap` | YoY inflation cap |
+| `Floor` | YoY inflation floor |
+| `Collar` | YoY inflation collar |
+
+### YoYInflationCap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCap
+   :members:
+   :undoc-members:
+```
+
+### YoYInflationFloor
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationFloor
+   :members:
+   :undoc-members:
+```
+
+### YoYInflationCollar
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCollar
+   :members:
+   :undoc-members:
+```
+
+### MakeYoYInflationCapFloor
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MakeYoYInflationCapFloor
+```
+
+Pythonic builder function for YoY inflation caps and floors. Constructor arguments are positional; builder options are keyword arguments.
+
+```python
+cap = ql.MakeYoYInflationCapFloor(
+    ql.YoYInflationCapFloorType.Cap, yoy_leg, [0.03],
+    pricingEngine=engine,
+)
+```
+
 ## Options
 
 ### VanillaOption

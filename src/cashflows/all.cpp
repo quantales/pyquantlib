@@ -43,4 +43,17 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
         "CmsCoupon, CmsLeg");
     ADD_MAIN_BINDING(ql_cashflows::lineartsrpricer,
         "LinearTsrPricer");
+
+    // Inflation cashflows
+    ADD_BASE_BINDING(ql_cashflows::inflationcoupon,
+        "InflationCoupon ABC");
+    ADD_MAIN_BINDING(ql_cashflows::zeroinflationcashflow,
+        "ZeroInflationCashFlow");
+    ADD_MAIN_BINDING(ql_cashflows::yoyinflationcoupon,
+        "YoYInflationCoupon, yoyInflationLeg");
+    ADD_MAIN_BINDING(ql_cashflows::capflooredinflationcoupon,
+        "CappedFlooredYoYInflationCoupon");
+    ADD_MAIN_BINDING(ql_cashflows::inflationcouponpricer,
+        "InflationCouponPricer ABC, YoYInflationCouponPricer, "
+        "Black/UnitDisplaced/Bachelier pricers");
 }

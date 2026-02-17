@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -531,6 +531,62 @@ class Index(pyquantlib._pyquantlib.Observable):
         """
         Returns the name of the index.
         """
+class InflationCoupon(Coupon):
+    """
+    Abstract base class for inflation coupons.
+    """
+    def accruedAmount(self, date: pyquantlib._pyquantlib.Date) -> float:
+        """
+        Returns the accrued amount at the given date.
+        """
+    def amount(self) -> float:
+        """
+        Returns the coupon amount.
+        """
+    def dayCounter(self) -> pyquantlib._pyquantlib.DayCounter:
+        """
+        Returns the day counter.
+        """
+    def fixingDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the fixing date.
+        """
+    def fixingDays(self) -> int:
+        """
+        Returns the number of fixing days.
+        """
+    def index(self) -> ...:
+        """
+        Returns the inflation index.
+        """
+    def indexFixing(self) -> float:
+        """
+        Returns the index fixing.
+        """
+    def observationLag(self) -> pyquantlib._pyquantlib.Period:
+        """
+        Returns the observation lag.
+        """
+    def price(self, discountingCurve: ...) -> float:
+        """
+        Returns the present value given a discounting curve.
+        """
+    def pricer(self) -> ...:
+        """
+        Returns the inflation coupon pricer.
+        """
+    def rate(self) -> float:
+        """
+        Returns the coupon rate.
+        """
+    def setPricer(self, pricer: ...) -> None:
+        """
+        Sets the inflation coupon pricer.
+        """
+class InflationCouponPricer(Observer, pyquantlib._pyquantlib.Observable):
+    """
+    Abstract base class for inflation coupon pricers.
+    """
 class InflationIndex(Index):
     """
     Abstract base class for inflation indexes.
@@ -1798,6 +1854,52 @@ class YoYInflationTermStructure(InflationTermStructure):
     def yoyRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
         """
         Returns the year-on-year inflation rate for the given date.
+        """
+class YoYOptionletVolatilitySurface(VolatilityTermStructure):
+    """
+    Abstract base class for YoY inflation optionlet volatility.
+    """
+    def baseDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the base date.
+        """
+    def baseLevel(self) -> float:
+        """
+        Returns the base level of volatility.
+        """
+    def displacement(self) -> float:
+        """
+        Returns the displacement for shifted lognormal.
+        """
+    def frequency(self) -> pyquantlib._pyquantlib.Frequency:
+        """
+        Returns the frequency.
+        """
+    def indexIsInterpolated(self) -> bool:
+        """
+        Returns whether the index is interpolated.
+        """
+    def observationLag(self) -> pyquantlib._pyquantlib.Period:
+        """
+        Returns the observation lag.
+        """
+    def totalVariance(self, exerciseDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+        """
+        Returns the total variance.
+        """
+    @typing.overload
+    def volatility(self, maturityDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+        """
+        Returns the volatility for a given maturity date and strike.
+        """
+    @typing.overload
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+        """
+        Returns the volatility for a given option tenor and strike.
+        """
+    def volatilityType(self) -> pyquantlib._pyquantlib.VolatilityType:
+        """
+        Returns the volatility type.
         """
 class ZeroInflationHelper(Observer, pyquantlib._pyquantlib.Observable):
     """

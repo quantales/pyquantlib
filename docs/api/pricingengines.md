@@ -400,6 +400,44 @@ cap.setPricingEngine(engine)
 print(cap.NPV())
 ```
 
+## YoY Inflation Cap/Floor Engines
+
+### YoYInflationBlackCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationBlackCapFloorEngine
+   :members:
+   :undoc-members:
+```
+
+Black-formula engine for YoY inflation caps and floors (lognormal volatility).
+
+```python
+engine = ql.YoYInflationBlackCapFloorEngine(yoy_index, yoy_vol_handle, curve_handle)
+cap.setPricingEngine(engine)
+print(cap.NPV())
+```
+
+### YoYInflationUnitDisplacedBlackCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationUnitDisplacedBlackCapFloorEngine
+   :members:
+   :undoc-members:
+```
+
+Unit-displaced Black-formula engine for YoY inflation caps and floors.
+
+### YoYInflationBachelierCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationBachelierCapFloorEngine
+   :members:
+   :undoc-members:
+```
+
+Bachelier (normal volatility) engine for YoY inflation caps and floors.
+
 ## Bond Engines
 
 ### DiscountingBondEngine

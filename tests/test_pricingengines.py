@@ -98,3 +98,134 @@ def test_bachelier_stddev_derivative():
     """bachelierBlackFormulaStdDevDerivative returns correct value."""
     vega = ql.bachelierBlackFormulaStdDevDerivative(100.0, 100.0, 10.0)
     assert vega == pytest.approx(0.3989422804014327, rel=1e-10)
+
+
+# ---------------------------------------------------------------------------
+# YoY inflation cap/floor engines
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def yoy_engine_env():
+    """Common environment for YoY inflation engine tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    obs_lag = ql.Period(3, ql.Months)
+
+    nominal_curve = ql.FlatForward(today, 0.03, dc)
+    yts_handle = ql.YieldTermStructureHandle(nominal_curve)
+
+    yoy_idx = ql.YoYInflationIndex(ql.USCPI())
+
+    vol = ql.ConstantYoYOptionletVolatility(
+        0.10, 2, calendar, ql.ModifiedFollowing, dc,
+        obs_lag, ql.Monthly, False,
+    )
+    vol_handle = ql.YoYOptionletVolatilitySurfaceHandle(vol)
+
+    class Env:
+        pass
+
+    env = Env()
+    env.today = today
+    env.calendar = calendar
+    env.dc = dc
+    env.obs_lag = obs_lag
+    env.nominal_curve = nominal_curve
+    env.yts_handle = yts_handle
+    env.yoy_idx = yoy_idx
+    env.vol = vol
+    env.vol_handle = vol_handle
+    return env
+
+
+# --- YoYInflationBlackCapFloorEngine ---
+
+
+def test_yoy_black_engine_handle_construction(yoy_engine_env):
+    """YoYInflationBlackCapFloorEngine constructed with handles."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBlackCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert engine is not None
+
+
+def test_yoy_black_engine_hidden_handle_construction(yoy_engine_env):
+    """YoYInflationBlackCapFloorEngine constructed with raw shared_ptr args."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBlackCapFloorEngine(
+        env.yoy_idx, env.vol, env.nominal_curve,
+    )
+    assert engine is not None
+
+
+def test_yoy_black_engine_is_pricing_engine(yoy_engine_env):
+    """YoYInflationBlackCapFloorEngine inherits from PricingEngine."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBlackCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert isinstance(engine, ql.base.PricingEngine)
+
+
+# --- YoYInflationUnitDisplacedBlackCapFloorEngine ---
+
+
+def test_yoy_unit_displaced_black_engine_handle_construction(yoy_engine_env):
+    """YoYInflationUnitDisplacedBlackCapFloorEngine constructed with handles."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationUnitDisplacedBlackCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert engine is not None
+
+
+def test_yoy_unit_displaced_black_engine_hidden_handle_construction(yoy_engine_env):
+    """YoYInflationUnitDisplacedBlackCapFloorEngine constructed with raw shared_ptr args."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationUnitDisplacedBlackCapFloorEngine(
+        env.yoy_idx, env.vol, env.nominal_curve,
+    )
+    assert engine is not None
+
+
+def test_yoy_unit_displaced_black_engine_is_pricing_engine(yoy_engine_env):
+    """YoYInflationUnitDisplacedBlackCapFloorEngine inherits from PricingEngine."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationUnitDisplacedBlackCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert isinstance(engine, ql.base.PricingEngine)
+
+
+# --- YoYInflationBachelierCapFloorEngine ---
+
+
+def test_yoy_bachelier_engine_handle_construction(yoy_engine_env):
+    """YoYInflationBachelierCapFloorEngine constructed with handles."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBachelierCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert engine is not None
+
+
+def test_yoy_bachelier_engine_hidden_handle_construction(yoy_engine_env):
+    """YoYInflationBachelierCapFloorEngine constructed with raw shared_ptr args."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBachelierCapFloorEngine(
+        env.yoy_idx, env.vol, env.nominal_curve,
+    )
+    assert engine is not None
+
+
+def test_yoy_bachelier_engine_is_pricing_engine(yoy_engine_env):
+    """YoYInflationBachelierCapFloorEngine inherits from PricingEngine."""
+    env = yoy_engine_env
+    engine = ql.YoYInflationBachelierCapFloorEngine(
+        env.yoy_idx, env.vol_handle, env.yts_handle,
+    )
+    assert isinstance(engine, ql.base.PricingEngine)

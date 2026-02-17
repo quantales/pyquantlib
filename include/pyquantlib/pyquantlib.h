@@ -152,6 +152,12 @@ namespace ql_cashflows {
     void cmscoupon(py::module_&);
     void cmscouponpricer(py::module_&);
     void lineartsrpricer(py::module_&);
+    // Inflation cashflows
+    void inflationcoupon(py::module_&);
+    void zeroinflationcashflow(py::module_&);
+    void yoyinflationcoupon(py::module_&);
+    void capflooredinflationcoupon(py::module_&);
+    void inflationcouponpricer(py::module_&);
 }
 
 namespace ql_indexes {
@@ -252,6 +258,8 @@ namespace ql_termstructures {
     void interpolatedyoyinflationcurve(py::module_&);
     void piecewisezeroinflationcurve(py::module_&);
     void piecewiseyoyinflationcurve(py::module_&);
+    // YoY inflation optionlet volatility
+    void yoyinflationoptionletvolatilitystructure(py::module_&);
 }
 
 namespace ql_processes {
@@ -312,6 +320,11 @@ namespace ql_instruments {
     void assetswap(py::module_&);
     void claim(py::module_&);
     void creditdefaultswap(py::module_&);
+    // Inflation instruments
+    void zerocouponinflationswap(py::module_&);
+    void yearonyearinflationswap(py::module_&);
+    void inflationcapfloor(py::module_&);
+    void makeyoyinflationcapfloor(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -357,6 +370,8 @@ namespace ql_pricingengines {
     void turnbullwakemanasianengine(py::module_&);
     void midpointcdsengine(py::module_&);
     void isdacdsengine(py::module_&);
+    // Inflation engines
+    void inflationcapfloorengines(py::module_&);
 }
 
 namespace ql_methods {

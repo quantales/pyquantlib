@@ -79,4 +79,14 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "Claim, FaceValueClaim, FaceValueAccrualClaim");
     ADD_MAIN_BINDING(ql_instruments::creditdefaultswap,
         "CreditDefaultSwap - credit default swap");
+
+    // Inflation instruments
+    ADD_MAIN_BINDING(ql_instruments::zerocouponinflationswap,
+        "ZeroCouponInflationSwap");
+    ADD_MAIN_BINDING(ql_instruments::yearonyearinflationswap,
+        "YearOnYearInflationSwap");
+    ADD_MAIN_BINDING(ql_instruments::inflationcapfloor,
+        "YoYInflationCapFloor, Cap, Floor, Collar");
+    ADD_MAIN_BINDING(ql_instruments::makeyoyinflationcapfloor,
+        "MakeYoYInflationCapFloor builder");
 }

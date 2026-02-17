@@ -28,6 +28,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Interpolated inflation curves**: `ZeroInflationCurve`, `YoYInflationCurve` (Linear interpolation)
 - **Piecewise inflation curves**: `PiecewiseZeroInflationCurve`, `PiecewiseYoYInflationCurve` (Linear interpolation)
 - `setSeasonality()` and `seasonality()` on `InflationTermStructure`
+- **YoY inflation optionlet volatility**: `YoYOptionletVolatilitySurface` ABC (in `pyquantlib.base`), `ConstantYoYOptionletVolatility`, `YoYOptionletVolatilitySurfaceHandle`, `RelinkableYoYOptionletVolatilitySurfaceHandle`
+
+#### Cash Flows
+- `InflationCoupon` ABC (in `pyquantlib.base`)
+- `ZeroInflationCashFlow` for zero-coupon inflation legs
+- `YoYInflationCoupon` and `yoyInflationLeg` builder
+- `CappedFlooredYoYInflationCoupon` for capped/floored YoY coupons
+- `InflationCouponPricer` ABC (in `pyquantlib.base`), `YoYInflationCouponPricer`, `BlackYoYInflationCouponPricer`, `UnitDisplacedBlackYoYInflationCouponPricer`, `BachelierYoYInflationCouponPricer`
+- `setCouponPricer` overload for inflation legs
+
+#### Instruments
+- `ZeroCouponInflationSwap` zero-coupon inflation swap
+- `YearOnYearInflationSwap` year-on-year inflation swap
+- `YoYInflationCapFloor` with `YoYInflationCap`, `YoYInflationFloor`, `YoYInflationCollar` convenience classes
+- `MakeYoYInflationCapFloor` builder (C++ binding and Python kwargs wrapper)
+
+#### Pricing Engines
+- `YoYInflationBlackCapFloorEngine`, `YoYInflationUnitDisplacedBlackCapFloorEngine`, `YoYInflationBachelierCapFloorEngine` for YoY inflation cap/floor pricing
 
 ## [0.2.0] - 2026-02-15
 

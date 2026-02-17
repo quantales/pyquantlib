@@ -681,3 +681,207 @@ def test_inflationtermstructure_seasonality_accessor(inflation_env):
 
     retrieved = curve.seasonality()
     assert retrieved is not None
+
+
+# ---------------------------------------------------------------------------
+# YoY inflation optionlet volatility surface
+# ---------------------------------------------------------------------------
+
+
+def test_yoy_optionlet_volatility_surface_exists():
+    """YoYOptionletVolatilitySurface ABC is accessible on base submodule."""
+    assert hasattr(ql.base, "YoYOptionletVolatilitySurface")
+
+
+def test_constant_yoy_optionlet_volatility_scalar(inflation_env):
+    """ConstantYoYOptionletVolatility constructed with a scalar vol."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface is not None
+    assert isinstance(vol_surface, ql.base.YoYOptionletVolatilitySurface)
+
+
+def test_constant_yoy_optionlet_volatility_quote(inflation_env):
+    """ConstantYoYOptionletVolatility constructed with a Quote."""
+    env = inflation_env
+    quote = ql.SimpleQuote(0.12)
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        quote,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface is not None
+    assert isinstance(vol_surface, ql.base.YoYOptionletVolatilitySurface)
+
+
+def test_constant_yoy_optionlet_volatility_volatility(inflation_env):
+    """volatility() returns the constant vol for any strike / date."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    future_date = env["calendar"].advance(env["today"], ql.Period(1, ql.Years))
+    v = vol_surface.volatility(future_date, 0.02)
+    assert v == pytest.approx(0.10, abs=1e-12)
+
+
+def test_constant_yoy_optionlet_volatility_type(inflation_env):
+    """volatilityType() returns ShiftedLognormal by default."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface.volatilityType() == ql.VolatilityType.ShiftedLognormal
+
+
+def test_constant_yoy_optionlet_volatility_displacement(inflation_env):
+    """displacement() returns 0.0 by default."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface.displacement() == pytest.approx(0.0, abs=1e-12)
+
+
+def test_constant_yoy_optionlet_volatility_observation_lag(inflation_env):
+    """observationLag() returns the lag passed at construction."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface.observationLag() == env["obs_lag"]
+
+
+def test_constant_yoy_optionlet_volatility_frequency(inflation_env):
+    """frequency() returns the frequency passed at construction."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    assert vol_surface.frequency() == ql.Monthly
+
+
+def test_constant_yoy_optionlet_volatility_optional_params(inflation_env):
+    """Construction with explicit optional parameters."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.15,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+        -1.0,
+        100.0,
+        ql.VolatilityType.Normal,
+        0.0,
+    )
+    assert vol_surface.volatilityType() == ql.VolatilityType.Normal
+
+
+def test_yoy_optionlet_volatility_surface_handle(inflation_env):
+    """YoYOptionletVolatilitySurfaceHandle wraps a vol surface."""
+    env = inflation_env
+    vol_surface = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    handle = ql.YoYOptionletVolatilitySurfaceHandle(vol_surface)
+    assert handle is not None
+
+
+def test_yoy_optionlet_volatility_surface_handle_empty():
+    """YoYOptionletVolatilitySurfaceHandle can be constructed empty."""
+    handle = ql.YoYOptionletVolatilitySurfaceHandle()
+    assert handle is not None
+
+
+def test_relinkable_yoy_optionlet_volatility_surface_handle(inflation_env):
+    """RelinkableYoYOptionletVolatilitySurfaceHandle wraps and relinks."""
+    env = inflation_env
+    vol1 = ql.ConstantYoYOptionletVolatility(
+        0.10,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    vol2 = ql.ConstantYoYOptionletVolatility(
+        0.20,
+        2,
+        env["calendar"],
+        ql.ModifiedFollowing,
+        env["dc"],
+        env["obs_lag"],
+        ql.Monthly,
+        False,
+    )
+    handle = ql.RelinkableYoYOptionletVolatilitySurfaceHandle(vol1)
+    assert handle is not None
+    handle.linkTo(vol2)
+
+
+def test_relinkable_yoy_optionlet_volatility_surface_handle_empty():
+    """RelinkableYoYOptionletVolatilitySurfaceHandle can be constructed empty."""
+    handle = ql.RelinkableYoYOptionletVolatilitySurfaceHandle()
+    assert handle is not None

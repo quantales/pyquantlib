@@ -315,3 +315,55 @@ def MakeSwaption(swapIndex, optionTenor, strike=None, **kwargs):
     builder = _ql.MakeSwaption(swapIndex, optionTenor, strike)
     _apply_kwargs("MakeSwaption", _MAKESWAPTION_METHODS, builder, kwargs)
     return builder.swaption()
+
+
+# ---------------------------------------------------------------------------
+# MakeYoYInflationCapFloor
+# ---------------------------------------------------------------------------
+
+_MAKEYOYINFLATIONCAPFLOOR_METHODS = {
+    "nominal": "withNominal",
+    "effectiveDate": "withEffectiveDate",
+    "paymentDayCounter": "withPaymentDayCounter",
+    "paymentAdjustment": "withPaymentAdjustment",
+    "fixingDays": "withFixingDays",
+    "pricingEngine": "withPricingEngine",
+    "asOptionlet": "asOptionlet",
+    "strike": "withStrike",
+    "atmStrike": "withAtmStrike",
+    "forwardStart": "withForwardStart",
+}
+
+
+def MakeYoYInflationCapFloor(capFloorType, index, length, calendar,
+                             observationLag, interpolation, **kwargs):
+    """Build a YoYInflationCapFloor from keyword arguments.
+
+    Parameters
+    ----------
+    capFloorType : YoYInflationCapFloorType
+        Cap, Floor, or Collar.
+    index : YoYInflationIndex
+        The YoY inflation index.
+    length : int
+        Length in years.
+    calendar : Calendar
+        Payment calendar.
+    observationLag : Period
+        Observation lag.
+    interpolation : CPI.InterpolationType
+        Interpolation type.
+    **kwargs
+        Builder options mapped to ``with*`` methods (e.g. ``nominal``,
+        ``pricingEngine``, ``strike``, ``paymentDayCounter``, ...).
+
+    Returns
+    -------
+    YoYInflationCapFloor
+    """
+    builder = _ql.MakeYoYInflationCapFloor(
+        capFloorType, index, length, calendar,
+        observationLag, interpolation)
+    _apply_kwargs("MakeYoYInflationCapFloor",
+                  _MAKEYOYINFLATIONCAPFLOOR_METHODS, builder, kwargs)
+    return builder.capFloor()

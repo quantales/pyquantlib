@@ -1058,3 +1058,576 @@ def test_lineartsrpricer_is_cmscouponpricer(cms_env):
     pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
     assert isinstance(pricer, ql.base.CmsCouponPricer)
     assert isinstance(pricer, ql.base.MeanRevertingPricer)
+
+
+# ---------------------------------------------------------------------------
+# Session 3: Inflation cashflows, coupons, pricers
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def inflation_env():
+    """Shared setup for inflation cashflow tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    observation_lag = ql.Period(3, ql.Months)
+
+    # Build a flat yield curve
+    flat_rate = ql.FlatForward(today, 0.03, dc)
+
+    # CPI index
+    cpi = ql.USCPI()
+
+    # Add a fixing for the index at a date consistent with observation lag
+    fixing_date = ql.Date(15, ql.October, 2024)
+    cpi.addFixing(fixing_date, 310.0)
+    # Add another fixing for a later date
+    fixing_date2 = ql.Date(15, ql.January, 2025)
+    cpi.addFixing(fixing_date2, 312.0)
+
+    # YoY inflation index from the CPI
+    yoy_idx = ql.YoYInflationIndex(cpi)
+
+    # Schedule for legs: 1-year quarterly
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(15, ql.January, 2025),
+        terminationDate=ql.Date(15, ql.January, 2026),
+        tenor=ql.Period(3, ql.Months),
+        calendar=calendar,
+        convention=ql.ModifiedFollowing,
+    )
+
+    env = {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "observation_lag": observation_lag,
+        "flat_rate": flat_rate,
+        "cpi": cpi,
+        "yoy_idx": yoy_idx,
+        "schedule": schedule,
+    }
+    yield env
+    ql.Settings.instance().evaluationDate = ql.Date()
+    cpi.clearFixings()
+    yoy_idx.clearFixings()
+
+
+# --- InflationCoupon (ABC) --------------------------------------------------
+
+
+def test_inflationcoupon_exists_in_base():
+    """Test InflationCoupon ABC is accessible on the base submodule."""
+    assert hasattr(ql.base, "InflationCoupon")
+
+
+def test_inflationcoupon_is_coupon():
+    """Test InflationCoupon inherits from Coupon."""
+    assert issubclass(ql.base.InflationCoupon, ql.base.Coupon)
+
+
+# --- ZeroInflationCashFlow --------------------------------------------------
+
+
+def test_zeroinflationcashflow_construction(inflation_env):
+    """Test ZeroInflationCashFlow basic construction."""
+    d = inflation_env
+    notional = 1_000_000.0
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        notional,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    assert cf is not None
+
+
+def test_zeroinflationcashflow_notional(inflation_env):
+    """Test ZeroInflationCashFlow notional inspector."""
+    d = inflation_env
+    notional = 1_000_000.0
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        notional,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    assert cf.notional() == pytest.approx(notional)
+
+
+def test_zeroinflationcashflow_index(inflation_env):
+    """Test ZeroInflationCashFlow zeroInflationIndex inspector."""
+    d = inflation_env
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    idx = cf.zeroInflationIndex()
+    assert idx is not None
+    assert idx.name() == d["cpi"].name()
+
+
+def test_zeroinflationcashflow_growth_only(inflation_env):
+    """Test ZeroInflationCashFlow growthOnly flag."""
+    d = inflation_env
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf_growth = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        True,
+    )
+    assert cf_growth.growthOnly() is True
+
+    cf_full = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    assert cf_full.growthOnly() is False
+
+
+def test_zeroinflationcashflow_is_cashflow(inflation_env):
+    """Test ZeroInflationCashFlow inherits from CashFlow."""
+    d = inflation_env
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    assert isinstance(cf, ql.base.CashFlow)
+
+
+def test_zeroinflationcashflow_basedate(inflation_env):
+    """Test ZeroInflationCashFlow baseDate inspector."""
+    d = inflation_env
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    bd = cf.baseDate()
+    assert isinstance(bd, ql.Date)
+
+
+def test_zeroinflationcashflow_fixingdate(inflation_env):
+    """Test ZeroInflationCashFlow fixingDate inspector."""
+    d = inflation_env
+    start_date = ql.Date(15, ql.October, 2024)
+    end_date = ql.Date(15, ql.January, 2025)
+    payment_date = ql.Date(15, ql.January, 2025)
+
+    cf = ql.ZeroInflationCashFlow(
+        1_000_000.0,
+        d["cpi"],
+        ql.CPI.Flat,
+        start_date,
+        end_date,
+        d["observation_lag"],
+        payment_date,
+        False,
+    )
+    fd = cf.fixingDate()
+    assert isinstance(fd, ql.Date)
+
+
+# --- YoYInflationCoupon -----------------------------------------------------
+
+
+def test_yoyinflationcoupon_exists():
+    """Test YoYInflationCoupon is accessible on the main module."""
+    assert hasattr(ql, "YoYInflationCoupon")
+
+
+def test_yoyinflationcoupon_inherits_inflationcoupon():
+    """Test YoYInflationCoupon inherits from InflationCoupon."""
+    assert issubclass(ql.YoYInflationCoupon, ql.base.InflationCoupon)
+
+
+# --- CappedFlooredYoYInflationCoupon ----------------------------------------
+
+
+def test_cappedfloored_yoy_exists():
+    """Test CappedFlooredYoYInflationCoupon is accessible on the main module."""
+    assert hasattr(ql, "CappedFlooredYoYInflationCoupon")
+
+
+def test_cappedfloored_yoy_inherits_yoyinflationcoupon():
+    """Test CappedFlooredYoYInflationCoupon inherits from YoYInflationCoupon."""
+    assert issubclass(
+        ql.CappedFlooredYoYInflationCoupon, ql.YoYInflationCoupon
+    )
+
+
+# --- yoyInflationLeg builder ------------------------------------------------
+
+
+def test_yoyinflationleg_construction(inflation_env):
+    """Test yoyInflationLeg builder construction."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    assert leg_builder is not None
+
+
+def test_yoyinflationleg_with_notionals(inflation_env):
+    """Test yoyInflationLeg withNotionals method chaining."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    result = leg_builder.withNotionals([1_000_000.0])
+    # Method chaining should return the same builder
+    assert result is leg_builder
+
+
+def test_yoyinflationleg_with_payment_daycounter(inflation_env):
+    """Test yoyInflationLeg withPaymentDayCounter method chaining."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    result = leg_builder.withPaymentDayCounter(ql.Actual365Fixed())
+    assert result is leg_builder
+
+
+def test_yoyinflationleg_with_payment_adjustment(inflation_env):
+    """Test yoyInflationLeg withPaymentAdjustment method chaining."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    result = leg_builder.withPaymentAdjustment(ql.ModifiedFollowing)
+    assert result is leg_builder
+
+
+def test_yoyinflationleg_build(inflation_env):
+    """Test yoyInflationLeg build returns a Leg."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    leg_builder.withPaymentAdjustment(ql.ModifiedFollowing)
+    built_leg = leg_builder.build()
+    assert isinstance(built_leg, list)
+    assert len(built_leg) > 0
+
+
+def test_yoyinflationleg_coupons_are_yoy(inflation_env):
+    """Test that built YoY leg coupons are YoYInflationCoupon instances."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    built_leg = leg_builder.build()
+    for cf in built_leg:
+        assert isinstance(cf, ql.YoYInflationCoupon)
+        assert isinstance(cf, ql.base.InflationCoupon)
+
+
+def test_yoyinflationleg_full_chain(inflation_env):
+    """Test yoyInflationLeg with full method chaining."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    leg_builder.withPaymentAdjustment(ql.ModifiedFollowing)
+    leg_builder.withFixingDays(2)
+    built_leg = leg_builder.build()
+    assert len(built_leg) > 0
+
+
+# --- InflationCoupon inspectors (via YoY coupon) ----------------------------
+
+
+def test_inflationcoupon_inspectors_via_yoy(inflation_env):
+    """Test InflationCoupon inspectors through a built YoY coupon."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    built_leg = leg_builder.build()
+
+    coupon = built_leg[0]
+
+    # observationLag
+    lag = coupon.observationLag()
+    assert isinstance(lag, ql.Period)
+
+    # fixingDays
+    fd = coupon.fixingDays()
+    assert isinstance(fd, int)
+
+    # dayCounter
+    dc = coupon.dayCounter()
+    assert dc is not None
+
+    # index (from InflationCoupon)
+    idx = coupon.index()
+    assert idx is not None
+
+
+# --- InflationCouponPricer (ABC) --------------------------------------------
+
+
+def test_inflationcouponpricer_exists_in_base():
+    """Test InflationCouponPricer ABC is accessible on the base submodule."""
+    assert hasattr(ql.base, "InflationCouponPricer")
+
+
+# --- YoYInflationCouponPricer (ABC) -----------------------------------------
+
+
+def test_yoyinflationcouponpricer_exists():
+    """Test YoYInflationCouponPricer is accessible on the main module."""
+    assert hasattr(ql, "YoYInflationCouponPricer")
+
+
+def test_yoyinflationcouponpricer_inherits_inflationcouponpricer():
+    """Test YoYInflationCouponPricer inherits from InflationCouponPricer."""
+    assert issubclass(
+        ql.YoYInflationCouponPricer, ql.base.InflationCouponPricer
+    )
+
+
+# --- BlackYoYInflationCouponPricer ------------------------------------------
+
+
+def test_blackyoy_pricer_construction_default():
+    """Test BlackYoYInflationCouponPricer default construction."""
+    pricer = ql.BlackYoYInflationCouponPricer()
+    assert pricer is not None
+
+
+def test_blackyoy_pricer_construction_with_nominal():
+    """Test BlackYoYInflationCouponPricer construction with nominal TS."""
+    flat_rate = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.03, ql.Actual365Fixed()
+    )
+    nominal_handle = ql.YieldTermStructureHandle(flat_rate)
+    pricer = ql.BlackYoYInflationCouponPricer(nominal_handle)
+    assert pricer is not None
+
+
+def test_blackyoy_pricer_construction_with_vol_and_nominal():
+    """Test BlackYoYInflationCouponPricer with vol handle and nominal TS."""
+    flat_rate = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.03, ql.Actual365Fixed()
+    )
+    nominal_handle = ql.YieldTermStructureHandle(flat_rate)
+    vol = ql.ConstantYoYOptionletVolatility(
+        0.10, 2, ql.TARGET(), ql.ModifiedFollowing, ql.Actual365Fixed(),
+        ql.Period(3, ql.Months), ql.Monthly, False,
+    )
+    vol_handle = ql.YoYOptionletVolatilitySurfaceHandle(vol)
+    pricer = ql.BlackYoYInflationCouponPricer(vol_handle, nominal_handle)
+    assert pricer is not None
+
+
+def test_blackyoy_pricer_inherits_yoypricer():
+    """Test BlackYoYInflationCouponPricer inherits from YoYInflationCouponPricer."""
+    pricer = ql.BlackYoYInflationCouponPricer()
+    assert isinstance(pricer, ql.YoYInflationCouponPricer)
+    assert isinstance(pricer, ql.base.InflationCouponPricer)
+
+
+# --- UnitDisplacedBlackYoYInflationCouponPricer -----------------------------
+
+
+def test_unitdisplaced_blackyoy_pricer_construction():
+    """Test UnitDisplacedBlackYoYInflationCouponPricer default construction."""
+    pricer = ql.UnitDisplacedBlackYoYInflationCouponPricer()
+    assert pricer is not None
+
+
+def test_unitdisplaced_blackyoy_pricer_inherits_yoypricer():
+    """Test UnitDisplacedBlackYoYInflationCouponPricer inheritance."""
+    pricer = ql.UnitDisplacedBlackYoYInflationCouponPricer()
+    assert isinstance(pricer, ql.YoYInflationCouponPricer)
+    assert isinstance(pricer, ql.base.InflationCouponPricer)
+
+
+# --- BachelierYoYInflationCouponPricer --------------------------------------
+
+
+def test_bachelier_yoy_pricer_construction():
+    """Test BachelierYoYInflationCouponPricer default construction."""
+    pricer = ql.BachelierYoYInflationCouponPricer()
+    assert pricer is not None
+
+
+def test_bachelier_yoy_pricer_inherits_yoypricer():
+    """Test BachelierYoYInflationCouponPricer inheritance."""
+    pricer = ql.BachelierYoYInflationCouponPricer()
+    assert isinstance(pricer, ql.YoYInflationCouponPricer)
+    assert isinstance(pricer, ql.base.InflationCouponPricer)
+
+
+# --- setCouponPricer for inflation ------------------------------------------
+
+
+def test_setcouponpricer_with_yoy_leg(inflation_env):
+    """Test setCouponPricer works with a YoY inflation leg."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    built_leg = leg_builder.build()
+
+    pricer = ql.BlackYoYInflationCouponPricer()
+    # Should not raise
+    ql.setCouponPricer(built_leg, pricer)
+
+    # Verify pricer is set on each coupon
+    for cf in built_leg:
+        coupon = cf
+        p = coupon.pricer()
+        assert p is not None
+
+
+def test_setcouponpricer_bachelier_with_yoy_leg(inflation_env):
+    """Test setCouponPricer with BachelierYoYInflationCouponPricer."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    built_leg = leg_builder.build()
+
+    pricer = ql.BachelierYoYInflationCouponPricer()
+    ql.setCouponPricer(built_leg, pricer)
+
+    for cf in built_leg:
+        p = cf.pricer()
+        assert p is not None
+
+
+def test_yoy_coupon_set_pricer_directly(inflation_env):
+    """Test setPricer on an individual YoY inflation coupon."""
+    d = inflation_env
+    leg_builder = ql.yoyInflationLeg(
+        d["schedule"],
+        d["calendar"],
+        d["yoy_idx"],
+        d["observation_lag"],
+        ql.CPI.Flat,
+    )
+    leg_builder.withNotionals([1_000_000.0])
+    leg_builder.withPaymentDayCounter(d["dc"])
+    built_leg = leg_builder.build()
+
+    pricer = ql.BlackYoYInflationCouponPricer()
+    coupon = built_leg[0]
+    coupon.setPricer(pricer)
+    assert coupon.pricer() is not None

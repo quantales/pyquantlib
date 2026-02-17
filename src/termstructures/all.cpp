@@ -187,4 +187,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "PiecewiseZeroInflationCurve (Linear)");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyoyinflationcurve,
         "PiecewiseYoYInflationCurve (Linear)");
+
+    // YoY inflation optionlet volatility
+    ADD_MAIN_BINDING(
+        ql_termstructures::yoyinflationoptionletvolatilitystructure,
+        "YoYOptionletVolatilitySurface ABC, ConstantYoYOptionletVolatility, "
+        "Handle");
 }

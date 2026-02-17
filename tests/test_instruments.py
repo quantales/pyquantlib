@@ -2479,3 +2479,379 @@ def test_creditdefaultswap_with_claim(cds_env):
     )
     assert cds is not None
     assert cds.notional() == 10_000_000.0
+
+
+# ---------------------------------------------------------------------------
+# Inflation instruments (Session 3)
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture()
+def inflation_env():
+    """Common setup for inflation instrument tests."""
+    saved = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    obs_lag = ql.Period(3, ql.Months)
+    maturity = today + ql.Period(5, ql.Years)
+
+    # Zero-coupon inflation index
+    zero_idx = ql.USCPI()
+    zero_idx.addFixing(ql.Date(1, ql.October, 2024), 315.0)
+
+    # Year-on-year inflation index
+    yoy_idx = ql.YoYInflationIndex(ql.USCPI())
+
+    # Schedules
+    fixed_schedule = ql.MakeSchedule(
+        today, maturity, tenor=ql.Period(1, ql.Years), calendar=calendar,
+    )
+    yoy_schedule = ql.MakeSchedule(
+        today, maturity, tenor=ql.Period(1, ql.Years), calendar=calendar,
+    )
+
+    env = {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "obs_lag": obs_lag,
+        "maturity": maturity,
+        "zero_idx": zero_idx,
+        "yoy_idx": yoy_idx,
+        "fixed_schedule": fixed_schedule,
+        "yoy_schedule": yoy_schedule,
+        "nominal": 1_000_000.0,
+        "fixed_rate": 0.025,
+    }
+    yield env
+    ql.Settings.instance().evaluationDate = saved
+
+
+# -- ZeroCouponInflationSwap ------------------------------------------------
+
+
+def test_zerocouponinflationswap_construction(inflation_env):
+    """ZeroCouponInflationSwap can be constructed."""
+    e = inflation_env
+    zcis = ql.ZeroCouponInflationSwap(
+        ql.SwapType.Payer,
+        e["nominal"],
+        e["today"],
+        e["maturity"],
+        e["calendar"],
+        ql.ModifiedFollowing,
+        e["dc"],
+        e["fixed_rate"],
+        e["zero_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+    )
+    assert zcis is not None
+
+
+def test_zerocouponinflationswap_type(inflation_env):
+    """ZeroCouponInflationSwap reports correct swap type."""
+    e = inflation_env
+    payer = ql.ZeroCouponInflationSwap(
+        ql.SwapType.Payer,
+        e["nominal"],
+        e["today"],
+        e["maturity"],
+        e["calendar"],
+        ql.ModifiedFollowing,
+        e["dc"],
+        e["fixed_rate"],
+        e["zero_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+    )
+    receiver = ql.ZeroCouponInflationSwap(
+        ql.SwapType.Receiver,
+        e["nominal"],
+        e["today"],
+        e["maturity"],
+        e["calendar"],
+        ql.ModifiedFollowing,
+        e["dc"],
+        e["fixed_rate"],
+        e["zero_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+    )
+    assert payer.type() == ql.SwapType.Payer
+    assert receiver.type() == ql.SwapType.Receiver
+
+
+def test_zerocouponinflationswap_inspectors(inflation_env):
+    """ZeroCouponInflationSwap inspectors return expected values."""
+    e = inflation_env
+    zcis = ql.ZeroCouponInflationSwap(
+        ql.SwapType.Payer,
+        e["nominal"],
+        e["today"],
+        e["maturity"],
+        e["calendar"],
+        ql.ModifiedFollowing,
+        e["dc"],
+        e["fixed_rate"],
+        e["zero_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+    )
+    assert zcis.nominal() == pytest.approx(e["nominal"])
+    assert zcis.fixedRate() == pytest.approx(e["fixed_rate"])
+    assert zcis.observationLag() == e["obs_lag"]
+    assert zcis.observationInterpolation() == ql.CPI.Flat
+    assert zcis.dayCounter() == e["dc"]
+    assert zcis.inflationIndex() is not None
+
+
+def test_zerocouponinflationswap_legs(inflation_env):
+    """ZeroCouponInflationSwap has fixed and inflation legs."""
+    e = inflation_env
+    zcis = ql.ZeroCouponInflationSwap(
+        ql.SwapType.Payer,
+        e["nominal"],
+        e["today"],
+        e["maturity"],
+        e["calendar"],
+        ql.ModifiedFollowing,
+        e["dc"],
+        e["fixed_rate"],
+        e["zero_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+    )
+    assert len(zcis.fixedLeg()) > 0
+    assert len(zcis.inflationLeg()) > 0
+
+
+# -- YearOnYearInflationSwap ------------------------------------------------
+
+
+def _make_yoy_swap(e, swap_type=None, spread=0.0):
+    """Helper to build a YearOnYearInflationSwap from the inflation_env."""
+    if swap_type is None:
+        swap_type = ql.SwapType.Payer
+    return ql.YearOnYearInflationSwap(
+        swap_type,
+        e["nominal"],
+        e["fixed_schedule"],
+        e["fixed_rate"],
+        e["dc"],
+        e["yoy_schedule"],
+        e["yoy_idx"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+        spread,
+        e["dc"],
+        e["calendar"],
+    )
+
+
+def test_yearonyearinflationswap_construction(inflation_env):
+    """YearOnYearInflationSwap can be constructed."""
+    yoyswap = _make_yoy_swap(inflation_env)
+    assert yoyswap is not None
+
+
+def test_yearonyearinflationswap_type(inflation_env):
+    """YearOnYearInflationSwap reports correct swap type."""
+    payer = _make_yoy_swap(inflation_env, ql.SwapType.Payer)
+    receiver = _make_yoy_swap(inflation_env, ql.SwapType.Receiver)
+    assert payer.type() == ql.SwapType.Payer
+    assert receiver.type() == ql.SwapType.Receiver
+
+
+def test_yearonyearinflationswap_inspectors(inflation_env):
+    """YearOnYearInflationSwap inspectors return expected values."""
+    e = inflation_env
+    yoyswap = _make_yoy_swap(e, spread=0.005)
+    assert yoyswap.nominal() == pytest.approx(e["nominal"])
+    assert yoyswap.fixedRate() == pytest.approx(e["fixed_rate"])
+    assert yoyswap.spread() == pytest.approx(0.005)
+    assert yoyswap.observationLag() == e["obs_lag"]
+    assert yoyswap.yoyInflationIndex() is not None
+
+
+def test_yearonyearinflationswap_schedules(inflation_env):
+    """YearOnYearInflationSwap returns fixed and yoy schedules."""
+    yoyswap = _make_yoy_swap(inflation_env)
+    assert yoyswap.fixedSchedule() is not None
+    assert yoyswap.yoySchedule() is not None
+
+
+def test_yearonyearinflationswap_legs(inflation_env):
+    """YearOnYearInflationSwap has fixed and yoy legs."""
+    yoyswap = _make_yoy_swap(inflation_env)
+    assert len(yoyswap.fixedLeg()) > 0
+    assert len(yoyswap.yoyLeg()) > 0
+
+
+# -- YoYInflationCapFloorType enum ------------------------------------------
+
+
+def test_yoyinflationcapfloortype_values():
+    """YoYInflationCapFloorType enum has Cap, Floor, Collar."""
+    assert ql.YoYInflationCapFloorType.Cap is not None
+    assert ql.YoYInflationCapFloorType.Floor is not None
+    assert ql.YoYInflationCapFloorType.Collar is not None
+    # Enum values should be distinct
+    assert ql.YoYInflationCapFloorType.Cap != ql.YoYInflationCapFloorType.Floor
+    assert ql.YoYInflationCapFloorType.Cap != ql.YoYInflationCapFloorType.Collar
+    assert ql.YoYInflationCapFloorType.Floor != ql.YoYInflationCapFloorType.Collar
+
+
+# -- YoYInflationCapFloor ---------------------------------------------------
+
+
+def _make_yoy_leg(e):
+    """Build a YoY inflation leg from inflation_env."""
+    leg = ql.yoyInflationLeg(
+        e["yoy_schedule"], e["calendar"], e["yoy_idx"], e["obs_lag"], ql.CPI.Flat
+    )
+    leg.withNotionals([e["nominal"]])
+    leg.withPaymentDayCounter(e["dc"])
+    return leg.build()
+
+
+def test_yoyinflationcapfloor_cap_construction(inflation_env):
+    """YoYInflationCapFloor can be constructed as a cap."""
+    built_leg = _make_yoy_leg(inflation_env)
+    capfloor = ql.YoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Cap, built_leg, [0.03]
+    )
+    assert capfloor is not None
+    assert capfloor.type() == ql.YoYInflationCapFloorType.Cap
+
+
+def test_yoyinflationcapfloor_floor_construction(inflation_env):
+    """YoYInflationCapFloor can be constructed as a floor."""
+    built_leg = _make_yoy_leg(inflation_env)
+    capfloor = ql.YoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Floor, built_leg, [], [0.01]
+    )
+    assert capfloor is not None
+    assert capfloor.type() == ql.YoYInflationCapFloorType.Floor
+
+
+def test_yoyinflationcapfloor_collar_construction(inflation_env):
+    """YoYInflationCapFloor can be constructed as a collar."""
+    built_leg = _make_yoy_leg(inflation_env)
+    capfloor = ql.YoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Collar, built_leg, [0.03], [0.01]
+    )
+    assert capfloor is not None
+    assert capfloor.type() == ql.YoYInflationCapFloorType.Collar
+
+
+def test_yoyinflationcapfloor_inspectors(inflation_env):
+    """YoYInflationCapFloor inspectors return expected values."""
+    e = inflation_env
+    built_leg = _make_yoy_leg(e)
+    capfloor = ql.YoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Collar, built_leg, [0.03], [0.01]
+    )
+    assert all(r == pytest.approx(0.03) for r in capfloor.capRates())
+    assert all(r == pytest.approx(0.01) for r in capfloor.floorRates())
+    assert len(capfloor.capRates()) > 0
+    assert len(capfloor.floorRates()) > 0
+    assert len(capfloor.yoyLeg()) > 0
+    assert capfloor.startDate() is not None
+    assert capfloor.maturityDate() is not None
+
+
+def test_yoyinflationcapfloor_isexpired(inflation_env):
+    """YoYInflationCapFloor reports not expired for future-dated instrument."""
+    built_leg = _make_yoy_leg(inflation_env)
+    capfloor = ql.YoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Cap, built_leg, [0.03]
+    )
+    assert capfloor.isExpired() is False
+
+
+# -- YoYInflationCap / Floor / Collar convenience classes --------------------
+
+
+def test_yoyinflationcap_construction(inflation_env):
+    """YoYInflationCap convenience class constructs a cap."""
+    built_leg = _make_yoy_leg(inflation_env)
+    cap = ql.YoYInflationCap(built_leg, [0.03])
+    assert cap is not None
+    assert cap.type() == ql.YoYInflationCapFloorType.Cap
+
+
+def test_yoyinflationfloor_construction(inflation_env):
+    """YoYInflationFloor convenience class constructs a floor."""
+    built_leg = _make_yoy_leg(inflation_env)
+    floor = ql.YoYInflationFloor(built_leg, [0.01])
+    assert floor is not None
+    assert floor.type() == ql.YoYInflationCapFloorType.Floor
+
+
+def test_yoyinflationcollar_construction(inflation_env):
+    """YoYInflationCollar convenience class constructs a collar."""
+    built_leg = _make_yoy_leg(inflation_env)
+    collar = ql.YoYInflationCollar(built_leg, [0.03], [0.01])
+    assert collar is not None
+    assert collar.type() == ql.YoYInflationCapFloorType.Collar
+
+
+def test_yoyinflationcap_inherits_capfloor(inflation_env):
+    """YoYInflationCap is a YoYInflationCapFloor."""
+    built_leg = _make_yoy_leg(inflation_env)
+    cap = ql.YoYInflationCap(built_leg, [0.03])
+    assert isinstance(cap, ql.YoYInflationCapFloor)
+
+
+def test_yoyinflationfloor_inherits_capfloor(inflation_env):
+    """YoYInflationFloor is a YoYInflationCapFloor."""
+    built_leg = _make_yoy_leg(inflation_env)
+    floor = ql.YoYInflationFloor(built_leg, [0.01])
+    assert isinstance(floor, ql.YoYInflationCapFloor)
+
+
+def test_yoyinflationcollar_inherits_capfloor(inflation_env):
+    """YoYInflationCollar is a YoYInflationCapFloor."""
+    built_leg = _make_yoy_leg(inflation_env)
+    collar = ql.YoYInflationCollar(built_leg, [0.03], [0.01])
+    assert isinstance(collar, ql.YoYInflationCapFloor)
+
+
+# -- MakeYoYInflationCapFloor (Python wrapper) ------------------------------
+
+
+def test_makeyoyinflationcapfloor_cap(inflation_env):
+    """MakeYoYInflationCapFloor constructs a cap."""
+    e = inflation_env
+    cap = ql.MakeYoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Cap,
+        e["yoy_idx"],
+        5,
+        e["calendar"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+        strike=0.03,
+    )
+    assert cap is not None
+    assert isinstance(cap, ql.YoYInflationCapFloor)
+    assert cap.type() == ql.YoYInflationCapFloorType.Cap
+
+
+def test_makeyoyinflationcapfloor_floor(inflation_env):
+    """MakeYoYInflationCapFloor constructs a floor."""
+    e = inflation_env
+    floor = ql.MakeYoYInflationCapFloor(
+        ql.YoYInflationCapFloorType.Floor,
+        e["yoy_idx"],
+        5,
+        e["calendar"],
+        e["obs_lag"],
+        ql.CPI.Flat,
+        strike=0.01,
+    )
+    assert floor is not None
+    assert isinstance(floor, ql.YoYInflationCapFloor)
+    assert floor.type() == ql.YoYInflationCapFloorType.Floor

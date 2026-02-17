@@ -564,6 +564,51 @@ const_vol = ql.ConstantOptionletVolatility(
 .. autoclass:: pyquantlib.RelinkableOptionletVolatilityStructureHandle
 ```
 
+## YoY Inflation Optionlet Volatility
+
+### YoYOptionletVolatilitySurface
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.YoYOptionletVolatilitySurface
+   :members:
+   :undoc-members:
+```
+
+Abstract base class for year-on-year inflation optionlet volatility surfaces.
+
+### ConstantYoYOptionletVolatility
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConstantYoYOptionletVolatility
+   :members:
+   :undoc-members:
+```
+
+Constant year-on-year inflation optionlet volatility.
+
+```python
+yoy_vol = ql.ConstantYoYOptionletVolatility(
+    0.10, 0, ql.TARGET(), ql.ModifiedFollowing, ql.Actual365Fixed(),
+    ql.Period(3, ql.Months), ql.Monthly,
+)
+```
+
+### YoYOptionletVolatilitySurfaceHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYOptionletVolatilitySurfaceHandle
+   :members:
+   :undoc-members:
+```
+
+### RelinkableYoYOptionletVolatilitySurfaceHandle
+
+```{eval-rst}
+.. autoclass:: pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle
+   :members:
+   :undoc-members:
+```
+
 ## Cap/Floor Term Volatility
 
 ### CapFloorTermVolSurface
@@ -845,5 +890,5 @@ curve = ql.PiecewiseZeroInflationCurve(
 ```
 
 ```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure`, `Seasonality`, `ZeroInflationHelper`, and `YoYInflationHelper` are available in `pyquantlib.base`.
+Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure`, `Seasonality`, `ZeroInflationHelper`, `YoYInflationHelper`, and `YoYOptionletVolatilitySurface` are available in `pyquantlib.base`.
 ```
