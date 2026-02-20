@@ -49,6 +49,55 @@ bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
 print(bond.cleanPrice())
 ```
 
+### AmortizingFixedRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AmortizingFixedRateBond
+```
+
+```python
+notionals = ql.sinkingNotionals(ql.Period(5, ql.Years), ql.Annual, 0.05, 100.0)
+schedule = ql.sinkingSchedule(issue_date, ql.Period(5, ql.Years), ql.Annual, ql.TARGET())
+bond = ql.AmortizingFixedRateBond(2, notionals, schedule, [0.05],
+                                   ql.Thirty360(ql.Thirty360.BondBasis))
+```
+
+### sinkingSchedule
+
+```{eval-rst}
+.. autofunction:: pyquantlib.sinkingSchedule
+```
+
+### sinkingNotionals
+
+```{eval-rst}
+.. autofunction:: pyquantlib.sinkingNotionals
+```
+
+### AmortizingFloatingRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AmortizingFloatingRateBond
+```
+
+### CmsRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CmsRateBond
+```
+
+### CPIBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CPIBond
+```
+
+```python
+bond = ql.CPIBond(2, 100.0, 315.0, ql.Period(3, ql.Months),
+                   cpi_index, ql.CPI.Flat, schedule, [0.02],
+                   ql.Actual365Fixed())
+```
+
 ## Swaps
 
 ### VanillaSwap

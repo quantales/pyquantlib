@@ -23,6 +23,14 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "ZeroCouponBond - zero coupon bond");
     ADD_MAIN_BINDING(ql_instruments::floatingratebond,
         "FloatingRateBond - floating rate bond");
+    ADD_MAIN_BINDING(ql_instruments::amortizingfixedratebond,
+        "AmortizingFixedRateBond - amortizing fixed rate bond");
+    ADD_MAIN_BINDING(ql_instruments::amortizingfloatingratebond,
+        "AmortizingFloatingRateBond - amortizing floating rate bond");
+    ADD_MAIN_BINDING(ql_instruments::cmsratebond,
+        "CmsRateBond - CMS rate bond");
+    ADD_MAIN_BINDING(ql_instruments::cpibond,
+        "CPIBond - CPI inflation-linked bond");
     ADD_MAIN_BINDING(ql_instruments::swap,
         "Swap - interest rate swap base class");
     ADD_MAIN_BINDING(ql_instruments::fixedvsfloatingswap,

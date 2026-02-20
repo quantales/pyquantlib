@@ -327,3 +327,428 @@ def test_floatingratebond_cashflows(float_bond_env):
     cashflows = bond.cashflows()
     # 10 semiannual coupons + 1 redemption
     assert len(cashflows) == 11
+
+
+# =============================================================================
+# AmortizingFixedRateBond
+# =============================================================================
+
+
+def test_amortizingfixedratebond_construction(bond_env):
+    """Test AmortizingFixedRateBond construction."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        issueDate=bond_env["issue_date"],
+    )
+    assert bond is not None
+    assert bond.maturityDate() == bond_env["maturity_date"]
+    assert bond.issueDate() == bond_env["issue_date"]
+
+
+def test_amortizingfixedratebond_frequency(bond_env):
+    """Test AmortizingFixedRateBond frequency and day counter."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    assert bond.frequency() == ql.Annual
+    assert "30/360" in bond.dayCounter().name()
+
+
+def test_amortizingfixedratebond_notionals(bond_env):
+    """Test AmortizingFixedRateBond has declining notionals."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    # First notional should be 100
+    assert bond.notional() == pytest.approx(100.0)
+
+
+def test_amortizingfixedratebond_cashflows(bond_env):
+    """Test AmortizingFixedRateBond cashflows."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    cashflows = bond.cashflows()
+    # Should have coupons + redemptions (multiple redemptions for amortizing)
+    assert len(cashflows) > 5
+
+
+def test_amortizingfixedratebond_pricing(bond_env):
+    """Test AmortizingFixedRateBond pricing with DiscountingBondEngine."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, bond_env["schedule"], [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    engine = ql.DiscountingBondEngine(bond_env["curve_handle"])
+    bond.setPricingEngine(engine)
+    assert bond.NPV() == pytest.approx(102.5058, abs=0.01)
+    assert bond.cleanPrice() == pytest.approx(102.5005, abs=0.01)
+
+
+# =============================================================================
+# sinkingSchedule / sinkingNotionals helpers
+# =============================================================================
+
+
+def test_sinkingschedule(bond_env):
+    """Test sinkingSchedule returns a valid Schedule."""
+    schedule = ql.sinkingSchedule(
+        bond_env["issue_date"],
+        ql.Period(5, ql.Years),
+        ql.Annual,
+        bond_env["calendar"],
+    )
+    assert isinstance(schedule, ql.Schedule)
+    assert len(schedule) > 1
+
+
+def test_sinkingnotionals():
+    """Test sinkingNotionals returns a declining vector."""
+    notionals = ql.sinkingNotionals(
+        ql.Period(5, ql.Years), ql.Annual, 0.05, 100.0,
+    )
+    assert len(notionals) > 0
+    # Notionals should be declining (French amortization)
+    assert notionals[0] == pytest.approx(100.0)
+    for i in range(1, len(notionals)):
+        assert notionals[i] < notionals[i - 1]
+
+
+def test_sinkingschedule_with_amortizing_bond(bond_env):
+    """Test combining sinkingSchedule/sinkingNotionals with AmortizingFixedRateBond."""
+    schedule = ql.sinkingSchedule(
+        bond_env["issue_date"],
+        ql.Period(5, ql.Years),
+        ql.Annual,
+        bond_env["calendar"],
+    )
+    notionals = ql.sinkingNotionals(
+        ql.Period(5, ql.Years), ql.Annual, 0.05, 100.0,
+    )
+    bond = ql.AmortizingFixedRateBond(
+        2, notionals, schedule, [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    engine = ql.DiscountingBondEngine(bond_env["curve_handle"])
+    bond.setPricingEngine(engine)
+    assert bond.NPV() == pytest.approx(102.5834, abs=0.01)
+
+
+# =============================================================================
+# AmortizingFloatingRateBond
+# =============================================================================
+
+
+def test_amortizingfloatingratebond_construction(float_bond_env):
+    """Test AmortizingFloatingRateBond construction."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0,
+                 100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFloatingRateBond(
+        2, notionals, float_bond_env["schedule"],
+        float_bond_env["euribor6m"], ql.Actual360(),
+    )
+    assert bond is not None
+    assert bond.maturityDate() == float_bond_env["maturity_date"]
+
+
+def test_amortizingfloatingratebond_with_spread(float_bond_env):
+    """Test AmortizingFloatingRateBond with spread."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0,
+                 100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFloatingRateBond(
+        2, notionals, float_bond_env["schedule"],
+        float_bond_env["euribor6m"], ql.Actual360(),
+        spreads=[0.005],
+    )
+    assert bond is not None
+
+
+def test_amortizingfloatingratebond_cashflows(float_bond_env):
+    """Test AmortizingFloatingRateBond cashflows."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0,
+                 100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFloatingRateBond(
+        2, notionals, float_bond_env["schedule"],
+        float_bond_env["euribor6m"], ql.Actual360(),
+    )
+    cashflows = bond.cashflows()
+    assert len(cashflows) > 5
+
+
+def test_amortizingfloatingratebond_pricing(float_bond_env):
+    """Test AmortizingFloatingRateBond pricing."""
+    notionals = [100.0, 80.0, 60.0, 40.0, 20.0,
+                 100.0, 80.0, 60.0, 40.0, 20.0]
+    bond = ql.AmortizingFloatingRateBond(
+        2, notionals, float_bond_env["schedule"],
+        float_bond_env["euribor6m"], ql.Actual360(),
+    )
+    engine = ql.DiscountingBondEngine(float_bond_env["curve_handle"])
+    bond.setPricingEngine(engine)
+    assert bond.NPV() == pytest.approx(98.04, abs=0.01)
+
+
+# =============================================================================
+# CmsRateBond
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def cms_bond_env():
+    """Environment for CMS rate bond tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    day_counter = ql.Actual365Fixed()
+
+    flat_curve = ql.FlatForward(today, 0.04, day_counter)
+    curve_handle = ql.YieldTermStructureHandle(flat_curve)
+
+    swap_index = ql.EuriborSwapIsdaFixA(ql.Period(10, ql.Years), curve_handle)
+
+    # Use future dates
+    issue_date = calendar.advance(today, ql.Period("6M"))
+    maturity_date = calendar.advance(issue_date, ql.Period("5Y"))
+
+    schedule = ql.Schedule(
+        issue_date, maturity_date,
+        ql.Period(ql.Annual), calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Backward, False,
+    )
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "curve_handle": curve_handle,
+        "swap_index": swap_index,
+        "schedule": schedule,
+        "issue_date": issue_date,
+        "maturity_date": maturity_date,
+    }
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_cmsratebond_construction(cms_bond_env):
+    """Test CmsRateBond construction."""
+    bond = ql.CmsRateBond(
+        2, 100.0, cms_bond_env["schedule"],
+        cms_bond_env["swap_index"], ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    assert bond is not None
+    assert bond.maturityDate() == cms_bond_env["maturity_date"]
+
+
+def test_cmsratebond_with_spread(cms_bond_env):
+    """Test CmsRateBond with gearings and spreads."""
+    bond = ql.CmsRateBond(
+        2, 100.0, cms_bond_env["schedule"],
+        cms_bond_env["swap_index"], ql.Thirty360(ql.Thirty360.BondBasis),
+        gearings=[1.0], spreads=[0.001],
+    )
+    assert bond is not None
+
+
+def test_cmsratebond_cashflows(cms_bond_env):
+    """Test CmsRateBond has coupons and redemption."""
+    bond = ql.CmsRateBond(
+        2, 100.0, cms_bond_env["schedule"],
+        cms_bond_env["swap_index"], ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    cashflows = bond.cashflows()
+    # 5 annual CMS coupons + 1 redemption
+    assert len(cashflows) == 6
+
+
+def test_cmsratebond_pricing(cms_bond_env):
+    """Test CmsRateBond pricing (requires CMS coupon pricer)."""
+    bond = ql.CmsRateBond(
+        2, 100.0, cms_bond_env["schedule"],
+        cms_bond_env["swap_index"], ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    engine = ql.DiscountingBondEngine(cms_bond_env["curve_handle"])
+    bond.setPricingEngine(engine)
+
+    # Set CMS coupon pricer on the bond leg
+    vol = ql.ConstantSwaptionVolatility(
+        0, ql.TARGET(), ql.ModifiedFollowing,
+        0.20, ql.Actual365Fixed(),
+    )
+    vol_handle = ql.SwaptionVolatilityStructureHandle(vol)
+    mean_reversion = ql.QuoteHandle(ql.SimpleQuote(0.01))
+    pricer = ql.LinearTsrPricer(vol_handle, mean_reversion)
+    ql.setCouponPricer(bond.cashflows(), pricer)
+
+    assert bond.NPV() == pytest.approx(98.34, abs=0.01)
+
+
+# =============================================================================
+# CPIBond
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def cpi_bond_env():
+    """Environment for CPI bond tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    day_counter = ql.Actual365Fixed()
+
+    flat_curve = ql.FlatForward(today, 0.04, day_counter)
+    curve_handle = ql.YieldTermStructureHandle(flat_curve)
+
+    # CPI index with fixings
+    cpi = ql.USCPI()
+    # Add fixings for the observation lag period
+    cpi.addFixing(ql.Date(1, ql.October, 2024), 315.0)
+    cpi.addFixing(ql.Date(1, ql.November, 2024), 316.0)
+    cpi.addFixing(ql.Date(1, ql.December, 2024), 317.0)
+
+    issue_date = ql.Date(15, ql.January, 2025)
+    maturity_date = ql.Date(15, ql.January, 2030)
+
+    schedule = ql.Schedule(
+        issue_date, maturity_date,
+        ql.Period(ql.Annual), calendar,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Backward, False,
+    )
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "curve_handle": curve_handle,
+        "cpi": cpi,
+        "issue_date": issue_date,
+        "maturity_date": maturity_date,
+        "schedule": schedule,
+    }
+
+    cpi.clearFixings()
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_cpibond_construction(cpi_bond_env):
+    """Test CPIBond construction."""
+    bond = ql.CPIBond(
+        2, 100.0, 315.0,
+        ql.Period(3, ql.Months),
+        cpi_bond_env["cpi"],
+        ql.CPI.Flat,
+        cpi_bond_env["schedule"],
+        [0.02],
+        ql.Actual365Fixed(),
+        issueDate=cpi_bond_env["issue_date"],
+    )
+    assert bond is not None
+    assert bond.maturityDate() == cpi_bond_env["maturity_date"]
+
+
+def test_cpibond_frequency(cpi_bond_env):
+    """Test CPIBond frequency and day counter."""
+    bond = ql.CPIBond(
+        2, 100.0, 315.0,
+        ql.Period(3, ql.Months),
+        cpi_bond_env["cpi"],
+        ql.CPI.Flat,
+        cpi_bond_env["schedule"],
+        [0.02],
+        ql.Actual365Fixed(),
+    )
+    assert bond.frequency() == ql.Annual
+    assert "Actual/365" in bond.dayCounter().name()
+
+
+def test_cpibond_inspectors(cpi_bond_env):
+    """Test CPIBond inspector methods."""
+    bond = ql.CPIBond(
+        2, 100.0, 315.0,
+        ql.Period(3, ql.Months),
+        cpi_bond_env["cpi"],
+        ql.CPI.Flat,
+        cpi_bond_env["schedule"],
+        [0.02],
+        ql.Actual365Fixed(),
+    )
+    assert bond.baseCPI() == pytest.approx(315.0)
+    assert bond.observationLag() == ql.Period(3, ql.Months)
+    assert bond.cpiIndex() is not None
+    assert bond.observationInterpolation() == ql.CPI.Flat
+    assert bond.growthOnly() is False
+
+
+def test_cpibond_cashflows(cpi_bond_env):
+    """Test CPIBond cashflows."""
+    bond = ql.CPIBond(
+        2, 100.0, 315.0,
+        ql.Period(3, ql.Months),
+        cpi_bond_env["cpi"],
+        ql.CPI.Flat,
+        cpi_bond_env["schedule"],
+        [0.02],
+        ql.Actual365Fixed(),
+    )
+    cashflows = bond.cashflows()
+    # 5 CPI coupons + 1 CPI redemption = 6 cashflows
+    assert len(cashflows) == 6
+
+
+def test_cpibond_pricing(cpi_bond_env):
+    """Test CPIBond pricing with DiscountingBondEngine."""
+    # Build a flat zero inflation curve via bootstrap
+    cpi = ql.USCPI()
+    cpi.addFixing(ql.Date(1, ql.October, 2024), 315.0)
+    cpi.addFixing(ql.Date(1, ql.November, 2024), 316.0)
+    cpi.addFixing(ql.Date(1, ql.December, 2024), 317.0)
+
+    helpers = [
+        ql.ZeroCouponInflationSwapHelper(
+            rate, ql.Period(3, ql.Months),
+            cpi_bond_env["today"] + ql.Period(i, ql.Years),
+            ql.TARGET(), ql.ModifiedFollowing,
+            ql.Actual365Fixed(), cpi, ql.CPI.Flat,
+        )
+        for i, rate in [(1, 0.025), (3, 0.025), (5, 0.025)]
+    ]
+    base_date = ql.Date(1, ql.October, 2024)
+    inflation_curve = ql.PiecewiseZeroInflationCurve(
+        cpi_bond_env["today"], base_date,
+        ql.Monthly, ql.Actual365Fixed(), helpers,
+    )
+    inflation_handle = ql.ZeroInflationTermStructureHandle(inflation_curve)
+
+    cpi_with_curve = ql.USCPI(inflation_handle)
+    cpi_with_curve.addFixing(ql.Date(1, ql.October, 2024), 315.0)
+    cpi_with_curve.addFixing(ql.Date(1, ql.November, 2024), 316.0)
+    cpi_with_curve.addFixing(ql.Date(1, ql.December, 2024), 317.0)
+
+    bond = ql.CPIBond(
+        2, 100.0, 315.0,
+        ql.Period(3, ql.Months),
+        cpi_with_curve,
+        ql.CPI.Flat,
+        cpi_bond_env["schedule"],
+        [0.02],
+        ql.Actual365Fixed(),
+    )
+    engine = ql.DiscountingBondEngine(cpi_bond_env["curve_handle"])
+    bond.setPricingEngine(engine)
+    assert bond.NPV() == pytest.approx(102.19, abs=0.01)
+
+    cpi.clearFixings()
+    cpi_with_curve.clearFixings()

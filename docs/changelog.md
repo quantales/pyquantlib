@@ -39,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `setCouponPricer` overload for inflation legs
 
 #### Instruments
+- `AmortizingFixedRateBond` amortizing fixed-rate bond with `sinkingSchedule` and `sinkingNotionals` helper functions
+- `AmortizingFloatingRateBond` amortizing floating-rate bond
+- `CmsRateBond` CMS-rate bond linked to a swap index
+- `CPIBond` CPI inflation-linked bond
 - `ZeroCouponInflationSwap` zero-coupon inflation swap
 - `YearOnYearInflationSwap` year-on-year inflation swap
 - `YoYInflationCapFloor` with `YoYInflationCap`, `YoYInflationFloor`, `YoYInflationCollar` convenience classes
