@@ -47,9 +47,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `YearOnYearInflationSwap` year-on-year inflation swap
 - `YoYInflationCapFloor` with `YoYInflationCap`, `YoYInflationFloor`, `YoYInflationCollar` convenience classes
 - `MakeYoYInflationCapFloor` builder (C++ binding and Python kwargs wrapper)
+- `VarianceSwap` variance swap instrument
+- `NonstandardSwap` swap with period-dependent nominal and strike
+- `FloatFloatSwap` swap exchanging two floating legs with caps and floors
 
 #### Pricing Engines
 - `YoYInflationBlackCapFloorEngine`, `YoYInflationUnitDisplacedBlackCapFloorEngine`, `YoYInflationBachelierCapFloorEngine` for YoY inflation cap/floor pricing
+- `ReplicatingVarianceSwapEngine` variance swap engine using replicating portfolio
+
+#### Experimental
+- `CdsOption` option on a credit default swap
+- `BlackCdsOptionEngine` Black-formula CDS option engine
 
 ## [0.2.0] - 2026-02-15
 

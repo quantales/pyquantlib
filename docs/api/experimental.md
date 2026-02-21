@@ -47,6 +47,20 @@ print(smile.volatility(110.0))  # OTM call vol
 call_price = smile.optionPrice(110.0, ql.OptionType.Call)
 ```
 
+## Credit
+
+### CdsOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CdsOption
+```
+
+### BlackCdsOptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCdsOptionEngine
+```
+
 ### SVI Helper Functions
 
 ```{eval-rst}

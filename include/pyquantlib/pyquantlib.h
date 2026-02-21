@@ -329,6 +329,10 @@ namespace ql_instruments {
     void yearonyearinflationswap(py::module_&);
     void inflationcapfloor(py::module_&);
     void makeyoyinflationcapfloor(py::module_&);
+
+    void varianceswap(py::module_&);
+    void nonstandardswap(py::module_&);
+    void floatfloatswap(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -376,6 +380,8 @@ namespace ql_pricingengines {
     void isdacdsengine(py::module_&);
     // Inflation engines
     void inflationcapfloorengines(py::module_&);
+
+    void replicatingvarianceswapengine(py::module_&);
 }
 
 namespace ql_methods {
@@ -384,4 +390,7 @@ namespace ql_methods {
 
 namespace ql_experimental {
     void svismilesection(py::module_&);
+    // Credit
+    void cdsoption(py::module_&);
+    void blackcdsoptionengine(py::module_&);
 }

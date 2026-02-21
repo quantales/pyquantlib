@@ -2855,3 +2855,313 @@ def test_makeyoyinflationcapfloor_floor(inflation_env):
     assert floor is not None
     assert isinstance(floor, ql.YoYInflationCapFloor)
     assert floor.type() == ql.YoYInflationCapFloorType.Floor
+
+
+# =============================================================================
+# VarianceSwap
+# =============================================================================
+
+
+@pytest.fixture
+def variance_swap_env():
+    """Common environment for VarianceSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    spot = ql.SimpleQuote(100.0)
+    r_rate = ql.SimpleQuote(0.05)
+    q_rate = ql.SimpleQuote(0.02)
+    vol = ql.SimpleQuote(0.20)
+
+    r_ts = ql.FlatForward(today, ql.QuoteHandle(r_rate), dc)
+    q_ts = ql.FlatForward(today, ql.QuoteHandle(q_rate), dc)
+    vol_ts = ql.BlackConstantVol(today, calendar, ql.QuoteHandle(vol), dc)
+
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(q_ts),
+        ql.YieldTermStructureHandle(r_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    maturity = calendar.advance(today, ql.Period("1Y"))
+    call_strikes = [float(x) for x in range(100, 150, 5)]
+    put_strikes = [float(x) for x in range(55, 105, 5)]
+    engine = ql.ReplicatingVarianceSwapEngine(process, 5.0, call_strikes, put_strikes)
+
+    return {
+        "today": today,
+        "calendar": calendar,
+        "maturity": maturity,
+        "engine": engine,
+    }
+
+
+def test_varianceswap_construction(variance_swap_env):
+    """VarianceSwap constructs and inspectors return correct values."""
+    env = variance_swap_env
+    vs = ql.VarianceSwap(
+        ql.PositionType.Long, 0.04, 10000.0, env["today"], env["maturity"],
+    )
+    assert vs.position() == ql.PositionType.Long
+    assert vs.strike() == 0.04
+    assert vs.notional() == 10000.0
+    assert vs.startDate() == env["today"]
+    assert vs.maturityDate() == env["maturity"]
+
+
+def test_varianceswap_pricing(variance_swap_env):
+    """VarianceSwap prices correctly with ReplicatingVarianceSwapEngine."""
+    env = variance_swap_env
+    vs = ql.VarianceSwap(
+        ql.PositionType.Long, 0.04, 10000.0, env["today"], env["maturity"],
+    )
+    vs.setPricingEngine(env["engine"])
+    assert vs.NPV() == pytest.approx(-14.5142243643, rel=1e-4)
+    assert vs.variance() == pytest.approx(0.0384741615, rel=1e-6)
+
+
+def test_varianceswap_is_instrument(variance_swap_env):
+    """VarianceSwap inherits from Instrument."""
+    env = variance_swap_env
+    vs = ql.VarianceSwap(
+        ql.PositionType.Long, 0.04, 10000.0, env["today"], env["maturity"],
+    )
+    assert isinstance(vs, ql.base.Instrument)
+
+
+# =============================================================================
+# NonstandardSwap
+# =============================================================================
+
+
+@pytest.fixture
+def nonstandard_swap_env():
+    """Common environment for NonstandardSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    r_ts = ql.FlatForward(today, 0.03, dc)
+    r_handle = ql.YieldTermStructureHandle(r_ts)
+
+    start = calendar.advance(today, ql.Period("6M"))
+    maturity = calendar.advance(start, ql.Period("5Y"))
+
+    fixed_schedule = ql.MakeSchedule(
+        effectiveDate=start, terminationDate=maturity,
+        tenor=ql.Period("1Y"), calendar=calendar,
+        convention=ql.ModifiedFollowing,
+    )
+    float_schedule = ql.MakeSchedule(
+        effectiveDate=start, terminationDate=maturity,
+        tenor=ql.Period("6M"), calendar=calendar,
+        convention=ql.ModifiedFollowing,
+    )
+
+    n_fixed = len(fixed_schedule) - 1
+    n_float = len(float_schedule) - 1
+
+    euribor = ql.Euribor6M(r_handle)
+    engine = ql.DiscountingSwapEngine(r_handle)
+
+    return {
+        "today": today,
+        "calendar": calendar,
+        "r_handle": r_handle,
+        "fixed_schedule": fixed_schedule,
+        "float_schedule": float_schedule,
+        "n_fixed": n_fixed,
+        "n_float": n_float,
+        "euribor": euribor,
+        "engine": engine,
+    }
+
+
+def test_nonstandardswap_vector_construction(nonstandard_swap_env):
+    """NonstandardSwap vector constructor produces correct NPV."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.02] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        [1.0] * env["n_float"],
+        [0.0] * env["n_float"],
+        ql.Actual360(),
+    )
+    ns.setPricingEngine(env["engine"])
+    assert ns.NPV() == pytest.approx(47184.5644691210, rel=1e-4)
+    assert ns.type() == ql.SwapType.Payer
+    assert len(ns.fixedNominal()) == env["n_fixed"]
+    assert len(ns.floatingNominal()) == env["n_float"]
+    assert len(ns.fixedRate()) == env["n_fixed"]
+    assert len(ns.gearings()) == env["n_float"]
+    assert len(ns.spreads()) == env["n_float"]
+
+
+def test_nonstandardswap_scalar_construction(nonstandard_swap_env):
+    """NonstandardSwap scalar gearing/spread constructor works."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.02] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        1.0,
+        0.0,
+        ql.Actual360(),
+    )
+    ns.setPricingEngine(env["engine"])
+    assert ns.NPV() == pytest.approx(47184.5644691210, rel=1e-4)
+    assert ns.spread() == pytest.approx(0.0, abs=1e-15)
+    assert ns.gearing() == pytest.approx(1.0, rel=1e-15)
+
+
+def test_nonstandardswap_from_vanilla(nonstandard_swap_env):
+    """NonstandardSwap constructed from VanillaSwap matches its NPV."""
+    env = nonstandard_swap_env
+    vanilla = ql.MakeVanillaSwap(ql.Period("5Y"), env["euribor"], fixedRate=0.02)
+    vanilla.setPricingEngine(env["engine"])
+
+    ns = ql.NonstandardSwap(vanilla)
+    ns.setPricingEngine(env["engine"])
+    assert ns.NPV() == pytest.approx(vanilla.NPV(), rel=1e-10)
+
+
+def test_nonstandardswap_inspectors(nonstandard_swap_env):
+    """NonstandardSwap inspectors return schedules and day counters."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.02] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        [1.0] * env["n_float"],
+        [0.0] * env["n_float"],
+        ql.Actual360(),
+    )
+    assert ns.fixedSchedule() is not None
+    assert ns.floatingSchedule() is not None
+    assert ns.fixedDayCount() is not None
+    assert ns.floatingDayCount() is not None
+    assert ns.iborIndex() is not None
+    assert len(ns.fixedLeg()) == env["n_fixed"]
+    assert len(ns.floatingLeg()) == env["n_float"]
+
+
+# =============================================================================
+# FloatFloatSwap
+# =============================================================================
+
+
+@pytest.fixture
+def floatfloat_swap_env():
+    """Common environment for FloatFloatSwap tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    r_ts = ql.FlatForward(today, 0.03, dc)
+    r_handle = ql.YieldTermStructureHandle(r_ts)
+
+    start = calendar.advance(today, ql.Period("6M"))
+    maturity = calendar.advance(start, ql.Period("5Y"))
+
+    schedule = ql.MakeSchedule(
+        effectiveDate=start, terminationDate=maturity,
+        tenor=ql.Period("6M"), calendar=calendar,
+        convention=ql.ModifiedFollowing,
+    )
+
+    euribor = ql.Euribor6M(r_handle)
+    engine = ql.DiscountingSwapEngine(r_handle)
+    n = len(schedule) - 1
+
+    return {
+        "today": today,
+        "schedule": schedule,
+        "euribor": euribor,
+        "engine": engine,
+        "n": n,
+    }
+
+
+def test_floatfloatswap_no_spread(floatfloat_swap_env):
+    """FloatFloatSwap with same index both legs and no spread has zero NPV."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    ffs.setPricingEngine(env["engine"])
+    assert ffs.NPV() == pytest.approx(0.0, abs=1e-8)
+
+
+def test_floatfloatswap_with_spread(floatfloat_swap_env):
+    """FloatFloatSwap with spread on leg 1 has nonzero NPV."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+        spread1=0.005,
+    )
+    ffs.setPricingEngine(env["engine"])
+    assert ffs.NPV() == pytest.approx(-23028.2725428915, rel=1e-4)
+
+
+def test_floatfloatswap_vector_construction(floatfloat_swap_env):
+    """FloatFloatSwap vector constructor produces zero NPV for symmetric legs."""
+    env = floatfloat_swap_env
+    n = env["n"]
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * n, [1000000.0] * n,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    ffs.setPricingEngine(env["engine"])
+    assert ffs.NPV() == pytest.approx(0.0, abs=1e-8)
+
+
+def test_floatfloatswap_inspectors(floatfloat_swap_env):
+    """FloatFloatSwap inspectors return correct values."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    assert ffs.type() == ql.SwapType.Payer
+    assert len(ffs.nominal1()) == env["n"]
+    assert ffs.nominal1()[0] == 1000000.0
+    assert len(ffs.nominal2()) == env["n"]
+    assert len(ffs.leg1()) == env["n"]
+    assert len(ffs.leg2()) == env["n"]
+    assert ffs.schedule1() is not None
+    assert ffs.schedule2() is not None
+    assert ffs.index1() is not None
+    assert ffs.index2() is not None
+    assert ffs.dayCount1() is not None
+    assert ffs.dayCount2() is not None

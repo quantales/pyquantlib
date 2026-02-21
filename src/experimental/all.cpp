@@ -18,4 +18,10 @@ DECLARE_MODULE_BINDINGS(experimental_bindings) {
     // Volatility
     ADD_MAIN_BINDING(ql_experimental::svismilesection,
         "SviSmileSection (Stochastic Volatility Inspired)");
+
+    // Credit
+    ADD_MAIN_BINDING(ql_experimental::cdsoption,
+        "CdsOption - option on credit default swap");
+    ADD_MAIN_BINDING(ql_experimental::blackcdsoptionengine,
+        "BlackCdsOptionEngine - Black-formula CDS option engine");
 }

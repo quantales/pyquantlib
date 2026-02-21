@@ -525,6 +525,14 @@ print(ql.BondFunctions.duration(bond, rate, ql.DurationType.Modified))
 print(ql.BondFunctions.convexity(bond, rate))
 ```
 
+## Variance Swap Engines
+
+### ReplicatingVarianceSwapEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ReplicatingVarianceSwapEngine
+```
+
 ## Functions
 
 ### Black-76 (Lognormal)

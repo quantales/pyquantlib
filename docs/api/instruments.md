@@ -637,6 +637,28 @@ payoff = ql.SuperSharePayoff(90.0, 110.0, 5.0)
 .. autoclass:: pyquantlib.SpreadBasketPayoff
 ```
 
+## Variance Swaps
+
+### VarianceSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.VarianceSwap
+```
+
+## Exotic Swaps
+
+### NonstandardSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NonstandardSwap
+```
+
+### FloatFloatSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FloatFloatSwap
+```
+
 ## Exercise Types
 
 ### EuropeanExercise

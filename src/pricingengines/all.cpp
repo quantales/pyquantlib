@@ -103,4 +103,7 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     // Inflation engines
     ADD_MAIN_BINDING(ql_pricingengines::inflationcapfloorengines,
         "YoYInflation Black/UnitDisplaced/Bachelier CapFloorEngine");
+
+    ADD_MAIN_BINDING(ql_pricingengines::replicatingvarianceswapengine,
+        "ReplicatingVarianceSwapEngine - variance swap replicating portfolio");
 }

@@ -229,3 +229,68 @@ def test_yoy_bachelier_engine_is_pricing_engine(yoy_engine_env):
         env.yoy_idx, env.vol_handle, env.yts_handle,
     )
     assert isinstance(engine, ql.base.PricingEngine)
+
+
+# =============================================================================
+# ReplicatingVarianceSwapEngine
+# =============================================================================
+
+
+def test_replicating_variance_swap_engine_construction():
+    """ReplicatingVarianceSwapEngine constructs and prices a VarianceSwap."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    spot = ql.SimpleQuote(100.0)
+    r_ts = ql.FlatForward(today, ql.QuoteHandle(ql.SimpleQuote(0.05)), dc)
+    q_ts = ql.FlatForward(today, ql.QuoteHandle(ql.SimpleQuote(0.02)), dc)
+    vol_ts = ql.BlackConstantVol(
+        today, calendar, ql.QuoteHandle(ql.SimpleQuote(0.20)), dc,
+    )
+
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(q_ts),
+        ql.YieldTermStructureHandle(r_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    call_strikes = [float(x) for x in range(100, 150, 5)]
+    put_strikes = [float(x) for x in range(55, 105, 5)]
+    engine = ql.ReplicatingVarianceSwapEngine(process, 5.0, call_strikes, put_strikes)
+
+    maturity = calendar.advance(today, ql.Period("1Y"))
+    vs = ql.VarianceSwap(ql.PositionType.Long, 0.04, 10000.0, today, maturity)
+    vs.setPricingEngine(engine)
+
+    assert vs.NPV() == pytest.approx(-14.5142243643, rel=1e-4)
+    assert vs.variance() == pytest.approx(0.0384741615, rel=1e-6)
+
+
+def test_replicating_variance_swap_engine_is_pricing_engine():
+    """ReplicatingVarianceSwapEngine inherits from PricingEngine."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    spot = ql.SimpleQuote(100.0)
+    r_ts = ql.FlatForward(today, ql.QuoteHandle(ql.SimpleQuote(0.05)), dc)
+    q_ts = ql.FlatForward(today, ql.QuoteHandle(ql.SimpleQuote(0.02)), dc)
+    vol_ts = ql.BlackConstantVol(
+        today, calendar, ql.QuoteHandle(ql.SimpleQuote(0.20)), dc,
+    )
+
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(q_ts),
+        ql.YieldTermStructureHandle(r_ts),
+        ql.BlackVolTermStructureHandle(vol_ts),
+    )
+
+    call_strikes = [float(x) for x in range(100, 150, 5)]
+    put_strikes = [float(x) for x in range(55, 105, 5)]
+    engine = ql.ReplicatingVarianceSwapEngine(process, 5.0, call_strikes, put_strikes)
+    assert isinstance(engine, ql.base.PricingEngine)

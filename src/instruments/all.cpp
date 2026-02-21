@@ -97,4 +97,11 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "YoYInflationCapFloor, Cap, Floor, Collar");
     ADD_MAIN_BINDING(ql_instruments::makeyoyinflationcapfloor,
         "MakeYoYInflationCapFloor builder");
+
+    ADD_MAIN_BINDING(ql_instruments::varianceswap,
+        "VarianceSwap - variance swap instrument");
+    ADD_MAIN_BINDING(ql_instruments::nonstandardswap,
+        "NonstandardSwap - swap with period-dependent parameters");
+    ADD_MAIN_BINDING(ql_instruments::floatfloatswap,
+        "FloatFloatSwap - float vs float swap with caps and floors");
 }
