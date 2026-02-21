@@ -149,7 +149,7 @@ pytest
 
 ## Documentation
 
-Full documentation is available at [pyquantlib.readthedocs.io](https://pyquantlib.readthedocs.io/).
+Full documentation is available at [pyquantlib.readthedocs.io](https://pyquantlib.readthedocs.io/). For the latest additions, see the [changelog](https://pyquantlib.readthedocs.io/en/latest/changelog.html).
 
 ## Examples
 
