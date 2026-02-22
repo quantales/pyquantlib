@@ -686,9 +686,9 @@ def test_blackvariancesurface_set_interpolation(vol_surface_data):
     surface.setInterpolation("bilinear")
     vol_bilinear = surface.blackVol(data['dates'][1], off_grid_strike)
 
-    # Both should work, values may differ
-    assert vol_bicubic > 0
-    assert vol_bilinear > 0
+    # Both should work, values differ due to interpolation method
+    assert vol_bicubic == pytest.approx(0.20690, rel=1e-4)
+    assert vol_bilinear == pytest.approx(0.21024, rel=1e-4)
 
     # At grid point, both should give same result
     vol_at_grid = surface.blackVol(data['dates'][1], data['strikes'][2])
@@ -1574,8 +1574,7 @@ def test_sabrvolatility_atm():
     forward = 0.03
     T = 1.0
     vol = ql.sabrVolatility(forward, forward, T, alpha, beta, nu, rho)
-    assert vol > 0.0
-    assert vol == pytest.approx(0.29230, rel=1e-3)
+    assert vol == pytest.approx(0.29230, rel=1e-4)
 
 
 def test_sabrvolatility_otm():
@@ -1588,7 +1587,7 @@ def test_sabrvolatility_otm():
     vol_high = ql.sabrVolatility(0.05, forward, T, alpha, beta, nu, rho)
     # SABR with negative rho produces a skew
     assert vol_low > vol_atm  # downside skew
-    assert vol_high > 0.0
+    assert vol_high == pytest.approx(0.2717, rel=1e-4)
 
 
 def test_shiftedsabrvolatility():
@@ -1598,7 +1597,7 @@ def test_shiftedsabrvolatility():
     T = 1.0
     shift = 0.02
     vol = ql.shiftedSabrVolatility(forward, forward, T, alpha, beta, nu, rho, shift)
-    assert vol > 0.0
+    assert vol == pytest.approx(0.22641, rel=1e-4)
 
 
 def test_validatesabrparameters_valid():
@@ -1638,7 +1637,7 @@ def test_sabrsmilesection_date_constructor():
         ql.Date(15, 7, 2025), 0.03, params
     )
     assert section is not None
-    assert section.exerciseTime() > 0.0
+    assert section.exerciseTime() == pytest.approx(0.49589, rel=1e-4)
 
 
 def test_sabrsmilesection_volatility():
@@ -1647,8 +1646,7 @@ def test_sabrsmilesection_volatility():
     forward = 0.03
     section = ql.SabrSmileSection(1.0, forward, params)
     vol_atm = section.volatility(forward)
-    assert vol_atm > 0.0
-    assert vol_atm == pytest.approx(0.29230, rel=1e-3)
+    assert vol_atm == pytest.approx(0.29230, rel=1e-4)
 
 
 def test_sabrsmilesection_accessors():
@@ -1678,7 +1676,7 @@ def test_sabrsmilesection_shifted():
     params = [0.05, 0.5, 0.4, -0.1]
     section = ql.SabrSmileSection(1.0, 0.03, params, shift=0.02)
     vol = section.volatility(0.03)
-    assert vol > 0.0
+    assert vol == pytest.approx(0.22641, rel=1e-4)
 
 
 def test_sabrsmilesection_consistency_with_formula():
@@ -1750,8 +1748,8 @@ def test_sabrinterpolatedsmilesection_calibration(sabr_market_data):
     assert section.nu() >= 0.0
     assert -1.0 <= section.rho() <= 1.0
     # Calibration should have small error
-    assert section.rmsError() < 0.05
-    assert section.maxError() < 0.1
+    assert section.rmsError() == pytest.approx(0.001876, rel=1e-4)
+    assert section.maxError() == pytest.approx(0.033294, rel=1e-4)
 
 
 def test_sabrinterpolatedsmilesection_volatility(sabr_market_data):
@@ -1822,11 +1820,11 @@ def test_sabrinterpolatedsmilesection_smilesection_methods(sabr_market_data):
     )
     section.recalculate()
     # SmileSection methods
-    assert section.exerciseTime() > 0.0
-    assert section.volatility(0.03) > 0.0
-    assert section.variance(0.03) > 0.0
+    assert section.exerciseTime() == pytest.approx(0.49589, rel=1e-4)
+    assert section.volatility(0.03) == pytest.approx(0.17921, rel=1e-4)
+    assert section.variance(0.03) == pytest.approx(0.015926, rel=1e-4)
     price = section.optionPrice(0.03)
-    assert price >= 0.0
+    assert price == pytest.approx(0.0015094, rel=1e-4)
 
 
 # =============================================================================
@@ -2185,7 +2183,7 @@ def test_optionletstripper1_results(optionlet_strip_env):
     )
     # Access results (triggers lazy calculation)
     n = stripper.optionletMaturities()
-    assert n > 0
+    assert n == 9
 
     dates = stripper.optionletFixingDates()
     assert len(dates) == n
@@ -2196,11 +2194,12 @@ def test_optionletstripper1_results(optionlet_strip_env):
     for i in range(n):
         strikes_i = stripper.optionletStrikes(i)
         vols_i = stripper.optionletVolatilities(i)
-        assert len(strikes_i) > 0
+        assert len(strikes_i) == 5
         assert len(vols_i) == len(strikes_i)
-        # Volatilities should be positive
+        # Volatilities should be positive and reasonable
         for v in vols_i:
-            assert v > 0
+            assert v == pytest.approx(v, rel=1e-6)
+            assert 0.1 < v < 0.3
 
 
 def test_optionletstripper1_matrices(optionlet_strip_env):
@@ -2211,14 +2210,14 @@ def test_optionletstripper1_matrices(optionlet_strip_env):
         discount=d["ts_handle"]
     )
     capfloor_prices = stripper.capFloorPrices()
-    assert capfloor_prices.rows() > 0
-    assert capfloor_prices.columns() > 0
+    assert capfloor_prices.rows() == 9
+    assert capfloor_prices.columns() == 5
 
     optionlet_prices = stripper.optionletPrices()
-    assert optionlet_prices.rows() > 0
+    assert optionlet_prices.rows() == 9
 
     caplet_vols = stripper.capletVols()
-    assert caplet_vols.rows() > 0
+    assert caplet_vols.rows() == 9
 
 
 def test_optionletstripper1_base_class_methods(optionlet_strip_env):
@@ -2245,7 +2244,7 @@ def test_optionletstripper1_hidden_handle(optionlet_strip_env):
         d["surface"], d["index"],
         discount=flat_rate
     )
-    assert stripper.optionletMaturities() > 0
+    assert stripper.optionletMaturities() == 9
 
 
 # =============================================================================
@@ -2274,8 +2273,7 @@ def test_strippedoptionletadapter_volatility(optionlet_strip_env):
     adapter = ql.StrippedOptionletAdapter(stripper)
     # Query volatility at a point within the surface
     vol = adapter.volatility(ql.Period("1Y"), 0.03)
-    assert vol > 0
-    assert vol < 1.0  # reasonable vol range
+    assert vol == pytest.approx(0.19189, rel=1e-4)
 
 
 def test_strippedoptionletadapter_properties(optionlet_strip_env):
@@ -2287,8 +2285,8 @@ def test_strippedoptionletadapter_properties(optionlet_strip_env):
     )
     adapter = ql.StrippedOptionletAdapter(stripper)
     assert adapter.maxDate() > d["today"]
-    assert adapter.minStrike() > 0
-    assert adapter.maxStrike() > adapter.minStrike()
+    assert adapter.minStrike() == pytest.approx(0.01, rel=1e-6)
+    assert adapter.maxStrike() == pytest.approx(0.05, rel=1e-6)
     assert adapter.volatilityType() == ql.VolatilityType.ShiftedLognormal
     assert adapter.displacement() == pytest.approx(0.0)
 

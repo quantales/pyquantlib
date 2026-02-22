@@ -594,8 +594,7 @@ def test_iborcoupon_rate(ibor_data):
     coupon.setPricer(pricer)
 
     rate = coupon.rate()
-    assert rate > 0
-    assert rate < 1.0  # Sanity check
+    assert rate == pytest.approx(0.029811, rel=1e-4)
 
 
 # =============================================================================
@@ -734,7 +733,7 @@ def test_setcouponpricer(ibor_data):
     for cf in leg:
         coupon = cf
         rate = coupon.rate()
-        assert rate > 0
+        assert rate == pytest.approx(0.02981, rel=1e-3)
 
 
 # =============================================================================

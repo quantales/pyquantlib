@@ -118,7 +118,7 @@ def test_flathazardrate_default_density(credit_env):
 
     one_year = credit_env["today"] + ql.Period(1, ql.Years)
     dd = fhr.defaultDensity(one_year)
-    assert dd > 0
+    assert dd == pytest.approx(0.009900498337, rel=1e-6)
 
 
 def test_flathazardrate_in_handle(credit_env):

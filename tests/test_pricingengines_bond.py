@@ -135,7 +135,7 @@ def test_bondfunctions_dirtyprice(bond_env):
     price = ql.BondFunctions.dirtyPrice(
         bond, bond_env["flat_curve"], bond_env["today"],
     )
-    assert price > 0
+    assert price == pytest.approx(104.0707, rel=1e-4)
 
 
 def test_bondfunctions_bps(bond_env):
@@ -147,7 +147,7 @@ def test_bondfunctions_bps(bond_env):
     bps = ql.BondFunctions.bps(
         bond, bond_env["flat_curve"], bond_env["today"],
     )
-    assert bps > 0
+    assert bps == pytest.approx(0.04441, rel=1e-4)
 
 
 def test_bondfunctions_bond_yield(bond_env):
@@ -163,7 +163,7 @@ def test_bondfunctions_bond_yield(bond_env):
     y = ql.BondFunctions.bondYield(
         bond, price, ql.Actual365Fixed(), ql.Compounded, ql.Annual,
     )
-    assert 0 < y < 0.2
+    assert y == pytest.approx(0.04081, rel=1e-4)
 
 
 def test_bondfunctions_duration(bond_env):
@@ -176,8 +176,7 @@ def test_bondfunctions_duration(bond_env):
         bond, 0.04, ql.Actual365Fixed(), ql.Compounded, ql.Annual,
         ql.DurationType.Modified,
     )
-    assert dur > 0
-    assert dur < 10  # 5Y bond, duration < 10
+    assert dur == pytest.approx(4.3790, rel=1e-4)
 
 
 def test_bondfunctions_convexity(bond_env):
@@ -189,7 +188,7 @@ def test_bondfunctions_convexity(bond_env):
     conv = ql.BondFunctions.convexity(
         bond, 0.04, ql.Actual365Fixed(), ql.Compounded, ql.Annual,
     )
-    assert conv > 0
+    assert conv == pytest.approx(24.4507, rel=1e-4)
 
 
 def test_bondfunctions_basis_point_value(bond_env):

@@ -80,7 +80,6 @@ def test_pricing_integration(market_setup):
 def test_static_methods():
     """Static helper methods work."""
     vol = ModifiedKirkEngine.kirk_volatility(100, 100, 5, 0.3, 0.2, 0.9)
-    assert vol > 0
     expected_vol = 0.1530491302856018
     assert vol == pytest.approx(expected_vol, rel=1e-6)
 

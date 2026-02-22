@@ -103,7 +103,7 @@ def test_midpointcdsengine_pricing(cds_pricing_env):
     assert isinstance(npv, float)
 
     fair_spread = env["cds"].fairSpread()
-    assert fair_spread > 0
+    assert fair_spread == pytest.approx(0.0059326, rel=1e-4)
 
     coupon_npv = env["cds"].couponLegNPV()
     default_npv = env["cds"].defaultLegNPV()
@@ -185,7 +185,7 @@ def test_isdacdsengine_pricing(cds_pricing_env):
     assert isinstance(npv, float)
 
     fair_spread = env["cds"].fairSpread()
-    assert fair_spread > 0
+    assert fair_spread == pytest.approx(0.0059356, rel=1e-4)
 
 
 def test_isdacdsengine_vs_midpoint(cds_pricing_env):

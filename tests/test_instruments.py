@@ -275,8 +275,7 @@ def test_vanillaoption_analytic_european_engine(option_market_env):
 
     # ATM call with 20% vol, 5% rate, 1Y maturity
     npv = option.NPV()
-    assert npv > 0
-    assert npv == pytest.approx(10.45, abs=0.1)
+    assert npv == pytest.approx(10.4506, rel=1e-4)
 
 
 def test_vanillaoption_greeks(option_market_env):
@@ -289,12 +288,12 @@ def test_vanillaoption_greeks(option_market_env):
     engine = ql.AnalyticEuropeanEngine(option_market_env["process"])
     option.setPricingEngine(engine)
 
-    # Check all Greeks are available
-    assert 0 < option.delta() < 1
-    assert option.gamma() > 0
-    assert option.vega() > 0
-    assert option.theta() < 0  # Time decay
-    assert option.rho() > 0
+    # Check all Greeks
+    assert option.delta() == pytest.approx(0.6368, rel=1e-4)
+    assert option.gamma() == pytest.approx(0.018762, rel=1e-4)
+    assert option.vega() == pytest.approx(37.5240, rel=1e-4)
+    assert option.theta() == pytest.approx(-6.4140, rel=1e-4)
+    assert option.rho() == pytest.approx(53.2325, rel=1e-4)
 
 
 def test_vanillaoption_analytic_engine_with_discount_curve():
@@ -352,8 +351,8 @@ def test_vanillaoption_put(option_market_env):
     option.setPricingEngine(engine)
 
     npv = option.NPV()
-    assert npv > 0
-    assert option.delta() < 0  # Put has negative delta
+    assert npv == pytest.approx(5.5735, rel=1e-4)
+    assert option.delta() == pytest.approx(-0.3632, rel=1e-4)
 
 
 def test_vanillaoption_analytic_engine_hidden_discount_curve():
@@ -687,8 +686,8 @@ def test_vanillaswap_pricing(swap_env):
     npv = swap.NPV()
     fair_rate = swap.fairRate()
 
-    assert npv != 0  # Should have some value
-    assert 0 < fair_rate < 0.2  # Reasonable rate range
+    assert npv == pytest.approx(5339.5428, rel=1e-4)
+    assert fair_rate == pytest.approx(0.05130, rel=1e-4)
 
 
 def test_vanillaswap_fair_rate(swap_env):
@@ -951,7 +950,7 @@ def test_bond_settlement_value(bond_env):
         ql.Thirty360(ql.Thirty360.BondBasis)
     )
     sv = bond.settlementValue(100.0)
-    assert sv > 0.0
+    assert sv == pytest.approx(100.0278, rel=1e-4)
 
 
 # =============================================================================
@@ -2296,7 +2295,7 @@ def test_zerocouponswap_pricing(zcs_env):
     npv = zcs.NPV()
     assert isinstance(npv, float)
     fair_payment = zcs.fairFixedPayment()
-    assert fair_payment > 0
+    assert fair_payment == pytest.approx(221543.1842, rel=1e-4)
 
 
 def test_zerocouponswap_legs(zcs_env):

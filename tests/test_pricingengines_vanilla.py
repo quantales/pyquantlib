@@ -226,7 +226,7 @@ def test_fd_schemes(american_env):
         )
         american_env["option"].setPricingEngine(engine)
         npv = american_env["option"].NPV()
-        assert npv > 0
+        assert npv == pytest.approx(4.48, rel=1e-2)
 
 
 # =============================================================================

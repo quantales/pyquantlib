@@ -239,7 +239,7 @@ def test_blackswaptionengine_constant_vol(swaption_env):
 
     env["swaption"].setPricingEngine(engine)
     npv = env["swaption"].NPV()
-    assert npv > 0
+    assert npv == pytest.approx(19361.82, rel=1e-4)
 
 
 def test_blackswaptionengine_pricing(swaption_env):

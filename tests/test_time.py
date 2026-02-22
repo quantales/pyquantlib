@@ -261,7 +261,7 @@ def test_calendar_business_days_between():
     end = ql.Date(10, ql.January, 2025)
 
     count = calendar.businessDaysBetween(start, end, True, False)
-    assert count > 0
+    assert count == 6
 
 
 def test_calendar_united_states():
@@ -341,9 +341,9 @@ def test_daycounter_actual360():
     yf = act360.yearFraction(d1, d2)
 
     assert isinstance(day_count, int)
-    assert day_count > 0
+    assert day_count == 31
     assert isinstance(yf, float)
-    assert yf > 0.0
+    assert yf == pytest.approx(31 / 360, rel=1e-6)
 
 
 def test_daycounter_variants():
