@@ -382,7 +382,7 @@ def test_vanillaoption_analytic_engine_hidden_discount_curve():
     option = ql.VanillaOption(payoff, exercise)
     option.setPricingEngine(engine)
 
-    assert option.NPV() > 0
+    assert option.NPV() == pytest.approx(9.9409, rel=1e-4)
 
 
 def test_vanillaoption_analytic_engine_hidden_vs_explicit_discount():
@@ -1420,7 +1420,7 @@ def test_makecapfloor_builder_chaining(capfloor_env):
         .withPricingEngine(engine)
         .capFloor()
     )
-    assert cap.NPV() > 0
+    assert cap.NPV() == pytest.approx(14811.4322, rel=1e-4)
 
 
 def test_makecapfloor_floor(capfloor_env):
@@ -1469,7 +1469,7 @@ def test_makecapfloor_kwargs_pricing_engine(capfloor_env):
         0.05,
         pricingEngine=engine,
     )
-    assert cap.NPV() > 0
+    assert cap.NPV() == pytest.approx(0.007406, rel=1e-3)
 
 
 def test_makecapfloor_kwargs_multiple(capfloor_env):
@@ -1483,7 +1483,7 @@ def test_makecapfloor_kwargs_multiple(capfloor_env):
         nominal=2_000_000.0,
         pricingEngine=engine,
     )
-    assert cap.NPV() > 0
+    assert cap.NPV() == pytest.approx(14811.4322, rel=1e-4)
 
 
 def test_makecapfloor_kwargs_forward_start(capfloor_env):
@@ -1610,6 +1610,205 @@ def test_forwardrateagreement_par_rate(capfloor_env):
     )
     # Short position: opposite sign to long
     assert fra.NPV() == pytest.approx(73.2880, rel=1e-3)
+
+
+# =============================================================================
+# ForwardTypePayoff
+# =============================================================================
+
+
+def test_forwardtypepayoff_long():
+    """ForwardTypePayoff long position pays price - strike."""
+    payoff = ql.ForwardTypePayoff(ql.PositionType.Long, 100.0)
+    assert payoff.forwardType() == ql.PositionType.Long
+    assert payoff.strike() == pytest.approx(100.0, rel=1e-15)
+    assert payoff(110.0) == pytest.approx(10.0, rel=1e-15)
+    assert payoff(90.0) == pytest.approx(-10.0, rel=1e-15)
+
+
+def test_forwardtypepayoff_short():
+    """ForwardTypePayoff short position pays strike - price."""
+    payoff = ql.ForwardTypePayoff(ql.PositionType.Short, 100.0)
+    assert payoff.forwardType() == ql.PositionType.Short
+    assert payoff(110.0) == pytest.approx(-10.0, rel=1e-15)
+    assert payoff(90.0) == pytest.approx(10.0, rel=1e-15)
+
+
+def test_forwardtypepayoff_description():
+    """ForwardTypePayoff has name and description."""
+    payoff = ql.ForwardTypePayoff(ql.PositionType.Long, 105.0)
+    assert payoff.name() == "Forward"
+    assert "105" in payoff.description()
+
+
+# =============================================================================
+# BondForward
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def bond_forward_env():
+    """Common environment for BondForward tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+
+    r_ts = ql.FlatForward(today, 0.04, dc)
+    r_handle = ql.YieldTermStructureHandle(r_ts)
+
+    # Create a fixed rate bond
+    issue_date = ql.Date(15, ql.January, 2024)
+    maturity_date = ql.Date(15, ql.January, 2029)
+    schedule = ql.MakeSchedule(
+        effectiveDate=issue_date, terminationDate=maturity_date,
+        tenor=ql.Period("1Y"), calendar=calendar,
+        convention=ql.ModifiedFollowing,
+    )
+    bond = ql.FixedRateBond(
+        2, 100.0, schedule, [0.05],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+    )
+    bond_engine = ql.DiscountingBondEngine(r_handle)
+    bond.setPricingEngine(bond_engine)
+
+    # Forward delivery date: 6 months from today
+    delivery_date = calendar.advance(today, ql.Period("6M"))
+
+    return {
+        "today": today,
+        "calendar": calendar,
+        "dc": dc,
+        "r_ts": r_ts,
+        "r_handle": r_handle,
+        "bond": bond,
+        "delivery_date": delivery_date,
+    }
+
+
+def test_bondforward_construction(bond_forward_env):
+    """BondForward construction with discount curve."""
+    env = bond_forward_env
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, 0.0,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    assert fwd is not None
+    assert fwd.isExpired() is False
+
+
+def test_bondforward_forward_price(bond_forward_env):
+    """BondForward forwardPrice returns dirty forward price."""
+    env = bond_forward_env
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, 0.0,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    dirty_fwd = fwd.forwardPrice()
+    assert dirty_fwd == pytest.approx(105.4124, rel=1e-4)
+
+
+def test_bondforward_clean_forward_price(bond_forward_env):
+    """BondForward cleanForwardPrice subtracts accrued interest."""
+    env = bond_forward_env
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, 0.0,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    clean_fwd = fwd.cleanForwardPrice()
+    dirty_fwd = fwd.forwardPrice()
+    assert clean_fwd < dirty_fwd
+
+
+def test_bondforward_npv(bond_forward_env):
+    """BondForward NPV with nonzero strike."""
+    env = bond_forward_env
+    strike = 100.0
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, strike,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    assert fwd.NPV() == pytest.approx(5.3061, rel=1e-4)
+
+
+def test_bondforward_short_position(bond_forward_env):
+    """BondForward short position has opposite NPV to long."""
+    env = bond_forward_env
+    strike = 100.0
+    long_fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, strike,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    short_fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Short, strike,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    assert long_fwd.NPV() == pytest.approx(-short_fwd.NPV(), rel=1e-10)
+
+
+def test_bondforward_inspectors(bond_forward_env):
+    """BondForward inherits Forward inspectors."""
+    env = bond_forward_env
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, 100.0,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_handle"],
+        env["r_handle"],
+    )
+    assert fwd.settlementDate() is not None
+    assert fwd.calendar() is not None
+    assert fwd.dayCounter() is not None
+    assert fwd.businessDayConvention() == ql.ModifiedFollowing
+    assert fwd.spotValue() == pytest.approx(103.3421, rel=1e-4)
+    assert fwd.forwardValue() == pytest.approx(105.4124, rel=1e-4)
+
+
+def test_bondforward_hidden_handle(bond_forward_env):
+    """BondForward hidden handle constructor accepts raw term structures."""
+    env = bond_forward_env
+    fwd = ql.BondForward(
+        env["today"], env["delivery_date"],
+        ql.PositionType.Long, 100.0,
+        2, env["dc"], env["calendar"],
+        ql.ModifiedFollowing,
+        env["bond"],
+        env["r_ts"],
+        env["r_ts"],
+    )
+    assert fwd.NPV() == pytest.approx(5.3061, rel=1e-4)
 
 
 # =============================================================================
@@ -1878,7 +2077,7 @@ def test_makevanillaswap_kwargs_pricing_engine(mvs_env):
         0.05,
         pricingEngine=engine,
     )
-    assert swap.NPV() != 0
+    assert swap.NPV() == pytest.approx(0.005600, rel=1e-3)
 
 
 def test_makevanillaswap_kwargs_multiple(mvs_env):
@@ -2385,9 +2584,9 @@ def test_creditdefaultswap_pricing(cds_env):
     npv = cds.NPV()
     assert isinstance(npv, float)
     fair_spread = cds.fairSpread()
-    assert fair_spread > 0
-    assert cds.couponLegNPV() != 0
-    assert cds.defaultLegNPV() != 0
+    assert fair_spread == pytest.approx(0.005933, rel=1e-4)
+    assert cds.couponLegNPV() == pytest.approx(-484773.1637, rel=1e-4)
+    assert cds.defaultLegNPV() == pytest.approx(287595.2454, rel=1e-4)
 
 
 def test_creditdefaultswap_fair_spread(cds_env):
@@ -3165,3 +3364,202 @@ def test_floatfloatswap_inspectors(floatfloat_swap_env):
     assert ffs.index2() is not None
     assert ffs.dayCount1() is not None
     assert ffs.dayCount2() is not None
+
+
+# =============================================================================
+# NonstandardSwaption
+# =============================================================================
+
+
+def test_nonstandardswaption_construction(nonstandard_swap_env):
+    """NonstandardSwaption construction with default settlement."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.02] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        [1.0] * env["n_float"],
+        [0.0] * env["n_float"],
+        ql.Actual360(),
+    )
+    exercise_date = env["fixed_schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.NonstandardSwaption(ns, exercise)
+    assert swaption is not None
+    assert swaption.settlementType() == ql.SettlementType.Physical
+    assert swaption.settlementMethod() == ql.SettlementMethod.PhysicalOTC
+    assert swaption.type() == ql.SwapType.Payer
+
+
+def test_nonstandardswaption_cash_settlement(nonstandard_swap_env):
+    """NonstandardSwaption with cash settlement."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Receiver,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.04] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        1.0, 0.0,
+        ql.Actual360(),
+    )
+    exercise_date = env["fixed_schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.NonstandardSwaption(
+        ns, exercise,
+        ql.SettlementType.Cash,
+        ql.SettlementMethod.ParYieldCurve,
+    )
+    assert swaption.settlementType() == ql.SettlementType.Cash
+    assert swaption.settlementMethod() == ql.SettlementMethod.ParYieldCurve
+    assert swaption.type() == ql.SwapType.Receiver
+
+
+def test_nonstandardswaption_underlying(nonstandard_swap_env):
+    """NonstandardSwaption underlying accessor returns the swap."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.03] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        1.0, 0.0,
+        ql.Actual360(),
+    )
+    exercise_date = env["fixed_schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.NonstandardSwaption(ns, exercise)
+    underlying = swaption.underlyingSwap()
+    assert underlying is not None
+    assert underlying.fixedRate()[0] == pytest.approx(0.03, rel=1e-15)
+
+
+def test_nonstandardswaption_from_swaption(nonstandard_swap_env):
+    """NonstandardSwaption constructed from a standard Swaption."""
+    env = nonstandard_swap_env
+    vanilla = ql.MakeVanillaSwap(ql.Period("5Y"), env["euribor"], fixedRate=0.02)
+    exercise_date = env["fixed_schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    std_swaption = ql.Swaption(vanilla, exercise)
+    ns_swaption = ql.NonstandardSwaption(std_swaption)
+    assert ns_swaption is not None
+    assert ns_swaption.type() == ql.SwapType.Payer
+
+
+def test_nonstandardswaption_is_expired(nonstandard_swap_env):
+    """NonstandardSwaption isExpired returns False for future exercise."""
+    env = nonstandard_swap_env
+    ns = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1000000.0] * env["n_fixed"],
+        [1000000.0] * env["n_float"],
+        env["fixed_schedule"],
+        [0.02] * env["n_fixed"],
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        env["float_schedule"],
+        env["euribor"],
+        1.0, 0.0,
+        ql.Actual360(),
+    )
+    exercise_date = env["fixed_schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.NonstandardSwaption(ns, exercise)
+    assert swaption.isExpired() is False
+
+
+# =============================================================================
+# FloatFloatSwaption
+# =============================================================================
+
+
+def test_floatfloatswaption_construction(floatfloat_swap_env):
+    """FloatFloatSwaption construction with default settlement."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    exercise_date = env["schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.FloatFloatSwaption(ffs, exercise)
+    assert swaption is not None
+    assert swaption.settlementType() == ql.SettlementType.Physical
+    assert swaption.settlementMethod() == ql.SettlementMethod.PhysicalOTC
+    assert swaption.type() == ql.SwapType.Payer
+
+
+def test_floatfloatswaption_cash_settlement(floatfloat_swap_env):
+    """FloatFloatSwaption with cash settlement."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Receiver,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    exercise_date = env["schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.FloatFloatSwaption(
+        ffs, exercise,
+        ql.SettlementType.Cash,
+        ql.SettlementMethod.CollateralizedCashPrice,
+    )
+    assert swaption.settlementType() == ql.SettlementType.Cash
+    assert swaption.settlementMethod() == ql.SettlementMethod.CollateralizedCashPrice
+    assert swaption.type() == ql.SwapType.Receiver
+
+
+def test_floatfloatswaption_underlying(floatfloat_swap_env):
+    """FloatFloatSwaption underlying accessor returns the swap."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+        spread1=0.005,
+    )
+    exercise_date = env["schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.FloatFloatSwaption(ffs, exercise)
+    underlying = swaption.underlyingSwap()
+    assert underlying is not None
+    assert underlying.type() == ql.SwapType.Payer
+
+
+def test_floatfloatswaption_is_expired(floatfloat_swap_env):
+    """FloatFloatSwaption isExpired returns False for future exercise."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+    )
+    exercise_date = env["schedule"].dates()[0]
+    exercise = ql.EuropeanExercise(exercise_date)
+
+    swaption = ql.FloatFloatSwaption(ffs, exercise)
+    assert swaption.isExpired() is False

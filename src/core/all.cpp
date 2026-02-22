@@ -40,4 +40,6 @@ DECLARE_MODULE_BINDINGS(core_bindings) {
         "Protection::Side - Buyer/Seller enum");
     ADD_MAIN_BINDING(ql_core::cdspricingmodel,
         "CreditDefaultSwap::PricingModel enum");
+    ADD_MAIN_BINDING(ql_core::forward,
+        "Forward ABC and ForwardTypePayoff");
 }

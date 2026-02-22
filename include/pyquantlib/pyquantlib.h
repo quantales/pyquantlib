@@ -125,6 +125,7 @@ namespace ql_core {
     void stochasticprocess(py::module_&);
     void protectionside(py::module_&);
     void cdspricingmodel(py::module_&);
+    void forward(py::module_&);
 }
 
 namespace ql_quotes {
@@ -330,9 +331,12 @@ namespace ql_instruments {
     void inflationcapfloor(py::module_&);
     void makeyoyinflationcapfloor(py::module_&);
 
+    void bondforward(py::module_&);
     void varianceswap(py::module_&);
     void nonstandardswap(py::module_&);
+    void nonstandardswaption(py::module_&);
     void floatfloatswap(py::module_&);
+    void floatfloatswaption(py::module_&);
 }
 
 namespace ql_pricingengines {

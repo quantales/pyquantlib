@@ -98,10 +98,16 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
     ADD_MAIN_BINDING(ql_instruments::makeyoyinflationcapfloor,
         "MakeYoYInflationCapFloor builder");
 
+    ADD_MAIN_BINDING(ql_instruments::bondforward,
+        "BondForward - forward contract on a bond");
     ADD_MAIN_BINDING(ql_instruments::varianceswap,
         "VarianceSwap - variance swap instrument");
     ADD_MAIN_BINDING(ql_instruments::nonstandardswap,
         "NonstandardSwap - swap with period-dependent parameters");
+    ADD_MAIN_BINDING(ql_instruments::nonstandardswaption,
+        "NonstandardSwaption - option on nonstandard swap");
     ADD_MAIN_BINDING(ql_instruments::floatfloatswap,
         "FloatFloatSwap - float vs float swap with caps and floors");
+    ADD_MAIN_BINDING(ql_instruments::floatfloatswaption,
+        "FloatFloatSwaption - option on float-float swap");
 }

@@ -659,6 +659,38 @@ payoff = ql.SuperSharePayoff(90.0, 110.0, 5.0)
 .. autoclass:: pyquantlib.FloatFloatSwap
 ```
 
+### NonstandardSwaption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NonstandardSwaption
+```
+
+### FloatFloatSwaption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FloatFloatSwaption
+```
+
+## Bond Forwards
+
+### Forward
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.Forward
+```
+
+### ForwardTypePayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardTypePayoff
+```
+
+### BondForward
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BondForward
+```
+
 ## Exercise Types
 
 ### EuropeanExercise

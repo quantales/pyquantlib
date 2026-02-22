@@ -11,6 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Core
+- `Forward` ABC for forward contracts (in `pyquantlib.base`) with inspectors (`settlementDate`, `forwardValue`, `spotValue`, `spotIncome`, `impliedYield`)
+- `ForwardTypePayoff` for long/short forward payoffs
+
+#### Instruments
+- `BondForward` forward contract on a bond with `forwardPrice()` and `cleanForwardPrice()`
+- `NonstandardSwaption` option to enter into a nonstandard swap
+- `FloatFloatSwaption` option to enter into a float-float swap
+
 ## [0.3.0] - 2026-02-22
 
 ### Added

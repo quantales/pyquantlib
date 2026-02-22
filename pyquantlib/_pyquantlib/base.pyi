@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -491,6 +491,54 @@ class FloatingRateCouponPricer(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for floating-rate coupon pricers.
     """
+class Forward(Instrument):
+    """
+    Abstract base class for forward contracts.
+    """
+    def businessDayConvention(self) -> pyquantlib._pyquantlib.BusinessDayConvention:
+        """
+        Returns the business day convention.
+        """
+    def calendar(self) -> pyquantlib._pyquantlib.Calendar:
+        """
+        Returns the calendar.
+        """
+    def dayCounter(self) -> pyquantlib._pyquantlib.DayCounter:
+        """
+        Returns the day counter.
+        """
+    def discountCurve(self) -> ...:
+        """
+        Returns the discount curve handle.
+        """
+    def forwardValue(self) -> float:
+        """
+        Returns the forward value of the underlying.
+        """
+    def impliedYield(self, underlyingSpotValue: typing.SupportsFloat | typing.SupportsIndex, forwardValue: typing.SupportsFloat | typing.SupportsIndex, settlementDate: pyquantlib._pyquantlib.Date, compoundingConvention: pyquantlib._pyquantlib.Compounding, dayCounter: pyquantlib._pyquantlib.DayCounter) -> pyquantlib._pyquantlib.InterestRate:
+        """
+        Returns the implied yield from spot and forward values.
+        """
+    def incomeDiscountCurve(self) -> ...:
+        """
+        Returns the income discount curve handle.
+        """
+    def isExpired(self) -> bool:
+        """
+        Returns True if the forward has expired.
+        """
+    def settlementDate(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the settlement date.
+        """
+    def spotIncome(self, incomeDiscountCurve: ...) -> float:
+        """
+        Returns the NPV of income from the underlying.
+        """
+    def spotValue(self) -> float:
+        """
+        Returns the spot value of the underlying.
+        """
 class GenericHestonModelEngine(PricingEngine):
     """
     Generic pricing engine for Heston model.
