@@ -78,7 +78,7 @@ def test_blackcapfloorengine_displacement(capfloor_setup):
     cap = ql.Cap(capfloor_setup["leg"], [0.05])
     cap.setPricingEngine(engine)
     # Displaced diffusion gives different NPV
-    assert cap.NPV() > 0
+    assert cap.NPV() == pytest.approx(11177.5902, rel=1e-4)
 
 
 # =============================================================================

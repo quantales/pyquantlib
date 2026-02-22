@@ -272,7 +272,7 @@ def test_blackswaptionengine_handle_constructor(swaption_env):
         ql.YieldTermStructureHandle(env["curve"]), 0.20,
     )
     env["swaption"].setPricingEngine(engine)
-    assert env["swaption"].NPV() > 0
+    assert env["swaption"].NPV() == pytest.approx(19361.8214, rel=1e-4)
 
 
 def test_blackswaptionengine_displacement(swaption_env):
@@ -280,7 +280,7 @@ def test_blackswaptionengine_displacement(swaption_env):
     env = swaption_env
     engine = ql.BlackSwaptionEngine(env["curve"], 0.20, displacement=0.01)
     env["swaption"].setPricingEngine(engine)
-    assert env["swaption"].NPV() > 0
+    assert env["swaption"].NPV() == pytest.approx(22608.0820, rel=1e-4)
 
 
 # --- BachelierSwaptionEngine ---
@@ -291,7 +291,7 @@ def test_bachelierswaptionengine_construction(swaption_env):
     env = swaption_env
     engine = ql.BachelierSwaptionEngine(env["curve"], 0.005)
     env["swaption"].setPricingEngine(engine)
-    assert env["swaption"].NPV() > 0
+    assert env["swaption"].NPV() == pytest.approx(11130.8843, rel=1e-4)
 
 
 def test_bachelierswaptionengine_pricing(swaption_env):
@@ -301,7 +301,7 @@ def test_bachelierswaptionengine_pricing(swaption_env):
     env["swaption"].setPricingEngine(engine)
 
     npv = env["swaption"].NPV()
-    assert npv > 0
+    assert npv == pytest.approx(11130.8843, rel=1e-4)
 
 
 def test_bachelierswaptionengine_quote_vol(swaption_env):
@@ -324,4 +324,4 @@ def test_bachelierswaptionengine_handle_constructor(swaption_env):
         ql.YieldTermStructureHandle(env["curve"]), 0.005,
     )
     env["swaption"].setPricingEngine(engine)
-    assert env["swaption"].NPV() > 0
+    assert env["swaption"].NPV() == pytest.approx(11130.8843, rel=1e-4)
