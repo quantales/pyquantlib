@@ -56,4 +56,8 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     ADD_MAIN_BINDING(ql_cashflows::inflationcouponpricer,
         "InflationCouponPricer ABC, YoYInflationCouponPricer, "
         "Black/UnitDisplaced/Bachelier pricers");
+
+    // Dividends
+    ADD_MAIN_BINDING(ql_cashflows::dividend,
+        "Dividend ABC, FixedDividend, FractionalDividend, DividendVector");
 }

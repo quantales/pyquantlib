@@ -348,6 +348,51 @@ pricer = ql.BlackYoYInflationCouponPricer(yoy_vol_handle)
 ql.setCouponPricer(yoy_leg, pricer)
 ```
 
+## Dividends
+
+### FixedDividend
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FixedDividend
+```
+
+Fixed cash dividend.
+
+```python
+div = ql.FixedDividend(2.50, ql.Date(15, 6, 2026))
+print(div.amount())  # 2.5
+print(div.date())    # June 15th, 2026
+```
+
+### FractionalDividend
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FractionalDividend
+```
+
+Fractional (proportional) dividend: amount = rate * nominal.
+
+```python
+div = ql.FractionalDividend(0.03, 100.0, ql.Date(15, 6, 2026))
+print(div.rate())     # 0.03
+print(div.nominal())  # 100.0
+```
+
+### DividendVector
+
+```{eval-rst}
+.. autofunction:: pyquantlib.DividendVector
+```
+
+Builds a sequence of fixed dividends from dates and amounts.
+
+```python
+divs = ql.DividendVector(
+    [ql.Date(15, 6, 2026), ql.Date(15, 12, 2026)],
+    [2.50, 2.50],
+)
+```
+
 ## Duration
 
 ### DurationType

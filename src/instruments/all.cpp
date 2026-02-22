@@ -114,4 +114,7 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "EquityTotalReturnSwap - equity total return swap");
     ADD_MAIN_BINDING(ql_instruments::callability,
         "Callability - call/put schedule entry");
+    ADD_MAIN_BINDING(ql_instruments::convertiblebonds,
+        "ConvertibleBond, ConvertibleZeroCouponBond, "
+        "ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, SoftCallability");
 }

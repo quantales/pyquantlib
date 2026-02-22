@@ -8,7 +8,6 @@ import pytest
 
 import pyquantlib as ql
 
-
 # =============================================================================
 # Fixtures
 # =============================================================================
@@ -248,3 +247,95 @@ def test_bondfunctions_zspread(bond_env):
     )
     # z-spread over the same curve used for pricing should be ~0
     assert abs(z) < 0.001
+
+
+# =============================================================================
+# BinomialConvertibleEngine
+# =============================================================================
+
+
+@pytest.fixture
+def convertible_env():
+    """Environment for BinomialConvertibleEngine tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    r_ts = ql.FlatForward(today, 0.04, dc)
+    r_handle = ql.YieldTermStructureHandle(r_ts)
+
+    div_ts = ql.FlatForward(today, 0.02, dc)
+    div_handle = ql.YieldTermStructureHandle(div_ts)
+
+    vol_ts = ql.BlackConstantVol(today, calendar, 0.30, dc)
+    vol_handle = ql.BlackVolTermStructureHandle(vol_ts)
+
+    spot = ql.SimpleQuote(100.0)
+    spot_handle = ql.QuoteHandle(spot)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot_handle, div_handle, r_handle, vol_handle,
+    )
+
+    cs = ql.SimpleQuote(0.02)
+    exercise = ql.AmericanExercise(today, ql.Date(15, ql.January, 2030))
+
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(15, ql.January, 2025),
+        terminationDate=ql.Date(15, ql.January, 2030),
+        tenor=ql.Period(1, ql.Years),
+        calendar=calendar,
+        convention=ql.Unadjusted,
+    )
+
+    return {
+        "today": today,
+        "dc": dc,
+        "process": process,
+        "cs": cs,
+        "exercise": exercise,
+        "schedule": schedule,
+    }
+
+
+def test_binomial_convertible_engine_tree_types(convertible_env):
+    """BinomialConvertibleEngine supports all tree types."""
+    env = convertible_env
+    zcb = ql.ConvertibleZeroCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        env["dc"], env["schedule"], 100.0,
+    )
+    for tree_type in ["jr", "crr", "trigeorgis", "tian", "lr", "joshi"]:
+        engine = ql.BinomialConvertibleEngine(
+            env["process"], tree_type, 100, env["cs"],
+        )
+        zcb.setPricingEngine(engine)
+        # All trees should produce values in a reasonable range
+        npv = zcb.NPV()
+        assert 100.0 < npv < 120.0
+
+
+def test_binomial_convertible_engine_invalid_tree(convertible_env):
+    """BinomialConvertibleEngine raises on invalid tree type."""
+    env = convertible_env
+    with pytest.raises(RuntimeError, match="Unknown tree type"):
+        ql.BinomialConvertibleEngine(env["process"], "invalid", 100, env["cs"])
+
+
+def test_binomial_convertible_engine_with_dividends(convertible_env):
+    """BinomialConvertibleEngine with dividend schedule."""
+    env = convertible_env
+    divs = ql.DividendVector(
+        [ql.Date(15, ql.June, y) for y in range(2025, 2030)],
+        [2.0] * 5,
+    )
+    engine = ql.BinomialConvertibleEngine(
+        env["process"], "crr", 200, env["cs"], divs,
+    )
+    zcb = ql.ConvertibleZeroCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        env["dc"], env["schedule"], 100.0,
+    )
+    zcb.setPricingEngine(engine)
+    assert zcb.NPV() == pytest.approx(102.8267, rel=1e-4)

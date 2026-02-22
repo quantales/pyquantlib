@@ -159,6 +159,7 @@ namespace ql_cashflows {
     void yoyinflationcoupon(py::module_&);
     void capflooredinflationcoupon(py::module_&);
     void inflationcouponpricer(py::module_&);
+    void dividend(py::module_&);
 }
 
 namespace ql_indexes {
@@ -341,6 +342,7 @@ namespace ql_instruments {
     void floatfloatswaption(py::module_&);
     void equitytotalreturnswap(py::module_&);
     void callability(py::module_&);
+    void convertiblebonds(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -390,6 +392,7 @@ namespace ql_pricingengines {
     void inflationcapfloorengines(py::module_&);
 
     void replicatingvarianceswapengine(py::module_&);
+    void binomialconvertibleengine(py::module_&);
 }
 
 namespace ql_methods {

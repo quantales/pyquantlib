@@ -27,6 +27,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Callability` and `CallabilityType` enum for call/put schedules
 - `CallableFixedRateBond` and `CallableZeroCouponBond`
 - `EquityTotalReturnSwap` with IborIndex and OvernightIndex variants
+- `SoftCallability` with trigger level for soft-call provisions
+- `ConvertibleBond` base class with `conversionRatio()` and `callability()`
+- `ConvertibleZeroCouponBond`, `ConvertibleFixedCouponBond`, `ConvertibleFloatingRateBond`
+
+#### Cash Flows
+- `Dividend` ABC (in `pyquantlib.base`) for custom dividend implementations
+- `FixedDividend` fixed cash dividend
+- `FractionalDividend` proportional dividend (rate * nominal)
+- `DividendVector` helper to build a sequence of fixed dividends
+
+#### Pricing Engines
+- `BinomialConvertibleEngine` Tsiveriotis-Fernandes lattice engine for convertible bonds (7 tree types: jr, crr, eqp, trigeorgis, tian, lr, joshi)
 
 #### Experimental
 - `CallableBond` ABC (in `pyquantlib.base`) with OAS, effective duration/convexity, implied volatility

@@ -8,7 +8,6 @@ import pytest
 
 import pyquantlib as ql
 
-
 # =============================================================================
 # Event / CashFlow (ABC)
 # =============================================================================
@@ -1630,3 +1629,45 @@ def test_yoy_coupon_set_pricer_directly(inflation_env):
     coupon = built_leg[0]
     coupon.setPricer(pricer)
     assert coupon.pricer() is not None
+
+
+# =============================================================================
+# Dividends (from ql/cashflows/dividend.hpp)
+# =============================================================================
+
+
+def test_fixed_dividend():
+    """FixedDividend construction and amount."""
+    d = ql.FixedDividend(2.5, ql.Date(15, ql.June, 2025))
+    assert d.amount() == pytest.approx(2.5)
+    assert d.date() == ql.Date(15, ql.June, 2025)
+
+
+def test_fractional_dividend_rate_only():
+    """FractionalDividend with rate only."""
+    d = ql.FractionalDividend(0.03, ql.Date(15, ql.June, 2025))
+    assert d.rate() == pytest.approx(0.03)
+    assert d.date() == ql.Date(15, ql.June, 2025)
+
+
+def test_fractional_dividend_with_nominal():
+    """FractionalDividend with rate and nominal."""
+    d = ql.FractionalDividend(0.03, 100.0, ql.Date(15, ql.June, 2025))
+    assert d.amount() == pytest.approx(3.0)
+    assert d.rate() == pytest.approx(0.03)
+    assert d.nominal() == pytest.approx(100.0)
+
+
+def test_dividend_vector():
+    """DividendVector builds a sequence of fixed dividends."""
+    dates = [ql.Date(15, ql.June, 2025), ql.Date(15, ql.December, 2025)]
+    amounts = [2.5, 3.0]
+    dvec = ql.DividendVector(dates, amounts)
+    assert len(dvec) == 2
+    assert dvec[0].amount() == pytest.approx(2.5)
+    assert dvec[1].amount() == pytest.approx(3.0)
+
+
+def test_dividend_abc_exists():
+    """Dividend ABC is accessible on base."""
+    assert hasattr(ql.base, "Dividend")

@@ -180,6 +180,40 @@ public:
 };
 
 // -----------------------------------------------------------------------------
+// Dividend Trampoline
+// -----------------------------------------------------------------------------
+class PyDividend : public QuantLib::Dividend {
+public:
+    using QuantLib::Dividend::Dividend;
+
+    QuantLib::Real amount() const override {
+        PYBIND11_OVERRIDE_PURE(
+            QuantLib::Real,
+            QuantLib::Dividend,
+            amount,
+        );
+    }
+
+    QuantLib::Real amount(QuantLib::Real underlying) const override {
+        PYBIND11_OVERRIDE_PURE_NAME(
+            QuantLib::Real,
+            QuantLib::Dividend,
+            "amountAt",
+            amount,
+            underlying
+        );
+    }
+
+    QuantLib::Date date() const override {
+        PYBIND11_OVERRIDE(
+            QuantLib::Date,
+            QuantLib::Dividend,
+            date,
+        );
+    }
+};
+
+// -----------------------------------------------------------------------------
 // Coupon Trampoline
 // -----------------------------------------------------------------------------
 class PyCoupon : public QuantLib::Coupon {

@@ -149,6 +149,74 @@ print(bond.OAS(clean_price, curve, dc, ql.Continuous, ql.Annual))
 .. autoclass:: pyquantlib.CallableZeroCouponBond
 ```
 
+## Convertible Bonds
+
+### SoftCallability
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SoftCallability
+```
+
+Callability with a trigger level for soft-call provisions.
+
+```python
+soft_call = ql.SoftCallability(
+    ql.BondPrice(110.0, ql.BondPriceType.Clean),
+    call_date, 1.20,
+)
+```
+
+### ConvertibleBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConvertibleBond
+   :members:
+```
+
+Base class for convertible bonds (not directly constructible).
+
+### ConvertibleZeroCouponBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConvertibleZeroCouponBond
+```
+
+```python
+exercise = ql.AmericanExercise(today, maturity)
+bond = ql.ConvertibleZeroCouponBond(
+    exercise, 1.0, [], issue_date, 2,
+    ql.Actual365Fixed(), schedule,
+)
+bond.setPricingEngine(ql.BinomialConvertibleEngine(process, "crr", 801))
+print(bond.NPV())
+```
+
+### ConvertibleFixedCouponBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConvertibleFixedCouponBond
+```
+
+```python
+bond = ql.ConvertibleFixedCouponBond(
+    exercise, 1.0, call_schedule, issue_date, 2,
+    [0.05], ql.Thirty360(ql.Thirty360.BondBasis), schedule,
+)
+```
+
+### ConvertibleFloatingRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConvertibleFloatingRateBond
+```
+
+```python
+bond = ql.ConvertibleFloatingRateBond(
+    exercise, 1.0, [], issue_date, 2,
+    euribor6m, 2, [0.005], ql.Actual360(), schedule,
+)
+```
+
 ### EquityTotalReturnSwap
 
 ```{eval-rst}

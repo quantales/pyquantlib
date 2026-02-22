@@ -106,4 +106,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
 
     ADD_MAIN_BINDING(ql_pricingengines::replicatingvarianceswapengine,
         "ReplicatingVarianceSwapEngine - variance swap replicating portfolio");
+    ADD_MAIN_BINDING(ql_pricingengines::binomialconvertibleengine,
+        "BinomialConvertibleEngine - binomial tree convertible bond pricing");
 }

@@ -452,6 +452,30 @@ bond.setPricingEngine(engine)
 print(bond.cleanPrice())
 ```
 
+## Convertible Bond Engines
+
+### BinomialConvertibleEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BinomialConvertibleEngine
+```
+
+Tsiveriotis-Fernandes binomial lattice engine for convertible bonds.
+
+```python
+engine = ql.BinomialConvertibleEngine(process, "crr", 801)
+bond.setPricingEngine(engine)
+print(bond.NPV())
+```
+
+Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`
+
+Also accepts an optional `creditSpread` parameter:
+
+```python
+engine = ql.BinomialConvertibleEngine(process, "crr", 801, creditSpread=spread)
+```
+
 ## Credit Engines
 
 ### MidPointCdsEngine

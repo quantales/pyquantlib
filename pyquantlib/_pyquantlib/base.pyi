@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -478,6 +478,18 @@ class DefaultProbabilityTermStructure(TermStructure):
     def survivalProbability(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
         """
         Survival probability to a given date.
+        """
+class Dividend(CashFlow):
+    """
+    Abstract base class for dividends.
+    """
+    def __init__(self, date: pyquantlib._pyquantlib.Date) -> None:
+        """
+        Constructs a dividend with a given date.
+        """
+    def date(self) -> pyquantlib._pyquantlib.Date:
+        """
+        Returns the dividend date.
         """
 class Event(pyquantlib._pyquantlib.Observable):
     """

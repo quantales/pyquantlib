@@ -8,7 +8,6 @@ import pytest
 
 import pyquantlib as ql
 
-
 # =============================================================================
 # Fixtures
 # =============================================================================
@@ -752,3 +751,208 @@ def test_cpibond_pricing(cpi_bond_env):
 
     cpi.clearFixings()
     cpi_with_curve.clearFixings()
+
+
+# =============================================================================
+# SoftCallability
+# =============================================================================
+
+
+def test_soft_callability_construction():
+    """SoftCallability with trigger level."""
+    sc = ql.SoftCallability(
+        ql.BondPrice(110.0, ql.BondPriceType.Clean),
+        ql.Date(15, ql.January, 2028),
+        120.0,
+    )
+    assert sc.trigger() == pytest.approx(120.0)
+    assert sc.type() == ql.CallabilityType.Call
+    assert sc.date() == ql.Date(15, ql.January, 2028)
+
+
+# =============================================================================
+# Convertible Bonds Fixtures
+# =============================================================================
+
+
+@pytest.fixture
+def convertible_env():
+    """Environment for convertible bond pricing tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.TARGET()
+
+    r_ts = ql.FlatForward(today, 0.04, dc)
+    r_handle = ql.YieldTermStructureHandle(r_ts)
+
+    div_ts = ql.FlatForward(today, 0.02, dc)
+    div_handle = ql.YieldTermStructureHandle(div_ts)
+
+    vol_ts = ql.BlackConstantVol(today, calendar, 0.30, dc)
+    vol_handle = ql.BlackVolTermStructureHandle(vol_ts)
+
+    spot = ql.SimpleQuote(100.0)
+    spot_handle = ql.QuoteHandle(spot)
+
+    process = ql.GeneralizedBlackScholesProcess(
+        spot_handle, div_handle, r_handle, vol_handle,
+    )
+
+    cs = ql.SimpleQuote(0.02)
+    exercise = ql.AmericanExercise(today, ql.Date(15, ql.January, 2030))
+    engine = ql.BinomialConvertibleEngine(process, "crr", 200, cs)
+
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(15, ql.January, 2025),
+        terminationDate=ql.Date(15, ql.January, 2030),
+        tenor=ql.Period(1, ql.Years),
+        calendar=calendar,
+        convention=ql.Unadjusted,
+    )
+
+    return {
+        "today": today,
+        "dc": dc,
+        "r_handle": r_handle,
+        "process": process,
+        "cs": cs,
+        "exercise": exercise,
+        "engine": engine,
+        "schedule": schedule,
+    }
+
+
+# =============================================================================
+# ConvertibleZeroCouponBond
+# =============================================================================
+
+
+def test_convertible_zcb_construction(convertible_env):
+    """ConvertibleZeroCouponBond can be constructed."""
+    env = convertible_env
+    zcb = ql.ConvertibleZeroCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        env["dc"], env["schedule"], 100.0,
+    )
+    assert zcb is not None
+    assert zcb.conversionRatio() == pytest.approx(1.0)
+    assert zcb.isExpired() is False
+
+
+def test_convertible_zcb_npv(convertible_env):
+    """ConvertibleZeroCouponBond priced with BinomialConvertibleEngine."""
+    env = convertible_env
+    zcb = ql.ConvertibleZeroCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        env["dc"], env["schedule"], 100.0,
+    )
+    zcb.setPricingEngine(env["engine"])
+    assert zcb.NPV() == pytest.approx(106.6868, rel=1e-4)
+
+
+def test_convertible_zcb_callability(convertible_env):
+    """ConvertibleZeroCouponBond callability returns the schedule."""
+    env = convertible_env
+    zcb = ql.ConvertibleZeroCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        env["dc"], env["schedule"], 100.0,
+    )
+    assert len(zcb.callability()) == 0
+
+
+# =============================================================================
+# ConvertibleFixedCouponBond
+# =============================================================================
+
+
+def test_convertible_fixed_coupon_construction(convertible_env):
+    """ConvertibleFixedCouponBond can be constructed."""
+    env = convertible_env
+    fcb = ql.ConvertibleFixedCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        [0.05], env["dc"], env["schedule"], 100.0,
+    )
+    assert fcb is not None
+    assert fcb.conversionRatio() == pytest.approx(1.0)
+
+
+def test_convertible_fixed_coupon_npv(convertible_env):
+    """ConvertibleFixedCouponBond priced with BinomialConvertibleEngine."""
+    env = convertible_env
+    fcb = ql.ConvertibleFixedCouponBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        [0.05], env["dc"], env["schedule"], 100.0,
+    )
+    fcb.setPricingEngine(env["engine"])
+    assert fcb.NPV() == pytest.approx(124.3526, rel=1e-4)
+
+
+def test_convertible_fixed_coupon_with_calls(convertible_env):
+    """ConvertibleFixedCouponBond with call schedule."""
+    env = convertible_env
+    call_schedule = [
+        ql.Callability(
+            ql.BondPrice(110.0, ql.BondPriceType.Clean),
+            ql.CallabilityType.Call,
+            ql.Date(15, ql.January, y),
+        )
+        for y in range(2027, 2030)
+    ]
+    fcb = ql.ConvertibleFixedCouponBond(
+        env["exercise"], 1.0, call_schedule, env["today"], 2,
+        [0.05], env["dc"], env["schedule"], 100.0,
+    )
+    fcb.setPricingEngine(env["engine"])
+    assert fcb.NPV() == pytest.approx(119.2989, rel=1e-4)
+    assert len(fcb.callability()) == 3
+
+
+def test_convertible_fixed_coupon_with_soft_call(convertible_env):
+    """ConvertibleFixedCouponBond with SoftCallability."""
+    env = convertible_env
+    soft_calls = [
+        ql.SoftCallability(
+            ql.BondPrice(110.0, ql.BondPriceType.Clean),
+            ql.Date(15, ql.January, 2028),
+            130.0,
+        )
+    ]
+    fcb = ql.ConvertibleFixedCouponBond(
+        env["exercise"], 1.0, soft_calls, env["today"], 2,
+        [0.05], env["dc"], env["schedule"], 100.0,
+    )
+    fcb.setPricingEngine(env["engine"])
+    assert fcb.NPV() == pytest.approx(124.3526, rel=1e-4)
+    assert len(fcb.callability()) == 1
+
+
+# =============================================================================
+# ConvertibleFloatingRateBond
+# =============================================================================
+
+
+def test_convertible_floating_rate_construction(convertible_env):
+    """ConvertibleFloatingRateBond can be constructed."""
+    env = convertible_env
+    euribor = ql.Euribor(ql.Period(6, ql.Months), env["r_handle"])
+    euribor.addFixing(ql.Date(13, ql.January, 2025), 0.04)
+    frb = ql.ConvertibleFloatingRateBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        euribor, 2, [0.005], env["dc"], env["schedule"], 100.0,
+    )
+    assert frb is not None
+    assert frb.conversionRatio() == pytest.approx(1.0)
+
+
+def test_convertible_floating_rate_npv(convertible_env):
+    """ConvertibleFloatingRateBond priced with BinomialConvertibleEngine."""
+    env = convertible_env
+    euribor = ql.Euribor(ql.Period(6, ql.Months), env["r_handle"])
+    euribor.addFixing(ql.Date(13, ql.January, 2025), 0.04)
+    frb = ql.ConvertibleFloatingRateBond(
+        env["exercise"], 1.0, [], env["today"], 2,
+        euribor, 2, [0.005], env["dc"], env["schedule"], 100.0,
+    )
+    frb.setPricingEngine(env["engine"])
+    assert frb.NPV() == pytest.approx(122.4706, rel=1e-4)
