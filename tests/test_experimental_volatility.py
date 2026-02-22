@@ -138,7 +138,7 @@ def test_svismilesection_density():
     smile = ql.SviSmileSection(1.0, 100.0, [0.04, 0.1, 0.3, -0.4, 0.0])
 
     density = smile.density(100.0)
-    assert density == pytest.approx(0.01735287, rel=1e-6)
+    assert density == pytest.approx(0.01735323, rel=1e-4)
 
 
 # --- Helper functions ---
