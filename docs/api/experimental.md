@@ -47,6 +47,69 @@ print(smile.volatility(110.0))  # OTM call vol
 call_price = smile.optionPrice(110.0, ql.OptionType.Call)
 ```
 
+## Callable Bonds
+
+### CallableBondVolatilityStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.CallableBondVolatilityStructure
+```
+
+Abstract base class for callable-bond volatility term structures.
+
+### CallableBondConstantVolatility
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CallableBondConstantVolatility
+```
+
+```python
+vol = ql.CallableBondConstantVolatility(today, 0.10, ql.Actual365Fixed())
+# or with a Quote
+vol = ql.CallableBondConstantVolatility(today, ql.SimpleQuote(0.10),
+                                         ql.Actual365Fixed())
+```
+
+### TreeCallableFixedRateBondEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeCallableFixedRateBondEngine
+```
+
+### TreeCallableZeroCouponBondEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeCallableZeroCouponBondEngine
+```
+
+```python
+hw_model = ql.HullWhite(curve_handle, 0.03, 0.01)
+engine = ql.TreeCallableFixedRateBondEngine(hw_model, 100)
+bond.setPricingEngine(engine)
+print(bond.cleanPrice())
+```
+
+### BlackCallableFixedRateBondEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCallableFixedRateBondEngine
+```
+
+### BlackCallableZeroCouponBondEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCallableZeroCouponBondEngine
+```
+
+```python
+# Black engine requires exactly one call/put date
+vol = ql.CallableBondConstantVolatility(today, 0.10, dc)
+engine = ql.BlackCallableFixedRateBondEngine(vol, discount_curve)
+bond.setPricingEngine(engine)
+print(bond.cleanPrice())
+print(bond.impliedVolatility(target_price, curve, 1e-8, 200, 0.001, 0.50))
+```
+
 ## Credit
 
 ### CdsOption

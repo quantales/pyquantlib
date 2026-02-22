@@ -3563,3 +3563,231 @@ def test_floatfloatswaption_is_expired(floatfloat_swap_env):
 
     swaption = ql.FloatFloatSwaption(ffs, exercise)
     assert swaption.isExpired() is False
+
+
+# =============================================================================
+# EquityTotalReturnSwap
+# =============================================================================
+
+
+@pytest.fixture
+def equity_trs_env():
+    """Shared setup for EquityTotalReturnSwap tests."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    rate_curve = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.05, ql.Actual365Fixed()
+    )
+    div_curve = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.02, ql.Actual365Fixed()
+    )
+    spot = ql.SimpleQuote(100.0)
+    ei = ql.EquityIndex(
+        "SPX", ql.TARGET(), ql.USDCurrency(), rate_curve, div_curve, spot
+    )
+    ei.addFixing(ql.Date(15, ql.January, 2025), 100.0)
+
+    euribor = ql.Euribor6M(rate_curve)
+    euribor.addFixing(ql.Date(13, ql.January, 2025), 0.04)
+
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(15, ql.January, 2025),
+        terminationDate=ql.Date(15, ql.January, 2026),
+        tenor=ql.Period(6, ql.Months),
+        calendar=ql.TARGET(),
+        convention=ql.ModifiedFollowing,
+    )
+
+    return {
+        "rate_curve": rate_curve,
+        "div_curve": div_curve,
+        "spot": spot,
+        "ei": ei,
+        "euribor": euribor,
+        "schedule": schedule,
+    }
+
+
+def test_equitytrs_ibor_construction(equity_trs_env):
+    """EquityTotalReturnSwap constructs with IborIndex."""
+    env = equity_trs_env
+    trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        env["schedule"],
+        env["ei"],
+        env["euribor"],
+        ql.Actual360(),
+        0.005,
+    )
+    assert trs.type() == ql.SwapType.Payer
+    assert trs.nominal() == pytest.approx(1000000.0)
+    assert trs.margin() == pytest.approx(0.005)
+    assert trs.gearing() == pytest.approx(1.0)
+    assert trs.paymentDelay() == 0
+
+
+def test_equitytrs_ibor_npv(equity_trs_env):
+    """EquityTotalReturnSwap NPV with IborIndex and DiscountingSwapEngine."""
+    env = equity_trs_env
+    trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        env["schedule"],
+        env["ei"],
+        env["euribor"],
+        ql.Actual360(),
+        0.005,
+    )
+    engine = ql.DiscountingSwapEngine(env["rate_curve"])
+    trs.setPricingEngine(engine)
+
+    assert trs.NPV() == pytest.approx(19813.5065, rel=1e-4)
+    assert trs.equityLegNPV() == pytest.approx(-28969.2488, rel=1e-4)
+    assert trs.interestRateLegNPV() == pytest.approx(48782.7553, rel=1e-4)
+
+
+def test_equitytrs_fair_margin(equity_trs_env):
+    """EquityTotalReturnSwap fairMargin computation."""
+    env = equity_trs_env
+    trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        env["schedule"],
+        env["ei"],
+        env["euribor"],
+        ql.Actual360(),
+        0.005,
+    )
+    engine = ql.DiscountingSwapEngine(env["rate_curve"])
+    trs.setPricingEngine(engine)
+
+    assert trs.fairMargin() == pytest.approx(-0.01529, rel=1e-3)
+
+
+def test_equitytrs_inspectors(equity_trs_env):
+    """EquityTotalReturnSwap inspectors return correct values."""
+    env = equity_trs_env
+    trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Payer,
+        1000000.0,
+        env["schedule"],
+        env["ei"],
+        env["euribor"],
+        ql.Actual360(),
+        0.005,
+    )
+    assert trs.equityIndex().name() == "SPX"
+    assert "Euribor" in trs.interestRateIndex().name()
+    assert trs.dayCounter().name() == "Actual/360"
+    assert len(trs.equityLeg()) == 1
+    assert len(trs.interestRateLeg()) == 2
+
+
+def test_equitytrs_overnight_index():
+    """EquityTotalReturnSwap constructs with OvernightIndex (SOFR)."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    rate_curve = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.05, ql.Actual365Fixed()
+    )
+    div_curve = ql.FlatForward(
+        ql.Date(15, ql.January, 2025), 0.02, ql.Actual365Fixed()
+    )
+    spot = ql.SimpleQuote(100.0)
+    ei = ql.EquityIndex(
+        "SPX", ql.TARGET(), ql.USDCurrency(), rate_curve, div_curve, spot
+    )
+    ei.addFixing(ql.Date(15, ql.January, 2025), 100.0)
+
+    sofr = ql.Sofr(rate_curve)
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(15, ql.January, 2025),
+        terminationDate=ql.Date(15, ql.January, 2026),
+        tenor=ql.Period(3, ql.Months),
+        calendar=ql.UnitedStates(ql.UnitedStates.GovernmentBond),
+        convention=ql.ModifiedFollowing,
+    )
+
+    trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Receiver,
+        1000000.0,
+        schedule,
+        ei,
+        sofr,
+        ql.Actual360(),
+        0.01,
+    )
+    engine = ql.DiscountingSwapEngine(rate_curve)
+    trs.setPricingEngine(engine)
+
+    assert trs.NPV() == pytest.approx(-29629.2367, rel=1e-4)
+    assert trs.type() == ql.SwapType.Receiver
+    assert trs.fairMargin() == pytest.approx(-0.02015, rel=1e-3)
+
+
+def test_equitytrs_receiver_vs_payer(equity_trs_env):
+    """Receiver and Payer TRS have opposite NPVs."""
+    env = equity_trs_env
+    engine = ql.DiscountingSwapEngine(env["rate_curve"])
+
+    payer_trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Payer, 1000000.0,
+        env["schedule"], env["ei"], env["euribor"],
+        ql.Actual360(), 0.005,
+    )
+    payer_trs.setPricingEngine(engine)
+
+    receiver_trs = ql.EquityTotalReturnSwap(
+        ql.SwapType.Receiver, 1000000.0,
+        env["schedule"], env["ei"], env["euribor"],
+        ql.Actual360(), 0.005,
+    )
+    receiver_trs.setPricingEngine(engine)
+
+    assert payer_trs.NPV() == pytest.approx(-receiver_trs.NPV(), rel=1e-10)
+
+
+# =============================================================================
+# Callability
+# =============================================================================
+
+
+def test_callability_type_enum():
+    """CallabilityType enum exposes Call and Put."""
+    assert ql.CallabilityType.Call is not None
+    assert ql.CallabilityType.Put is not None
+    assert ql.CallabilityType.Call != ql.CallabilityType.Put
+
+
+def test_callability_call_construction():
+    """Callability can be constructed as a Call."""
+    price = ql.BondPrice(100.0, ql.BondPriceType.Clean)
+    call = ql.Callability(price, ql.CallabilityType.Call, ql.Date(15, ql.June, 2030))
+
+    assert call.type() == ql.CallabilityType.Call
+    assert call.date() == ql.Date(15, ql.June, 2030)
+    assert call.price().amount() == pytest.approx(100.0)
+    assert call.price().type() == ql.BondPriceType.Clean
+
+
+def test_callability_put_construction():
+    """Callability can be constructed as a Put."""
+    price = ql.BondPrice(95.0, ql.BondPriceType.Dirty)
+    put = ql.Callability(price, ql.CallabilityType.Put, ql.Date(15, ql.March, 2028))
+
+    assert put.type() == ql.CallabilityType.Put
+    assert put.date() == ql.Date(15, ql.March, 2028)
+    assert put.price().amount() == pytest.approx(95.0)
+    assert put.price().type() == ql.BondPriceType.Dirty
+
+
+def test_callability_schedule_list():
+    """A list of Callability objects can be used as CallabilitySchedule."""
+    dates = [ql.Date(15, ql.June, y) for y in range(2027, 2031)]
+    schedule = [
+        ql.Callability(ql.BondPrice(100.0, ql.BondPriceType.Clean),
+                       ql.CallabilityType.Call, d)
+        for d in dates
+    ]
+    assert len(schedule) == 4
+    assert schedule[0].date() == ql.Date(15, ql.June, 2027)
+    assert schedule[-1].date() == ql.Date(15, ql.June, 2030)

@@ -836,3 +836,83 @@ def test_yyzacpi_construction():
     idx = ql.YYZACPI()
     assert isinstance(idx, ql.YoYInflationIndex)
     assert idx.frequency() == ql.Monthly
+
+
+# =============================================================================
+# EquityIndex
+# =============================================================================
+
+
+def test_equityindex_minimal_construction():
+    """Test EquityIndex construction with name, calendar, and currency only."""
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency())
+    assert ei.name() == "SPX"
+    assert ei.fixingCalendar().name() == "TARGET"
+    assert ei.currency().name() == "U.S. dollar"
+
+
+def test_equityindex_hidden_handle_construction():
+    """Test EquityIndex with term structures via hidden handle constructor."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    rate = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.02, ql.Actual365Fixed())
+    spot = ql.SimpleQuote(100.0)
+
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency(), rate, div, spot)
+    assert ei.name() == "SPX"
+
+
+def test_equityindex_fixing():
+    """Test EquityIndex addFixing and fixing retrieval."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency())
+    ei.addFixing(ql.Date(14, ql.January, 2025), 99.5)
+    assert ei.fixing(ql.Date(14, ql.January, 2025)) == pytest.approx(99.5)
+
+
+def test_equityindex_forecast_fixing():
+    """Test EquityIndex forecastFixing with interest and dividend curves."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    rate = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.02, ql.Actual365Fixed())
+    spot = ql.SimpleQuote(100.0)
+
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency(), rate, div, spot)
+    forecast = ei.forecastFixing(ql.Date(15, ql.July, 2025))
+    assert forecast == pytest.approx(101.4988, rel=1e-4)
+
+
+def test_equityindex_is_valid_fixing_date():
+    """Test EquityIndex isValidFixingDate."""
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency())
+    # Wednesday (business day)
+    assert ei.isValidFixingDate(ql.Date(15, ql.January, 2025)) is True
+    # Saturday (non-business day)
+    assert ei.isValidFixingDate(ql.Date(18, ql.January, 2025)) is False
+
+
+def test_equityindex_clone():
+    """Test EquityIndex clone with new handles."""
+    ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+    rate = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, ql.January, 2025), 0.02, ql.Actual365Fixed())
+    spot = ql.SimpleQuote(100.0)
+
+    ei = ql.EquityIndex("SPX", ql.TARGET(), ql.USDCurrency(), rate, div, spot)
+    clone = ei.clone(
+        ql.YieldTermStructureHandle(rate),
+        ql.YieldTermStructureHandle(div),
+        ql.QuoteHandle(spot),
+    )
+    assert clone.name() == "SPX"
+    forecast = clone.forecastFixing(ql.Date(15, ql.July, 2025))
+    assert forecast == pytest.approx(101.4988, rel=1e-4)
+
+
+def test_equityindex_clear_fixings():
+    """Test EquityIndex clearFixings."""
+    ei = ql.EquityIndex("ClearTest", ql.TARGET(), ql.USDCurrency())
+    ei.addFixing(ql.Date(14, ql.January, 2025), 99.5)
+    ei.clearFixings()
+    with pytest.raises(ql.Error):
+        ei.fixing(ql.Date(14, ql.January, 2025))

@@ -183,6 +183,8 @@ namespace ql_indexes {
     void aucpi(py::module_&);
     void frhicp(py::module_&);
     void zacpi(py::module_&);
+    // Equity
+    void equityindex(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -337,6 +339,8 @@ namespace ql_instruments {
     void nonstandardswaption(py::module_&);
     void floatfloatswap(py::module_&);
     void floatfloatswaption(py::module_&);
+    void equitytotalreturnswap(py::module_&);
+    void callability(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -397,4 +401,10 @@ namespace ql_experimental {
     // Credit
     void cdsoption(py::module_&);
     void blackcdsoptionengine(py::module_&);
+    // Callable bonds
+    void callablebond(py::module_&);
+    void callablebondvolstructure(py::module_&);
+    void callablebondconstantvol(py::module_&);
+    void treecallablebondengine(py::module_&);
+    void blackcallablebondengine(py::module_&);
 }

@@ -17,10 +17,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Forward` ABC for forward contracts (in `pyquantlib.base`) with inspectors (`settlementDate`, `forwardValue`, `spotValue`, `spotIncome`, `impliedYield`)
 - `ForwardTypePayoff` for long/short forward payoffs
 
+#### Indexes
+- `EquityIndex` with minimal, full Handle, and hidden-handle constructors
+
 #### Instruments
 - `BondForward` forward contract on a bond with `forwardPrice()` and `cleanForwardPrice()`
 - `NonstandardSwaption` option to enter into a nonstandard swap
 - `FloatFloatSwaption` option to enter into a float-float swap
+- `Callability` and `CallabilityType` enum for call/put schedules
+- `CallableFixedRateBond` and `CallableZeroCouponBond`
+- `EquityTotalReturnSwap` with IborIndex and OvernightIndex variants
+
+#### Experimental
+- `CallableBond` ABC (in `pyquantlib.base`) with OAS, effective duration/convexity, implied volatility
+- `CallableBondVolatilityStructure` ABC (in `pyquantlib.base`), `CallableBondConstantVolatility`
+- `TreeCallableFixedRateBondEngine`, `TreeCallableZeroCouponBondEngine`
+- `BlackCallableFixedRateBondEngine`, `BlackCallableZeroCouponBondEngine`
 
 ## [0.3.0] - 2026-02-22
 

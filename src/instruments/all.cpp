@@ -110,4 +110,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "FloatFloatSwap - float vs float swap with caps and floors");
     ADD_MAIN_BINDING(ql_instruments::floatfloatswaption,
         "FloatFloatSwaption - option on float-float swap");
+    ADD_MAIN_BINDING(ql_instruments::equitytotalreturnswap,
+        "EquityTotalReturnSwap - equity total return swap");
+    ADD_MAIN_BINDING(ql_instruments::callability,
+        "Callability - call/put schedule entry");
 }

@@ -98,6 +98,75 @@ bond = ql.CPIBond(2, 100.0, 315.0, ql.Period(3, ql.Months),
                    ql.Actual365Fixed())
 ```
 
+## Callable Bonds
+
+### Callability
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Callability
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CallabilityType
+   :members:
+   :undoc-members:
+```
+
+| Value | Description |
+|-------|-------------|
+| `Call` | Issuer can call (redeem early) |
+| `Put` | Holder can put (sell back early) |
+
+```python
+call_price = ql.BondPrice(100.0, ql.BondPriceType.Clean)
+call = ql.Callability(call_price, ql.CallabilityType.Call,
+                       ql.Date(15, ql.June, 2030))
+```
+
+### CallableFixedRateBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CallableFixedRateBond
+```
+
+```python
+call_schedule = [
+    ql.Callability(ql.BondPrice(100.0, ql.BondPriceType.Clean),
+                    ql.CallabilityType.Call, call_date)
+    for call_date in call_dates
+]
+bond = ql.CallableFixedRateBond(2, 100.0, schedule, [0.05],
+                                 ql.Actual365Fixed(),
+                                 putCallSchedule=call_schedule)
+bond.setPricingEngine(ql.TreeCallableFixedRateBondEngine(hw_model, 100))
+print(bond.cleanPrice())
+print(bond.OAS(clean_price, curve, dc, ql.Continuous, ql.Annual))
+```
+
+### CallableZeroCouponBond
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CallableZeroCouponBond
+```
+
+### EquityTotalReturnSwap
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EquityTotalReturnSwap
+```
+
+Equity total return swap: equity leg vs interest rate leg.
+
+```python
+trs = ql.EquityTotalReturnSwap(
+    ql.SwapType.Payer, 1_000_000.0, schedule,
+    equity_index, ibor_index, ql.Actual360(), 0.005,
+)
+trs.setPricingEngine(ql.DiscountingSwapEngine(curve))
+print(trs.NPV())
+print(trs.fairMargin())
+```
+
 ## Swaps
 
 ### VanillaSwap

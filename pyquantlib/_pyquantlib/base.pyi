@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -235,6 +235,68 @@ class CalibrationHelper:
     def calibrationError(self) -> float:
         """
         Returns the calibration error.
+        """
+class CallableBond(pyquantlib._pyquantlib.Bond):
+    """
+    Callable bond base class.
+    """
+    def OAS(self, cleanPrice: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxIterations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
+        """
+        Returns the option-adjusted spread.
+        """
+    def callability(self) -> list[pyquantlib._pyquantlib.Callability]:
+        """
+        Returns the put/call schedule.
+        """
+    def cleanPriceOAS(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ...) -> float:
+        """
+        Returns the clean price given an OAS.
+        """
+    def effectiveConvexity(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat | typing.SupportsIndex = 0.0002) -> float:
+        """
+        Returns the effective convexity.
+        """
+    def effectiveDuration(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat | typing.SupportsIndex = 0.0002) -> float:
+        """
+        Returns the effective duration.
+        """
+    def impliedVolatility(self, targetPrice: pyquantlib._pyquantlib.BondPrice, discountCurve: pyquantlib._pyquantlib.YieldTermStructureHandle, accuracy: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex, minVol: typing.SupportsFloat | typing.SupportsIndex, maxVol: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the Black implied forward yield volatility.
+        """
+class CallableBondVolatilityStructure(TermStructure):
+    """
+    Abstract base class for callable-bond volatility structures.
+    """
+    def blackVariance(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, bondLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+        """
+        Returns the Black variance.
+        """
+    def maxBondLength(self) -> float:
+        """
+        Returns the maximum bond length.
+        """
+    def maxBondTenor(self) -> pyquantlib._pyquantlib.Period:
+        """
+        Returns the maximum bond tenor.
+        """
+    def maxStrike(self) -> float:
+        """
+        Returns the maximum strike.
+        """
+    def minStrike(self) -> float:
+        """
+        Returns the minimum strike.
+        """
+    @typing.overload
+    def volatility(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, bondLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+        """
+        Returns the volatility for a given option time and bond length.
+        """
+    @typing.overload
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, bondTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+        """
+        Returns the volatility for a given option date and bond tenor.
         """
 class CapFloorTermVolatilityStructure(VolatilityTermStructure):
     """

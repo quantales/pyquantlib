@@ -217,6 +217,25 @@ swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve)
 swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve, discounting_curve)
 ```
 
+## Equity Indexes
+
+### EquityIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.EquityIndex
+```
+
+Equity index for total return swap pricing. Supports interest rate and dividend curves.
+
+```python
+eq_index = ql.EquityIndex("SPX", ql.UnitedStates(ql.UnitedStates.NYSE),
+                           ql.USDCurrency())
+
+# With term structures
+eq_index = ql.EquityIndex("SPX", ql.UnitedStates(ql.UnitedStates.NYSE),
+                           ql.USDCurrency(), interest_ts, dividend_ts, spot)
+```
+
 ## Regions
 
 Regions identify the geographic area for inflation indexes.

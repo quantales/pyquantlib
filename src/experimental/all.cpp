@@ -24,4 +24,16 @@ DECLARE_MODULE_BINDINGS(experimental_bindings) {
         "CdsOption - option on credit default swap");
     ADD_MAIN_BINDING(ql_experimental::blackcdsoptionengine,
         "BlackCdsOptionEngine - Black-formula CDS option engine");
+
+    // Callable bonds
+    ADD_MAIN_BINDING(ql_experimental::callablebond,
+        "CallableBond, CallableFixedRateBond, CallableZeroCouponBond");
+    ADD_MAIN_BINDING(ql_experimental::callablebondvolstructure,
+        "CallableBondVolatilityStructure ABC");
+    ADD_MAIN_BINDING(ql_experimental::callablebondconstantvol,
+        "CallableBondConstantVolatility");
+    ADD_MAIN_BINDING(ql_experimental::treecallablebondengine,
+        "TreeCallableFixedRateBondEngine, TreeCallableZeroCouponBondEngine");
+    ADD_MAIN_BINDING(ql_experimental::blackcallablebondengine,
+        "BlackCallableFixedRateBondEngine, BlackCallableZeroCouponBondEngine");
 }
