@@ -12,17 +12,21 @@ PyQuantLib provides bindings for a subset of QuantLib. Foundational components a
 Check versions at runtime: `ql.__version__` (PyQuantLib) and `ql.QL_VERSION` (QuantLib).
 ```
 
-## Prerequisites
+## Install from PyPI
 
-QuantLib must be built as a static library with `std::shared_ptr` support.
-
-```{important}
-Pre-built QuantLib packages (Homebrew, vcpkg, apt) are **not compatible**. See {doc}`building` for how to build QuantLib from source.
+```bash
+pip install pyquantlib
 ```
 
-## Quick Install
+Pre-built wheels are available for Python 3.10--3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked -- no separate installation required.
 
-Once QuantLib is built and installed:
+## Install from Source
+
+To install the latest development version from GitHub, QuantLib must first be built as a static library with `std::shared_ptr` support. See {doc}`building` for detailed build instructions.
+
+```{important}
+Pre-built QuantLib packages (Homebrew, vcpkg, apt) are **not compatible**. QuantLib must be built from source.
+```
 
 ```bash
 pip install git+https://github.com/quantales/pyquantlib.git
