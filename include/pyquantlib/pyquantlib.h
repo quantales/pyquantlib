@@ -350,6 +350,10 @@ namespace ql_instruments {
     void compoundoption(py::module_&);
     void simplechooseroption(py::module_&);
     void complexchooseroption(py::module_&);
+    // Margrabe, forward, quanto options
+    void quantovanillaoption(py::module_&);
+    void margrabeoption(py::module_&);
+    void forwardvanillaoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -410,6 +414,12 @@ namespace ql_pricingengines {
     void analyticcompoundoptionengine(py::module_&);
     void analyticsimplechooserengine(py::module_&);
     void analyticcomplexchooserengine(py::module_&);
+    void analyticeuropeanmargrabeengine(py::module_&);
+    void analyticamericanmargrabeengine(py::module_&);
+    // Forward engines
+    void forwardengine(py::module_&);
+    // Quanto engines
+    void quantoengine(py::module_&);
 }
 
 namespace ql_methods {

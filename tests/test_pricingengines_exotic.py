@@ -99,3 +99,62 @@ def test_complexchooser_pricing(exotic_env):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(13.6593, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticEuropeanMargrabeEngine
+# =============================================================================
+
+
+def test_margrabe_european_pricing(exotic_env):
+    """Test European Margrabe option pricing."""
+    env = exotic_env
+
+    spot2 = ql.SimpleQuote(105.0)
+    vol2 = ql.BlackConstantVol(
+        env["today"], ql.TARGET(), 0.25, ql.Actual365Fixed()
+    )
+    process2 = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot2),
+        ql.YieldTermStructureHandle(env["div"]),
+        ql.YieldTermStructureHandle(env["rate"]),
+        ql.BlackVolTermStructureHandle(vol2),
+    )
+
+    option = ql.MargrabeOption(1, 1, env["exercise"])
+    engine = ql.AnalyticEuropeanMargrabeEngine(env["process"], process2, 0.5)
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(6.9194, rel=1e-4)
+    assert option.delta1() == pytest.approx(0.4517, rel=1e-3)
+    assert option.delta2() == pytest.approx(-0.3643, rel=1e-3)
+    assert option.gamma1() == pytest.approx(0.0170, rel=1e-2)
+    assert option.gamma2() == pytest.approx(0.0154, rel=1e-2)
+
+
+# =============================================================================
+# AnalyticAmericanMargrabeEngine
+# =============================================================================
+
+
+def test_margrabe_american_pricing(exotic_env):
+    """Test American Margrabe option pricing."""
+    env = exotic_env
+
+    spot2 = ql.SimpleQuote(105.0)
+    vol2 = ql.BlackConstantVol(
+        env["today"], ql.TARGET(), 0.25, ql.Actual365Fixed()
+    )
+    process2 = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot2),
+        ql.YieldTermStructureHandle(env["div"]),
+        ql.YieldTermStructureHandle(env["rate"]),
+        ql.BlackVolTermStructureHandle(vol2),
+    )
+
+    exercise = ql.AmericanExercise(env["today"], env["expiry"])
+    option = ql.MargrabeOption(1, 1, exercise)
+    engine = ql.AnalyticAmericanMargrabeEngine(env["process"], process2, 0.5)
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(6.9334, rel=1e-4)

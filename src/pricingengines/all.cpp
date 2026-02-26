@@ -128,4 +128,16 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticSimpleChooserEngine - simple chooser option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::analyticcomplexchooserengine,
         "AnalyticComplexChooserEngine - complex chooser option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticeuropeanmargrabeengine,
+        "AnalyticEuropeanMargrabeEngine - European exchange option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticamericanmargrabeengine,
+        "AnalyticAmericanMargrabeEngine - American exchange option pricing");
+
+    // Forward engines
+    ADD_MAIN_BINDING(ql_pricingengines::forwardengine,
+        "ForwardEuropeanEngine, ForwardPerformanceEuropeanEngine");
+
+    // Quanto engines
+    ADD_MAIN_BINDING(ql_pricingengines::quantoengine,
+        "QuantoVanillaEngine - quanto European option pricing");
 }

@@ -130,4 +130,10 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "SimpleChooserOption - simple chooser option");
     ADD_MAIN_BINDING(ql_instruments::complexchooseroption,
         "ComplexChooserOption - complex chooser option");
+    ADD_MAIN_BINDING(ql_instruments::quantovanillaoption,
+        "QuantoVanillaOption - quanto vanilla option");
+    ADD_MAIN_BINDING(ql_instruments::margrabeoption,
+        "MargrabeOption - exchange option (Margrabe)");
+    ADD_MAIN_BINDING(ql_instruments::forwardvanillaoption,
+        "ForwardVanillaOption - forward-start vanilla option");
 }

@@ -3926,3 +3926,42 @@ def test_complexchooseroption_construction():
         choosing_date, 100.0, 105.0, call_exercise, put_exercise
     )
     assert option is not None
+
+
+# =============================================================================
+# MargrabeOption
+# =============================================================================
+
+
+def test_margrabeoption_construction():
+    """MargrabeOption can be constructed."""
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.MargrabeOption(1, 1, exercise)
+    assert option is not None
+
+
+# =============================================================================
+# ForwardVanillaOption
+# =============================================================================
+
+
+def test_forwardvanillaoption_construction():
+    """ForwardVanillaOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    reset_date = ql.Date(15, ql.April, 2025)
+    option = ql.ForwardVanillaOption(1.0, reset_date, payoff, exercise)
+    assert option is not None
+
+
+# =============================================================================
+# QuantoVanillaOption
+# =============================================================================
+
+
+def test_quantovanillaoption_construction():
+    """QuantoVanillaOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.QuantoVanillaOption(payoff, exercise)
+    assert option is not None
