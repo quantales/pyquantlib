@@ -345,6 +345,11 @@ namespace ql_instruments {
     void convertiblebonds(py::module_&);
     // Lookback options
     void lookbackoption(py::module_&);
+    // Cliquet, compound, chooser options
+    void cliquetoption(py::module_&);
+    void compoundoption(py::module_&);
+    void simplechooseroption(py::module_&);
+    void complexchooseroption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -400,6 +405,11 @@ namespace ql_pricingengines {
     void analyticcontinuousfixedlookbackengine(py::module_&);
     void analyticcontinuouspartialfloatinglookbackengine(py::module_&);
     void analyticcontinuouspartialfixedlookbackengine(py::module_&);
+    // Cliquet, compound, chooser engines
+    void analyticcliquetengine(py::module_&);
+    void analyticcompoundoptionengine(py::module_&);
+    void analyticsimplechooserengine(py::module_&);
+    void analyticcomplexchooserengine(py::module_&);
 }
 
 namespace ql_methods {

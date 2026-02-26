@@ -122,4 +122,12 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
     ADD_MAIN_BINDING(ql_instruments::lookbackoption,
         "ContinuousFloatingLookbackOption, ContinuousFixedLookbackOption, "
         "ContinuousPartialFloatingLookbackOption, ContinuousPartialFixedLookbackOption");
+    ADD_MAIN_BINDING(ql_instruments::cliquetoption,
+        "CliquetOption - cliquet (ratchet) option");
+    ADD_MAIN_BINDING(ql_instruments::compoundoption,
+        "CompoundOption - option on an option");
+    ADD_MAIN_BINDING(ql_instruments::simplechooseroption,
+        "SimpleChooserOption - simple chooser option");
+    ADD_MAIN_BINDING(ql_instruments::complexchooseroption,
+        "ComplexChooserOption - complex chooser option");
 }

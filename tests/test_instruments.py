@@ -3861,3 +3861,68 @@ def test_continuouspartialfixedlookback_construction():
         lookback_start, payoff, exercise
     )
     assert option is not None
+
+
+# =============================================================================
+# CliquetOption
+# =============================================================================
+
+
+def test_cliquetoption_construction():
+    """CliquetOption can be constructed with reset dates."""
+    payoff = ql.PercentageStrikePayoff(ql.Call, 1.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    reset_dates = [
+        ql.Date(15, ql.April, 2025),
+        ql.Date(15, ql.July, 2025),
+        ql.Date(15, ql.October, 2025),
+    ]
+    option = ql.CliquetOption(payoff, exercise, reset_dates)
+    assert option is not None
+
+
+# =============================================================================
+# CompoundOption
+# =============================================================================
+
+
+def test_compoundoption_construction():
+    """CompoundOption can be constructed with mother/daughter pairs."""
+    mother_payoff = ql.PlainVanillaPayoff(ql.Call, 5.0)
+    mother_exercise = ql.EuropeanExercise(ql.Date(15, ql.July, 2025))
+    daughter_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    daughter_exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+
+    option = ql.CompoundOption(
+        mother_payoff, mother_exercise, daughter_payoff, daughter_exercise
+    )
+    assert option is not None
+
+
+# =============================================================================
+# SimpleChooserOption
+# =============================================================================
+
+
+def test_simplechooseroption_construction():
+    """SimpleChooserOption can be constructed."""
+    choosing_date = ql.Date(15, ql.July, 2025)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.SimpleChooserOption(choosing_date, 100.0, exercise)
+    assert option is not None
+
+
+# =============================================================================
+# ComplexChooserOption
+# =============================================================================
+
+
+def test_complexchooseroption_construction():
+    """ComplexChooserOption can be constructed."""
+    choosing_date = ql.Date(15, ql.July, 2025)
+    call_exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    put_exercise = ql.EuropeanExercise(ql.Date(15, ql.July, 2026))
+    option = ql.ComplexChooserOption(
+        choosing_date, 100.0, 105.0, call_exercise, put_exercise
+    )
+    assert option is not None

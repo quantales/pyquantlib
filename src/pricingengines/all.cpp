@@ -118,4 +118,14 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticContinuousPartialFloatingLookbackEngine - partial floating lookback");
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuouspartialfixedlookbackengine,
         "AnalyticContinuousPartialFixedLookbackEngine - partial fixed lookback");
+
+    // Cliquet, compound, chooser engines
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcliquetengine,
+        "AnalyticCliquetEngine - cliquet option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcompoundoptionengine,
+        "AnalyticCompoundOptionEngine - compound option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticsimplechooserengine,
+        "AnalyticSimpleChooserEngine - simple chooser option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcomplexchooserengine,
+        "AnalyticComplexChooserEngine - complex chooser option pricing");
 }
