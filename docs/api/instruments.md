@@ -645,7 +645,189 @@ asian_arith = ql.DiscreteAveragingAsianOption(
 asian_arith.setPricingEngine(ql.TurnbullWakemanAsianEngine(process))
 ```
 
+## Lookback Options
+
+### ContinuousFloatingLookbackOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousFloatingLookbackOption
+```
+
+Continuous floating-strike lookback option. The strike is determined at expiry as the minimum (call) or maximum (put) of the asset price over the option's life.
+
+```python
+payoff = ql.FloatingTypePayoff(ql.Call)
+exercise = ql.EuropeanExercise(expiry)
+option = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
+```
+
+### ContinuousFixedLookbackOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousFixedLookbackOption
+```
+
+Continuous fixed-strike lookback option. The payoff is based on the maximum (call) or minimum (put) of the asset price over the option's life.
+
+```python
+payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+exercise = ql.EuropeanExercise(expiry)
+option = ql.ContinuousFixedLookbackOption(100.0, payoff, exercise)
+```
+
+### ContinuousPartialFloatingLookbackOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousPartialFloatingLookbackOption
+```
+
+Partial floating-strike lookback option with a lookback period ending before expiry.
+
+```python
+option = ql.ContinuousPartialFloatingLookbackOption(
+    100.0, 1.0, lookback_end, payoff, exercise,
+)
+```
+
+### ContinuousPartialFixedLookbackOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousPartialFixedLookbackOption
+```
+
+Partial fixed-strike lookback option with a lookback period starting after inception.
+
+```python
+option = ql.ContinuousPartialFixedLookbackOption(
+    lookback_start, payoff, exercise,
+)
+```
+
+## Cliquet Options
+
+### CliquetOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CliquetOption
+```
+
+Cliquet (ratchet) option with periodic resets. The strike resets at each reset date to the then-current spot price.
+
+```python
+payoff = ql.PercentageStrikePayoff(ql.Call, 1.0)
+exercise = ql.EuropeanExercise(expiry)
+reset_dates = [today + ql.Period(f"{i}M") for i in range(3, 12, 3)]
+option = ql.CliquetOption(payoff, exercise, reset_dates)
+```
+
+## Compound Options
+
+### CompoundOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CompoundOption
+```
+
+Compound option (option on an option). The mother option gives the right to buy/sell the daughter option.
+
+```python
+mother_payoff = ql.PlainVanillaPayoff(ql.Call, 5.0)
+mother_exercise = ql.EuropeanExercise(today + ql.Period("6M"))
+daughter_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+daughter_exercise = ql.EuropeanExercise(expiry)
+option = ql.CompoundOption(
+    mother_payoff, mother_exercise, daughter_payoff, daughter_exercise,
+)
+```
+
+## Chooser Options
+
+### SimpleChooserOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SimpleChooserOption
+```
+
+Simple chooser option. The holder chooses at a future date whether the option is a call or put.
+
+```python
+option = ql.SimpleChooserOption(choosing_date, 100.0, exercise)
+```
+
+### ComplexChooserOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ComplexChooserOption
+```
+
+Complex chooser option with different strikes and exercise dates for the call and put legs.
+
+```python
+option = ql.ComplexChooserOption(
+    choosing_date, call_strike, put_strike, call_exercise, put_exercise,
+)
+```
+
+## Margrabe Options
+
+### MargrabeOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MargrabeOption
+```
+
+Margrabe option (exchange option): the right to exchange one asset for another.
+
+```python
+option = ql.MargrabeOption(1, 1, exercise)
+option.setPricingEngine(engine)
+print(option.delta1(), option.delta2())
+print(option.gamma1(), option.gamma2())
+```
+
+## Forward-Start Options
+
+### ForwardVanillaOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardVanillaOption
+```
+
+Forward-start vanilla option. The strike is set at a future reset date based on a moneyness ratio.
+
+```python
+option = ql.ForwardVanillaOption(1.0, reset_date, payoff, exercise)
+```
+
+## Quanto Options
+
+### QuantoVanillaOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QuantoVanillaOption
+```
+
+Quanto vanilla option with currency adjustment. Provides quanto-specific greeks: `qvega()`, `qrho()`, `qlambda()`.
+
+```python
+option = ql.QuantoVanillaOption(payoff, exercise)
+option.setPricingEngine(engine)
+print(option.qvega(), option.qrho(), option.qlambda())
+```
+
 ## Payoffs
+
+### FloatingTypePayoff
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FloatingTypePayoff
+```
+
+Floating-strike payoff for lookback options.
+
+```python
+payoff = ql.FloatingTypePayoff(ql.Call)
+```
 
 ### PlainVanillaPayoff
 

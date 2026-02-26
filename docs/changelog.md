@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Core
 - `Forward` ABC for forward contracts (in `pyquantlib.base`) with inspectors (`settlementDate`, `forwardValue`, `spotValue`, `spotIncome`, `impliedYield`)
 - `ForwardTypePayoff` for long/short forward payoffs
+- `FloatingTypePayoff` for floating-strike lookback options
 
 #### Indexes
 - `EquityIndex` with minimal, full Handle, and hidden-handle constructors
@@ -30,6 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `SoftCallability` with trigger level for soft-call provisions
 - `ConvertibleBond` base class with `conversionRatio()` and `callability()`
 - `ConvertibleZeroCouponBond`, `ConvertibleFixedCouponBond`, `ConvertibleFloatingRateBond`
+- **Lookback options**: `ContinuousFloatingLookbackOption`, `ContinuousFixedLookbackOption`, `ContinuousPartialFloatingLookbackOption`, `ContinuousPartialFixedLookbackOption`
+- `CliquetOption` cliquet (ratchet) option with periodic resets
+- `CompoundOption` option on an option (mother/daughter)
+- `SimpleChooserOption` and `ComplexChooserOption` chooser options
+- `MargrabeOption` exchange option with `delta1()`, `delta2()`, `gamma1()`, `gamma2()`
+- `ForwardVanillaOption` forward-start vanilla option
+- `QuantoVanillaOption` quanto option with `qvega()`, `qrho()`, `qlambda()`
 
 #### Cash Flows
 - `Dividend` ABC (in `pyquantlib.base`) for custom dividend implementations
@@ -39,6 +47,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Pricing Engines
 - `BinomialConvertibleEngine` Tsiveriotis-Fernandes lattice engine for convertible bonds (7 tree types: jr, crr, eqp, trigeorgis, tian, lr, joshi)
+- **Lookback engines**: `AnalyticContinuousFloatingLookbackEngine`, `AnalyticContinuousFixedLookbackEngine`, `AnalyticContinuousPartialFloatingLookbackEngine`, `AnalyticContinuousPartialFixedLookbackEngine`
+- `AnalyticCliquetEngine` analytic cliquet option engine
+- `AnalyticCompoundOptionEngine` analytic compound option engine
+- `AnalyticSimpleChooserEngine` and `AnalyticComplexChooserEngine` chooser option engines
+- `AnalyticEuropeanMargrabeEngine` and `AnalyticAmericanMargrabeEngine` exchange option engines
+- `ForwardEuropeanEngine` and `ForwardPerformanceEuropeanEngine` forward-start option engines
+- `QuantoVanillaEngine` quanto European option engine with hidden handle constructors
 
 #### Experimental
 - `CallableBond` ABC (in `pyquantlib.base`) with OAS, effective duration/convexity, implied volatility

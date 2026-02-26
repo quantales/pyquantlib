@@ -370,6 +370,131 @@ engine = ql.MCDiscreteArithmeticAPEngine(
 )
 ```
 
+## Lookback Engines
+
+### AnalyticContinuousFloatingLookbackEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticContinuousFloatingLookbackEngine
+```
+
+### AnalyticContinuousFixedLookbackEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticContinuousFixedLookbackEngine
+```
+
+### AnalyticContinuousPartialFloatingLookbackEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticContinuousPartialFloatingLookbackEngine
+```
+
+### AnalyticContinuousPartialFixedLookbackEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticContinuousPartialFixedLookbackEngine
+```
+
+```python
+payoff = ql.FloatingTypePayoff(ql.Call)
+exercise = ql.EuropeanExercise(expiry)
+option = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
+option.setPricingEngine(ql.AnalyticContinuousFloatingLookbackEngine(process))
+print(option.NPV())
+```
+
+## Cliquet Engines
+
+### AnalyticCliquetEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticCliquetEngine
+```
+
+```python
+engine = ql.AnalyticCliquetEngine(process)
+cliquet.setPricingEngine(engine)
+print(cliquet.NPV())
+```
+
+## Exotic Engines
+
+### AnalyticCompoundOptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticCompoundOptionEngine
+```
+
+### AnalyticSimpleChooserEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticSimpleChooserEngine
+```
+
+### AnalyticComplexChooserEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticComplexChooserEngine
+```
+
+### AnalyticEuropeanMargrabeEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticEuropeanMargrabeEngine
+```
+
+Takes two Black-Scholes-Merton processes and a correlation parameter.
+
+```python
+engine = ql.AnalyticEuropeanMargrabeEngine(process1, process2, 0.5)
+option.setPricingEngine(engine)
+```
+
+### AnalyticAmericanMargrabeEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticAmericanMargrabeEngine
+```
+
+## Forward-Start Engines
+
+### ForwardEuropeanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardEuropeanEngine
+```
+
+### ForwardPerformanceEuropeanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardPerformanceEuropeanEngine
+```
+
+```python
+option = ql.ForwardVanillaOption(1.0, reset_date, payoff, exercise)
+option.setPricingEngine(ql.ForwardEuropeanEngine(process))
+print(option.NPV())
+```
+
+## Quanto Engines
+
+### QuantoVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QuantoVanillaEngine
+```
+
+Quanto European option engine (currency-adjusted Black-Scholes). Accepts explicit Handle arguments or raw objects (hidden handles).
+
+```python
+engine = ql.QuantoVanillaEngine(
+    process, foreign_rate, fx_vol, correlation,
+)
+option.setPricingEngine(engine)
+print(option.NPV(), option.qvega(), option.qrho(), option.qlambda())
+```
+
 ## Cap/Floor Engines
 
 ### BlackCapFloorEngine
