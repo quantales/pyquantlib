@@ -117,4 +117,9 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
     ADD_MAIN_BINDING(ql_instruments::convertiblebonds,
         "ConvertibleBond, ConvertibleZeroCouponBond, "
         "ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, SoftCallability");
+
+    // Lookback options
+    ADD_MAIN_BINDING(ql_instruments::lookbackoption,
+        "ContinuousFloatingLookbackOption, ContinuousFixedLookbackOption, "
+        "ContinuousPartialFloatingLookbackOption, ContinuousPartialFixedLookbackOption");
 }

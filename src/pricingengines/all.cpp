@@ -108,4 +108,14 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "ReplicatingVarianceSwapEngine - variance swap replicating portfolio");
     ADD_MAIN_BINDING(ql_pricingengines::binomialconvertibleengine,
         "BinomialConvertibleEngine - binomial tree convertible bond pricing");
+
+    // Lookback engines
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousfloatinglookbackengine,
+        "AnalyticContinuousFloatingLookbackEngine - floating-strike lookback");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousfixedlookbackengine,
+        "AnalyticContinuousFixedLookbackEngine - fixed-strike lookback");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuouspartialfloatinglookbackengine,
+        "AnalyticContinuousPartialFloatingLookbackEngine - partial floating lookback");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuouspartialfixedlookbackengine,
+        "AnalyticContinuousPartialFixedLookbackEngine - partial fixed lookback");
 }

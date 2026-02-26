@@ -93,4 +93,11 @@ void ql_instruments::payoffs(py::module_& m) {
             "Returns the second strike.")
         .def("cashPayoff", &SuperSharePayoff::cashPayoff,
             "Returns the cash payoff amount.");
+
+    py::class_<FloatingTypePayoff, Payoff,
+               ext::shared_ptr<FloatingTypePayoff>>(
+        m, "FloatingTypePayoff",
+        "Floating-strike payoff (for lookback options).")
+        .def(py::init<Option::Type>(),
+             py::arg("type"));
 }

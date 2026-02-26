@@ -343,6 +343,8 @@ namespace ql_instruments {
     void equitytotalreturnswap(py::module_&);
     void callability(py::module_&);
     void convertiblebonds(py::module_&);
+    // Lookback options
+    void lookbackoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -393,6 +395,11 @@ namespace ql_pricingengines {
 
     void replicatingvarianceswapengine(py::module_&);
     void binomialconvertibleengine(py::module_&);
+    // Lookback engines
+    void analyticcontinuousfloatinglookbackengine(py::module_&);
+    void analyticcontinuousfixedlookbackengine(py::module_&);
+    void analyticcontinuouspartialfloatinglookbackengine(py::module_&);
+    void analyticcontinuouspartialfixedlookbackengine(py::module_&);
 }
 
 namespace ql_methods {

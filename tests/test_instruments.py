@@ -3790,3 +3790,74 @@ def test_callability_schedule_list():
     assert len(schedule) == 4
     assert schedule[0].date() == ql.Date(15, ql.June, 2027)
     assert schedule[-1].date() == ql.Date(15, ql.June, 2030)
+
+
+# =============================================================================
+# FloatingTypePayoff
+# =============================================================================
+
+
+def test_floatingtypepayoff_construction():
+    """FloatingTypePayoff can be constructed with Call or Put."""
+    call = ql.FloatingTypePayoff(ql.Call)
+    put = ql.FloatingTypePayoff(ql.Put)
+    assert call is not None
+    assert put is not None
+
+
+# =============================================================================
+# ContinuousFloatingLookbackOption
+# =============================================================================
+
+
+def test_continuousfloatinglookback_construction():
+    """ContinuousFloatingLookbackOption can be constructed."""
+    payoff = ql.FloatingTypePayoff(ql.Call)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
+    assert option is not None
+
+
+# =============================================================================
+# ContinuousFixedLookbackOption
+# =============================================================================
+
+
+def test_continuousfixedlookback_construction():
+    """ContinuousFixedLookbackOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.ContinuousFixedLookbackOption(100.0, payoff, exercise)
+    assert option is not None
+
+
+# =============================================================================
+# ContinuousPartialFloatingLookbackOption
+# =============================================================================
+
+
+def test_continuouspartialfloatinglookback_construction():
+    """ContinuousPartialFloatingLookbackOption can be constructed."""
+    payoff = ql.FloatingTypePayoff(ql.Call)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    lookback_end = ql.Date(15, ql.July, 2025)
+    option = ql.ContinuousPartialFloatingLookbackOption(
+        100.0, 1.0, lookback_end, payoff, exercise
+    )
+    assert option is not None
+
+
+# =============================================================================
+# ContinuousPartialFixedLookbackOption
+# =============================================================================
+
+
+def test_continuouspartialfixedlookback_construction():
+    """ContinuousPartialFixedLookbackOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    lookback_start = ql.Date(15, ql.July, 2025)
+    option = ql.ContinuousPartialFixedLookbackOption(
+        lookback_start, payoff, exercise
+    )
+    assert option is not None
