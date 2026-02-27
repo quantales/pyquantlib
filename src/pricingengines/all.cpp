@@ -140,4 +140,10 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     // Quanto engines
     ADD_MAIN_BINDING(ql_pricingengines::quantoengine,
         "QuantoVanillaEngine - quanto European option pricing");
+
+    // Calculators
+    ADD_MAIN_BINDING(ql_pricingengines::blackcalculator,
+        "BlackCalculator - Black 1976 pricing and Greeks calculator");
+    ADD_MAIN_BINDING(ql_pricingengines::bacheliercalculator,
+        "BachelierCalculator - Bachelier (normal-vol) pricing and Greeks calculator");
 }

@@ -328,3 +328,26 @@ def test_levenbergmarquardt_with_constraint():
     solution = problem.currentValue()
     assert solution[0] >= 0.0
     assert solution[1] >= 0.0
+
+
+# =============================================================================
+# LsmBasisSystem / PolynomialType
+# =============================================================================
+
+
+def test_polynomialtype_enum_values():
+    """Test PolynomialType enum values exist and have correct integer values."""
+    assert int(ql.PolynomialType.Monomial) == 0
+    assert int(ql.PolynomialType.Laguerre) == 1
+    assert int(ql.PolynomialType.Hermite) == 2
+    assert int(ql.PolynomialType.Hyperbolic) == 3
+    assert int(ql.PolynomialType.Legendre) == 4
+    assert int(ql.PolynomialType.Chebyshev) == 5
+    assert int(ql.PolynomialType.Chebyshev2nd) == 6
+
+
+def test_polynomialtype_roundtrip():
+    """Test PolynomialType can be passed to and from Python."""
+    pt = ql.PolynomialType.Laguerre
+    assert pt == ql.PolynomialType.Laguerre
+    assert pt != ql.PolynomialType.Monomial

@@ -18,4 +18,7 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
     // finitedifferences/solvers
     ADD_MAIN_BINDING(ql_methods::fdmbackwardsolver,
         "FdmSchemeDesc and FdmSchemeType from fdmbackwardsolver.hpp");
+    // Monte Carlo
+    ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
+        "LsmBasisSystem - polynomial type enum for LSM basis systems");
 }

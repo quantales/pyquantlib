@@ -100,6 +100,10 @@ namespace ql_math {
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
     void solvers1d(py::module_&);
+    // Statistics
+    void statistics(py::module_&);
+    void incrementalstatistics(py::module_&);
+    void sequencestatistics(py::module_&);
 }
 
 namespace ql_core {
@@ -289,6 +293,8 @@ namespace ql_models {
     void g2(py::module_&);
     void batesmodel(py::module_&);
     void swaptionhelper(py::module_&);
+    void caphelper(py::module_&);
+    void hestonmodelhelper(py::module_&);
 }
 
 namespace ql_instruments {
@@ -420,10 +426,14 @@ namespace ql_pricingengines {
     void forwardengine(py::module_&);
     // Quanto engines
     void quantoengine(py::module_&);
+    // Calculators
+    void blackcalculator(py::module_&);
+    void bacheliercalculator(py::module_&);
 }
 
 namespace ql_methods {
     void fdmbackwardsolver(py::module_&);
+    void lsmbasissystem(py::module_&);
 }
 
 namespace ql_experimental {

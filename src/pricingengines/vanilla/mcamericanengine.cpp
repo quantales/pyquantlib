@@ -32,17 +32,7 @@ namespace {
 }
 
 void ql_pricingengines::mcamericanengine(py::module_& m) {
-    // LsmBasisSystem::PolynomialType enum
-    py::enum_<LsmBasisSystem::PolynomialType>(m, "PolynomialType",
-        "Polynomial basis types for Longstaff-Schwartz regression.")
-        .value("Monomial", LsmBasisSystem::Monomial)
-        .value("Laguerre", LsmBasisSystem::Laguerre)
-        .value("Hermite", LsmBasisSystem::Hermite)
-        .value("Hyperbolic", LsmBasisSystem::Hyperbolic)
-        .value("Legendre", LsmBasisSystem::Legendre)
-        .value("Chebyshev", LsmBasisSystem::Chebyshev)
-        .value("Chebyshev2nd", LsmBasisSystem::Chebyshev2nd)
-        .export_values();
+    // LsmBasisSystem::PolynomialType enum is bound in lsmbasissystem.cpp
 
     // MCAmericanEngine factory function
     m.def("MCAmericanEngine",

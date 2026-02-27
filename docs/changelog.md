@@ -11,6 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Math
+- `Statistics` (= `RiskStatistics`) with empirical-distribution risk measures, Gaussian-assumption analytics, and percentile/VaR/ES methods
+- `IncrementalStatistics` for online (streaming) statistics via boost accumulators
+- `SequenceStatistics` for N-dimensional statistics with covariance and correlation matrices
+
+#### Pricing Engines
+- `BlackCalculator` for Black 1976 option pricing with full Greeks (delta, gamma, theta, vega, rho, etc.)
+- `BachelierCalculator` for normal-volatility option pricing with full Greeks
+
+#### Models
+- `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)
+- `HestonModelHelper` calibration helper for the Heston model (Real and Handle spot variants)
+
+#### Methods
+- `LsmBasisSystem` / `PolynomialType` enum for Longstaff-Schwartz Monte Carlo basis systems (moved from MCAmericanEngine to its proper header location)
+
 ## [0.4.0] - 2026-02-27
 
 ### Added

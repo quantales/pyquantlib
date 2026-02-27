@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticHestonEngine', 'AnalyticSimpleChooserEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Brent', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CappedFlooredYoYInflationCoupon', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'CraigSneyd', 'CrankNicolson', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CustomRegion', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'ExponentialSplinesFitting', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCDiscreteArithmeticAPEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Mar', 'March', 'MargrabeOption', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SabrInterpolatedSmileSection', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'Sofr', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'Sqrt', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USRegion', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'Akima', 'AmericanExercise', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticHestonEngine', 'AnalyticSimpleChooserEngine', 'Annual', 'Apr', 'April', 'Argentina', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BOOST_VERSION', 'BRLCurrency', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCalculator', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BermudanExercise', 'BespokeCalendar', 'Bimonthly', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackCalculator', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConstraint', 'Brazil', 'Brent', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CapHelper', 'CappedFlooredYoYInflationCoupon', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'CraigSneyd', 'CrankNicolson', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CustomRegion', 'CzechRepublic', 'DASHCurrency', 'DEMCurrency', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExplicitEuler', 'ExponentialSplinesFitting', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Fd2dBlackScholesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesVanillaEngine', 'FdG2SwaptionEngine', 'FdHullWhiteSwaptionEngine', 'FdmSchemeDesc', 'FdmSchemeType', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2SwaptionEngine', 'GBPCurrency', 'GELCurrency', 'GHSCurrency', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'Germany', 'Greeks', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HalfMonthModifiedFollowing', 'Harmonic', 'Hermite', 'HestonModel', 'HestonModelHandle', 'HestonModelHelper', 'HestonProcess', 'HongKong', 'Hours', 'HullWhite', 'Hundsdorfer', 'Hungary', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'IncrementalStatistics', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCDiscreteArithmeticAPEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Mar', 'March', 'MargrabeOption', 'Matrix', 'MaxBasketPayoff', 'May', 'MethodOfLines', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NullCalendar', 'NullReal', 'NullSize', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SabrInterpolatedSmileSection', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'Seconds', 'Semiannual', 'Sep', 'September', 'SequenceStatistics', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Singapore', 'Slovakia', 'Sofr', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'Sqrt', 'Statistics', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'Taiwan', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeSwaptionEngine', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USRegion', 'UYUCurrency', 'Ukraine', 'Unadjusted', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -1084,6 +1084,92 @@ class BYRCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class BachelierCalculator:
+    """
+    Bachelier (normal-volatility) calculator for option pricing and Greeks.
+    """
+    @typing.overload
+    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Constructs from payoff, forward, stdDev, and discount.
+        """
+    @typing.overload
+    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Constructs from option type, strike, forward, stdDev, and discount.
+        """
+    def alpha(self) -> float:
+        """
+        Returns alpha.
+        """
+    def beta(self) -> float:
+        """
+        Returns beta.
+        """
+    def delta(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to change in the underlying spot price.
+        """
+    def deltaForward(self) -> float:
+        """
+        Sensitivity to change in the underlying forward price.
+        """
+    def dividendRho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to dividend/growth rate.
+        """
+    def elasticity(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Percent sensitivity to percent change in spot price.
+        """
+    def elasticityForward(self) -> float:
+        """
+        Percent sensitivity to percent change in forward price.
+        """
+    def gamma(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Second order derivative w.r.t. spot price.
+        """
+    def gammaForward(self) -> float:
+        """
+        Second order derivative w.r.t. forward price.
+        """
+    def itmAssetProbability(self) -> float:
+        """
+        Probability of being ITM in asset martingale measure.
+        """
+    def itmCashProbability(self) -> float:
+        """
+        Probability of being ITM in bond martingale measure.
+        """
+    def rho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to discounting rate.
+        """
+    def strikeGamma(self) -> float:
+        """
+        Gamma w.r.t. strike.
+        """
+    def strikeSensitivity(self) -> float:
+        """
+        Sensitivity to strike.
+        """
+    def theta(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to time to maturity.
+        """
+    def thetaPerDay(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to time to maturity per day (365-day basis).
+        """
+    def value(self) -> float:
+        """
+        Returns the option value.
+        """
+    def vega(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to volatility.
+        """
 class BachelierCapFloorEngine(base.PricingEngine):
     """
     Bachelier (normal) cap/floor engine.
@@ -1380,6 +1466,92 @@ class BjerksundStenslandSpreadEngine(base.SpreadBlackScholesVanillaEngine):
     def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
+        """
+class BlackCalculator:
+    """
+    Black 1976 calculator for option pricing and Greeks.
+    """
+    @typing.overload
+    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Constructs from payoff, forward, stdDev, and discount.
+        """
+    @typing.overload
+    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Constructs from option type, strike, forward, stdDev, and discount.
+        """
+    def alpha(self) -> float:
+        """
+        Returns alpha.
+        """
+    def beta(self) -> float:
+        """
+        Returns beta.
+        """
+    def delta(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to change in the underlying spot price.
+        """
+    def deltaForward(self) -> float:
+        """
+        Sensitivity to change in the underlying forward price.
+        """
+    def dividendRho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to dividend/growth rate.
+        """
+    def elasticity(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Percent sensitivity to percent change in spot price.
+        """
+    def elasticityForward(self) -> float:
+        """
+        Percent sensitivity to percent change in forward price.
+        """
+    def gamma(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Second order derivative w.r.t. spot price.
+        """
+    def gammaForward(self) -> float:
+        """
+        Second order derivative w.r.t. forward price.
+        """
+    def itmAssetProbability(self) -> float:
+        """
+        Probability of being ITM in asset martingale measure, N(d1).
+        """
+    def itmCashProbability(self) -> float:
+        """
+        Probability of being ITM in bond martingale measure, N(d2).
+        """
+    def rho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to discounting rate.
+        """
+    def strikeGamma(self) -> float:
+        """
+        Gamma w.r.t. strike.
+        """
+    def strikeSensitivity(self) -> float:
+        """
+        Sensitivity to strike.
+        """
+    def theta(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to time to maturity.
+        """
+    def thetaPerDay(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to time to maturity per day (365-day basis).
+        """
+    def value(self) -> float:
+        """
+        Returns the option value.
+        """
+    def vega(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Sensitivity to volatility.
         """
 class BlackCallableFixedRateBondEngine(base.PricingEngine):
     """
@@ -3106,6 +3278,28 @@ class CapFloorType:
     @property
     def value(self) -> int:
         ...
+class CapHelper(base.BlackCalibrationHelper):
+    """
+    Calibration helper for ATM caps.
+    """
+    @typing.overload
+    def __init__(self, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
+        """
+        Constructs cap helper with handles.
+        """
+    @typing.overload
+    def __init__(self, length: Period, volatility: base.Quote, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
+        """
+        Constructs cap helper (handles created internally).
+        """
+    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns Black price for given volatility.
+        """
+    def modelValue(self) -> float:
+        """
+        Returns the model value.
+        """
 class CappedFlooredYoYInflationCoupon(YoYInflationCoupon):
     """
     Capped and/or floored YoY inflation coupon.
@@ -7503,6 +7697,37 @@ class HestonModelHandle:
         """
         Returns the underlying shared_ptr. Raises error if empty.
         """
+class HestonModelHelper(base.BlackCalibrationHelper):
+    """
+    Calibration helper for the Heston model.
+    """
+    @typing.overload
+    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat | typing.SupportsIndex, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
+        """
+        Constructs Heston helper with Real spot price.
+        """
+    @typing.overload
+    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat | typing.SupportsIndex, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: base.Quote, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, errorType: CalibrationErrorType = ...) -> None:
+        """
+        Constructs Heston helper with Real spot (handles created internally).
+        """
+    @typing.overload
+    def __init__(self, maturity: Period, calendar: Calendar, s0: QuoteHandle, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
+        """
+        Constructs Heston helper with Handle<Quote> spot price.
+        """
+    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns Black price for given volatility.
+        """
+    def maturity(self) -> float:
+        """
+        Returns the time to maturity.
+        """
+    def modelValue(self) -> float:
+        """
+        Returns the model value.
+        """
 class HestonProcess(base.StochasticProcess):
     """
     Heston stochastic volatility process.
@@ -8069,6 +8294,86 @@ class Iceland(Calendar):
     ICEX: typing.ClassVar[Iceland.Market]  # value = <Market.ICEX: 0>
     def __init__(self, m: Iceland.Market = ...) -> None:
         ...
+class IncrementalStatistics:
+    """
+    Statistics tool based on incremental accumulation (boost accumulators).
+    """
+    def __init__(self) -> None:
+        ...
+    def add(self, value: typing.SupportsFloat | typing.SupportsIndex, weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Adds a datum to the set, possibly with a weight.
+        """
+    @typing.overload
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
+        """
+        Adds a sequence of data to the set.
+        """
+    @typing.overload
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
+        """
+        Adds a sequence of data with weights.
+        """
+    def downsideDeviation(self) -> float:
+        """
+        Returns the downside deviation.
+        """
+    def downsideSamples(self) -> int:
+        """
+        Returns the number of negative samples collected.
+        """
+    def downsideVariance(self) -> float:
+        """
+        Returns the downside variance.
+        """
+    def downsideWeightSum(self) -> float:
+        """
+        Returns the sum of data weights for negative samples.
+        """
+    def errorEstimate(self) -> float:
+        """
+        Returns the error estimate on the mean value.
+        """
+    def kurtosis(self) -> float:
+        """
+        Returns the excess kurtosis.
+        """
+    def max(self) -> float:
+        """
+        Returns the maximum sample value.
+        """
+    def mean(self) -> float:
+        """
+        Returns the mean.
+        """
+    def min(self) -> float:
+        """
+        Returns the minimum sample value.
+        """
+    def reset(self) -> None:
+        """
+        Resets the data to a null set.
+        """
+    def samples(self) -> int:
+        """
+        Returns the number of samples collected.
+        """
+    def skewness(self) -> float:
+        """
+        Returns the skewness.
+        """
+    def standardDeviation(self) -> float:
+        """
+        Returns the standard deviation.
+        """
+    def variance(self) -> float:
+        """
+        Returns the variance.
+        """
+    def weightSum(self) -> float:
+        """
+        Returns the sum of data weights.
+        """
 class India(Calendar):
     """
     ! Clearing holidays for the National Stock Exchange
@@ -13208,6 +13513,142 @@ class Secant:
         """
         Finds root within explicit bracket.
         """
+class SequenceStatistics:
+    """
+    N-dimensional statistics tool with covariance and correlation.
+    """
+    def __init__(self, dimension: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        """
+        Constructs with given dimension (0 for auto-detection).
+        """
+    def add(self, sample: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Adds an N-dimensional sample, possibly with a weight.
+        """
+    def averageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the average shortfall for each dimension.
+        """
+    def correlation(self) -> Matrix:
+        """
+        Returns the correlation matrix.
+        """
+    def covariance(self) -> Matrix:
+        """
+        Returns the covariance matrix.
+        """
+    def downsideDeviation(self) -> list[float]:
+        """
+        Returns the downside deviation for each dimension.
+        """
+    def downsideVariance(self) -> list[float]:
+        """
+        Returns the downside variance for each dimension.
+        """
+    def errorEstimate(self) -> list[float]:
+        """
+        Returns the error estimate for each dimension.
+        """
+    def expectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the expected shortfall for each dimension.
+        """
+    def gaussianAverageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian average shortfall for each dimension.
+        """
+    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian expected shortfall for each dimension.
+        """
+    def gaussianPercentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian percentile for each dimension.
+        """
+    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian potential upside for each dimension.
+        """
+    def gaussianShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian shortfall for each dimension.
+        """
+    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the gaussian VaR for each dimension.
+        """
+    def kurtosis(self) -> list[float]:
+        """
+        Returns the kurtosis for each dimension.
+        """
+    def max(self) -> list[float]:
+        """
+        Returns the maximum for each dimension.
+        """
+    def mean(self) -> list[float]:
+        """
+        Returns the mean for each dimension.
+        """
+    def min(self) -> list[float]:
+        """
+        Returns the minimum for each dimension.
+        """
+    def percentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the percentile for each dimension.
+        """
+    def potentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the potential upside for each dimension.
+        """
+    def regret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the regret for each dimension.
+        """
+    def reset(self, dimension: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        """
+        Resets the data, optionally with a new dimension.
+        """
+    def samples(self) -> int:
+        """
+        Returns the number of samples collected.
+        """
+    def semiDeviation(self) -> list[float]:
+        """
+        Returns the semi deviation for each dimension.
+        """
+    def semiVariance(self) -> list[float]:
+        """
+        Returns the semi variance for each dimension.
+        """
+    def shortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the shortfall for each dimension.
+        """
+    def size(self) -> int:
+        """
+        Returns the dimension.
+        """
+    def skewness(self) -> list[float]:
+        """
+        Returns the skewness for each dimension.
+        """
+    def standardDeviation(self) -> list[float]:
+        """
+        Returns the standard deviation for each dimension.
+        """
+    def valueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
+        """
+        Returns the VaR for each dimension.
+        """
+    def variance(self) -> list[float]:
+        """
+        Returns the variance for each dimension.
+        """
+    def weightSum(self) -> float:
+        """
+        Returns the sum of data weights.
+        """
 class Settings:
     """
     Global repository for run-time library settings.
@@ -13844,6 +14285,162 @@ class SpreadFittingMethod(base.FittingMethod):
     def __init__(self, method: base.FittingMethod, discountCurve: typing.Any, minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308) -> None:
         """
         Constructs with a discount curve (handle created internally).
+        """
+class Statistics:
+    """
+    Statistics tool with empirical-distribution risk measures.
+    """
+    def __init__(self) -> None:
+        ...
+    def add(self, value: typing.SupportsFloat | typing.SupportsIndex, weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
+        """
+        Adds a datum to the set, possibly with a weight.
+        """
+    @typing.overload
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
+        """
+        Adds a sequence of data to the set.
+        """
+    @typing.overload
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
+        """
+        Adds a sequence of data with weights.
+        """
+    def averageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the averaged shortfallness below target.
+        """
+    def downsideDeviation(self) -> float:
+        """
+        Returns the downside deviation.
+        """
+    def downsideVariance(self) -> float:
+        """
+        Returns the variance of observations below 0.
+        """
+    def errorEstimate(self) -> float:
+        """
+        Returns the error estimate on the mean value.
+        """
+    def expectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the expected shortfall at a given percentile.
+        """
+    def gaussianAverageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption averaged shortfallness.
+        """
+    def gaussianDownsideDeviation(self) -> float:
+        """
+        Returns the gaussian-assumption downside deviation.
+        """
+    def gaussianDownsideVariance(self) -> float:
+        """
+        Returns the gaussian-assumption downside variance.
+        """
+    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption expected shortfall.
+        """
+    def gaussianPercentile(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption percentile.
+        """
+    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption potential upside.
+        """
+    def gaussianRegret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption regret below target.
+        """
+    def gaussianShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption shortfall probability.
+        """
+    def gaussianTopPercentile(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption top percentile.
+        """
+    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the gaussian-assumption VaR.
+        """
+    def kurtosis(self) -> float:
+        """
+        Returns the excess kurtosis.
+        """
+    def max(self) -> float:
+        """
+        Returns the maximum sample value.
+        """
+    def mean(self) -> float:
+        """
+        Returns the mean.
+        """
+    def min(self) -> float:
+        """
+        Returns the minimum sample value.
+        """
+    def percentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the y-th percentile.
+        """
+    def potentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the potential upside at a given percentile.
+        """
+    def regret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the variance of observations below target.
+        """
+    def reset(self) -> None:
+        """
+        Resets the data to a null set.
+        """
+    def samples(self) -> int:
+        """
+        Returns the number of samples collected.
+        """
+    def semiDeviation(self) -> float:
+        """
+        Returns the semi deviation.
+        """
+    def semiVariance(self) -> float:
+        """
+        Returns the variance of observations below the mean.
+        """
+    def shortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the probability of missing the target.
+        """
+    def skewness(self) -> float:
+        """
+        Returns the skewness.
+        """
+    def sort(self) -> None:
+        """
+        Sorts the data set in increasing order.
+        """
+    def standardDeviation(self) -> float:
+        """
+        Returns the standard deviation.
+        """
+    def topPercentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the y-th top percentile.
+        """
+    def valueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns the value-at-risk at a given percentile.
+        """
+    def variance(self) -> float:
+        """
+        Returns the variance.
+        """
+    def weightSum(self) -> float:
+        """
+        Returns the sum of data weights.
         """
 class StochasticProcessArray(base.StochasticProcess):
     """

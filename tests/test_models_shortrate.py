@@ -516,3 +516,58 @@ def test_swaptionhelper_swaption(swaption_helper_env):
     swaption = helper.swaption()
     assert swaption is not None
     assert isinstance(swaption, ql.Swaption)
+
+
+# --- CapHelper ---
+
+
+@pytest.fixture
+def cap_helper_env():
+    """Environment for CapHelper tests."""
+    today = ql.Date(15, ql.January, 2026)
+    ql.Settings.instance().evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+
+    index = ql.Euribor6M(ql.YieldTermStructureHandle(curve))
+
+    return {
+        "today": today,
+        "curve": curve,
+        "index": index,
+    }
+
+
+def test_caphelper_construction_handle(cap_helper_env):
+    """Test CapHelper construction with handles."""
+    env = cap_helper_env
+
+    helper = ql.CapHelper(
+        length=ql.Period(5, ql.Years),
+        volatility=ql.QuoteHandle(ql.SimpleQuote(0.20)),
+        index=env["index"],
+        fixedLegFrequency=ql.Annual,
+        fixedLegDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
+        includeFirstSwaplet=False,
+        termStructure=ql.YieldTermStructureHandle(env["curve"]),
+    )
+    assert helper is not None
+    assert isinstance(helper, ql.base.BlackCalibrationHelper)
+
+
+def test_caphelper_construction_hidden_handle(cap_helper_env):
+    """Test CapHelper construction with hidden handles."""
+    env = cap_helper_env
+
+    helper = ql.CapHelper(
+        length=ql.Period(5, ql.Years),
+        volatility=ql.SimpleQuote(0.20),
+        index=env["index"],
+        fixedLegFrequency=ql.Annual,
+        fixedLegDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
+        includeFirstSwaplet=False,
+        termStructure=env["curve"],
+    )
+    assert helper is not None
+    assert isinstance(helper, ql.base.BlackCalibrationHelper)

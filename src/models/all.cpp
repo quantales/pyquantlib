@@ -43,4 +43,8 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "BatesModel - Heston model with jumps");
     ADD_MAIN_BINDING(ql_models::swaptionhelper,
         "SwaptionHelper - calibration helper for swaptions");
+    ADD_MAIN_BINDING(ql_models::caphelper,
+        "CapHelper - calibration helper for ATM caps");
+    ADD_MAIN_BINDING(ql_models::hestonmodelhelper,
+        "HestonModelHelper - calibration helper for Heston model");
 }

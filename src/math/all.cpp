@@ -35,4 +35,12 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::normaldistribution, "Normal distribution functions");
     ADD_MAIN_BINDING(ql_math::bivariatenormaldistribution, "Bivariate cumulative normal distribution");
     ADD_MAIN_BINDING(ql_math::solvers1d, "1-D root-finding solvers");
+
+    // Statistics
+    ADD_MAIN_BINDING(ql_math::statistics,
+        "Statistics - empirical-distribution risk measures");
+    ADD_MAIN_BINDING(ql_math::incrementalstatistics,
+        "IncrementalStatistics - online statistics via boost accumulators");
+    ADD_MAIN_BINDING(ql_math::sequencestatistics,
+        "SequenceStatistics - N-dimensional statistics with covariance");
 }

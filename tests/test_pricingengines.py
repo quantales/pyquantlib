@@ -294,3 +294,111 @@ def test_replicating_variance_swap_engine_is_pricing_engine():
     put_strikes = [float(x) for x in range(55, 105, 5)]
     engine = ql.ReplicatingVarianceSwapEngine(process, 5.0, call_strikes, put_strikes)
     assert isinstance(engine, ql.base.PricingEngine)
+
+
+# =============================================================================
+# BlackCalculator
+# =============================================================================
+
+
+def test_blackcalculator_call_value():
+    """Test BlackCalculator call value with type/strike constructor."""
+    bc = ql.BlackCalculator(ql.OptionType.Call, 100.0, 105.0, 0.20, 0.95)
+    assert bc.value() == pytest.approx(10.360313797977716, rel=1e-10)
+
+
+def test_blackcalculator_put_value():
+    """Test BlackCalculator put value."""
+    bc = ql.BlackCalculator(ql.OptionType.Put, 100.0, 105.0, 0.20, 0.95)
+    assert bc.value() == pytest.approx(5.6103137979777165, rel=1e-10)
+
+
+def test_blackcalculator_payoff_constructor():
+    """Test BlackCalculator with payoff constructor."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    bc = ql.BlackCalculator(payoff, 105.0, 0.20, 0.95)
+    assert bc.value() == pytest.approx(10.360313797977716, rel=1e-10)
+
+
+def test_blackcalculator_greeks():
+    """Test BlackCalculator Greeks."""
+    bc = ql.BlackCalculator(ql.OptionType.Call, 100.0, 105.0, 0.20, 0.95)
+
+    assert bc.deltaForward() == pytest.approx(0.6028304461173745, rel=1e-10)
+    assert bc.delta(105.0) == pytest.approx(0.6028304461173745, rel=1e-10)
+    assert bc.gammaForward() == pytest.approx(0.017010825407788567, rel=1e-10)
+    assert bc.gamma(105.0) == pytest.approx(0.017010825407788567, rel=1e-10)
+    assert bc.theta(105.0, 1.0) == pytest.approx(-3.219472376830307, rel=1e-10)
+    assert bc.thetaPerDay(105.0, 1.0) == pytest.approx(-0.008820472265288513, rel=1e-10)
+    assert bc.vega(1.0) == pytest.approx(37.5088700241738, rel=1e-10)
+    assert bc.rho(1.0) == pytest.approx(52.93688304434661, rel=1e-10)
+    assert bc.dividendRho(1.0) == pytest.approx(-63.297196842324325, rel=1e-10)
+
+
+def test_blackcalculator_probabilities():
+    """Test BlackCalculator ITM probabilities."""
+    bc = ql.BlackCalculator(ql.OptionType.Call, 100.0, 105.0, 0.20, 0.95)
+
+    assert bc.itmCashProbability() == pytest.approx(0.5572303478352276, rel=1e-10)
+    assert bc.itmAssetProbability() == pytest.approx(0.6345583643340786, rel=1e-10)
+
+
+def test_blackcalculator_strike_sensitivity():
+    """Test BlackCalculator strike sensitivity."""
+    bc = ql.BlackCalculator(ql.OptionType.Call, 100.0, 105.0, 0.20, 0.95)
+
+    assert bc.strikeSensitivity() == pytest.approx(-0.5293688304434662, rel=1e-10)
+    assert bc.alpha() == pytest.approx(0.6345583643340786, rel=1e-10)
+    assert bc.beta() == pytest.approx(-0.5572303478352276, rel=1e-10)
+
+
+def test_blackcalculator_put_call_parity():
+    """Test put-call parity: C - P = discount * (F - K)."""
+    call = ql.BlackCalculator(ql.OptionType.Call, 100.0, 105.0, 0.20, 0.95)
+    put = ql.BlackCalculator(ql.OptionType.Put, 100.0, 105.0, 0.20, 0.95)
+
+    expected = 0.95 * (105.0 - 100.0)
+    assert call.value() - put.value() == pytest.approx(expected, rel=1e-10)
+
+
+# =============================================================================
+# BachelierCalculator
+# =============================================================================
+
+
+def test_bacheliercalculator_call_value():
+    """Test BachelierCalculator call value."""
+    bc = ql.BachelierCalculator(ql.OptionType.Call, 100.0, 105.0, 5.0, 0.95)
+    assert bc.value() == pytest.approx(5.14574848529151, rel=1e-10)
+
+
+def test_bacheliercalculator_put_value():
+    """Test BachelierCalculator put value."""
+    bc = ql.BachelierCalculator(ql.OptionType.Put, 100.0, 105.0, 5.0, 0.95)
+    assert bc.value() == pytest.approx(0.3957484852915104, rel=1e-10)
+
+
+def test_bacheliercalculator_greeks():
+    """Test BachelierCalculator Greeks."""
+    bc = ql.BachelierCalculator(ql.OptionType.Call, 100.0, 105.0, 5.0, 0.95)
+
+    assert bc.deltaForward() == pytest.approx(0.7992775087651158, rel=1e-10)
+    assert bc.delta(105.0) == pytest.approx(0.7992775087651158, rel=1e-10)
+    assert bc.vega(1.0) == pytest.approx(0.22987218829318617, rel=1e-10)
+    assert bc.theta(105.0, 1.0) == pytest.approx(-0.31073807883261556, rel=1e-10)
+
+
+def test_bacheliercalculator_payoff_constructor():
+    """Test BachelierCalculator with payoff constructor."""
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    bc = ql.BachelierCalculator(payoff, 105.0, 5.0, 0.95)
+    assert bc.value() == pytest.approx(5.14574848529151, rel=1e-10)
+
+
+def test_bacheliercalculator_put_call_parity():
+    """Test Bachelier put-call parity: C - P = discount * (F - K)."""
+    call = ql.BachelierCalculator(ql.OptionType.Call, 100.0, 105.0, 5.0, 0.95)
+    put = ql.BachelierCalculator(ql.OptionType.Put, 100.0, 105.0, 5.0, 0.95)
+
+    expected = 0.95 * (105.0 - 100.0)
+    assert call.value() - put.value() == pytest.approx(expected, rel=1e-10)
