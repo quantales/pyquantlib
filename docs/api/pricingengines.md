@@ -115,6 +115,76 @@ engine = ql.FdBlackScholesVanillaEngine(
 )
 ```
 
+### FdHestonVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHestonVanillaEngine
+```
+
+Finite-differences Heston vanilla option engine. Supports European and American exercise.
+
+```python
+engine = ql.FdHestonVanillaEngine(heston_model, tGrid=100, xGrid=100, vGrid=50)
+option.setPricingEngine(engine)
+
+# Multiple-strike caching for efficiency
+engine.enableMultipleStrikesCaching([90.0, 100.0, 110.0])
+```
+
+The `MakeFdHestonVanillaEngine` builder provides a keyword-argument interface:
+
+```python
+engine = ql.MakeFdHestonVanillaEngine(heston_model, tGrid=100, xGrid=100, vGrid=50)
+```
+
+### FdBatesVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdBatesVanillaEngine
+```
+
+Partial integro finite-differences engine for the Bates model (Heston + jumps).
+
+```python
+engine = ql.FdBatesVanillaEngine(bates_model, tGrid=100, xGrid=100, vGrid=50)
+```
+
+### FdSabrVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdSabrVanillaEngine
+```
+
+Finite-differences SABR vanilla option engine. Takes model parameters directly.
+
+```python
+engine = ql.FdSabrVanillaEngine(f0, alpha, beta, nu, rho, discount_curve)
+```
+
+### FdCEVVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdCEVVanillaEngine
+```
+
+Finite-differences CEV (constant elasticity of variance) vanilla option engine.
+
+```python
+engine = ql.FdCEVVanillaEngine(f0, alpha, beta, discount_curve)
+```
+
+### FdBlackScholesShoutEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdBlackScholesShoutEngine
+```
+
+Finite-differences engine for shout options (holder can lock in current intrinsic value).
+
+```python
+engine = ql.FdBlackScholesShoutEngine(process, tGrid=100, xGrid=100)
+```
+
 ### MCEuropeanEngine
 
 ```{eval-rst}
@@ -680,6 +750,34 @@ print(ql.BondFunctions.convexity(bond, rate))
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ReplicatingVarianceSwapEngine
+```
+
+## Calculators
+
+### BlackCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCalculator
+```
+
+Black 1976 pricing and Greeks calculator. Provides delta, gamma, theta, vega, rho, and more.
+
+```python
+calc = ql.BlackCalculator(payoff, forward, stdDev, discount)
+print(calc.value(), calc.delta(spot), calc.gamma(spot), calc.vega(T))
+```
+
+### BachelierCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BachelierCalculator
+```
+
+Bachelier (normal-volatility) pricing and Greeks calculator. Same API as `BlackCalculator`.
+
+```python
+calc = ql.BachelierCalculator(payoff, forward, stdDev, discount)
+print(calc.value(), calc.delta(spot), calc.gamma(spot), calc.vega(T))
 ```
 
 ## Functions

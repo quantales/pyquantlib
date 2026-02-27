@@ -267,6 +267,36 @@ swap = helper.underlying()
 swaption = helper.swaption()
 ```
 
+### CapHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CapHelper
+```
+
+Calibration helper for ATM caps, used for calibrating short-rate models.
+
+```python
+helper = ql.CapHelper(
+    ql.Period(5, ql.Years), vol, index, ql.Annual,
+    index.dayCounter(), True, curve,
+)
+```
+
+### HestonModelHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonModelHelper
+```
+
+Calibration helper for the Heston model using market option prices.
+
+```python
+helper = ql.HestonModelHelper(
+    ql.Period(1, ql.Years), ql.TARGET(), 100.0, 100.0,
+    vol, risk_free, div,
+)
+```
+
 ## Parameters
 
 ### Parameter

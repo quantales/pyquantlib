@@ -150,6 +150,52 @@ Monotonicity-preserving cubic spline that prevents oscillations.
 The abstract base class `Interpolation` is available in `pyquantlib.base` for type checking.
 ```
 
+## Statistics
+
+### Statistics
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Statistics
+```
+
+General statistics accumulator with empirical-distribution risk measures, Gaussian-assumption analytics, and percentile/VaR/ES methods.
+
+```python
+stats = ql.Statistics()
+stats.addSequence([1.0, 2.0, 3.0, 4.0, 5.0])
+print(stats.mean(), stats.standardDeviation(), stats.skewness())
+```
+
+### IncrementalStatistics
+
+```{eval-rst}
+.. autoclass:: pyquantlib.IncrementalStatistics
+```
+
+Online (streaming) statistics via boost accumulators. Supports weighted observations.
+
+```python
+stats = ql.IncrementalStatistics()
+stats.add(1.0, 1.0)
+stats.add(2.0, 1.0)
+print(stats.mean(), stats.weightSum())
+```
+
+### SequenceStatistics
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SequenceStatistics
+```
+
+N-dimensional statistics with covariance and correlation matrices.
+
+```python
+stats = ql.SequenceStatistics(2)
+stats.add([1.0, 2.0])
+stats.add([3.0, 4.0])
+print(stats.mean(), stats.covariance())
+```
+
 ## Optimization
 
 ### EndCriteria
