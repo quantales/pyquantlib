@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-27
+
 ### Added
 
 #### Core
@@ -287,7 +289,8 @@ Initial release targeting QuantLib 1.40.
 - API is subject to change during beta period
 - `QdFpAmericanEngine` has a known issue on Windows (access violation during `calculate()`)
 
-[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/quantales/pyquantlib/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/quantales/pyquantlib/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/quantales/pyquantlib/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/quantales/pyquantlib/releases/tag/v0.1.0
