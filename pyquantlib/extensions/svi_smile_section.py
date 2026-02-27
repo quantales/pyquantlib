@@ -26,7 +26,7 @@ References
 from __future__ import annotations
 
 import math
-from typing import List
+from typing import List, Union
 
 import pyquantlib as ql
 
@@ -115,14 +115,25 @@ class SviSmileSection(ql.base.SmileSection):
 
     where k = log(K/F) is the log-moneyness.
 
+    Supports two construction modes, mirroring the C++ QuantLib API:
+
+    1. **Time-based** (direct expiry time):
+       ``SviSmileSection(1.0, 100.0, params)``
+
+    2. **Date-based** (exercise date + day counter):
+       ``SviSmileSection(Date(15,1,2026), 100.0, params)``
+       ``SviSmileSection(Date(15,1,2026), 100.0, params, dc=Actual365Fixed())``
+
     Parameters
     ----------
-    time_to_expiry : float
-        Time to expiry in years.
+    time_to_expiry : float or Date
+        Time to expiry in years, or exercise date.
     forward : float
         Forward price.
     svi_params : list of float
         SVI parameters [a, b, sigma, rho, m].
+    dc : DayCounter, optional
+        Day counter (only used with Date constructor, default Actual365Fixed).
     validate : bool, optional
         Whether to validate parameters (default True).
 
@@ -136,16 +147,27 @@ class SviSmileSection(ql.base.SmileSection):
 
     def __init__(
         self,
-        time_to_expiry: float,
+        time_to_expiry: Union[float, ql.Date],
         forward: float,
         svi_params: List[float],
+        dc: ql.DayCounter = None,
         validate: bool = True,
     ) -> None:
-        super().__init__()
+        if isinstance(time_to_expiry, ql.Date):
+            if dc is None:
+                dc = ql.Actual365Fixed()
+            super().__init__(time_to_expiry, dc)
+            self._time_to_expiry = self.exerciseTime()
+        else:
+            if dc is not None:
+                super().__init__(time_to_expiry, dc)
+            else:
+                super().__init__(time_to_expiry)
+            self._time_to_expiry = time_to_expiry
+
         if len(svi_params) != 5:
             raise ValueError(f"Expected 5 SVI parameters, got {len(svi_params)}")
 
-        self._time_to_expiry = time_to_expiry
         self._forward = forward
         self._a, self._b, self._sigma, self._rho, self._m = svi_params
 

@@ -39,6 +39,13 @@ void ql_termstructures::smilesection(py::module_& m) {
             py::arg("exerciseTime"),
             py::arg("dc") = Actual365Fixed(),
             "Constructs with exercise time.")
+        .def(py::init([](const Date& d, const DayCounter& dc, const Date& referenceDate) {
+            return new PySmileSection(d, dc, referenceDate, ShiftedLognormal, 0.0);
+        }),
+            py::arg("d"),
+            py::arg("dc") = Actual365Fixed(),
+            py::arg("referenceDate") = Date(),
+            "Constructs with exercise date.")
         // SmileSection interface
         .def("minStrike", &SmileSection::minStrike,
             "Returns minimum strike.")

@@ -19,6 +19,29 @@ def test_smilesection_base_exists():
     assert hasattr(ql.base, "SmileSection")
 
 
+def test_smilesection_date_constructor():
+    """Test SmileSection date-based constructor computes exerciseTime."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    maturity = today + ql.Period(6, ql.Months)
+
+    s = ql.base.SmileSection(maturity, ql.Actual365Fixed())
+
+    assert s.exerciseTime() > 0
+    assert s.exerciseDate() == maturity
+
+
+def test_smilesection_date_constructor_default_dc():
+    """Test SmileSection date-based constructor with default day counter."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    maturity = today + ql.Period(12, ql.Months)
+
+    s = ql.base.SmileSection(maturity)
+
+    assert s.exerciseTime() == pytest.approx(1.0, abs=0.01)
+
+
 # --- SviSmileSection ---
 
 

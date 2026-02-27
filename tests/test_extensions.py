@@ -7,7 +7,7 @@ Corresponds to pyquantlib/extensions/*.py.
 import pytest
 
 import pyquantlib as ql
-from pyquantlib.extensions import ModifiedKirkEngine
+from pyquantlib.extensions import ModifiedKirkEngine, SviSmileSection
 
 
 @pytest.fixture
@@ -86,3 +86,76 @@ def test_static_methods():
     skew = ModifiedKirkEngine.skew_slope(100, 100, 5, 0.3, 0.2, 0.9)
     expected_skew = 0.0016000116933208614
     assert skew == pytest.approx(expected_skew, rel=1e-6)
+
+
+# =============================================================================
+# SviSmileSection (Python extension)
+# =============================================================================
+
+
+def test_svi_time_based_construction():
+    """Time-based constructor sets exerciseTime correctly."""
+    params = [0.04, 0.1, 0.3, -0.4, 0.0]
+    smile = SviSmileSection(1.0, 100.0, params)
+
+    assert smile.exerciseTime() == pytest.approx(1.0)
+    assert smile.atmLevel() == pytest.approx(100.0)
+    assert isinstance(smile, ql.base.SmileSection)
+
+
+def test_svi_date_based_construction():
+    """Date-based constructor computes exerciseTime from date and day counter."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.instance().evaluationDate = today
+    maturity = today + ql.Period(12, ql.Months)
+    params = [0.04, 0.1, 0.3, -0.4, 0.0]
+
+    smile = SviSmileSection(maturity, 100.0, params)
+
+    assert smile.exerciseTime() == pytest.approx(1.0, abs=0.01)
+    assert smile.exerciseDate() == maturity
+    assert smile.atmLevel() == pytest.approx(100.0)
+
+
+def test_svi_date_based_with_explicit_dc():
+    """Date-based constructor accepts an explicit day counter."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.instance().evaluationDate = today
+    maturity = today + ql.Period(6, ql.Months)
+    params = [0.04, 0.1, 0.3, -0.4, 0.0]
+
+    smile = SviSmileSection(maturity, 100.0, params, dc=ql.Actual365Fixed())
+
+    assert smile.exerciseTime() == pytest.approx(0.4958904109589041, rel=1e-10)
+    assert smile.exerciseDate() == maturity
+
+
+def test_svi_time_and_date_give_same_vol():
+    """Time-based and date-based construction produce identical volatilities."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.instance().evaluationDate = today
+    maturity = today + ql.Period(12, ql.Months)
+    params = [0.04, 0.1, 0.3, -0.4, 0.0]
+
+    smile_time = SviSmileSection(1.0, 100.0, params)
+    smile_date = SviSmileSection(maturity, 100.0, params)
+
+    for K in [80.0, 90.0, 100.0, 110.0, 120.0]:
+        assert smile_date.volatility(K) == pytest.approx(
+            smile_time.volatility(K), rel=0.01,
+        )
+
+
+def test_svi_digital_option_price():
+    """digitalOptionPrice matches C++ SviSmileSection."""
+    params = [0.04, 0.1, 0.3, -0.4, 0.0]
+    smile = SviSmileSection(1.0, 100.0, params)
+
+    digital = smile.digitalOptionPrice(100.0, ql.OptionType.Call, 1.0)
+    assert digital == pytest.approx(0.4772728978252871, rel=1e-6)
+
+    # Cross-validate against C++ SviSmileSection
+    cpp_smile = ql.SviSmileSection(1.0, 100.0, params)
+    assert digital == pytest.approx(
+        cpp_smile.digitalOptionPrice(100.0, ql.OptionType.Call, 1.0), rel=1e-6,
+    )
