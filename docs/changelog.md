@@ -26,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FdSabrVanillaEngine` for finite-differences SABR pricing
 - `FdCEVVanillaEngine` for finite-differences CEV pricing
 - `FdBlackScholesShoutEngine` for finite-differences shout option pricing
+- `COSHestonEngine` for Fourier-cosine series Heston pricing with cumulant accessors
+- `ExponentialFittingHestonEngine` for exponentially-fitted Gauss-Laguerre Heston pricing
+- `AnalyticPTDHestonEngine` for piecewise time-dependent Heston models
+- `AnalyticPDFHestonEngine` for PDF-based Heston pricing of arbitrary European payoffs
+- `AnalyticHestonHullWhiteEngine` for Heston + Hull-White stochastic rates
+- `AnalyticH1HWEngine` for H1-HW approximation with equity-rate correlation
+- `HestonExpansionEngine` with LPP2, LPP3, and Forde expansion formulas
 
 #### Models
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)

@@ -1145,3 +1145,173 @@ def test_fdblackscholesshout_european_call():
     engine = ql.FdBlackScholesShoutEngine(process, tGrid=100, xGrid=100)
     option.setPricingEngine(engine)
     assert option.NPV() == pytest.approx(9.239281, rel=1e-4)
+
+
+# =============================================================================
+# COSHestonEngine
+# =============================================================================
+
+
+def test_coshestonengine_construction(fd_heston_env):
+    """Test COSHestonEngine construction."""
+    engine = ql.COSHestonEngine(fd_heston_env["model"])
+    assert engine is not None
+
+
+def test_coshestonengine_pricing(fd_heston_env):
+    """Test COS Heston European call pricing."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(ql.COSHestonEngine(env["model"]))
+    assert option.NPV() == pytest.approx(9.024861, rel=1e-4)
+
+
+def test_coshestonengine_moments(fd_heston_env):
+    """Test COS Heston cumulant accessors."""
+    engine = ql.COSHestonEngine(fd_heston_env["model"])
+    assert engine.c1(1.0) == pytest.approx(-0.020000, abs=1e-5)
+    assert engine.c2(1.0) == pytest.approx(0.042812, rel=1e-4)
+
+
+# =============================================================================
+# ExponentialFittingHestonEngine
+# =============================================================================
+
+
+def test_exponentialfittingheston_construction(fd_heston_env):
+    """Test ExponentialFittingHestonEngine construction."""
+    engine = ql.ExponentialFittingHestonEngine(fd_heston_env["model"])
+    assert engine is not None
+
+
+def test_exponentialfittingheston_pricing(fd_heston_env):
+    """Test exponential fitting Heston European call pricing."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(ql.ExponentialFittingHestonEngine(env["model"]))
+    assert option.NPV() == pytest.approx(9.024861, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticPTDHestonEngine
+# =============================================================================
+
+
+def test_analyticptdheston_pricing():
+    """Test piecewise time-dependent Heston pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+    dc = ql.Actual365Fixed()
+
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    noC = ql.NoConstraint()
+    tg = ql.TimeGrid(2.0, 10)
+    ptd_model = ql.PiecewiseTimeDependentHestonModel(
+        ql.YieldTermStructureHandle(rts),
+        ql.YieldTermStructureHandle(dts),
+        ql.QuoteHandle(spot), 0.04,
+        ql.ConstantParameter(0.04, noC),
+        ql.ConstantParameter(1.5, noC),
+        ql.ConstantParameter(0.3, noC),
+        ql.ConstantParameter(-0.7, noC), tg,
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(ql.AnalyticPTDHestonEngine(ptd_model))
+    assert option.NPV() == pytest.approx(9.024861, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticPDFHestonEngine
+# =============================================================================
+
+
+def test_analyticpdfheston_construction(fd_heston_env):
+    """Test AnalyticPDFHestonEngine construction."""
+    engine = ql.AnalyticPDFHestonEngine(fd_heston_env["model"])
+    assert engine is not None
+
+
+def test_analyticpdfheston_pricing(fd_heston_env):
+    """Test PDF-based Heston pricing."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(ql.AnalyticPDFHestonEngine(env["model"]))
+    assert option.NPV() == pytest.approx(9.024861, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticHestonHullWhiteEngine
+# =============================================================================
+
+
+def test_analytichestonhw_pricing(fd_heston_env):
+    """Test Heston + Hull-White stochastic rates pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    hw = ql.HullWhite(rts, a=0.1, sigma=0.01)
+
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(ql.AnalyticHestonHullWhiteEngine(env["model"], hw))
+    assert option.NPV() == pytest.approx(9.027719, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticH1HWEngine
+# =============================================================================
+
+
+def test_analytich1hw_pricing(fd_heston_env):
+    """Test H1-HW approximation with equity-rate correlation."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    hw = ql.HullWhite(rts, a=0.1, sigma=0.01)
+
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(ql.AnalyticH1HWEngine(env["model"], hw, rhoSr=0.3))
+    assert option.NPV() == pytest.approx(9.078273, rel=1e-4)
+
+
+# =============================================================================
+# HestonExpansionEngine
+# =============================================================================
+
+
+def test_hestonexpansion_lpp2(fd_heston_env):
+    """Test Heston expansion engine with LPP2 formula."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(
+        ql.HestonExpansionEngine(env["model"], ql.HestonExpansionFormula.LPP2))
+    assert option.NPV() == pytest.approx(9.013539, rel=1e-3)
+
+
+def test_hestonexpansion_lpp3(fd_heston_env):
+    """Test Heston expansion engine with LPP3 formula."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(
+        ql.HestonExpansionEngine(env["model"], ql.HestonExpansionFormula.LPP3))
+    assert option.NPV() == pytest.approx(9.023003, rel=1e-3)

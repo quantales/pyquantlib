@@ -158,4 +158,20 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "FdCEVVanillaEngine - FD CEV pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesshoutengine,
         "FdBlackScholesShoutEngine - FD Black-Scholes shout option pricing");
+
+    // Heston engine ecosystem
+    ADD_MAIN_BINDING(ql_pricingengines::coshestonengine,
+        "COSHestonEngine - Fourier-cosine series Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::exponentialfittinghestonengine,
+        "ExponentialFittingHestonEngine - exponential fitting Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticptdhestonengine,
+        "AnalyticPTDHestonEngine - piecewise time-dependent Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticpdfhestonengine,
+        "AnalyticPDFHestonEngine - PDF-based Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analytichestonhullwhiteengine,
+        "AnalyticHestonHullWhiteEngine - Heston + Hull-White stochastic rates");
+    ADD_MAIN_BINDING(ql_pricingengines::analytich1hwengine,
+        "AnalyticH1HWEngine - H1-HW approximation with equity-rate correlation");
+    ADD_MAIN_BINDING(ql_pricingengines::hestonexpansionengine,
+        "HestonExpansionEngine - analytic expansion Heston pricing");
 }

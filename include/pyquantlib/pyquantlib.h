@@ -435,6 +435,14 @@ namespace ql_pricingengines {
     void fdsabrvanillaengine(py::module_&);
     void fdcevvanillaengine(py::module_&);
     void fdblackscholesshoutengine(py::module_&);
+    // Heston engine ecosystem
+    void coshestonengine(py::module_&);
+    void exponentialfittinghestonengine(py::module_&);
+    void analyticptdhestonengine(py::module_&);
+    void analyticpdfhestonengine(py::module_&);
+    void analytichestonhullwhiteengine(py::module_&);
+    void analytich1hwengine(py::module_&);
+    void hestonexpansionengine(py::module_&);
 }
 
 namespace ql_methods {

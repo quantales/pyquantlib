@@ -76,6 +76,78 @@ model = ql.BatesModel(bates_process)
 engine = ql.BatesEngine(model)
 ```
 
+### COSHestonEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.COSHestonEngine
+```
+
+Fourier-cosine series expansion for fast Heston pricing.
+
+```python
+engine = ql.COSHestonEngine(heston_model, L=16, N=200)
+```
+
+### ExponentialFittingHestonEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExponentialFittingHestonEngine
+```
+
+Exponentially-fitted Gauss-Laguerre quadrature for Heston pricing.
+
+### AnalyticPTDHestonEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticPTDHestonEngine
+```
+
+Analytic engine for piecewise time-dependent Heston models.
+
+### AnalyticPDFHestonEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticPDFHestonEngine
+```
+
+PDF-based Heston engine for arbitrary European payoffs.
+
+### HestonExpansionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonExpansionEngine
+```
+
+Heston engine based on analytic expansions (LPP2, LPP3, Forde).
+
+```python
+engine = ql.HestonExpansionEngine(model, ql.HestonExpansionFormula.LPP3)
+```
+
+### AnalyticHestonHullWhiteEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticHestonHullWhiteEngine
+```
+
+Heston model with Hull-White stochastic interest rates.
+
+```python
+engine = ql.AnalyticHestonHullWhiteEngine(heston_model, hull_white_model)
+```
+
+### AnalyticH1HWEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticH1HWEngine
+```
+
+H1-HW approximation including equity-rate correlation.
+
+```python
+engine = ql.AnalyticH1HWEngine(heston_model, hull_white_model, rhoSr=0.3)
+```
+
 ### BaroneAdesiWhaleyApproximationEngine
 
 ```{eval-rst}
