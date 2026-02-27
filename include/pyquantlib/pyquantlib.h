@@ -429,6 +429,12 @@ namespace ql_pricingengines {
     // Calculators
     void blackcalculator(py::module_&);
     void bacheliercalculator(py::module_&);
+    // FD vanilla engines
+    void fdhestonvanillaengine(py::module_&);
+    void fdbatesvanillaengine(py::module_&);
+    void fdsabrvanillaengine(py::module_&);
+    void fdcevvanillaengine(py::module_&);
+    void fdblackscholesshoutengine(py::module_&);
 }
 
 namespace ql_methods {

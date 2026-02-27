@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Pricing Engines
 - `BlackCalculator` for Black 1976 option pricing with full Greeks (delta, gamma, theta, vega, rho, etc.)
 - `BachelierCalculator` for normal-volatility option pricing with full Greeks
+- `FdHestonVanillaEngine` + `MakeFdHestonVanillaEngine` builder for finite-differences Heston pricing
+- `FdBatesVanillaEngine` for finite-differences Bates (Heston + jumps) pricing
+- `FdSabrVanillaEngine` for finite-differences SABR pricing
+- `FdCEVVanillaEngine` for finite-differences CEV pricing
+- `FdBlackScholesShoutEngine` for finite-differences shout option pricing
 
 #### Models
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)

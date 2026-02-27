@@ -23,6 +23,7 @@ del _ql
 
 # Builder wrapper functions (shadow C++ classes with Pythonic kwargs API)
 from .builders import MakeCapFloor as MakeCapFloor  # noqa: E402, F811
+from .builders import MakeFdHestonVanillaEngine as MakeFdHestonVanillaEngine  # noqa: E402, F811
 from .builders import MakeOIS as MakeOIS  # noqa: E402, F811
 from .builders import MakeSchedule as MakeSchedule  # noqa: E402, F811
 from .builders import MakeSwaption as MakeSwaption  # noqa: E402, F811

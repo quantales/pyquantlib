@@ -881,3 +881,267 @@ def test_bates_engine_pricing(bates_env):
 
     npv = option.NPV()
     assert npv == pytest.approx(3.6379571568095876, rel=1e-5)
+
+
+# =============================================================================
+# FdHestonVanillaEngine
+# =============================================================================
+
+
+@pytest.fixture
+def fd_heston_env():
+    """Market environment for FD Heston engine tests."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    risk_free_ts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    div_ts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.HestonProcess(
+        risk_free_ts, div_ts, spot,
+        0.04, 1.5, 0.04, 0.3, -0.7,
+    )
+    model = ql.HestonModel(process)
+
+    call_payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    put_payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+    euro_exercise = ql.EuropeanExercise(maturity)
+    amer_exercise = ql.AmericanExercise(today, maturity)
+
+    return {
+        "model": model,
+        "call_payoff": call_payoff,
+        "put_payoff": put_payoff,
+        "euro_exercise": euro_exercise,
+        "amer_exercise": amer_exercise,
+    }
+
+
+def test_fdhestonvanilla_construction(fd_heston_env):
+    """Test FdHestonVanillaEngine construction."""
+    engine = ql.FdHestonVanillaEngine(fd_heston_env["model"])
+    assert engine is not None
+
+
+def test_fdhestonvanilla_european_call(fd_heston_env):
+    """Test FD Heston European call pricing."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    engine = ql.FdHestonVanillaEngine(env["model"], tGrid=100, xGrid=100, vGrid=50)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(9.028582, rel=1e-4)
+
+
+def test_fdhestonvanilla_american_put(fd_heston_env):
+    """Test FD Heston American put pricing."""
+    env = fd_heston_env
+    option = ql.VanillaOption(env["put_payoff"], env["amer_exercise"])
+    engine = ql.FdHestonVanillaEngine(env["model"], tGrid=100, xGrid=100, vGrid=50)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(6.448334, rel=1e-4)
+
+
+def test_fdhestonvanilla_multiple_strikes_caching(fd_heston_env):
+    """Test enableMultipleStrikesCaching method."""
+    env = fd_heston_env
+    engine = ql.FdHestonVanillaEngine(env["model"], tGrid=50, xGrid=50, vGrid=25)
+    engine.enableMultipleStrikesCaching([90.0, 100.0, 110.0])
+
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(9.046529, rel=1e-4)
+
+
+def test_make_fdhestonvanilla_builder(fd_heston_env):
+    """Test MakeFdHestonVanillaEngine Python wrapper."""
+    env = fd_heston_env
+    engine = ql.MakeFdHestonVanillaEngine(
+        env["model"], tGrid=50, xGrid=50, vGrid=25,
+    )
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(9.040718, rel=1e-4)
+
+
+# =============================================================================
+# FdBatesVanillaEngine
+# =============================================================================
+
+
+@pytest.fixture
+def fd_bates_env():
+    """Market environment for FD Bates engine tests."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    risk_free_ts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    div_ts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.BatesProcess(
+        risk_free_ts, div_ts, spot,
+        0.04, 1.5, 0.04, 0.3, -0.7,
+        0.1, -0.5, 0.1,
+    )
+    model = ql.BatesModel(process)
+
+    call_payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    euro_exercise = ql.EuropeanExercise(maturity)
+
+    return {
+        "model": model,
+        "call_payoff": call_payoff,
+        "euro_exercise": euro_exercise,
+    }
+
+
+def test_fdbatesvanilla_construction(fd_bates_env):
+    """Test FdBatesVanillaEngine construction."""
+    engine = ql.FdBatesVanillaEngine(fd_bates_env["model"])
+    assert engine is not None
+
+
+def test_fdbatesvanilla_european_call(fd_bates_env):
+    """Test FD Bates European call pricing."""
+    env = fd_bates_env
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    engine = ql.FdBatesVanillaEngine(env["model"], tGrid=100, xGrid=100, vGrid=50)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(10.646633, rel=1e-4)
+
+
+# =============================================================================
+# FdSabrVanillaEngine
+# =============================================================================
+
+
+def test_fdsabrvanilla_construction():
+    """Test FdSabrVanillaEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    engine = ql.FdSabrVanillaEngine(100.0, 0.3, 0.5, 0.4, -0.3, rts)
+    assert engine is not None
+
+
+def test_fdsabrvanilla_european_call():
+    """Test FD SABR European call pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.FdSabrVanillaEngine(
+        100.0, 0.3, 0.5, 0.4, -0.3, rts,
+        tGrid=50, fGrid=400, xGrid=50,
+    )
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(1.152418, rel=1e-4)
+
+
+# =============================================================================
+# FdCEVVanillaEngine
+# =============================================================================
+
+
+def test_fdcevvanilla_construction():
+    """Test FdCEVVanillaEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    engine = ql.FdCEVVanillaEngine(100.0, 0.3, 0.5, rts)
+    assert engine is not None
+
+
+def test_fdcevvanilla_european_call():
+    """Test FD CEV European call pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.FdCEVVanillaEngine(100.0, 0.3, 0.5, rts, tGrid=50, xGrid=400)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(1.141919, rel=1e-4)
+
+
+# =============================================================================
+# FdBlackScholesShoutEngine
+# =============================================================================
+
+
+def test_fdblackscholesshout_construction():
+    """Test FdBlackScholesShoutEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), ql.SimpleQuote(0.20), dc)
+    process = ql.GeneralizedBlackScholesProcess(spot, dts, rts, vol)
+
+    engine = ql.FdBlackScholesShoutEngine(process)
+    assert engine is not None
+
+
+def test_fdblackscholesshout_european_call():
+    """Test FD Black-Scholes shout option pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), ql.SimpleQuote(0.20), dc)
+    process = ql.GeneralizedBlackScholesProcess(spot, dts, rts, vol)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.FdBlackScholesShoutEngine(process, tGrid=100, xGrid=100)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(9.239281, rel=1e-4)

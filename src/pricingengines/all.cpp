@@ -146,4 +146,16 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BlackCalculator - Black 1976 pricing and Greeks calculator");
     ADD_MAIN_BINDING(ql_pricingengines::bacheliercalculator,
         "BachelierCalculator - Bachelier (normal-vol) pricing and Greeks calculator");
+
+    // FD vanilla engines
+    ADD_MAIN_BINDING(ql_pricingengines::fdhestonvanillaengine,
+        "FdHestonVanillaEngine + MakeFdHestonVanillaEngine - FD Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdbatesvanillaengine,
+        "FdBatesVanillaEngine - FD Bates (Heston + jumps) pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdsabrvanillaengine,
+        "FdSabrVanillaEngine - FD SABR pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdcevvanillaengine,
+        "FdCEVVanillaEngine - FD CEV pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesshoutengine,
+        "FdBlackScholesShoutEngine - FD Black-Scholes shout option pricing");
 }

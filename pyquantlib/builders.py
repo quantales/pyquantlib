@@ -367,3 +367,42 @@ def MakeYoYInflationCapFloor(capFloorType, index, length, calendar,
     _apply_kwargs("MakeYoYInflationCapFloor",
                   _MAKEYOYINFLATIONCAPFLOOR_METHODS, builder, kwargs)
     return builder.capFloor()
+
+
+# ---------------------------------------------------------------------------
+# MakeFdHestonVanillaEngine
+# ---------------------------------------------------------------------------
+
+_MAKEFDHESTONVANILLAENGINE_METHODS = {
+    "tGrid": "withTGrid",
+    "xGrid": "withXGrid",
+    "vGrid": "withVGrid",
+    "dampingSteps": "withDampingSteps",
+    "fdmSchemeDesc": "withFdmSchemeDesc",
+}
+
+
+def MakeFdHestonVanillaEngine(hestonModel, **kwargs):
+    """Build an FdHestonVanillaEngine from keyword arguments.
+
+    Parameters
+    ----------
+    hestonModel
+        The Heston model.
+    **kwargs
+        Builder options: ``tGrid``, ``xGrid``, ``vGrid``,
+        ``dampingSteps``, ``fdmSchemeDesc``.
+        ``cashDividends`` expects a tuple of (dates, amounts).
+
+    Returns
+    -------
+    PricingEngine
+    """
+    cash_divs = kwargs.pop("cashDividends", None)
+    builder = _ql.MakeFdHestonVanillaEngine(hestonModel)
+    _apply_kwargs("MakeFdHestonVanillaEngine",
+                  _MAKEFDHESTONVANILLAENGINE_METHODS, builder, kwargs)
+    if cash_divs is not None:
+        dates, amounts = cash_divs
+        builder.withCashDividends(dates, amounts)
+    return builder.engine()
