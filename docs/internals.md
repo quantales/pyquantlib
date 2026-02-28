@@ -316,3 +316,15 @@ py::implicitly_convertible<py::object, QuantLib::Date>();
 py::implicitly_convertible<py::list, Array>();
 py::implicitly_convertible<py::array, Array>();
 ```
+
+### Date Arithmetic with datetime.date
+
+`Period` defines `__radd__` and `__rsub__` so that `datetime.date` objects can participate in date arithmetic:
+
+```python
+import datetime
+expiry = datetime.date(2025, 1, 15) + ql.Period("3M")   # -> ql.Date(15, April, 2025)
+start  = datetime.date(2025, 6, 15) - ql.Period("1Y")   # -> ql.Date(15, June, 2024)
+```
+
+When Python evaluates `datetime.date + ql.Period`, `datetime.date.__add__` returns `NotImplemented`, and Python falls back to `Period.__radd__`, which converts the date to `ql.Date` via the implicit conversion and returns the result. Both `datetime.date` and `datetime.datetime` are supported. The return type is always `ql.Date`.

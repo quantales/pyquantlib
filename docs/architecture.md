@@ -200,6 +200,14 @@ Python types convert automatically to QuantLib types:
 
 Functions expecting `Array` accept plain Python lists, and dates can be passed as `datetime.date` objects. Conversions are registered via `py::implicitly_convertible` at the end of each binding file.
 
+`datetime.date` objects also support arithmetic with `Period` via reverse operators:
+
+```python
+import datetime
+expiry = datetime.date(2025, 1, 15) + ql.Period("3M")   # -> ql.Date(15, April, 2025)
+start  = datetime.date(2025, 6, 15) - ql.Period("1Y")   # -> ql.Date(15, June, 2024)
+```
+
 See {doc}`numpy` for NumPy interoperability details.
 
 ## Coverage
