@@ -46,9 +46,9 @@ PYBIND11_MODULE(_pyquantlib, m) {
     indexes_bindings(manager);           // Index implementations
     termstructures_bindings(manager);    // Term structure implementations
     processes_bindings(manager);         // Stochastic process implementations
+    methods_bindings(manager);           // Numerical methods
     models_bindings(manager);            // Pricing models
     instruments_bindings(manager);       // Financial instruments
-    methods_bindings(manager);           // Numerical methods
     pricingengines_bindings(manager);    // Pricing engines
     experimental_bindings(manager);      // Experimental features
 

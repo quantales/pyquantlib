@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MCEuropeanHestonEngine` Monte Carlo European Heston engine (pseudo-random and low-discrepancy)
 
 #### Processes
+- `HestonSLVProcess` Heston stochastic local volatility process combining Heston dynamics with a leverage function
 - `OrnsteinUhlenbeckProcess` mean-reverting OU process
 - `HullWhiteProcess` Hull-White short-rate process
 - `ForwardMeasureProcess` and `ForwardMeasureProcess1D` ABCs for forward-measure processes (in `pyquantlib.base`)
@@ -83,8 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)
 - `HestonModelHelper` calibration helper for the Heston model (Real and Handle spot variants)
 - `GJRGARCHModel` GJR-GARCH(1,1) calibrated model
+- `HestonSLVFDMModel` Heston SLV model calibrated via Fokker-Planck FDM with `HestonSLVFokkerPlanckFdmParams` configuration struct
+- `HestonSLVMCModel` Heston SLV model calibrated via Monte Carlo simulation
 
 #### Methods
+- `FdmHestonGreensFctAlgorithm` enum for Heston Fokker-Planck Green's function algorithms (ZeroCorrelation, Gaussian, SemiAnalytical)
+- `FdmSquareRootFwdOpTransformationType` enum for square-root forward operator coordinate transformations (Plain, Power, Log)
 - `LsmBasisSystem` / `PolynomialType` enum for Longstaff-Schwartz Monte Carlo basis systems (moved from MCAmericanEngine to its proper header location)
 - `SampleNumber` (`Sample<Real>`) and `SampleRealVector` (`Sample<vector<Real>>`) weighted sample types
 - `Path` single-factor price path with time grid, indexing, and value/time accessors

@@ -100,11 +100,9 @@ namespace ql_math {
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
     void solvers1d(py::module_&);
-    // Statistics
     void statistics(py::module_&);
     void incrementalstatistics(py::module_&);
     void sequencestatistics(py::module_&);
-    // Random number generators
     void mt19937uniformrng(py::module_&);
     void sobolrsg(py::module_&);
     void haltonrsg(py::module_&);
@@ -167,7 +165,6 @@ namespace ql_cashflows {
     void cmscoupon(py::module_&);
     void cmscouponpricer(py::module_&);
     void lineartsrpricer(py::module_&);
-    // Inflation cashflows
     void inflationcoupon(py::module_&);
     void zeroinflationcashflow(py::module_&);
     void yoyinflationcoupon(py::module_&);
@@ -186,7 +183,6 @@ namespace ql_indexes {
     void sonia(py::module_&);
     void swapindex(py::module_&);
     void swapindexes(py::module_&);
-    // Inflation
     void region(py::module_&);
     void inflationindex(py::module_&);
     void cpi(py::module_&);
@@ -198,7 +194,6 @@ namespace ql_indexes {
     void aucpi(py::module_&);
     void frhicp(py::module_&);
     void zacpi(py::module_&);
-    // Equity
     void equityindex(py::module_&);
 }
 
@@ -243,7 +238,6 @@ namespace ql_termstructures {
     void defaultprobabilityhelper(py::module_&);
     void defaultprobabilityhelpers(py::module_&);
     void piecewisedefaultcurve(py::module_&);
-    // Swaption volatility
     void swaptionvolstructure(py::module_&);
     void swaptionvolstructurehandle(py::module_&);
     void relinkableswaptionvolstructurehandle(py::module_&);
@@ -252,20 +246,16 @@ namespace ql_termstructures {
     void swaptionvolmatrix(py::module_&);
     void swaptionvolcube(py::module_&);
     void sabrswaptionvolcube(py::module_&);
-    // Cap/floor term volatility
     void capfloortermvolatilitystructure(py::module_&);
     void capfloortermvolsurface(py::module_&);
-    // Optionlet volatility
     void optionletvolatilitystructure(py::module_&);
     void optionletvolatilitystructurehandle(py::module_&);
     void relinkableoptionletvolatilitystructurehandle(py::module_&);
     void constantoptionletvolatility(py::module_&);
-    // Optionlet stripping
     void strippedoptionletbase(py::module_&);
     void optionletstripper(py::module_&);
     void optionletstripper1(py::module_&);
     void strippedoptionletadapter(py::module_&);
-    // Inflation term structures
     void inflationtermstructure(py::module_&);
     void zeroinflationtermstructurehandle(py::module_&);
     void yoyinflationtermstructurehandle(py::module_&);
@@ -276,7 +266,6 @@ namespace ql_termstructures {
     void interpolatedyoyinflationcurve(py::module_&);
     void piecewisezeroinflationcurve(py::module_&);
     void piecewiseyoyinflationcurve(py::module_&);
-    // YoY inflation optionlet volatility
     void yoyinflationoptionletvolatilitystructure(py::module_&);
 }
 
@@ -290,6 +279,7 @@ namespace ql_processes {
     void ornsteinuhlenbeckprocess(py::module_&);
     void forwardmeasureprocess(py::module_&);
     void hullwhiteprocess(py::module_&);
+    void hestonslvprocess(py::module_&);
 }
 
 namespace ql_models {
@@ -318,6 +308,8 @@ namespace ql_models {
     void browniangenerator(py::module_&);
     void sobolbrowniangenerator(py::module_&);
     void mtbrowniangenerator(py::module_&);
+    void hestonslvmcmodel(py::module_&);
+    void hestonslvfdmmodel(py::module_&);
 }
 
 namespace ql_instruments {
@@ -358,7 +350,6 @@ namespace ql_instruments {
     void assetswap(py::module_&);
     void claim(py::module_&);
     void creditdefaultswap(py::module_&);
-    // Inflation instruments
     void zerocouponinflationswap(py::module_&);
     void yearonyearinflationswap(py::module_&);
     void inflationcapfloor(py::module_&);
@@ -373,19 +364,15 @@ namespace ql_instruments {
     void equitytotalreturnswap(py::module_&);
     void callability(py::module_&);
     void convertiblebonds(py::module_&);
-    // Lookback options
     void lookbackoption(py::module_&);
-    // Cliquet, compound, chooser options
     void cliquetoption(py::module_&);
     void compoundoption(py::module_&);
     void simplechooseroption(py::module_&);
     void complexchooseroption(py::module_&);
-    // Margrabe, forward, quanto options
     void quantovanillaoption(py::module_&);
     void margrabeoption(py::module_&);
     void forwardvanillaoption(py::module_&);
     void quantoforwardvanillaoption(py::module_&);
-    // Extensible options
     void holderextensibleoption(py::module_&);
     void writerextensibleoption(py::module_&);
 }
@@ -433,31 +420,24 @@ namespace ql_pricingengines {
     void turnbullwakemanasianengine(py::module_&);
     void midpointcdsengine(py::module_&);
     void isdacdsengine(py::module_&);
-    // Inflation engines
     void inflationcapfloorengines(py::module_&);
 
     void replicatingvarianceswapengine(py::module_&);
     void binomialconvertibleengine(py::module_&);
-    // Lookback engines
     void analyticcontinuousfloatinglookbackengine(py::module_&);
     void analyticcontinuousfixedlookbackengine(py::module_&);
     void analyticcontinuouspartialfloatinglookbackengine(py::module_&);
     void analyticcontinuouspartialfixedlookbackengine(py::module_&);
-    // Cliquet, compound, chooser engines
     void analyticcliquetengine(py::module_&);
     void analyticcompoundoptionengine(py::module_&);
     void analyticsimplechooserengine(py::module_&);
     void analyticcomplexchooserengine(py::module_&);
     void analyticeuropeanmargrabeengine(py::module_&);
     void analyticamericanmargrabeengine(py::module_&);
-    // Forward engines
     void forwardengine(py::module_&);
-    // Quanto engines
     void quantoengine(py::module_&);
-    // Calculators
     void blackcalculator(py::module_&);
     void bacheliercalculator(py::module_&);
-    // FD vanilla engines
     void fdhestonvanillaengine(py::module_&);
     void fdbatesvanillaengine(py::module_&);
     void fdsabrvanillaengine(py::module_&);
@@ -465,7 +445,6 @@ namespace ql_pricingengines {
     void fdblackscholesshoutengine(py::module_&);
     void fdhestonhullwhitevanillaengine(py::module_&);
     void fdornsteinuhlenbeckvanillaengine(py::module_&);
-    // Heston engine ecosystem
     void coshestonengine(py::module_&);
     void exponentialfittinghestonengine(py::module_&);
     void analyticptdhestonengine(py::module_&);
@@ -473,28 +452,23 @@ namespace ql_pricingengines {
     void analytichestonhullwhiteengine(py::module_&);
     void analytich1hwengine(py::module_&);
     void hestonexpansionengine(py::module_&);
-    // American, digital, dividend engines
     void juquadraticengine(py::module_&);
     void qdplusamericanengine(py::module_&);
     void analyticdigitalamericanengine(py::module_&);
     void mcdigitalengine(py::module_&);
     void analyticdividendeuropeanengine(py::module_&);
     void analyticbsmhullwhiteengine(py::module_&);
-    // Cap/floor engines
     void analyticcapfloorengine(py::module_&);
     void treecapfloorengine(py::module_&);
     void gaussian1dcapfloorengine(py::module_&);
-    // Gaussian1D swaption engines
     void gaussian1dswaptionengine(py::module_&);
     void gaussian1djamshidianswaptionengine(py::module_&);
     void gaussian1dnonstandardswaptionengine(py::module_&);
     void gaussian1dfloatfloatswaptionengine(py::module_&);
-    // Exotic option engines
     void analyticholderextensibleoptionengine(py::module_&);
     void analyticwriterextensibleoptionengine(py::module_&);
     void analytictwoassetcorrelationengine(py::module_&);
     void analyticgjrgarchengine(py::module_&);
-    // MC engines
     void mcforwardeuropeanbsengine(py::module_&);
     void mcforwardeuropeanhestonengine(py::module_&);
     void mceuropeanhestonengine(py::module_&);
@@ -502,6 +476,8 @@ namespace ql_pricingengines {
 
 namespace ql_methods {
     void fdmbackwardsolver(py::module_&);
+    void fdmhestongreensfct(py::module_&);
+    void fdmsquarerootfwdop(py::module_&);
     void lsmbasissystem(py::module_&);
     void sample(py::module_&);
     void path(py::module_&);
@@ -513,18 +489,14 @@ namespace ql_methods {
 
 namespace ql_experimental {
     void svismilesection(py::module_&);
-    // Credit
     void cdsoption(py::module_&);
     void blackcdsoptionengine(py::module_&);
-    // Callable bonds
     void callablebond(py::module_&);
     void callablebondvolstructure(py::module_&);
     void callablebondconstantvol(py::module_&);
     void treecallablebondengine(py::module_&);
     void blackcallablebondengine(py::module_&);
-    // Two-asset correlation option
     void twoassetcorrelationoption(py::module_&);
-    // Variance Gamma
     void variancegammaprocess(py::module_&);
     void variancegammamodel(py::module_&);
     void analyticvariancegammaengine(py::module_&);

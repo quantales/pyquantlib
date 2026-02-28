@@ -908,3 +908,75 @@ def test_hullwhiteforwardprocess_is_forwardmeasureprocess1d():
     process = ql.HullWhiteForwardProcess(curve, 0.1, 0.01)
     assert isinstance(process, ForwardMeasureProcess1D)
     assert isinstance(process, StochasticProcess1D)
+
+
+# =============================================================================
+# HestonSLVProcess
+# =============================================================================
+
+
+@pytest.fixture()
+def slv_process_env():
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    risk_free = ql.FlatForward(today, 0.05, dc)
+    dividend = ql.FlatForward(today, 0.02, dc)
+    spot = ql.SimpleQuote(100.0)
+    heston = ql.HestonProcess(
+        risk_free, dividend, spot,
+        v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+    )
+    leverage = ql.LocalConstantVol(today, 1.0, dc)
+    return {"heston": heston, "leverage": leverage}
+
+
+def test_hestonslvprocess_construction(slv_process_env):
+    """HestonSLVProcess can be constructed."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"])
+    assert process is not None
+
+
+def test_hestonslvprocess_size_and_factors(slv_process_env):
+    """HestonSLVProcess has size=2 and factors=2."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"])
+    assert process.size() == 2
+    assert process.factors() == 2
+
+
+def test_hestonslvprocess_parameters(slv_process_env):
+    """HestonSLVProcess parameters match Heston inputs."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"], 0.8)
+    assert process.v0() == pytest.approx(0.04)
+    assert process.kappa() == pytest.approx(1.0)
+    assert process.theta() == pytest.approx(0.04)
+    assert process.sigma() == pytest.approx(0.5)
+    assert process.rho() == pytest.approx(-0.7)
+    assert process.mixingFactor() == pytest.approx(0.8)
+
+
+def test_hestonslvprocess_leverage_function(slv_process_env):
+    """HestonSLVProcess returns leverage function."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"])
+    lev = process.leverageFct()
+    assert lev is not None
+
+
+def test_hestonslvprocess_handles(slv_process_env):
+    """HestonSLVProcess returns s0, dividendYield, riskFreeRate handles."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"])
+    assert process.s0().currentLink().value() == pytest.approx(100.0)
+    assert not process.dividendYield().empty()
+    assert not process.riskFreeRate().empty()
+
+
+def test_hestonslvprocess_inherits_stochasticprocess(slv_process_env):
+    """HestonSLVProcess inherits from StochasticProcess."""
+    env = slv_process_env
+    process = ql.HestonSLVProcess(env["heston"], env["leverage"])
+    assert isinstance(process, StochasticProcess)

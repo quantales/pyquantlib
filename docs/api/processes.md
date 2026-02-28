@@ -130,6 +130,26 @@ process.setForwardMeasureTime(5.0)
 .. autoclass:: pyquantlib.StochasticProcessArray
 ```
 
+## Stochastic Local Volatility
+
+### HestonSLVProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonSLVProcess
+```
+
+Heston stochastic local volatility process combining a Heston process with a leverage function (local vol surface).
+
+```python
+heston_process = ql.HestonProcess(
+    risk_free, dividend, spot,
+    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+)
+leverage_fct = ql.LocalConstantVol(today, 0.20, dc)
+
+slv_process = ql.HestonSLVProcess(heston_process, leverage_fct, mixingFactor=1.0)
+```
+
 ```{note}
 Abstract base classes `StochasticProcess`, `StochasticProcess1D`, `ForwardMeasureProcess`, and `ForwardMeasureProcess1D` are available in `pyquantlib.base` for custom process implementations.
 ```

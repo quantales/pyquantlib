@@ -212,6 +212,36 @@ Scrambled Sobol Brownian generator (Burley 2020 hash-based Owen scrambling).
 .. autoclass:: pyquantlib.Burley2020SobolBrownianGeneratorFactory
 ```
 
+## FDM Enums
+
+### FdmSchemeDesc
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSchemeDesc
+```
+
+Finite difference scheme descriptors used by FD engines and the Heston SLV FDM calibration.
+
+### FdmHestonGreensFctAlgorithm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonGreensFctAlgorithm
+   :members:
+   :undoc-members:
+```
+
+Algorithm for computing Heston Fokker-Planck Green's functions: `ZeroCorrelation`, `Gaussian`, `SemiAnalytical`.
+
+### FdmSquareRootFwdOpTransformationType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSquareRootFwdOpTransformationType
+   :members:
+   :undoc-members:
+```
+
+Coordinate transformation for the square-root forward operator: `Plain`, `Power`, `Log`.
+
 ```{note}
 Abstract base classes `BrownianGenerator` and `BrownianGeneratorFactory` are available in `pyquantlib.base` for type checking.
 ```

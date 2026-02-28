@@ -15,9 +15,13 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(methods_bindings) {
-    // finitedifferences/solvers
+    // finitedifferences
     ADD_MAIN_BINDING(ql_methods::fdmbackwardsolver,
         "FdmSchemeDesc and FdmSchemeType from fdmbackwardsolver.hpp");
+    ADD_MAIN_BINDING(ql_methods::fdmhestongreensfct,
+        "FdmHestonGreensFctAlgorithm - Heston Green's function algorithm enum");
+    ADD_MAIN_BINDING(ql_methods::fdmsquarerootfwdop,
+        "FdmSquareRootFwdOpTransformationType - square-root FD transformation enum");
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");

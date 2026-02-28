@@ -369,6 +369,69 @@ mf = ql.MarkovFunctional(
 )
 ```
 
+## Stochastic Local Volatility
+
+### HestonSLVFDMModel
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonSLVFDMModel
+```
+
+Heston SLV model calibrated via Fokker-Planck FDM. Produces a leverage function that can be passed to `FdHestonVanillaEngine`.
+
+```python
+local_vol = ql.LocalConstantVol(today, 0.20, dc)
+heston_model = ql.HestonModel(heston_process)
+
+params = ql.HestonSLVFokkerPlanckFdmParams(xGrid=51, vGrid=51)
+slv = ql.HestonSLVFDMModel(local_vol, heston_model, end_date, params)
+
+leverage = slv.leverageFunction()
+engine = ql.FdHestonVanillaEngine(heston_model, leverageFct=leverage)
+```
+
+### HestonSLVMCModel
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonSLVMCModel
+```
+
+Heston SLV model calibrated via Monte Carlo simulation.
+
+```python
+bgf = ql.MTBrownianGeneratorFactory(seed=42)
+slv = ql.HestonSLVMCModel(
+    local_vol, heston_model, bgf, end_date,
+    timeStepsPerYear=365, nBins=201, calibrationPaths=4096,
+)
+
+leverage = slv.leverageFunction()
+```
+
+### HestonSLVFokkerPlanckFdmParams
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonSLVFokkerPlanckFdmParams
+```
+
+Parameter struct for `HestonSLVFDMModel` calibration. All fields have sensible defaults.
+
+### FdmHestonGreensFctAlgorithm
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonGreensFctAlgorithm
+   :members:
+   :undoc-members:
+```
+
+### FdmSquareRootFwdOpTransformationType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSquareRootFwdOpTransformationType
+   :members:
+   :undoc-members:
+```
+
 ```{note}
 Abstract base classes are available in `pyquantlib.base` for custom model implementations:
 `CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `Gaussian1dModel`, `CalibrationHelper`, `BlackCalibrationHelper`.

@@ -33,4 +33,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "ForwardMeasureProcess - forward-measure stochastic process ABCs");
     ADD_MAIN_BINDING(ql_processes::hullwhiteprocess,
         "HullWhiteProcess - Hull-White short-rate processes");
+    ADD_MAIN_BINDING(ql_processes::hestonslvprocess,
+        "HestonSLVProcess - Heston stochastic local volatility process");
 }
