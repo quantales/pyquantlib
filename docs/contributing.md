@@ -119,17 +119,17 @@ Example includes:
 
 ```cpp
 // src/quotes/simplequote.cpp
+#include "pyquantlib/pyquantlib.h"
 #include <ql/quotes/simplequote.hpp>
 #include <pybind11/pybind11.h>
-#include "pyquantlib/binding_manager.h"
 
 namespace py = pybind11;
 using namespace QuantLib;
 
-void bind_simplequote(BindingManager& manager) {
-    py::class_<SimpleQuote, Quote, ext::shared_ptr<SimpleQuote>>(
-        manager.getModule(), "SimpleQuote", "Simple quote with settable value.")
-        .def(py::init<Real>(), py::arg("value") = 0.0)
+void ql_quotes::simplequote(py::module_& m) {
+    py::class_<SimpleQuote, Quote, ext::shared_ptr<SimpleQuote>>(m, "SimpleQuote",
+        "Simple quote for market data.")
+        .def(py::init<Real>(), py::arg("value"))
         .def("setValue", &SimpleQuote::setValue, py::arg("value"))
         .def("reset", &SimpleQuote::reset);
 }
