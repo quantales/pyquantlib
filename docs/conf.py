@@ -65,6 +65,9 @@ master_doc = "index"
 # Patterns to exclude
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# Keep only section headings in the right-hand page TOC
+toc_object_entries = False
+
 # Pygments style for code highlighting
 pygments_style = "tango"
 pygments_dark_style = "material"
