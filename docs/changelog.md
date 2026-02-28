@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Time
+- `Period.__radd__` and `Period.__rsub__` enabling `datetime.date + ql.Period` and `datetime.date - ql.Period` arithmetic (returns `ql.Date`)
+
 #### Math
 - `Statistics` (= `RiskStatistics`) with empirical-distribution risk measures, Gaussian-assumption analytics, and percentile/VaR/ES methods
 - `IncrementalStatistics` for online (streaming) statistics via boost accumulators

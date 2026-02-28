@@ -613,6 +613,44 @@ def test_period_arithmetic():
         _ = ql.Period(1, ql.Years) / 0
 
 
+def test_period_radd_datetime():
+    """Test datetime.date + ql.Period returns ql.Date."""
+    import datetime
+
+    dt = datetime.date(2025, 1, 15)
+    result = dt + ql.Period(3, ql.Months)
+    expected = ql.Date(15, ql.April, 2025)
+    assert result == expected
+
+    result2 = dt + ql.Period("1Y")
+    expected2 = ql.Date(15, ql.January, 2026)
+    assert result2 == expected2
+
+
+def test_period_rsub_datetime():
+    """Test datetime.date - ql.Period returns ql.Date."""
+    import datetime
+
+    dt = datetime.date(2025, 6, 15)
+    result = dt - ql.Period(3, ql.Months)
+    expected = ql.Date(15, ql.March, 2025)
+    assert result == expected
+
+    result2 = dt - ql.Period("1Y")
+    expected2 = ql.Date(15, ql.June, 2024)
+    assert result2 == expected2
+
+
+def test_period_radd_datetime_datetime():
+    """Test datetime.datetime + ql.Period also works."""
+    import datetime
+
+    dt = datetime.datetime(2025, 3, 20, 10, 30, 0)
+    result = dt + ql.Period(6, ql.Months)
+    expected = ql.Date(20, ql.September, 2025)
+    assert result == expected
+
+
 def test_period_str_repr():
     """Test Period string representations."""
     p_5w = ql.Period(5, ql.Weeks)

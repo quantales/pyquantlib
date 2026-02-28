@@ -12,6 +12,7 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
+#include <ql/time/date.hpp>
 #include <ql/time/period.hpp>
 #include <ql/utilities/dataparsers.hpp>
 #include <boost/functional/hash.hpp>
@@ -66,6 +67,16 @@ void ql_time::period(py::module_& m) {
         .def("__mul__", [](const Period& a, Integer n) { return a * n; }, py::is_operator())
         .def("__rmul__", [](const Period& a, Integer n) { return n * a; }, py::is_operator())
         .def("__truediv__", [](const Period& a, Integer n) { return a / n; }, py::is_operator())
+
+        // Reverse operators: allow datetime.date + ql.Period and datetime.date - ql.Period
+        .def("__radd__", [](const Period& p, const py::object& obj) {
+            Date d = obj.cast<Date>();
+            return d + p;
+        }, py::is_operator())
+        .def("__rsub__", [](const Period& p, const py::object& obj) {
+            Date d = obj.cast<Date>();
+            return d - p;
+        }, py::is_operator())
 
         // __str__ and __repr__
         .def("__str__", [](const Period& p) {
