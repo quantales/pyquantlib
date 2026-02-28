@@ -110,3 +110,63 @@ def test_bacheliercapfloorengine_quote_vol(capfloor_setup):
     cap = ql.Cap(capfloor_setup["leg"], [0.05])
     cap.setPricingEngine(engine)
     assert cap.NPV() == pytest.approx(1606.1185633197292, rel=1e-6)
+
+
+# =============================================================================
+# AnalyticCapFloorEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def hw_capfloor_env():
+    """Setup for Hull-White cap/floor engine tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    hw = ql.HullWhite(ts_handle, 0.1, 0.01)
+    index = ql.Euribor6M(ts_handle)
+    cap = ql.MakeCapFloor(ql.CapFloorType.Cap, ql.Period("5Y"), index, strike=0.05)
+    return {"rf": rf, "ts_handle": ts_handle, "hw": hw, "cap": cap}
+
+
+def test_analyticcapfloorengine(hw_capfloor_env):
+    """Test analytic cap/floor engine with Hull-White model."""
+    env = hw_capfloor_env
+    engine = ql.AnalyticCapFloorEngine(env["hw"], env["ts_handle"])
+    cap = env["cap"]
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(0.0201463090, rel=1e-4)
+
+
+def test_analyticcapfloorengine_hidden_handle(hw_capfloor_env):
+    """Test analytic cap/floor engine with hidden handle constructor."""
+    env = hw_capfloor_env
+    engine = ql.AnalyticCapFloorEngine(env["hw"], env["rf"])
+    cap = env["cap"]
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(0.0201463090, rel=1e-4)
+
+
+# =============================================================================
+# TreeCapFloorEngine
+# =============================================================================
+
+
+def test_treecapfloorengine(hw_capfloor_env):
+    """Test tree cap/floor engine with Hull-White model."""
+    env = hw_capfloor_env
+    engine = ql.TreeCapFloorEngine(env["hw"], 100, env["ts_handle"])
+    cap = env["cap"]
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(0.0200793549, rel=1e-3)
+
+
+def test_treecapfloorengine_hidden_handle(hw_capfloor_env):
+    """Test tree cap/floor engine with hidden handle constructor."""
+    env = hw_capfloor_env
+    engine = ql.TreeCapFloorEngine(env["hw"], 100, env["rf"])
+    cap = env["cap"]
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(0.0200793549, rel=1e-3)

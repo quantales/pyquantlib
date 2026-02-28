@@ -187,6 +187,22 @@ print(g2.a(), g2.sigma(), g2.b(), g2.eta(), g2.rho())
 price = g2.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
 ```
 
+### CoxIngersollRoss
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CoxIngersollRoss
+```
+
+Cox-Ingersoll-Ross short-rate model. Parameters accessible via `params()` (theta, k, sigma, r0).
+
+### ExtendedCoxIngersollRoss
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExtendedCoxIngersollRoss
+```
+
+Extended CIR model fitted to the initial term structure.
+
 ### ShortRateModelHandle
 
 ```{eval-rst}

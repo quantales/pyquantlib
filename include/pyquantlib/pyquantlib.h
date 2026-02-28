@@ -295,6 +295,8 @@ namespace ql_models {
     void swaptionhelper(py::module_&);
     void caphelper(py::module_&);
     void hestonmodelhelper(py::module_&);
+    void coxingersollross(py::module_&);
+    void extendedcoxingersollross(py::module_&);
 }
 
 namespace ql_instruments {
@@ -443,6 +445,16 @@ namespace ql_pricingengines {
     void analytichestonhullwhiteengine(py::module_&);
     void analytich1hwengine(py::module_&);
     void hestonexpansionengine(py::module_&);
+    // American, digital, dividend engines
+    void juquadraticengine(py::module_&);
+    void qdplusamericanengine(py::module_&);
+    void analyticdigitalamericanengine(py::module_&);
+    void mcdigitalengine(py::module_&);
+    void analyticdividendeuropeanengine(py::module_&);
+    void analyticbsmhullwhiteengine(py::module_&);
+    // Cap/floor engines
+    void analyticcapfloorengine(py::module_&);
+    void treecapfloorengine(py::module_&);
 }
 
 namespace ql_methods {

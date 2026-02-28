@@ -571,3 +571,65 @@ def test_caphelper_construction_hidden_handle(cap_helper_env):
     )
     assert helper is not None
     assert isinstance(helper, ql.base.BlackCalibrationHelper)
+
+
+# =============================================================================
+# CoxIngersollRoss
+# =============================================================================
+
+
+def test_cir_construction():
+    """Test CoxIngersollRoss model construction."""
+    cir = ql.CoxIngersollRoss(0.05, 0.1, 0.3, 0.1, True)
+    assert cir is not None
+    params = cir.params()
+    assert params[0] == pytest.approx(0.1, rel=1e-10)  # theta
+    assert params[1] == pytest.approx(0.3, rel=1e-10)  # k
+    assert params[2] == pytest.approx(0.1, rel=1e-10)  # sigma
+    assert params[3] == pytest.approx(0.05, rel=1e-10)  # r0
+
+
+def test_cir_discount_bond_option():
+    """Test CIR discount bond option pricing."""
+    cir = ql.CoxIngersollRoss(0.05, 0.1, 0.3, 0.1, True)
+    price = cir.discountBondOption(ql.OptionType.Call, 0.95, 1.0, 2.0)
+    assert price == pytest.approx(0.0011559245, rel=1e-4)
+
+
+def test_cir_default_params():
+    """Test CIR with default parameters."""
+    cir = ql.CoxIngersollRoss()
+    params = cir.params()
+    assert params[0] == pytest.approx(0.1, rel=1e-10)  # theta
+    assert params[1] == pytest.approx(0.1, rel=1e-10)  # k
+    assert params[2] == pytest.approx(0.1, rel=1e-10)  # sigma
+    assert params[3] == pytest.approx(0.05, rel=1e-10)  # r0
+
+
+# =============================================================================
+# ExtendedCoxIngersollRoss
+# =============================================================================
+
+
+def test_extcir_construction(flat_curve):
+    """Test ExtendedCoxIngersollRoss model construction."""
+    ecir = ql.ExtendedCoxIngersollRoss(
+        ql.YieldTermStructureHandle(flat_curve), 0.1, 0.3, 0.1, 0.05, True
+    )
+    assert ecir is not None
+
+
+def test_extcir_discount_bond_option(flat_curve):
+    """Test extended CIR discount bond option pricing."""
+    ecir = ql.ExtendedCoxIngersollRoss(
+        ql.YieldTermStructureHandle(flat_curve), 0.1, 0.3, 0.1, 0.05, True
+    )
+    price = ecir.discountBondOption(ql.OptionType.Call, 0.95, 1.0, 2.0)
+    assert price == pytest.approx(0.0070466566, rel=1e-4)
+
+
+def test_extcir_hidden_handle(flat_curve):
+    """Test ExtendedCoxIngersollRoss with hidden handle constructor."""
+    ecir = ql.ExtendedCoxIngersollRoss(flat_curve, 0.1, 0.3, 0.1, 0.05, True)
+    price = ecir.discountBondOption(ql.OptionType.Call, 0.95, 1.0, 2.0)
+    assert price == pytest.approx(0.0070466566, rel=1e-4)

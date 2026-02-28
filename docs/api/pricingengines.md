@@ -308,6 +308,54 @@ engine = ql.QdFpAmericanEngine(process)
 `QdFpAmericanEngine.calculate()` may crash on Windows. Use alternative American engines if needed.
 ```
 
+### JuQuadraticApproximationEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.JuQuadraticApproximationEngine
+```
+
+### QdPlusAmericanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QdPlusAmericanEngine
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QdPlusAmericanEngineSolverType
+   :members:
+   :undoc-members:
+```
+
+### AnalyticDigitalAmericanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDigitalAmericanEngine
+```
+
+### AnalyticDigitalAmericanKOEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDigitalAmericanKOEngine
+```
+
+### MCDigitalEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDigitalEngine
+```
+
+### AnalyticDividendEuropeanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDividendEuropeanEngine
+```
+
+### AnalyticBSMHullWhiteEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticBSMHullWhiteEngine
+```
+
 ## Basket Engines
 
 ### MCEuropeanBasketEngine
@@ -666,6 +714,22 @@ engine = ql.BachelierCapFloorEngine(curve, 0.005)
 cap.setPricingEngine(engine)
 print(cap.NPV())
 ```
+
+### AnalyticCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticCapFloorEngine
+```
+
+Analytic cap/floor engine for affine short-rate models (Hull-White, CIR, G2++).
+
+### TreeCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeCapFloorEngine
+```
+
+Lattice-based cap/floor engine for short-rate models.
 
 ## YoY Inflation Cap/Floor Engines
 

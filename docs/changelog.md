@@ -33,8 +33,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `AnalyticHestonHullWhiteEngine` for Heston + Hull-White stochastic rates
 - `AnalyticH1HWEngine` for H1-HW approximation with equity-rate correlation
 - `HestonExpansionEngine` with LPP2, LPP3, and Forde expansion formulas
+- `JuQuadraticApproximationEngine` for Ju quadratic approximation of American options
+- `QdPlusAmericanEngine` with configurable solver types (Brent, Newton, Ridder, Halley, SuperHalley)
+- `AnalyticDigitalAmericanEngine` for analytic digital American option pricing (knock-in)
+- `AnalyticDigitalAmericanKOEngine` for analytic digital American option pricing (knock-out)
+- `MCDigitalEngine` factory function for Monte Carlo digital option pricing (pseudo-random and low-discrepancy)
+- `AnalyticDividendEuropeanEngine` for European options with discrete dividends
+- `AnalyticBSMHullWhiteEngine` for BSM + Hull-White stochastic interest rates
+- `AnalyticCapFloorEngine` for analytic cap/floor pricing with affine short-rate models
+- `TreeCapFloorEngine` for lattice-based cap/floor pricing with short-rate models
 
 #### Models
+- `CoxIngersollRoss` (CIR) short-rate model with Feller constraint support
+- `ExtendedCoxIngersollRoss` extended CIR model fitted to the initial term structure
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)
 - `HestonModelHelper` calibration helper for the Heston model (Real and Handle spot variants)
 

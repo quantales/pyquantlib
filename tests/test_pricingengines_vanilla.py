@@ -1315,3 +1315,166 @@ def test_hestonexpansion_lpp3(fd_heston_env):
     option.setPricingEngine(
         ql.HestonExpansionEngine(env["model"], ql.HestonExpansionFormula.LPP3))
     assert option.NPV() == pytest.approx(9.023003, rel=1e-3)
+
+
+# =============================================================================
+# JuQuadraticApproximationEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def bsm_american_env():
+    """Common BSM setup for American option engines."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    spot = ql.SimpleQuote(100.0)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    dy = ql.FlatForward(datetime.date(2024, 1, 15), 0.02, ql.Actual365Fixed())
+    vol = ql.BlackConstantVol(
+        datetime.date(2024, 1, 15), ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(dy),
+        ql.YieldTermStructureHandle(rf),
+        ql.BlackVolTermStructureHandle(vol),
+    )
+    exercise = ql.AmericanExercise(
+        datetime.date(2024, 1, 15), datetime.date(2025, 1, 15)
+    )
+    put_payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, 100.0)
+    call_payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    euro_exercise = ql.EuropeanExercise(datetime.date(2025, 1, 15))
+    return {
+        "process": process,
+        "exercise": exercise,
+        "put_payoff": put_payoff,
+        "call_payoff": call_payoff,
+        "euro_exercise": euro_exercise,
+        "rf": rf,
+    }
+
+
+def test_juquadratic_put(bsm_american_env):
+    """Test Ju quadratic approximation for American put."""
+    env = bsm_american_env
+    option = ql.VanillaOption(env["put_payoff"], env["exercise"])
+    option.setPricingEngine(ql.JuQuadraticApproximationEngine(env["process"]))
+    assert option.NPV() == pytest.approx(6.6449563746, rel=1e-4)
+
+
+# =============================================================================
+# QdPlusAmericanEngine
+# =============================================================================
+
+
+def test_qdplus_put_default(bsm_american_env):
+    """Test QD+ American engine with default Halley solver."""
+    env = bsm_american_env
+    option = ql.VanillaOption(env["put_payoff"], env["exercise"])
+    option.setPricingEngine(ql.QdPlusAmericanEngine(env["process"]))
+    assert option.NPV() == pytest.approx(6.6755387218, rel=1e-4)
+
+
+def test_qdplus_solver_types(bsm_american_env):
+    """Test QD+ American engine with different solver types."""
+    env = bsm_american_env
+    option = ql.VanillaOption(env["put_payoff"], env["exercise"])
+    for solver in [
+        ql.QdPlusAmericanEngineSolverType.Brent,
+        ql.QdPlusAmericanEngineSolverType.Newton,
+        ql.QdPlusAmericanEngineSolverType.Ridder,
+    ]:
+        option.setPricingEngine(
+            ql.QdPlusAmericanEngine(env["process"], solverType=solver)
+        )
+        assert option.NPV() == pytest.approx(6.6755387218, rel=1e-3)
+
+
+# =============================================================================
+# AnalyticDigitalAmericanEngine
+# =============================================================================
+
+
+def test_digital_american_ki(bsm_american_env):
+    """Test analytic digital American engine (knock-in)."""
+    env = bsm_american_env
+    payoff = ql.CashOrNothingPayoff(ql.OptionType.Call, 110.0, 10.0)
+    option = ql.VanillaOption(payoff, env["exercise"])
+    option.setPricingEngine(ql.AnalyticDigitalAmericanEngine(env["process"]))
+    assert option.NPV() == pytest.approx(6.3928324784, rel=1e-4)
+
+
+def test_digital_american_ko(bsm_american_env):
+    """Test analytic digital American engine (knock-out)."""
+    env = bsm_american_env
+    payoff = ql.CashOrNothingPayoff(ql.OptionType.Call, 110.0, 10.0)
+    option = ql.VanillaOption(payoff, env["exercise"])
+    option.setPricingEngine(ql.AnalyticDigitalAmericanKOEngine(env["process"]))
+    assert option.NPV() == pytest.approx(6.3928324784, rel=1e-4)
+
+
+# =============================================================================
+# MCDigitalEngine
+# =============================================================================
+
+
+def test_mcdigital_pseudorandom(bsm_american_env):
+    """Test MC digital engine with pseudo-random RNG."""
+    env = bsm_american_env
+    payoff = ql.CashOrNothingPayoff(ql.OptionType.Call, 110.0, 10.0)
+    option = ql.VanillaOption(payoff, env["exercise"])
+    engine = ql.MCDigitalEngine(
+        env["process"], rngType="pseudorandom",
+        timeSteps=100, requiredSamples=50000, seed=42,
+    )
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(6.3728859335, rel=1e-4)
+
+
+def test_mcdigital_lowdiscrepancy(bsm_american_env):
+    """Test MC digital engine with low-discrepancy RNG."""
+    env = bsm_american_env
+    payoff = ql.CashOrNothingPayoff(ql.OptionType.Call, 110.0, 10.0)
+    option = ql.VanillaOption(payoff, env["exercise"])
+    engine = ql.MCDigitalEngine(
+        env["process"], rngType="lowdiscrepancy",
+        timeSteps=100, requiredSamples=50000, seed=42,
+    )
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(6.3894913325, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticDividendEuropeanEngine
+# =============================================================================
+
+
+def test_dividend_european(bsm_american_env):
+    """Test European engine with discrete dividends."""
+    import datetime
+
+    env = bsm_american_env
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(datetime.date(2025, 1, 15))
+    dividends = [ql.FixedDividend(2.0, datetime.date(2024, 7, 15))]
+    engine = ql.AnalyticDividendEuropeanEngine(env["process"], dividends)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(8.1217220283, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticBSMHullWhiteEngine
+# =============================================================================
+
+
+def test_bsm_hullwhite(bsm_american_env):
+    """Test BSM + Hull-White stochastic rates engine."""
+    env = bsm_american_env
+    hw = ql.HullWhite(ql.YieldTermStructureHandle(env["rf"]), 0.1, 0.01)
+    engine = ql.AnalyticBSMHullWhiteEngine(0.3, env["process"], hw)
+    option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(9.2988899168, rel=1e-4)

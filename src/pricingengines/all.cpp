@@ -174,4 +174,24 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticH1HWEngine - H1-HW approximation with equity-rate correlation");
     ADD_MAIN_BINDING(ql_pricingengines::hestonexpansionengine,
         "HestonExpansionEngine - analytic expansion Heston pricing");
+
+    // American, digital, dividend engines
+    ADD_MAIN_BINDING(ql_pricingengines::juquadraticengine,
+        "JuQuadraticApproximationEngine - Ju quadratic American approximation");
+    ADD_MAIN_BINDING(ql_pricingengines::qdplusamericanengine,
+        "QdPlusAmericanEngine - QD+ American option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticdigitalamericanengine,
+        "AnalyticDigitalAmericanEngine - analytic digital American pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdigitalengine,
+        "MCDigitalEngine - Monte Carlo digital option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticdividendeuropeanengine,
+        "AnalyticDividendEuropeanEngine - European with discrete dividends");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticbsmhullwhiteengine,
+        "AnalyticBSMHullWhiteEngine - BSM + Hull-White stochastic rates");
+
+    // Cap/floor engines
+    ADD_MAIN_BINDING(ql_pricingengines::analyticcapfloorengine,
+        "AnalyticCapFloorEngine - analytic cap/floor for affine models");
+    ADD_MAIN_BINDING(ql_pricingengines::treecapfloorengine,
+        "TreeCapFloorEngine - lattice cap/floor engine");
 }
