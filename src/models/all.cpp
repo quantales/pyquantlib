@@ -51,4 +51,10 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "CoxIngersollRoss - CIR short-rate model");
     ADD_MAIN_BINDING(ql_models::extendedcoxingersollross,
         "ExtendedCoxIngersollRoss - extended CIR fitted to term structure");
+    ADD_MAIN_BINDING(ql_models::gaussian1dmodel,
+        "Gaussian1dModel - abstract Gaussian 1-D short-rate model");
+    ADD_MAIN_BINDING(ql_models::gsr,
+        "Gsr - Gaussian short-rate model in forward measure");
+    ADD_MAIN_BINDING(ql_models::markovfunctional,
+        "MarkovFunctional - Markov Functional 1-factor model");
 }

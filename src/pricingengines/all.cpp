@@ -194,4 +194,16 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "AnalyticCapFloorEngine - analytic cap/floor for affine models");
     ADD_MAIN_BINDING(ql_pricingengines::treecapfloorengine,
         "TreeCapFloorEngine - lattice cap/floor engine");
+    ADD_MAIN_BINDING(ql_pricingengines::gaussian1dcapfloorengine,
+        "Gaussian1dCapFloorEngine - Gaussian 1-D cap/floor engine");
+
+    // Gaussian1D swaption engines
+    ADD_MAIN_BINDING(ql_pricingengines::gaussian1dswaptionengine,
+        "Gaussian1dSwaptionEngine - Gaussian 1-D swaption engine");
+    ADD_MAIN_BINDING(ql_pricingengines::gaussian1djamshidianswaptionengine,
+        "Gaussian1dJamshidianSwaptionEngine - Gaussian 1-D Jamshidian swaption engine");
+    ADD_MAIN_BINDING(ql_pricingengines::gaussian1dnonstandardswaptionengine,
+        "Gaussian1dNonstandardSwaptionEngine - Gaussian 1-D nonstandard swaption engine");
+    ADD_MAIN_BINDING(ql_pricingengines::gaussian1dfloatfloatswaptionengine,
+        "Gaussian1dFloatFloatSwaptionEngine - Gaussian 1-D float-float swaption engine");
 }

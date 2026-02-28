@@ -327,7 +327,49 @@ helper = ql.HestonModelHelper(
 .. autoclass:: pyquantlib.ConstantParameter
 ```
 
+## Gaussian 1-D Framework
+
+### Gsr
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gsr
+```
+
+Gaussian short-rate (GSR) model in forward measure. Supports constant or piecewise mean reversion and volatility, with both static and floating (Handle-based) data.
+
+```python
+# Constant mean reversion
+gsr = ql.Gsr(term_structure_handle, [], [0.01], 0.1)
+
+# Piecewise
+gsr = ql.Gsr(term_structure, [step_date], [0.01, 0.02], [0.1, 0.15])
+```
+
+### MarkovFunctional
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MarkovFunctional
+```
+
+Markov Functional 1-factor model calibrated to swaption or caplet smiles.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MarkovFunctionalModelSettings
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MarkovFunctionalModelOutputs
+```
+
+```python
+# Swaption-calibrated MarkovFunctional
+mf = ql.MarkovFunctional(
+    term_structure, 0.01, [], [0.01],
+    swaption_vol_handle, expiries, tenors, swap_index,
+)
+```
+
 ```{note}
 Abstract base classes are available in `pyquantlib.base` for custom model implementations:
-`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `CalibrationHelper`, `BlackCalibrationHelper`.
+`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `Gaussian1dModel`, `CalibrationHelper`, `BlackCalibrationHelper`.
 ```

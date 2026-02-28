@@ -482,6 +482,50 @@ engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
 swaption.setPricingEngine(engine)
 ```
 
+### Gaussian1dSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gaussian1dSwaptionEngine
+```
+
+Gaussian 1-D model swaption engine with numerical integration. Supports European and Bermudan exercise.
+
+```python
+model = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
+engine = ql.Gaussian1dSwaptionEngine(model, integrationPoints=64)
+swaption.setPricingEngine(engine)
+print(swaption.NPV())
+```
+
+### Gaussian1dJamshidianSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gaussian1dJamshidianSwaptionEngine
+```
+
+Jamshidian decomposition swaption engine for Gaussian 1-D models. European exercise only.
+
+```python
+engine = ql.Gaussian1dJamshidianSwaptionEngine(model)
+swaption.setPricingEngine(engine)
+```
+
+### Gaussian1dNonstandardSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gaussian1dNonstandardSwaptionEngine
+```
+
+Gaussian 1-D model engine for nonstandard swaptions (period-varying notionals and strikes).
+
+### Gaussian1dFloatFloatSwaptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gaussian1dFloatFloatSwaptionEngine
+```
+
+Gaussian 1-D model engine for float-float swaptions.
+
 ## Barrier Engines
 
 ### AnalyticBarrierEngine
@@ -730,6 +774,21 @@ Analytic cap/floor engine for affine short-rate models (Hull-White, CIR, G2++).
 ```
 
 Lattice-based cap/floor engine for short-rate models.
+
+### Gaussian1dCapFloorEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Gaussian1dCapFloorEngine
+```
+
+Gaussian 1-D model cap/floor engine with numerical integration.
+
+```python
+model = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
+engine = ql.Gaussian1dCapFloorEngine(model, integrationPoints=64)
+cap.setPricingEngine(engine)
+print(cap.NPV())
+```
 
 ## YoY Inflation Cap/Floor Engines
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'Gaussian1dModel', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -612,6 +612,64 @@ class Forward(Instrument):
     def spotValue(self) -> float:
         """
         Returns the spot value of the underlying.
+        """
+class Gaussian1dModel(TermStructureConsistentModel, LazyObject):
+    """
+    Abstract base class for Gaussian 1-D short-rate models.
+    """
+    @staticmethod
+    def gaussianPolynomialIntegral(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, c: typing.SupportsFloat | typing.SupportsIndex, d: typing.SupportsFloat | typing.SupportsIndex, e: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, x1: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Computes Gaussian polynomial integral.
+        """
+    @staticmethod
+    def gaussianShiftedPolynomialIntegral(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, c: typing.SupportsFloat | typing.SupportsIndex, d: typing.SupportsFloat | typing.SupportsIndex, e: typing.SupportsFloat | typing.SupportsIndex, h: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, x1: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Computes shifted Gaussian polynomial integral.
+        """
+    def forwardRate(self, fixing: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, iborIdx: pyquantlib._pyquantlib.IborIndex = None) -> float:
+        """
+        Returns forward rate for fixing date.
+        """
+    @typing.overload
+    def numeraire(self, t: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+        """
+        Returns numeraire at time t for state y.
+        """
+    @typing.overload
+    def numeraire(self, referenceDate: pyquantlib._pyquantlib.Date, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+        """
+        Returns numeraire at date for state y.
+        """
+    def stateProcess(self) -> StochasticProcess1D:
+        """
+        Returns the state process.
+        """
+    def swapAnnuity(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
+        """
+        Returns swap annuity for fixing date and tenor.
+        """
+    def swapRate(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
+        """
+        Returns swap rate for fixing date and tenor.
+        """
+    def yGrid(self, yStdDevs: typing.SupportsFloat | typing.SupportsIndex, gridPoints: typing.SupportsInt | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex = 1.0, t: typing.SupportsFloat | typing.SupportsIndex = 0.0, y: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns state variable grid.
+        """
+    @typing.overload
+    def zerobond(self, T: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex = 0.0, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+        """
+        Returns zero-coupon bond price P(T) at time t for state y.
+        """
+    @typing.overload
+    def zerobond(self, maturity: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+        """
+        Returns zero-coupon bond price at maturity date.
+        """
+    def zerobondOption(self, type: pyquantlib._pyquantlib.OptionType, expiry: pyquantlib._pyquantlib.Date, valueDate: pyquantlib._pyquantlib.Date, maturity: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ..., yStdDevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, yGridPoints: typing.SupportsInt | typing.SupportsIndex = 64, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False) -> float:
+        """
+        Returns zero-coupon bond option price.
         """
 class GenericHestonModelEngine(PricingEngine):
     """
@@ -1431,6 +1489,11 @@ class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
     def __init__(self, exerciseTime: typing.SupportsFloat | typing.SupportsIndex, dc: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with exercise time.
+        """
+    @typing.overload
+    def __init__(self, d: pyquantlib._pyquantlib.Date, dc: pyquantlib._pyquantlib.DayCounter = ..., referenceDate: pyquantlib._pyquantlib.Date = ...) -> None:
+        """
+        Constructs with exercise date.
         """
     def atmLevel(self) -> float:
         """

@@ -297,6 +297,9 @@ namespace ql_models {
     void hestonmodelhelper(py::module_&);
     void coxingersollross(py::module_&);
     void extendedcoxingersollross(py::module_&);
+    void gaussian1dmodel(py::module_&);
+    void gsr(py::module_&);
+    void markovfunctional(py::module_&);
 }
 
 namespace ql_instruments {
@@ -455,6 +458,12 @@ namespace ql_pricingengines {
     // Cap/floor engines
     void analyticcapfloorengine(py::module_&);
     void treecapfloorengine(py::module_&);
+    void gaussian1dcapfloorengine(py::module_&);
+    // Gaussian1D swaption engines
+    void gaussian1dswaptionengine(py::module_&);
+    void gaussian1djamshidianswaptionengine(py::module_&);
+    void gaussian1dnonstandardswaptionengine(py::module_&);
+    void gaussian1dfloatfloatswaptionengine(py::module_&);
 }
 
 namespace ql_methods {

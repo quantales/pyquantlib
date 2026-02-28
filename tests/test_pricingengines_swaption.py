@@ -325,3 +325,203 @@ def test_bachelierswaptionengine_handle_constructor(swaption_env):
     )
     env["swaption"].setPricingEngine(engine)
     assert env["swaption"].NPV() == pytest.approx(11130.8843, rel=1e-4)
+
+
+# =============================================================================
+# Gaussian1dSwaptionEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def g1d_swaption_env():
+    """Environment for Gaussian1D swaption engine tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    gsr = ql.Gsr(ts_handle, [], [0.01], 0.1)
+    index = ql.Euribor6M(ts_handle)
+    swap = ql.MakeVanillaSwap(ql.Period("5Y"), index, 0.05, ql.Period("1Y"))
+    exercise = ql.EuropeanExercise(ql.Date(17, ql.January, 2025))
+    swaption = ql.Swaption(swap, exercise)
+
+    return {
+        "gsr": gsr,
+        "ts_handle": ts_handle,
+        "swap": swap,
+        "swaption": swaption,
+        "index": index,
+    }
+
+
+def test_gaussian1dswaptionengine(g1d_swaption_env):
+    """Test Gaussian1dSwaptionEngine with GSR model."""
+    env = g1d_swaption_env
+    engine = ql.Gaussian1dSwaptionEngine(env["gsr"])
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() == pytest.approx(0.015898946807894027, rel=1e-4)
+
+
+def test_gaussian1dswaptionengine_probabilities_enum():
+    """Test Gaussian1dSwaptionEngine Probabilities enum."""
+    assert int(ql.Gaussian1dSwaptionEngine.None_) == 0
+    assert int(ql.Gaussian1dSwaptionEngine.Naive) == 1
+    assert int(ql.Gaussian1dSwaptionEngine.Digital) == 2
+
+
+def test_gaussian1dswaptionengine_bermudan(g1d_swaption_env):
+    """Test Gaussian1dSwaptionEngine with Bermudan swaption."""
+    env = g1d_swaption_env
+    dates = [ql.Date(17, ql.January, d) for d in range(2025, 2029)]
+    bermudan = ql.BermudanExercise(dates)
+    bermudan_swaption = ql.Swaption(env["swap"], bermudan)
+    engine = ql.Gaussian1dSwaptionEngine(env["gsr"])
+    bermudan_swaption.setPricingEngine(engine)
+    assert bermudan_swaption.NPV() == pytest.approx(0.021788033257121142, rel=1e-4)
+
+
+# =============================================================================
+# Gaussian1dJamshidianSwaptionEngine
+# =============================================================================
+
+
+def test_gaussian1djamshidianswaptionengine(g1d_swaption_env):
+    """Test Gaussian1dJamshidianSwaptionEngine with GSR model."""
+    env = g1d_swaption_env
+    engine = ql.Gaussian1dJamshidianSwaptionEngine(env["gsr"])
+    env["swaption"].setPricingEngine(engine)
+    assert env["swaption"].NPV() == pytest.approx(0.01589467525904184, rel=1e-4)
+
+
+# =============================================================================
+# Gaussian1dNonstandardSwaptionEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def g1d_nonstandard_env():
+    """Environment for Gaussian1D nonstandard swaption engine tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    gsr = ql.Gsr(ts_handle, [], [0.01], 0.1)
+    index = ql.Euribor6M(ts_handle)
+
+    fixedSchedule = ql.Schedule(
+        ql.Date(17, ql.January, 2025),
+        ql.Date(17, ql.January, 2030),
+        ql.Period("1Y"),
+        ql.TARGET(),
+        ql.ModifiedFollowing,
+        ql.ModifiedFollowing,
+        ql.DateGeneration.Forward,
+        False,
+    )
+    floatingSchedule = ql.Schedule(
+        ql.Date(17, ql.January, 2025),
+        ql.Date(17, ql.January, 2030),
+        ql.Period("6M"),
+        ql.TARGET(),
+        ql.ModifiedFollowing,
+        ql.ModifiedFollowing,
+        ql.DateGeneration.Forward,
+        False,
+    )
+    nsSwap = ql.NonstandardSwap(
+        ql.SwapType.Payer,
+        [1.0] * 5,
+        [1.0] * 10,
+        fixedSchedule,
+        [0.05] * 5,
+        ql.Thirty360(ql.Thirty360.BondBasis),
+        floatingSchedule,
+        index,
+        [1.0] * 10,
+        [0.0] * 10,
+        ql.Actual360(),
+        False,
+    )
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2025))
+    nsSwaption = ql.NonstandardSwaption(nsSwap, exercise)
+
+    return {"gsr": gsr, "nsSwaption": nsSwaption}
+
+
+def test_gaussian1dnonstandardswaptionengine(g1d_nonstandard_env):
+    """Test Gaussian1dNonstandardSwaptionEngine with GSR model."""
+    env = g1d_nonstandard_env
+    engine = ql.Gaussian1dNonstandardSwaptionEngine(env["gsr"])
+    env["nsSwaption"].setPricingEngine(engine)
+    assert env["nsSwaption"].NPV() == pytest.approx(0.015859955420623774, rel=1e-4)
+
+
+def test_gaussian1dnonstandardswaptionengine_probabilities_enum():
+    """Test Gaussian1dNonstandardSwaptionEngine Probabilities enum."""
+    assert int(ql.Gaussian1dNonstandardSwaptionEngine.None_) == 0
+    assert int(ql.Gaussian1dNonstandardSwaptionEngine.Naive) == 1
+    assert int(ql.Gaussian1dNonstandardSwaptionEngine.Digital) == 2
+
+
+# =============================================================================
+# Gaussian1dFloatFloatSwaptionEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def g1d_floatfloat_env():
+    """Environment for Gaussian1D float-float swaption engine tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    gsr = ql.Gsr(ts_handle, [], [0.01], 0.1)
+
+    schedule = ql.Schedule(
+        ql.Date(17, ql.January, 2025),
+        ql.Date(17, ql.January, 2030),
+        ql.Period("6M"),
+        ql.TARGET(),
+        ql.ModifiedFollowing,
+        ql.ModifiedFollowing,
+        ql.DateGeneration.Forward,
+        False,
+    )
+    euribor6m = ql.Euribor6M(ts_handle)
+    euribor3m = ql.Euribor3M(ts_handle)
+
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1.0,
+        1.0,
+        schedule,
+        euribor6m,
+        ql.Actual360(),
+        schedule,
+        euribor3m,
+        ql.Actual360(),
+        spread1=0.0,
+        spread2=0.01,
+    )
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2025))
+    ffSwaption = ql.FloatFloatSwaption(ffs, exercise)
+
+    return {"gsr": gsr, "ffSwaption": ffSwaption}
+
+
+def test_gaussian1dfloatfloatswaptionengine(g1d_floatfloat_env):
+    """Test Gaussian1dFloatFloatSwaptionEngine with GSR model."""
+    env = g1d_floatfloat_env
+    engine = ql.Gaussian1dFloatFloatSwaptionEngine(env["gsr"])
+    env["ffSwaption"].setPricingEngine(engine)
+    assert env["ffSwaption"].NPV() == pytest.approx(0.04059638281889203, rel=1e-4)
+
+
+def test_gaussian1dfloatfloatswaptionengine_probabilities_enum():
+    """Test Gaussian1dFloatFloatSwaptionEngine Probabilities enum."""
+    assert int(ql.Gaussian1dFloatFloatSwaptionEngine.None_) == 0
+    assert int(ql.Gaussian1dFloatFloatSwaptionEngine.Naive) == 1
+    assert int(ql.Gaussian1dFloatFloatSwaptionEngine.Digital) == 2

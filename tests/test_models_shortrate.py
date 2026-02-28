@@ -633,3 +633,304 @@ def test_extcir_hidden_handle(flat_curve):
     ecir = ql.ExtendedCoxIngersollRoss(flat_curve, 0.1, 0.3, 0.1, 0.05, True)
     price = ecir.discountBondOption(ql.OptionType.Call, 0.95, 1.0, 2.0)
     assert price == pytest.approx(0.0070466566, rel=1e-4)
+
+
+# =============================================================================
+# Gaussian1dModel ABC
+# =============================================================================
+
+
+def test_gaussian1dmodel_base_exists():
+    """Test Gaussian1dModel base class exists."""
+    assert hasattr(ql.base, "Gaussian1dModel")
+
+
+def test_gaussian1dmodel_handle():
+    """Test Gaussian1dModelHandle construction."""
+    handle = ql.Gaussian1dModelHandle()
+    assert handle.empty()
+
+
+# =============================================================================
+# Gsr
+# =============================================================================
+
+
+@pytest.fixture
+def gsr_env():
+    """Environment for GSR model tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    return {"rf": rf, "ts_handle": ts_handle}
+
+
+def test_gsr_construction(gsr_env):
+    """Test GSR model construction with constant reversion."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    assert gsr is not None
+
+
+def test_gsr_accessors(gsr_env):
+    """Test GSR model parameter accessors."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    assert list(gsr.reversion()) == pytest.approx([0.1])
+    assert list(gsr.volatility()) == pytest.approx([0.01])
+    assert gsr.numeraireTime() == pytest.approx(60.0)
+
+
+def test_gsr_piecewise_reversion(gsr_env):
+    """Test GSR model with piecewise mean reversion."""
+    gsr = ql.Gsr(
+        gsr_env["ts_handle"],
+        [ql.Date(15, ql.January, 2026)],
+        [0.01, 0.02],
+        [0.1, 0.15],
+    )
+    assert list(gsr.reversion()) == pytest.approx([0.1, 0.15])
+    assert list(gsr.volatility()) == pytest.approx([0.01, 0.02])
+
+
+def test_gsr_hidden_handle(gsr_env):
+    """Test GSR with hidden handle constructor."""
+    gsr = ql.Gsr(gsr_env["rf"], [], [0.01], 0.1)
+    assert list(gsr.reversion()) == pytest.approx([0.1])
+    assert list(gsr.volatility()) == pytest.approx([0.01])
+
+
+def test_gsr_fixed_reversions(gsr_env):
+    """Test GSR FixedReversions calibration mask."""
+    gsr = ql.Gsr(
+        gsr_env["ts_handle"],
+        [ql.Date(15, ql.January, 2026)],
+        [0.01, 0.02],
+        [0.1, 0.15],
+    )
+    mask = gsr.FixedReversions()
+    # 2 reversions fixed (True), 2 volatilities free (False)
+    assert mask == [True, True, False, False]
+
+
+def test_gsr_fixed_volatilities(gsr_env):
+    """Test GSR FixedVolatilities calibration mask."""
+    gsr = ql.Gsr(
+        gsr_env["ts_handle"],
+        [ql.Date(15, ql.January, 2026)],
+        [0.01, 0.02],
+        [0.1, 0.15],
+    )
+    mask = gsr.FixedVolatilities()
+    # 2 reversions free (False), 2 volatilities fixed (True)
+    assert mask == [False, False, True, True]
+
+
+def test_gsr_move_volatility(gsr_env):
+    """Test GSR MoveVolatility calibration mask."""
+    gsr = ql.Gsr(
+        gsr_env["ts_handle"],
+        [ql.Date(15, ql.January, 2026)],
+        [0.01, 0.02],
+        [0.1, 0.15],
+    )
+    mask = gsr.MoveVolatility(0)
+    # Only vol[0] is free, rest fixed
+    assert mask == [True, True, False, True]
+
+
+def test_gsr_inheritance(gsr_env):
+    """Test GSR inherits from expected base classes."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    assert isinstance(gsr, ql.base.Gaussian1dModel)
+    assert isinstance(gsr, ql.base.CalibratedModel)
+    assert isinstance(gsr, ql.base.TermStructureConsistentModel)
+    assert isinstance(gsr, ql.Observable)
+
+
+def test_gsr_numeraire(gsr_env):
+    """Test GSR numeraire computation."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    num = gsr.numeraire(1.0)
+    assert num == pytest.approx(0.0525761300444786, rel=1e-6)
+
+
+def test_gsr_zerobond(gsr_env):
+    """Test GSR zero-coupon bond price."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    zb = gsr.zerobond(2.0, 1.0)
+    assert zb == pytest.approx(0.9520088963957148, rel=1e-6)
+
+
+def test_gsr_ygrid(gsr_env):
+    """Test GSR state variable grid generation."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    grid = gsr.yGrid(3.0, 5)
+    assert len(grid) == 11
+    assert grid[0] == pytest.approx(-3.0)
+    assert grid[5] == pytest.approx(0.0)
+    assert grid[10] == pytest.approx(3.0)
+
+
+def test_gsr_zerobond_option(gsr_env):
+    """Test GSR zero-coupon bond option pricing."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    expiry = ql.Date(15, ql.January, 2026)
+    valueDate = ql.Date(17, ql.January, 2026)
+    maturity = ql.Date(15, ql.January, 2030)
+    price = gsr.zerobondOption(ql.OptionType.Call, expiry, valueDate, maturity, 0.85)
+    assert price == pytest.approx(0.0033040135838971123, rel=1e-4)
+
+
+def test_gsr_forward_rate(gsr_env):
+    """Test GSR forward rate computation."""
+    gsr = ql.Gsr(gsr_env["ts_handle"], [], [0.01], 0.1)
+    euribor = ql.Euribor6M(gsr_env["ts_handle"])
+    fixing = ql.Date(15, ql.July, 2025)
+    rate = gsr.forwardRate(fixing, iborIdx=euribor)
+    assert rate == pytest.approx(0.04994869902850878, rel=1e-6)
+
+
+def test_gsr_static_polynomial_integral():
+    """Test Gaussian1dModel static gaussianPolynomialIntegral."""
+    result = ql.base.Gaussian1dModel.gaussianPolynomialIntegral(
+        1.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0
+    )
+    assert result == pytest.approx(0.7949921723951971, rel=1e-6)
+
+
+def test_gsr_static_shifted_polynomial_integral():
+    """Test Gaussian1dModel static gaussianShiftedPolynomialIntegral."""
+    result = ql.base.Gaussian1dModel.gaussianShiftedPolynomialIntegral(
+        1.0, 0.0, 0.0, 0.0, 1.0, 0.0, -1.0, 1.0
+    )
+    assert result == pytest.approx(0.7949921723951971, rel=1e-6)
+
+
+# =============================================================================
+# MarkovFunctional
+# =============================================================================
+
+
+@pytest.fixture
+def mf_env():
+    """Environment for MarkovFunctional model tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+
+    swaptionVol = ql.ConstantSwaptionVolatility(
+        datetime.date(2024, 1, 15),
+        ql.TARGET(),
+        ql.ModifiedFollowing,
+        0.20,
+        ql.Actual365Fixed(),
+    )
+    swaptionVolHandle = ql.SwaptionVolatilityStructureHandle(swaptionVol)
+    swapIdx = ql.EuriborSwapIsdaFixA(ql.Period("5Y"), ts_handle)
+    expiries = [ql.Date(15, ql.January, 2025)]
+    tenors = [ql.Period("5Y")]
+
+    return {
+        "rf": rf,
+        "ts_handle": ts_handle,
+        "swaptionVolHandle": swaptionVolHandle,
+        "swapIdx": swapIdx,
+        "expiries": expiries,
+        "tenors": tenors,
+    }
+
+
+def test_markovfunctional_model_settings_defaults():
+    """Test MarkovFunctionalModelSettings default construction."""
+    settings = ql.MarkovFunctionalModelSettings()
+    assert settings.yGridPoints == 64
+    assert settings.yStdDevs == pytest.approx(7.0)
+    assert settings.gaussHermitePoints == 32
+
+
+def test_markovfunctional_model_settings_builder():
+    """Test MarkovFunctionalModelSettings builder pattern."""
+    settings = (
+        ql.MarkovFunctionalModelSettings()
+        .withYGridPoints(128)
+        .withYStdDevs(8.0)
+        .withGaussHermitePoints(48)
+    )
+    assert settings.yGridPoints == 128
+    assert settings.yStdDevs == pytest.approx(8.0)
+    assert settings.gaussHermitePoints == 48
+
+
+def test_markovfunctional_adjustments_enum():
+    """Test MarkovFunctionalAdjustments enum values."""
+    assert int(ql.MarkovFunctionalAdjustments.AdjustNone) == 0
+    assert int(ql.MarkovFunctionalAdjustments.AdjustDigitals) == 1
+    assert int(ql.MarkovFunctionalAdjustments.KahaleSmile) == 16
+    assert int(ql.MarkovFunctionalAdjustments.SabrSmile) == 256
+
+
+def test_markovfunctional_construction(mf_env):
+    """Test MarkovFunctional model construction."""
+    mf = ql.MarkovFunctional(
+        mf_env["ts_handle"],
+        0.01,
+        [],
+        [0.01],
+        mf_env["swaptionVolHandle"],
+        mf_env["expiries"],
+        mf_env["tenors"],
+        mf_env["swapIdx"],
+    )
+    assert mf is not None
+    assert list(mf.volatility()) == pytest.approx([0.01])
+
+
+def test_markovfunctional_hidden_handle(mf_env):
+    """Test MarkovFunctional with hidden handle constructor."""
+    mf = ql.MarkovFunctional(
+        mf_env["rf"],
+        0.01,
+        [],
+        [0.01],
+        mf_env["swaptionVolHandle"],
+        mf_env["expiries"],
+        mf_env["tenors"],
+        mf_env["swapIdx"],
+    )
+    assert mf is not None
+
+
+def test_markovfunctional_inheritance(mf_env):
+    """Test MarkovFunctional inherits from expected base classes."""
+    mf = ql.MarkovFunctional(
+        mf_env["ts_handle"],
+        0.01,
+        [],
+        [0.01],
+        mf_env["swaptionVolHandle"],
+        mf_env["expiries"],
+        mf_env["tenors"],
+        mf_env["swapIdx"],
+    )
+    assert isinstance(mf, ql.base.Gaussian1dModel)
+    assert isinstance(mf, ql.base.CalibratedModel)
+
+
+def test_markovfunctional_model_outputs(mf_env):
+    """Test MarkovFunctional modelOutputs diagnostics."""
+    mf = ql.MarkovFunctional(
+        mf_env["ts_handle"],
+        0.01,
+        [],
+        [0.01],
+        mf_env["swaptionVolHandle"],
+        mf_env["expiries"],
+        mf_env["tenors"],
+        mf_env["swapIdx"],
+    )
+    outputs = mf.modelOutputs()
+    assert outputs is not None
+    assert len(outputs.expiries) > 0

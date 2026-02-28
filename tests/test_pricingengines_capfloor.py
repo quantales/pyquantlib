@@ -170,3 +170,30 @@ def test_treecapfloorengine_hidden_handle(hw_capfloor_env):
     cap = env["cap"]
     cap.setPricingEngine(engine)
     assert cap.NPV() == pytest.approx(0.0200793549, rel=1e-3)
+
+
+# =============================================================================
+# Gaussian1dCapFloorEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def g1d_capfloor_env():
+    """Setup for Gaussian1D cap/floor engine tests."""
+    import datetime
+
+    ql.Settings.evaluationDate = datetime.date(2024, 1, 15)
+    rf = ql.FlatForward(datetime.date(2024, 1, 15), 0.05, ql.Actual365Fixed())
+    ts_handle = ql.YieldTermStructureHandle(rf)
+    gsr = ql.Gsr(ts_handle, [], [0.01], 0.1)
+    index = ql.Euribor6M(ts_handle)
+    cap = ql.MakeCapFloor(ql.CapFloorType.Cap, ql.Period("5Y"), index, strike=0.05)
+    return {"gsr": gsr, "cap": cap}
+
+
+def test_gaussian1dcapfloorengine(g1d_capfloor_env):
+    """Test Gaussian1dCapFloorEngine with GSR model."""
+    env = g1d_capfloor_env
+    engine = ql.Gaussian1dCapFloorEngine(env["gsr"])
+    env["cap"].setPricingEngine(engine)
+    assert env["cap"].NPV() == pytest.approx(0.020103807954722542, rel=1e-4)

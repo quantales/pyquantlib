@@ -40,10 +40,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MCDigitalEngine` factory function for Monte Carlo digital option pricing (pseudo-random and low-discrepancy)
 - `AnalyticDividendEuropeanEngine` for European options with discrete dividends
 - `AnalyticBSMHullWhiteEngine` for BSM + Hull-White stochastic interest rates
+- `Gaussian1dSwaptionEngine` for Gaussian 1-D model swaption pricing (European/Bermudan)
+- `Gaussian1dJamshidianSwaptionEngine` for Jamshidian decomposition swaption pricing
+- `Gaussian1dNonstandardSwaptionEngine` for nonstandard swaption pricing with OAS support
+- `Gaussian1dFloatFloatSwaptionEngine` for float-float swaption pricing with OAS support
+- `Gaussian1dCapFloorEngine` for Gaussian 1-D model cap/floor pricing
 - `AnalyticCapFloorEngine` for analytic cap/floor pricing with affine short-rate models
 - `TreeCapFloorEngine` for lattice-based cap/floor pricing with short-rate models
 
 #### Models
+- `Gaussian1dModel` ABC for Gaussian 1-D short-rate models (in `pyquantlib.base`)
+- `Gsr` Gaussian short-rate model with piecewise volatility and reversion, plus calibration methods
+- `MarkovFunctional` Markov-functional model with `ModelSettings` builder and `ModelOutputs` diagnostics
+- `Gaussian1dModelHandle` and `RelinkableGaussian1dModelHandle` for Gaussian1dModel references
 - `CoxIngersollRoss` (CIR) short-rate model with Feller constraint support
 - `ExtendedCoxIngersollRoss` extended CIR model fitted to the initial term structure
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)
