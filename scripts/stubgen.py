@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 """
 Regenerate type stubs for PyQuantLib.
@@ -131,16 +132,25 @@ def main():
         # Ensure _pyquantlib directory exists
         (pkg_dir / "_pyquantlib").mkdir(exist_ok=True)
 
+        any_updated = False
         for src, dst in stub_files:
             src_path = temp_pkg / src
             dst_path = pkg_dir / dst
             if src_path.exists():
-                # Normalize before writing
-                content = normalize_stub(src_path.read_text(encoding="utf-8"))
-                dst_path.write_text(content, encoding="utf-8")
-                print(f"  Updated {dst}")
+                new_content = normalize_stub(src_path.read_text(encoding="utf-8"))
+                if dst_path.exists():
+                    old_content = normalize_stub(dst_path.read_text(encoding="utf-8"))
+                else:
+                    old_content = None
+                if old_content != new_content:
+                    dst_path.write_text(new_content, encoding="utf-8")
+                    print(f"  Updated {dst}")
+                    any_updated = True
             else:
                 print(f"  Warning: {src} not found")
+
+        if not any_updated:
+            print("  Stubs are up-to-date.")
 
         # Clean up
         shutil.rmtree(temp_dir)
