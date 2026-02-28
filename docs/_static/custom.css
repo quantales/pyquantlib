@@ -1,5 +1,18 @@
 /* PyQuantLib documentation custom styles */
 
+/* Lower Furo's right sidebar breakpoint from 82em (1312px) to 72em (1152px) */
+@media (min-width: 72em) and (max-width: 82em) {
+    .toc-drawer {
+        position: static !important;
+        right: auto !important;
+        height: auto !important;
+        border-left: none;
+    }
+    .toc-content-icon {
+        display: none !important;
+    }
+}
+
 /* Headline sizes and spacing */
 h1 { 
     font-size: 2rem;

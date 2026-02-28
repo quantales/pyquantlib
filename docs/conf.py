@@ -7,10 +7,11 @@ import os
 import re
 import sys
 
-# Ensure autodoc imports the installed PyPI wheel, not the source tree
-# (source tree has no compiled _pyquantlib extension)
-_src_root = os.path.normcase(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-sys.path = [p for p in sys.path if os.path.normcase(os.path.abspath(p)) != _src_root]
+# On RTD, remove the source tree from sys.path so autodoc uses the installed
+# PyPI wheel (the source tree has no compiled _pyquantlib extension).
+if os.environ.get("READTHEDOCS"):
+    _src_root = os.path.normcase(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    sys.path = [p for p in sys.path if os.path.normcase(os.path.abspath(p)) != _src_root]
 
 # -- Project information -----------------------------------------------------
 
