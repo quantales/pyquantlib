@@ -956,3 +956,28 @@ def test_convertible_floating_rate_npv(convertible_env):
     )
     frb.setPricingEngine(env["engine"])
     assert frb.NPV() == pytest.approx(122.4706, rel=1e-4)
+
+
+# =============================================================================
+# AmortizingCmsRateBond
+# =============================================================================
+
+
+def test_amortizingcmsratebond_construction():
+    """AmortizingCmsRateBond can be constructed."""
+    ql.Settings.evaluationDate = ql.Date(15, 5, 2025)
+    rate = ql.FlatForward(ql.Date(15, 5, 2025), 0.03, ql.Actual365Fixed())
+    rate_handle = ql.YieldTermStructureHandle(rate)
+
+    schedule = ql.MakeSchedule(
+        ql.Date(15, 5, 2025), ql.Date(15, 5, 2030),
+        tenor=ql.Period(6, ql.Months),
+    )
+    index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), rate_handle)
+    notionals = [100.0, 90.0, 80.0, 70.0, 60.0,
+                 50.0, 40.0, 30.0, 20.0, 10.0]
+    bond = ql.AmortizingCmsRateBond(
+        2, notionals, schedule, index, ql.Actual360()
+    )
+    assert bond is not None
+    assert isinstance(bond, ql.Bond)

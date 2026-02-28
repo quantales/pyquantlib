@@ -25,4 +25,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "StochasticProcessArray - array of correlated 1D processes");
     ADD_MAIN_BINDING(ql_processes::batesprocess,
         "BatesProcess - Heston process with jumps");
+    ADD_MAIN_BINDING(ql_processes::gjrgarchprocess,
+        "GJRGARCHProcess - GJR-GARCH(1,1) stochastic process");
 }

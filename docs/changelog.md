@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `IncrementalStatistics` for online (streaming) statistics via boost accumulators
 - `SequenceStatistics` for N-dimensional statistics with covariance and correlation matrices
 
+#### Instruments
+- `HolderExtensibleOption` extensible option with holder's extension right
+- `WriterExtensibleOption` extensible option with writer's extension right
+- `QuantoForwardVanillaOption` quanto forward-start vanilla option with `qvega()`, `qrho()`, `qlambda()`
+- `AmortizingCmsRateBond` amortizing CMS-rate bond with vector notionals
+
 #### Pricing Engines
 - `BlackCalculator` for Black 1976 option pricing with full Greeks (delta, gamma, theta, vega, rho, etc.)
 - `BachelierCalculator` for normal-volatility option pricing with full Greeks
@@ -47,6 +53,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Gaussian1dCapFloorEngine` for Gaussian 1-D model cap/floor pricing
 - `AnalyticCapFloorEngine` for analytic cap/floor pricing with affine short-rate models
 - `TreeCapFloorEngine` for lattice-based cap/floor pricing with short-rate models
+- `AnalyticHolderExtensibleOptionEngine` for holder extensible option pricing
+- `AnalyticWriterExtensibleOptionEngine` for writer extensible option pricing
+- `AnalyticGJRGARCHEngine` for GJR-GARCH(1,1) option pricing
+- `MCForwardEuropeanBSEngine` Monte Carlo forward-start option engine (BS)
+- `MCForwardEuropeanHestonEngine` Monte Carlo forward-start option engine (Heston)
+- `QuantoForwardVanillaEngine` quanto forward-start vanilla option engine
+
+#### Processes
+- `GJRGARCHProcess` GJR-GARCH(1,1) stochastic process with discretization schemes
 
 #### Models
 - `Gaussian1dModel` ABC for Gaussian 1-D short-rate models (in `pyquantlib.base`)
@@ -57,9 +72,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ExtendedCoxIngersollRoss` extended CIR model fitted to the initial term structure
 - `CapHelper` calibration helper for ATM caps (with handle and hidden-handle constructors)
 - `HestonModelHelper` calibration helper for the Heston model (Real and Handle spot variants)
+- `GJRGARCHModel` GJR-GARCH(1,1) calibrated model
 
 #### Methods
 - `LsmBasisSystem` / `PolynomialType` enum for Longstaff-Schwartz Monte Carlo basis systems (moved from MCAmericanEngine to its proper header location)
+
+#### Experimental
+- `TwoAssetCorrelationOption` two-asset correlation option with analytic engine
+- `AnalyticTwoAssetCorrelationEngine` for two-asset correlation option pricing
+- `VarianceGammaProcess` Variance Gamma stochastic process
+- `VarianceGammaModel` Variance Gamma calibrated model
+- `VarianceGammaEngine` analytic Variance Gamma option pricing
+- `FFTVarianceGammaEngine` FFT-based Variance Gamma option pricing
 
 ## [0.4.0] - 2026-02-27
 

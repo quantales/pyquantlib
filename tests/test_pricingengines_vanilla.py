@@ -1478,3 +1478,58 @@ def test_bsm_hullwhite(bsm_american_env):
     option = ql.VanillaOption(env["call_payoff"], env["euro_exercise"])
     option.setPricingEngine(engine)
     assert option.NPV() == pytest.approx(9.2988899168, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticGJRGARCHEngine
+# =============================================================================
+
+
+def test_gjrgarch_engine_construction():
+    """Test AnalyticGJRGARCHEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.GJRGARCHProcess(
+        rts, dts, spot,
+        v0=0.04 / 252.0, omega=2e-6, alpha=0.04,
+        beta=0.94, gamma=0.02, lambda_=0.0, daysPerYear=252.0,
+    )
+    model = ql.GJRGARCHModel(process)
+    engine = ql.AnalyticGJRGARCHEngine(model)
+    assert engine is not None
+
+
+def test_gjrgarch_engine_pricing():
+    """Test GJR-GARCH engine produces reasonable price."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.GJRGARCHProcess(
+        rts, dts, spot,
+        v0=0.04 / 252.0, omega=2e-6, alpha=0.04,
+        beta=0.94, gamma=0.02, lambda_=0.0, daysPerYear=252.0,
+    )
+    model = ql.GJRGARCHModel(process)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    option.setPricingEngine(ql.AnalyticGJRGARCHEngine(model))
+    assert option.NPV() == pytest.approx(9.8903, rel=1e-4)

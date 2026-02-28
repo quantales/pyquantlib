@@ -656,3 +656,86 @@ def test_batesprocess_with_discretization(bates_env):
     )
 
     assert process is not None
+
+
+# =============================================================================
+# GJRGARCHProcess
+# =============================================================================
+
+
+@pytest.fixture()
+def gjrgarch_env():
+    ql.Settings.evaluationDate = ql.Date(15, 5, 2025)
+    rate = ql.FlatForward(ql.Date(15, 5, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, 5, 2025), 0.02, ql.Actual365Fixed())
+    spot = ql.SimpleQuote(100.0)
+    return {
+        "rate": rate,
+        "div": div,
+        "spot": spot,
+        "v0": 0.04 / 252.0,
+        "omega": 2e-6,
+        "alpha": 0.04,
+        "beta": 0.94,
+        "gamma": 0.02,
+        "lambda": 0.0,
+        "daysPerYear": 252.0,
+    }
+
+
+def test_gjrgarchprocess_construction(gjrgarch_env):
+    """GJRGARCHProcess can be constructed."""
+    env = gjrgarch_env
+    process = ql.GJRGARCHProcess(
+        env["rate"], env["div"], env["spot"],
+        env["v0"], env["omega"], env["alpha"], env["beta"],
+        env["gamma"], env["lambda"], env["daysPerYear"],
+    )
+    assert process is not None
+
+
+def test_gjrgarchprocess_hidden_handle(gjrgarch_env):
+    """GJRGARCHProcess constructed with shared_ptr (hidden handles)."""
+    env = gjrgarch_env
+    process = ql.GJRGARCHProcess(
+        env["rate"], env["div"], env["spot"],
+        env["v0"], env["omega"], env["alpha"], env["beta"],
+        env["gamma"], env["lambda"],
+    )
+    assert process is not None
+
+
+def test_gjrgarchprocess_accessors(gjrgarch_env):
+    """GJRGARCHProcess provides correct accessor values."""
+    env = gjrgarch_env
+    process = ql.GJRGARCHProcess(
+        env["rate"], env["div"], env["spot"],
+        env["v0"], env["omega"], env["alpha"], env["beta"],
+        env["gamma"], env["lambda"], env["daysPerYear"],
+    )
+    assert process.v0() == pytest.approx(env["v0"])
+    assert process.omega() == pytest.approx(env["omega"])
+    assert process.alpha() == pytest.approx(env["alpha"])
+    assert process.beta() == pytest.approx(env["beta"])
+    assert process.gamma() == pytest.approx(env["gamma"])
+    assert process.lambda_() == pytest.approx(env["lambda"])
+    assert process.daysPerYear() == pytest.approx(env["daysPerYear"])
+
+
+def test_gjrgarchprocess_discretization():
+    """GJRGARCHProcess Discretization enum works."""
+    assert ql.GJRGARCHProcessDiscretization.PartialTruncation is not None
+    assert ql.GJRGARCHProcessDiscretization.FullTruncation is not None
+    assert ql.GJRGARCHProcessDiscretization.Reflection is not None
+
+
+def test_gjrgarchprocess_with_discretization(gjrgarch_env):
+    """GJRGARCHProcess with explicit discretization scheme."""
+    env = gjrgarch_env
+    process = ql.GJRGARCHProcess(
+        env["rate"], env["div"], env["spot"],
+        env["v0"], env["omega"], env["alpha"], env["beta"],
+        env["gamma"], env["lambda"], env["daysPerYear"],
+        ql.GJRGARCHProcessDiscretization.Reflection,
+    )
+    assert process is not None

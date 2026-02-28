@@ -57,4 +57,6 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "Gsr - Gaussian short-rate model in forward measure");
     ADD_MAIN_BINDING(ql_models::markovfunctional,
         "MarkovFunctional - Markov Functional 1-factor model");
+    ADD_MAIN_BINDING(ql_models::gjrgarchmodel,
+        "GJRGARCHModel - GJR-GARCH(1,1) calibrated model");
 }

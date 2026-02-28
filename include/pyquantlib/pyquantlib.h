@@ -276,6 +276,7 @@ namespace ql_processes {
     void hestonprocess(py::module_&);
     void stochasticprocessarray(py::module_&);
     void batesprocess(py::module_&);
+    void gjrgarchprocess(py::module_&);
 }
 
 namespace ql_models {
@@ -300,6 +301,7 @@ namespace ql_models {
     void gaussian1dmodel(py::module_&);
     void gsr(py::module_&);
     void markovfunctional(py::module_&);
+    void gjrgarchmodel(py::module_&);
 }
 
 namespace ql_instruments {
@@ -310,6 +312,7 @@ namespace ql_instruments {
     void amortizingfixedratebond(py::module_&);
     void amortizingfloatingratebond(py::module_&);
     void cmsratebond(py::module_&);
+    void amortizingcmsratebond(py::module_&);
     void cpibond(py::module_&);
     void swap(py::module_&);
     void fixedvsfloatingswap(py::module_&);
@@ -365,6 +368,10 @@ namespace ql_instruments {
     void quantovanillaoption(py::module_&);
     void margrabeoption(py::module_&);
     void forwardvanillaoption(py::module_&);
+    void quantoforwardvanillaoption(py::module_&);
+    // Extensible options
+    void holderextensibleoption(py::module_&);
+    void writerextensibleoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -464,6 +471,15 @@ namespace ql_pricingengines {
     void gaussian1djamshidianswaptionengine(py::module_&);
     void gaussian1dnonstandardswaptionengine(py::module_&);
     void gaussian1dfloatfloatswaptionengine(py::module_&);
+    // Exotic option engines
+    void analyticholderextensibleoptionengine(py::module_&);
+    void analyticwriterextensibleoptionengine(py::module_&);
+    void analytictwoassetcorrelationengine(py::module_&);
+    // GJR-GARCH engine
+    void analyticgjrgarchengine(py::module_&);
+    // MC forward engines
+    void mcforwardeuropeanbsengine(py::module_&);
+    void mcforwardeuropeanhestonengine(py::module_&);
 }
 
 namespace ql_methods {
@@ -482,4 +498,11 @@ namespace ql_experimental {
     void callablebondconstantvol(py::module_&);
     void treecallablebondengine(py::module_&);
     void blackcallablebondengine(py::module_&);
+    // Two-asset correlation option
+    void twoassetcorrelationoption(py::module_&);
+    // Variance Gamma
+    void variancegammaprocess(py::module_&);
+    void variancegammamodel(py::module_&);
+    void analyticvariancegammaengine(py::module_&);
+    void fftvariancegammaengine(py::module_&);
 }

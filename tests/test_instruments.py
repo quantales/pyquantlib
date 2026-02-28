@@ -3965,3 +3965,109 @@ def test_quantovanillaoption_construction():
     exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
     option = ql.QuantoVanillaOption(payoff, exercise)
     assert option is not None
+
+
+# =============================================================================
+# QuantoForwardVanillaOption
+# =============================================================================
+
+
+def test_quantoforwardvanillaoption_construction():
+    """QuantoForwardVanillaOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.QuantoForwardVanillaOption(
+        1.0, ql.Date(15, ql.April, 2025), payoff, exercise
+    )
+    assert option is not None
+
+
+def test_quantoforwardvanillaoption_inherits_forwardvanillaoption():
+    """QuantoForwardVanillaOption inherits from ForwardVanillaOption."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.QuantoForwardVanillaOption(
+        1.0, ql.Date(15, ql.April, 2025), payoff, exercise
+    )
+    assert isinstance(option, ql.ForwardVanillaOption)
+
+
+# =============================================================================
+# HolderExtensibleOption
+# =============================================================================
+
+
+def test_holderextensibleoption_construction():
+    """HolderExtensibleOption can be constructed."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    option = ql.HolderExtensibleOption(
+        ql.Call, 1.0, ql.Date(15, ql.July, 2026), 105.0, payoff, exercise
+    )
+    assert option is not None
+
+
+def test_holderextensibleoption_pricing():
+    """HolderExtensibleOption prices correctly with analytic engine."""
+    ql.Settings.evaluationDate = ql.Date(15, 5, 2025)
+    spot = ql.SimpleQuote(100.0)
+    vol = ql.BlackConstantVol(
+        ql.Date(15, 5, 2025), ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    rate = ql.FlatForward(ql.Date(15, 5, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, 5, 2025), 0.02, ql.Actual365Fixed())
+    process = ql.BlackScholesMertonProcess(spot, div, rate, vol)
+
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, 5, 2026))
+    option = ql.HolderExtensibleOption(
+        ql.Call, 1.0, ql.Date(15, 11, 2026), 105.0, payoff, exercise
+    )
+    option.setPricingEngine(ql.AnalyticHolderExtensibleOptionEngine(process))
+    assert option.NPV() == pytest.approx(9.686587, rel=1e-4)
+
+
+# =============================================================================
+# WriterExtensibleOption
+# =============================================================================
+
+
+def test_writerextensibleoption_construction():
+    """WriterExtensibleOption can be constructed."""
+    payoff1 = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise1 = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    payoff2 = ql.PlainVanillaPayoff(ql.Call, 105.0)
+    exercise2 = ql.EuropeanExercise(ql.Date(15, ql.July, 2026))
+    option = ql.WriterExtensibleOption(payoff1, exercise1, payoff2, exercise2)
+    assert option is not None
+
+
+def test_writerextensibleoption_accessors():
+    """WriterExtensibleOption provides payoff2 and exercise2 accessors."""
+    payoff1 = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise1 = ql.EuropeanExercise(ql.Date(15, ql.January, 2026))
+    payoff2 = ql.PlainVanillaPayoff(ql.Call, 105.0)
+    exercise2 = ql.EuropeanExercise(ql.Date(15, ql.July, 2026))
+    option = ql.WriterExtensibleOption(payoff1, exercise1, payoff2, exercise2)
+    assert option.payoff2() is not None
+    assert option.exercise2() is not None
+
+
+def test_writerextensibleoption_pricing():
+    """WriterExtensibleOption prices correctly with analytic engine."""
+    ql.Settings.evaluationDate = ql.Date(15, 5, 2025)
+    spot = ql.SimpleQuote(100.0)
+    vol = ql.BlackConstantVol(
+        ql.Date(15, 5, 2025), ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    rate = ql.FlatForward(ql.Date(15, 5, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, 5, 2025), 0.02, ql.Actual365Fixed())
+    process = ql.BlackScholesMertonProcess(spot, div, rate, vol)
+
+    payoff1 = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise1 = ql.EuropeanExercise(ql.Date(15, 5, 2026))
+    payoff2 = ql.PlainVanillaPayoff(ql.Call, 105.0)
+    exercise2 = ql.EuropeanExercise(ql.Date(15, 11, 2026))
+    option = ql.WriterExtensibleOption(payoff1, exercise1, payoff2, exercise2)
+    option.setPricingEngine(ql.AnalyticWriterExtensibleOptionEngine(process))
+    assert option.NPV() == pytest.approx(9.789299, rel=1e-4)

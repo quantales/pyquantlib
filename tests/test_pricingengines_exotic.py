@@ -158,3 +158,59 @@ def test_margrabe_american_pricing(exotic_env):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(6.9334, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticHolderExtensibleOptionEngine
+# =============================================================================
+
+
+def test_holder_extensible_engine_construction(exotic_env):
+    """Test AnalyticHolderExtensibleOptionEngine construction."""
+    engine = ql.AnalyticHolderExtensibleOptionEngine(exotic_env["process"])
+    assert engine is not None
+
+
+def test_holder_extensible_engine_pricing(exotic_env):
+    """Test holder extensible option pricing."""
+    env = exotic_env
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(env["expiry"])
+
+    second_expiry = env["today"] + ql.Period("18M")
+    option = ql.HolderExtensibleOption(
+        ql.Call, 3.0, second_expiry, 105.0, payoff, exercise
+    )
+
+    engine = ql.AnalyticHolderExtensibleOptionEngine(env["process"])
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(9.7968, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticWriterExtensibleOptionEngine
+# =============================================================================
+
+
+def test_writer_extensible_engine_construction(exotic_env):
+    """Test AnalyticWriterExtensibleOptionEngine construction."""
+    engine = ql.AnalyticWriterExtensibleOptionEngine(exotic_env["process"])
+    assert engine is not None
+
+
+def test_writer_extensible_engine_pricing(exotic_env):
+    """Test writer extensible option pricing."""
+    env = exotic_env
+    payoff1 = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise1 = ql.EuropeanExercise(env["expiry"])
+
+    payoff2 = ql.PlainVanillaPayoff(ql.Call, 105.0)
+    exercise2 = ql.EuropeanExercise(env["today"] + ql.Period("18M"))
+
+    option = ql.WriterExtensibleOption(payoff1, exercise1, payoff2, exercise2)
+
+    engine = ql.AnalyticWriterExtensibleOptionEngine(env["process"])
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(10.2947, rel=1e-4)

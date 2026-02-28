@@ -139,7 +139,7 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
 
     // Quanto engines
     ADD_MAIN_BINDING(ql_pricingengines::quantoengine,
-        "QuantoVanillaEngine - quanto European option pricing");
+        "QuantoVanillaEngine, QuantoForwardVanillaEngine - quanto option pricing");
 
     // Calculators
     ADD_MAIN_BINDING(ql_pricingengines::blackcalculator,
@@ -206,4 +206,22 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "Gaussian1dNonstandardSwaptionEngine - Gaussian 1-D nonstandard swaption engine");
     ADD_MAIN_BINDING(ql_pricingengines::gaussian1dfloatfloatswaptionengine,
         "Gaussian1dFloatFloatSwaptionEngine - Gaussian 1-D float-float swaption engine");
+
+    // Exotic option engines
+    ADD_MAIN_BINDING(ql_pricingengines::analyticholderextensibleoptionengine,
+        "AnalyticHolderExtensibleOptionEngine - holder-extensible option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticwriterextensibleoptionengine,
+        "AnalyticWriterExtensibleOptionEngine - writer-extensible option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analytictwoassetcorrelationengine,
+        "AnalyticTwoAssetCorrelationEngine - two-asset correlation option pricing");
+
+    // GJR-GARCH engine
+    ADD_MAIN_BINDING(ql_pricingengines::analyticgjrgarchengine,
+        "AnalyticGJRGARCHEngine - analytic GJR-GARCH option pricing");
+
+    // MC forward engines
+    ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanbsengine,
+        "MCForwardEuropeanBSEngine - MC forward-start BS pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanhestonengine,
+        "MCForwardEuropeanHestonEngine - MC forward-start Heston pricing");
 }

@@ -29,6 +29,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "AmortizingFloatingRateBond - amortizing floating rate bond");
     ADD_MAIN_BINDING(ql_instruments::cmsratebond,
         "CmsRateBond - CMS rate bond");
+    ADD_MAIN_BINDING(ql_instruments::amortizingcmsratebond,
+        "AmortizingCmsRateBond - amortizing CMS rate bond");
     ADD_MAIN_BINDING(ql_instruments::cpibond,
         "CPIBond - CPI inflation-linked bond");
     ADD_MAIN_BINDING(ql_instruments::swap,
@@ -136,4 +138,11 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "MargrabeOption - exchange option (Margrabe)");
     ADD_MAIN_BINDING(ql_instruments::forwardvanillaoption,
         "ForwardVanillaOption - forward-start vanilla option");
+    ADD_MAIN_BINDING(ql_instruments::quantoforwardvanillaoption,
+        "QuantoForwardVanillaOption - quanto forward-start option");
+    // Extensible options
+    ADD_MAIN_BINDING(ql_instruments::holderextensibleoption,
+        "HolderExtensibleOption - holder-extensible option");
+    ADD_MAIN_BINDING(ql_instruments::writerextensibleoption,
+        "WriterExtensibleOption - writer-extensible option");
 }

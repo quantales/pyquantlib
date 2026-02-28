@@ -102,3 +102,67 @@ def test_quanto_hidden_handle(quanto_env):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(8.0754, rel=1e-4)
+
+
+# =============================================================================
+# QuantoForwardVanillaEngine
+# =============================================================================
+
+
+def test_quanto_forward_pricing(quanto_env):
+    """Test quanto forward vanilla option pricing."""
+    env = quanto_env
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(env["expiry"])
+    reset_date = env["today"] + ql.Period("3M")
+
+    option = ql.QuantoForwardVanillaOption(1.0, reset_date, payoff, exercise)
+    engine = ql.QuantoForwardVanillaEngine(
+        env["process"],
+        ql.YieldTermStructureHandle(env["foreign_rate"]),
+        ql.BlackVolTermStructureHandle(env["fx_vol"]),
+        ql.QuoteHandle(env["correlation"]),
+    )
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(6.9594, rel=1e-4)
+
+
+def test_quanto_forward_greeks(quanto_env):
+    """Test quanto forward option greeks (qvega, qrho, qlambda)."""
+    env = quanto_env
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(env["expiry"])
+    reset_date = env["today"] + ql.Period("3M")
+
+    option = ql.QuantoForwardVanillaOption(1.0, reset_date, payoff, exercise)
+    engine = ql.QuantoForwardVanillaEngine(
+        env["process"],
+        ql.YieldTermStructureHandle(env["foreign_rate"]),
+        ql.BlackVolTermStructureHandle(env["fx_vol"]),
+        ql.QuoteHandle(env["correlation"]),
+    )
+    option.setPricingEngine(engine)
+
+    assert option.qvega() == pytest.approx(-2.4855, rel=1e-3)
+    assert option.qrho() == pytest.approx(41.4248, rel=1e-3)
+    assert option.qlambda() == pytest.approx(-1.2427, rel=1e-3)
+
+
+def test_quanto_forward_hidden_handle(quanto_env):
+    """Test quanto forward engine with hidden handles."""
+    env = quanto_env
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(env["expiry"])
+    reset_date = env["today"] + ql.Period("3M")
+
+    option = ql.QuantoForwardVanillaOption(1.0, reset_date, payoff, exercise)
+    engine = ql.QuantoForwardVanillaEngine(
+        env["process"],
+        env["foreign_rate"],
+        env["fx_vol"],
+        env["correlation"],
+    )
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(6.9594, rel=1e-4)
