@@ -5,12 +5,6 @@
 
 import os
 import re
-import sys
-
-# -- Path setup --------------------------------------------------------------
-
-# Add project root to path for autodoc
-sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
