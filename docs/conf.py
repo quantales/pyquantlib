@@ -12,6 +12,15 @@ import sys
 _src_root = os.path.normcase(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path = [p for p in sys.path if os.path.normcase(os.path.abspath(p)) != _src_root]
 
+# Diagnostic: verify pyquantlib is importable (remove after confirming RTD works)
+try:
+    import pyquantlib as _pql
+    print(f"[conf.py] pyquantlib {_pql.__version__} from {_pql.__file__}")
+    del _pql
+except ImportError as _e:
+    print(f"[conf.py] pyquantlib import FAILED: {_e}")
+    print(f"[conf.py] sys.path = {sys.path[:5]}")
+
 # -- Project information -----------------------------------------------------
 
 project = "PyQuantLib"

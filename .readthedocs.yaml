@@ -8,6 +8,9 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
+  jobs:
+    post_install:
+      - python -c "import pyquantlib; print(f'pyquantlib {pyquantlib.__version__} from {pyquantlib.__file__}')"
 
 # Sphinx configuration
 sphinx:
