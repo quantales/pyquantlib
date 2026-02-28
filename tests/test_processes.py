@@ -739,3 +739,172 @@ def test_gjrgarchprocess_with_discretization(gjrgarch_env):
         ql.GJRGARCHProcessDiscretization.Reflection,
     )
     assert process is not None
+
+
+# =============================================================================
+# OrnsteinUhlenbeckProcess
+# =============================================================================
+
+
+def test_ornsteinuhlenbeckprocess_construction():
+    """OrnsteinUhlenbeckProcess basic construction."""
+    process = ql.OrnsteinUhlenbeckProcess(speed=0.5, volatility=0.1)
+    assert process.speed() == pytest.approx(0.5)
+    assert process.volatility() == pytest.approx(0.1)
+    assert process.x0() == pytest.approx(0.0)
+    assert process.level() == pytest.approx(0.0)
+
+
+def test_ornsteinuhlenbeckprocess_with_level():
+    """OrnsteinUhlenbeckProcess with non-zero initial value and level."""
+    process = ql.OrnsteinUhlenbeckProcess(
+        speed=1.0, volatility=0.2, x0=0.05, level=0.03,
+    )
+    assert process.x0() == pytest.approx(0.05)
+    assert process.level() == pytest.approx(0.03)
+    assert process.speed() == pytest.approx(1.0)
+    assert process.volatility() == pytest.approx(0.2)
+
+
+def test_ornsteinuhlenbeckprocess_is_stochasticprocess1d():
+    """OrnsteinUhlenbeckProcess inherits from StochasticProcess1D."""
+    process = ql.OrnsteinUhlenbeckProcess(0.5, 0.1)
+    assert isinstance(process, StochasticProcess1D)
+
+
+# =============================================================================
+# HullWhiteProcess
+# =============================================================================
+
+
+def test_hullwhiteprocess_construction():
+    """HullWhiteProcess with handle constructor."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    handle = ql.YieldTermStructureHandle(curve)
+    process = ql.HullWhiteProcess(handle, a=0.1, sigma=0.01)
+    assert process.a() == pytest.approx(0.1)
+    assert process.sigma() == pytest.approx(0.01)
+
+
+def test_hullwhiteprocess_hidden_handle():
+    """HullWhiteProcess with shared_ptr constructor (hidden handle)."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    process = ql.HullWhiteProcess(curve, a=0.1, sigma=0.01)
+    assert process.a() == pytest.approx(0.1)
+    assert process.sigma() == pytest.approx(0.01)
+
+
+def test_hullwhiteprocess_alpha():
+    """HullWhiteProcess alpha method."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    process = ql.HullWhiteProcess(curve, a=0.1, sigma=0.01)
+    alpha = process.alpha(1.0)
+    assert isinstance(alpha, float)
+
+
+def test_hullwhiteprocess_is_stochasticprocess1d():
+    """HullWhiteProcess inherits from StochasticProcess1D."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteProcess(curve, 0.1, 0.01)
+    assert isinstance(process, StochasticProcess1D)
+
+
+# =============================================================================
+# ForwardMeasureProcess / ForwardMeasureProcess1D (ABCs)
+# =============================================================================
+
+
+def test_forwardmeasureprocess_abc():
+    """ForwardMeasureProcess is an ABC accessible from base."""
+    from pyquantlib.base import ForwardMeasureProcess
+    assert ForwardMeasureProcess is not None
+
+
+def test_forwardmeasureprocess1d_abc():
+    """ForwardMeasureProcess1D is an ABC accessible from base."""
+    from pyquantlib.base import ForwardMeasureProcess1D
+    assert ForwardMeasureProcess1D is not None
+
+
+# =============================================================================
+# HullWhiteForwardProcess
+# =============================================================================
+
+
+def test_hullwhiteforwardprocess_construction():
+    """HullWhiteForwardProcess with handle constructor."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.05, dc)
+    handle = ql.YieldTermStructureHandle(curve)
+    process = ql.HullWhiteForwardProcess(handle, a=0.1, sigma=0.01)
+    assert process.a() == pytest.approx(0.1)
+    assert process.sigma() == pytest.approx(0.01)
+
+
+def test_hullwhiteforwardprocess_hidden_handle():
+    """HullWhiteForwardProcess with shared_ptr constructor."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
+    assert process.a() == pytest.approx(0.1)
+    assert process.sigma() == pytest.approx(0.01)
+
+
+def test_hullwhiteforwardprocess_forward_measure_time():
+    """HullWhiteForwardProcess forward measure time methods."""
+    from pyquantlib.base import ForwardMeasureProcess1D
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
+    process.setForwardMeasureTime(5.0)
+    assert process.getForwardMeasureTime() == pytest.approx(5.0)
+    assert isinstance(process, ForwardMeasureProcess1D)
+
+
+def test_hullwhiteforwardprocess_alpha():
+    """HullWhiteForwardProcess alpha method."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
+    alpha = process.alpha(1.0)
+    assert isinstance(alpha, float)
+
+
+def test_hullwhiteforwardprocess_M_T_and_B():
+    """HullWhiteForwardProcess M_T and B methods."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
+    process.setForwardMeasureTime(5.0)
+    b_val = process.B(0.0, 1.0)
+    assert b_val == pytest.approx(0.951626, rel=1e-4)
+    m_t = process.M_T(0.0, 1.0, 5.0)
+    assert isinstance(m_t, float)
+
+
+def test_hullwhiteforwardprocess_is_forwardmeasureprocess1d():
+    """HullWhiteForwardProcess inherits from ForwardMeasureProcess1D."""
+    from pyquantlib.base import ForwardMeasureProcess1D
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    process = ql.HullWhiteForwardProcess(curve, 0.1, 0.01)
+    assert isinstance(process, ForwardMeasureProcess1D)
+    assert isinstance(process, StochasticProcess1D)

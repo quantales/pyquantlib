@@ -27,4 +27,10 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "BatesProcess - Heston process with jumps");
     ADD_MAIN_BINDING(ql_processes::gjrgarchprocess,
         "GJRGARCHProcess - GJR-GARCH(1,1) stochastic process");
+    ADD_MAIN_BINDING(ql_processes::ornsteinuhlenbeckprocess,
+        "OrnsteinUhlenbeckProcess - mean-reverting OU process");
+    ADD_BASE_BINDING(ql_processes::forwardmeasureprocess,
+        "ForwardMeasureProcess - forward-measure stochastic process ABCs");
+    ADD_MAIN_BINDING(ql_processes::hullwhiteprocess,
+        "HullWhiteProcess - Hull-White short-rate processes");
 }

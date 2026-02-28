@@ -62,8 +62,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MCForwardEuropeanBSEngine` Monte Carlo forward-start option engine (BS)
 - `MCForwardEuropeanHestonEngine` Monte Carlo forward-start option engine (Heston)
 - `QuantoForwardVanillaEngine` quanto forward-start vanilla option engine
+- `FdHestonHullWhiteVanillaEngine` finite-differences Heston + Hull-White stochastic rates engine
+- `FdOrnsteinUhlenbeckVanillaEngine` finite-differences Ornstein-Uhlenbeck vanilla engine
+- `MCEuropeanHestonEngine` Monte Carlo European Heston engine (pseudo-random and low-discrepancy)
 
 #### Processes
+- `OrnsteinUhlenbeckProcess` mean-reverting OU process
+- `HullWhiteProcess` Hull-White short-rate process
+- `ForwardMeasureProcess` and `ForwardMeasureProcess1D` ABCs for forward-measure processes (in `pyquantlib.base`)
+- `HullWhiteForwardProcess` Hull-White process under the T-forward measure
 - `GJRGARCHProcess` GJR-GARCH(1,1) stochastic process with discretization schemes
 
 #### Models
@@ -114,6 +121,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `VarianceGammaModel` Variance Gamma calibrated model
 - `VarianceGammaEngine` analytic Variance Gamma option pricing
 - `FFTVarianceGammaEngine` FFT-based Variance Gamma option pricing
+
+### Fixed
+- Autodoc class population on Read the Docs by installing the built wheel and removing `sys.path` hacks that shadowed the installed package
 
 ## [0.4.0] - 2026-02-27
 

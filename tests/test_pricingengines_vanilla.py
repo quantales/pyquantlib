@@ -1533,3 +1533,140 @@ def test_gjrgarch_engine_pricing():
 
     option.setPricingEngine(ql.AnalyticGJRGARCHEngine(model))
     assert option.NPV() == pytest.approx(9.8903, rel=1e-4)
+
+
+# =============================================================================
+# FdHestonHullWhiteVanillaEngine
+# =============================================================================
+
+
+def test_fdhestonhullwhitevanillaengine_pricing():
+    """FdHestonHullWhiteVanillaEngine prices European option."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    maturity = ql.Date(15, 1, 2027)
+
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    heston_process = ql.HestonProcess(
+        rts, dts, spot, v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+    )
+    heston_model = ql.HestonModel(heston_process)
+    hw_process = ql.HullWhiteProcess(rts, a=0.1, sigma=0.01)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.FdHestonHullWhiteVanillaEngine(
+        heston_model, hw_process, corrEquityShortRate=0.3,
+        tGrid=25, xGrid=50, vGrid=20, rGrid=10,
+    )
+    option.setPricingEngine(engine)
+    npv = option.NPV()
+    assert npv == pytest.approx(8.5065, rel=1e-2)
+
+
+# =============================================================================
+# FdOrnsteinUhlenbeckVanillaEngine
+# =============================================================================
+
+
+def test_fdornsteinuhlenbeckvanillaengine_pricing():
+    """FdOrnsteinUhlenbeckVanillaEngine prices European option on OU process."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    maturity = ql.Date(15, 1, 2027)
+
+    ou_process = ql.OrnsteinUhlenbeckProcess(
+        speed=1.0, volatility=0.2, x0=100.0, level=100.0,
+    )
+    rts = ql.FlatForward(today, 0.05, dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.FdOrnsteinUhlenbeckVanillaEngine(
+        ou_process, rts, tGrid=50, xGrid=100,
+    )
+    option.setPricingEngine(engine)
+    npv = option.NPV()
+    assert npv > 0.0  # OU model, no exact BS comparison available
+    assert isinstance(npv, float)
+
+
+# =============================================================================
+# MCEuropeanHestonEngine
+# =============================================================================
+
+
+def test_mceuropeanhestonengine_pseudorandom():
+    """MCEuropeanHestonEngine with pseudo-random sampling."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    maturity = ql.Date(15, 1, 2027)
+
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    process = ql.HestonProcess(
+        rts, dts, spot, v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.MCEuropeanHestonEngine(
+        process, rngType="pseudorandom",
+        timeSteps=50, requiredSamples=10000, seed=42,
+    )
+    option.setPricingEngine(engine)
+
+    # Compare against analytic Heston
+    model = ql.HestonModel(process)
+    option2 = ql.VanillaOption(payoff, exercise)
+    option2.setPricingEngine(ql.AnalyticHestonEngine(model))
+    analytic_npv = option2.NPV()
+
+    assert option.NPV() == pytest.approx(analytic_npv, rel=0.05)
+
+
+def test_mceuropeanhestonengine_lowdiscrepancy():
+    """MCEuropeanHestonEngine with low-discrepancy sampling."""
+    today = ql.Date(15, 1, 2026)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    maturity = ql.Date(15, 1, 2027)
+
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    process = ql.HestonProcess(
+        rts, dts, spot, v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.MCEuropeanHestonEngine(
+        process, rngType="lowdiscrepancy",
+        timeSteps=50, requiredSamples=8191,
+    )
+    option.setPricingEngine(engine)
+
+    model = ql.HestonModel(process)
+    option2 = ql.VanillaOption(payoff, exercise)
+    option2.setPricingEngine(ql.AnalyticHestonEngine(model))
+    analytic_npv = option2.NPV()
+
+    assert option.NPV() == pytest.approx(analytic_npv, rel=0.05)

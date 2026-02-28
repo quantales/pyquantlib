@@ -158,6 +158,10 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "FdCEVVanillaEngine - FD CEV pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesshoutengine,
         "FdBlackScholesShoutEngine - FD Black-Scholes shout option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdhestonhullwhitevanillaengine,
+        "FdHestonHullWhiteVanillaEngine - FD Heston + Hull-White pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdornsteinuhlenbeckvanillaengine,
+        "FdOrnsteinUhlenbeckVanillaEngine - FD Ornstein-Uhlenbeck pricing");
 
     // Heston engine ecosystem
     ADD_MAIN_BINDING(ql_pricingengines::coshestonengine,
@@ -215,13 +219,14 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::analytictwoassetcorrelationengine,
         "AnalyticTwoAssetCorrelationEngine - two-asset correlation option pricing");
 
-    // GJR-GARCH engine
     ADD_MAIN_BINDING(ql_pricingengines::analyticgjrgarchengine,
         "AnalyticGJRGARCHEngine - analytic GJR-GARCH option pricing");
 
-    // MC forward engines
+    // MC engines
     ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanbsengine,
         "MCForwardEuropeanBSEngine - MC forward-start BS pricing");
     ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanhestonengine,
         "MCForwardEuropeanHestonEngine - MC forward-start Heston pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::mceuropeanhestonengine,
+        "MCEuropeanHestonEngine - MC European Heston pricing");
 }

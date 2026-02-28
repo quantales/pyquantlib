@@ -83,6 +83,45 @@ bates_process = ql.BatesProcess(
 )
 ```
 
+## Short-Rate Processes
+
+### OrnsteinUhlenbeckProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OrnsteinUhlenbeckProcess
+```
+
+Mean-reverting Ornstein-Uhlenbeck process: $dx = a(r - x)\,dt + \sigma\,dW$.
+
+```python
+process = ql.OrnsteinUhlenbeckProcess(speed=0.5, volatility=0.01, x0=0.05, level=0.05)
+```
+
+### HullWhiteProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HullWhiteProcess
+```
+
+Hull-White short-rate process under the risk-neutral measure.
+
+```python
+process = ql.HullWhiteProcess(curve, a=0.1, sigma=0.01)
+```
+
+### HullWhiteForwardProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HullWhiteForwardProcess
+```
+
+Hull-White process under the T-forward measure. Adds `M_T(s, t, T)` and `B(t, T)` methods.
+
+```python
+process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
+process.setForwardMeasureTime(5.0)
+```
+
 ## Multi-Asset Processes
 
 ### StochasticProcessArray
@@ -92,5 +131,5 @@ bates_process = ql.BatesProcess(
 ```
 
 ```{note}
-Abstract base classes `StochasticProcess` and `StochasticProcess1D` are available in `pyquantlib.base` for custom process implementations.
+Abstract base classes `StochasticProcess`, `StochasticProcess1D`, `ForwardMeasureProcess`, and `ForwardMeasureProcess1D` are available in `pyquantlib.base` for custom process implementations.
 ```

@@ -257,6 +257,33 @@ Finite-differences engine for shout options (holder can lock in current intrinsi
 engine = ql.FdBlackScholesShoutEngine(process, tGrid=100, xGrid=100)
 ```
 
+### FdHestonHullWhiteVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHestonHullWhiteVanillaEngine
+```
+
+Finite-differences Heston + Hull-White engine for vanilla options with stochastic rates.
+
+```python
+engine = ql.FdHestonHullWhiteVanillaEngine(
+    heston_model, hw_process, corrEquityShortRate=0.3,
+)
+```
+
+### FdOrnsteinUhlenbeckVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdOrnsteinUhlenbeckVanillaEngine
+```
+
+Finite-differences Ornstein-Uhlenbeck vanilla option engine.
+
+```python
+ou_process = ql.OrnsteinUhlenbeckProcess(speed=0.5, volatility=0.01)
+engine = ql.FdOrnsteinUhlenbeckVanillaEngine(ou_process, discount_curve)
+```
+
 ### MCEuropeanEngine
 
 ```{eval-rst}
@@ -288,6 +315,23 @@ engine = ql.MCAmericanEngine(
     antitheticVariate=True,
     calibrationSamples=4096,
     requiredTolerance=0.02,
+    seed=42,
+)
+```
+
+### MCEuropeanHestonEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCEuropeanHestonEngine
+```
+
+Monte Carlo European option engine under the Heston model.
+
+```python
+engine = ql.MCEuropeanHestonEngine(
+    heston_process,
+    timeSteps=100,
+    requiredSamples=100000,
     seed=42,
 )
 ```

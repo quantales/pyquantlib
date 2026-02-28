@@ -287,6 +287,9 @@ namespace ql_processes {
     void stochasticprocessarray(py::module_&);
     void batesprocess(py::module_&);
     void gjrgarchprocess(py::module_&);
+    void ornsteinuhlenbeckprocess(py::module_&);
+    void forwardmeasureprocess(py::module_&);
+    void hullwhiteprocess(py::module_&);
 }
 
 namespace ql_models {
@@ -460,6 +463,8 @@ namespace ql_pricingengines {
     void fdsabrvanillaengine(py::module_&);
     void fdcevvanillaengine(py::module_&);
     void fdblackscholesshoutengine(py::module_&);
+    void fdhestonhullwhitevanillaengine(py::module_&);
+    void fdornsteinuhlenbeckvanillaengine(py::module_&);
     // Heston engine ecosystem
     void coshestonengine(py::module_&);
     void exponentialfittinghestonengine(py::module_&);
@@ -488,11 +493,11 @@ namespace ql_pricingengines {
     void analyticholderextensibleoptionengine(py::module_&);
     void analyticwriterextensibleoptionengine(py::module_&);
     void analytictwoassetcorrelationengine(py::module_&);
-    // GJR-GARCH engine
     void analyticgjrgarchengine(py::module_&);
-    // MC forward engines
+    // MC engines
     void mcforwardeuropeanbsengine(py::module_&);
     void mcforwardeuropeanhestonengine(py::module_&);
+    void mceuropeanhestonengine(py::module_&);
 }
 
 namespace ql_methods {
