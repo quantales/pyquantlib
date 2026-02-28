@@ -79,6 +79,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Methods
 - `LsmBasisSystem` / `PolynomialType` enum for Longstaff-Schwartz Monte Carlo basis systems (moved from MCAmericanEngine to its proper header location)
+- `SampleNumber` (`Sample<Real>`) and `SampleRealVector` (`Sample<vector<Real>>`) weighted sample types
+
+#### Random Number Generators
+- `MersenneTwisterUniformRng` (MT19937) with seed and vector-seed constructors
+- `SobolRsg` low-discrepancy sequence generator with `DirectionIntegers` enum (10 direction integer sets) and `skipTo()`
+- `HaltonRsg` Halton low-discrepancy sequence generator
+- `Burley2020SobolRsg` scrambled Sobol sequence generator (Burley 2020 hash-based Owen scrambling) with `skipTo()`
+- `BoxMullerGaussianRng` Box-Muller Gaussian random number generator
+- `GaussianRandomGenerator` inverse cumulative normal Gaussian RNG
+- `UniformRandomSequenceGenerator` MT-based uniform random sequence generator
+- `GaussianRandomSequenceGenerator` MT-based Gaussian random sequence generator (inverse cumulative)
+- `GaussianLowDiscrepancySequenceGenerator` Sobol-based Gaussian low-discrepancy sequence generator
+- `SobolBrownianBridgeRsg` Sobol quasi-random with Brownian bridge ordering
+- `Burley2020SobolBrownianBridgeRsg` scrambled Sobol with Brownian bridge ordering
+- `Ordering` enum (Factors, Steps, Diagonal) for Sobol Brownian generator ordering
 
 #### Experimental
 - `TwoAssetCorrelationOption` two-asset correlation option with analytic engine

@@ -351,3 +351,61 @@ def test_polynomialtype_roundtrip():
     pt = ql.PolynomialType.Laguerre
     assert pt == ql.PolynomialType.Laguerre
     assert pt != ql.PolynomialType.Monomial
+
+
+# =============================================================================
+# SampleNumber (Sample<Real>)
+# =============================================================================
+
+
+def test_sample_number_construction():
+    """Test SampleNumber construction and field access."""
+    s = ql.SampleNumber(0.5, 1.0)
+    assert s.value == pytest.approx(0.5)
+    assert s.weight == pytest.approx(1.0)
+
+
+def test_sample_number_readwrite():
+    """Test SampleNumber fields are read-write."""
+    s = ql.SampleNumber(0.0, 0.0)
+    s.value = 3.14
+    s.weight = 2.0
+    assert s.value == pytest.approx(3.14)
+    assert s.weight == pytest.approx(2.0)
+
+
+def test_sample_number_repr():
+    """Test SampleNumber repr."""
+    s = ql.SampleNumber(0.5, 1.0)
+    r = repr(s)
+    assert "0.5" in r
+    assert "1.0" in r
+
+
+# =============================================================================
+# SampleRealVector (Sample<vector<Real>>)
+# =============================================================================
+
+
+def test_sample_real_vector_construction():
+    """Test SampleRealVector construction and field access."""
+    s = ql.SampleRealVector([0.1, 0.2, 0.3], 1.0)
+    assert s.value == pytest.approx([0.1, 0.2, 0.3])
+    assert s.weight == pytest.approx(1.0)
+
+
+def test_sample_real_vector_readwrite():
+    """Test SampleRealVector fields are read-write."""
+    s = ql.SampleRealVector([0.0], 0.0)
+    s.value = [1.0, 2.0, 3.0]
+    s.weight = 0.5
+    assert s.value == pytest.approx([1.0, 2.0, 3.0])
+    assert s.weight == pytest.approx(0.5)
+
+
+def test_sample_real_vector_repr():
+    """Test SampleRealVector repr."""
+    s = ql.SampleRealVector([0.1, 0.2], 1.0)
+    r = repr(s)
+    assert "dim=2" in r
+    assert "1.0" in r

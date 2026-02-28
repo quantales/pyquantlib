@@ -104,6 +104,16 @@ namespace ql_math {
     void statistics(py::module_&);
     void incrementalstatistics(py::module_&);
     void sequencestatistics(py::module_&);
+    // Random number generators
+    void mt19937uniformrng(py::module_&);
+    void sobolrsg(py::module_&);
+    void haltonrsg(py::module_&);
+    void burley2020sobolrsg(py::module_&);
+    void boxmullergaussianrng(py::module_&);
+    void inversecumulativerng(py::module_&);
+    void randomsequencegenerator(py::module_&);
+    void inversecumulativersg(py::module_&);
+    void sobolbrownianbridgersg(py::module_&);
 }
 
 namespace ql_core {
@@ -302,6 +312,7 @@ namespace ql_models {
     void gsr(py::module_&);
     void markovfunctional(py::module_&);
     void gjrgarchmodel(py::module_&);
+    void sobolbrowniangenerator(py::module_&);
 }
 
 namespace ql_instruments {
@@ -485,6 +496,7 @@ namespace ql_pricingengines {
 namespace ql_methods {
     void fdmbackwardsolver(py::module_&);
     void lsmbasissystem(py::module_&);
+    void sample(py::module_&);
 }
 
 namespace ql_experimental {

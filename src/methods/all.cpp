@@ -21,4 +21,6 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");
+    ADD_MAIN_BINDING(ql_methods::sample,
+        "Sample - weighted sample types for MC simulation");
 }
