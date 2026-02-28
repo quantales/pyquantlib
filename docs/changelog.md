@@ -80,6 +80,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Methods
 - `LsmBasisSystem` / `PolynomialType` enum for Longstaff-Schwartz Monte Carlo basis systems (moved from MCAmericanEngine to its proper header location)
 - `SampleNumber` (`Sample<Real>`) and `SampleRealVector` (`Sample<vector<Real>>`) weighted sample types
+- `Path` single-factor price path with time grid, indexing, and value/time accessors
+- `MultiPath` correlated multi-asset paths with per-asset indexing
+- `SamplePath` (`Sample<Path>`) and `SampleMultiPath` (`Sample<MultiPath>`) weighted path samples
+- `BrownianBridge` variance-reduction bridge construction from steps, times, or time grid
+- `GaussianPathGenerator` single-factor path generator using pseudo-random Gaussian variates
+- `GaussianSobolPathGenerator` single-factor path generator using Sobol low-discrepancy variates
+- `GaussianMultiPathGenerator` multi-factor path generator using pseudo-random Gaussian variates
+- `GaussianSobolMultiPathGenerator` multi-factor path generator using Sobol low-discrepancy variates
+- `BrownianGenerator` ABC and `BrownianGeneratorFactory` ABC for Brownian motion generation (in `pyquantlib.base`)
+- `MTBrownianGenerator` and `MTBrownianGeneratorFactory` Mersenne-Twister Brownian generators
+- `SobolBrownianGenerator` and `SobolBrownianGeneratorFactory` Sobol-based Brownian generators
+- `Burley2020SobolBrownianGenerator` and `Burley2020SobolBrownianGeneratorFactory` scrambled Sobol Brownian generators
 
 #### Random Number Generators
 - `MersenneTwisterUniformRng` (MT19937) with seed and vector-seed constructors

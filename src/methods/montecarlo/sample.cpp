@@ -13,6 +13,8 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/methods/montecarlo/sample.hpp>
+#include <ql/methods/montecarlo/path.hpp>
+#include <ql/methods/montecarlo/multipath.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -43,6 +45,28 @@ void ql_methods::sample(py::module_& m) {
             "Sample weight.")
         .def("__repr__", [](const Sample<std::vector<Real>>& s) {
             return "SampleRealVector(dim=" + std::to_string(s.value.size()) +
+                   ", weight=" + std::to_string(s.weight) + ")";
+        });
+
+    py::class_<Sample<Path>>(m, "SamplePath",
+        "Weighted path sample (value + weight).")
+        .def_readwrite("value", &Sample<Path>::value, "Sample path.")
+        .def_readwrite("weight", &Sample<Path>::weight, "Sample weight.")
+        .def("__repr__", [](const Sample<Path>& s) {
+            return "SamplePath(length=" +
+                   std::to_string(s.value.length()) +
+                   ", weight=" + std::to_string(s.weight) + ")";
+        });
+
+    py::class_<Sample<MultiPath>>(m, "SampleMultiPath",
+        "Weighted multi-path sample (value + weight).")
+        .def_readwrite("value", &Sample<MultiPath>::value,
+            "Sample multi-path.")
+        .def_readwrite("weight", &Sample<MultiPath>::weight,
+            "Sample weight.")
+        .def("__repr__", [](const Sample<MultiPath>& s) {
+            return "SampleMultiPath(assets=" +
+                   std::to_string(s.value.assetNumber()) +
                    ", weight=" + std::to_string(s.weight) + ")";
         });
 }

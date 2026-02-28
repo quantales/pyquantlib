@@ -1,7 +1,7 @@
 """
 Tests for methods module.
 
-Corresponds to src/methods/*.cpp bindings (ql/math/optimization/).
+Corresponds to src/methods/*.cpp bindings.
 """
 
 import math
@@ -409,3 +409,565 @@ def test_sample_real_vector_repr():
     r = repr(s)
     assert "dim=2" in r
     assert "1.0" in r
+
+
+# =============================================================================
+# Path
+# =============================================================================
+
+
+def test_path_construction():
+    """Test Path construction from TimeGrid."""
+    grid = ql.TimeGrid(1.0, 10)
+    p = ql.Path(grid)
+    assert p.length() == 11
+    assert not p.empty()
+
+
+def test_path_construction_with_values():
+    """Test Path construction from TimeGrid and Array."""
+    grid = ql.TimeGrid(1.0, 4)
+    values = ql.Array([100.0, 101.0, 99.0, 102.0, 103.0])
+    p = ql.Path(grid, values)
+    assert p.length() == 5
+    assert p[0] == pytest.approx(100.0)
+    assert p[4] == pytest.approx(103.0)
+
+
+def test_path_getitem_negative():
+    """Test Path negative indexing."""
+    grid = ql.TimeGrid(1.0, 4)
+    values = ql.Array([100.0, 101.0, 99.0, 102.0, 103.0])
+    p = ql.Path(grid, values)
+    assert p[-1] == pytest.approx(103.0)
+    assert p[-5] == pytest.approx(100.0)
+
+
+def test_path_getitem_out_of_range():
+    """Test Path index out of range raises IndexError."""
+    grid = ql.TimeGrid(1.0, 4)
+    p = ql.Path(grid)
+    with pytest.raises(IndexError):
+        p[11]
+    with pytest.raises(IndexError):
+        p[-12]
+
+
+def test_path_value_and_time():
+    """Test Path value() and time() methods."""
+    grid = ql.TimeGrid(1.0, 4)
+    values = ql.Array([100.0, 101.0, 99.0, 102.0, 103.0])
+    p = ql.Path(grid, values)
+    assert p.value(0) == pytest.approx(100.0)
+    assert p.value(4) == pytest.approx(103.0)
+    assert p.time(0) == pytest.approx(0.0)
+    assert p.time(4) == pytest.approx(1.0)
+
+
+def test_path_front_back():
+    """Test Path front() and back() methods."""
+    grid = ql.TimeGrid(1.0, 4)
+    values = ql.Array([100.0, 101.0, 99.0, 102.0, 103.0])
+    p = ql.Path(grid, values)
+    assert p.front() == pytest.approx(100.0)
+    assert p.back() == pytest.approx(103.0)
+
+
+def test_path_timegrid():
+    """Test Path timeGrid() returns the underlying grid."""
+    grid = ql.TimeGrid(1.0, 4)
+    p = ql.Path(grid)
+    tg = p.timeGrid()
+    assert len(tg) == 5
+    assert tg[0] == pytest.approx(0.0)
+    assert tg[4] == pytest.approx(1.0)
+
+
+def test_path_len():
+    """Test Path __len__."""
+    grid = ql.TimeGrid(1.0, 10)
+    p = ql.Path(grid)
+    assert len(p) == 11
+
+
+def test_path_repr():
+    """Test Path repr."""
+    grid = ql.TimeGrid(1.0, 10)
+    p = ql.Path(grid)
+    assert "length=11" in repr(p)
+
+
+# =============================================================================
+# MultiPath
+# =============================================================================
+
+
+def test_multipath_construction():
+    """Test MultiPath construction from nAsset and TimeGrid."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    assert mp.assetNumber() == 3
+    assert mp.pathSize() == 6
+
+
+def test_multipath_getitem():
+    """Test MultiPath __getitem__ returns Path."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    path = mp[0]
+    assert path.length() == 6
+
+
+def test_multipath_getitem_negative():
+    """Test MultiPath negative indexing."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    path = mp[-1]
+    assert path.length() == 6
+
+
+def test_multipath_getitem_out_of_range():
+    """Test MultiPath index out of range raises IndexError."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    with pytest.raises(IndexError):
+        mp[3]
+
+
+def test_multipath_len():
+    """Test MultiPath __len__ returns asset number."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    assert len(mp) == 3
+
+
+def test_multipath_repr():
+    """Test MultiPath repr."""
+    grid = ql.TimeGrid(1.0, 5)
+    mp = ql.MultiPath(3, grid)
+    r = repr(mp)
+    assert "assets=3" in r
+    assert "pathSize=6" in r
+
+
+# =============================================================================
+# SamplePath / SampleMultiPath
+# =============================================================================
+
+
+def test_samplepath_type_exists():
+    """Test SamplePath type is available."""
+    assert hasattr(ql, "SamplePath")
+
+
+def test_samplemultipath_type_exists():
+    """Test SampleMultiPath type is available."""
+    assert hasattr(ql, "SampleMultiPath")
+
+
+# =============================================================================
+# BrownianBridge
+# =============================================================================
+
+
+def test_brownianbridge_from_steps():
+    """Test BrownianBridge construction from number of steps."""
+    bb = ql.BrownianBridge(10)
+    assert bb.size() == 10
+
+
+def test_brownianbridge_from_times():
+    """Test BrownianBridge construction from time vector."""
+    times = [0.25, 0.5, 0.75, 1.0]
+    bb = ql.BrownianBridge(times)
+    assert bb.size() == 4
+    assert bb.times() == pytest.approx(times)
+
+
+def test_brownianbridge_from_timegrid():
+    """Test BrownianBridge construction from TimeGrid."""
+    grid = ql.TimeGrid(1.0, 4)  # 5 points, 4 steps
+    bb = ql.BrownianBridge(timeGrid=grid)
+    assert bb.size() == 4
+
+
+def test_brownianbridge_inspectors():
+    """Test BrownianBridge inspector methods return vectors."""
+    bb = ql.BrownianBridge(5)
+    assert len(bb.bridgeIndex()) == 5
+    assert len(bb.leftIndex()) == 5
+    assert len(bb.rightIndex()) == 5
+    assert len(bb.leftWeight()) == 5
+    assert len(bb.rightWeight()) == 5
+    assert len(bb.stdDeviation()) == 5
+
+
+def test_brownianbridge_transform():
+    """Test BrownianBridge transform with known input."""
+    bb = ql.BrownianBridge(4)
+    # Use unit variates as input
+    input_variates = [1.0, 0.5, -0.5, 0.3]
+    output = bb.transform(input_variates)
+    assert len(output) == 4
+    # Output should be finite real numbers
+    assert all(math.isfinite(v) for v in output)
+
+
+def test_brownianbridge_transform_zeros():
+    """Test BrownianBridge transform with zero input gives zero output."""
+    bb = ql.BrownianBridge(4)
+    output = bb.transform([0.0, 0.0, 0.0, 0.0])
+    assert output == pytest.approx([0.0, 0.0, 0.0, 0.0])
+
+
+def test_brownianbridge_repr():
+    """Test BrownianBridge repr."""
+    bb = ql.BrownianBridge(10)
+    assert "size=10" in repr(bb)
+
+
+# =============================================================================
+# BrownianGenerator ABCs
+# =============================================================================
+
+
+def test_browniangenerator_abc_exists():
+    """Test BrownianGenerator ABC is accessible."""
+    assert hasattr(ql.base, "BrownianGenerator")
+
+
+def test_browniangeneratorfactory_abc_exists():
+    """Test BrownianGeneratorFactory ABC is accessible."""
+    assert hasattr(ql.base, "BrownianGeneratorFactory")
+
+
+# =============================================================================
+# MTBrownianGenerator
+# =============================================================================
+
+
+def test_mtbrowniangenerator_construction():
+    """Test MTBrownianGenerator construction."""
+    gen = ql.MTBrownianGenerator(2, 5, 42)
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+def test_mtbrowniangenerator_nextpath_nextstep():
+    """Test MTBrownianGenerator path/step generation."""
+    gen = ql.MTBrownianGenerator(2, 3, 42)
+    weight = gen.nextPath()
+    assert weight == pytest.approx(1.0)
+
+    step_weight, variates = gen.nextStep()
+    assert step_weight == pytest.approx(1.0)
+    assert len(variates) == 2
+    assert all(math.isfinite(v) for v in variates)
+
+
+def test_mtbrowniangenerator_deterministic():
+    """Test MTBrownianGenerator produces deterministic results with same seed."""
+    gen1 = ql.MTBrownianGenerator(1, 3, 42)
+    gen2 = ql.MTBrownianGenerator(1, 3, 42)
+    gen1.nextPath()
+    gen2.nextPath()
+    _, v1 = gen1.nextStep()
+    _, v2 = gen2.nextStep()
+    assert v1 == pytest.approx(v2)
+
+
+def test_mtbrowniangeneratorfactory():
+    """Test MTBrownianGeneratorFactory creates generators."""
+    factory = ql.MTBrownianGeneratorFactory(42)
+    gen = factory.create(2, 5)
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+# =============================================================================
+# SobolBrownianGenerator
+# =============================================================================
+
+
+def test_sobolbrowniangenerator_construction():
+    """Test SobolBrownianGenerator construction."""
+    gen = ql.SobolBrownianGenerator(2, 5, ql.Ordering.Diagonal)
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+def test_sobolbrowniangenerator_nextpath_nextstep():
+    """Test SobolBrownianGenerator generates paths."""
+    gen = ql.SobolBrownianGenerator(2, 3, ql.Ordering.Steps)
+    weight = gen.nextPath()
+    assert weight == pytest.approx(1.0)
+
+    step_weight, variates = gen.nextStep()
+    assert step_weight == pytest.approx(1.0)
+    assert len(variates) == 2
+
+
+def test_sobolbrowniangeneratorfactory():
+    """Test SobolBrownianGeneratorFactory creates generators."""
+    factory = ql.SobolBrownianGeneratorFactory(ql.Ordering.Diagonal)
+    gen = factory.create(2, 5)
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+def test_burley2020sobolbrowniangenerator_construction():
+    """Test Burley2020SobolBrownianGenerator construction."""
+    gen = ql.Burley2020SobolBrownianGenerator(
+        2, 5, ql.Ordering.Diagonal, 42,
+        ql.SobolRsg.DirectionIntegers.Jaeckel, 43,
+    )
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+def test_burley2020sobolbrowniangeneratorfactory():
+    """Test Burley2020SobolBrownianGeneratorFactory creates generators."""
+    factory = ql.Burley2020SobolBrownianGeneratorFactory(ql.Ordering.Diagonal)
+    gen = factory.create(2, 5)
+    assert gen.numberOfFactors() == 2
+    assert gen.numberOfSteps() == 5
+
+
+# =============================================================================
+# GaussianPathGenerator
+# =============================================================================
+
+
+@pytest.fixture
+def bsm_process():
+    """Create a simple BSM process for path generation tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    flat_ts = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    flat_vol = ql.BlackConstantVol(
+        today, ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    return ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(flat_ts),
+        ql.YieldTermStructureHandle(flat_ts),
+        ql.BlackVolTermStructureHandle(flat_vol),
+    )
+
+
+def test_gaussian_path_generator(bsm_process):
+    """Test GaussianPathGenerator construction and path generation."""
+    time_steps = 10
+    length = 1.0
+    rng = ql.UniformRandomSequenceGenerator(
+        time_steps, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianPathGenerator(
+        bsm_process, length, time_steps, gsg, False
+    )
+
+    assert gen.size() == time_steps
+
+    sample = gen.next()
+    path = sample.value
+    assert path.length() == 11
+    assert path.front() == pytest.approx(100.0)
+    assert sample.weight == pytest.approx(1.0)
+    # Path values should be positive (GBM)
+    for i in range(path.length()):
+        assert path[i] > 0.0
+
+
+def test_gaussian_path_generator_with_timegrid(bsm_process):
+    """Test GaussianPathGenerator with TimeGrid constructor."""
+    grid = ql.TimeGrid(1.0, 10)
+    rng = ql.UniformRandomSequenceGenerator(
+        10, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianPathGenerator(bsm_process, grid, gsg, False)
+
+    sample = gen.next()
+    assert sample.value.length() == 11
+    assert sample.value.front() == pytest.approx(100.0)
+
+
+def test_gaussian_path_generator_antithetic(bsm_process):
+    """Test GaussianPathGenerator antithetic path generation."""
+    rng = ql.UniformRandomSequenceGenerator(
+        10, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianPathGenerator(bsm_process, 1.0, 10, gsg, False)
+
+    sample = gen.next()
+    anti = gen.antithetic()
+    # Both should start at 100
+    assert sample.value.front() == pytest.approx(100.0)
+    assert anti.value.front() == pytest.approx(100.0)
+    # But differ at the end
+    assert sample.value.back() != pytest.approx(anti.value.back(), rel=1e-6)
+
+
+def test_gaussian_path_generator_brownian_bridge(bsm_process):
+    """Test GaussianPathGenerator with Brownian bridge."""
+    rng = ql.UniformRandomSequenceGenerator(
+        10, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianPathGenerator(bsm_process, 1.0, 10, gsg, True)
+
+    sample = gen.next()
+    assert sample.value.length() == 11
+    assert sample.value.front() == pytest.approx(100.0)
+
+
+def test_gaussian_path_generator_timegrid_accessor(bsm_process):
+    """Test GaussianPathGenerator timeGrid accessor."""
+    rng = ql.UniformRandomSequenceGenerator(
+        10, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianPathGenerator(bsm_process, 1.0, 10, gsg, False)
+    tg = gen.timeGrid()
+    assert len(tg) == 11
+    assert tg[0] == pytest.approx(0.0)
+    assert tg[10] == pytest.approx(1.0)
+
+
+def test_gaussian_path_generator_deterministic(bsm_process):
+    """Test same seed produces same paths."""
+    def make_gen():
+        rng = ql.UniformRandomSequenceGenerator(
+            10, ql.MersenneTwisterUniformRng(42)
+        )
+        gsg = ql.GaussianRandomSequenceGenerator(rng)
+        return ql.GaussianPathGenerator(bsm_process, 1.0, 10, gsg, False)
+
+    gen1 = make_gen()
+    gen2 = make_gen()
+    p1 = gen1.next().value
+    p2 = gen2.next().value
+    for i in range(p1.length()):
+        assert p1[i] == pytest.approx(p2[i])
+
+
+# =============================================================================
+# GaussianSobolPathGenerator
+# =============================================================================
+
+
+def test_gaussian_sobol_path_generator(bsm_process):
+    """Test GaussianSobolPathGenerator construction and path generation."""
+    time_steps = 10
+    sobol = ql.SobolRsg(time_steps)
+    gsg = ql.GaussianLowDiscrepancySequenceGenerator(sobol)
+    gen = ql.GaussianSobolPathGenerator(
+        bsm_process, 1.0, time_steps, gsg, False
+    )
+
+    sample = gen.next()
+    path = sample.value
+    assert path.length() == 11
+    assert path.front() == pytest.approx(100.0)
+    assert sample.weight == pytest.approx(1.0)
+
+
+def test_gaussian_sobol_path_generator_with_bridge(bsm_process):
+    """Test GaussianSobolPathGenerator with Brownian bridge."""
+    time_steps = 10
+    sobol = ql.SobolRsg(time_steps)
+    gsg = ql.GaussianLowDiscrepancySequenceGenerator(sobol)
+    gen = ql.GaussianSobolPathGenerator(
+        bsm_process, 1.0, time_steps, gsg, True
+    )
+
+    sample = gen.next()
+    assert sample.value.length() == 11
+    assert sample.value.front() == pytest.approx(100.0)
+
+
+# =============================================================================
+# GaussianMultiPathGenerator
+# =============================================================================
+
+
+@pytest.fixture
+def heston_process():
+    """Create a Heston process for multi-path generation tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    flat_ts = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    risk_free = ql.YieldTermStructureHandle(flat_ts)
+    dividend = ql.YieldTermStructureHandle(flat_ts)
+    return ql.HestonProcess(
+        risk_free, dividend, ql.QuoteHandle(spot),
+        0.04, 1.0, 0.04, 0.5, -0.7,
+    )
+
+
+def test_gaussian_multipath_generator(heston_process):
+    """Test GaussianMultiPathGenerator with Heston process."""
+    time_steps = 10
+    grid = ql.TimeGrid(1.0, time_steps)
+    dim = heston_process.factors() * time_steps
+    rng = ql.UniformRandomSequenceGenerator(
+        dim, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianMultiPathGenerator(heston_process, grid, gsg)
+
+    sample = gen.next()
+    mp = sample.value
+    assert mp.assetNumber() == heston_process.size()
+    assert mp.pathSize() == 11
+    assert sample.weight == pytest.approx(1.0)
+    # Spot path should start at initial value
+    assert mp[0].front() == pytest.approx(100.0)
+
+
+def test_gaussian_multipath_generator_antithetic(heston_process):
+    """Test GaussianMultiPathGenerator antithetic generation."""
+    time_steps = 10
+    grid = ql.TimeGrid(1.0, time_steps)
+    dim = heston_process.factors() * time_steps
+    rng = ql.UniformRandomSequenceGenerator(
+        dim, ql.MersenneTwisterUniformRng(42)
+    )
+    gsg = ql.GaussianRandomSequenceGenerator(rng)
+    gen = ql.GaussianMultiPathGenerator(heston_process, grid, gsg)
+
+    sample = gen.next()
+    anti = gen.antithetic()
+    # Both start at same initial values
+    assert sample.value[0].front() == pytest.approx(anti.value[0].front())
+    # But diverge
+    assert sample.value[0].back() != pytest.approx(
+        anti.value[0].back(), rel=1e-6
+    )
+
+
+# =============================================================================
+# GaussianSobolMultiPathGenerator
+# =============================================================================
+
+
+def test_gaussian_sobol_multipath_generator(heston_process):
+    """Test GaussianSobolMultiPathGenerator with Heston process."""
+    time_steps = 10
+    grid = ql.TimeGrid(1.0, time_steps)
+    dim = heston_process.factors() * time_steps
+    sobol = ql.SobolRsg(dim)
+    gsg = ql.GaussianLowDiscrepancySequenceGenerator(sobol)
+    gen = ql.GaussianSobolMultiPathGenerator(heston_process, grid, gsg)
+
+    sample = gen.next()
+    mp = sample.value
+    assert mp.assetNumber() == heston_process.size()
+    assert mp.pathSize() == 11
+    assert mp[0].front() == pytest.approx(100.0)

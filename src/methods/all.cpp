@@ -21,6 +21,16 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");
+    ADD_MAIN_BINDING(ql_methods::path,
+        "Path - single-factor random walk");
+    ADD_MAIN_BINDING(ql_methods::multipath,
+        "MultiPath - correlated multiple asset paths");
     ADD_MAIN_BINDING(ql_methods::sample,
         "Sample - weighted sample types for MC simulation");
+    ADD_MAIN_BINDING(ql_methods::brownianbridge,
+        "BrownianBridge - Brownian bridge path construction");
+    ADD_MAIN_BINDING(ql_methods::pathgenerator,
+        "PathGenerator - single-factor path generation");
+    ADD_MAIN_BINDING(ql_methods::multipathgenerator,
+        "MultiPathGenerator - multi-factor path generation");
 }

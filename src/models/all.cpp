@@ -59,4 +59,7 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "MarkovFunctional - Markov Functional 1-factor model");
     ADD_MAIN_BINDING(ql_models::gjrgarchmodel,
         "GJRGARCHModel - GJR-GARCH(1,1) calibrated model");
+    // Brownian generators (ABCs + Sobol registered in math/all.cpp)
+    ADD_MAIN_BINDING(ql_models::mtbrowniangenerator,
+        "MTBrownianGenerator - Mersenne-Twister Brownian generator");
 }

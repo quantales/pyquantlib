@@ -312,7 +312,9 @@ namespace ql_models {
     void gsr(py::module_&);
     void markovfunctional(py::module_&);
     void gjrgarchmodel(py::module_&);
+    void browniangenerator(py::module_&);
     void sobolbrowniangenerator(py::module_&);
+    void mtbrowniangenerator(py::module_&);
 }
 
 namespace ql_instruments {
@@ -497,6 +499,11 @@ namespace ql_methods {
     void fdmbackwardsolver(py::module_&);
     void lsmbasissystem(py::module_&);
     void sample(py::module_&);
+    void path(py::module_&);
+    void multipath(py::module_&);
+    void brownianbridge(py::module_&);
+    void pathgenerator(py::module_&);
+    void multipathgenerator(py::module_&);
 }
 
 namespace ql_experimental {

@@ -20,6 +20,7 @@ PyQuantLib organizes QuantLib classes into logical groups:
 - **Term Structures**: Yield curves, volatility surfaces
 - **Processes**: Stochastic processes (Black-Scholes, Heston)
 - **Models**: Pricing models (Heston, etc.)
+- **Methods**: Monte Carlo paths, Brownian bridges, generators
 - **Instruments**: Financial instruments (options, etc.)
 - **Pricing Engines**: Analytic, Monte Carlo, finite difference
 - **Experimental**: Experimental QuantLib features (SVI, etc.)
@@ -69,6 +70,7 @@ indexes
 termstructures
 processes
 models
+methods
 instruments
 pricingengines
 experimental

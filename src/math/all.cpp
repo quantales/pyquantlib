@@ -63,8 +63,11 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
         "Gaussian random and low-discrepancy sequence generators");
     // Registered here (not models/all.cpp) because SobolBrownianBridgeRsg
     // needs the Ordering enum for a default arg, and math runs before models.
+    // BrownianGenerator ABCs must precede concrete Sobol generators.
+    ADD_BASE_BINDING(ql_models::browniangenerator,
+        "BrownianGenerator and BrownianGeneratorFactory ABCs");
     ADD_MAIN_BINDING(ql_models::sobolbrowniangenerator,
-        "Ordering enum for Sobol Brownian generators");
+        "Ordering enum and Sobol Brownian generators");
     ADD_MAIN_BINDING(ql_math::sobolbrownianbridgersg,
         "Sobol Brownian bridge sequence generators");
 }
