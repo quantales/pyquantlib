@@ -13,7 +13,10 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/methods/finitedifferences/solvers/fdmbackwardsolver.hpp>
+#include <ql/methods/finitedifferences/stepconditions/fdmstepconditioncomposite.hpp>
+#include <ql/methods/finitedifferences/operators/fdmlinearopcomposite.hpp>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace py = pybind11;
 using namespace QuantLib;
@@ -65,5 +68,33 @@ void ql_methods::fdmbackwardsolver(py::module_& m) {
         .def_static("TrBDF2", &FdmSchemeDesc::TrBDF2,
             "TR-BDF2 scheme.");
 
-    // Todo: add FdmBackwardSolver class binding
+    // FdmBackwardSolver class
+    using bc_set = FdmBoundaryConditionSet;
+
+    py::class_<FdmBackwardSolver>(m, "FdmBackwardSolver",
+        "Core FDM backward solver performing PDE rollback.")
+        .def(py::init([](ext::shared_ptr<FdmLinearOpComposite> map,
+                         bc_set bcSet,
+                         const py::object& condition,
+                         const FdmSchemeDesc& schemeDesc) {
+            ext::shared_ptr<FdmStepConditionComposite> cond;
+            if (!condition.is_none())
+                cond = condition.cast<ext::shared_ptr<FdmStepConditionComposite>>();
+            return FdmBackwardSolver(std::move(map), std::move(bcSet),
+                                     cond, schemeDesc);
+        }),
+            py::arg("map"),
+            py::arg("bcSet") = bc_set(),
+            py::arg("condition") = py::none(),
+            py::arg("schemeDesc") = FdmSchemeDesc::Douglas(),
+            "Constructs with operator, boundary conditions, step conditions, and scheme.")
+        .def("rollback", [](FdmBackwardSolver& self,
+                            Array a, Time from, Time to,
+                            Size steps, Size dampingSteps) {
+            self.rollback(a, from, to, steps, dampingSteps);
+            return a;
+        },
+            py::arg("a"), py::arg("from_"), py::arg("to"),
+            py::arg("steps"), py::arg("dampingSteps"),
+            "Rolls back array from time 'from' to time 'to' (returns modified copy).");
 }

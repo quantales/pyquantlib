@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FdmInnerValueCalculator', 'FdmStepCondition', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'RiskNeutralDensityCalculator', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -544,6 +544,26 @@ class Extrapolator:
     def enableExtrapolation(self, b: bool = True) -> None:
         """
         Enables or disables extrapolation.
+        """
+class FdmInnerValueCalculator:
+    """
+    Abstract base for inner value calculations on FDM grids.
+    """
+    def avgInnerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns cell-averaged inner value at grid point.
+        """
+    def innerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns inner value at grid point.
+        """
+class FdmStepCondition:
+    """
+    Step condition applied at each time step during FDM rollback.
+    """
+    def applyTo(self, a: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat | typing.SupportsIndex) -> pyquantlib._pyquantlib.Array:
+        """
+        Applies condition to array at time t (returns modified copy).
         """
 class FittingMethod:
     """
@@ -1497,6 +1517,22 @@ class RelativeDateZeroInflationHelper(ZeroInflationHelper):
     """
     Zero-inflation helper with dates relative to evaluation date.
     """
+class RiskNeutralDensityCalculator:
+    """
+    Abstract base for risk-neutral density calculations.
+    """
+    def cdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns cumulative distribution function at x and time t.
+        """
+    def invcdf(self, p: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns inverse CDF at probability p and time t.
+        """
+    def pdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Returns probability density function at x and time t.
+        """
 class Seasonality:
     """
     Abstract base class for inflation seasonality corrections.

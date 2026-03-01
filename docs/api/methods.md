@@ -716,6 +716,318 @@ Modified Craig-Sneyd ADI time-stepping scheme.
 
 Method of lines (Runge-Kutta) time-stepping scheme.
 
+## FDM Inner Value Calculators
+
+Inner value calculators evaluate the payoff at grid points, used by step conditions and solvers.
+
+### FdmCellAveragingInnerValue
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmCellAveragingInnerValue
+```
+
+Cell-averaging inner value calculator. Evaluates payoff with optional grid mapping.
+
+```python
+payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+calculator = ql.FdmCellAveragingInnerValue(payoff, mesher, 0)
+
+# With custom grid mapping (e.g., exp for log-space)
+import math
+calculator = ql.FdmCellAveragingInnerValue(payoff, mesher, 0, gridMapping=math.exp)
+```
+
+### FdmLogInnerValue
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmLogInnerValue
+```
+
+Log-space inner value calculator for equity options. Applies `exp()` mapping automatically.
+
+```python
+calculator = ql.FdmLogInnerValue(payoff, mesher, 0)
+```
+
+### FdmLogBasketInnerValue
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmLogBasketInnerValue
+```
+
+Log-space inner value calculator for basket options.
+
+### FdmZeroInnerValue
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmZeroInnerValue
+```
+
+Always returns zero. Used when no exercise value is needed.
+
+## FDM Step Conditions
+
+Step conditions apply constraints or modifications at each time step during the backward PDE solve.
+
+### FdmSnapshotCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSnapshotCondition
+```
+
+Captures the solution array at a specified time.
+
+```python
+snapshot = ql.FdmSnapshotCondition(0.5)  # capture at t=0.5
+snapshot.getTime()     # 0.5
+snapshot.getValues()   # Array (available after solve)
+```
+
+### FdmAmericanStepCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmAmericanStepCondition
+```
+
+Applies early exercise at every time step (American-style).
+
+```python
+condition = ql.FdmAmericanStepCondition(mesher, calculator)
+```
+
+### FdmBermudanStepCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBermudanStepCondition
+```
+
+Applies early exercise at discrete dates (Bermudan-style).
+
+```python
+condition = ql.FdmBermudanStepCondition(
+    exerciseDates, referenceDate, dayCounter, mesher, calculator
+)
+condition.exerciseTimes()  # list of exercise times
+```
+
+### FdmDividendHandler
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmDividendHandler
+```
+
+Adjusts grid values for discrete dividends during backward solve.
+
+```python
+handler = ql.FdmDividendHandler(dividends, mesher, refDate, dc, equityDirection=0)
+handler.dividendTimes()   # list of dividend times
+handler.dividendDates()   # list of dividend dates
+handler.dividends()       # list of Dividend objects
+```
+
+### FdmStepConditionComposite
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmStepConditionComposite
+```
+
+Combines multiple step conditions into one. Provides factory methods for common setups.
+
+```python
+# Vanilla option composite (handles dividends + exercise)
+composite = ql.FdmStepConditionComposite.vanillaComposite(
+    dividends, exercise, mesher, calculator, refDate, dc
+)
+composite.stoppingTimes()    # combined stopping times
+composite.conditions()       # list of step conditions
+
+# Join snapshot with composite
+joined = ql.FdmStepConditionComposite.joinConditions(snapshot, composite)
+```
+
+## FDM Solvers
+
+### FdmSolverDesc
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSolverDesc
+```
+
+Descriptor aggregating all inputs for an FDM solver.
+
+```python
+desc = ql.FdmSolverDesc(
+    mesher=mesher,
+    bcSet=[],                  # boundary conditions
+    condition=composite,       # step condition composite
+    calculator=calculator,     # inner value calculator
+    maturity=1.0,
+    timeSteps=100,
+    dampingSteps=0
+)
+```
+
+### FdmBackwardSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBackwardSolver
+```
+
+Core backward PDE solver performing time rollback with a specified scheme.
+
+```python
+solver = ql.FdmBackwardSolver(op, bcSet=[], schemeDesc=ql.FdmSchemeDesc.Douglas())
+result = solver.rollback(array, from_=1.0, to=0.0, steps=100, dampingSteps=0)
+```
+
+### Fdm1DimSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm1DimSolver
+```
+
+One-dimensional FDM solver with interpolation.
+
+```python
+solver = ql.Fdm1DimSolver(desc, ql.FdmSchemeDesc.Douglas(), op)
+solver.interpolateAt(x)     # solution value at x
+solver.thetaAt(x)           # theta at x
+solver.derivativeX(x)       # first derivative
+solver.derivativeXX(x)      # second derivative
+```
+
+### Fdm2DimSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm2DimSolver
+```
+
+Two-dimensional FDM solver with bilinear interpolation.
+
+```python
+solver = ql.Fdm2DimSolver(desc, ql.FdmSchemeDesc.Hundsdorfer(), op)
+solver.interpolateAt(x, y)
+solver.thetaAt(x, y)
+solver.derivativeX(x, y)
+solver.derivativeY(x, y)
+solver.derivativeXX(x, y)
+solver.derivativeYY(x, y)
+solver.derivativeXY(x, y)
+```
+
+### Fdm3DimSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm3DimSolver
+```
+
+Three-dimensional FDM solver.
+
+```python
+solver = ql.Fdm3DimSolver(desc, ql.FdmSchemeDesc.Douglas(), op)
+solver.interpolateAt(x, y, z)
+solver.thetaAt(x, y, z)
+```
+
+### FdmBlackScholesSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBlackScholesSolver
+```
+
+Specialized 1D solver for Black-Scholes processes. Accepts the process directly (no need to build operators manually).
+
+```python
+solver = ql.FdmBlackScholesSolver(process, strike, desc)
+solver.valueAt(spot)    # option value
+solver.deltaAt(spot)    # delta
+solver.gammaAt(spot)    # gamma
+solver.thetaAt(spot)    # theta
+```
+
+## Risk-Neutral Density Calculators
+
+Compute probability density, cumulative distribution, and inverse CDF under the risk-neutral measure.
+
+### BSMRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BSMRNDCalculator
+```
+
+Black-Scholes-Merton risk-neutral density calculator. Operates in **log-space** (x = ln(S)).
+
+```python
+import math
+calc = ql.BSMRNDCalculator(process)
+calc.pdf(math.log(100.0), 1.0)     # density at ln(S)=ln(100), t=1
+calc.cdf(math.log(100.0), 1.0)     # CDF at ln(S)=ln(100), t=1
+calc.invcdf(0.5, 1.0)              # inverse CDF (returns ln(S))
+```
+
+### GBSMRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GBSMRNDCalculator
+```
+
+Generalized BSM risk-neutral density calculator. Operates in **spot-space** (x = S).
+
+```python
+calc = ql.GBSMRNDCalculator(process)
+calc.pdf(100.0, 1.0)     # density at S=100, t=1
+calc.cdf(100.0, 1.0)     # CDF at S=100, t=1
+calc.invcdf(0.5, 1.0)    # inverse CDF (returns S)
+```
+
+### HestonRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonRNDCalculator
+```
+
+Heston stochastic volatility risk-neutral density calculator. Operates in **log-space** (x = ln(S)).
+
+```python
+calc = ql.HestonRNDCalculator(heston_process, integrationEps=1e-8, maxIntegrationIterations=100000)
+calc.pdf(math.log(100.0), 1.0)
+calc.cdf(math.log(100.0), 1.0)
+```
+
+### CEVRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CEVRNDCalculator
+```
+
+Constant Elasticity of Variance risk-neutral density calculator.
+
+```python
+calc = ql.CEVRNDCalculator(f0=100.0, alpha=0.3, beta=0.5)
+calc.pdf(100.0, 1.0)
+calc.cdf(100.0, 1.0)
+calc.massAtZero(1.0)   # probability mass at zero
+```
+
+### SquareRootProcessRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SquareRootProcessRNDCalculator
+```
+
+Square-root (CIR) process risk-neutral density calculator. Includes stationary distribution methods.
+
+```python
+calc = ql.SquareRootProcessRNDCalculator(v0=0.04, kappa=1.0, theta=0.04, sigma=0.2)
+calc.pdf(0.04, 1.0)
+calc.cdf(0.04, 1.0)
+
+# Stationary distribution
+calc.stationary_pdf(0.04)
+calc.stationary_cdf(0.04)
+calc.stationary_invcdf(0.5)
+```
+
 ```{note}
-Abstract base classes `FdmLinearOp`, `FdmLinearOpComposite`, `BrownianGenerator`, `BrownianGeneratorFactory`, and `FdmMesher` are available in `pyquantlib.base` for type checking.
+Abstract base classes `FdmLinearOp`, `FdmLinearOpComposite`, `BrownianGenerator`, `BrownianGeneratorFactory`, `FdmMesher`, `FdmStepCondition`, `FdmInnerValueCalculator`, and `RiskNeutralDensityCalculator` are available in `pyquantlib.base` for type checking.
 ```

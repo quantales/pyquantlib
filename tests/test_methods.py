@@ -9,7 +9,13 @@ import math
 import pytest
 
 import pyquantlib as ql
-from pyquantlib.base import CostFunction, OptimizationMethod
+from pyquantlib.base import (
+    CostFunction,
+    FdmInnerValueCalculator,
+    FdmStepCondition,
+    OptimizationMethod,
+    RiskNeutralDensityCalculator,
+)
 
 
 # =============================================================================
@@ -1967,3 +1973,594 @@ def test_fdmlinearopcomposite_methods(bs_operator_data):
     assert len(r_split) == 50
     r_pre = op.preconditioner(a, 1.0)
     assert len(r_pre) == 50
+
+
+# =============================================================================
+# FDM Step Conditions, Inner Value Calculators, Solvers & RND Calculators
+# =============================================================================
+
+
+@pytest.fixture
+def fdm_bs_setup():
+    """Common setup for FDM step condition, solver, and RND tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rTS = ql.FlatForward(today, 0.05, dc)
+    divTS = ql.FlatForward(today, 0.02, dc)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), 0.20, dc)
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(divTS),
+        ql.YieldTermStructureHandle(rTS),
+        ql.BlackVolTermStructureHandle(vol),
+    )
+    maturity = 1.0
+    strike = 100.0
+    n_grid = 100
+    bs_mesher = ql.FdmBlackScholesMesher(n_grid, process, maturity, strike)
+    mesher = ql.FdmMesherComposite(bs_mesher)
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    return {
+        "today": today, "dc": dc, "spot": spot,
+        "rTS": rTS, "divTS": divTS, "vol": vol,
+        "process": process, "mesher": mesher,
+        "payoff": payoff, "strike": strike, "maturity": maturity,
+        "n_grid": n_grid,
+    }
+
+
+# -- FdmZeroInnerValue --
+
+def test_fdmzeroinnervalue_returns_zero(fdm_bs_setup):
+    """FdmZeroInnerValue returns 0 for any point."""
+    calc = ql.FdmZeroInnerValue()
+    d = fdm_bs_setup
+    layout = d["mesher"].layout()
+    it = layout.begin()
+    assert calc.innerValue(it, 0.5) == 0.0
+    assert calc.avgInnerValue(it, 0.5) == 0.0
+
+
+# -- FdmCellAveragingInnerValue --
+
+def test_fdmcellaveragingInnervalue_construction(fdm_bs_setup):
+    """FdmCellAveragingInnerValue construction."""
+    d = fdm_bs_setup
+    calc = ql.FdmCellAveragingInnerValue(d["payoff"], d["mesher"], 0)
+    assert isinstance(calc, FdmInnerValueCalculator)
+
+
+def test_fdmcellaveragingInnervalue_with_mapping(fdm_bs_setup):
+    """FdmCellAveragingInnerValue with grid mapping function."""
+    d = fdm_bs_setup
+    calc = ql.FdmCellAveragingInnerValue(
+        d["payoff"], d["mesher"], 0, gridMapping=math.exp)
+    assert isinstance(calc, FdmInnerValueCalculator)
+
+
+# -- FdmLogInnerValue --
+
+def test_fdmloginnervalue_construction(fdm_bs_setup):
+    """FdmLogInnerValue construction."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    assert isinstance(calc, ql.FdmCellAveragingInnerValue)
+    assert isinstance(calc, FdmInnerValueCalculator)
+
+
+def test_fdmloginnervalue_values(fdm_bs_setup):
+    """FdmLogInnerValue returns inner value on log grid."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    layout = d["mesher"].layout()
+    it = layout.begin()
+    val = calc.innerValue(it, 0.0)
+    assert isinstance(val, float)
+
+
+# -- FdmLogBasketInnerValue --
+
+def test_fdmlogbasketinnervalue_construction(fdm_bs_setup):
+    """FdmLogBasketInnerValue construction with basket payoff."""
+    d = fdm_bs_setup
+    basket_payoff = ql.AverageBasketPayoff(d["payoff"], [1.0])
+    calc = ql.FdmLogBasketInnerValue(basket_payoff, d["mesher"])
+    assert isinstance(calc, FdmInnerValueCalculator)
+
+
+# -- FdmSnapshotCondition --
+
+def test_fdmsnapshotcondition_construction():
+    """FdmSnapshotCondition construction."""
+    cond = ql.FdmSnapshotCondition(0.5)
+    assert isinstance(cond, FdmStepCondition)
+    assert cond.getTime() == 0.5
+
+
+def test_fdmsnapshotcondition_getvalues():
+    """FdmSnapshotCondition getValues returns array."""
+    cond = ql.FdmSnapshotCondition(0.5)
+    vals = cond.getValues()
+    assert isinstance(vals, ql.Array)
+
+
+# -- FdmAmericanStepCondition --
+
+def test_fdmamericanstepcondition_construction(fdm_bs_setup):
+    """FdmAmericanStepCondition construction."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    cond = ql.FdmAmericanStepCondition(d["mesher"], calc)
+    assert isinstance(cond, FdmStepCondition)
+
+
+# -- FdmBermudanStepCondition --
+
+def test_fdmbermudanstepcondition_construction(fdm_bs_setup):
+    """FdmBermudanStepCondition construction."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    dates = [d["today"] + ql.Period(3, ql.Months),
+             d["today"] + ql.Period(6, ql.Months),
+             d["today"] + ql.Period(9, ql.Months)]
+    cond = ql.FdmBermudanStepCondition(dates, d["today"], d["dc"],
+                                        d["mesher"], calc)
+    assert isinstance(cond, FdmStepCondition)
+    times = cond.exerciseTimes()
+    assert len(times) == 3
+
+
+# -- FdmDividendHandler --
+
+def test_fdmdividendhandler_construction(fdm_bs_setup):
+    """FdmDividendHandler construction with dividend schedule."""
+    d = fdm_bs_setup
+    div1 = ql.FixedDividend(2.0, d["today"] + ql.Period(3, ql.Months))
+    div2 = ql.FixedDividend(2.0, d["today"] + ql.Period(6, ql.Months))
+    handler = ql.FdmDividendHandler([div1, div2], d["mesher"],
+                                     d["today"], d["dc"], 0)
+    assert isinstance(handler, FdmStepCondition)
+
+
+def test_fdmdividendhandler_accessors(fdm_bs_setup):
+    """FdmDividendHandler dividend times, dates, and amounts."""
+    d = fdm_bs_setup
+    div_date = d["today"] + ql.Period(6, ql.Months)
+    div1 = ql.FixedDividend(2.5, div_date)
+    handler = ql.FdmDividendHandler([div1], d["mesher"],
+                                     d["today"], d["dc"], 0)
+    assert len(handler.dividendTimes()) == 1
+    assert len(handler.dividendDates()) == 1
+    assert handler.dividendDates()[0] == div_date
+    assert len(handler.dividends()) == 1
+
+
+# -- FdmStepConditionComposite --
+
+def test_fdmstepconditioncomposite_construction():
+    """FdmStepConditionComposite from stopping times and conditions."""
+    comp = ql.FdmStepConditionComposite([], [])
+    assert isinstance(comp, FdmStepCondition)
+    assert len(comp.stoppingTimes()) == 0
+
+
+def test_fdmstepconditioncomposite_vanillacomposite(fdm_bs_setup):
+    """FdmStepConditionComposite.vanillaComposite static factory."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    comp = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    assert isinstance(comp, FdmStepCondition)
+
+
+def test_fdmstepconditioncomposite_joinconditions(fdm_bs_setup):
+    """FdmStepConditionComposite.joinConditions static factory."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    comp = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    snapshot = ql.FdmSnapshotCondition(0.5)
+    joined = ql.FdmStepConditionComposite.joinConditions(snapshot, comp)
+    assert isinstance(joined, ql.FdmStepConditionComposite)
+
+
+# -- FdmSolverDesc --
+
+def test_fdmsolverdesc_construction(fdm_bs_setup):
+    """FdmSolverDesc construction with kwargs."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    desc = ql.FdmSolverDesc(
+        mesher=d["mesher"], bcSet=[], condition=conditions,
+        calculator=calc, maturity=d["maturity"],
+        timeSteps=100, dampingSteps=0)
+    assert desc.maturity == d["maturity"]
+    assert desc.timeSteps == 100
+    assert desc.dampingSteps == 0
+
+
+# -- FdmBackwardSolver --
+
+def test_fdmbackwardsolver_construction(fdm_bs_setup):
+    """FdmBackwardSolver construction."""
+    d = fdm_bs_setup
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], d["strike"])
+    solver = ql.FdmBackwardSolver(op)
+    assert isinstance(solver, ql.FdmBackwardSolver)
+
+
+def test_fdmbackwardsolver_rollback(fdm_bs_setup):
+    """FdmBackwardSolver rollback returns modified array."""
+    d = fdm_bs_setup
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], d["strike"])
+    solver = ql.FdmBackwardSolver(op)
+    layout = d["mesher"].layout()
+    n = layout.size()
+    a = ql.Array(n, 0.0)
+    for i in range(n):
+        x = d["mesher"].location(layout.begin(), 0)  # first point
+        a[i] = max(0.1 * i, 0.0)
+    result = solver.rollback(a, 1.0, 0.0, 100, 0)
+    assert len(result) == n
+    assert any(result[i] != a[i] for i in range(n))
+
+
+# -- Fdm1DimSolver --
+
+def test_fdm1dimsolver_greeks(fdm_bs_setup):
+    """Fdm1DimSolver theta, derivativeX, derivativeXX."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    desc = ql.FdmSolverDesc(
+        mesher=d["mesher"], bcSet=[], condition=conditions,
+        calculator=calc, maturity=d["maturity"], timeSteps=100)
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], d["strike"])
+    solver = ql.Fdm1DimSolver(desc, ql.FdmSchemeDesc.Douglas(), op)
+    x = math.log(100.0)
+    theta = solver.thetaAt(x)
+    dx = solver.derivativeX(x)
+    dxx = solver.derivativeXX(x)
+    assert isinstance(theta, float)
+    assert isinstance(dx, float)
+    assert isinstance(dxx, float)
+
+
+# -- FdmBlackScholesSolver --
+
+def test_fdmblackscholessolver_greeks(fdm_bs_setup):
+    """FdmBlackScholesSolver deltaAt, gammaAt, thetaAt."""
+    d = fdm_bs_setup
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    desc = ql.FdmSolverDesc(
+        mesher=d["mesher"], bcSet=[], condition=conditions,
+        calculator=calc, maturity=d["maturity"], timeSteps=100)
+    solver = ql.FdmBlackScholesSolver(d["process"], d["strike"], desc)
+    delta = solver.deltaAt(100.0)
+    gamma = solver.gammaAt(100.0)
+    theta = solver.thetaAt(100.0)
+    assert isinstance(delta, float)
+    assert isinstance(gamma, float)
+    assert isinstance(theta, float)
+    # ATM call delta should be around 0.5-0.7
+    assert 0.4 < delta < 0.8
+
+
+# -- BSMRNDCalculator --
+
+def test_bsmrndcalculator_construction(fdm_bs_setup):
+    """BSMRNDCalculator construction."""
+    d = fdm_bs_setup
+    calc = ql.BSMRNDCalculator(d["process"])
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_bsmrndcalculator_pdf(fdm_bs_setup):
+    """BSMRNDCalculator pdf returns positive density (log-space input)."""
+    d = fdm_bs_setup
+    calc = ql.BSMRNDCalculator(d["process"])
+    # BSMRNDCalculator uses log-space: x = log(S)
+    pdf_val = calc.pdf(math.log(100.0), 1.0)
+    assert pdf_val > 0.0
+    assert pdf_val == pytest.approx(1.9922, rel=1e-2)
+
+
+def test_bsmrndcalculator_invcdf(fdm_bs_setup):
+    """BSMRNDCalculator invcdf is inverse of cdf (log-space)."""
+    d = fdm_bs_setup
+    calc = ql.BSMRNDCalculator(d["process"])
+    x = math.log(100.0)
+    p = calc.cdf(x, 1.0)
+    x_back = calc.invcdf(p, 1.0)
+    assert x_back == pytest.approx(x, rel=1e-6)
+
+
+# -- GBSMRNDCalculator --
+
+def test_gbsmrndcalculator_construction(fdm_bs_setup):
+    """GBSMRNDCalculator construction."""
+    d = fdm_bs_setup
+    calc = ql.GBSMRNDCalculator(d["process"])
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_gbsmrndcalculator_pdf(fdm_bs_setup):
+    """GBSMRNDCalculator pdf in spot-space returns positive density."""
+    d = fdm_bs_setup
+    gbsm_calc = ql.GBSMRNDCalculator(d["process"])
+    # GBSMRNDCalculator uses spot-space: x = S
+    gbsm_pdf = gbsm_calc.pdf(100.0, 1.0)
+    assert gbsm_pdf > 0.0
+    assert gbsm_pdf == pytest.approx(0.01992, rel=1e-2)
+
+
+# -- HestonRNDCalculator --
+
+def test_hestonrndcalculator_construction(fdm_bs_setup):
+    """HestonRNDCalculator construction."""
+    d = fdm_bs_setup
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.QuoteHandle(d["spot"]),
+        0.04, 1.0, 0.04, 0.5, -0.7,
+    )
+    calc = ql.HestonRNDCalculator(heston, 1e-4, 100000)
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_hestonrndcalculator_pdf(fdm_bs_setup):
+    """HestonRNDCalculator pdf returns positive density (log-space)."""
+    d = fdm_bs_setup
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.QuoteHandle(d["spot"]),
+        0.04, 2.0, 0.04, 0.3, -0.5,
+    )
+    calc = ql.HestonRNDCalculator(heston, 1e-8, 100000)
+    pdf_val = calc.pdf(math.log(100.0), 1.0)
+    assert pdf_val > 0.0
+    assert pdf_val == pytest.approx(2.0111, rel=1e-2)
+
+
+def test_hestonrndcalculator_cdf(fdm_bs_setup):
+    """HestonRNDCalculator cdf returns valid probability (log-space)."""
+    d = fdm_bs_setup
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.QuoteHandle(d["spot"]),
+        0.04, 2.0, 0.04, 0.3, -0.5,
+    )
+    calc = ql.HestonRNDCalculator(heston, 1e-8, 100000)
+    cdf_val = calc.cdf(math.log(100.0), 1.0)
+    assert 0.0 < cdf_val < 1.0
+    assert cdf_val == pytest.approx(0.4350, rel=1e-2)
+
+
+# -- CEVRNDCalculator --
+
+def test_cevrndcalculator_construction():
+    """CEVRNDCalculator construction."""
+    calc = ql.CEVRNDCalculator(100.0, 0.3, 0.5)
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_cevrndcalculator_pdf():
+    """CEVRNDCalculator pdf returns positive density."""
+    calc = ql.CEVRNDCalculator(100.0, 0.3, 0.5)
+    pdf_val = calc.pdf(100.0, 1.0)
+    assert pdf_val > 0.0
+
+
+def test_cevrndcalculator_cdf():
+    """CEVRNDCalculator cdf returns valid probability."""
+    calc = ql.CEVRNDCalculator(100.0, 0.3, 0.5)
+    cdf_val = calc.cdf(100.0, 1.0)
+    assert 0.0 < cdf_val < 1.0
+
+
+def test_cevrndcalculator_massatzero():
+    """CEVRNDCalculator massAtZero returns non-negative mass."""
+    calc = ql.CEVRNDCalculator(100.0, 0.3, 0.5)
+    mass = calc.massAtZero(1.0)
+    assert mass >= 0.0
+
+
+# -- SquareRootProcessRNDCalculator --
+
+def test_squarerootprocessrndcalculator_construction():
+    """SquareRootProcessRNDCalculator construction."""
+    calc = ql.SquareRootProcessRNDCalculator(0.04, 1.0, 0.04, 0.5)
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_squarerootprocessrndcalculator_pdf():
+    """SquareRootProcessRNDCalculator pdf returns positive density."""
+    calc = ql.SquareRootProcessRNDCalculator(0.04, 1.0, 0.04, 0.5)
+    pdf_val = calc.pdf(0.04, 1.0)
+    assert pdf_val > 0.0
+
+
+def test_squarerootprocessrndcalculator_cdf():
+    """SquareRootProcessRNDCalculator cdf returns valid probability."""
+    calc = ql.SquareRootProcessRNDCalculator(0.04, 1.0, 0.04, 0.5)
+    cdf_val = calc.cdf(0.04, 1.0)
+    assert 0.0 < cdf_val < 1.0
+
+
+def test_squarerootprocessrndcalculator_stationary():
+    """SquareRootProcessRNDCalculator stationary distribution methods."""
+    calc = ql.SquareRootProcessRNDCalculator(0.04, 1.0, 0.04, 0.5)
+    pdf_s = calc.stationary_pdf(0.04)
+    cdf_s = calc.stationary_cdf(0.04)
+    inv_s = calc.stationary_invcdf(cdf_s)
+    assert pdf_s > 0.0
+    assert 0.0 < cdf_s < 1.0
+    assert inv_s == pytest.approx(0.04, rel=1e-4)
+
+
+# -- End-to-end FDM European option pricing --
+
+def test_fdm_european_call_end_to_end(fdm_bs_setup):
+    """End-to-end FDM pricing of European call vs Black-Scholes analytic."""
+    d = fdm_bs_setup
+    # Analytic BS price for comparison
+    engine = ql.AnalyticEuropeanEngine(d["process"])
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(d["payoff"], exercise)
+    option.setPricingEngine(engine)
+    analytic_npv = option.NPV()
+
+    # FDM price via Fdm1DimSolver
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    desc = ql.FdmSolverDesc(
+        mesher=d["mesher"], bcSet=[], condition=conditions,
+        calculator=calc, maturity=d["maturity"], timeSteps=100)
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], d["strike"])
+    solver = ql.Fdm1DimSolver(desc, ql.FdmSchemeDesc.Douglas(), op)
+    fdm_npv = solver.interpolateAt(math.log(100.0))
+
+    assert fdm_npv == pytest.approx(analytic_npv, rel=1e-3)
+
+
+def test_fdmblackscholessolver_vs_analytic(fdm_bs_setup):
+    """FdmBlackScholesSolver vs Black-Scholes analytic price."""
+    d = fdm_bs_setup
+    engine = ql.AnalyticEuropeanEngine(d["process"])
+    exercise = ql.EuropeanExercise(d["today"] + ql.Period(1, ql.Years))
+    option = ql.VanillaOption(d["payoff"], exercise)
+    option.setPricingEngine(engine)
+    analytic_npv = option.NPV()
+    analytic_delta = option.delta()
+
+    calc = ql.FdmLogInnerValue(d["payoff"], d["mesher"], 0)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, d["mesher"], calc, d["today"], d["dc"])
+    desc = ql.FdmSolverDesc(
+        mesher=d["mesher"], bcSet=[], condition=conditions,
+        calculator=calc, maturity=d["maturity"], timeSteps=100)
+    solver = ql.FdmBlackScholesSolver(d["process"], d["strike"], desc)
+
+    assert solver.valueAt(100.0) == pytest.approx(analytic_npv, rel=1e-3)
+    assert solver.deltaAt(100.0) == pytest.approx(analytic_delta, rel=1e-2)
+
+
+def test_fdm_heston_european_call_2d():
+    """2D Heston FDM pricing vs AnalyticHestonEngine."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot_val = 100.0
+    strike = 100.0
+    maturity_date = today + ql.Period(1, ql.Years)
+    maturity = dc.yearFraction(today, maturity_date)
+
+    rTS = ql.FlatForward(today, 0.05, dc)
+    divTS = ql.FlatForward(today, 0.02, dc)
+    spot = ql.SimpleQuote(spot_val)
+
+    v0, kappa, theta, sigma, rho = 0.04, 1.0, 0.04, 0.5, -0.7
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(rTS),
+        ql.YieldTermStructureHandle(divTS),
+        ql.QuoteHandle(spot),
+        v0, kappa, theta, sigma, rho,
+    )
+    model = ql.HestonModel(heston)
+
+    # Analytic benchmark
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    exercise = ql.EuropeanExercise(maturity_date)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(ql.AnalyticHestonEngine(model, 1e-10, 1000))
+    analytic_npv = option.NPV()
+
+    # FDM 2D solve: need BSM process for the mesher only
+    vol_handle = ql.BlackConstantVol(today, ql.NullCalendar(), 0.20, dc)
+    bsm = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(divTS),
+        ql.YieldTermStructureHandle(rTS),
+        ql.BlackVolTermStructureHandle(vol_handle),
+    )
+    bs_mesher = ql.FdmBlackScholesMesher(100, bsm, maturity, strike)
+    var_mesher = ql.FdmHestonVarianceMesher(25, heston, maturity)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+
+    calc = ql.FdmLogInnerValue(payoff, mesher, 0)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(
+        mesher=mesher, bcSet=[], condition=conditions,
+        calculator=calc, maturity=maturity, timeSteps=100, dampingSteps=0)
+    op = ql.FdmHestonOp(mesher, heston)
+    solver = ql.Fdm2DimSolver(desc, ql.FdmSchemeDesc.Hundsdorfer(), op)
+
+    fdm_npv = solver.interpolateAt(math.log(spot_val), v0)
+    assert fdm_npv == pytest.approx(analytic_npv, rel=5e-3)
+
+
+def test_fdm_american_put_vs_european():
+    """1D FDM American put vs European put (American >= European)."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot_val = 100.0
+    strike = 100.0
+    maturity_date = today + ql.Period(1, ql.Years)
+    maturity = dc.yearFraction(today, maturity_date)
+
+    rTS = ql.FlatForward(today, 0.05, dc)
+    divTS = ql.FlatForward(today, 0.0, dc)
+    spot = ql.SimpleQuote(spot_val)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), 0.20, dc)
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(divTS),
+        ql.YieldTermStructureHandle(rTS),
+        ql.BlackVolTermStructureHandle(vol),
+    )
+
+    put_payoff = ql.PlainVanillaPayoff(ql.OptionType.Put, strike)
+
+    # European put (analytic)
+    euro_exercise = ql.EuropeanExercise(maturity_date)
+    euro_option = ql.VanillaOption(put_payoff, euro_exercise)
+    euro_option.setPricingEngine(ql.AnalyticEuropeanEngine(process))
+    euro_npv = euro_option.NPV()
+
+    # American put via FDM with FdmAmericanStepCondition
+    mesher = ql.FdmMesherComposite(
+        ql.FdmBlackScholesMesher(200, process, maturity, strike))
+    calc = ql.FdmLogInnerValue(put_payoff, mesher, 0)
+
+    # Build American step condition via vanillaComposite with AmericanExercise
+    amer_exercise = ql.AmericanExercise(today, maturity_date)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], amer_exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(
+        mesher=mesher, bcSet=[], condition=conditions,
+        calculator=calc, maturity=maturity, timeSteps=200, dampingSteps=0)
+    solver = ql.FdmBlackScholesSolver(process, strike, desc)
+    amer_npv = solver.valueAt(spot_val)
+
+    # American put must be >= European put
+    assert amer_npv >= euro_npv
+    # American ATM put with r=5%, no dividends has meaningful early-exercise premium
+    assert amer_npv == pytest.approx(6.0861, rel=5e-3)

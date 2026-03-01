@@ -106,6 +106,44 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "ModifiedCraigSneydScheme - modified Craig-Sneyd ADI");
     ADD_MAIN_BINDING(ql_methods::methodoflinesscheme,
         "MethodOfLinesScheme - method of lines time stepping");
+    // Step conditions + inner value + solvers
+    ADD_BASE_BINDING(ql_methods::stepcondition,
+        "FdmStepCondition - step condition ABC");
+    ADD_MAIN_BINDING(ql_methods::fdminnervaluecalculator,
+        "FdmInnerValueCalculator ABC + concrete calculators");
+    ADD_MAIN_BINDING(ql_methods::fdmsnapshotcondition,
+        "FdmSnapshotCondition - captures values at a time");
+    ADD_MAIN_BINDING(ql_methods::fdmamericanstepcondition,
+        "FdmAmericanStepCondition - American early exercise");
+    ADD_MAIN_BINDING(ql_methods::fdmbermudanstepcondition,
+        "FdmBermudanStepCondition - Bermudan early exercise");
+    ADD_MAIN_BINDING(ql_methods::fdmdividendhandler,
+        "FdmDividendHandler - discrete dividend step condition");
+    ADD_MAIN_BINDING(ql_methods::fdmstepconditioncomposite,
+        "FdmStepConditionComposite - composite step condition");
+    ADD_MAIN_BINDING(ql_methods::fdmsolverdesc,
+        "FdmSolverDesc - FDM solver descriptor struct");
+    ADD_MAIN_BINDING(ql_methods::fdm1dimsolver,
+        "Fdm1DimSolver - 1D FDM solver");
+    ADD_MAIN_BINDING(ql_methods::fdm2dimsolver,
+        "Fdm2DimSolver - 2D FDM solver");
+    ADD_MAIN_BINDING(ql_methods::fdm3dimsolver,
+        "Fdm3DimSolver - 3D FDM solver");
+    ADD_MAIN_BINDING(ql_methods::fdmblackscholessolver,
+        "FdmBlackScholesSolver - specialized 1D BS solver");
+    // RND calculators
+    ADD_BASE_BINDING(ql_methods::riskneutraldensitycalculator,
+        "RiskNeutralDensityCalculator - ABC");
+    ADD_MAIN_BINDING(ql_methods::bsmrndcalculator,
+        "BSMRNDCalculator - Black-Scholes-Merton RND");
+    ADD_MAIN_BINDING(ql_methods::gbsmrndcalculator,
+        "GBSMRNDCalculator - generalized BSM RND");
+    ADD_MAIN_BINDING(ql_methods::hestonrndcalculator,
+        "HestonRNDCalculator - Heston model RND");
+    ADD_MAIN_BINDING(ql_methods::cevrndcalculator,
+        "CEVRNDCalculator - CEV model RND");
+    ADD_MAIN_BINDING(ql_methods::squarerootprocessrndcalculator,
+        "SquareRootProcessRNDCalculator - square root process RND");
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");
