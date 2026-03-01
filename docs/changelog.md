@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-01
+
 ### Added
 
 #### Time
@@ -148,6 +150,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `HundsdorferScheme` Hundsdorfer ADI time-stepping scheme
 - `ModifiedCraigSneydScheme` Modified Craig-Sneyd ADI time-stepping scheme
 - `MethodOfLinesScheme` method of lines (Runge-Kutta) time-stepping scheme
+- `FdmStepCondition` ABC for FDM step conditions (`applyTo` with copy semantics)
+- `FdmInnerValueCalculator` ABC for FDM inner value calculators (`innerValue`, `avgInnerValue`)
+- `RiskNeutralDensityCalculator` ABC for risk-neutral density calculators (`pdf`, `cdf`, `invcdf`)
+- `FdmCellAveragingInnerValue` cell-averaging inner value calculator with optional grid mapping function
+- `FdmLogInnerValue` log-space inner value calculator
+- `FdmLogBasketInnerValue` log-space basket inner value calculator
+- `FdmZeroInnerValue` zero inner value calculator (returns 0 everywhere)
+- `FdmSnapshotCondition` snapshot step condition for capturing intermediate solution values
+- `FdmAmericanStepCondition` American early exercise step condition
+- `FdmBermudanStepCondition` Bermudan exercise step condition with exercise times
+- `FdmDividendHandler` discrete dividend handling step condition
+- `FdmStepConditionComposite` composite step condition with `vanillaComposite` and `joinConditions` static factories
+- `FdmSolverDesc` solver descriptor struct (mesher, boundary conditions, step conditions, calculator, maturity, time steps, damping steps)
+- `FdmBackwardSolver` backward PDE solver with `rollback` (copy semantics)
+- `Fdm1DimSolver` one-dimensional FDM solver with `interpolateAt`, `derivativeX`, `derivativeXX`, `thetaAt`
+- `Fdm2DimSolver` two-dimensional FDM solver with interpolation and cross-derivative Greeks
+- `Fdm3DimSolver` three-dimensional FDM solver with `interpolateAt` and `thetaAt`
+- `FdmBlackScholesSolver` high-level Black-Scholes FDM solver with `valueAt`, `deltaAt`, `gammaAt`, `thetaAt`
+- `BSMRNDCalculator` Black-Scholes-Merton risk-neutral density calculator
+- `GBSMRNDCalculator` generalized BSM risk-neutral density calculator (spot space)
+- `HestonRNDCalculator` Heston risk-neutral density calculator
+- `CEVRNDCalculator` CEV risk-neutral density calculator with `massAtZero`
+- `SquareRootProcessRNDCalculator` square-root (CIR) process RND calculator with stationary distribution methods
 
 #### Random Number Generators
 - `MersenneTwisterUniformRng` (MT19937) with seed and vector-seed constructors
@@ -452,7 +477,8 @@ Initial release targeting QuantLib 1.40.
 - API is subject to change during beta period
 - `QdFpAmericanEngine` has a known issue on Windows (access violation during `calculate()`)
 
-[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/quantales/pyquantlib/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/quantales/pyquantlib/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/quantales/pyquantlib/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/quantales/pyquantlib/compare/v0.1.0...v0.2.0
