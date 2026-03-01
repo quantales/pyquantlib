@@ -1425,3 +1425,545 @@ def test_fdmmeshercomposite_dplus_location():
     assert comp.dplus(it, 0) == pytest.approx(0.5)
     assert comp.location(it, 0) == pytest.approx(0.0)
     assert comp.location(it, 1) == pytest.approx(0.0)
+
+
+# =============================================================================
+# FDM Operators
+# =============================================================================
+
+
+def test_fdmlinearop_abc():
+    """FdmLinearOp cannot be instantiated (ABC)."""
+    with pytest.raises(TypeError):
+        ql.FdmLinearOp()
+
+
+def test_fdmlinearopcomposite_abc():
+    """FdmLinearOpComposite cannot be instantiated (ABC)."""
+    with pytest.raises(TypeError):
+        ql.FdmLinearOpComposite()
+
+
+def test_boundarycondition_abc():
+    """FdmBoundaryCondition cannot be instantiated (ABC)."""
+    with pytest.raises(TypeError):
+        ql.FdmBoundaryCondition()
+
+
+def test_boundarycondition_side_enum():
+    """BoundaryConditionSide enum values."""
+    assert int(ql.BoundaryConditionSide.None_) == 0
+    assert int(ql.BoundaryConditionSide.Upper) == 1
+    assert int(ql.BoundaryConditionSide.Lower) == 2
+
+
+def test_triplebandlinearop_construction():
+    """TripleBandLinearOp construction and apply."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 5))
+    op = ql.TripleBandLinearOp(0, mesher)
+    a = ql.Array([1.0, 2.0, 3.0, 4.0, 5.0])
+    result = op.apply(a)
+    assert len(result) == 5
+
+
+def test_triplebandlinearop_solve_splitting():
+    """TripleBandLinearOp solve_splitting."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 5))
+    op = ql.TripleBandLinearOp(0, mesher)
+    a = ql.Array([1.0, 2.0, 3.0, 4.0, 5.0])
+    result = op.solve_splitting(a, 1.0)
+    assert len(result) == 5
+
+
+def test_triplebandlinearop_mult_add():
+    """TripleBandLinearOp mult and add."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 5))
+    op = ql.TripleBandLinearOp(0, mesher)
+    u = ql.Array([1.0, 1.0, 1.0, 1.0, 1.0])
+    m = op.mult(u)
+    assert isinstance(m, ql.TripleBandLinearOp)
+    mr = op.multR(u)
+    assert isinstance(mr, ql.TripleBandLinearOp)
+    added = op.add(op)
+    assert isinstance(added, ql.TripleBandLinearOp)
+    arr_added = op.add(u)
+    assert isinstance(arr_added, ql.TripleBandLinearOp)
+
+
+def test_firstderivativeop_construction():
+    """FirstDerivativeOp construction and inheritance."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 10))
+    op = ql.FirstDerivativeOp(0, mesher)
+    assert isinstance(op, ql.TripleBandLinearOp)
+    assert isinstance(op, ql.FdmLinearOp)
+    a = ql.Array([float(i) for i in range(10)])
+    result = op.apply(a)
+    assert len(result) == 10
+
+
+def test_secondderivativeop_construction():
+    """SecondDerivativeOp construction and inheritance."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 10))
+    op = ql.SecondDerivativeOp(0, mesher)
+    assert isinstance(op, ql.TripleBandLinearOp)
+    a = ql.Array([float(i * i) for i in range(10)])
+    result = op.apply(a)
+    assert len(result) == 10
+
+
+def test_firstderivativeop_linear_function():
+    """First derivative of a linear function should be constant."""
+    n = 20
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, n))
+    dx = ql.FirstDerivativeOp(0, mesher)
+    locs = mesher.locations(0)
+    a = ql.Array([float(locs[i]) for i in range(n)])
+    result = dx.apply(a)
+    for i in range(1, n - 1):
+        assert float(result[i]) == pytest.approx(1.0, abs=1e-10)
+
+
+def test_secondderivativeop_quadratic():
+    """Second derivative of x^2 should be 2."""
+    n = 20
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, n))
+    dxx = ql.SecondDerivativeOp(0, mesher)
+    locs = mesher.locations(0)
+    a = ql.Array([float(locs[i]) ** 2 for i in range(n)])
+    result = dxx.apply(a)
+    for i in range(1, n - 1):
+        assert float(result[i]) == pytest.approx(2.0, abs=1e-6)
+
+
+def test_ninepointlinearop_construction():
+    """NinePointLinearOp construction."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 5)
+    m2 = ql.Uniform1dMesher(0.0, 1.0, 5)
+    mesher = ql.FdmMesherComposite(m1, m2)
+    op = ql.NinePointLinearOp(0, 1, mesher)
+    assert isinstance(op, ql.FdmLinearOp)
+    a = ql.Array([0.0] * 25)
+    result = op.apply(a)
+    assert len(result) == 25
+
+
+def test_secondordermixedderivativeop_construction():
+    """SecondOrderMixedDerivativeOp construction and inheritance."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 5)
+    m2 = ql.Uniform1dMesher(0.0, 1.0, 5)
+    mesher = ql.FdmMesherComposite(m1, m2)
+    op = ql.SecondOrderMixedDerivativeOp(0, 1, mesher)
+    assert isinstance(op, ql.NinePointLinearOp)
+
+
+# =============================================================================
+# FDM Process Operators
+# =============================================================================
+
+
+@pytest.fixture
+def bs_operator_data():
+    """Setup for Black-Scholes operator tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    spot = ql.SimpleQuote(100.0)
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    divTS = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), 0.20, ql.Actual365Fixed())
+    process = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(divTS),
+        ql.YieldTermStructureHandle(rTS),
+        ql.BlackVolTermStructureHandle(vol),
+    )
+    bs_mesher = ql.FdmBlackScholesMesher(50, process, 1.0, 100.0)
+    mesher = ql.FdmMesherComposite(bs_mesher)
+    return {
+        "today": today, "process": process, "mesher": mesher,
+        "rTS": rTS, "divTS": divTS, "spot": spot, "vol": vol,
+    }
+
+
+def test_fdmblackscholesop_construction(bs_operator_data):
+    """FdmBlackScholesOp construction."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert isinstance(op, ql.FdmLinearOp)
+    assert op.size() == 1
+
+
+def test_fdmblackscholesop_apply(bs_operator_data):
+    """FdmBlackScholesOp apply returns result of correct size."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    a = ql.Array([1.0] * 50)
+    result = op.apply(a)
+    assert len(result) == 50
+
+
+def test_fdmblackscholesop_solve_splitting(bs_operator_data):
+    """FdmBlackScholesOp solve_splitting and preconditioner."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    a = ql.Array([1.0] * 50)
+    result = op.solve_splitting(0, a, 1.0)
+    assert len(result) == 50
+    pre = op.preconditioner(a, 1.0)
+    assert len(pre) == 50
+
+
+def test_fdmblackscholesop_with_localvol(bs_operator_data):
+    """FdmBlackScholesOp with localVol=True."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(
+        d["mesher"], d["process"], 100.0, localVol=True,
+        illegalLocalVolOverwrite=0.20)
+    assert op.size() == 1
+
+
+def test_fdmblackscholesfwdop_construction(bs_operator_data):
+    """FdmBlackScholesFwdOp construction."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesFwdOp(d["mesher"], d["process"], 100.0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+
+
+def test_fdm2dblackscholesop_construction(bs_operator_data):
+    """Fdm2dBlackScholesOp construction."""
+    d = bs_operator_data
+    bs_mesher2 = ql.FdmBlackScholesMesher(50, d["process"], 1.0, 100.0)
+    mesher2d = ql.FdmMesherComposite(
+        ql.FdmBlackScholesMesher(30, d["process"], 1.0, 100.0),
+        bs_mesher2,
+    )
+    op = ql.Fdm2dBlackScholesOp(
+        mesher2d, d["process"], d["process"], 0.5, 1.0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 2
+
+
+@pytest.fixture
+def heston_setup():
+    """Setup for Heston-based operator tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    divTS = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    spot = ql.SimpleQuote(100.0)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), 0.20, ql.Actual365Fixed())
+    bsm = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot),
+        ql.YieldTermStructureHandle(divTS),
+        ql.YieldTermStructureHandle(rTS),
+        ql.BlackVolTermStructureHandle(vol),
+    )
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(rTS),
+        ql.YieldTermStructureHandle(divTS),
+        ql.QuoteHandle(spot),
+        0.04, 1.0, 0.04, 0.5, -0.7,
+    )
+    return {
+        "today": today, "rTS": rTS, "divTS": divTS, "spot": spot,
+        "bsm": bsm, "heston": heston,
+    }
+
+
+def test_fdmhestonop_construction(heston_setup):
+    """FdmHestonOp construction."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(50, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonOp(mesher, d["heston"])
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 2
+
+
+def test_fdmhestonfwdop_construction(heston_setup):
+    """FdmHestonFwdOp construction."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(50, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonFwdOp(mesher, d["heston"])
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 2
+
+
+def test_fdmhestonhullwhiteop_construction(heston_setup):
+    """FdmHestonHullWhiteOp construction."""
+    d = heston_setup
+    hw = ql.HullWhiteProcess(ql.YieldTermStructureHandle(d["rTS"]), 0.01, 0.01)
+    bs_mesher = ql.FdmBlackScholesMesher(20, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    rate_mesher = ql.Uniform1dMesher(-0.05, 0.10, 5)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher, rate_mesher)
+    op = ql.FdmHestonHullWhiteOp(mesher, d["heston"], hw, 0.1)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 3
+
+
+def test_fdmhullwhiteop_construction():
+    """FdmHullWhiteOp construction."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    hw = ql.HullWhite(ql.YieldTermStructureHandle(rTS))
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(-0.10, 0.10, 20))
+    op = ql.FdmHullWhiteOp(mesher, hw, 0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+
+
+def test_fdmg2op_construction():
+    """FdmG2Op construction."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    g2 = ql.G2(ql.YieldTermStructureHandle(rTS))
+    m1 = ql.Uniform1dMesher(-0.10, 0.10, 10)
+    m2 = ql.Uniform1dMesher(-0.10, 0.10, 10)
+    mesher = ql.FdmMesherComposite(m1, m2)
+    op = ql.FdmG2Op(mesher, g2, 0, 1)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 2
+
+
+def test_fdmcevop_construction():
+    """FdmCEVOp construction."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(50.0, 150.0, 50))
+    op = ql.FdmCEVOp(mesher, rTS, 100.0, 0.3, 0.5, 0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+
+
+def test_fdmsabrop_construction():
+    """FdmSabrOp construction."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    m_f = ql.Uniform1dMesher(50.0, 150.0, 30)
+    m_a = ql.Uniform1dMesher(0.01, 1.0, 10)
+    mesher = ql.FdmMesherComposite(m_f, m_a)
+    op = ql.FdmSabrOp(mesher, rTS, 100.0, 0.3, 0.5, 0.4, -0.5)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 2
+
+
+def test_fdmlocalvolfwdop_construction(bs_operator_data):
+    """FdmLocalVolFwdOp construction."""
+    d = bs_operator_data
+    local_vol = ql.LocalConstantVol(d["today"], 0.20, ql.Actual365Fixed())
+    mesher = ql.FdmMesherComposite(
+        ql.FdmBlackScholesMesher(50, d["process"], 1.0, 100.0))
+    op = ql.FdmLocalVolFwdOp(mesher, d["spot"], d["rTS"], d["divTS"], local_vol)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+
+
+def test_fdmsquarerootfwdop_construction():
+    """FdmSquareRootFwdOp construction and methods."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.001, 0.5, 20))
+    op = ql.FdmSquareRootFwdOp(
+        mesher, kappa=1.0, theta=0.04, sigma=0.5, direction=0)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+    lb = op.lowerBoundaryFactor()
+    ub = op.upperBoundaryFactor()
+    assert lb != ub
+    v0 = op.v(0)
+    assert isinstance(v0, float)
+
+
+def test_fdmsquarerootfwdop_transformations():
+    """FdmSquareRootFwdOp with different transformation types."""
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.001, 0.5, 20))
+    for t in [ql.FdmSquareRootFwdOpTransformationType.Plain,
+              ql.FdmSquareRootFwdOpTransformationType.Power,
+              ql.FdmSquareRootFwdOpTransformationType.Log]:
+        op = ql.FdmSquareRootFwdOp(
+            mesher, kappa=1.0, theta=0.04, sigma=0.5, direction=0, type=t)
+        assert op.size() == 1
+
+
+def test_fdmornsteinuhlenbeckop_construction():
+    """FdmOrnsteinUhlenbeckOp construction."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    ou = ql.OrnsteinUhlenbeckProcess(0.1, 0.2)
+    mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(-1.0, 1.0, 20))
+    op = ql.FdmOrnsteinUhlenbeckOp(mesher, ou, rTS)
+    assert isinstance(op, ql.FdmLinearOpComposite)
+    assert op.size() == 1
+
+
+# =============================================================================
+# FDM Schemes
+# =============================================================================
+
+
+def test_expliciteulerscheme_construction(bs_operator_data):
+    """ExplicitEulerScheme construction and step."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    scheme = ql.ExplicitEulerScheme(op)
+    scheme.setStep(0.001)
+    a = ql.Array([max(float(d["mesher"].locations(0)[i]) - 100.0, 0.0)
+                  for i in range(50)])
+    result = scheme.step(a, 1.0)
+    assert len(result) == 50
+
+
+def test_impliciteulerscheme_construction(bs_operator_data):
+    """ImplicitEulerScheme construction and step."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    scheme = ql.ImplicitEulerScheme(op)
+    scheme.setStep(0.01)
+    a = ql.Array([max(float(d["mesher"].locations(0)[i]) - 100.0, 0.0)
+                  for i in range(50)])
+    result = scheme.step(a, 1.0)
+    assert len(result) == 50
+
+
+def test_impliciteulerscheme_solver_type():
+    """ImplicitEulerScheme solver type enum."""
+    assert ql.ImplicitEulerSolverType.BiCGstab is not None
+    assert ql.ImplicitEulerSolverType.GMRES is not None
+
+
+def test_impliciteulerscheme_with_gmres(bs_operator_data):
+    """ImplicitEulerScheme with GMRES solver."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    scheme = ql.ImplicitEulerScheme(
+        op, solverType=ql.ImplicitEulerSolverType.GMRES)
+    scheme.setStep(0.01)
+    a = ql.Array([1.0] * 50)
+    result = scheme.step(a, 1.0)
+    assert len(result) == 50
+
+
+def test_cranknicolsonscheme_construction(bs_operator_data):
+    """CrankNicolsonScheme construction and step."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    scheme = ql.CrankNicolsonScheme(0.5, op)
+    scheme.setStep(0.01)
+    a = ql.Array([max(float(d["mesher"].locations(0)[i]) - 100.0, 0.0)
+                  for i in range(50)])
+    result = scheme.step(a, 1.0)
+    assert len(result) == 50
+
+
+def test_douglasscheme_construction(heston_setup):
+    """DouglasScheme construction with 2D operator."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(20, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonOp(mesher, d["heston"])
+    scheme = ql.DouglasScheme(0.5, op)
+    scheme.setStep(0.01)
+    n = 20 * 10
+    a = ql.Array([1.0] * n)
+    result = scheme.step(a, 1.0)
+    assert len(result) == n
+
+
+def test_craigsneydscheme_construction(heston_setup):
+    """CraigSneydScheme construction."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(20, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonOp(mesher, d["heston"])
+    scheme = ql.CraigSneydScheme(0.5, 0.5, op)
+    scheme.setStep(0.01)
+    n = 20 * 10
+    a = ql.Array([1.0] * n)
+    result = scheme.step(a, 1.0)
+    assert len(result) == n
+
+
+def test_hundsdorferscheme_construction(heston_setup):
+    """HundsdorferScheme construction."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(20, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonOp(mesher, d["heston"])
+    scheme = ql.HundsdorferScheme(0.5, 0.5, op)
+    scheme.setStep(0.01)
+    n = 20 * 10
+    a = ql.Array([1.0] * n)
+    result = scheme.step(a, 1.0)
+    assert len(result) == n
+
+
+def test_modifiedcraigsneydscheme_construction(heston_setup):
+    """ModifiedCraigSneydScheme construction."""
+    d = heston_setup
+    bs_mesher = ql.FdmBlackScholesMesher(20, d["bsm"], 1.0, 100.0)
+    var_mesher = ql.FdmHestonVarianceMesher(10, d["heston"], 1.0)
+    mesher = ql.FdmMesherComposite(bs_mesher, var_mesher)
+    op = ql.FdmHestonOp(mesher, d["heston"])
+    scheme = ql.ModifiedCraigSneydScheme(0.5, 0.5, op)
+    scheme.setStep(0.01)
+    n = 20 * 10
+    a = ql.Array([1.0] * n)
+    result = scheme.step(a, 1.0)
+    assert len(result) == n
+
+
+def test_methodoflinesscheme_construction(bs_operator_data):
+    """MethodOfLinesScheme construction."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    scheme = ql.MethodOfLinesScheme(1e-6, 0.001, op)
+    scheme.setStep(0.01)
+    a = ql.Array([max(float(d["mesher"].locations(0)[i]) - 100.0, 0.0)
+                  for i in range(50)])
+    result = scheme.step(a, 1.0)
+    assert len(result) == 50
+
+
+def test_fdmblackscholesop_polymorphic_apply(bs_operator_data):
+    """Polymorphic apply through FdmLinearOp base."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    base_op: ql.FdmLinearOp = op
+    a = ql.Array([1.0] * 50)
+    result = base_op.apply(a)
+    assert len(result) == 50
+
+
+def test_fdmlinearopcomposite_methods(bs_operator_data):
+    """FdmLinearOpComposite methods accessible on derived operator."""
+    d = bs_operator_data
+    op = ql.FdmBlackScholesOp(d["mesher"], d["process"], 100.0)
+    op.setTime(0.0, 1.0)
+    a = ql.Array([1.0] * 50)
+    r_mixed = op.apply_mixed(a)
+    assert len(r_mixed) == 50
+    r_dir = op.apply_direction(0, a)
+    assert len(r_dir) == 50
+    r_split = op.solve_splitting(0, a, 1.0)
+    assert len(r_split) == 50
+    r_pre = op.preconditioner(a, 1.0)
+    assert len(r_pre) == 50
