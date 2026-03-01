@@ -10,14 +10,14 @@ Base classes are organized by category:
 
 | Category | Examples |
 |----------|----------|
-| Patterns | `Observer`, `Observable`, `LazyObject` |
+| Patterns | `Observer`, `LazyObject` |
 | Market Data | `Quote` |
 | Cash Flows | `CashFlow`, `Coupon` |
 | Term Structures | `YieldTermStructure`, `BlackVolTermStructure`, `SmileSection` |
 | Processes | `StochasticProcess`, `StochasticProcess1D` |
 | Models | `CalibratedModel` |
 | Instruments | `Instrument` |
-| Pricing Engines | `PricingEngine`, `GenericEngine`, `SpreadBlackScholesVanillaEngine` |
+| Pricing Engines | `PricingEngine`, `SpreadBlackScholesVanillaEngine` |
 
 To discover all available base classes:
 
@@ -187,7 +187,7 @@ option.setPricingEngine(engine)
 print(f"NPV: {option.NPV():.4f}")
 ```
 
-See [modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/modified_kirk_engine.ipynb) for a complete walkthrough including comparison with QuantLib's built-in `KirkEngine`.
+See [spread_option.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/spread_option.ipynb) for a complete walkthrough including comparison with QuantLib's built-in `KirkEngine`.
 
 ## How It Works
 
@@ -236,5 +236,5 @@ For prototyping and moderate workloads, Python extensions work well.
 
 - {doc}`api/extensions` for the complete API reference
 - [svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/svi_smile.ipynb) for the SVI smile section example
-- [modified_kirk_engine.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/modified_kirk_engine.ipynb) for the custom pricing engine example
+- [spread_option.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples/spread_option.ipynb) for the custom pricing engine example
 - `include/pyquantlib/trampolines.h` for the full list of supported base classes
