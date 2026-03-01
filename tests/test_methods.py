@@ -971,3 +971,457 @@ def test_gaussian_sobol_multipath_generator(heston_process):
     assert mp.assetNumber() == heston_process.size()
     assert mp.pathSize() == 11
     assert mp[0].front() == pytest.approx(100.0)
+
+
+# =============================================================================
+# FdmLinearOpIterator
+# =============================================================================
+
+
+def test_fdmlinearopiterator_default():
+    """Default iterator starts at index 0."""
+    it = ql.FdmLinearOpIterator()
+    assert it.index() == 0
+
+
+def test_fdmlinearopiterator_from_index():
+    """Construct with specific flat index."""
+    it = ql.FdmLinearOpIterator(5)
+    assert it.index() == 5
+
+
+def test_fdmlinearopiterator_from_dim():
+    """Construct from dimension vector; coordinates start at origin."""
+    it = ql.FdmLinearOpIterator([3, 4])
+    assert it.index() == 0
+    assert list(it.coordinates()) == [0, 0]
+
+
+def test_fdmlinearopiterator_full_construction():
+    """Construct with dim, coordinates, and flat index."""
+    it = ql.FdmLinearOpIterator([3, 4], [1, 2], 7)
+    assert it.index() == 7
+    assert list(it.coordinates()) == [1, 2]
+
+
+def test_fdmlinearopiterator_increment_and_notequal():
+    """Increment advances index and coordinates."""
+    it = ql.FdmLinearOpIterator([3, 4])
+    it2 = ql.FdmLinearOpIterator([3, 4], [1, 0], 1)
+    assert it.notEqual(it2)
+    it.increment()
+    assert it.index() == 1
+    assert list(it.coordinates()) == [1, 0]
+    assert not it.notEqual(it2)
+
+
+# =============================================================================
+# FdmLinearOpLayout
+# =============================================================================
+
+
+def test_fdmlinearoplayout_construction():
+    """Layout from dimension vector."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    assert layout.size() == 12
+    assert list(layout.dim()) == [3, 4]
+    assert list(layout.spacing()) == [1, 3]
+
+
+def test_fdmlinearoplayout_index():
+    """Flat index from coordinates."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    assert layout.index([0, 0]) == 0
+    assert layout.index([1, 2]) == 7
+    assert layout.index([2, 3]) == 11
+
+
+def test_fdmlinearoplayout_begin_end():
+    """begin/end return valid iterators."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    begin = layout.begin()
+    end = layout.end()
+    assert begin.index() == 0
+    assert end.index() == 12
+    assert begin.notEqual(end)
+
+
+def test_fdmlinearoplayout_iteration():
+    """Python iteration over layout yields correct count."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    count = sum(1 for _ in layout)
+    assert count == 12
+
+
+def test_fdmlinearoplayout_len():
+    """__len__ returns total grid points."""
+    layout = ql.FdmLinearOpLayout([5, 3, 2])
+    assert len(layout) == 30
+
+
+def test_fdmlinearoplayout_neighbourhood():
+    """Neighbour index in single dimension."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    it = layout.begin()
+    assert layout.neighbourhood(it, 0, 1) == 1
+    assert layout.neighbourhood(it, 1, 1) == 3
+
+
+def test_fdmlinearoplayout_iter_neighbourhood():
+    """Neighbour iterator in a dimension."""
+    layout = ql.FdmLinearOpLayout([3, 4])
+    it = layout.begin()
+    nb = layout.iter_neighbourhood(it, 0, 1)
+    assert nb.index() == 1
+
+
+# =============================================================================
+# Fdm1dMesher
+# =============================================================================
+
+
+def test_fdm1dmesher_construction():
+    """Base 1D mesher construction."""
+    m = ql.Fdm1dMesher(5)
+    assert m.size() == 5
+    assert len(m) == 5
+
+
+# =============================================================================
+# Uniform1dMesher
+# =============================================================================
+
+
+def test_uniform1dmesher_construction():
+    """Uniform grid from start to end."""
+    m = ql.Uniform1dMesher(0.0, 1.0, 5)
+    assert m.size() == 5
+    assert m.location(0) == pytest.approx(0.0)
+    assert m.location(4) == pytest.approx(1.0)
+
+
+def test_uniform1dmesher_spacing():
+    """Uniform spacing between grid points."""
+    m = ql.Uniform1dMesher(0.0, 1.0, 5)
+    assert m.dplus(0) == pytest.approx(0.25)
+    assert m.dminus(1) == pytest.approx(0.25)
+    locs = m.locations()
+    assert [locs[i] for i in range(5)] == pytest.approx([0.0, 0.25, 0.5, 0.75, 1.0])
+
+
+def test_uniform1dmesher_is_fdm1dmesher():
+    """Uniform1dMesher is a subclass of Fdm1dMesher."""
+    m = ql.Uniform1dMesher(0.0, 1.0, 5)
+    assert isinstance(m, ql.Fdm1dMesher)
+
+
+# =============================================================================
+# Concentrating1dMesher
+# =============================================================================
+
+
+def test_concentrating1dmesher_no_cpoint():
+    """Construction without concentration point."""
+    m = ql.Concentrating1dMesher(0.0, 1.0, 11)
+    assert m.size() == 11
+    assert m.location(0) == pytest.approx(0.0)
+    assert m.location(10) == pytest.approx(1.0)
+
+
+def test_concentrating1dmesher_with_cpoint():
+    """Single concentration point increases density near target."""
+    m = ql.Concentrating1dMesher(0.0, 1.0, 11, cPoint=(0.5, 0.1))
+    assert m.size() == 11
+    assert m.location(0) == pytest.approx(0.0)
+    assert m.location(5) == pytest.approx(0.5, abs=1e-6)
+    assert m.location(10) == pytest.approx(1.0)
+
+
+def test_concentrating1dmesher_multi_cpoints():
+    """Multiple concentration points with required flag."""
+    m = ql.Concentrating1dMesher(
+        0.0, 1.0, 21,
+        cPoints=[(0.25, 0.1, True), (0.75, 0.1, True)],
+    )
+    assert m.size() == 21
+    locs = [m.location(i) for i in range(m.size())]
+    assert any(abs(l - 0.25) < 1e-6 for l in locs)
+    assert any(abs(l - 0.75) < 1e-6 for l in locs)
+
+
+# =============================================================================
+# Predefined1dMesher
+# =============================================================================
+
+
+def test_predefined1dmesher_construction():
+    """Predefined grid from explicit points."""
+    pts = [1.0, 2.0, 4.0, 8.0]
+    m = ql.Predefined1dMesher(pts)
+    assert m.size() == 4
+    locs = [m.location(i) for i in range(m.size())]
+    assert locs == pytest.approx(pts)
+
+
+def test_predefined1dmesher_differences():
+    """Forward and backward differences match point spacing."""
+    m = ql.Predefined1dMesher([1.0, 2.0, 4.0, 8.0])
+    assert m.dplus(0) == pytest.approx(1.0)
+    assert m.dplus(1) == pytest.approx(2.0)
+    assert m.dminus(1) == pytest.approx(1.0)
+
+
+# =============================================================================
+# FdmQuantoHelper
+# =============================================================================
+
+
+@pytest.fixture
+def fdm_market_data():
+    """Market data for FDM mesher tests."""
+    today = ql.Date(15, 6, 2025)
+    ql.Settings.evaluationDate = today
+    flat_r = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    flat_div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    flat_vol = ql.BlackConstantVol(
+        today, ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    spot = ql.SimpleQuote(100.0)
+    return {
+        "today": today,
+        "spot": spot,
+        "rTS": flat_r,
+        "divTS": flat_div,
+        "vol": flat_vol,
+    }
+
+
+def test_fdmquantohelper_construction(fdm_market_data):
+    """FdmQuantoHelper construction and member access."""
+    d = fdm_market_data
+    fx_vol = ql.BlackConstantVol(
+        d["today"], ql.NullCalendar(), 0.10, ql.Actual365Fixed()
+    )
+    helper = ql.FdmQuantoHelper(d["rTS"], d["divTS"], fx_vol, 0.3, 1.2)
+    assert helper.equityFxCorrelation == pytest.approx(0.3)
+    assert helper.exchRateATMlevel == pytest.approx(1.2)
+
+
+def test_fdmquantohelper_scalar_adjustment(fdm_market_data):
+    """Scalar quanto adjustment."""
+    d = fdm_market_data
+    fx_vol = ql.BlackConstantVol(
+        d["today"], ql.NullCalendar(), 0.10, ql.Actual365Fixed()
+    )
+    helper = ql.FdmQuantoHelper(d["rTS"], d["divTS"], fx_vol, 0.3, 1.2)
+    adj = helper.quantoAdjustment(0.20, 0.0, 1.0)
+    assert adj == pytest.approx(0.036, rel=1e-6)
+
+
+def test_fdmquantohelper_array_adjustment(fdm_market_data):
+    """Array quanto adjustment."""
+    d = fdm_market_data
+    fx_vol = ql.BlackConstantVol(
+        d["today"], ql.NullCalendar(), 0.10, ql.Actual365Fixed()
+    )
+    helper = ql.FdmQuantoHelper(d["rTS"], d["divTS"], fx_vol, 0.3, 1.2)
+    arr = ql.Array([0.20, 0.25, 0.30])
+    adj = helper.quantoAdjustment(arr, 0.0, 1.0)
+    expected = [0.036, 0.0375, 0.039]
+    assert [float(adj[i]) for i in range(3)] == pytest.approx(expected, rel=1e-6)
+
+
+# =============================================================================
+# FdmBlackScholesMesher
+# =============================================================================
+
+
+def test_fdmblackscholesmesher_construction(fdm_market_data):
+    """Black-Scholes mesher construction."""
+    d = fdm_market_data
+    bsm = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(d["spot"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.BlackVolTermStructureHandle(d["vol"]),
+    )
+    m = ql.FdmBlackScholesMesher(50, bsm, 1.0, 100.0)
+    assert m.size() == 50
+    assert m.location(0) == pytest.approx(3.48946524, rel=1e-4)
+    assert m.location(25) == pytest.approx(4.64324580, rel=1e-4)
+    assert m.location(49) == pytest.approx(5.75087513, rel=1e-4)
+
+
+def test_fdmblackscholesmesher_processhelper(fdm_market_data):
+    """processHelper static method returns a BSM process."""
+    d = fdm_market_data
+    proc = ql.FdmBlackScholesMesher.processHelper(
+        ql.QuoteHandle(d["spot"]),
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        0.20,
+    )
+    assert type(proc).__name__ == "GeneralizedBlackScholesProcess"
+
+
+# =============================================================================
+# FdmHestonVarianceMesher
+# =============================================================================
+
+
+def test_fdmhestonvariancemesher_construction(fdm_market_data):
+    """Heston variance mesher construction and volaEstimate."""
+    d = fdm_market_data
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.QuoteHandle(d["spot"]),
+        0.04, 1.0, 0.04, 0.5, -0.7,
+    )
+    m = ql.FdmHestonVarianceMesher(10, heston, 1.0)
+    assert m.size() == 10
+    assert m.volaEstimate() == pytest.approx(0.1761347, rel=1e-4)
+    assert m.location(0) == pytest.approx(0.0, abs=1e-10)
+    assert m.location(9) == pytest.approx(0.51823509, rel=1e-4)
+
+
+def test_fdmhestonlocalvolvariancemesher_construction(fdm_market_data):
+    """Heston local vol variance mesher construction."""
+    d = fdm_market_data
+    heston = ql.HestonProcess(
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.QuoteHandle(d["spot"]),
+        0.04, 1.0, 0.04, 0.5, -0.7,
+    )
+    loc_vol = ql.LocalConstantVol(d["today"], 0.20, ql.Actual365Fixed())
+    m = ql.FdmHestonLocalVolatilityVarianceMesher(10, heston, loc_vol, 1.0)
+    assert m.size() == 10
+    assert m.volaEstimate() == pytest.approx(0.03522694, rel=1e-4)
+
+
+# =============================================================================
+# FdmCEV1dMesher
+# =============================================================================
+
+
+def test_fdmcev1dmesher_construction():
+    """CEV mesher construction."""
+    m = ql.FdmCEV1dMesher(20, 100.0, 0.20, 0.5, 1.0)
+    assert m.size() == 20
+    assert m.location(0) == pytest.approx(61.793644, rel=1e-4)
+    assert m.location(10) == pytest.approx(114.19132607, rel=1e-4)
+
+
+def test_fdmcev1dmesher_with_cpoint():
+    """CEV mesher with concentration point."""
+    m = ql.FdmCEV1dMesher(20, 100.0, 0.20, 0.5, 1.0, cPoint=(100.0, 0.1))
+    assert m.size() == 20
+
+
+# =============================================================================
+# FdmSimpleProcess1dMesher
+# =============================================================================
+
+
+def test_fdmsimpleprocess1dmesher_construction(fdm_market_data):
+    """Simple process 1D mesher construction."""
+    d = fdm_market_data
+    bsm = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(d["spot"]),
+        ql.YieldTermStructureHandle(d["divTS"]),
+        ql.YieldTermStructureHandle(d["rTS"]),
+        ql.BlackVolTermStructureHandle(d["vol"]),
+    )
+    m = ql.FdmSimpleProcess1dMesher(10, bsm, 1.0)
+    assert m.size() == 10
+    assert m.location(0) == pytest.approx(60.00751554, rel=1e-4)
+    assert m.location(5) == pytest.approx(102.57127044, rel=1e-4)
+
+
+# =============================================================================
+# FdmMesher (ABC)
+# =============================================================================
+
+
+def test_fdmmesher_cannot_instantiate():
+    """FdmMesher is abstract and cannot be instantiated."""
+    with pytest.raises(TypeError):
+        ql.FdmMesher()
+
+
+# =============================================================================
+# FdmMesherComposite
+# =============================================================================
+
+
+def test_fdmmeshercomposite_1d():
+    """1D composite mesher."""
+    m = ql.Uniform1dMesher(0.0, 1.0, 3)
+    comp = ql.FdmMesherComposite(m)
+    assert comp.layout().size() == 3
+    assert list(comp.layout().dim()) == [3]
+
+
+def test_fdmmeshercomposite_2d():
+    """2D composite mesher."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 3)
+    m2 = ql.Uniform1dMesher(0.0, 2.0, 4)
+    comp = ql.FdmMesherComposite(m1, m2)
+    assert comp.layout().size() == 12
+    assert list(comp.layout().dim()) == [3, 4]
+
+
+def test_fdmmeshercomposite_3d():
+    """3D composite mesher."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 3)
+    m2 = ql.Uniform1dMesher(0.0, 2.0, 4)
+    m3 = ql.Uniform1dMesher(0.0, 3.0, 2)
+    comp = ql.FdmMesherComposite(m1, m2, m3)
+    assert comp.layout().size() == 24
+    assert list(comp.layout().dim()) == [3, 4, 2]
+
+
+def test_fdmmeshercomposite_from_vector():
+    """Composite mesher from vector of 1D meshers."""
+    meshers = [
+        ql.Uniform1dMesher(0.0, 1.0, 3),
+        ql.Uniform1dMesher(0.0, 2.0, 4),
+    ]
+    comp = ql.FdmMesherComposite(meshers)
+    assert comp.layout().size() == 12
+
+
+def test_fdmmeshercomposite_getfdm1dmeshers():
+    """getFdm1dMeshers returns underlying meshers."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 3)
+    m2 = ql.Uniform1dMesher(0.0, 2.0, 4)
+    comp = ql.FdmMesherComposite(m1, m2)
+    meshers = comp.getFdm1dMeshers()
+    assert len(meshers) == 2
+    assert meshers[0].size() == 3
+    assert meshers[1].size() == 4
+
+
+def test_fdmmeshercomposite_locations():
+    """Locations per direction in composite mesher."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 3)
+    m2 = ql.Uniform1dMesher(0.0, 2.0, 4)
+    comp = ql.FdmMesherComposite(m1, m2)
+    locs0 = comp.locations(0)
+    locs1 = comp.locations(1)
+    assert len(locs0) == 12
+    assert len(locs1) == 12
+    assert float(locs0[0]) == pytest.approx(0.0)
+    assert float(locs0[1]) == pytest.approx(0.5)
+
+
+def test_fdmmeshercomposite_dplus_location():
+    """dplus and location via iterator on composite mesher."""
+    m1 = ql.Uniform1dMesher(0.0, 1.0, 3)
+    m2 = ql.Uniform1dMesher(0.0, 2.0, 4)
+    comp = ql.FdmMesherComposite(m1, m2)
+    it = comp.layout().begin()
+    assert comp.dplus(it, 0) == pytest.approx(0.5)
+    assert comp.location(it, 0) == pytest.approx(0.0)
+    assert comp.location(it, 1) == pytest.approx(0.0)

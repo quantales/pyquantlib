@@ -104,6 +104,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MTBrownianGenerator` and `MTBrownianGeneratorFactory` Mersenne-Twister Brownian generators
 - `SobolBrownianGenerator` and `SobolBrownianGeneratorFactory` Sobol-based Brownian generators
 - `Burley2020SobolBrownianGenerator` and `Burley2020SobolBrownianGeneratorFactory` scrambled Sobol Brownian generators
+- `FdmLinearOpIterator` iterator for FDM linear operator grid layout
+- `FdmLinearOpLayout` memory layout for multi-dimensional FDM grids with Python iteration support
+- `Fdm1dMesher` base class for one-dimensional FDM meshers
+- `Uniform1dMesher` uniform grid mesher
+- `Concentrating1dMesher` grid concentrating around critical points (single or multiple)
+- `Predefined1dMesher` mesher from user-supplied grid points
+- `FdmBlackScholesMesher` Black-Scholes process mesher (in ln(S)) with optional quanto helper
+- `FdmHestonVarianceMesher` Heston variance dimension mesher with volatility estimate
+- `FdmHestonLocalVolatilityVarianceMesher` Heston variance mesher with local volatility leverage
+- `FdmCEV1dMesher` CEV model mesher
+- `FdmSimpleProcess1dMesher` generic 1D stochastic process mesher
+- `FdmMesher` ABC for multi-dimensional FDM meshers
+- `FdmMesherComposite` composite multi-dimensional mesher built from 1D meshers (1D-4D convenience constructors)
+- `FdmQuantoHelper` helper for FDM quanto adjustment with scalar and Array overloads
 
 #### Random Number Generators
 - `MersenneTwisterUniformRng` (MT19937) with seed and vector-seed constructors

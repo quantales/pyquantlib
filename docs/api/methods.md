@@ -1,6 +1,6 @@
 # Methods Module
 
-Monte Carlo simulation infrastructure: paths, path generators, Brownian bridges, and Brownian generators.
+Monte Carlo simulation and finite-difference grid infrastructure.
 
 ## Paths
 
@@ -242,6 +242,173 @@ Algorithm for computing Heston Fokker-Planck Green's functions: `ZeroCorrelation
 
 Coordinate transformation for the square-root forward operator: `Plain`, `Power`, `Log`.
 
+## FDM Grid Infrastructure
+
+Layout, iterators, and meshers for multi-dimensional finite-difference grids.
+
+### FdmLinearOpIterator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmLinearOpIterator
+```
+
+Iterator over grid points in an FDM layout. Tracks flat index and multi-dimensional coordinates.
+
+```python
+layout = ql.FdmLinearOpLayout([5, 3])
+it = layout.begin()
+it.index()        # 0
+it.coordinates()  # [0, 0]
+it.increment()
+it.index()        # 1
+it.coordinates()  # [1, 0]
+```
+
+### FdmLinearOpLayout
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmLinearOpLayout
+```
+
+Memory layout for multi-dimensional FDM grids. Supports Python iteration.
+
+```python
+layout = ql.FdmLinearOpLayout([5, 3])
+len(layout)            # 15
+layout.dim()           # [5, 3]
+layout.spacing()       # stride vector
+
+for it in layout:
+    print(it.index(), it.coordinates())
+```
+
+### Fdm1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm1dMesher
+```
+
+Base class for one-dimensional FDM meshers. All 1D meshers below inherit from this.
+
+```python
+mesher = ql.Uniform1dMesher(0.0, 1.0, 5)
+mesher.locations()  # grid point locations
+mesher.dplus(0)     # forward difference at index 0
+mesher.dminus(1)    # backward difference at index 1
+```
+
+### Uniform1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Uniform1dMesher
+```
+
+Uniform grid between start and end values.
+
+### Concentrating1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Concentrating1dMesher
+```
+
+Grid concentrating points around one or more critical points.
+
+```python
+# Single concentration point at 100.0 with density 0.1
+mesher = ql.Concentrating1dMesher(50.0, 150.0, 100, cPoint=(100.0, 0.1))
+
+# Multiple concentration points
+mesher = ql.Concentrating1dMesher(
+    50.0, 150.0, 100,
+    cPoints=[(100.0, 0.1, False), (120.0, 0.05, False)]
+)
+```
+
+### Predefined1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Predefined1dMesher
+```
+
+Mesher from user-supplied grid points.
+
+### FdmBlackScholesMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBlackScholesMesher
+```
+
+One-dimensional mesher for the Black-Scholes process (in ln(S)).
+
+```python
+process = ql.BlackScholesMertonProcess(spot, div, rf, vol)
+mesher = ql.FdmBlackScholesMesher(100, process, 1.0, 100.0)
+```
+
+### FdmHestonVarianceMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonVarianceMesher
+```
+
+Variance dimension mesher for Heston models with volatility estimate.
+
+```python
+heston = ql.HestonProcess(rf, div, spot, 0.04, 1.0, 0.04, 0.5, -0.7)
+mesher = ql.FdmHestonVarianceMesher(10, heston, 1.0)
+mesher.volaEstimate()  # estimated volatility
+```
+
+### FdmHestonLocalVolatilityVarianceMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonLocalVolatilityVarianceMesher
+```
+
+Heston variance mesher incorporating local volatility leverage.
+
+### FdmCEV1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmCEV1dMesher
+```
+
+One-dimensional mesher for the CEV model.
+
+### FdmSimpleProcess1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSimpleProcess1dMesher
+```
+
+Generic one-dimensional mesher for any 1D stochastic process.
+
+### FdmMesherComposite
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmMesherComposite
+```
+
+Composite multi-dimensional mesher built from 1D meshers.
+
+```python
+# 2D grid from two 1D meshers
+m1 = ql.FdmBlackScholesMesher(100, process, 1.0, 100.0)
+m2 = ql.FdmHestonVarianceMesher(10, heston, 1.0)
+mesher = ql.FdmMesherComposite(m1, m2)
+
+mesher.layout()            # FdmLinearOpLayout
+mesher.getFdm1dMeshers()   # underlying 1D meshers
+```
+
+### FdmQuantoHelper
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmQuantoHelper
+```
+
+Helper for applying quanto adjustments in FDM pricing.
+
 ```{note}
-Abstract base classes `BrownianGenerator` and `BrownianGeneratorFactory` are available in `pyquantlib.base` for type checking.
+Abstract base classes `BrownianGenerator`, `BrownianGeneratorFactory`, and `FdmMesher` are available in `pyquantlib.base` for type checking.
 ```

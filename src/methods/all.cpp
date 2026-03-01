@@ -22,6 +22,32 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "FdmHestonGreensFctAlgorithm - Heston Green's function algorithm enum");
     ADD_MAIN_BINDING(ql_methods::fdmsquarerootfwdop,
         "FdmSquareRootFwdOpTransformationType - square-root FD transformation enum");
+    ADD_MAIN_BINDING(ql_methods::fdmlinearopiterator,
+        "FdmLinearOpIterator - iterator for FDM linear operator layout");
+    ADD_MAIN_BINDING(ql_methods::fdmlinearoplayout,
+        "FdmLinearOpLayout - memory layout of FDM linear operator");
+    ADD_MAIN_BINDING(ql_methods::fdm1dmesher,
+        "Fdm1dMesher - base class for 1D FDM meshers");
+    ADD_MAIN_BINDING(ql_methods::uniform1dmesher,
+        "Uniform1dMesher - uniform grid mesher");
+    ADD_MAIN_BINDING(ql_methods::concentrating1dmesher,
+        "Concentrating1dMesher - grid concentrating around critical points");
+    ADD_MAIN_BINDING(ql_methods::predefined1dmesher,
+        "Predefined1dMesher - mesher from predefined points");
+    ADD_MAIN_BINDING(ql_methods::fdmquantohelper,
+        "FdmQuantoHelper - quanto adjustment helper");
+    ADD_MAIN_BINDING(ql_methods::fdmblackscholesmesher,
+        "FdmBlackScholesMesher - Black-Scholes process mesher");
+    ADD_MAIN_BINDING(ql_methods::fdmhestonvariancemesher,
+        "FdmHestonVarianceMesher and FdmHestonLocalVolatilityVarianceMesher");
+    ADD_MAIN_BINDING(ql_methods::fdmcev1dmesher,
+        "FdmCEV1dMesher - CEV model mesher");
+    ADD_MAIN_BINDING(ql_methods::fdmsimpleprocess1dmesher,
+        "FdmSimpleProcess1dMesher - generic 1D process mesher");
+    ADD_MAIN_BINDING(ql_methods::fdmmesher,
+        "FdmMesher - abstract multi-dimensional mesher");
+    ADD_MAIN_BINDING(ql_methods::fdmmeshercomposite,
+        "FdmMesherComposite - composite multi-dimensional mesher");
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");
