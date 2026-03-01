@@ -409,6 +409,313 @@ mesher.getFdm1dMeshers()   # underlying 1D meshers
 
 Helper for applying quanto adjustments in FDM pricing.
 
+## FDM Boundary Conditions
+
+### BoundaryConditionSide
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BoundaryConditionSide
+   :members:
+   :undoc-members:
+```
+
+Side of the domain for boundary conditions: `None_`, `Upper`, `Lower`.
+
+### FdmBoundaryCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBoundaryCondition
+```
+
+Abstract boundary condition for FDM operators. Used in boundary condition sets passed to schemes.
+
+## FDM Operators
+
+### Building Block Operators
+
+#### TripleBandLinearOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TripleBandLinearOp
+```
+
+Tridiagonal (triple-band) linear operator on one grid dimension.
+
+```python
+mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 10))
+op = ql.TripleBandLinearOp(0, mesher)
+
+result = op.apply(array)
+result = op.solve_splitting(rhs, a, b)
+op2 = op.mult(array)
+op3 = op.add(other_op)
+```
+
+#### FirstDerivativeOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FirstDerivativeOp
+```
+
+Central first-derivative operator (inherits from `TripleBandLinearOp`).
+
+```python
+d_dx = ql.FirstDerivativeOp(0, mesher)
+gradient = d_dx.apply(values)
+```
+
+#### SecondDerivativeOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SecondDerivativeOp
+```
+
+Central second-derivative operator (inherits from `TripleBandLinearOp`).
+
+```python
+d2_dx2 = ql.SecondDerivativeOp(0, mesher)
+laplacian = d2_dx2.apply(values)
+```
+
+#### NinePointLinearOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NinePointLinearOp
+```
+
+Nine-point cross-derivative operator on two grid dimensions.
+
+#### SecondOrderMixedDerivativeOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SecondOrderMixedDerivativeOp
+```
+
+Second-order mixed partial derivative operator (inherits from `NinePointLinearOp`).
+
+```python
+d2_dxdy = ql.SecondOrderMixedDerivativeOp(0, 1, mesher)
+```
+
+### Process Operators
+
+Process-specific PDE operators, all inheriting from `FdmLinearOpComposite`. These encode the drift, diffusion, and cross terms for a given stochastic process. Constructed from a mesher and the corresponding process; the inherited methods (`size`, `setTime`, `apply`, `apply_mixed`, `apply_direction`, `solve_splitting`, `preconditioner`) are called internally by FDM schemes.
+
+#### FdmBlackScholesOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBlackScholesOp
+```
+
+Black-Scholes PDE operator.
+
+```python
+op = ql.FdmBlackScholesOp(mesher, process, strike=100.0)
+```
+
+#### FdmBlackScholesFwdOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBlackScholesFwdOp
+```
+
+Black-Scholes forward (Fokker-Planck) operator.
+
+#### Fdm2dBlackScholesOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm2dBlackScholesOp
+```
+
+Two-dimensional correlated Black-Scholes operator.
+
+#### FdmHestonOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonOp
+```
+
+Heston stochastic volatility PDE operator.
+
+```python
+op = ql.FdmHestonOp(mesher, heston_process)
+```
+
+#### FdmHestonFwdOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonFwdOp
+```
+
+Heston forward (Fokker-Planck) operator.
+
+#### FdmHestonHullWhiteOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonHullWhiteOp
+```
+
+Three-factor Heston plus Hull-White operator.
+
+#### FdmBatesOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBatesOp
+```
+
+Bates (Heston + jumps) PDE operator.
+
+#### FdmHullWhiteOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHullWhiteOp
+```
+
+Hull-White short-rate PDE operator.
+
+#### FdmG2Op
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmG2Op
+```
+
+Two-factor Gaussian short-rate (G2) PDE operator.
+
+#### FdmCEVOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmCEVOp
+```
+
+Constant Elasticity of Variance PDE operator.
+
+#### FdmSabrOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSabrOp
+```
+
+SABR stochastic volatility PDE operator.
+
+#### FdmLocalVolFwdOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmLocalVolFwdOp
+```
+
+Local volatility forward (Fokker-Planck) operator.
+
+#### FdmSquareRootFwdOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSquareRootFwdOp
+```
+
+Square-root (CIR) forward operator, used in Heston SLV calibration.
+
+#### FdmOrnsteinUhlenbeckOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmOrnsteinUhlenbeckOp
+```
+
+Ornstein-Uhlenbeck mean-reverting PDE operator.
+
+## FDM Schemes
+
+Time-stepping schemes for evolving the PDE solution backward (or forward) in time. All schemes share the same interface:
+
+```python
+scheme.setStep(dt)                 # set time step size
+array = scheme.step(array, t)      # advance one step from time t
+```
+
+The `step` method returns the modified array (Python copy semantics).
+
+### ExplicitEulerScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExplicitEulerScheme
+```
+
+Forward Euler (explicit) time stepping.
+
+### ImplicitEulerScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ImplicitEulerScheme
+```
+
+Backward Euler (implicit) time stepping with iterative solver.
+
+```python
+scheme = ql.ImplicitEulerScheme(op, relTol=1e-8)
+scheme.numberOfIterations()  # solver iterations from last step
+```
+
+#### ImplicitEulerSolverType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ImplicitEulerSolverType
+   :members:
+   :undoc-members:
+```
+
+Iterative solver for implicit schemes: `BiCGstab`, `GMRES`.
+
+### CrankNicolsonScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CrankNicolsonScheme
+```
+
+Crank-Nicolson (theta = 0.5) time stepping.
+
+```python
+scheme = ql.CrankNicolsonScheme(0.5, op)
+scheme.numberOfIterations()
+```
+
+### DouglasScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DouglasScheme
+```
+
+Douglas ADI time-stepping scheme.
+
+### CraigSneydScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CraigSneydScheme
+```
+
+Craig-Sneyd ADI time-stepping scheme.
+
+### HundsdorferScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HundsdorferScheme
+```
+
+Hundsdorfer ADI time-stepping scheme.
+
+### ModifiedCraigSneydScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ModifiedCraigSneydScheme
+```
+
+Modified Craig-Sneyd ADI time-stepping scheme.
+
+### MethodOfLinesScheme
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MethodOfLinesScheme
+```
+
+Method of lines (Runge-Kutta) time-stepping scheme.
+
 ```{note}
-Abstract base classes `BrownianGenerator`, `BrownianGeneratorFactory`, and `FdmMesher` are available in `pyquantlib.base` for type checking.
+Abstract base classes `FdmLinearOp`, `FdmLinearOpComposite`, `BrownianGenerator`, `BrownianGeneratorFactory`, and `FdmMesher` are available in `pyquantlib.base` for type checking.
 ```

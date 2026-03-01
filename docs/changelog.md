@@ -118,6 +118,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FdmMesher` ABC for multi-dimensional FDM meshers
 - `FdmMesherComposite` composite multi-dimensional mesher built from 1D meshers (1D-4D convenience constructors)
 - `FdmQuantoHelper` helper for FDM quanto adjustment with scalar and Array overloads
+- `FdmBoundaryCondition` ABC for FDM boundary conditions with `BoundaryConditionSide` enum (None\_, Upper, Lower)
+- `FdmLinearOp` ABC with `apply()` for polymorphic operator calls
+- `FdmLinearOpComposite` ABC with `size`, `setTime`, `apply_mixed`, `apply_direction`, `solve_splitting`, `preconditioner`
+- `TripleBandLinearOp` tridiagonal operator with `apply`, `solve_splitting`, `mult`, `multR`, `add`, `axpyb`
+- `FirstDerivativeOp` central first-derivative operator
+- `SecondDerivativeOp` central second-derivative operator
+- `NinePointLinearOp` nine-point cross-derivative operator with `apply`, `mult`
+- `SecondOrderMixedDerivativeOp` second-order mixed partial derivative operator
+- `FdmBlackScholesOp` Black-Scholes PDE operator
+- `FdmBlackScholesFwdOp` Black-Scholes forward (Fokker-Planck) operator
+- `Fdm2dBlackScholesOp` two-dimensional correlated Black-Scholes operator
+- `FdmHestonOp` Heston stochastic volatility PDE operator
+- `FdmHestonFwdOp` Heston forward (Fokker-Planck) operator
+- `FdmHestonHullWhiteOp` three-factor Heston + Hull-White operator
+- `FdmBatesOp` Bates (Heston + jumps) PDE operator
+- `FdmHullWhiteOp` Hull-White short-rate PDE operator
+- `FdmG2Op` two-factor Gaussian short-rate (G2) PDE operator
+- `FdmCEVOp` Constant Elasticity of Variance PDE operator
+- `FdmSabrOp` SABR stochastic volatility PDE operator
+- `FdmLocalVolFwdOp` local volatility forward (Fokker-Planck) operator
+- `FdmSquareRootFwdOp` square-root (CIR) forward operator with `lowerBoundaryFactor`, `upperBoundaryFactor`, `v`
+- `FdmOrnsteinUhlenbeckOp` Ornstein-Uhlenbeck mean-reverting PDE operator
+- `ExplicitEulerScheme` forward Euler time stepping
+- `ImplicitEulerScheme` backward Euler time stepping with `ImplicitEulerSolverType` enum (BiCGstab, GMRES) and `numberOfIterations`
+- `CrankNicolsonScheme` Crank-Nicolson time stepping with `numberOfIterations`
+- `DouglasScheme` Douglas ADI time-stepping scheme
+- `CraigSneydScheme` Craig-Sneyd ADI time-stepping scheme
+- `HundsdorferScheme` Hundsdorfer ADI time-stepping scheme
+- `ModifiedCraigSneydScheme` Modified Craig-Sneyd ADI time-stepping scheme
+- `MethodOfLinesScheme` method of lines (Runge-Kutta) time-stepping scheme
 
 #### Random Number Generators
 - `MersenneTwisterUniformRng` (MT19937) with seed and vector-seed constructors
