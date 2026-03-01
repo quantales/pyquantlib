@@ -11,8 +11,6 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/quantales/pyquantlib/blob/main/CONTRIBUTING.md)
 
-> **Beta Status**: This project is under active development. API may change.
-
 ## Overview
 
 PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. Built with [pybind11](https://github.com/pybind/pybind11), it offers a more Pythonic API than existing alternatives.
@@ -165,6 +163,3 @@ BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 - [pybind11](https://github.com/pybind/pybind11) - C++/Python bindings
 - [scikit-build-core](https://github.com/scikit-build/scikit-build-core) - Build system
 
-## Status
-
-PyQuantLib is under active development. For broader QuantLib coverage today, use [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG).

@@ -13,10 +13,6 @@
 
 PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance.
 
-```{warning}
-**Beta Status**: This project is under active development. API may change.
-```
-
 ## Motivation
 
 There are existing Python bindings for QuantLib:
