@@ -35,6 +35,8 @@ The tensions that shaped PyQuantLib's architecture:
 
 **Builder pattern translation.** QuantLib's `Make*` builders use C++ method chaining and implicit conversion operators to construct complex objects. Python has no implicit conversion operators, and method chaining with `with*` prefixes is not idiomatic when keyword arguments exist. PyQuantLib replaces the builder pattern with keyword-argument functions that return the result directly. See {doc}`design/builder-pattern`.
 
+**Reference member lifetimes.** A few QuantLib classes store constructor arguments by reference rather than by value. In C++ the caller keeps the argument alive; in pybind11 the argument is a temporary that dies when the constructor returns, leaving a dangling reference inside the object. The binding must extend the argument's lifetime without modifying QuantLib. See {doc}`design/reference-members`.
+
 These are not hypothetical risks. Each one was discovered through debugging production failures. The {doc}`design notes <design/index>` document these investigations in full.
 
 ## API Design Principle

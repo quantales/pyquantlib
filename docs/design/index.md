@@ -20,4 +20,5 @@ enum-singletons
 cross-tu-holders
 diamond-inheritance
 builder-pattern
+reference-members
 ```
