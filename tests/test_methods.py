@@ -1475,7 +1475,7 @@ def test_triplebandlinearop_construction():
 def test_triplebandlinearop_solve_splitting():
     """TripleBandLinearOp solve_splitting."""
     mesher = ql.FdmMesherComposite(ql.Uniform1dMesher(0.0, 1.0, 5))
-    op = ql.TripleBandLinearOp(0, mesher)
+    op = ql.SecondDerivativeOp(0, mesher)
     a = ql.Array([1.0, 2.0, 3.0, 4.0, 5.0])
     result = op.solve_splitting(a, 1.0)
     assert len(result) == 5
