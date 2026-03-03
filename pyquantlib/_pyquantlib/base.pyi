@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FdmInnerValueCalculator', 'FdmStepCondition', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'RiskNeutralDensityCalculator', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FdmInnerValueCalculator', 'FdmStepCondition', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GaussianQuadrature', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'Integrator', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'RiskNeutralDensityCalculator', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -743,6 +743,26 @@ class Gaussian1dModel(TermStructureConsistentModel, LazyObject):
         """
         Returns zero-coupon bond option price.
         """
+class GaussianQuadrature:
+    """
+    Base class for Gaussian quadrature integration.
+    """
+    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float]) -> float:
+        """
+        Evaluates the quadrature integral of f.
+        """
+    def order(self) -> int:
+        """
+        Returns the quadrature order.
+        """
+    def weights(self) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns the quadrature weights.
+        """
+    def x(self) -> pyquantlib._pyquantlib.Array:
+        """
+        Returns the quadrature abscissas.
+        """
 class GenericHestonModelEngine(PricingEngine):
     """
     Generic pricing engine for Heston model.
@@ -934,6 +954,42 @@ class Instrument(LazyObject):
     def setPricingEngine(self, engine: PricingEngine) -> None:
         """
         Sets the pricing engine for valuation.
+        """
+class Integrator:
+    """
+    Abstract base class for 1-D numerical integrators.
+    """
+    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        """
+        Integrates function f from a to b.
+        """
+    def absoluteAccuracy(self) -> float:
+        """
+        Returns the required absolute accuracy.
+        """
+    def absoluteError(self) -> float:
+        """
+        Returns the absolute error of the last integration.
+        """
+    def integrationSuccess(self) -> bool:
+        """
+        Returns whether the last integration was successful.
+        """
+    def maxEvaluations(self) -> int:
+        """
+        Returns the maximum number of function evaluations.
+        """
+    def numberOfEvaluations(self) -> int:
+        """
+        Returns the number of evaluations of the last integration.
+        """
+    def setAbsoluteAccuracy(self, accuracy: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Sets the required absolute accuracy.
+        """
+    def setMaxEvaluations(self, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Sets the maximum number of function evaluations.
         """
 class InterestRateIndex(Index):
     """

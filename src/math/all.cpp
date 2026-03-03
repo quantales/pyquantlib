@@ -70,4 +70,18 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
         "Ordering enum and Sobol Brownian generators");
     ADD_MAIN_BINDING(ql_math::sobolbrownianbridgersg,
         "Sobol Brownian bridge sequence generators");
+
+    // Integrals
+    ADD_BASE_BINDING(ql_math::integrator, "Integrator ABC");
+    ADD_MAIN_BINDING(ql_math::segmentintegral, "Segment integral");
+    ADD_MAIN_BINDING(ql_math::trapezoidintegral,
+        "Trapezoid and mid-point trapezoid integrals");
+    ADD_MAIN_BINDING(ql_math::simpsonintegral, "Simpson integral");
+    ADD_MAIN_BINDING(ql_math::kronrodintegral,
+        "Gauss-Kronrod adaptive and non-adaptive integrals");
+    ADD_MAIN_BINDING(ql_math::gausslobattointegral, "Gauss-Lobatto integral");
+    ADD_MAIN_BINDING(ql_math::tanhsinhintegral, "Tanh-sinh integral");
+    ADD_MAIN_BINDING(ql_math::expsinhintegral, "Exp-sinh integral");
+    ADD_MAIN_BINDING(ql_math::gaussianquadratures,
+        "Gaussian quadrature integration methods");
 }

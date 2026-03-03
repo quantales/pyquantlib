@@ -11,6 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Math
+- `Integrator` abstract base class for 1-D numerical integration with `__call__(f, a, b)` interface
+- `SegmentIntegral` fixed-interval trapezoid integration
+- `TrapezoidIntegral` adaptive trapezoid integration with default policy
+- `MidPointTrapezoidIntegral` adaptive trapezoid integration with mid-point policy
+- `SimpsonIntegral` adaptive Simpson's rule integration
+- `GaussKronrodAdaptive` adaptive 15-point Gauss-Kronrod integration
+- `GaussKronrodNonAdaptive` non-adaptive Gauss-Kronrod integration (10/21/43/87-point)
+- `GaussLobattoIntegral` adaptive Gauss-Lobatto integration
+- `TanhSinhIntegral` tanh-sinh quadrature for smooth integrands (requires Boost >= 1.69)
+- `ExpSinhIntegral` exp-sinh quadrature with `integrateHalfInfinite()` for [0, inf)
+- `GaussianQuadrature` abstract base for Gaussian quadrature methods
+- `GaussLaguerreIntegration`, `GaussHermiteIntegration`, `GaussJacobiIntegration`, `GaussHyperbolicIntegration`, `GaussLegendreIntegration`, `GaussChebyshevIntegration`, `GaussChebyshev2ndIntegration`, `GaussGegenbauerIntegration` concrete Gaussian quadrature classes
+- `TabulatedGaussLegendre` precomputed Gauss-Legendre quadrature (orders 6, 7, 12, 20)
+- `GaussLegendreIntegrator`, `GaussChebyshevIntegrator`, `GaussChebyshev2ndIntegrator` Gaussian quadrature-based `Integrator` subclasses
+
 ## [0.5.1] - 2026-03-02
 
 ### Fixed

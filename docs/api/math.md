@@ -150,6 +150,91 @@ Monotonicity-preserving cubic spline that prevents oscillations.
 The abstract base class `Interpolation` is available in `pyquantlib.base` for type checking.
 ```
 
+## Integration
+
+Numerical integration (quadrature) methods for 1-D functions.
+
+### Integrator Subclasses
+
+All integrators share the `Integrator` interface: call with `integrator(f, a, b)` where `f` is a callable.
+
+```python
+import math
+import pyquantlib as ql
+
+integrator = ql.SimpsonIntegral(1e-8, 100)
+result = integrator(math.sin, 0.0, math.pi)  # 2.0
+```
+
+Common methods: `absoluteAccuracy()`, `maxEvaluations()`, `absoluteError()`, `numberOfEvaluations()`, `integrationSuccess()`.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SegmentIntegral
+
+.. autoclass:: pyquantlib.TrapezoidIntegral
+
+.. autoclass:: pyquantlib.MidPointTrapezoidIntegral
+
+.. autoclass:: pyquantlib.SimpsonIntegral
+
+.. autoclass:: pyquantlib.GaussKronrodAdaptive
+
+.. autoclass:: pyquantlib.GaussKronrodNonAdaptive
+
+.. autoclass:: pyquantlib.GaussLobattoIntegral
+
+.. autoclass:: pyquantlib.TanhSinhIntegral
+
+.. autoclass:: pyquantlib.ExpSinhIntegral
+```
+
+### Gaussian Quadrature
+
+Gaussian quadrature methods use optimally placed nodes for specific weight functions. Call with `quad(f)`.
+
+```python
+quad = ql.GaussLegendreIntegration(10)
+result = quad(lambda x: x**4)  # exact for polynomials up to degree 2n-1
+```
+
+Common methods: `order()`, `weights()`, `x()`.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GaussLaguerreIntegration
+
+.. autoclass:: pyquantlib.GaussHermiteIntegration
+
+.. autoclass:: pyquantlib.GaussJacobiIntegration
+
+.. autoclass:: pyquantlib.GaussHyperbolicIntegration
+
+.. autoclass:: pyquantlib.GaussLegendreIntegration
+
+.. autoclass:: pyquantlib.GaussChebyshevIntegration
+
+.. autoclass:: pyquantlib.GaussChebyshev2ndIntegration
+
+.. autoclass:: pyquantlib.GaussGegenbauerIntegration
+
+.. autoclass:: pyquantlib.TabulatedGaussLegendre
+```
+
+### Quadrature-Based Integrators
+
+These wrap Gaussian quadrature methods into the `Integrator` interface for use with finite intervals.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GaussLegendreIntegrator
+
+.. autoclass:: pyquantlib.GaussChebyshevIntegrator
+
+.. autoclass:: pyquantlib.GaussChebyshev2ndIntegrator
+```
+
+```{note}
+The abstract base classes `Integrator` and `GaussianQuadrature` are available in `pyquantlib.base`.
+```
+
 ## Statistics
 
 ### Statistics

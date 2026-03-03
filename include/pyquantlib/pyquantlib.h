@@ -112,6 +112,15 @@ namespace ql_math {
     void randomsequencegenerator(py::module_&);
     void inversecumulativersg(py::module_&);
     void sobolbrownianbridgersg(py::module_&);
+    void integrator(py::module_&);
+    void segmentintegral(py::module_&);
+    void trapezoidintegral(py::module_&);
+    void simpsonintegral(py::module_&);
+    void kronrodintegral(py::module_&);
+    void gausslobattointegral(py::module_&);
+    void tanhsinhintegral(py::module_&);
+    void expsinhintegral(py::module_&);
+    void gaussianquadratures(py::module_&);
 }
 
 namespace ql_core {
