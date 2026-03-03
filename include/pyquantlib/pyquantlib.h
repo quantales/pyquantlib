@@ -121,6 +121,20 @@ namespace ql_math {
     void tanhsinhintegral(py::module_&);
     void expsinhintegral(py::module_&);
     void gaussianquadratures(py::module_&);
+    void simplex(py::module_&);
+    void conjugategradient(py::module_&);
+    void steepestdescent(py::module_&);
+    void bfgs(py::module_&);
+    void differentialevolution(py::module_&);
+    void interpolation2d(py::module_&);
+    void forwardflatinterpolation(py::module_&);
+    void lagrangeinterpolation(py::module_&);
+    void bilinearinterpolation(py::module_&);
+    void bicubicsplineinterpolation(py::module_&);
+    void chebyshevinterpolation(py::module_&);
+    void richardsonextrapolation(py::module_&);
+    void svd(py::module_&);
+    void symmetricschurdecomposition(py::module_&);
 }
 
 namespace ql_core {

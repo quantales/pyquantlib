@@ -5,7 +5,7 @@ from __future__ import annotations
 import collections.abc
 import pyquantlib._pyquantlib
 import typing
-__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FdmInnerValueCalculator', 'FdmStepCondition', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GaussianQuadrature', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'Integrator', 'InterestRateIndex', 'Interpolation', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'RiskNeutralDensityCalculator', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
+__all__: list[str] = ['AffineModel', 'BasketPayoff', 'BlackCalibrationHelper', 'BlackVarianceTermStructure', 'BlackVolTermStructure', 'BlackVolatilityTermStructure', 'BondGenericEngine', 'BrownianGenerator', 'BrownianGeneratorFactory', 'CalibratedModel', 'CalibrationHelper', 'CallableBond', 'CallableBondVolatilityStructure', 'CapFloorTermVolatilityStructure', 'CashFlow', 'Claim', 'CmsCouponPricer', 'Constraint', 'CostFunction', 'Coupon', 'DefaultProbabilityHelper', 'DefaultProbabilityTermStructure', 'Dividend', 'Event', 'Extrapolator', 'FdmInnerValueCalculator', 'FdmStepCondition', 'FittingMethod', 'FloatingRateCouponPricer', 'Forward', 'ForwardMeasureProcess', 'ForwardMeasureProcess1D', 'Gaussian1dModel', 'GaussianQuadrature', 'GenericHestonModelEngine', 'Index', 'InflationCoupon', 'InflationCouponPricer', 'InflationIndex', 'InflationTermStructure', 'Instrument', 'Integrator', 'InterestRateIndex', 'Interpolation', 'Interpolation2D', 'LazyObject', 'LocalVolTermStructure', 'MeanRevertingPricer', 'MultiAssetOption', 'Observer', 'OneAssetOption', 'OneAssetOptionGenericEngine', 'OneFactorAffineModel', 'OneFactorModel', 'OptimizationMethod', 'Option', 'OptionletStripper', 'OptionletVolatilityStructure', 'Payoff', 'PricingEngine', 'Quote', 'RateHelper', 'RelativeDateRateHelper', 'RelativeDateYoYInflationHelper', 'RelativeDateZeroInflationHelper', 'RiskNeutralDensityCalculator', 'Seasonality', 'ShortRateModel', 'SmileSection', 'SpreadBlackScholesVanillaEngine', 'StochasticProcess', 'StochasticProcess1D', 'StrikedTypePayoff', 'StrippedOptionletBase', 'SwapGenericEngine', 'SwaptionGenericEngine', 'SwaptionVolatilityDiscrete', 'SwaptionVolatilityStructure', 'TermStructure', 'TermStructureConsistentModel', 'TwoFactorModel', 'VolatilityTermStructure', 'YieldTermStructure', 'YoYInflationHelper', 'YoYInflationTermStructure', 'YoYOptionletVolatilitySurface', 'ZeroInflationHelper', 'ZeroInflationTermStructure']
 class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
@@ -1088,6 +1088,50 @@ class Interpolation(Extrapolator):
     def xMin(self) -> float:
         """
         Returns minimum x value.
+        """
+class Interpolation2D(Extrapolator):
+    """
+    Base class for 2-D interpolation.
+    """
+    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+        """
+        Returns the interpolated value at (x, y).
+        """
+    def isInRange(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> bool:
+        """
+        Returns true if (x, y) is in range.
+        """
+    def update(self) -> None:
+        """
+        Recalculates the interpolation.
+        """
+    def xMax(self) -> float:
+        """
+        Returns the maximum x value.
+        """
+    def xMin(self) -> float:
+        """
+        Returns the minimum x value.
+        """
+    def xValues(self) -> list[float]:
+        """
+        Returns the x values.
+        """
+    def yMax(self) -> float:
+        """
+        Returns the maximum y value.
+        """
+    def yMin(self) -> float:
+        """
+        Returns the minimum y value.
+        """
+    def yValues(self) -> list[float]:
+        """
+        Returns the y values.
+        """
+    def zData(self) -> pyquantlib._pyquantlib.Matrix:
+        """
+        Returns the z data matrix.
         """
 class LazyObject(Observer, pyquantlib._pyquantlib.Observable):
     """

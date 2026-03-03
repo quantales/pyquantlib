@@ -43,6 +43,37 @@ mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
 np_view = np.array(mat, copy=False)
 ```
 
+### SVD
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SVD
+```
+
+Singular value decomposition of a matrix.
+
+```python
+m = ql.Matrix([[1, 2], [3, 4], [5, 6]])
+svd = ql.SVD(m)
+U = svd.U()
+V = svd.V()
+s = svd.singularValues()
+```
+
+### SymmetricSchurDecomposition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SymmetricSchurDecomposition
+```
+
+Eigenvalue decomposition of a symmetric matrix.
+
+```python
+m = ql.Matrix([[4, 1], [1, 3]])
+ssd = ql.SymmetricSchurDecomposition(m)
+eigenvalues = ssd.eigenvalues()
+eigenvectors = ssd.eigenvectors()
+```
+
 ## Interpolation
 
 Interpolation classes for constructing continuous functions from discrete data points.
@@ -146,93 +177,107 @@ Monotonicity-preserving cubic spline that prevents oscillations.
    :undoc-members:
 ```
 
-```{note}
-The abstract base class `Interpolation` is available in `pyquantlib.base` for type checking.
+### ForwardFlatInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardFlatInterpolation
 ```
 
-## Integration
+Step function that uses the current node's value (forward-flat).
 
-Numerical integration (quadrature) methods for 1-D functions.
+```python
+x = [1.0, 2.0, 3.0]
+y = [10.0, 20.0, 30.0]
+interp = ql.ForwardFlatInterpolation(x, y)
+interp(1.5)  # 10.0 (uses current node's value)
+```
 
-### Integrator Subclasses
+### LagrangeInterpolation
 
-All integrators share the `Integrator` interface: call with `integrator(f, a, b)` where `f` is a callable.
+```{eval-rst}
+.. autoclass:: pyquantlib.LagrangeInterpolation
+```
+
+Lagrange polynomial interpolation. Supports evaluation with alternative y values via `value(y, x)`.
+
+```python
+x = [1.0, 2.0, 3.0]
+y = [1.0, 4.0, 9.0]
+interp = ql.LagrangeInterpolation(x, y)
+interp(1.5)  # 2.25
+
+# Evaluate with different y values
+alt_y = ql.Array([1.0, 8.0, 27.0])
+interp.value(alt_y, 2.0)  # 8.0
+```
+
+### BilinearInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BilinearInterpolation
+```
+
+Bilinear interpolation on a 2-D grid. Matrix z uses QuantLib convention: `z[y_idx][x_idx]`.
+
+```python
+x = [0.0, 1.0]
+y = [0.0, 1.0]
+z = ql.Matrix([[1.0, 2.0], [3.0, 4.0]])
+interp = ql.BilinearInterpolation(x, y, z)
+interp(0.5, 0.5)  # 2.5
+```
+
+### BicubicSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BicubicSpline
+```
+
+Bicubic spline interpolation on a 2-D grid with derivative methods.
+
+```python
+x = [0.0, 1.0, 2.0]
+y = [0.0, 1.0, 2.0]
+z = ql.Matrix([[0, 0, 0], [0, 1, 2], [0, 2, 4]])
+interp = ql.BicubicSpline(x, y, z)
+interp(1.0, 1.0)          # 1.0
+interp.derivativeX(1, 1)   # ~1.0
+```
+
+### ChebyshevInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ChebyshevInterpolation
+
+.. autoclass:: pyquantlib.ChebyshevPointsType
+   :members:
+   :undoc-members:
+```
+
+Chebyshev polynomial interpolation on [-1, 1].
 
 ```python
 import math
-import pyquantlib as ql
-
-integrator = ql.SimpsonIntegral(1e-8, 100)
-result = integrator(math.sin, 0.0, math.pi)  # 2.0
+interp = ql.ChebyshevInterpolation(20, math.sin)
+interp(0.5)  # sin(0.5)
 ```
 
-Common methods: `absoluteAccuracy()`, `maxEvaluations()`, `absoluteError()`, `numberOfEvaluations()`, `integrationSuccess()`.
+### RichardsonExtrapolation
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.SegmentIntegral
-
-.. autoclass:: pyquantlib.TrapezoidIntegral
-
-.. autoclass:: pyquantlib.MidPointTrapezoidIntegral
-
-.. autoclass:: pyquantlib.SimpsonIntegral
-
-.. autoclass:: pyquantlib.GaussKronrodAdaptive
-
-.. autoclass:: pyquantlib.GaussKronrodNonAdaptive
-
-.. autoclass:: pyquantlib.GaussLobattoIntegral
-
-.. autoclass:: pyquantlib.TanhSinhIntegral
-
-.. autoclass:: pyquantlib.ExpSinhIntegral
+.. autoclass:: pyquantlib.RichardsonExtrapolation
 ```
 
-### Gaussian Quadrature
-
-Gaussian quadrature methods use optimally placed nodes for specific weight functions. Call with `quad(f)`.
+Richardson extrapolation for improving convergence of numerical methods.
 
 ```python
-quad = ql.GaussLegendreIntegration(10)
-result = quad(lambda x: x**4)  # exact for polynomials up to degree 2n-1
-```
-
-Common methods: `order()`, `weights()`, `x()`.
-
-```{eval-rst}
-.. autoclass:: pyquantlib.GaussLaguerreIntegration
-
-.. autoclass:: pyquantlib.GaussHermiteIntegration
-
-.. autoclass:: pyquantlib.GaussJacobiIntegration
-
-.. autoclass:: pyquantlib.GaussHyperbolicIntegration
-
-.. autoclass:: pyquantlib.GaussLegendreIntegration
-
-.. autoclass:: pyquantlib.GaussChebyshevIntegration
-
-.. autoclass:: pyquantlib.GaussChebyshev2ndIntegration
-
-.. autoclass:: pyquantlib.GaussGegenbauerIntegration
-
-.. autoclass:: pyquantlib.TabulatedGaussLegendre
-```
-
-### Quadrature-Based Integrators
-
-These wrap Gaussian quadrature methods into the `Integrator` interface for use with finite intervals.
-
-```{eval-rst}
-.. autoclass:: pyquantlib.GaussLegendreIntegrator
-
-.. autoclass:: pyquantlib.GaussChebyshevIntegrator
-
-.. autoclass:: pyquantlib.GaussChebyshev2ndIntegrator
+f = lambda h: math.sin(h) / h
+re = ql.RichardsonExtrapolation(f, 0.01, n=2.0)
+re(2.0)  # ~1.0 (limit as h->0)
 ```
 
 ```{note}
-The abstract base classes `Integrator` and `GaussianQuadrature` are available in `pyquantlib.base`.
+The abstract base classes `Interpolation` and `Interpolation2D` are available in `pyquantlib.base` for type checking.
 ```
 
 ## Statistics
@@ -295,6 +340,60 @@ print(stats.mean(), stats.covariance())
 .. autoclass:: pyquantlib.LevenbergMarquardt
 ```
 
+### Simplex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Simplex
+```
+
+Nelder-Mead simplex optimization method.
+
+```python
+optimizer = ql.Simplex(0.1)
+```
+
+### ConjugateGradient
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConjugateGradient
+```
+
+### SteepestDescent
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SteepestDescent
+```
+
+### BFGS
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BFGS
+```
+
+### DifferentialEvolution
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DifferentialEvolution
+
+.. autoclass:: pyquantlib.DEConfiguration
+
+.. autoclass:: pyquantlib.DEStrategy
+   :members:
+   :undoc-members:
+
+.. autoclass:: pyquantlib.DECrossoverType
+   :members:
+   :undoc-members:
+```
+
+Global optimizer using differential evolution. Configuration uses a builder pattern:
+
+```python
+config = ql.DEConfiguration()
+config = config.withStepsizeWeight(0.5).withCrossoverProbability(0.9)
+optimizer = ql.DifferentialEvolution(config)
+```
+
 ### Problem
 
 ```{eval-rst}
@@ -305,16 +404,16 @@ print(stats.mean(), stats.covariance())
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoConstraint
-   
+
 
 .. autoclass:: pyquantlib.PositiveConstraint
-   
+
 
 .. autoclass:: pyquantlib.BoundaryConstraint
-   
+
 
 .. autoclass:: pyquantlib.CompositeConstraint
-   
+
 ```
 
 ```{note}

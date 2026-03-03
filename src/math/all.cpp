@@ -84,4 +84,30 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::expsinhintegral, "Exp-sinh integral");
     ADD_MAIN_BINDING(ql_math::gaussianquadratures,
         "Gaussian quadrature integration methods");
+
+    // Optimizers
+    ADD_MAIN_BINDING(ql_math::simplex, "Simplex optimizer");
+    ADD_MAIN_BINDING(ql_math::conjugategradient, "Conjugate gradient optimizer");
+    ADD_MAIN_BINDING(ql_math::steepestdescent, "Steepest descent optimizer");
+    ADD_MAIN_BINDING(ql_math::bfgs, "BFGS optimizer");
+    ADD_MAIN_BINDING(ql_math::differentialevolution,
+        "Differential evolution optimizer");
+
+    // 2-D interpolation
+    ADD_BASE_BINDING(ql_math::interpolation2d, "Interpolation2D base class");
+    ADD_MAIN_BINDING(ql_math::forwardflatinterpolation,
+        "Forward-flat interpolation");
+    ADD_MAIN_BINDING(ql_math::lagrangeinterpolation, "Lagrange interpolation");
+    ADD_MAIN_BINDING(ql_math::bilinearinterpolation, "Bilinear interpolation");
+    ADD_MAIN_BINDING(ql_math::bicubicsplineinterpolation,
+        "Bicubic spline interpolation");
+    ADD_MAIN_BINDING(ql_math::chebyshevinterpolation,
+        "Chebyshev interpolation");
+    ADD_MAIN_BINDING(ql_math::richardsonextrapolation,
+        "Richardson extrapolation");
+
+    // Matrix utilities
+    ADD_MAIN_BINDING(ql_math::svd, "Singular value decomposition");
+    ADD_MAIN_BINDING(ql_math::symmetricschurdecomposition,
+        "Symmetric Schur decomposition");
 }

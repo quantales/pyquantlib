@@ -28,6 +28,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `GaussLaguerreIntegration`, `GaussHermiteIntegration`, `GaussJacobiIntegration`, `GaussHyperbolicIntegration`, `GaussLegendreIntegration`, `GaussChebyshevIntegration`, `GaussChebyshev2ndIntegration`, `GaussGegenbauerIntegration` concrete Gaussian quadrature classes
 - `TabulatedGaussLegendre` precomputed Gauss-Legendre quadrature (orders 6, 7, 12, 20)
 - `GaussLegendreIntegrator`, `GaussChebyshevIntegrator`, `GaussChebyshev2ndIntegrator` Gaussian quadrature-based `Integrator` subclasses
+- `Simplex` Nelder-Mead simplex optimizer
+- `ConjugateGradient` conjugate gradient optimizer
+- `SteepestDescent` steepest descent optimizer
+- `BFGS` Broyden-Fletcher-Goldfarb-Shanno quasi-Newton optimizer
+- `DifferentialEvolution` global optimizer with `DEConfiguration` builder, `DEStrategy` and `DECrossoverType` enums
+- `Interpolation2D` ABC for 2-D interpolation (in `pyquantlib.base`)
+- `ForwardFlatInterpolation` forward-flat step interpolation
+- `LagrangeInterpolation` Lagrange polynomial interpolation with `value(y, x)` for alternative y values
+- `BilinearInterpolation` bilinear interpolation on 2-D grids
+- `BicubicSpline` bicubic spline interpolation with derivative methods
+- `ChebyshevInterpolation` Chebyshev polynomial interpolation on [-1, 1] with `ChebyshevPointsType` enum
+- `RichardsonExtrapolation` Richardson extrapolation for improving numerical convergence
+- `SVD` singular value decomposition with `U()`, `V()`, `singularValues()`, `solveFor()`
+- `SymmetricSchurDecomposition` eigenvalue decomposition for symmetric matrices
 
 ## [0.5.1] - 2026-03-02
 

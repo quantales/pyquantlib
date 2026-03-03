@@ -1165,3 +1165,93 @@ def test_monotoniccubicnaturalspline_data_lifetime():
 
     interp = create_interp()
     assert interp(2.5) == pytest.approx(2.5, rel=0.1)
+
+
+# =============================================================================
+# SVD
+# =============================================================================
+
+
+def test_svd_construction():
+    """Test SVD construction."""
+    m = ql.Matrix([[1.0, 0.0], [0.0, 2.0]])
+    svd = ql.SVD(m)
+    assert svd is not None
+
+
+def test_svd_identity():
+    """Test SVD of a 2x2 diagonal matrix."""
+    m = ql.Matrix([[3.0, 0.0], [0.0, 4.0]])
+    svd = ql.SVD(m)
+
+    sv = svd.singularValues()
+    # Singular values in decreasing order
+    assert sv[0] == pytest.approx(4.0)
+    assert sv[1] == pytest.approx(3.0)
+
+
+def test_svd_reconstruction():
+    """Test U * S * V^T reconstructs the original matrix."""
+    m = ql.Matrix([[1.0, 2.0], [3.0, 4.0]])
+    svd = ql.SVD(m)
+
+    U = np.array(svd.U(), copy=False)
+    S = np.array(svd.S(), copy=False)
+    V = np.array(svd.V(), copy=False)
+    reconstructed = U @ S @ V.T
+
+    assert_array_almost_equal(reconstructed, np.array(m, copy=False), decimal=10)
+
+
+def test_svd_properties():
+    """Test SVD norm2, cond, rank."""
+    m = ql.Matrix([[1.0, 0.0], [0.0, 2.0]])
+    svd = ql.SVD(m)
+
+    assert svd.norm2() == pytest.approx(2.0)
+    assert svd.cond() == pytest.approx(2.0)
+    assert svd.rank() == 2
+
+
+def test_svd_solve():
+    """Test SVD solveFor."""
+    # Solve Ax = b where A = [[1, 0], [0, 2]], b = [3, 8] => x = [3, 4]
+    m = ql.Matrix([[1.0, 0.0], [0.0, 2.0]])
+    svd = ql.SVD(m)
+    b = ql.Array([3.0, 8.0])
+    x = svd.solveFor(b)
+    assert x[0] == pytest.approx(3.0)
+    assert x[1] == pytest.approx(4.0)
+
+
+# =============================================================================
+# SymmetricSchurDecomposition
+# =============================================================================
+
+
+def test_symmetricschur_construction():
+    """Test SymmetricSchurDecomposition construction."""
+    m = ql.Matrix([[2.0, 1.0], [1.0, 2.0]])
+    ssd = ql.SymmetricSchurDecomposition(m)
+    assert ssd is not None
+
+
+def test_symmetricschur_eigenvalues():
+    """Test eigenvalues of a known symmetric matrix."""
+    # [[2, 1], [1, 2]] has eigenvalues 3 and 1
+    m = ql.Matrix([[2.0, 1.0], [1.0, 2.0]])
+    ssd = ql.SymmetricSchurDecomposition(m)
+    ev = ssd.eigenvalues()
+    assert ev[0] == pytest.approx(3.0)
+    assert ev[1] == pytest.approx(1.0)
+
+
+def test_symmetricschur_eigenvectors():
+    """Test eigenvectors reconstruct the original matrix."""
+    m = ql.Matrix([[2.0, 1.0], [1.0, 2.0]])
+    ssd = ql.SymmetricSchurDecomposition(m)
+    V = np.array(ssd.eigenvectors(), copy=False)
+    D = np.diag(np.array(ssd.eigenvalues(), copy=False))
+    # M = V * D * V^T
+    reconstructed = V @ D @ V.T
+    assert_array_almost_equal(reconstructed, np.array(m, copy=False), decimal=10)
