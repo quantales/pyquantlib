@@ -158,6 +158,7 @@ namespace ql_core {
     void timegrid(py::module_&);
     void payoff(py::module_&);
     void stochasticprocess(py::module_&);
+    void position(py::module_&);
     void protectionside(py::module_&);
     void cdspricingmodel(py::module_&);
     void forward(py::module_&);
@@ -194,6 +195,13 @@ namespace ql_cashflows {
     void capflooredinflationcoupon(py::module_&);
     void inflationcouponpricer(py::module_&);
     void dividend(py::module_&);
+    void replication(py::module_&);
+    void capflooredcoupon(py::module_&);
+    void digitalcoupon(py::module_&);
+    void digitaliborcoupon(py::module_&);
+    void digitalcmscoupon(py::module_&);
+    void conundrumpricer(py::module_&);
+    void overnightindexedcouponpricer(py::module_&);
 }
 
 namespace ql_indexes {

@@ -21,12 +21,6 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_instruments::forwardrateagreement(py::module_& m) {
-    // Position::Type enum
-    py::enum_<Position::Type>(m, "PositionType",
-        "Long or short position.")
-        .value("Long", Position::Long)
-        .value("Short", Position::Short);
-
     // ForwardRateAgreement class
     py::class_<ForwardRateAgreement, Instrument,
                ext::shared_ptr<ForwardRateAgreement>>(

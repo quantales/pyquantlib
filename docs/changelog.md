@@ -43,6 +43,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `SVD` singular value decomposition with `U()`, `V()`, `singularValues()`, `solveFor()`
 - `SymmetricSchurDecomposition` eigenvalue decomposition for symmetric matrices
 
+#### Cash Flows
+- `ReplicationType` enum (Sub, Central, Super) for digital option replication strategy
+- `DigitalReplication` configuration class for digital replication parameters
+- `CappedFlooredCoupon` capped/floored floating-rate coupon wrapper
+- `CappedFlooredIborCoupon` convenience class for capped/floored Ibor coupons
+- `CappedFlooredCmsCoupon` convenience class for capped/floored CMS coupons
+- `DigitalCoupon` floating-rate coupon with digital call/put option
+- `DigitalIborCoupon` digital Ibor coupon with `DigitalIborLeg` builder
+- `DigitalCmsCoupon` digital CMS coupon with `DigitalCmsLeg` builder
+- `YieldCurveModel` enum for CMS convexity adjustment models (Standard, ExactYield, ParallelShifts, NonParallelShifts)
+- `HaganPricer` ABC for static replication CMS pricing
+- `AnalyticHaganPricer` analytic CMS coupon pricer
+- `NumericHaganPricer` numeric CMS coupon pricer with integration parameters
+- `CompoundingOvernightIndexedCouponPricer` pricer for compounded overnight rates
+- `ArithmeticAveragedOvernightIndexedCouponPricer` pricer for arithmetically averaged overnight rates with optional convexity adjustment
+
+#### Core
+- `PositionType` enum (`Long`, `Short`) now registered in `core` module (moved from `instruments` for earlier availability)
+
 ## [0.5.1] - 2026-03-02
 
 ### Fixed

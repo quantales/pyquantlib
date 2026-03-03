@@ -60,4 +60,27 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     // Dividends
     ADD_MAIN_BINDING(ql_cashflows::dividend,
         "Dividend ABC, FixedDividend, FractionalDividend, DividendVector");
+
+    // Capped/floored and digital coupons
+    ADD_MAIN_BINDING(ql_cashflows::replication,
+        "Replication::Type, DigitalReplication");
+    ADD_MAIN_BINDING(ql_cashflows::capflooredcoupon,
+        "CappedFlooredCoupon, CappedFlooredIborCoupon, "
+        "CappedFlooredCmsCoupon");
+    ADD_MAIN_BINDING(ql_cashflows::digitalcoupon,
+        "DigitalCoupon");
+    ADD_MAIN_BINDING(ql_cashflows::digitaliborcoupon,
+        "DigitalIborCoupon, DigitalIborLeg");
+    ADD_MAIN_BINDING(ql_cashflows::digitalcmscoupon,
+        "DigitalCmsCoupon, DigitalCmsLeg");
+
+    // CMS pricers (Hagan)
+    ADD_MAIN_BINDING(ql_cashflows::conundrumpricer,
+        "YieldCurveModel, HaganPricer, AnalyticHaganPricer, "
+        "NumericHaganPricer");
+
+    // Overnight indexed coupon pricers
+    ADD_MAIN_BINDING(ql_cashflows::overnightindexedcouponpricer,
+        "CompoundingOvernightIndexedCouponPricer, "
+        "ArithmeticAveragedOvernightIndexedCouponPricer");
 }

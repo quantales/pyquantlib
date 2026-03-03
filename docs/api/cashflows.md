@@ -108,6 +108,121 @@ coupon = ql.CmsCoupon(
 )
 ```
 
+## Capped/Floored Coupons
+
+### CappedFlooredCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CappedFlooredCoupon
+```
+
+Wraps a floating-rate coupon with optional cap and/or floor. Use `None` for absent cap or floor.
+
+```python
+underlying = ql.IborCoupon(payment_date, 1e6, start, end, 2, euribor6m)
+cf = ql.CappedFlooredCoupon(underlying, cap=0.05, floor=0.01)
+print(cf.isCapped(), cf.isFloored())  # True True
+print(cf.effectiveCap(), cf.effectiveFloor())
+```
+
+### CappedFlooredIborCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CappedFlooredIborCoupon
+```
+
+Convenience class that builds a capped/floored Ibor coupon in a single constructor.
+
+### CappedFlooredCmsCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CappedFlooredCmsCoupon
+```
+
+Convenience class that builds a capped/floored CMS coupon in a single constructor.
+
+## Digital Coupons
+
+### DigitalCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalCoupon
+```
+
+Floating-rate coupon with embedded digital (binary) call and/or put option.
+
+```python
+dc = ql.DigitalCoupon(underlying, callStrike=0.04, putStrike=0.02)
+print(dc.hasCall(), dc.hasPut(), dc.hasCollar())  # True True True
+```
+
+### DigitalIborCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalIborCoupon
+```
+
+Digital coupon specialized for Ibor underlyings.
+
+### DigitalCmsCoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalCmsCoupon
+```
+
+Digital coupon specialized for CMS underlyings.
+
+### DigitalIborLeg
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalIborLeg
+```
+
+Fluent builder for a leg of digital Ibor coupons.
+
+```python
+leg = ql.DigitalIborLeg(schedule, euribor6m) \
+    .withNotionals(1e6) \
+    .withCallStrikes(0.04) \
+    .withLongCallOption(ql.PositionType.Long) \
+    .withReplication(ql.DigitalReplication()) \
+    .build()
+```
+
+### DigitalCmsLeg
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalCmsLeg
+```
+
+Fluent builder for a leg of digital CMS coupons. Same API as `DigitalIborLeg` but takes a `SwapIndex`.
+
+### ReplicationType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ReplicationType
+   :members:
+   :undoc-members:
+```
+
+| Value | Description |
+|-------|-------------|
+| `Sub` | Sub-replication (lower bound) |
+| `Central` | Central replication |
+| `Super` | Super-replication (upper bound) |
+
+### DigitalReplication
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DigitalReplication
+```
+
+Configuration for digital option replication strategy.
+
+```python
+repl = ql.DigitalReplication(ql.ReplicationType.Central, gap=1e-4)
+```
+
 ## Coupon Pricers
 
 ### BlackIborCouponPricer
@@ -148,6 +263,85 @@ ql.setCouponPricer(cms_leg, pricer)
 .. autoclass:: pyquantlib.LinearTsrPricerStrategy
    :members:
    :undoc-members:
+```
+
+### YieldCurveModel
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YieldCurveModel
+   :members:
+   :undoc-members:
+```
+
+| Value | Description |
+|-------|-------------|
+| `Standard` | Standard yield curve model |
+| `ExactYield` | Exact yield model |
+| `ParallelShifts` | Parallel shifts model |
+| `NonParallelShifts` | Non-parallel shifts model |
+
+### HaganPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HaganPricer
+```
+
+Abstract base class for Hagan-style CMS coupon pricers using static replication. Inherits from both `CmsCouponPricer` and `MeanRevertingPricer`.
+
+### AnalyticHaganPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticHaganPricer
+```
+
+Analytic CMS coupon pricer based on the Hagan formula.
+
+```python
+pricer = ql.AnalyticHaganPricer(
+    swaption_vol, ql.YieldCurveModel.Standard, mean_reversion
+)
+ql.setCouponPricer(cms_leg, pricer)
+```
+
+### NumericHaganPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NumericHaganPricer
+```
+
+Numeric CMS coupon pricer using Hagan integration with configurable limits.
+
+```python
+pricer = ql.NumericHaganPricer(
+    swaption_vol, ql.YieldCurveModel.Standard, mean_reversion,
+    lowerLimit=0.0, upperLimit=1.0, precision=1e-6
+)
+```
+
+### CompoundingOvernightIndexedCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CompoundingOvernightIndexedCouponPricer
+```
+
+Pricer for compounded overnight indexed coupons.
+
+### ArithmeticAveragedOvernightIndexedCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ArithmeticAveragedOvernightIndexedCouponPricer
+```
+
+Pricer for arithmetically averaged overnight indexed coupons with optional convexity adjustment.
+
+```python
+# Default (no convexity adjustment)
+pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer()
+
+# With convexity adjustment parameters
+pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer(
+    meanReversion=0.03, volatility=0.01, byApprox=False
+)
 ```
 
 ### setCouponPricer
@@ -408,5 +602,5 @@ divs = ql.DividendVector(
 | `Modified` | Modified duration |
 
 ```{note}
-Abstract base classes `CashFlow`, `Coupon`, `FloatingRateCouponPricer`, `MeanRevertingPricer`, `CmsCouponPricer`, `InflationCoupon`, and `InflationCouponPricer` are available in `pyquantlib.base` for custom implementations.
+Abstract base classes `CashFlow`, `Coupon`, `FloatingRateCouponPricer`, `MeanRevertingPricer`, `CmsCouponPricer`, `HaganPricer`, `InflationCoupon`, and `InflationCouponPricer` are available in `pyquantlib.base` for `isinstance` checks and custom implementations.
 ```

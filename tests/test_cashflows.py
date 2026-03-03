@@ -826,9 +826,9 @@ def test_overnightindexedcoupon_fixing_dates(overnight_data):
     value_dates = coupon.valueDates()
     dt = coupon.dt()
 
-    assert len(fixing_dates) > 0
-    assert len(value_dates) > 0
-    assert len(dt) > 0
+    assert len(fixing_dates) == 63
+    assert len(value_dates) == 64
+    assert len(dt) == 63
 
 
 def test_overnightindexedcoupon_with_spread(overnight_data):
@@ -983,7 +983,7 @@ def test_cmsleg_construction(cms_env):
     leg = ql.CmsLeg(schedule, d["swap_index"]) \
             .withNotionals(1_000_000.0) \
             .build()
-    assert len(leg) > 0
+    assert len(leg) == 4
 
 
 def test_cmsleg_with_spread(cms_env):
@@ -1034,28 +1034,48 @@ def test_lineartsrpricer_strategy_enum():
     assert ql.LinearTsrPricerStrategy.BSStdDevs is not None
 
 
-def test_lineartsrpricer_construction(cms_env):
-    """Test LinearTsrPricer construction with hidden handles."""
+def test_lineartsrpricer_cms_coupon_rate(cms_env):
+    """Test LinearTsrPricer computes CMS coupon rate and amount."""
     d = cms_env
     swaption_vol = ql.ConstantSwaptionVolatility(
         2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
     )
     mean_reversion = ql.SimpleQuote(0.01)
     pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
-    assert pricer is not None
-    assert pricer.meanReversion() == pytest.approx(0.01)
+
+    cms_start = ql.Date(15, ql.July, 2025)
+    cms_end = ql.Date(15, ql.January, 2026)
+    coupon = ql.CmsCoupon(
+        cms_end, 1_000_000.0, cms_start, cms_end, 2, d["swap_index"]
+    )
+    coupon.setPricer(pricer)
+    assert coupon.rate() == pytest.approx(0.030564, rel=1e-4)
+    assert coupon.amount() == pytest.approx(15281.97, rel=1e-4)
 
 
-def test_lineartsrpricer_is_cmscouponpricer(cms_env):
-    """Test LinearTsrPricer inherits CmsCouponPricer."""
+def test_lineartsrpricer_cms_leg(cms_env):
+    """Test LinearTsrPricer with setCouponPricer on a CMS leg."""
     d = cms_env
     swaption_vol = ql.ConstantSwaptionVolatility(
         2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
     )
     mean_reversion = ql.SimpleQuote(0.01)
     pricer = ql.LinearTsrPricer(swaption_vol, mean_reversion)
-    assert isinstance(pricer, ql.base.CmsCouponPricer)
-    assert isinstance(pricer, ql.base.MeanRevertingPricer)
+
+    future_start = d["calendar"].advance(d["today"], ql.Period("6M"))
+    future_end = d["calendar"].advance(future_start, ql.Period("2Y"))
+    schedule = ql.Schedule(
+        future_start, future_end, ql.Period("6M"), d["calendar"],
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    leg = ql.CmsLeg(schedule, d["swap_index"]) \
+            .withNotionals(1_000_000.0) \
+            .build()
+    ql.setCouponPricer(leg, pricer)
+    expected_rates = [0.030564, 0.030648, 0.030746, 0.030839]
+    for i, cf in enumerate(leg):
+        assert cf.rate() == pytest.approx(expected_rates[i], rel=1e-4)
 
 
 # ---------------------------------------------------------------------------
@@ -1390,7 +1410,7 @@ def test_yoyinflationleg_build(inflation_env):
     leg_builder.withPaymentAdjustment(ql.ModifiedFollowing)
     built_leg = leg_builder.build()
     assert isinstance(built_leg, list)
-    assert len(built_leg) > 0
+    assert len(built_leg) == 4
 
 
 def test_yoyinflationleg_coupons_are_yoy(inflation_env):
@@ -1426,7 +1446,7 @@ def test_yoyinflationleg_full_chain(inflation_env):
     leg_builder.withPaymentAdjustment(ql.ModifiedFollowing)
     leg_builder.withFixingDays(2)
     built_leg = leg_builder.build()
-    assert len(built_leg) > 0
+    assert len(built_leg) == 4
 
 
 # --- InflationCoupon inspectors (via YoY coupon) ----------------------------
@@ -1671,3 +1691,505 @@ def test_dividend_vector():
 def test_dividend_abc_exists():
     """Dividend ABC is accessible on base."""
     assert hasattr(ql.base, "Dividend")
+
+
+# =============================================================================
+# Replication::Type / DigitalReplication
+# =============================================================================
+
+
+def test_replicationtype_enum_values():
+    """Test Replication::Type enum has all values."""
+    assert ql.ReplicationType.Sub is not None
+    assert ql.ReplicationType.Central is not None
+    assert ql.ReplicationType.Super is not None
+
+
+def test_digitalreplication_defaults():
+    """Test DigitalReplication with default parameters."""
+    repl = ql.DigitalReplication()
+    assert repl.replicationType() == ql.ReplicationType.Central
+    assert repl.gap() == pytest.approx(1e-4)
+
+
+def test_digitalreplication_explicit():
+    """Test DigitalReplication with explicit parameters."""
+    repl = ql.DigitalReplication(ql.ReplicationType.Super, 1e-3)
+    assert repl.replicationType() == ql.ReplicationType.Super
+    assert repl.gap() == pytest.approx(1e-3)
+
+
+# =============================================================================
+# CappedFlooredCoupon
+# =============================================================================
+
+
+def test_cappedflooredcoupon_construction(ibor_data):
+    """Test CappedFlooredCoupon wraps an underlying coupon."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    cf = ql.CappedFlooredCoupon(underlying, cap=0.05, floor=0.01)
+    assert isinstance(cf, ql.FloatingRateCoupon)
+    assert cf.isCapped()
+    assert cf.isFloored()
+    assert cf.cap() == pytest.approx(0.05)
+    assert cf.floor() == pytest.approx(0.01)
+
+
+def test_cappedflooredcoupon_cap_only(ibor_data):
+    """Test CappedFlooredCoupon with cap only."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    cf = ql.CappedFlooredCoupon(underlying, cap=0.04)
+    assert cf.isCapped()
+    assert not cf.isFloored()
+
+
+def test_cappedflooredcoupon_floor_only(ibor_data):
+    """Test CappedFlooredCoupon with floor only."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    cf = ql.CappedFlooredCoupon(underlying, floor=0.01)
+    assert not cf.isCapped()
+    assert cf.isFloored()
+
+
+def test_cappedflooredcoupon_rate_with_pricer(ibor_data):
+    """Test CappedFlooredCoupon rate computation with pricer."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    # Use future dates to avoid needing past fixings
+    underlying = ql.IborCoupon(
+        schedule[3], 1_000_000.0, schedule[2], schedule[3],
+        2, index
+    )
+    cf = ql.CappedFlooredCoupon(underlying, cap=0.05, floor=0.01)
+    optionlet_vol = ql.ConstantOptionletVolatility(
+        2, ibor_data["calendar"], ql.ModifiedFollowing, 0.20,
+        ql.Actual365Fixed()
+    )
+    pricer = ql.BlackIborCouponPricer(
+        ql.OptionletVolatilityStructureHandle(optionlet_vol)
+    )
+    cf.setPricer(pricer)
+    rate = cf.rate()
+    assert rate == pytest.approx(0.029814, rel=1e-4)
+
+
+def test_cappedfloorediborcoupon_construction(ibor_data):
+    """Test CappedFlooredIborCoupon convenience constructor."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    cf = ql.CappedFlooredIborCoupon(
+        schedule[1], 1_000_000.0,
+        schedule[0], schedule[1],
+        2, index,
+        cap=0.05, floor=0.01
+    )
+    assert isinstance(cf, ql.CappedFlooredCoupon)
+    assert cf.isCapped()
+    assert cf.isFloored()
+
+
+def test_cappedflooredcmscoupon_construction(cms_env):
+    """Test CappedFlooredCmsCoupon convenience constructor."""
+    d = cms_env
+    cf = ql.CappedFlooredCmsCoupon(
+        ql.Date(15, ql.July, 2025), 1_000_000.0,
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.July, 2025),
+        2, d["swap_index"],
+        cap=0.06, floor=0.02
+    )
+    assert isinstance(cf, ql.CappedFlooredCoupon)
+    assert cf.isCapped()
+    assert cf.isFloored()
+
+
+# =============================================================================
+# DigitalCoupon
+# =============================================================================
+
+
+def test_digitalcoupon_construction(ibor_data):
+    """Test DigitalCoupon wraps an underlying coupon."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    dc = ql.DigitalCoupon(underlying, callStrike=0.04)
+    assert isinstance(dc, ql.FloatingRateCoupon)
+    assert dc.hasCall()
+    assert not dc.hasPut()
+    assert not dc.hasCollar()
+    assert dc.callStrike() == pytest.approx(0.04)
+
+
+def test_digitalcoupon_put(ibor_data):
+    """Test DigitalCoupon with put option."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    dc = ql.DigitalCoupon(underlying, putStrike=0.02)
+    assert not dc.hasCall()
+    assert dc.hasPut()
+    assert dc.putStrike() == pytest.approx(0.02)
+
+
+def test_digitalcoupon_collar(ibor_data):
+    """Test DigitalCoupon with call + put (collar)."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    dc = ql.DigitalCoupon(underlying, callStrike=0.05, putStrike=0.01)
+    assert dc.hasCall()
+    assert dc.hasPut()
+    assert dc.hasCollar()
+
+
+def test_digitalcoupon_with_replication(ibor_data):
+    """Test DigitalCoupon with explicit replication."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    repl = ql.DigitalReplication(ql.ReplicationType.Sub, 1e-3)
+    dc = ql.DigitalCoupon(underlying, callStrike=0.04, replication=repl)
+    assert dc.hasCall()
+
+
+def test_digitalcoupon_position_flags(ibor_data):
+    """Test DigitalCoupon long/short position flags."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    dc = ql.DigitalCoupon(
+        underlying,
+        callStrike=0.04, callPosition=ql.PositionType.Long,
+        putStrike=0.02, putPosition=ql.PositionType.Short,
+    )
+    assert dc.isLongCall()
+    assert not dc.isLongPut()
+
+
+# =============================================================================
+# DigitalIborCoupon / DigitalIborLeg
+# =============================================================================
+
+
+def test_digitaliborcoupon_construction(ibor_data):
+    """Test DigitalIborCoupon construction."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    underlying = ql.IborCoupon(
+        schedule[1], 1_000_000.0, schedule[0], schedule[1],
+        2, index
+    )
+    dc = ql.DigitalIborCoupon(underlying, callStrike=0.04)
+    assert isinstance(dc, ql.DigitalCoupon)
+    assert dc.hasCall()
+
+
+def test_digitaliborleg_builder(ibor_data):
+    """Test DigitalIborLeg fluent builder."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    leg = ql.DigitalIborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withCallStrikes(0.04) \
+            .withLongCallOption(ql.PositionType.Long) \
+            .build()
+    assert len(leg) == 4
+
+
+def test_digitaliborleg_with_put(ibor_data):
+    """Test DigitalIborLeg with put strikes."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    leg = ql.DigitalIborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withPutStrikes(0.01) \
+            .withLongPutOption(ql.PositionType.Long) \
+            .build()
+    assert len(leg) == 4
+
+
+def test_digitaliborleg_with_replication(ibor_data):
+    """Test DigitalIborLeg with replication."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    repl = ql.DigitalReplication(ql.ReplicationType.Central, 1e-4)
+    leg = ql.DigitalIborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withCallStrikes(0.04) \
+            .withReplication(repl) \
+            .build()
+    assert len(leg) == 4
+
+
+def test_digitaliborleg_with_spreads(ibor_data):
+    """Test DigitalIborLeg with spreads and gearings."""
+    schedule = ibor_data["schedule"]
+    index = ibor_data["index"]
+    leg = ql.DigitalIborLeg(schedule, index) \
+            .withNotionals(1_000_000.0) \
+            .withSpreads(0.005) \
+            .withGearings(1.5) \
+            .withCallStrikes(0.04) \
+            .build()
+    assert len(leg) == 4
+
+
+# =============================================================================
+# DigitalCmsCoupon / DigitalCmsLeg
+# =============================================================================
+
+
+def test_digitalcmscoupon_construction(cms_env):
+    """Test DigitalCmsCoupon construction."""
+    d = cms_env
+    underlying = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2025), 1_000_000.0,
+        ql.Date(15, ql.January, 2025), ql.Date(15, ql.July, 2025),
+        2, d["swap_index"]
+    )
+    dc = ql.DigitalCmsCoupon(underlying, callStrike=0.04)
+    assert isinstance(dc, ql.DigitalCoupon)
+    assert dc.hasCall()
+
+
+def test_digitalcmsleg_builder(cms_env):
+    """Test DigitalCmsLeg fluent builder."""
+    d = cms_env
+    schedule = ql.Schedule(
+        d["today"], d["today"] + ql.Period("2Y"),
+        ql.Period("6M"), d["calendar"],
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    leg = ql.DigitalCmsLeg(schedule, d["swap_index"]) \
+            .withNotionals(1_000_000.0) \
+            .withCallStrikes(0.04) \
+            .withLongCallOption(ql.PositionType.Long) \
+            .build()
+    assert len(leg) == 4
+
+
+def test_digitalcmsleg_with_put(cms_env):
+    """Test DigitalCmsLeg with put options."""
+    d = cms_env
+    schedule = ql.Schedule(
+        d["today"], d["today"] + ql.Period("2Y"),
+        ql.Period("6M"), d["calendar"],
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False
+    )
+    leg = ql.DigitalCmsLeg(schedule, d["swap_index"]) \
+            .withNotionals(1_000_000.0) \
+            .withPutStrikes(0.01) \
+            .withLongPutOption(ql.PositionType.Long) \
+            .build()
+    assert len(leg) == 4
+
+
+# =============================================================================
+# Conundrum Pricers (Hagan)
+# =============================================================================
+
+
+def test_yieldcurvemodel_enum():
+    """Test GFunctionFactory::YieldCurveModel enum values."""
+    assert ql.YieldCurveModel.Standard is not None
+    assert ql.YieldCurveModel.ExactYield is not None
+    assert ql.YieldCurveModel.ParallelShifts is not None
+    assert ql.YieldCurveModel.NonParallelShifts is not None
+
+
+def test_analytichagan_with_handle(cms_env):
+    """Test AnalyticHaganPricer with explicit Handle constructor."""
+    d = cms_env
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.AnalyticHaganPricer(
+        ql.SwaptionVolatilityStructureHandle(swaption_vol),
+        ql.YieldCurveModel.Standard,
+        ql.QuoteHandle(mean_reversion),
+    )
+    assert pricer.meanReversion() == pytest.approx(0.01)
+
+
+def test_analytichagan_cms_coupon_rate():
+    """Test AnalyticHaganPricer computes CMS coupon rate and amount."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    flat = ql.FlatForward(today, 0.03, dc)
+    curve_handle = ql.YieldTermStructureHandle(flat)
+    euribor = ql.Euribor6M(curve_handle)
+    swap_index = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period("10Y"), 2,
+        ql.EURCurrency(), calendar, ql.Period("1Y"),
+        ql.Unadjusted, ql.Thirty360(ql.Thirty360.BondBasis),
+        euribor, curve_handle,
+    )
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, calendar, ql.ModifiedFollowing, 0.20, dc
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.AnalyticHaganPricer(
+        swaption_vol, ql.YieldCurveModel.Standard, mean_reversion
+    )
+    coupon = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2026), 1_000_000.0,
+        ql.Date(15, ql.January, 2026), ql.Date(15, ql.July, 2026),
+        2, swap_index
+    )
+    coupon.setPricer(pricer)
+    assert coupon.rate() == pytest.approx(0.030646, rel=1e-4)
+    assert coupon.amount() == pytest.approx(15322.88, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_numerichagan_with_limits(cms_env):
+    """Test NumericHaganPricer with explicit integration limits."""
+    d = cms_env
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, d["calendar"], ql.ModifiedFollowing, 0.20, d["dc"]
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.NumericHaganPricer(
+        swaption_vol, ql.YieldCurveModel.Standard, mean_reversion,
+        lowerLimit=0.0, upperLimit=1.0, precision=1.0e-6
+    )
+    assert pricer.lowerLimit() == pytest.approx(0.0)
+    assert pricer.upperLimit() == pytest.approx(1.0)
+
+
+def test_numerichagan_cms_coupon_rate():
+    """Test NumericHaganPricer computes CMS coupon rate and amount."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    flat = ql.FlatForward(today, 0.03, dc)
+    curve_handle = ql.YieldTermStructureHandle(flat)
+    euribor = ql.Euribor6M(curve_handle)
+    swap_index = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period("10Y"), 2,
+        ql.EURCurrency(), calendar, ql.Period("1Y"),
+        ql.Unadjusted, ql.Thirty360(ql.Thirty360.BondBasis),
+        euribor, curve_handle,
+    )
+    swaption_vol = ql.ConstantSwaptionVolatility(
+        2, calendar, ql.ModifiedFollowing, 0.20, dc
+    )
+    mean_reversion = ql.SimpleQuote(0.01)
+    pricer = ql.NumericHaganPricer(
+        swaption_vol, ql.YieldCurveModel.Standard, mean_reversion
+    )
+    coupon = ql.CmsCoupon(
+        ql.Date(15, ql.July, 2026), 1_000_000.0,
+        ql.Date(15, ql.January, 2026), ql.Date(15, ql.July, 2026),
+        2, swap_index
+    )
+    coupon.setPricer(pricer)
+    assert coupon.rate() == pytest.approx(0.030646, rel=1e-4)
+    assert coupon.amount() == pytest.approx(15323.20, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date
+
+
+# =============================================================================
+# Overnight Indexed Coupon Pricers
+# =============================================================================
+
+
+def test_arithmeticaveragedovernightpricer_explicit():
+    """Test ArithmeticAveragedOvernightIndexedCouponPricer with explicit params."""
+    pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer(
+        meanReversion=0.05, volatility=0.01, byApprox=True
+    )
+    assert pricer is not None
+
+
+def test_arithmeticaveragedovernightpricer_approx():
+    """Test ArithmeticAveragedOvernightIndexedCouponPricer approx-only ctor."""
+    pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer(byApprox=True)
+    assert pricer is not None
+
+
+def test_overnightpricer_with_coupon():
+    """Test CompoundingOvernightIndexedCouponPricer computes a rate."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.May, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    rate_curve = ql.FlatForward(today, 0.035, ql.Actual365Fixed())
+    handle = ql.YieldTermStructureHandle(rate_curve)
+    index = ql.OvernightIndex(
+        "TESTONPR", 0, ql.EURCurrency(), calendar,
+        ql.Actual360(), handle
+    )
+    # Use dates well in the future to avoid needing fixings
+    start = calendar.advance(today, ql.Period("2Y"))
+    end = calendar.advance(start, ql.Period("3M"))
+    coupon = ql.OvernightIndexedCoupon(
+        end, 10_000_000.0, start, end, index
+    )
+    pricer = ql.CompoundingOvernightIndexedCouponPricer()
+    coupon.setPricer(pricer)
+    rate = coupon.rate()
+    assert rate == pytest.approx(0.034673, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_arithmeticaveragedovernightpricer_with_coupon():
+    """Test ArithmeticAveragedOvernightIndexedCouponPricer computes a rate."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    rate_curve = ql.FlatForward(today, 0.035, ql.Actual365Fixed())
+    handle = ql.YieldTermStructureHandle(rate_curve)
+    index = ql.OvernightIndex(
+        "TESTONAA", 0, ql.EURCurrency(), calendar,
+        ql.Actual360(), handle
+    )
+    start = calendar.advance(today, ql.Period("2Y"))
+    end = calendar.advance(start, ql.Period("3M"))
+    coupon = ql.OvernightIndexedCoupon(
+        end, 10_000_000.0, start, end, index
+    )
+    pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer()
+    coupon.setPricer(pricer)
+    rate = coupon.rate()
+    assert rate == pytest.approx(0.034524, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date

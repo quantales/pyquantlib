@@ -116,6 +116,17 @@ equivalent = rate.equivalentRate(ql.Continuous, ql.NoFrequency, 1.0)
 | `SimpleThenCompounded` | Simple for $t < 1/n$, then compounded |
 | `CompoundedThenSimple` | Compounded for $t \geq 1/n$, then simple |
 
+### PositionType
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PositionType
+```
+
+| Value | Description |
+|-------|-------------|
+| `Long` | Long position |
+| `Short` | Short position |
+
 ### ProtectionSide
 
 ```{eval-rst}
