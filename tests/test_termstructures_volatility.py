@@ -2301,3 +2301,78 @@ def test_strippedoptionletadapter_handle(optionlet_strip_env):
     adapter = ql.StrippedOptionletAdapter(stripper)
     handle = ql.OptionletVolatilityStructureHandle(adapter)
     assert not handle.empty()
+
+
+# =============================================================================
+# FlatSmileSection
+# =============================================================================
+
+
+def test_flatsmilesection_from_time():
+    """FlatSmileSection from exercise time."""
+    fs = ql.FlatSmileSection(1.0, 0.2)
+    assert fs.volatility(0.05) == pytest.approx(0.2)
+    assert fs.volatility(0.10) == pytest.approx(0.2)
+    assert fs.exerciseTime() == pytest.approx(1.0)
+    assert isinstance(fs, ql.base.SmileSection)
+
+
+def test_flatsmilesection_from_date():
+    """FlatSmileSection from exercise date."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    d = ql.Date(15, 1, 2026)
+    fs = ql.FlatSmileSection(d, 0.25)
+    assert fs.volatility(0.05) == pytest.approx(0.25)
+    assert fs.exerciseDate() == d
+
+
+def test_flatsmilesection_normal():
+    """FlatSmileSection with Normal vol type."""
+    fs = ql.FlatSmileSection(1.0, 0.005, type=ql.VolatilityType.Normal)
+    assert fs.volatilityType() == ql.VolatilityType.Normal
+    assert fs.volatility(0.05) == pytest.approx(0.005)
+
+
+def test_flatsmilesection_atm_level():
+    """FlatSmileSection with explicit ATM level."""
+    fs = ql.FlatSmileSection(1.0, 0.2, atmLevel=0.05)
+    assert fs.atmLevel() == pytest.approx(0.05)
+
+
+# =============================================================================
+# HestonBlackVolSurface
+# =============================================================================
+
+
+def test_hestonblackvolsurface_construction():
+    """HestonBlackVolSurface from Heston model."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rf = ql.FlatForward(today, 0.05, dc)
+    div = ql.FlatForward(today, 0.02, dc)
+    process = ql.HestonProcess(rf, div, spot, 0.04, 1.0, 0.04, 0.3, -0.7)
+    model = ql.HestonModel(process)
+    surf = ql.HestonBlackVolSurface(model)
+    assert surf.referenceDate() == today
+    vol = surf.blackVol(1.0, 100.0)
+    assert 0.05 < vol < 0.50
+
+
+# =============================================================================
+# SpreadedSwaptionVolatility
+# =============================================================================
+
+
+def test_spreadedswaptionvolatility_construction():
+    """SpreadedSwaptionVolatility adds spread to swaption vol."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    base = ql.ConstantSwaptionVolatility(
+        today, ql.TARGET(), ql.Following, 0.20, ql.Actual365Fixed())
+    spread = ql.SimpleQuote(0.01)
+    sv = ql.SpreadedSwaptionVolatility(base, spread)
+    vol = sv.volatility(ql.Period(1, ql.Years), ql.Period(5, ql.Years), 0.05)
+    assert vol == pytest.approx(0.21, abs=1e-6)

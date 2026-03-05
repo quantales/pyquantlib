@@ -1353,3 +1353,102 @@ def test_spreadfittingmethod_hidden_handle_with_fitted_curve(curve_env):
     spread_method = ql.SpreadFittingMethod(inner, reference_curve)
     assert spread_method is not None
     assert isinstance(spread_method, ql.base.FittingMethod)
+
+
+# =============================================================================
+# ForwardSpreadedTermStructure
+# =============================================================================
+
+
+def test_forwardspreadedtermstructure_construction():
+    """ForwardSpreadedTermStructure adds spread to forward rates."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    flat = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    spread = ql.SimpleQuote(0.01)
+    fst = ql.ForwardSpreadedTermStructure(flat, spread)
+    # Forward rate should be ~ 5% + 1% = 6%
+    fwd = fst.forwardRate(
+        ql.Date(15, 7, 2025), ql.Date(15, 7, 2026),
+        ql.Actual365Fixed(), ql.Continuous).rate()
+    assert fwd == pytest.approx(0.06, abs=1e-4)
+
+
+def test_forwardspreadedtermstructure_reference_date():
+    """ForwardSpreadedTermStructure inherits reference date."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    flat = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    spread = ql.SimpleQuote(0.01)
+    fst = ql.ForwardSpreadedTermStructure(flat, spread)
+    assert fst.referenceDate() == today
+
+
+# =============================================================================
+# ImpliedTermStructure
+# =============================================================================
+
+
+def test_impliedtermstructure_construction():
+    """ImpliedTermStructure shifts reference date."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    flat = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    future = ql.Date(15, 7, 2025)
+    imp = ql.ImpliedTermStructure(flat, future)
+    assert imp.referenceDate() == future
+
+
+def test_impliedtermstructure_discount():
+    """ImpliedTermStructure discount at reference is 1."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    flat = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    future = ql.Date(15, 7, 2025)
+    imp = ql.ImpliedTermStructure(flat, future)
+    assert imp.discount(future) == pytest.approx(1.0, abs=1e-12)
+
+
+# =============================================================================
+# UltimateForwardTermStructure
+# =============================================================================
+
+
+def test_ultimateforwardtermstructure_construction():
+    """UltimateForwardTermStructure UFR extrapolation."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    flat = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    llfr = ql.SimpleQuote(0.035)
+    ufr = ql.SimpleQuote(0.042)
+    ufts = ql.UltimateForwardTermStructure(
+        flat, llfr, ufr, ql.Period(20, ql.Years), 0.1)
+    assert ufts.referenceDate() == today
+    # At short end should be close to the original curve
+    short_rate = ufts.zeroRate(
+        ql.Date(15, 1, 2026), ql.Actual365Fixed(), ql.Continuous).rate()
+    assert short_rate == pytest.approx(0.03, abs=0.005)
+
+
+# =============================================================================
+# QuantoTermStructure
+# =============================================================================
+
+
+def test_quantotermstructure_construction():
+    """QuantoTermStructure quanto adjustment."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    divTS = ql.FlatForward(today, 0.02, dc)
+    rfTS = ql.FlatForward(today, 0.05, dc)
+    fxTS = ql.FlatForward(today, 0.03, dc)
+    volTS = ql.BlackConstantVol(today, ql.TARGET(), 0.2, dc)
+    fxVolTS = ql.BlackConstantVol(today, ql.TARGET(), 0.1, dc)
+    qts = ql.QuantoTermStructure(
+        divTS, rfTS, fxTS, volTS, 100.0, fxVolTS, 1.0, 0.5)
+    assert qts.referenceDate() == today
+    # Quanto-adjusted rate should differ from the dividend rate
+    rate = qts.zeroRate(
+        ql.Date(15, 1, 2026), dc, ql.Continuous).rate()
+    assert rate != pytest.approx(0.02, abs=0.001)

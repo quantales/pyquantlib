@@ -35,4 +35,12 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
         "HullWhiteProcess - Hull-White short-rate processes");
     ADD_MAIN_BINDING(ql_processes::hestonslvprocess,
         "HestonSLVProcess - Heston stochastic local volatility process");
+    ADD_MAIN_BINDING(ql_processes::geometricbrownianmotionprocess,
+        "GeometricBrownianMotionProcess - GBM process");
+    ADD_MAIN_BINDING(ql_processes::merton76process,
+        "Merton76Process - Merton jump-diffusion process");
+    ADD_MAIN_BINDING(ql_processes::squarerootprocess,
+        "SquareRootProcess - CIR-type square root process");
+    ADD_MAIN_BINDING(ql_processes::extendedornsteinuhlenbeckprocess,
+        "ExtendedOrnsteinUhlenbeckProcess - OU with time-dependent level");
 }

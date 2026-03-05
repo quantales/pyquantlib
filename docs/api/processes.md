@@ -122,6 +122,59 @@ process = ql.HullWhiteForwardProcess(curve, a=0.1, sigma=0.01)
 process.setForwardMeasureTime(5.0)
 ```
 
+## Jump-Diffusion Processes
+
+### GeometricBrownianMotionProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GeometricBrownianMotionProcess
+```
+
+Geometric Brownian motion: $dS = \mu S\,dt + \sigma S\,dW$.
+
+```python
+process = ql.GeometricBrownianMotionProcess(initialValue=100.0, mu=0.05, sigma=0.2)
+```
+
+### Merton76Process
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Merton76Process
+```
+
+Merton jump-diffusion process extending Black-Scholes with log-normal jumps.
+
+```python
+process = ql.Merton76Process(spot, dividend, risk_free, volatility,
+                              jumpIntensity, logMeanJump, logJumpVolatility)
+```
+
+### SquareRootProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SquareRootProcess
+```
+
+CIR-type square root mean-reverting process: $dx = a(b - x)\,dt + \sigma\sqrt{x}\,dW$.
+
+```python
+process = ql.SquareRootProcess(b=0.04, a=1.0, sigma=0.2, x0=0.04)
+```
+
+### ExtendedOrnsteinUhlenbeckProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExtendedOrnsteinUhlenbeckProcess
+```
+
+Extended Ornstein-Uhlenbeck process with time-dependent level $b(t)$.
+
+```python
+process = ql.ExtendedOrnsteinUhlenbeckProcess(
+    speed=0.5, sigma=0.01, x0=0.05, b=lambda t: 0.05 + 0.01 * t
+)
+```
+
 ## Multi-Asset Processes
 
 ### StochasticProcessArray

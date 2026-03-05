@@ -410,6 +410,31 @@ leg = ql.CmsLeg(schedule, swap_index) \
     .build()
 ```
 
+## BMA Coupons
+
+### AverageBMACoupon
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AverageBMACoupon
+```
+
+Coupon paying the weighted average of BMA fixings.
+
+### AverageBMALeg
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AverageBMALeg
+```
+
+Builder for a sequence of average BMA coupons.
+
+```python
+bma = ql.BMAIndex(curve)
+leg = ql.AverageBMALeg(schedule, bma) \
+    .withNotionals(1e6) \
+    .leg()
+```
+
 ## Settings
 
 ### IborCouponSettings

@@ -193,4 +193,24 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         ql_termstructures::yoyinflationoptionletvolatilitystructure,
         "YoYOptionletVolatilitySurface ABC, ConstantYoYOptionletVolatility, "
         "Handle");
+
+    // Additional yield term structures
+    ADD_MAIN_BINDING(ql_termstructures::forwardspreadedtermstructure,
+        "ForwardSpreadedTermStructure - forward rate + spread");
+    ADD_MAIN_BINDING(ql_termstructures::impliedtermstructure,
+        "ImpliedTermStructure - future reference date snapshot");
+    ADD_MAIN_BINDING(ql_termstructures::ultimateforwardtermstructure,
+        "UltimateForwardTermStructure - UFR regulatory extrapolation");
+    ADD_MAIN_BINDING(ql_termstructures::quantotermstructure,
+        "QuantoTermStructure - quanto-adjusted dividend yield");
+
+    // Additional smile sections
+    ADD_MAIN_BINDING(ql_termstructures::flatsmilesection,
+        "FlatSmileSection - constant volatility smile");
+
+    // Additional volatility surfaces
+    ADD_MAIN_BINDING(ql_termstructures::hestonblackvolsurface,
+        "HestonBlackVolSurface - Heston implied Black vol surface");
+    ADD_MAIN_BINDING(ql_termstructures::spreadedswaptionvolatility,
+        "SpreadedSwaptionVolatility - swaption vol + spread");
 }

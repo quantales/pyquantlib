@@ -58,6 +58,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `NumericHaganPricer` numeric CMS coupon pricer with integration parameters
 - `CompoundingOvernightIndexedCouponPricer` pricer for compounded overnight rates
 - `ArithmeticAveragedOvernightIndexedCouponPricer` pricer for arithmetically averaged overnight rates with optional convexity adjustment
+- `AverageBMACoupon` coupon paying the weighted average of BMA fixings
+- `AverageBMALeg` builder for sequences of average BMA coupons
+
+#### Processes
+- `GeometricBrownianMotionProcess` geometric Brownian motion process
+- `Merton76Process` Merton jump-diffusion process
+- `SquareRootProcess` CIR-type square root mean-reverting process
+- `ExtendedOrnsteinUhlenbeckProcess` extended Ornstein-Uhlenbeck process with time-dependent level and `Discretization` enum
+
+#### Term Structures
+- `ForwardSpreadedTermStructure` yield curve with additive spread over forward rates
+- `ImpliedTermStructure` implied yield curve from a base curve and reference date
+- `UltimateForwardTermStructure` ultimate forward rate extrapolation
+- `QuantoTermStructure` quanto-adjusted dividend yield term structure
+- `FlatSmileSection` flat (constant) smile section for volatility modeling
+- `HestonBlackVolSurface` Black volatility surface implied by a Heston model
+- `SpreadedSwaptionVolatility` swaption volatility surface with additive spread
+
+#### Indexes
+- `BMAIndex` Bond Market Association index (tax-exempt reference rate)
+- `SwapSpreadIndex` spread between two swap rate indexes
 
 #### Core
 - `PositionType` enum (`Long`, `Short`) now registered in `core` module (moved from `instruments` for earlier availability)

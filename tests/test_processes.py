@@ -980,3 +980,119 @@ def test_hestonslvprocess_inherits_stochasticprocess(slv_process_env):
     env = slv_process_env
     process = ql.HestonSLVProcess(env["heston"], env["leverage"])
     assert isinstance(process, StochasticProcess)
+
+
+# =============================================================================
+# GeometricBrownianMotionProcess
+# =============================================================================
+
+
+def test_gbm_construction():
+    """GeometricBrownianMotionProcess construction."""
+    p = ql.GeometricBrownianMotionProcess(100.0, 0.05, 0.2)
+    assert p.x0() == pytest.approx(100.0)
+    assert isinstance(p, StochasticProcess1D)
+
+
+def test_gbm_size():
+    """GeometricBrownianMotionProcess is 1D."""
+    p = ql.GeometricBrownianMotionProcess(100.0, 0.05, 0.2)
+    assert p.size() == 1
+
+
+# =============================================================================
+# Merton76Process
+# =============================================================================
+
+
+def test_merton76_construction():
+    """Merton76Process construction with hidden handles."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    rf = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    vol = ql.BlackConstantVol(today, ql.TARGET(), 0.2, ql.Actual365Fixed())
+
+    jumpInt = ql.SimpleQuote(1.0)
+    logJMean = ql.SimpleQuote(-0.1)
+    logJVol = ql.SimpleQuote(0.2)
+
+    p = ql.Merton76Process(spot, div, rf, vol, jumpInt, logJMean, logJVol)
+    assert p.x0() == pytest.approx(100.0)
+    assert isinstance(p, StochasticProcess1D)
+
+
+def test_merton76_accessors():
+    """Merton76Process handle accessors."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    rf = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    vol = ql.BlackConstantVol(today, ql.TARGET(), 0.2, ql.Actual365Fixed())
+
+    jumpInt = ql.SimpleQuote(1.0)
+    logJMean = ql.SimpleQuote(-0.1)
+    logJVol = ql.SimpleQuote(0.2)
+
+    p = ql.Merton76Process(spot, div, rf, vol, jumpInt, logJMean, logJVol)
+    assert not p.stateVariable().empty()
+    assert not p.dividendYield().empty()
+    assert not p.riskFreeRate().empty()
+    assert not p.blackVolatility().empty()
+    assert not p.jumpIntensity().empty()
+    assert not p.logMeanJump().empty()
+    assert not p.logJumpVolatility().empty()
+
+
+# =============================================================================
+# SquareRootProcess
+# =============================================================================
+
+
+def test_squareroot_construction():
+    """SquareRootProcess construction."""
+    p = ql.SquareRootProcess(0.04, 0.5, 0.1, 0.04)
+    assert p.b() == pytest.approx(0.04)
+    assert p.a() == pytest.approx(0.5)
+    assert p.sigma() == pytest.approx(0.1)
+    assert p.x0() == pytest.approx(0.04)
+    assert isinstance(p, StochasticProcess1D)
+
+
+def test_squareroot_default_x0():
+    """SquareRootProcess default x0=0."""
+    p = ql.SquareRootProcess(0.04, 0.5, 0.1)
+    assert p.x0() == pytest.approx(0.0)
+
+
+# =============================================================================
+# ExtendedOrnsteinUhlenbeckProcess
+# =============================================================================
+
+
+def test_extended_ou_construction():
+    """ExtendedOrnsteinUhlenbeckProcess construction."""
+    p = ql.ExtendedOrnsteinUhlenbeckProcess(0.5, 0.1, 0.0, lambda t: 0.05)
+    assert p.x0() == pytest.approx(0.0)
+    assert p.speed() == pytest.approx(0.5)
+    assert p.volatility() == pytest.approx(0.1)
+    assert isinstance(p, StochasticProcess1D)
+
+
+def test_extended_ou_discretization_enum():
+    """ExtendedOUDiscretization enum values."""
+    assert int(ql.ExtendedOUDiscretization.MidPoint) == 0
+    assert int(ql.ExtendedOUDiscretization.Trapezodial) == 1
+    assert int(ql.ExtendedOUDiscretization.GaussLobatto) == 2
+
+
+def test_extended_ou_time_dependent_level():
+    """ExtendedOrnsteinUhlenbeckProcess with time-dependent level."""
+    p = ql.ExtendedOrnsteinUhlenbeckProcess(
+        0.5, 0.1, 0.0, lambda t: 0.05 * t,
+        ql.ExtendedOUDiscretization.Trapezodial)
+    assert p.speed() == pytest.approx(0.5)

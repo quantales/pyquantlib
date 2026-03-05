@@ -2193,3 +2193,58 @@ def test_arithmeticaveragedovernightpricer_with_coupon():
     rate = coupon.rate()
     assert rate == pytest.approx(0.034524, rel=1e-4)
     ql.Settings.instance().evaluationDate = original_date
+
+
+# =============================================================================
+# AverageBMACoupon
+# =============================================================================
+
+
+def test_averagebmacoupon_construction():
+    """AverageBMACoupon construction."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    bma = ql.BMAIndex(curve)
+    start = ql.Date(1, 1, 2025)
+    end = ql.Date(1, 4, 2025)
+    payment = ql.Date(3, 4, 2025)
+    coupon = ql.AverageBMACoupon(
+        payment, 1_000_000.0, start, end, bma)
+    assert coupon.nominal() == pytest.approx(1_000_000.0)
+    dates = coupon.fixingDates()
+    assert len(dates) > 0
+
+
+def test_averagebmacoupon_with_gearing_spread():
+    """AverageBMACoupon with gearing and spread."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    bma = ql.BMAIndex(curve)
+    start = ql.Date(1, 1, 2025)
+    end = ql.Date(1, 4, 2025)
+    payment = ql.Date(3, 4, 2025)
+    coupon = ql.AverageBMACoupon(
+        payment, 1_000_000.0, start, end, bma,
+        gearing=1.5, spread=0.005)
+    assert coupon.gearing() == pytest.approx(1.5)
+    assert coupon.spread() == pytest.approx(0.005)
+
+
+def test_averagebmaleg_construction():
+    """AverageBMALeg builder."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    bma = ql.BMAIndex(curve)
+    schedule = ql.MakeSchedule(
+        effectiveDate=ql.Date(1, 1, 2025),
+        terminationDate=ql.Date(1, 1, 2026),
+        tenor=ql.Period(3, ql.Months),
+        calendar=ql.UnitedStates(ql.UnitedStates.GovernmentBond))
+    leg = (ql.AverageBMALeg(schedule, bma)
+           .withNotionals(1_000_000.0)
+           .withPaymentDayCounter(ql.Actual365Fixed())
+           .leg())
+    assert len(leg) == 4  # quarterly over 1 year

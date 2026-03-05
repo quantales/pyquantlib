@@ -214,6 +214,56 @@ spreaded = ql.ZeroSpreadedTermStructure(base, spread)
 spread.setValue(0.01)  # spread updates dynamically
 ```
 
+### ForwardSpreadedTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardSpreadedTermStructure
+```
+
+Yield curve with an additive spread over instantaneous forward rates.
+
+```python
+base = ql.FlatForward(today, 0.03, dc)
+spread = ql.SimpleQuote(0.005)
+spreaded = ql.ForwardSpreadedTermStructure(base, spread)
+```
+
+### ImpliedTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ImpliedTermStructure
+```
+
+Implied yield curve from a base curve and a new reference date.
+
+```python
+base = ql.FlatForward(today, 0.03, dc)
+implied = ql.ImpliedTermStructure(base, today + ql.Period("6M"))
+```
+
+### UltimateForwardTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.UltimateForwardTermStructure
+```
+
+Ultimate forward rate (UFR) extrapolation beyond a last liquid point.
+
+```python
+ufr = ql.UltimateForwardTermStructure(
+    base_curve, llfr_quote, ufr_quote,
+    ql.Period(20, ql.Years), alpha=0.1
+)
+```
+
+### QuantoTermStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.QuantoTermStructure
+```
+
+Quanto-adjusted dividend yield term structure.
+
 ## Piecewise Yield Curves
 
 ### PiecewiseLogLinearDiscount
@@ -377,6 +427,53 @@ const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableBlackVolTermStructureHandle
+```
+
+### FlatSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FlatSmileSection
+```
+
+Flat (constant) smile section for volatility modeling.
+
+```python
+# From exercise time
+fs = ql.FlatSmileSection(1.0, 0.2)
+
+# From exercise date
+fs = ql.FlatSmileSection(ql.Date(15, 6, 2026), 0.2)
+
+# Normal volatility
+fs = ql.FlatSmileSection(1.0, 0.005, type=ql.VolatilityType.Normal)
+```
+
+### HestonBlackVolSurface
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonBlackVolSurface
+```
+
+Black volatility surface implied by a Heston model.
+
+```python
+model = ql.HestonModel(heston_process)
+vol_surface = ql.HestonBlackVolSurface(model)
+```
+
+## Swaption Volatility Spread
+
+### SpreadedSwaptionVolatility
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SpreadedSwaptionVolatility
+```
+
+Swaption volatility surface with an additive spread over a base surface.
+
+```python
+spread = ql.SimpleQuote(0.005)
+spreaded_vol = ql.SpreadedSwaptionVolatility(base_vol_handle, spread)
 ```
 
 ## SABR Volatility

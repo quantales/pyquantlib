@@ -916,3 +916,86 @@ def test_equityindex_clear_fixings():
     ei.clearFixings()
     with pytest.raises(ql.Error):
         ei.fixing(ql.Date(14, ql.January, 2025))
+
+
+# =============================================================================
+# BMAIndex
+# =============================================================================
+
+
+def test_bmaindex_construction():
+    """BMAIndex default construction."""
+    bma = ql.BMAIndex()
+    assert "BMA" in bma.name()
+
+
+def test_bmaindex_with_curve():
+    """BMAIndex construction with forwarding curve."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+    bma = ql.BMAIndex(curve)
+    assert not bma.forwardingTermStructure().empty()
+
+
+def test_bmaindex_fixing_schedule():
+    """BMAIndex fixing schedule returns weekly dates."""
+    bma = ql.BMAIndex()
+    start = ql.Date(1, 1, 2025)
+    end = ql.Date(31, 1, 2025)
+    sched = bma.fixingSchedule(start, end)
+    assert len(sched) >= 3  # at least 3 Wednesdays in January
+
+
+def test_bmaindex_is_valid_fixing_date():
+    """BMAIndex fixes on Wednesdays."""
+    bma = ql.BMAIndex()
+    # 2025-01-15 is a Wednesday
+    assert bma.isValidFixingDate(ql.Date(15, 1, 2025))
+    # 2025-01-16 is Thursday
+    assert not bma.isValidFixingDate(ql.Date(16, 1, 2025))
+
+
+# =============================================================================
+# SwapSpreadIndex
+# =============================================================================
+
+
+def test_swapspreadindex_construction():
+    """SwapSpreadIndex construction from two swap indexes."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.03, dc)
+    idx1 = ql.EuriborSwapIsdaFixA(ql.Period("2Y"), curve)
+    idx2 = ql.EuriborSwapIsdaFixA(ql.Period("10Y"), curve)
+    ssi = ql.SwapSpreadIndex("CMS2s10s", idx1, idx2)
+    assert "EuriborSwapIsdaFixA" in ssi.name()
+    assert ssi.gearing1() == pytest.approx(1.0)
+    assert ssi.gearing2() == pytest.approx(-1.0)
+
+
+def test_swapspreadindex_custom_gearings():
+    """SwapSpreadIndex with custom gearings."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.03, dc)
+    idx1 = ql.EuriborSwapIsdaFixA(ql.Period("2Y"), curve)
+    idx2 = ql.EuriborSwapIsdaFixA(ql.Period("10Y"), curve)
+    ssi = ql.SwapSpreadIndex("Weighted", idx1, idx2, 0.5, -0.5)
+    assert ssi.gearing1() == pytest.approx(0.5)
+    assert ssi.gearing2() == pytest.approx(-0.5)
+
+
+def test_swapspreadindex_accessors():
+    """SwapSpreadIndex swap index accessors."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    curve = ql.FlatForward(today, 0.03, dc)
+    idx1 = ql.EuriborSwapIsdaFixA(ql.Period("2Y"), curve)
+    idx2 = ql.EuriborSwapIsdaFixA(ql.Period("10Y"), curve)
+    ssi = ql.SwapSpreadIndex("CMS2s10s", idx1, idx2)
+    assert ssi.swapIndex1() is not None
+    assert ssi.swapIndex2() is not None

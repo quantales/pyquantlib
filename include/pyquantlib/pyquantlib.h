@@ -202,6 +202,7 @@ namespace ql_cashflows {
     void digitalcmscoupon(py::module_&);
     void conundrumpricer(py::module_&);
     void overnightindexedcouponpricer(py::module_&);
+    void averagebmacoupon(py::module_&);
 }
 
 namespace ql_indexes {
@@ -226,6 +227,8 @@ namespace ql_indexes {
     void frhicp(py::module_&);
     void zacpi(py::module_&);
     void equityindex(py::module_&);
+    void bmaindex(py::module_&);
+    void swapspreadindex(py::module_&);
 }
 
 namespace ql_termstructures {
@@ -298,6 +301,13 @@ namespace ql_termstructures {
     void piecewisezeroinflationcurve(py::module_&);
     void piecewiseyoyinflationcurve(py::module_&);
     void yoyinflationoptionletvolatilitystructure(py::module_&);
+    void forwardspreadedtermstructure(py::module_&);
+    void impliedtermstructure(py::module_&);
+    void ultimateforwardtermstructure(py::module_&);
+    void quantotermstructure(py::module_&);
+    void flatsmilesection(py::module_&);
+    void hestonblackvolsurface(py::module_&);
+    void spreadedswaptionvolatility(py::module_&);
 }
 
 namespace ql_processes {
@@ -311,6 +321,10 @@ namespace ql_processes {
     void forwardmeasureprocess(py::module_&);
     void hullwhiteprocess(py::module_&);
     void hestonslvprocess(py::module_&);
+    void geometricbrownianmotionprocess(py::module_&);
+    void merton76process(py::module_&);
+    void squarerootprocess(py::module_&);
+    void extendedornsteinuhlenbeckprocess(py::module_&);
 }
 
 namespace ql_models {

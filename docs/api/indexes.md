@@ -217,6 +217,40 @@ swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve)
 swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), forwarding_curve, discounting_curve)
 ```
 
+## BMA Index
+
+### BMAIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BMAIndex
+```
+
+Bond Market Association index (tax-exempt municipal reference rate). Fixes weekly on Wednesdays.
+
+```python
+bma = ql.BMAIndex()              # without forwarding curve
+bma = ql.BMAIndex(curve)         # with forwarding curve
+sched = bma.fixingSchedule(start, end)
+```
+
+## Swap Spread Index
+
+### SwapSpreadIndex
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwapSpreadIndex
+```
+
+Spread between two swap rate indexes with configurable gearings.
+
+```python
+idx1 = ql.EuriborSwapIsdaFixA(ql.Period("2Y"), curve)
+idx2 = ql.EuriborSwapIsdaFixA(ql.Period("10Y"), curve)
+spread = ql.SwapSpreadIndex("CMS2s10s", idx1, idx2)
+# Custom gearings: 0.5 * idx1 - 0.5 * idx2
+spread = ql.SwapSpreadIndex("Weighted", idx1, idx2, 0.5, -0.5)
+```
+
 ## Equity Indexes
 
 ### EquityIndex

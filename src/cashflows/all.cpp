@@ -83,4 +83,8 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     ADD_MAIN_BINDING(ql_cashflows::overnightindexedcouponpricer,
         "CompoundingOvernightIndexedCouponPricer, "
         "ArithmeticAveragedOvernightIndexedCouponPricer");
+
+    // BMA coupons
+    ADD_MAIN_BINDING(ql_cashflows::averagebmacoupon,
+        "AverageBMACoupon, AverageBMALeg");
 }

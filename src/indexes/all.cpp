@@ -42,4 +42,9 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
     // Equity
     ADD_MAIN_BINDING(ql_indexes::equityindex,
         "EquityIndex - equity index base class");
+    // BMA and swap spread
+    ADD_MAIN_BINDING(ql_indexes::bmaindex,
+        "BMAIndex - Bond Market Association index");
+    ADD_MAIN_BINDING(ql_indexes::swapspreadindex,
+        "SwapSpreadIndex - spread between two swap rates");
 }
