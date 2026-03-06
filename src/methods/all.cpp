@@ -42,12 +42,22 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "FdmCEV1dMesher - CEV model mesher");
     ADD_MAIN_BINDING(ql_methods::fdmsimpleprocess1dmesher,
         "FdmSimpleProcess1dMesher - generic 1D process mesher");
+    ADD_MAIN_BINDING(ql_methods::exponentialjump1dmesher,
+        "ExponentialJump1dMesher - exponential jump-diffusion mesher");
+    ADD_MAIN_BINDING(ql_methods::glued1dmesher,
+        "Glued1dMesher - glues two 1D meshers together");
     ADD_MAIN_BINDING(ql_methods::fdmmesher,
         "FdmMesher - abstract multi-dimensional mesher");
     ADD_MAIN_BINDING(ql_methods::fdmmeshercomposite,
         "FdmMesherComposite - composite multi-dimensional mesher");
     ADD_MAIN_BINDING(ql_methods::boundarycondition,
         "FdmBoundaryCondition - boundary condition for FDM operators");
+    ADD_MAIN_BINDING(ql_methods::fdmdirichletboundary,
+        "FdmDirichletBoundary - fixed value boundary condition");
+    ADD_MAIN_BINDING(ql_methods::fdmdiscountdirichletboundary,
+        "FdmDiscountDirichletBoundary - discounted boundary condition");
+    ADD_MAIN_BINDING(ql_methods::fdmtimedepdirichletboundary,
+        "FdmTimeDepDirichletBoundary - time-dependent boundary condition");
     ADD_MAIN_BINDING(ql_methods::fdmlinearop,
         "FdmLinearOp - abstract FDM linear operator");
     ADD_MAIN_BINDING(ql_methods::fdmlinearopcomposite,
@@ -90,6 +100,8 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "FdmLocalVolFwdOp - local volatility forward operator");
     ADD_MAIN_BINDING(ql_methods::fdmornsteinuhlenbeckop,
         "FdmOrnsteinUhlenbeckOp - Ornstein-Uhlenbeck operator");
+    ADD_MAIN_BINDING(ql_methods::nthorderderivativeop,
+        "NthOrderDerivativeOp - Nth-order derivative operator");
     ADD_MAIN_BINDING(ql_methods::expliciteulerscheme,
         "ExplicitEulerScheme - explicit Euler time stepping");
     ADD_MAIN_BINDING(ql_methods::impliciteulerscheme,
@@ -117,6 +129,10 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "FdmAmericanStepCondition - American early exercise");
     ADD_MAIN_BINDING(ql_methods::fdmbermudanstepcondition,
         "FdmBermudanStepCondition - Bermudan early exercise");
+    ADD_MAIN_BINDING(ql_methods::fdmarithmeticaveragecondition,
+        "FdmArithmeticAverageCondition - arithmetic average for Asian FDM");
+    ADD_MAIN_BINDING(ql_methods::fdmsimpleswingcondition,
+        "FdmSimpleSwingCondition - simple swing option condition");
     ADD_MAIN_BINDING(ql_methods::fdmdividendhandler,
         "FdmDividendHandler - discrete dividend step condition");
     ADD_MAIN_BINDING(ql_methods::fdmstepconditioncomposite,
@@ -131,6 +147,16 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "Fdm3DimSolver - 3D FDM solver");
     ADD_MAIN_BINDING(ql_methods::fdmblackscholessolver,
         "FdmBlackScholesSolver - specialized 1D BS solver");
+    ADD_MAIN_BINDING(ql_methods::fdmhestonsolver,
+        "FdmHestonSolver - specialized 2D Heston solver");
+    ADD_MAIN_BINDING(ql_methods::fdmhullwhitesolver,
+        "FdmHullWhiteSolver - specialized 1D Hull-White solver");
+    ADD_MAIN_BINDING(ql_methods::fdmg2solver,
+        "FdmG2Solver - specialized 2D G2++ solver");
+    ADD_MAIN_BINDING(ql_methods::fdm2dblackscholessolver,
+        "Fdm2dBlackScholesSolver - specialized 2D two-asset BS solver");
+    ADD_MAIN_BINDING(ql_methods::fdmbatessolver,
+        "FdmBatesSolver - specialized 2D Bates solver");
     // RND calculators
     ADD_BASE_BINDING(ql_methods::riskneutraldensitycalculator,
         "RiskNeutralDensityCalculator - ABC");
@@ -144,6 +170,8 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "CEVRNDCalculator - CEV model RND");
     ADD_MAIN_BINDING(ql_methods::squarerootprocessrndcalculator,
         "SquareRootProcessRNDCalculator - square root process RND");
+    ADD_MAIN_BINDING(ql_methods::localvolrndcalculator,
+        "LocalVolRNDCalculator - local vol FDM-based RND calculator");
     // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");

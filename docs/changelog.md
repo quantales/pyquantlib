@@ -253,6 +253,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fdm2DimSolver` two-dimensional FDM solver with interpolation and cross-derivative Greeks
 - `Fdm3DimSolver` three-dimensional FDM solver with `interpolateAt` and `thetaAt`
 - `FdmBlackScholesSolver` high-level Black-Scholes FDM solver with `valueAt`, `deltaAt`, `gammaAt`, `thetaAt`
+- `FdmHestonSolver` 2D Heston FDM solver with Greeks including mean-variance delta/gamma
+- `FdmHullWhiteSolver` 1D Hull-White interest rate FDM solver
+- `FdmG2Solver` 2D G2++ two-factor interest rate FDM solver
+- `Fdm2dBlackScholesSolver` 2D two-asset Black-Scholes solver with cross-gamma
+- `FdmBatesSolver` 2D Bates jump-diffusion FDM solver
+- `FdmDirichletBoundary` fixed-value Dirichlet boundary condition
+- `FdmDiscountDirichletBoundary` discounted Dirichlet boundary condition
+- `FdmTimeDepDirichletBoundary` time-dependent Dirichlet boundary condition
+- `ExponentialJump1dMesher` 1D mesher for exponential jump-diffusion processes
+- `Glued1dMesher` combines two 1D meshers at their boundary
+- `FdmArithmeticAverageCondition` arithmetic average step condition for Asian FDM
+- `FdmSimpleSwingCondition` simple swing option step condition
+- `NthOrderDerivativeOp` Nth-order finite difference derivative operator
+- `LocalVolRNDCalculator` risk-neutral density calculator using local vol and FDM
 - `BSMRNDCalculator` Black-Scholes-Merton risk-neutral density calculator
 - `GBSMRNDCalculator` generalized BSM risk-neutral density calculator (spot space)
 - `HestonRNDCalculator` Heston risk-neutral density calculator

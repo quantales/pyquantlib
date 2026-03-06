@@ -2564,3 +2564,366 @@ def test_fdm_american_put_vs_european():
     assert amer_npv >= euro_npv
     # American ATM put with r=5%, no dividends has meaningful early-exercise premium
     assert amer_npv == pytest.approx(6.0861, rel=5e-3)
+
+
+# =============================================================================
+# FdmDirichletBoundary
+# =============================================================================
+
+
+def test_fdm_dirichlet_boundary_construction():
+    """FdmDirichletBoundary constructs with mesher, value, direction, side."""
+    mesher1d = ql.Uniform1dMesher(0.0, 1.0, 10)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    bc = ql.FdmDirichletBoundary(mesher, 0.0, 0, ql.BoundaryConditionSide.Lower)
+    assert isinstance(bc, ql.FdmBoundaryCondition)
+
+
+def test_fdm_dirichlet_boundary_upper():
+    """FdmDirichletBoundary with Upper side."""
+    mesher1d = ql.Uniform1dMesher(0.0, 100.0, 50)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    bc = ql.FdmDirichletBoundary(mesher, 100.0, 0, ql.BoundaryConditionSide.Upper)
+    assert isinstance(bc, ql.FdmBoundaryCondition)
+
+
+# =============================================================================
+# FdmTimeDepDirichletBoundary
+# =============================================================================
+
+
+def test_fdm_timedep_dirichlet_boundary():
+    """FdmTimeDepDirichletBoundary with time-dependent value function."""
+    mesher1d = ql.Uniform1dMesher(0.0, 1.0, 10)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    bc = ql.FdmTimeDepDirichletBoundary(
+        mesher, lambda t: 100.0 * math.exp(-0.05 * t),
+        0, ql.BoundaryConditionSide.Lower)
+    assert isinstance(bc, ql.FdmBoundaryCondition)
+
+
+# =============================================================================
+# FdmDiscountDirichletBoundary
+# =============================================================================
+
+
+def test_fdm_discount_dirichlet_boundary():
+    """FdmDiscountDirichletBoundary constructs with yield curve."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    rTS = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    mesher1d = ql.Uniform1dMesher(0.0, 200.0, 50)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    bc = ql.FdmDiscountDirichletBoundary(
+        mesher, rTS, 1.0, 100.0, 0, ql.BoundaryConditionSide.Upper)
+    assert isinstance(bc, ql.FdmBoundaryCondition)
+
+
+# =============================================================================
+# ExponentialJump1dMesher
+# =============================================================================
+
+
+def test_exponential_jump_1d_mesher_construction():
+    """ExponentialJump1dMesher constructs with jump parameters."""
+    mesher = ql.ExponentialJump1dMesher(50, 1.0, 0.5, 0.5)
+    assert mesher.size() == 50
+    assert len(mesher.locations()) == 50
+
+
+def test_exponential_jump_1d_mesher_is_fdm1d():
+    """ExponentialJump1dMesher is a Fdm1dMesher subclass."""
+    mesher = ql.ExponentialJump1dMesher(20, 1.0, 0.5, 0.5)
+    assert isinstance(mesher, ql.Fdm1dMesher)
+
+
+def test_exponential_jump_1d_mesher_density():
+    """Jump size density methods return positive values."""
+    mesher = ql.ExponentialJump1dMesher(50, 1.0, 0.5, 0.5)
+    x = mesher.locations()[25]
+    density = mesher.jumpSizeDensity(x)
+    assert density >= 0.0
+    density_t = mesher.jumpSizeDensity(x, 1.0)
+    assert density_t >= 0.0
+
+
+def test_exponential_jump_1d_mesher_distribution():
+    """Jump size distribution is between 0 and 1."""
+    mesher = ql.ExponentialJump1dMesher(50, 1.0, 0.5, 0.5)
+    x = mesher.locations()[25]
+    cdf = mesher.jumpSizeDistribution(x)
+    assert 0.0 <= cdf <= 1.0
+    cdf_t = mesher.jumpSizeDistribution(x, 1.0)
+    assert 0.0 <= cdf_t <= 1.0
+
+
+# =============================================================================
+# Glued1dMesher
+# =============================================================================
+
+
+def test_glued_1d_mesher_construction():
+    """Glued1dMesher combines two meshers."""
+    left = ql.Uniform1dMesher(0.0, 1.0, 10)
+    right = ql.Uniform1dMesher(1.0, 2.0, 10)
+    glued = ql.Glued1dMesher(left, right)
+    assert isinstance(glued, ql.Fdm1dMesher)
+    # Combined size: left(10) + right(10) - 1 shared point = 19
+    assert glued.size() == 19
+
+
+def test_glued_1d_mesher_monotone():
+    """Glued1dMesher has monotonically increasing locations."""
+    left = ql.Uniform1dMesher(0.0, 5.0, 20)
+    right = ql.Uniform1dMesher(5.0, 10.0, 20)
+    glued = ql.Glued1dMesher(left, right)
+    locs = glued.locations()
+    for i in range(1, len(locs)):
+        assert locs[i] > locs[i-1]
+
+
+# =============================================================================
+# FdmArithmeticAverageCondition
+# =============================================================================
+
+
+def test_fdm_arithmetic_average_condition():
+    """FdmArithmeticAverageCondition constructs for Asian option pricing."""
+    mesher1d = ql.Uniform1dMesher(0.0, 200.0, 50)
+    mesher2d = ql.Uniform1dMesher(0.0, 200.0, 50)
+    mesher = ql.FdmMesherComposite(mesher1d, mesher2d)
+    avg_times = [0.25, 0.5, 0.75, 1.0]
+    cond = ql.FdmArithmeticAverageCondition(
+        avg_times, 0.0, 0, mesher, 0)
+    assert isinstance(cond, ql.base.FdmStepCondition)
+
+
+# =============================================================================
+# FdmSimpleSwingCondition
+# =============================================================================
+
+
+def test_fdm_simple_swing_condition():
+    """FdmSimpleSwingCondition constructs for swing option pricing."""
+    mesher1d = ql.Uniform1dMesher(0.0, 200.0, 50)
+    mesher2d = ql.Predefined1dMesher([0.0, 1.0, 2.0, 3.0])
+    mesher = ql.FdmMesherComposite(mesher1d, mesher2d)
+    calc = ql.FdmLogInnerValue(
+        ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0), mesher, 0)
+    exercise_times = [0.25, 0.5, 0.75, 1.0]
+    cond = ql.FdmSimpleSwingCondition(
+        exercise_times, mesher, calc, 1, 0)
+    assert isinstance(cond, ql.base.FdmStepCondition)
+
+
+# =============================================================================
+# NthOrderDerivativeOp
+# =============================================================================
+
+
+def test_nth_order_derivative_op_construction():
+    """NthOrderDerivativeOp constructs with direction, order, stencil."""
+    mesher1d = ql.Uniform1dMesher(0.0, 1.0, 50)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    op = ql.NthOrderDerivativeOp(0, 2, 3, mesher)
+    assert isinstance(op, ql.FdmLinearOp)
+
+
+def test_nth_order_derivative_op_apply():
+    """NthOrderDerivativeOp apply works on arrays."""
+    mesher1d = ql.Uniform1dMesher(0.0, 1.0, 50)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    # 3rd order derivative, 5-point stencil
+    op = ql.NthOrderDerivativeOp(0, 3, 5, mesher)
+    a = ql.Array(50, 1.0)
+    result = op.apply(a)
+    assert len(result) == 50
+
+
+# =============================================================================
+# FdmHestonSolver
+# =============================================================================
+
+
+def test_fdm_heston_solver():
+    """FdmHestonSolver prices a European call under Heston."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = 100.0
+    strike = 100.0
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    qTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.0, dc))
+    process = ql.HestonProcess(rTS, qTS, ql.QuoteHandle(ql.SimpleQuote(spot)),
+                               0.04, 1.0, 0.04, 0.5, -0.7)
+    maturity = 1.0
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    # FdmBlackScholesMesher needs a GBSProcess for the spot axis
+    volTS = ql.BlackVolTermStructureHandle(
+        ql.BlackConstantVol(today, ql.TARGET(), 0.20, dc))
+    bsProcess = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(ql.SimpleQuote(spot)), qTS, rTS, volTS)
+    xMesher = ql.FdmBlackScholesMesher(50, bsProcess, maturity, strike)
+    vMesher = ql.FdmHestonVarianceMesher(25, process, maturity)
+    mesher = ql.FdmMesherComposite(xMesher, vMesher)
+    calc = ql.FdmLogInnerValue(payoff, mesher, 0)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(mesher=mesher, bcSet=[], condition=conditions,
+                            calculator=calc, maturity=maturity,
+                            timeSteps=50, dampingSteps=0)
+    solver = ql.FdmHestonSolver(process, desc)
+    npv = solver.valueAt(spot, 0.04)
+    assert npv == pytest.approx(10.0, rel=0.15)
+    assert 0.3 < solver.deltaAt(spot, 0.04) < 0.9
+    assert solver.gammaAt(spot, 0.04) > 0
+
+
+# =============================================================================
+# FdmBatesSolver
+# =============================================================================
+
+
+def test_fdm_bates_solver():
+    """FdmBatesSolver constructs and prices under Bates model."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = 100.0
+    strike = 100.0
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    qTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.0, dc))
+    process = ql.BatesProcess(rTS, qTS, ql.QuoteHandle(ql.SimpleQuote(spot)),
+                              0.04, 1.0, 0.04, 0.5, -0.7,
+                              0.1, 0.5, 0.0)
+    maturity = 1.0
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    volTS = ql.BlackVolTermStructureHandle(
+        ql.BlackConstantVol(today, ql.TARGET(), 0.20, dc))
+    bsProcess = ql.GeneralizedBlackScholesProcess(
+        ql.QuoteHandle(ql.SimpleQuote(spot)), qTS, rTS, volTS)
+    xMesher = ql.FdmBlackScholesMesher(50, bsProcess, maturity, strike)
+    vMesher = ql.FdmHestonVarianceMesher(25, process, maturity)
+    mesher = ql.FdmMesherComposite(xMesher, vMesher)
+    calc = ql.FdmLogInnerValue(payoff, mesher, 0)
+    conditions = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(mesher=mesher, bcSet=[], condition=conditions,
+                            calculator=calc, maturity=maturity,
+                            timeSteps=50, dampingSteps=0)
+    solver = ql.FdmBatesSolver(process, desc)
+    npv = solver.valueAt(spot, 0.04)
+    assert npv == pytest.approx(10.0, rel=0.2)
+
+
+# =============================================================================
+# FdmHullWhiteSolver
+# =============================================================================
+
+
+def test_fdm_hull_white_solver():
+    """FdmHullWhiteSolver constructs under Hull-White."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    model = ql.HullWhite(rTS, 0.1, 0.01)
+    maturity = 1.0
+    mesher1d = ql.Uniform1dMesher(-0.5, 0.5, 50)
+    mesher = ql.FdmMesherComposite(mesher1d)
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 0.05)
+    calc = ql.FdmLogInnerValue(payoff, mesher, 0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    cond = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(mesher=mesher, bcSet=[], condition=cond,
+                            calculator=calc, maturity=maturity,
+                            timeSteps=50, dampingSteps=0)
+    solver = ql.FdmHullWhiteSolver(model, desc)
+    val = solver.valueAt(0.0)
+    assert val is not None
+
+
+# =============================================================================
+# Fdm2dBlackScholesSolver
+# =============================================================================
+
+
+def test_fdm_2d_black_scholes_solver():
+    """Fdm2dBlackScholesSolver constructs for two-asset problem."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    qTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.0, dc))
+    vol1 = ql.BlackVolTermStructureHandle(
+        ql.BlackConstantVol(today, ql.TARGET(), 0.20, dc))
+    vol2 = ql.BlackVolTermStructureHandle(
+        ql.BlackConstantVol(today, ql.TARGET(), 0.25, dc))
+    spot1 = ql.QuoteHandle(ql.SimpleQuote(100.0))
+    spot2 = ql.QuoteHandle(ql.SimpleQuote(100.0))
+    p1 = ql.GeneralizedBlackScholesProcess(spot1, qTS, rTS, vol1)
+    p2 = ql.GeneralizedBlackScholesProcess(spot2, qTS, rTS, vol2)
+    maturity = 1.0
+    # Simple 2D mesher
+    mesh1 = ql.FdmBlackScholesMesher(30, p1, maturity, 100.0)
+    mesh2 = ql.FdmBlackScholesMesher(30, p2, maturity, 100.0)
+    mesher = ql.FdmMesherComposite(mesh1, mesh2)
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    calc = ql.FdmLogInnerValue(payoff, mesher, 0)
+    exercise = ql.EuropeanExercise(today + ql.Period(1, ql.Years))
+    cond = ql.FdmStepConditionComposite.vanillaComposite(
+        [], exercise, mesher, calc, today, dc)
+    desc = ql.FdmSolverDesc(mesher=mesher, bcSet=[], condition=cond,
+                            calculator=calc, maturity=maturity,
+                            timeSteps=25, dampingSteps=0)
+    solver = ql.Fdm2dBlackScholesSolver(p1, p2, 0.5, desc)
+    npv = solver.valueAt(100.0, 100.0)
+    assert npv == pytest.approx(10.0, rel=0.3)
+
+
+# =============================================================================
+# FdmG2Solver
+# =============================================================================
+
+
+def test_fdm_g2_solver():
+    """FdmG2Solver constructs for G2++ model."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    model = ql.G2(rTS)
+    assert isinstance(model, ql.G2)
+
+
+# =============================================================================
+# LocalVolRNDCalculator
+# =============================================================================
+
+
+def test_local_vol_rnd_calculator():
+    """LocalVolRNDCalculator computes risk-neutral density."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rTS = ql.FlatForward(today, 0.05, dc)
+    qTS = ql.FlatForward(today, 0.0, dc)
+    vol = 0.20
+    bvol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
+    lvs = ql.LocalVolSurface(
+        ql.BlackVolTermStructureHandle(bvol),
+        ql.YieldTermStructureHandle(rTS),
+        ql.YieldTermStructureHandle(qTS),
+        ql.QuoteHandle(spot))
+    calc = ql.LocalVolRNDCalculator(spot, rTS, qTS, lvs, xGrid=51, tGrid=26)
+    assert isinstance(calc, ql.base.RiskNeutralDensityCalculator)
+    # RND uses log-space: x = log(spot)
+    x = math.log(100.0)
+    pdf = calc.pdf(x, 0.5)
+    assert pdf == pytest.approx(35.33, rel=0.01)
+    cdf = calc.cdf(x, 0.5)
+    assert cdf == pytest.approx(0.486, rel=0.01)

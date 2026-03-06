@@ -945,6 +945,92 @@ solver.gammaAt(spot)    # gamma
 solver.thetaAt(spot)    # theta
 ```
 
+### FdmHestonSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHestonSolver
+```
+
+### FdmBatesSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmBatesSolver
+```
+
+### FdmHullWhiteSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmHullWhiteSolver
+```
+
+### FdmG2Solver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmG2Solver
+```
+
+### Fdm2dBlackScholesSolver
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Fdm2dBlackScholesSolver
+```
+
+## Boundary Conditions
+
+### FdmDirichletBoundary
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmDirichletBoundary
+```
+
+### FdmDiscountDirichletBoundary
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmDiscountDirichletBoundary
+```
+
+### FdmTimeDepDirichletBoundary
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmTimeDepDirichletBoundary
+```
+
+## Additional Meshers
+
+### ExponentialJump1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ExponentialJump1dMesher
+```
+
+### Glued1dMesher
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Glued1dMesher
+```
+
+## Additional Step Conditions
+
+### FdmArithmeticAverageCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmArithmeticAverageCondition
+```
+
+### FdmSimpleSwingCondition
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdmSimpleSwingCondition
+```
+
+## Additional Operators
+
+### NthOrderDerivativeOp
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NthOrderDerivativeOp
+```
+
 ## Risk-Neutral Density Calculators
 
 Compute probability density, cumulative distribution, and inverse CDF under the risk-neutral measure.
@@ -1027,6 +1113,14 @@ calc.stationary_pdf(0.04)
 calc.stationary_cdf(0.04)
 calc.stationary_invcdf(0.5)
 ```
+
+### LocalVolRNDCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LocalVolRNDCalculator
+```
+
+Local volatility-based RND calculator using FDM. Operates in **log-space** (x = ln(S)).
 
 ```{note}
 Abstract base classes `FdmLinearOp`, `FdmLinearOpComposite`, `BrownianGenerator`, `BrownianGeneratorFactory`, `FdmMesher`, `FdmStepCondition`, `FdmInnerValueCalculator`, and `RiskNeutralDensityCalculator` are available in `pyquantlib.base` for type checking.
