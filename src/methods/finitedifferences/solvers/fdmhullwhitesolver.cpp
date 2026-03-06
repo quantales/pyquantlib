@@ -25,6 +25,18 @@ void ql_methods::fdmhullwhitesolver(py::module_& m) {
                LazyObject>(
         m, "FdmHullWhiteSolver",
         "Specialized 1D FDM solver for Hull-White interest rate model.")
+        // Handle-based constructor
+        .def(py::init([](const Handle<HullWhite>& model,
+                         FdmSolverDesc solverDesc,
+                         const FdmSchemeDesc& schemeDesc) {
+            return ext::make_shared<FdmHullWhiteSolver>(
+                model, std::move(solverDesc), schemeDesc);
+        }),
+            py::arg("model"),
+            py::arg("solverDesc"),
+            py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
+            "Constructs from Hull-White model handle.")
+        // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<HullWhite>& model,
                          FdmSolverDesc solverDesc,
                          const FdmSchemeDesc& schemeDesc) {
@@ -35,7 +47,7 @@ void ql_methods::fdmhullwhitesolver(py::module_& m) {
             py::arg("model"),
             py::arg("solverDesc"),
             py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
-            "Constructs from Hull-White model handle.")
+            "Constructs from Hull-White model (handle created internally).")
         .def("valueAt", &FdmHullWhiteSolver::valueAt,
             py::arg("r"),
             "Returns option value at interest rate r.");

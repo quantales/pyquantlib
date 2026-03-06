@@ -25,6 +25,29 @@ void ql_methods::fdm2dblackscholessolver(py::module_& m) {
                LazyObject>(
         m, "Fdm2dBlackScholesSolver",
         "Specialized 2D FDM solver for two-asset Black-Scholes.")
+        // Handle-based constructor
+        .def(py::init([](const Handle<GeneralizedBlackScholesProcess>& p1,
+                         const Handle<GeneralizedBlackScholesProcess>& p2,
+                         Real correlation,
+                         FdmSolverDesc solverDesc,
+                         const FdmSchemeDesc& schemeDesc,
+                         bool localVol,
+                         const py::object& illegalLocalVolOverwrite) {
+            Real overwrite = -Null<Real>();
+            if (!illegalLocalVolOverwrite.is_none())
+                overwrite = illegalLocalVolOverwrite.cast<Real>();
+            return ext::make_shared<Fdm2dBlackScholesSolver>(
+                p1, p2, correlation, std::move(solverDesc), schemeDesc,
+                localVol, overwrite);
+        }),
+            py::arg("p1"), py::arg("p2"),
+            py::arg("correlation"),
+            py::arg("solverDesc"),
+            py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
+            py::arg("localVol") = false,
+            py::arg("illegalLocalVolOverwrite") = py::none(),
+            "Constructs from two BS process handles and correlation.")
+        // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<GeneralizedBlackScholesProcess>& p1,
                          const ext::shared_ptr<GeneralizedBlackScholesProcess>& p2,
                          Real correlation,
@@ -47,7 +70,7 @@ void ql_methods::fdm2dblackscholessolver(py::module_& m) {
             py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
             py::arg("localVol") = false,
             py::arg("illegalLocalVolOverwrite") = py::none(),
-            "Constructs from two BS process handles and correlation.")
+            "Constructs from two BS processes (handles created internally).")
         .def("valueAt", &Fdm2dBlackScholesSolver::valueAt,
             py::arg("x"), py::arg("y"),
             "Returns option value at spot prices x and y.")

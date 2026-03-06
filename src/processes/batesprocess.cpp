@@ -74,3 +74,8 @@ void ql_processes::batesprocess(py::module_& m) {
         .def("nu", &BatesProcess::nu, "Returns mean jump size.")
         .def("delta", &BatesProcess::delta, "Returns jump size volatility.");
 }
+
+void ql_processes::batesprocesshandle(py::module_& m) {
+    bindHandle<BatesProcess>(m, "BatesProcessHandle",
+        "Handle to BatesProcess.");
+}

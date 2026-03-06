@@ -26,6 +26,26 @@ void ql_methods::fdmbatessolver(py::module_& m) {
                LazyObject>(
         m, "FdmBatesSolver",
         "Specialized 2D FDM solver for Bates jump-diffusion model.")
+        // Handle-based constructor
+        .def(py::init([](const Handle<BatesProcess>& process,
+                         FdmSolverDesc solverDesc,
+                         const FdmSchemeDesc& schemeDesc,
+                         Size integroIntegrationOrder,
+                         const py::object& quantoHelper) {
+            Handle<FdmQuantoHelper> qh;
+            if (!quantoHelper.is_none())
+                qh = quantoHelper.cast<Handle<FdmQuantoHelper>>();
+            return ext::make_shared<FdmBatesSolver>(
+                process, std::move(solverDesc), schemeDesc,
+                integroIntegrationOrder, qh);
+        }),
+            py::arg("process"),
+            py::arg("solverDesc"),
+            py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
+            py::arg("integroIntegrationOrder") = 12,
+            py::arg("quantoHelper") = py::none(),
+            "Constructs from Bates process handle.")
+        // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<BatesProcess>& process,
                          FdmSolverDesc solverDesc,
                          const FdmSchemeDesc& schemeDesc,
@@ -44,7 +64,7 @@ void ql_methods::fdmbatessolver(py::module_& m) {
             py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
             py::arg("integroIntegrationOrder") = 12,
             py::arg("quantoHelper") = py::none(),
-            "Constructs from Bates process handle.")
+            "Constructs from Bates process (handle created internally).")
         .def("valueAt", &FdmBatesSolver::valueAt,
             py::arg("s"), py::arg("v"),
             "Returns option value at spot s and variance v.")

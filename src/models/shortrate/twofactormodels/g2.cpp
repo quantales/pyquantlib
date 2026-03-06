@@ -64,3 +64,8 @@ void ql_models::g2(py::module_& m) {
             py::arg("type"), py::arg("strike"), py::arg("maturity"), py::arg("bondMaturity"),
             "Returns discount bond option price.");
 }
+
+void ql_models::g2handle(py::module_& m) {
+    bindHandle<G2>(m, "G2Handle",
+        "Handle to G2 model.");
+}

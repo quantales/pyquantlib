@@ -322,9 +322,12 @@ namespace ql_termstructures {
 namespace ql_processes {
     void eulerdiscretization(py::module_&);
     void blackscholesprocess(py::module_&);
+    void generalizedblackscholesprocesshandle(py::module_&);
     void hestonprocess(py::module_&);
+    void hestonprocesshandle(py::module_&);
     void stochasticprocessarray(py::module_&);
     void batesprocess(py::module_&);
+    void batesprocesshandle(py::module_&);
     void gjrgarchprocess(py::module_&);
     void ornsteinuhlenbeckprocess(py::module_&);
     void forwardmeasureprocess(py::module_&);
@@ -349,8 +352,10 @@ namespace ql_models {
     void twofactormodel(py::module_&);
     void vasicek(py::module_&);
     void hullwhite(py::module_&);
+    void hullwhitehandle(py::module_&);
     void blackkarasinski(py::module_&);
     void g2(py::module_&);
+    void g2handle(py::module_&);
     void batesmodel(py::module_&);
     void swaptionhelper(py::module_&);
     void caphelper(py::module_&);

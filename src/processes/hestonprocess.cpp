@@ -85,3 +85,8 @@ void ql_processes::hestonprocess(py::module_& m) {
             py::arg("x"), py::arg("v"), py::arg("t"), py::arg("eps") = 1e-3,
             "Returns the probability density at (x, v) for time t, where x is log-spot.");
 }
+
+void ql_processes::hestonprocesshandle(py::module_& m) {
+    bindHandle<HestonProcess>(m, "HestonProcessHandle",
+        "Handle to HestonProcess.");
+}

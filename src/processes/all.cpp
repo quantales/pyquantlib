@@ -21,10 +21,16 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
     // Equity / diffusion processes
     ADD_MAIN_BINDING(ql_processes::blackscholesprocess,
         "BlackScholesProcess - geometric Brownian motion processes");
+    ADD_MAIN_BINDING(ql_processes::generalizedblackscholesprocesshandle,
+        "Handle<GeneralizedBlackScholesProcess>");
     ADD_MAIN_BINDING(ql_processes::hestonprocess,
         "HestonProcess - stochastic volatility process");
+    ADD_MAIN_BINDING(ql_processes::hestonprocesshandle,
+        "Handle<HestonProcess>");
     ADD_MAIN_BINDING(ql_processes::batesprocess,
         "BatesProcess - Heston process with jumps");
+    ADD_MAIN_BINDING(ql_processes::batesprocesshandle,
+        "Handle<BatesProcess>");
     ADD_MAIN_BINDING(ql_processes::gjrgarchprocess,
         "GJRGARCHProcess - GJR-GARCH(1,1) stochastic process");
     ADD_MAIN_BINDING(ql_processes::geometricbrownianmotionprocess,

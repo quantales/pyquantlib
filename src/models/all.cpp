@@ -35,10 +35,14 @@ DECLARE_MODULE_BINDINGS(models_bindings) {
         "Vasicek - Vasicek short-rate model");
     ADD_MAIN_BINDING(ql_models::hullwhite,
         "HullWhite - Hull-White extended Vasicek model");
+    ADD_MAIN_BINDING(ql_models::hullwhitehandle,
+        "Handle<HullWhite>");
     ADD_MAIN_BINDING(ql_models::blackkarasinski,
         "BlackKarasinski - Black-Karasinski short-rate model");
     ADD_MAIN_BINDING(ql_models::g2,
         "G2 - Two-additive-factor Gaussian model G2++");
+    ADD_MAIN_BINDING(ql_models::g2handle,
+        "Handle<G2>");
     ADD_MAIN_BINDING(ql_models::batesmodel,
         "BatesModel - Heston model with jumps");
     ADD_MAIN_BINDING(ql_models::swaptionhelper,

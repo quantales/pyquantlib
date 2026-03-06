@@ -232,3 +232,9 @@ void ql_processes::blackscholesprocess(py::module_& m) {
             py::arg("discretization"), py::arg("forceDiscretization") = false,
             "Constructs from term structures with discretization (handles created internally).");
 }
+
+void ql_processes::generalizedblackscholesprocesshandle(py::module_& m) {
+    bindHandle<GeneralizedBlackScholesProcess>(
+        m, "GeneralizedBlackScholesProcessHandle",
+        "Handle to GeneralizedBlackScholesProcess.");
+}

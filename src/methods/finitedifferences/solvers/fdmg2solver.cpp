@@ -25,6 +25,18 @@ void ql_methods::fdmg2solver(py::module_& m) {
                LazyObject>(
         m, "FdmG2Solver",
         "Specialized 2D FDM solver for G2++ two-factor interest rate model.")
+        // Handle-based constructor
+        .def(py::init([](const Handle<G2>& model,
+                         FdmSolverDesc solverDesc,
+                         const FdmSchemeDesc& schemeDesc) {
+            return ext::make_shared<FdmG2Solver>(
+                model, std::move(solverDesc), schemeDesc);
+        }),
+            py::arg("model"),
+            py::arg("solverDesc"),
+            py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
+            "Constructs from G2 model handle.")
+        // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<G2>& model,
                          FdmSolverDesc solverDesc,
                          const FdmSchemeDesc& schemeDesc) {
@@ -35,7 +47,7 @@ void ql_methods::fdmg2solver(py::module_& m) {
             py::arg("model"),
             py::arg("solverDesc"),
             py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
-            "Constructs from G2 model handle.")
+            "Constructs from G2 model (handle created internally).")
         .def("valueAt", &FdmG2Solver::valueAt,
             py::arg("x"), py::arg("y"),
             "Returns option value at state variables x and y.");

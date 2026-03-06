@@ -27,6 +27,30 @@ void ql_methods::fdmhestonsolver(py::module_& m) {
                LazyObject>(
         m, "FdmHestonSolver",
         "Specialized 2D FDM solver for Heston stochastic volatility.")
+        // Handle-based constructor
+        .def(py::init([](const Handle<HestonProcess>& process,
+                         FdmSolverDesc solverDesc,
+                         const FdmSchemeDesc& schemeDesc,
+                         const py::object& quantoHelper,
+                         const py::object& leverageFct,
+                         Real mixingFactor) {
+            Handle<FdmQuantoHelper> qh;
+            if (!quantoHelper.is_none())
+                qh = quantoHelper.cast<Handle<FdmQuantoHelper>>();
+            ext::shared_ptr<LocalVolTermStructure> lv;
+            if (!leverageFct.is_none())
+                lv = leverageFct.cast<ext::shared_ptr<LocalVolTermStructure>>();
+            return ext::make_shared<FdmHestonSolver>(
+                process, std::move(solverDesc), schemeDesc, qh, lv, mixingFactor);
+        }),
+            py::arg("process"),
+            py::arg("solverDesc"),
+            py::arg("schemeDesc") = FdmSchemeDesc::Hundsdorfer(),
+            py::arg("quantoHelper") = py::none(),
+            py::arg("leverageFct") = py::none(),
+            py::arg("mixingFactor") = 1.0,
+            "Constructs from Heston process handle.")
+        // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<HestonProcess>& process,
                          FdmSolverDesc solverDesc,
                          const FdmSchemeDesc& schemeDesc,
@@ -49,7 +73,7 @@ void ql_methods::fdmhestonsolver(py::module_& m) {
             py::arg("quantoHelper") = py::none(),
             py::arg("leverageFct") = py::none(),
             py::arg("mixingFactor") = 1.0,
-            "Constructs from Heston process handle.")
+            "Constructs from Heston process (handle created internally).")
         .def("valueAt", &FdmHestonSolver::valueAt,
             py::arg("s"), py::arg("v"),
             "Returns option value at spot s and variance v.")

@@ -53,3 +53,8 @@ void ql_models::hullwhite(py::module_& m) {
             py::arg("sigma"), py::arg("a"),
             "Computes futures convexity bias.");
 }
+
+void ql_models::hullwhitehandle(py::module_& m) {
+    bindHandle<HullWhite>(m, "HullWhiteHandle",
+        "Handle to HullWhite model.");
+}
