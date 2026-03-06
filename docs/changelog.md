@@ -67,6 +67,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Merton76Process` Merton jump-diffusion process
 - `SquareRootProcess` CIR-type square root mean-reverting process
 - `ExtendedOrnsteinUhlenbeckProcess` extended Ornstein-Uhlenbeck process with time-dependent level and `Discretization` enum
+- `G2Process` two-factor Gaussian short-rate stochastic process
+- `G2ForwardProcess` G2 forward-measure two-factor short-rate process
+- `HybridHestonHullWhiteProcess` three-factor hybrid Heston + Hull-White process with `Discretization` enum (Euler, BSMHullWhite)
 
 #### Term Structures
 - `ForwardSpreadedTermStructure` yield curve with additive spread over forward rates
@@ -83,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `AndreasenHugeVolatilityInterpl` Andreasen-Huge local volatility calibration with `InterpolationType` and `CalibrationType` enums
 - `AndreasenHugeVolatilityAdapter` Black volatility adapter for Andreasen-Huge interpolation
 - `AndreasenHugeLocalVolAdapter` local volatility adapter for Andreasen-Huge interpolation
+- `CompositeZeroYieldStructure` composite yield curve from two curves combined via a binary function (addition, subtraction, etc.)
 
 #### Indexes
 - `BMAIndex` Bond Market Association index (tax-exempt reference rate)
@@ -152,6 +156,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FdHestonHullWhiteVanillaEngine` finite-differences Heston + Hull-White stochastic rates engine
 - `FdOrnsteinUhlenbeckVanillaEngine` finite-differences Ornstein-Uhlenbeck vanilla engine
 - `MCEuropeanHestonEngine` Monte Carlo European Heston engine (pseudo-random and low-discrepancy)
+- `AnalyticDoubleBarrierBinaryEngine` analytic double barrier binary (one-touch) option engine
+- `FdBlackScholesRebateEngine` finite-differences rebate engine for barrier options
+- `MCBarrierEngine` Monte Carlo barrier option engine (pseudo-random and low-discrepancy) with optional bias correction
+- `MCDoubleBarrierEngine` Monte Carlo double barrier option engine (pseudo-random and low-discrepancy)
+- `AnalyticCEVEngine` analytic CEV (constant elasticity of variance) option engine
+- `CEVCalculator` standalone CEV option value calculator
+- `MCEuropeanGJRGARCHEngine` Monte Carlo European GJR-GARCH engine (pseudo-random and low-discrepancy)
 
 #### Processes
 - `HestonSLVProcess` Heston stochastic local volatility process combining Heston dynamics with a leverage function

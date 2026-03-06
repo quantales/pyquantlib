@@ -204,7 +204,7 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "YoYOptionletVolatilitySurface ABC, ConstantYoYOptionletVolatility, "
         "Handle");
 
-    // Additional yield term structures
+    // Additional yield / vol term structures
     ADD_MAIN_BINDING(ql_termstructures::forwardspreadedtermstructure,
         "ForwardSpreadedTermStructure - forward rate + spread");
     ADD_MAIN_BINDING(ql_termstructures::impliedtermstructure,
@@ -213,14 +213,12 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "UltimateForwardTermStructure - UFR regulatory extrapolation");
     ADD_MAIN_BINDING(ql_termstructures::quantotermstructure,
         "QuantoTermStructure - quanto-adjusted dividend yield");
-
-    // Additional volatility surfaces
+    ADD_MAIN_BINDING(ql_termstructures::compositezeroyieldstructure,
+        "CompositeZeroYieldStructure - composite zero-yield from two curves");
     ADD_MAIN_BINDING(ql_termstructures::hestonblackvolsurface,
         "HestonBlackVolSurface - Heston implied Black vol surface");
     ADD_MAIN_BINDING(ql_termstructures::spreadedswaptionvolatility,
         "SpreadedSwaptionVolatility - swaption vol + spread");
-
-    // Andreasen-Huge local vol calibration
     ADD_MAIN_BINDING(ql_termstructures::andreasenhugevolatilityinterpl,
         "AndreasenHugeVolatilityInterpl - local vol calibration");
     ADD_MAIN_BINDING(ql_termstructures::andreasenhugevolatilityadapter,

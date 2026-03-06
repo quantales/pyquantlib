@@ -336,6 +336,48 @@ engine = ql.MCEuropeanHestonEngine(
 )
 ```
 
+### MCEuropeanGJRGARCHEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCEuropeanGJRGARCHEngine
+```
+
+Monte Carlo European option engine under the GJR-GARCH(1,1) model.
+
+```python
+engine = ql.MCEuropeanGJRGARCHEngine(
+    gjrgarch_process,
+    timeSteps=100,
+    requiredSamples=100000,
+    seed=42,
+)
+```
+
+### AnalyticCEVEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticCEVEngine
+```
+
+Analytic engine for the constant elasticity of variance (CEV) model.
+
+```python
+engine = ql.AnalyticCEVEngine(f0, alpha, beta, discount_curve)
+```
+
+### CEVCalculator
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CEVCalculator
+```
+
+Standalone CEV option value calculator.
+
+```python
+calc = ql.CEVCalculator(f0, alpha, beta)
+print(calc.value(ql.Call, 100.0, 1.0))
+```
+
 ### QdFpAmericanEngine
 
 ```{eval-rst}
@@ -606,6 +648,58 @@ Finite-differences barrier option engine.
 
 ```python
 engine = ql.FdBlackScholesBarrierEngine(process, tGrid=100, xGrid=100)
+```
+
+### FdBlackScholesRebateEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdBlackScholesRebateEngine
+```
+
+Finite-differences rebate engine for barrier options.
+
+```python
+engine = ql.FdBlackScholesRebateEngine(process, tGrid=100, xGrid=100)
+```
+
+### AnalyticDoubleBarrierBinaryEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDoubleBarrierBinaryEngine
+```
+
+Analytic double barrier binary (one-touch) option engine (Hui).
+
+```python
+engine = ql.AnalyticDoubleBarrierBinaryEngine(process)
+```
+
+### MCBarrierEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCBarrierEngine
+```
+
+Monte Carlo barrier option engine with optional Brownian bridge bias correction.
+
+```python
+engine = ql.MCBarrierEngine(
+    process, timeSteps=50, requiredSamples=10000, seed=42,
+)
+```
+
+### MCDoubleBarrierEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDoubleBarrierEngine
+```
+
+Monte Carlo double barrier option engine.
+
+```python
+engine = ql.MCDoubleBarrierEngine(
+    process, timeSteps=50, requiredSamples=10000, seed=42,
+)
 ```
 
 ## Asian Engines

@@ -1452,3 +1452,62 @@ def test_quantotermstructure_construction():
     rate = qts.zeroRate(
         ql.Date(15, 1, 2026), dc, ql.Continuous).rate()
     assert rate != pytest.approx(0.02, abs=0.001)
+
+
+# =============================================================================
+# CompositeZeroYieldStructure
+# =============================================================================
+
+
+def test_compositezeroyield_construction(curve_data):
+    """Test CompositeZeroYieldStructure construction."""
+    c1 = ql.FlatForward(curve_data["today"], 0.03, curve_data["day_counter"])
+    c2 = ql.FlatForward(curve_data["today"], 0.01, curve_data["day_counter"])
+
+    composite = ql.CompositeZeroYieldStructure(
+        c1, c2, lambda r1, r2: r1 + r2,
+    )
+    assert composite is not None
+
+
+def test_compositezeroyield_addition(curve_data):
+    """Test CompositeZeroYieldStructure with addition."""
+    c1 = ql.FlatForward(curve_data["today"], 0.03, curve_data["day_counter"])
+    c2 = ql.FlatForward(curve_data["today"], 0.01, curve_data["day_counter"])
+
+    composite = ql.CompositeZeroYieldStructure(
+        c1, c2, lambda r1, r2: r1 + r2,
+    )
+
+    one_year = curve_data["today"] + ql.Period(1, ql.Years)
+    rate = composite.zeroRate(
+        one_year, curve_data["day_counter"], ql.Continuous,
+    ).rate()
+    assert rate == pytest.approx(0.04, abs=1e-6)
+
+
+def test_compositezeroyield_subtraction(curve_data):
+    """Test CompositeZeroYieldStructure with subtraction."""
+    c1 = ql.FlatForward(curve_data["today"], 0.05, curve_data["day_counter"])
+    c2 = ql.FlatForward(curve_data["today"], 0.02, curve_data["day_counter"])
+
+    composite = ql.CompositeZeroYieldStructure(
+        c1, c2, lambda r1, r2: r1 - r2,
+    )
+
+    one_year = curve_data["today"] + ql.Period(1, ql.Years)
+    rate = composite.zeroRate(
+        one_year, curve_data["day_counter"], ql.Continuous,
+    ).rate()
+    assert rate == pytest.approx(0.03, abs=1e-6)
+
+
+def test_compositezeroyield_maxdate(curve_data):
+    """Test CompositeZeroYieldStructure inherits maxDate from curve1."""
+    c1 = ql.FlatForward(curve_data["today"], 0.03, curve_data["day_counter"])
+    c2 = ql.FlatForward(curve_data["today"], 0.01, curve_data["day_counter"])
+
+    composite = ql.CompositeZeroYieldStructure(
+        c1, c2, lambda r1, r2: r1 + r2,
+    )
+    assert composite.referenceDate() == curve_data["today"]

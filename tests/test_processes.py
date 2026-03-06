@@ -1096,3 +1096,106 @@ def test_extended_ou_time_dependent_level():
         0.5, 0.1, 0.0, lambda t: 0.05 * t,
         ql.ExtendedOUDiscretization.Trapezodial)
     assert p.speed() == pytest.approx(0.5)
+
+
+# =============================================================================
+# G2Process
+# =============================================================================
+
+
+def test_g2process_construction():
+    """G2Process construction."""
+    p = ql.G2Process(0.1, 0.01, 0.1, 0.01, -0.75)
+    assert p.a() == pytest.approx(0.1)
+    assert p.sigma() == pytest.approx(0.01)
+    assert p.b() == pytest.approx(0.1)
+    assert p.eta() == pytest.approx(0.01)
+    assert p.rho() == pytest.approx(-0.75)
+    assert p.x0() == pytest.approx(0.0)
+    assert p.y0() == pytest.approx(0.0)
+
+
+def test_g2process_size():
+    """G2Process is 2D."""
+    p = ql.G2Process(0.1, 0.01, 0.1, 0.01, -0.75)
+    assert p.size() == 2
+
+
+def test_g2process_inherits_stochasticprocess():
+    """G2Process inherits from StochasticProcess."""
+    p = ql.G2Process(0.1, 0.01, 0.1, 0.01, -0.75)
+    assert isinstance(p, StochasticProcess)
+
+
+def test_g2forwardprocess_construction():
+    """G2ForwardProcess construction."""
+    p = ql.G2ForwardProcess(0.1, 0.01, 0.1, 0.01, -0.75)
+    assert p.size() == 2
+
+
+# =============================================================================
+# HybridHestonHullWhiteProcess
+# =============================================================================
+
+
+def test_hybridhestonhullwhiteprocess_construction():
+    """HybridHestonHullWhiteProcess construction."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
+    hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+
+    hybrid = ql.HybridHestonHullWhiteProcess(heston, hw_fwd, 0.0)
+    assert hybrid is not None
+    assert hybrid.size() == 3
+
+
+def test_hybridhestonhullwhiteprocess_accessors():
+    """HybridHestonHullWhiteProcess accessor methods."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
+    hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+
+    hybrid = ql.HybridHestonHullWhiteProcess(heston, hw_fwd, 0.15)
+    assert hybrid.eta() == pytest.approx(0.15)
+    assert hybrid.hestonProcess() is not None
+    assert hybrid.hullWhiteProcess() is not None
+
+
+def test_hybridhestonhullwhiteprocess_discretization_enum():
+    """HybridHestonHullWhiteProcess.Discretization enum values."""
+    assert hasattr(ql.HybridHestonHullWhiteProcess, "Euler")
+    assert hasattr(ql.HybridHestonHullWhiteProcess, "BSMHullWhite")
+
+
+def test_hybridhestonhullwhiteprocess_bsmhullwhite_discretization():
+    """HybridHestonHullWhiteProcess with BSMHullWhite discretization."""
+    today = ql.Date(15, 1, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, 0.05, dc)
+    dts = ql.FlatForward(today, 0.02, dc)
+
+    heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
+    hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+
+    hybrid = ql.HybridHestonHullWhiteProcess(
+        heston, hw_fwd, 0.0,
+        ql.HybridHestonHullWhiteProcess.BSMHullWhite,
+    )
+    assert hybrid.discretization() == ql.HybridHestonHullWhiteProcess.BSMHullWhite

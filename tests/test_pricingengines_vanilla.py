@@ -1670,3 +1670,173 @@ def test_mceuropeanhestonengine_lowdiscrepancy():
     analytic_npv = option2.NPV()
 
     assert option.NPV() == pytest.approx(analytic_npv, rel=0.05)
+
+
+# =============================================================================
+# AnalyticCEVEngine
+# =============================================================================
+
+
+def test_analyticcevengine_construction():
+    """Test AnalyticCEVEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    engine = ql.AnalyticCEVEngine(100.0, 0.3, 0.5, rts)
+    assert engine is not None
+
+
+def test_analyticcevengine_pricing():
+    """Test AnalyticCEVEngine European call pricing."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    engine = ql.AnalyticCEVEngine(100.0, 0.3, 0.5, rts)
+    option.setPricingEngine(engine)
+
+    assert option.NPV() == pytest.approx(1.139827067160106, rel=1e-6)
+
+
+def test_analyticcevengine_vs_fd():
+    """Test AnalyticCEVEngine matches FdCEVVanillaEngine."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+
+    analytic = ql.VanillaOption(payoff, exercise)
+    analytic.setPricingEngine(ql.AnalyticCEVEngine(100.0, 0.3, 0.5, rts))
+
+    fd = ql.VanillaOption(payoff, exercise)
+    fd.setPricingEngine(ql.FdCEVVanillaEngine(100.0, 0.3, 0.5, rts, tGrid=50, xGrid=400))
+
+    assert analytic.NPV() == pytest.approx(fd.NPV(), rel=5e-3)
+
+
+def test_cevcalculator():
+    """Test CEVCalculator construction and value computation."""
+    calc = ql.CEVCalculator(100.0, 0.3, 0.5)
+    assert calc.f0() == pytest.approx(100.0)
+    assert calc.alpha() == pytest.approx(0.3)
+    assert calc.beta() == pytest.approx(0.5)
+
+    val = calc.value(ql.OptionType.Call, 100.0, 1.0)
+    assert val == pytest.approx(1.1967931790292283, rel=1e-6)
+
+
+# =============================================================================
+# MCEuropeanGJRGARCHEngine
+# =============================================================================
+
+
+def test_mceuropeangjrgarchengine_construction():
+    """Test MCEuropeanGJRGARCHEngine construction."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.GJRGARCHProcess(
+        rts, dts, spot,
+        v0=0.04 / 252.0, omega=2e-6, alpha=0.04,
+        beta=0.94, gamma=0.02, lambda_=0.0, daysPerYear=252.0,
+    )
+
+    engine = ql.MCEuropeanGJRGARCHEngine(
+        process, timeSteps=20, requiredSamples=1000, seed=42,
+    )
+    assert engine is not None
+
+
+def test_mceuropeangjrgarchengine_pricing():
+    """Test MCEuropeanGJRGARCHEngine produces reasonable price."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.GJRGARCHProcess(
+        rts, dts, spot,
+        v0=0.04 / 252.0, omega=2e-6, alpha=0.04,
+        beta=0.94, gamma=0.02, lambda_=0.0, daysPerYear=252.0,
+    )
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+    option = ql.VanillaOption(payoff, exercise)
+
+    option.setPricingEngine(
+        ql.MCEuropeanGJRGARCHEngine(
+            process, timeSteps=252, requiredSamples=10000, seed=42,
+        )
+    )
+    assert option.NPV() == pytest.approx(9.70807472357301, rel=1e-6)
+
+
+def test_mceuropeangjrgarchengine_vs_analytic():
+    """Test MC GJR-GARCH approaches analytic."""
+    import datetime
+
+    today = datetime.date(2024, 1, 15)
+    ql.Settings.evaluationDate = today
+    maturity = datetime.date(2025, 1, 15)
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+
+    process = ql.GJRGARCHProcess(
+        rts, dts, spot,
+        v0=0.04 / 252.0, omega=2e-6, alpha=0.04,
+        beta=0.94, gamma=0.02, lambda_=0.0, daysPerYear=252.0,
+    )
+    model = ql.GJRGARCHModel(process)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(maturity)
+
+    analytic = ql.VanillaOption(payoff, exercise)
+    analytic.setPricingEngine(ql.AnalyticGJRGARCHEngine(model))
+
+    mc = ql.VanillaOption(payoff, exercise)
+    mc.setPricingEngine(
+        ql.MCEuropeanGJRGARCHEngine(
+            process, timeSteps=252, requiredSamples=50000, seed=42,
+        )
+    )
+
+    assert mc.NPV() == pytest.approx(analytic.NPV(), rel=0.1)

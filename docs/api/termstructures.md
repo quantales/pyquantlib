@@ -256,6 +256,20 @@ ufr = ql.UltimateForwardTermStructure(
 )
 ```
 
+### CompositeZeroYieldStructure
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CompositeZeroYieldStructure
+```
+
+Composite yield curve combining two curves via a binary function.
+
+```python
+import operator
+composite = ql.CompositeZeroYieldStructure(curve1, curve2, operator.add)
+print(composite.zeroRate(1.0, ql.Continuous).rate())
+```
+
 ### QuantoTermStructure
 
 ```{eval-rst}

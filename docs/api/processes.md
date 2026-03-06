@@ -175,6 +175,46 @@ process = ql.ExtendedOrnsteinUhlenbeckProcess(
 )
 ```
 
+## Two-Factor Processes
+
+### G2Process
+
+```{eval-rst}
+.. autoclass:: pyquantlib.G2Process
+```
+
+G2 two-factor short-rate stochastic process.
+
+```python
+process = ql.G2Process(a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+```
+
+### G2ForwardProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.G2ForwardProcess
+```
+
+G2 forward-measure two-factor short-rate process.
+
+## Hybrid Processes
+
+### HybridHestonHullWhiteProcess
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HybridHestonHullWhiteProcess
+```
+
+Hybrid Heston + Hull-White three-factor stochastic process combining equity stochastic volatility with stochastic interest rates.
+
+```python
+hybrid = ql.HybridHestonHullWhiteProcess(
+    heston_process, hw_forward_process,
+    corrEquityShortRate=0.3,
+    discretization=ql.HybridHestonHullWhiteProcess.BSMHullWhite,
+)
+```
+
 ## Multi-Asset Processes
 
 ### StochasticProcessArray

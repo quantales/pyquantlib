@@ -17,30 +17,38 @@
 DECLARE_MODULE_BINDINGS(processes_bindings) {
     ADD_MAIN_BINDING(ql_processes::eulerdiscretization,
         "EulerDiscretization - Euler scheme for SDE discretization");
+
+    // Equity / diffusion processes
     ADD_MAIN_BINDING(ql_processes::blackscholesprocess,
         "BlackScholesProcess - geometric Brownian motion processes");
     ADD_MAIN_BINDING(ql_processes::hestonprocess,
         "HestonProcess - stochastic volatility process");
-    ADD_MAIN_BINDING(ql_processes::stochasticprocessarray,
-        "StochasticProcessArray - array of correlated 1D processes");
     ADD_MAIN_BINDING(ql_processes::batesprocess,
         "BatesProcess - Heston process with jumps");
     ADD_MAIN_BINDING(ql_processes::gjrgarchprocess,
         "GJRGARCHProcess - GJR-GARCH(1,1) stochastic process");
-    ADD_MAIN_BINDING(ql_processes::ornsteinuhlenbeckprocess,
-        "OrnsteinUhlenbeckProcess - mean-reverting OU process");
-    ADD_BASE_BINDING(ql_processes::forwardmeasureprocess,
-        "ForwardMeasureProcess - forward-measure stochastic process ABCs");
-    ADD_MAIN_BINDING(ql_processes::hullwhiteprocess,
-        "HullWhiteProcess - Hull-White short-rate processes");
-    ADD_MAIN_BINDING(ql_processes::hestonslvprocess,
-        "HestonSLVProcess - Heston stochastic local volatility process");
     ADD_MAIN_BINDING(ql_processes::geometricbrownianmotionprocess,
         "GeometricBrownianMotionProcess - GBM process");
     ADD_MAIN_BINDING(ql_processes::merton76process,
         "Merton76Process - Merton jump-diffusion process");
-    ADD_MAIN_BINDING(ql_processes::squarerootprocess,
-        "SquareRootProcess - CIR-type square root process");
+    ADD_MAIN_BINDING(ql_processes::hestonslvprocess,
+        "HestonSLVProcess - Heston stochastic local volatility process");
+    ADD_MAIN_BINDING(ql_processes::stochasticprocessarray,
+        "StochasticProcessArray - array of correlated 1D processes");
+
+    // Short-rate / mean-reverting processes
+    ADD_MAIN_BINDING(ql_processes::ornsteinuhlenbeckprocess,
+        "OrnsteinUhlenbeckProcess - mean-reverting OU process");
     ADD_MAIN_BINDING(ql_processes::extendedornsteinuhlenbeckprocess,
         "ExtendedOrnsteinUhlenbeckProcess - OU with time-dependent level");
+    ADD_MAIN_BINDING(ql_processes::squarerootprocess,
+        "SquareRootProcess - CIR-type square root process");
+    ADD_BASE_BINDING(ql_processes::forwardmeasureprocess,
+        "ForwardMeasureProcess - forward-measure stochastic process ABCs");
+    ADD_MAIN_BINDING(ql_processes::hullwhiteprocess,
+        "HullWhiteProcess - Hull-White short-rate processes");
+    ADD_MAIN_BINDING(ql_processes::g2process,
+        "G2Process, G2ForwardProcess - G2 two-factor short-rate processes");
+    ADD_MAIN_BINDING(ql_processes::hybridhestonhullwhiteprocess,
+        "HybridHestonHullWhiteProcess - hybrid Heston + Hull-White process");
 }

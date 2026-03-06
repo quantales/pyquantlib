@@ -316,6 +316,7 @@ namespace ql_termstructures {
     void andreasenhugevolatilityinterpl(py::module_&);
     void andreasenhugevolatilityadapter(py::module_&);
     void andreasenhugelocalvoladapter(py::module_&);
+    void compositezeroyieldstructure(py::module_&);
 }
 
 namespace ql_processes {
@@ -333,6 +334,8 @@ namespace ql_processes {
     void merton76process(py::module_&);
     void squarerootprocess(py::module_&);
     void extendedornsteinuhlenbeckprocess(py::module_&);
+    void g2process(py::module_&);
+    void hybridhestonhullwhiteprocess(py::module_&);
 }
 
 namespace ql_models {
@@ -467,6 +470,10 @@ namespace ql_pricingengines {
     void analyticbarrierengine(py::module_&);
     void analyticdoublebarrierengine(py::module_&);
     void fdblackscholesbarrierengine(py::module_&);
+    void analyticdoublebarrierbinaryengine(py::module_&);
+    void fdblackscholesrebateengine(py::module_&);
+    void mcbarrierengine(py::module_&);
+    void mcdoublebarrierengine(py::module_&);
     void analyticcontinuousgeometricasianengine(py::module_&);
     void analyticdiscretegeometricasianengine(py::module_&);
     void mcdiscretearithmeticapengine(py::module_&);
@@ -522,6 +529,8 @@ namespace ql_pricingengines {
     void analyticwriterextensibleoptionengine(py::module_&);
     void analytictwoassetcorrelationengine(py::module_&);
     void analyticgjrgarchengine(py::module_&);
+    void analyticcevengine(py::module_&);
+    void mceuropeangjrgarchengine(py::module_&);
     void mcforwardeuropeanbsengine(py::module_&);
     void mcforwardeuropeanhestonengine(py::module_&);
     void mceuropeanhestonengine(py::module_&);
