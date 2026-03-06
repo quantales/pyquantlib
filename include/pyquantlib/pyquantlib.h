@@ -135,6 +135,7 @@ namespace ql_math {
     void richardsonextrapolation(py::module_&);
     void svd(py::module_&);
     void symmetricschurdecomposition(py::module_&);
+    void adaptiverungekutta(py::module_&);
 }
 
 namespace ql_core {
@@ -308,6 +309,13 @@ namespace ql_termstructures {
     void flatsmilesection(py::module_&);
     void hestonblackvolsurface(py::module_&);
     void spreadedswaptionvolatility(py::module_&);
+    void noarbsabr(py::module_&);
+    void noarbsabrsmilesection(py::module_&);
+    void noarbsabrinterpolatedsmilesection(py::module_&);
+    void kahalesmilesection(py::module_&);
+    void andreasenhugevolatilityinterpl(py::module_&);
+    void andreasenhugevolatilityadapter(py::module_&);
+    void andreasenhugelocalvoladapter(py::module_&);
 }
 
 namespace ql_processes {

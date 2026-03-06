@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `RichardsonExtrapolation` Richardson extrapolation for improving numerical convergence
 - `SVD` singular value decomposition with `U()`, `V()`, `singularValues()`, `solveFor()`
 - `SymmetricSchurDecomposition` eigenvalue decomposition for symmetric matrices
+- `AdaptiveRungeKutta` adaptive step-size Runge-Kutta ODE integrator (Cash-Karp method) with 1-D and N-D interfaces
 
 #### Cash Flows
 - `ReplicationType` enum (Sub, Central, Super) for digital option replication strategy
@@ -75,6 +76,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FlatSmileSection` flat (constant) smile section for volatility modeling
 - `HestonBlackVolSurface` Black volatility surface implied by a Heston model
 - `SpreadedSwaptionVolatility` swaption volatility surface with additive spread
+- `NoArbSabrModel` no-arbitrage SABR model (Doust, 2012) with option prices, density, and absorption probability
+- `NoArbSabrSmileSection` no-arbitrage SABR smile section wrapping `NoArbSabrModel`
+- `NoArbSabrInterpolatedSmileSection` calibrated no-arbitrage SABR interpolated smile section
+- `KahaleSmileSection` arbitrage-free smile section using Kahale's C^1 interpolation/extrapolation
+- `AndreasenHugeVolatilityInterpl` Andreasen-Huge local volatility calibration with `InterpolationType` and `CalibrationType` enums
+- `AndreasenHugeVolatilityAdapter` Black volatility adapter for Andreasen-Huge interpolation
+- `AndreasenHugeLocalVolAdapter` local volatility adapter for Andreasen-Huge interpolation
 
 #### Indexes
 - `BMAIndex` Bond Market Association index (tax-exempt reference rate)

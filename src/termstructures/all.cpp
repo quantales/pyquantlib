@@ -62,10 +62,20 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     // Smile sections
     ADD_BASE_BINDING(ql_termstructures::smilesection,
         "SmileSection ABC");
+    ADD_MAIN_BINDING(ql_termstructures::flatsmilesection,
+        "FlatSmileSection - constant volatility smile");
     ADD_MAIN_BINDING(ql_termstructures::sabrsmilesection,
         "SabrSmileSection and SABR formula functions");
     ADD_MAIN_BINDING(ql_termstructures::sabrinterpolatedsmilesection,
         "SabrInterpolatedSmileSection - SABR calibration to market data");
+    ADD_MAIN_BINDING(ql_termstructures::noarbsabr,
+        "NoArbSabrModel - no-arbitrage SABR model");
+    ADD_MAIN_BINDING(ql_termstructures::noarbsabrsmilesection,
+        "NoArbSabrSmileSection - no-arbitrage SABR smile section");
+    ADD_MAIN_BINDING(ql_termstructures::noarbsabrinterpolatedsmilesection,
+        "NoArbSabrInterpolatedSmileSection - calibrated no-arb SABR");
+    ADD_MAIN_BINDING(ql_termstructures::kahalesmilesection,
+        "KahaleSmileSection - arbitrage-free smile section");
 
     // Rate helpers and curve bootstrapping
     ADD_MAIN_BINDING(ql_termstructures::pillar,
@@ -204,13 +214,17 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::quantotermstructure,
         "QuantoTermStructure - quanto-adjusted dividend yield");
 
-    // Additional smile sections
-    ADD_MAIN_BINDING(ql_termstructures::flatsmilesection,
-        "FlatSmileSection - constant volatility smile");
-
     // Additional volatility surfaces
     ADD_MAIN_BINDING(ql_termstructures::hestonblackvolsurface,
         "HestonBlackVolSurface - Heston implied Black vol surface");
     ADD_MAIN_BINDING(ql_termstructures::spreadedswaptionvolatility,
         "SpreadedSwaptionVolatility - swaption vol + spread");
+
+    // Andreasen-Huge local vol calibration
+    ADD_MAIN_BINDING(ql_termstructures::andreasenhugevolatilityinterpl,
+        "AndreasenHugeVolatilityInterpl - local vol calibration");
+    ADD_MAIN_BINDING(ql_termstructures::andreasenhugevolatilityadapter,
+        "AndreasenHugeVolatilityAdapter - Black vol adapter");
+    ADD_MAIN_BINDING(ql_termstructures::andreasenhugelocalvoladapter,
+        "AndreasenHugeLocalVolAdapter - local vol adapter");
 }

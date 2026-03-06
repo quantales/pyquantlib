@@ -543,3 +543,26 @@ root = solver.solve(f, accuracy, guess, xMin, xMax)
 ```
 
 Common methods: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.
+
+## ODE Solvers
+
+### AdaptiveRungeKutta
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AdaptiveRungeKutta
+```
+
+Adaptive step-size Runge-Kutta ODE integrator using the Cash-Karp method.
+
+```python
+rk = ql.AdaptiveRungeKutta(eps=1e-8)
+
+# 1-D ODE: y' = f(x, y)
+import math
+result = rk.solve1d(lambda x, y: y, 1.0, 0.0, 1.0)  # y' = y => e
+print(result)  # ~2.71828
+
+# N-D ODE system: y' = F(x, y)
+result = rk(lambda x, y: [y[1], -y[0]], [1.0, 0.0], 0.0, math.pi)
+print(result)  # ~[-1, 0] (harmonic oscillator)
+```

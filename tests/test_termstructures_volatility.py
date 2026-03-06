@@ -2376,3 +2376,253 @@ def test_spreadedswaptionvolatility_construction():
     sv = ql.SpreadedSwaptionVolatility(base, spread)
     vol = sv.volatility(ql.Period(1, ql.Years), ql.Period(5, ql.Years), 0.05)
     assert vol == pytest.approx(0.21, abs=1e-6)
+
+
+# =============================================================================
+# NoArbSabrModel
+# =============================================================================
+
+
+def test_noarbsabrmodel_construction():
+    """NoArbSabrModel can be constructed and returns valid parameters."""
+    m = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+    assert m.expiryTime() == pytest.approx(1.0)
+    assert m.forward() == pytest.approx(0.05)
+    assert m.alpha() == pytest.approx(0.05)
+    assert m.beta() == pytest.approx(0.5)
+    assert m.nu() == pytest.approx(0.2)
+    assert m.rho() == pytest.approx(-0.3)
+
+
+def test_noarbsabrmodel_option_price():
+    """NoArbSabrModel produces positive option prices."""
+    m = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+    price = m.optionPrice(0.05)
+    assert price == pytest.approx(0.004460077, rel=1e-6)
+    assert price < m.forward()
+
+
+def test_noarbsabrmodel_density():
+    """NoArbSabrModel density is non-negative."""
+    m = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+    assert m.density(0.05) >= 0.0
+
+
+def test_noarbsabrmodel_numerical_forward():
+    """Model-implied forward is close to the input forward."""
+    m = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+    assert m.numericalForward() == pytest.approx(m.forward(), abs=1e-4)
+
+
+def test_noarbsabrmodel_absorption_probability():
+    """Absorption probability is between 0 and 1."""
+    m = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+    assert 0.0 <= m.absorptionProbability() <= 1.0
+
+
+# =============================================================================
+# NoArbSabrSmileSection
+# =============================================================================
+
+
+def test_noarbsabrsmilesection_time():
+    """NoArbSabrSmileSection with time-to-expiry constructor."""
+    ss = ql.NoArbSabrSmileSection(1.0, 0.05, [0.05, 0.5, 0.2, -0.3])
+    assert ss.atmLevel() == pytest.approx(0.05)
+    assert ss.volatility(0.05) == pytest.approx(0.22406294, rel=1e-6)
+    assert ss.model() is not None
+
+
+def test_noarbsabrsmilesection_date():
+    """NoArbSabrSmileSection with date-based constructor."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    expiry = today + ql.Period(1, ql.Years)
+    ss = ql.NoArbSabrSmileSection(expiry, 0.05, [0.05, 0.5, 0.2, -0.3])
+    assert ss.volatility(0.05) == pytest.approx(0.22406294, rel=1e-6)
+
+
+def test_noarbsabrsmilesection_is_smilesection():
+    """NoArbSabrSmileSection is a SmileSection subclass."""
+    ss = ql.NoArbSabrSmileSection(1.0, 0.05, [0.05, 0.5, 0.2, -0.3])
+    assert isinstance(ss, SmileSection)
+
+
+def test_noarbsabrsmilesection_option_price():
+    """SmileSection optionPrice is available."""
+    ss = ql.NoArbSabrSmileSection(1.0, 0.05, [0.05, 0.5, 0.2, -0.3])
+    assert ss.optionPrice(0.05) == pytest.approx(0.004460077, rel=1e-6)
+
+
+# =============================================================================
+# NoArbSabrInterpolatedSmileSection
+# =============================================================================
+
+
+def test_noarbsabrinterpolated_calibration():
+    """NoArbSabrInterpolatedSmileSection calibrates to market data."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    expiry = today + ql.Period(1, ql.Years)
+    ss = ql.NoArbSabrInterpolatedSmileSection(
+        expiry, 0.05, [0.03, 0.04, 0.05, 0.06, 0.07], False, 0.22,
+        [0.25, 0.23, 0.22, 0.23, 0.25], 0.05, 0.5, 0.2, -0.3)
+    assert ss.alpha() == pytest.approx(0.19923120, rel=1e-4)
+    assert ss.rmsError() == pytest.approx(0.008383, rel=1e-3)
+    assert ss.volatility(0.05) == pytest.approx(0.21443215, rel=1e-4)
+
+
+def test_noarbsabrinterpolated_is_smilesection():
+    """NoArbSabrInterpolatedSmileSection is a SmileSection."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    expiry = today + ql.Period(1, ql.Years)
+    ss = ql.NoArbSabrInterpolatedSmileSection(
+        expiry, 0.05, [0.03, 0.05, 0.07], False, 0.22,
+        [0.25, 0.22, 0.25], 0.05, 0.5, 0.2, -0.3)
+    assert isinstance(ss, SmileSection)
+
+
+# =============================================================================
+# KahaleSmileSection
+# =============================================================================
+
+
+def test_kahalesmilesection_construction():
+    """KahaleSmileSection wraps a source SmileSection."""
+    source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+    ks = ql.KahaleSmileSection(source)
+    assert ks.atmLevel() == pytest.approx(0.05)
+
+
+def test_kahalesmilesection_is_smilesection():
+    """KahaleSmileSection is a SmileSection subclass."""
+    source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+    ks = ql.KahaleSmileSection(source)
+    assert isinstance(ks, SmileSection)
+
+
+def test_kahalesmilesection_core_region():
+    """KahaleSmileSection exposes core region boundaries."""
+    source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+    ks = ql.KahaleSmileSection(source)
+    assert ks.leftCoreStrike() == pytest.approx(0.04, rel=1e-6)
+    assert ks.rightCoreStrike() == pytest.approx(1.0, rel=1e-6)
+    left, right = ks.coreIndices()
+    assert left == 9
+    assert right == 20
+
+
+def test_kahalesmilesection_options():
+    """KahaleSmileSection with interpolation and extrapolation options."""
+    source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+    ks = ql.KahaleSmileSection(
+        source, interpolate=True, exponentialExtrapolation=True,
+        deleteArbitragePoints=True)
+    assert ks.volatility(0.05) == pytest.approx(1.38845, rel=1e-4)
+
+
+def test_kahalesmilesection_volatility_positive():
+    """KahaleSmileSection volatility is positive across strikes."""
+    source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+    ks = ql.KahaleSmileSection(source)
+    expected = {0.01: 1.88143, 0.03: 1.56129, 0.05: 1.35527,
+                0.07: 1.22476, 0.10: 1.10035}
+    for k, v in expected.items():
+        assert ks.volatility(k) == pytest.approx(v, rel=1e-4)
+
+
+# =============================================================================
+# AndreasenHugeVolatilityInterpl
+# =============================================================================
+
+
+@pytest.fixture
+def ah_setup():
+    """Set up Andreasen-Huge calibration data."""
+    today = ql.Date(6, 3, 2026)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    spot = ql.QuoteHandle(ql.SimpleQuote(100.0))
+    rTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.03, dc))
+    qTS = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.01, dc))
+
+    calibration_set = []
+    for months in [3, 6, 12]:
+        expiry = today + ql.Period(months, ql.Months)
+        exercise = ql.EuropeanExercise(expiry)
+        for strike in [90.0, 95.0, 100.0, 105.0, 110.0]:
+            payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, strike)
+            option = ql.VanillaOption(payoff, exercise)
+            vol_quote = ql.SimpleQuote(0.20 + 0.001 * abs(strike - 100.0))
+            calibration_set.append((option, vol_quote))
+
+    return calibration_set, spot, rTS, qTS
+
+
+def test_andreasen_huge_enums():
+    """AndreasenHuge enums are available."""
+    assert hasattr(ql, 'AndreasenHugeInterpolationType')
+    assert hasattr(ql, 'AndreasenHugeCalibrationType')
+    assert ql.AndreasenHugeInterpolationType.CubicSpline is not None
+    assert ql.AndreasenHugeCalibrationType.CallPut is not None
+
+
+def test_andreasen_huge_calibration(ah_setup):
+    """AndreasenHugeVolatilityInterpl calibrates with small error."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    min_err, max_err, avg_err = ah.calibrationError()
+    assert avg_err < 1e-4
+
+
+def test_andreasen_huge_local_vol(ah_setup):
+    """localVol returns positive values."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    assert ah.localVol(0.5, 100.0) == pytest.approx(0.15428, rel=1e-3)
+
+
+def test_andreasen_huge_option_price(ah_setup):
+    """optionPrice returns positive values."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    assert ah.optionPrice(0.5, 100.0, ql.OptionType.Call) == pytest.approx(6.0907, rel=1e-3)
+
+
+def test_andreasen_huge_forward(ah_setup):
+    """fwd returns forward price consistent with rates."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    # fwd ~ spot * exp((r - q) * T) = 100 * exp(0.02) ~ 102.02
+    assert ah.fwd(1.0) == pytest.approx(102.02, abs=0.5)
+
+
+def test_andreasen_huge_interpolation_types(ah_setup):
+    """Different interpolation types produce results."""
+    cal_set, spot, rTS, qTS = ah_setup
+    for itype in [ql.AndreasenHugeInterpolationType.PiecewiseConstant,
+                  ql.AndreasenHugeInterpolationType.Linear,
+                  ql.AndreasenHugeInterpolationType.CubicSpline]:
+        ah = ql.AndreasenHugeVolatilityInterpl(
+            cal_set, spot, rTS, qTS, interpolationType=itype)
+        assert ah.localVol(0.5, 100.0) == pytest.approx(0.15, rel=0.1)
+
+
+def test_andreasen_huge_vol_adapter(ah_setup):
+    """AndreasenHugeVolatilityAdapter provides Black vol."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    adapter = ql.AndreasenHugeVolatilityAdapter(ah)
+    vol = adapter.blackVol(0.5, 100.0)
+    assert vol == pytest.approx(0.20002, rel=1e-3)
+
+
+def test_andreasen_huge_local_vol_adapter(ah_setup):
+    """AndreasenHugeLocalVolAdapter provides local vol."""
+    cal_set, spot, rTS, qTS = ah_setup
+    ah = ql.AndreasenHugeVolatilityInterpl(cal_set, spot, rTS, qTS)
+    adapter = ql.AndreasenHugeLocalVolAdapter(ah)
+    lv = adapter.localVol(0.5, 100.0)
+    assert lv == pytest.approx(0.15428, rel=1e-3)
+    assert lv == pytest.approx(ah.localVol(0.5, 100.0), abs=1e-10)

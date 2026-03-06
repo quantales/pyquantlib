@@ -110,4 +110,8 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::svd, "Singular value decomposition");
     ADD_MAIN_BINDING(ql_math::symmetricschurdecomposition,
         "Symmetric Schur decomposition");
+
+    // ODE solvers
+    ADD_MAIN_BINDING(ql_math::adaptiverungekutta,
+        "Adaptive Runge-Kutta ODE solver");
 }

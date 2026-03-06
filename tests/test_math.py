@@ -1255,3 +1255,39 @@ def test_symmetricschur_eigenvectors():
     # M = V * D * V^T
     reconstructed = V @ D @ V.T
     assert_array_almost_equal(reconstructed, np.array(m, copy=False), decimal=10)
+
+
+# =============================================================================
+# AdaptiveRungeKutta
+# =============================================================================
+
+
+def test_adaptiverungekutta_construction():
+    """AdaptiveRungeKutta can be constructed with default and custom params."""
+    rk = ql.AdaptiveRungeKutta()
+    assert rk is not None
+    rk2 = ql.AdaptiveRungeKutta(eps=1e-10, h1=1e-6, hmin=1e-12)
+    assert rk2 is not None
+
+
+def test_adaptiverungekutta_1d_exponential():
+    """1D ODE y' = y, y(0) = 1 => y(1) = e."""
+    rk = ql.AdaptiveRungeKutta(1e-10)
+    result = rk.solve1d(lambda x, y: y, 1.0, 0.0, 1.0)
+    assert result == pytest.approx(math.exp(1.0), abs=1e-8)
+
+
+def test_adaptiverungekutta_1d_sine():
+    """1D ODE y' = cos(x), y(0) = 0 => y(pi/2) = 1."""
+    rk = ql.AdaptiveRungeKutta(1e-10)
+    result = rk.solve1d(lambda x, y: math.cos(x), 0.0, 0.0, math.pi / 2)
+    assert result == pytest.approx(1.0, abs=1e-8)
+
+
+def test_adaptiverungekutta_nd_system():
+    """2D system: y1' = y2, y2' = -y1 (harmonic oscillator).
+    y(0) = [1, 0] => y(pi) = [-1, 0]."""
+    rk = ql.AdaptiveRungeKutta(1e-10)
+    result = rk(lambda x, y: [y[1], -y[0]], [1.0, 0.0], 0.0, math.pi)
+    assert result[0] == pytest.approx(-1.0, abs=1e-6)
+    assert result[1] == pytest.approx(0.0, abs=1e-6)

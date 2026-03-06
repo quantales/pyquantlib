@@ -538,6 +538,113 @@ vol_shifted = ql.shiftedSabrVolatility(strike, forward, T, alpha, beta, nu, rho,
 ql.validateSabrParameters(alpha, beta, nu, rho)
 ```
 
+## No-Arbitrage SABR
+
+### NoArbSabrModel
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NoArbSabrModel
+```
+
+No-arbitrage SABR model (Doust, 2012). Provides arbitrage-free option prices, digital prices, and probability density.
+
+```python
+model = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
+print(model.optionPrice(0.05))
+print(model.density(0.05))
+print(model.absorptionProbability())
+```
+
+### NoArbSabrSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NoArbSabrSmileSection
+```
+
+```python
+ss = ql.NoArbSabrSmileSection(1.0, 0.05, [0.05, 0.5, 0.2, -0.3])
+vol = ss.volatility(0.05)
+sabr_model = ss.model()
+```
+
+### NoArbSabrInterpolatedSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NoArbSabrInterpolatedSmileSection
+```
+
+```python
+section = ql.NoArbSabrInterpolatedSmileSection(
+    expiry_date, 0.05, strikes, False, 0.22, vols,
+    0.05, 0.5, 0.2, -0.3)
+print(section.alpha(), section.rmsError())
+```
+
+## Kahale Arbitrage-Free Smile
+
+### KahaleSmileSection
+
+```{eval-rst}
+.. autoclass:: pyquantlib.KahaleSmileSection
+```
+
+Arbitrage-free smile section using Kahale's C^1 interpolation and extrapolation method.
+
+```python
+source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
+kahale = ql.KahaleSmileSection(source)
+kahale = ql.KahaleSmileSection(source, interpolate=True,
+                                exponentialExtrapolation=True)
+print(kahale.leftCoreStrike(), kahale.rightCoreStrike())
+```
+
+## Andreasen-Huge Volatility
+
+### AndreasenHugeVolatilityInterpl
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AndreasenHugeVolatilityInterpl
+```
+
+Calibrates a local volatility surface to a sparse grid of vanilla options using the Andreasen-Huge method.
+
+```python
+# calibration_set: list of (VanillaOption, SimpleQuote) pairs
+ah = ql.AndreasenHugeVolatilityInterpl(
+    calibration_set, spot, rTS, qTS,
+    ql.AndreasenHugeInterpolationType.CubicSpline,
+    ql.AndreasenHugeCalibrationType.Call)
+
+min_err, max_err, avg_err = ah.calibrationError()
+lv = ah.localVol(0.5, 100.0)
+```
+
+### AndreasenHugeVolatilityAdapter
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AndreasenHugeVolatilityAdapter
+```
+
+Black volatility term structure adapter for Andreasen-Huge interpolation.
+
+```python
+adapter = ql.AndreasenHugeVolatilityAdapter(ah)
+vol = adapter.blackVol(0.5, 100.0)
+```
+
+### AndreasenHugeLocalVolAdapter
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AndreasenHugeLocalVolAdapter
+```
+
+Local volatility term structure adapter for Andreasen-Huge interpolation.
+
+```python
+adapter = ql.AndreasenHugeLocalVolAdapter(ah)
+lv = adapter.localVol(0.5, 100.0)
+```
+
 ## Local Volatility
 
 ### LocalConstantVol
