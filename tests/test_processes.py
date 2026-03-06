@@ -1150,6 +1150,7 @@ def test_hybridhestonhullwhiteprocess_construction():
 
     heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
     hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+    hw_fwd.setForwardMeasureTime(dc.yearFraction(today, today + ql.Period(1, ql.Years)))
 
     hybrid = ql.HybridHestonHullWhiteProcess(heston, hw_fwd, 0.0)
     assert hybrid is not None
@@ -1168,6 +1169,7 @@ def test_hybridhestonhullwhiteprocess_accessors():
 
     heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
     hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+    hw_fwd.setForwardMeasureTime(dc.yearFraction(today, today + ql.Period(1, ql.Years)))
 
     hybrid = ql.HybridHestonHullWhiteProcess(heston, hw_fwd, 0.15)
     assert hybrid.eta() == pytest.approx(0.15)
@@ -1193,6 +1195,7 @@ def test_hybridhestonhullwhiteprocess_bsmhullwhite_discretization():
 
     heston = ql.HestonProcess(rts, dts, spot, 0.04, 1.0, 0.04, 0.2, -0.7)
     hw_fwd = ql.HullWhiteForwardProcess(rts, 0.1, 0.01)
+    hw_fwd.setForwardMeasureTime(dc.yearFraction(today, today + ql.Period(1, ql.Years)))
 
     hybrid = ql.HybridHestonHullWhiteProcess(
         heston, hw_fwd, 0.0,
