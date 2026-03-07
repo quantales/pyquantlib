@@ -41,6 +41,7 @@ jobs:
           CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_BUILD_VERBOSITY: 1
+          CIBW_DEPENDENCY_VERSIONS: "pinned"
 
           # macOS: ARM only (macos-14)
           CIBW_ARCHS_MACOS: "arm64"
