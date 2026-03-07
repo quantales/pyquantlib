@@ -1059,4 +1059,4 @@ Wednesday: _pyquantlib.Weekday  # value = <Weekday.Wednesday: 4>
 Weekly: _pyquantlib.Frequency  # value = <Frequency.Weekly: 52>
 Weeks: _pyquantlib.TimeUnit  # value = <TimeUnit.Weeks: 1>
 Years: _pyquantlib.TimeUnit  # value = <TimeUnit.Years: 3>
-__version__: str = '0.6.0.dev0'
+__version__: str = '0.6.0'

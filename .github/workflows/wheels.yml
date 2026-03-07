@@ -34,6 +34,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Pre-cache virtualenv for cibuildwheel
+        shell: bash
+        run: |
+          VER=20.26.6
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            CACHE_DIR="$LOCALAPPDATA/pypa/cibuildwheel/Cache"
+          elif [ "$RUNNER_OS" = "macOS" ]; then
+            CACHE_DIR="$HOME/Library/Caches/cibuildwheel"
+          else
+            CACHE_DIR="$HOME/.cache/cibuildwheel"
+          fi
+          mkdir -p "$CACHE_DIR"
+          DEST="$CACHE_DIR/virtualenv-${VER}.pyz"
+          if [ ! -f "$DEST" ]; then
+            for i in 1 2 3 4 5; do
+              if curl -sL --retry 3 --retry-delay 10 -o "$DEST" \
+                "https://github.com/pypa/get-virtualenv/blob/${VER}/public/virtualenv.pyz?raw=true"; then
+                echo "Downloaded virtualenv-${VER}.pyz (attempt $i)"
+                break
+              fi
+              echo "Attempt $i failed, waiting 30s..."
+              sleep 30
+            done
+          fi
+          ls -la "$DEST"
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21
         env:
