@@ -1511,3 +1511,249 @@ def test_compositezeroyield_maxdate(curve_data):
         c1, c2, lambda r1, r2: r1 + r2,
     )
     assert composite.referenceDate() == curve_data["today"]
+
+
+# =============================================================================
+# GlobalBootstrap PiecewiseYieldCurve
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def global_bootstrap_env():
+    """Common data for global bootstrap tests."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(26, ql.September, 2019)
+    ql.Settings.instance().evaluationDate = today
+
+    calendar = ql.TARGET()
+    index = ql.Euribor(ql.Period(6, ql.Months))
+
+    # Market rates (deposits + FRAs + swaps)
+    mkt_rates = [
+        -0.373, -0.388, -0.402, -0.418, -0.431, -0.441, -0.45,
+        -0.457, -0.463, -0.469, -0.461, -0.463, -0.479, -0.4511,
+        -0.45418, -0.439, -0.4124, -0.37703, -0.3335, -0.28168, -0.22725,
+        -0.1745, -0.12425, -0.07746, 0.0385, 0.1435, 0.17525, 0.17275,
+        0.1515, 0.1225, 0.095, 0.0644,
+    ]
+
+    helpers = []
+    helpers.append(ql.DepositRateHelper(
+        mkt_rates[0] / 100.0, ql.Period(6, ql.Months), 2,
+        calendar, ql.ModifiedFollowing, True, ql.Actual360()))
+    for i in range(12):
+        helpers.append(ql.FraRateHelper(
+            mkt_rates[1 + i] / 100.0, (i + 1), index))
+    swap_tenors = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 20, 25, 30, 35, 40, 45, 50]
+    for i, tenor in enumerate(swap_tenors):
+        helpers.append(ql.SwapRateHelper(
+            mkt_rates[13 + i] / 100.0,
+            ql.Period(tenor, ql.Years), calendar, ql.Annual,
+            ql.ModifiedFollowing,
+            ql.Thirty360(ql.Thirty360.BondBasis), index))
+
+    yield {
+        "today": today,
+        "calendar": calendar,
+        "index": index,
+        "helpers": helpers,
+        "mkt_rates": mkt_rates,
+    }
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_globalbootstrap_loglinear_discount(global_bootstrap_env):
+    """Test PiecewiseLogLinearDiscountGlobal builds and discounts correctly."""
+    env = global_bootstrap_env
+    curve = ql.PiecewiseLogLinearDiscountGlobal(
+        env["today"], env["helpers"], ql.Actual365Fixed(), accuracy=1e-12)
+    curve.enableExtrapolation()
+
+    # Curve should have data points
+    assert len(curve.times()) > 0
+    assert len(curve.dates()) > 0
+    assert len(curve.data()) > 0
+    assert len(curve.nodes()) > 0
+
+    # Discount at t=0 should be 1.0
+    assert curve.discount(env["today"]) == pytest.approx(1.0, abs=1e-12)
+
+    # Negative-rate environment: discounts > 1.0
+    d1 = curve.discount(env["today"] + ql.Period(1, ql.Years))
+    d5 = curve.discount(env["today"] + ql.Period(5, ql.Years))
+    assert d1 == pytest.approx(1.004191156548, rel=1e-6)
+    assert d5 == pytest.approx(1.020898826407, rel=1e-6)
+
+
+def test_globalbootstrap_linear_zero(global_bootstrap_env):
+    """Test PiecewiseLinearZeroGlobal builds successfully."""
+    env = global_bootstrap_env
+    curve = ql.PiecewiseLinearZeroGlobal(
+        env["today"], env["helpers"], ql.Actual365Fixed(), accuracy=1e-12)
+    curve.enableExtrapolation()
+
+    assert len(curve.nodes()) > 0
+    assert curve.discount(env["today"]) == pytest.approx(1.0, abs=1e-12)
+
+
+def test_globalbootstrap_backward_flat_forward(global_bootstrap_env):
+    """Test PiecewiseBackwardFlatForwardGlobal builds successfully."""
+    env = global_bootstrap_env
+    curve = ql.PiecewiseBackwardFlatForwardGlobal(
+        env["today"], env["helpers"], ql.Actual365Fixed(), accuracy=1e-12)
+    curve.enableExtrapolation()
+
+    assert len(curve.nodes()) > 0
+    assert curve.discount(env["today"]) == pytest.approx(1.0, abs=1e-12)
+
+
+def test_globalbootstrap_settlement_days_constructor(global_bootstrap_env):
+    """Test settlement days constructor variant."""
+    env = global_bootstrap_env
+    curve = ql.PiecewiseLogLinearDiscountGlobal(
+        2, env["calendar"], env["helpers"], ql.Actual365Fixed(), accuracy=1e-12)
+    curve.enableExtrapolation()
+
+    assert len(curve.nodes()) > 0
+
+
+def test_globalbootstrap_instrument_weights(global_bootstrap_env):
+    """Test global bootstrap with instrument weights."""
+    env = global_bootstrap_env
+    weights = [1.0] * len(env["helpers"])
+    curve = ql.PiecewiseLogLinearDiscountGlobal(
+        env["today"], env["helpers"], ql.Actual365Fixed(),
+        accuracy=1e-12, instrumentWeights=weights)
+    curve.enableExtrapolation()
+
+    assert len(curve.nodes()) > 0
+
+
+# =============================================================================
+# MultiCurve
+# =============================================================================
+
+
+def test_multicurve_construction():
+    """Test MultiCurve constructors."""
+    mc1 = ql.MultiCurve(1e-10)
+    assert mc1 is not None
+
+    mc2 = ql.MultiCurve()
+    assert mc2 is not None
+
+    mc3 = ql.MultiCurve(optimizer=ql.LevenbergMarquardt())
+    assert mc3 is not None
+
+
+def test_multicurve_two_bootstrapped_curves():
+    """Test MultiCurve with two interdependent piecewise yield curves."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(23, ql.October, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    accuracy = 1e-10
+
+    # Discount curve (exogenous)
+    discount_curve = ql.YieldTermStructureHandle(
+        ql.FlatForward(today, 0.02, ql.Actual360()))
+
+    # Internal relinkable handles for the cycle
+    intcurve3m = ql.RelinkableYieldTermStructureHandle()
+    intcurve6m = ql.RelinkableYieldTermStructureHandle()
+
+    euribor3m = ql.Euribor3M(intcurve3m)
+    euribor6m = ql.Euribor6M(intcurve6m)
+
+    # Build helpers for 3M curve
+    q = ql.QuoteHandle(ql.SimpleQuote(0.03))
+
+    helpers3m = []
+    for i in range(1, 10):
+        helpers3m.append(ql.FraRateHelper(
+            q, i, euribor3m))
+
+    # Build helpers for 6M curve
+    helpers6m = []
+    for i in range(2, 11):
+        helpers6m.append(ql.SwapRateHelper(
+            q, ql.Period(i, ql.Years),
+            euribor6m.fixingCalendar(), ql.Annual, ql.Following,
+            ql.Thirty360(ql.Thirty360.BondBasis), euribor6m,
+            ql.QuoteHandle(), ql.Period(0, ql.Days), discount_curve))
+
+    # Create curves with GlobalBootstrap
+    ptr3m = ql.PiecewiseLogLinearDiscountGlobal(
+        today, helpers3m, ql.Actual360(), accuracy=accuracy)
+    ptr6m = ql.PiecewiseLogLinearDiscountGlobal(
+        today, helpers6m, ql.Actual360(), accuracy=accuracy)
+
+    # Set up MultiCurve
+    mc = ql.MultiCurve(accuracy)
+    curve3m = mc.addBootstrappedCurve(intcurve3m, ptr3m)
+    curve6m = mc.addBootstrappedCurve(intcurve6m, ptr6m)
+
+    # External handles should be valid and usable
+    ts3m = curve3m.currentLink()
+    ts6m = curve6m.currentLink()
+    assert ts3m.discount(today) == pytest.approx(1.0, abs=1e-12)
+    assert ts6m.discount(today) == pytest.approx(1.0, abs=1e-12)
+
+    # Both curves should discount over time (positive rates → discount < 1)
+    d3m_1y = ts3m.discount(today + ql.Period(1, ql.Years))
+    d6m_1y = ts6m.discount(today + ql.Period(1, ql.Years))
+    assert d3m_1y == pytest.approx(0.970153077104, rel=1e-6)
+    assert d6m_1y == pytest.approx(0.970807203197, rel=1e-6)
+
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_multicurve_bootstrapped_and_spreaded():
+    """Test MultiCurve with a bootstrapped curve and a spreaded curve."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(23, ql.October, 2025)
+    ql.Settings.instance().evaluationDate = today
+
+    accuracy = 1e-10
+
+    intcurve_ois = ql.RelinkableYieldTermStructureHandle()
+    intcurve_3m = ql.RelinkableYieldTermStructureHandle()
+
+    euribor3m = ql.Euribor3M(intcurve_3m)
+
+    q = ql.QuoteHandle(ql.SimpleQuote(0.03))
+    spread = ql.QuoteHandle(ql.SimpleQuote(-0.01))
+
+    helpers3m = []
+    for i in range(1, 11):
+        helpers3m.append(ql.SwapRateHelper(
+            q, ql.Period(i, ql.Years),
+            euribor3m.fixingCalendar(), ql.Annual, ql.Following,
+            ql.Thirty360(ql.Thirty360.BondBasis), euribor3m,
+            ql.QuoteHandle(), ql.Period(0, ql.Days), intcurve_ois))
+
+    # Bootstrapped 3M curve
+    ptr3m = ql.PiecewiseLogLinearDiscountGlobal(
+        today, helpers3m, ql.Actual360(), accuracy=accuracy)
+
+    # OIS as a spread over the 3M curve
+    ptr_ois = ql.ZeroSpreadedTermStructure(intcurve_3m, spread)
+
+    mc = ql.MultiCurve(accuracy)
+    curve3m = mc.addBootstrappedCurve(intcurve_3m, ptr3m)
+    curve_ois = mc.addNonBootstrappedCurve(intcurve_ois, ptr_ois)
+
+    # Both handles should be usable
+    ts3m = curve3m.currentLink()
+    ts_ois = curve_ois.currentLink()
+    assert ts3m.discount(today) == pytest.approx(1.0, abs=1e-12)
+    assert ts_ois.discount(today) == pytest.approx(1.0, abs=1e-12)
+
+    # The OIS curve should differ from 3M (spread of -1%)
+    d3m = ts3m.discount(today + ql.Period(5, ql.Years))
+    dois = ts_ois.discount(today + ql.Period(5, ql.Years))
+    assert d3m == pytest.approx(0.862127529678, rel=1e-6)
+    assert dois == pytest.approx(0.906984561259, rel=1e-6)
+
+    ql.Settings.instance().evaluationDate = original_date

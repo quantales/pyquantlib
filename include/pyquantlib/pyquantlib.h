@@ -317,6 +317,8 @@ namespace ql_termstructures {
     void andreasenhugevolatilityadapter(py::module_&);
     void andreasenhugelocalvoladapter(py::module_&);
     void compositezeroyieldstructure(py::module_&);
+    void multicurve(py::module_&);
+    void globalbootstrap(py::module_&);
 }
 
 namespace ql_processes {

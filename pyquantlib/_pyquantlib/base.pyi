@@ -10,11 +10,11 @@ class AffineModel(pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for affine models.
     """
-    def discount(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def discount(self, t: typing.SupportsFloat) -> float:
         """
         Returns implied discount factor at time t.
         """
-    def discountBondOption(self, type: pyquantlib._pyquantlib.OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, bondMaturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def discountBondOption(self, type: pyquantlib._pyquantlib.OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
         """
         Returns discount bond option price.
         """
@@ -23,7 +23,7 @@ class BasketPayoff(Payoff):
     Abstract base class for basket payoffs.
     """
     @typing.overload
-    def __call__(self, price: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def __call__(self, price: typing.SupportsFloat) -> float:
         """
         Calculates payoff for a single price.
         """
@@ -33,7 +33,7 @@ class BasketPayoff(Payoff):
         Calculates payoff for an array of prices.
         """
     @typing.overload
-    def __call__(self, prices: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> float:
+    def __call__(self, prices: collections.abc.Sequence[typing.SupportsFloat]) -> float:
         """
         Calculates payoff for a list of prices.
         """
@@ -47,7 +47,7 @@ class BasketPayoff(Payoff):
         Accumulates prices into a single value.
         """
     @typing.overload
-    def accumulate(self, prices: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> float:
+    def accumulate(self, prices: collections.abc.Sequence[typing.SupportsFloat]) -> float:
         """
         Accumulates a list of prices into a single value.
         """
@@ -67,7 +67,7 @@ class BlackCalibrationHelper(CalibrationHelper, LazyObject):
     """
     Base class for Black76-based calibration helpers.
     """
-    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def blackPrice(self, volatility: typing.SupportsFloat) -> float:
         """
         Returns Black price for given volatility.
         """
@@ -75,7 +75,7 @@ class BlackCalibrationHelper(CalibrationHelper, LazyObject):
         """
         Returns the calibration error.
         """
-    def impliedVolatility(self, targetValue: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
+    def impliedVolatility(self, targetValue: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
         """
         Returns implied Black volatility.
         """
@@ -109,7 +109,7 @@ class BlackVarianceTermStructure(BlackVolTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
@@ -123,47 +123,47 @@ class BlackVolTermStructure(VolatilityTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
     @typing.overload
-    def blackForwardVariance(self, date1: pyquantlib._pyquantlib.Date, date2: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackForwardVariance(self, date1: pyquantlib._pyquantlib.Date, date2: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black forward variance between two dates.
         """
     @typing.overload
-    def blackForwardVariance(self, time1: typing.SupportsFloat | typing.SupportsIndex, time2: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackForwardVariance(self, time1: typing.SupportsFloat, time2: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black forward variance between two times.
         """
     @typing.overload
-    def blackForwardVol(self, date1: pyquantlib._pyquantlib.Date, date2: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackForwardVol(self, date1: pyquantlib._pyquantlib.Date, date2: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black forward volatility between two dates.
         """
     @typing.overload
-    def blackForwardVol(self, time1: typing.SupportsFloat | typing.SupportsIndex, time2: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackForwardVol(self, time1: typing.SupportsFloat, time2: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black forward volatility between two times.
         """
     @typing.overload
-    def blackVariance(self, date: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, date: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black variance for the given date and strike.
         """
     @typing.overload
-    def blackVariance(self, time: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, time: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black variance for the given time and strike.
         """
     @typing.overload
-    def blackVol(self, date: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVol(self, date: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black volatility for the given date and strike.
         """
     @typing.overload
-    def blackVol(self, time: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVol(self, time: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black volatility for the given time and strike.
         """
@@ -182,7 +182,7 @@ class BlackVolatilityTermStructure(BlackVolTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
@@ -200,7 +200,7 @@ class BrownianGenerator:
         """
         Starts a new path and returns its weight.
         """
-    def nextStep(self) -> tuple[float, list[float]]:
+    def nextStep(self) -> tuple:
         """
         Returns (weight, variates) for the next time step.
         """
@@ -216,7 +216,7 @@ class BrownianGeneratorFactory:
     """
     Abstract factory for Brownian generators.
     """
-    def create(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex) -> BrownianGenerator:
+    def create(self, factors: typing.SupportsInt, steps: typing.SupportsInt) -> BrownianGenerator:
         """
         Creates a Brownian generator for the given dimensions.
         """
@@ -224,7 +224,7 @@ class CalibratedModel(Observer, pyquantlib._pyquantlib.Observable):
     """
     Abstract base class for calibrated models.
     """
-    def calibrate(self, instruments: collections.abc.Sequence[...], method: OptimizationMethod, endCriteria: pyquantlib._pyquantlib.EndCriteria, constraint: Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], fixParameters: collections.abc.Sequence[bool] = []) -> None:
+    def calibrate(self, instruments: collections.abc.Sequence[...], method: OptimizationMethod, endCriteria: pyquantlib._pyquantlib.EndCriteria, constraint: Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat] = [], fixParameters: collections.abc.Sequence[bool] = []) -> None:
         """
         Calibrate model to market instruments.
         """
@@ -268,7 +268,7 @@ class CallableBond(pyquantlib._pyquantlib.Bond):
     """
     Callable bond base class.
     """
-    def OAS(self, cleanPrice: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxIterations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
+    def OAS(self, cleanPrice: typing.SupportsFloat, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ..., accuracy: typing.SupportsFloat = 1e-10, maxIterations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.0) -> float:
         """
         Returns the option-adjusted spread.
         """
@@ -276,19 +276,19 @@ class CallableBond(pyquantlib._pyquantlib.Bond):
         """
         Returns the put/call schedule.
         """
-    def cleanPriceOAS(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ...) -> float:
+    def cleanPriceOAS(self, oas: typing.SupportsFloat, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, settlementDate: pyquantlib._pyquantlib.Date = ...) -> float:
         """
         Returns the clean price given an OAS.
         """
-    def effectiveConvexity(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat | typing.SupportsIndex = 0.0002) -> float:
+    def effectiveConvexity(self, oas: typing.SupportsFloat, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat = 0.0002) -> float:
         """
         Returns the effective convexity.
         """
-    def effectiveDuration(self, oas: typing.SupportsFloat | typing.SupportsIndex, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat | typing.SupportsIndex = 0.0002) -> float:
+    def effectiveDuration(self, oas: typing.SupportsFloat, engineTS: pyquantlib._pyquantlib.YieldTermStructureHandle, dayCounter: pyquantlib._pyquantlib.DayCounter, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency, bump: typing.SupportsFloat = 0.0002) -> float:
         """
         Returns the effective duration.
         """
-    def impliedVolatility(self, targetPrice: pyquantlib._pyquantlib.BondPrice, discountCurve: pyquantlib._pyquantlib.YieldTermStructureHandle, accuracy: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex, minVol: typing.SupportsFloat | typing.SupportsIndex, maxVol: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def impliedVolatility(self, targetPrice: pyquantlib._pyquantlib.BondPrice, discountCurve: pyquantlib._pyquantlib.YieldTermStructureHandle, accuracy: typing.SupportsFloat, maxEvaluations: typing.SupportsInt, minVol: typing.SupportsFloat, maxVol: typing.SupportsFloat) -> float:
         """
         Returns the Black implied forward yield volatility.
         """
@@ -296,7 +296,7 @@ class CallableBondVolatilityStructure(TermStructure):
     """
     Abstract base class for callable-bond volatility structures.
     """
-    def blackVariance(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, bondLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionTime: typing.SupportsFloat, bondLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the Black variance.
         """
@@ -317,12 +317,12 @@ class CallableBondVolatilityStructure(TermStructure):
         Returns the minimum strike.
         """
     @typing.overload
-    def volatility(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, bondLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTime: typing.SupportsFloat, bondLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the volatility for a given option time and bond length.
         """
     @typing.overload
-    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, bondTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, bondTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the volatility for a given option date and bond tenor.
         """
@@ -331,17 +331,17 @@ class CapFloorTermVolatilityStructure(VolatilityTermStructure):
     Abstract base class for cap/floor term volatility structures.
     """
     @typing.overload
-    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option tenor and strike.
         """
     @typing.overload
-    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option date and strike.
         """
     @typing.overload
-    def volatility(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option time and strike.
         """
@@ -365,7 +365,7 @@ class Claim(pyquantlib._pyquantlib.Observable, Observer):
     """
     def __init__(self) -> None:
         ...
-    def amount(self, defaultDate: pyquantlib._pyquantlib.Date, notional: typing.SupportsFloat | typing.SupportsIndex, recoveryRate: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def amount(self, defaultDate: pyquantlib._pyquantlib.Date, notional: typing.SupportsFloat, recoveryRate: typing.SupportsFloat) -> float:
         """
         Returns the claim amount given default date, notional, and recovery rate.
         """
@@ -549,11 +549,11 @@ class FdmInnerValueCalculator:
     """
     Abstract base for inner value calculations on FDM grids.
     """
-    def avgInnerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def avgInnerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat) -> float:
         """
         Returns cell-averaged inner value at grid point.
         """
-    def innerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def innerValue(self, iter: pyquantlib._pyquantlib.FdmLinearOpIterator, t: typing.SupportsFloat) -> float:
         """
         Returns inner value at grid point.
         """
@@ -561,7 +561,7 @@ class FdmStepCondition:
     """
     Step condition applied at each time step during FDM rollback.
     """
-    def applyTo(self, a: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat | typing.SupportsIndex) -> pyquantlib._pyquantlib.Array:
+    def applyTo(self, a: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat) -> pyquantlib._pyquantlib.Array:
         """
         Applies condition to array at time t (returns modified copy).
         """
@@ -573,7 +573,7 @@ class FittingMethod:
         """
         Returns whether the curve is constrained at zero.
         """
-    def discount(self, x: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def discount(self, x: pyquantlib._pyquantlib.Array, t: typing.SupportsFloat) -> float:
         """
         Returns the discount factor for given parameters and time.
         """
@@ -637,7 +637,7 @@ class Forward(Instrument):
         """
         Returns the forward value of the underlying.
         """
-    def impliedYield(self, underlyingSpotValue: typing.SupportsFloat | typing.SupportsIndex, forwardValue: typing.SupportsFloat | typing.SupportsIndex, settlementDate: pyquantlib._pyquantlib.Date, compoundingConvention: pyquantlib._pyquantlib.Compounding, dayCounter: pyquantlib._pyquantlib.DayCounter) -> pyquantlib._pyquantlib.InterestRate:
+    def impliedYield(self, underlyingSpotValue: typing.SupportsFloat, forwardValue: typing.SupportsFloat, settlementDate: pyquantlib._pyquantlib.Date, compoundingConvention: pyquantlib._pyquantlib.Compounding, dayCounter: pyquantlib._pyquantlib.DayCounter) -> pyquantlib._pyquantlib.InterestRate:
         """
         Returns the implied yield from spot and forward values.
         """
@@ -669,7 +669,7 @@ class ForwardMeasureProcess(StochasticProcess):
         """
         Returns the forward measure maturity time.
         """
-    def setForwardMeasureTime(self, T: typing.SupportsFloat | typing.SupportsIndex) -> None:
+    def setForwardMeasureTime(self, T: typing.SupportsFloat) -> None:
         """
         Sets the forward measure maturity time.
         """
@@ -681,7 +681,7 @@ class ForwardMeasureProcess1D(StochasticProcess1D):
         """
         Returns the forward measure maturity time.
         """
-    def setForwardMeasureTime(self, T: typing.SupportsFloat | typing.SupportsIndex) -> None:
+    def setForwardMeasureTime(self, T: typing.SupportsFloat) -> None:
         """
         Sets the forward measure maturity time.
         """
@@ -690,26 +690,26 @@ class Gaussian1dModel(TermStructureConsistentModel, LazyObject):
     Abstract base class for Gaussian 1-D short-rate models.
     """
     @staticmethod
-    def gaussianPolynomialIntegral(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, c: typing.SupportsFloat | typing.SupportsIndex, d: typing.SupportsFloat | typing.SupportsIndex, e: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, x1: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def gaussianPolynomialIntegral(a: typing.SupportsFloat, b: typing.SupportsFloat, c: typing.SupportsFloat, d: typing.SupportsFloat, e: typing.SupportsFloat, x0: typing.SupportsFloat, x1: typing.SupportsFloat) -> float:
         """
         Computes Gaussian polynomial integral.
         """
     @staticmethod
-    def gaussianShiftedPolynomialIntegral(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, c: typing.SupportsFloat | typing.SupportsIndex, d: typing.SupportsFloat | typing.SupportsIndex, e: typing.SupportsFloat | typing.SupportsIndex, h: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, x1: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def gaussianShiftedPolynomialIntegral(a: typing.SupportsFloat, b: typing.SupportsFloat, c: typing.SupportsFloat, d: typing.SupportsFloat, e: typing.SupportsFloat, h: typing.SupportsFloat, x0: typing.SupportsFloat, x1: typing.SupportsFloat) -> float:
         """
         Computes shifted Gaussian polynomial integral.
         """
-    def forwardRate(self, fixing: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, iborIdx: pyquantlib._pyquantlib.IborIndex = None) -> float:
+    def forwardRate(self, fixing: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat = 0.0, iborIdx: pyquantlib._pyquantlib.IborIndex = None) -> float:
         """
         Returns forward rate for fixing date.
         """
     @typing.overload
-    def numeraire(self, t: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+    def numeraire(self, t: typing.SupportsFloat, y: typing.SupportsFloat = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
         """
         Returns numeraire at time t for state y.
         """
     @typing.overload
-    def numeraire(self, referenceDate: pyquantlib._pyquantlib.Date, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+    def numeraire(self, referenceDate: pyquantlib._pyquantlib.Date, y: typing.SupportsFloat = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
         """
         Returns numeraire at date for state y.
         """
@@ -717,29 +717,29 @@ class Gaussian1dModel(TermStructureConsistentModel, LazyObject):
         """
         Returns the state process.
         """
-    def swapAnnuity(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
+    def swapAnnuity(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
         """
         Returns swap annuity for fixing date and tenor.
         """
-    def swapRate(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
+    def swapRate(self, fixing: pyquantlib._pyquantlib.Date, tenor: pyquantlib._pyquantlib.Period, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat = 0.0, swapIdx: pyquantlib._pyquantlib.SwapIndex = None) -> float:
         """
         Returns swap rate for fixing date and tenor.
         """
-    def yGrid(self, yStdDevs: typing.SupportsFloat | typing.SupportsIndex, gridPoints: typing.SupportsInt | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex = 1.0, t: typing.SupportsFloat | typing.SupportsIndex = 0.0, y: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> pyquantlib._pyquantlib.Array:
+    def yGrid(self, yStdDevs: typing.SupportsFloat, gridPoints: typing.SupportsInt, T: typing.SupportsFloat = 1.0, t: typing.SupportsFloat = 0.0, y: typing.SupportsFloat = 0.0) -> pyquantlib._pyquantlib.Array:
         """
         Returns state variable grid.
         """
     @typing.overload
-    def zerobond(self, T: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex = 0.0, y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+    def zerobond(self, T: typing.SupportsFloat, t: typing.SupportsFloat = 0.0, y: typing.SupportsFloat = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
         """
         Returns zero-coupon bond price P(T) at time t for state y.
         """
     @typing.overload
-    def zerobond(self, maturity: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
+    def zerobond(self, maturity: pyquantlib._pyquantlib.Date, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ...) -> float:
         """
         Returns zero-coupon bond price at maturity date.
         """
-    def zerobondOption(self, type: pyquantlib._pyquantlib.OptionType, expiry: pyquantlib._pyquantlib.Date, valueDate: pyquantlib._pyquantlib.Date, maturity: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat | typing.SupportsIndex = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ..., yStdDevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, yGridPoints: typing.SupportsInt | typing.SupportsIndex = 64, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False) -> float:
+    def zerobondOption(self, type: pyquantlib._pyquantlib.OptionType, expiry: pyquantlib._pyquantlib.Date, valueDate: pyquantlib._pyquantlib.Date, maturity: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, referenceDate: pyquantlib._pyquantlib.Date = ..., y: typing.SupportsFloat = 0.0, yts: pyquantlib._pyquantlib.YieldTermStructureHandle = ..., yStdDevs: typing.SupportsFloat = 7.0, yGridPoints: typing.SupportsInt = 64, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False) -> float:
         """
         Returns zero-coupon bond option price.
         """
@@ -747,7 +747,7 @@ class GaussianQuadrature:
     """
     Base class for Gaussian quadrature integration.
     """
-    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float]) -> float:
+    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat], float]) -> float:
         """
         Evaluates the quadrature integral of f.
         """
@@ -779,7 +779,7 @@ class Index(pyquantlib._pyquantlib.Observable):
     """
     def __init__(self) -> None:
         ...
-    def addFixing(self, fixingDate: pyquantlib._pyquantlib.Date, fixing: typing.SupportsFloat | typing.SupportsIndex, forceOverwrite: bool = False) -> None:
+    def addFixing(self, fixingDate: pyquantlib._pyquantlib.Date, fixing: typing.SupportsFloat, forceOverwrite: bool = False) -> None:
         """
         Stores a fixing for the given date.
         """
@@ -939,7 +939,7 @@ class Instrument(LazyObject):
             The calculated NPV.
             """
         @value.setter
-        def value(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        def value(self, arg0: typing.SupportsFloat) -> None:
             ...
     def NPV(self) -> float:
         """
@@ -959,7 +959,7 @@ class Integrator:
     """
     Abstract base class for 1-D numerical integrators.
     """
-    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat], float], a: typing.SupportsFloat, b: typing.SupportsFloat) -> float:
         """
         Integrates function f from a to b.
         """
@@ -983,11 +983,11 @@ class Integrator:
         """
         Returns the number of evaluations of the last integration.
         """
-    def setAbsoluteAccuracy(self, accuracy: typing.SupportsFloat | typing.SupportsIndex) -> None:
+    def setAbsoluteAccuracy(self, accuracy: typing.SupportsFloat) -> None:
         """
         Sets the required absolute accuracy.
         """
-    def setMaxEvaluations(self, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
+    def setMaxEvaluations(self, maxEvaluations: typing.SupportsInt) -> None:
         """
         Sets the maximum number of function evaluations.
         """
@@ -995,7 +995,7 @@ class InterestRateIndex(Index):
     """
     Base class for interest rate indexes.
     """
-    def __init__(self, familyName: str, tenor: pyquantlib._pyquantlib.Period, fixingDays: typing.SupportsInt | typing.SupportsIndex, currency: pyquantlib._pyquantlib.Currency, fixingCalendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter) -> None:
+    def __init__(self, familyName: str, tenor: pyquantlib._pyquantlib.Period, fixingDays: typing.SupportsInt, currency: pyquantlib._pyquantlib.Currency, fixingCalendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter) -> None:
         ...
     def currency(self) -> pyquantlib._pyquantlib.Currency:
         """
@@ -1053,11 +1053,11 @@ class Interpolation(Extrapolator):
     """
     Base class for 1-D interpolations.
     """
-    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+    def __call__(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
         """
         Returns interpolated value at x.
         """
-    def derivative(self, x: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+    def derivative(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
         """
         Returns first derivative at x.
         """
@@ -1065,15 +1065,15 @@ class Interpolation(Extrapolator):
         """
         Returns true if interpolation is not initialized.
         """
-    def isInRange(self, x: typing.SupportsFloat | typing.SupportsIndex) -> bool:
+    def isInRange(self, x: typing.SupportsFloat) -> bool:
         """
         Returns true if x is in the interpolation range.
         """
-    def primitive(self, x: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+    def primitive(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
         """
         Returns primitive (integral) at x.
         """
-    def secondDerivative(self, x: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+    def secondDerivative(self, x: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
         """
         Returns second derivative at x.
         """
@@ -1093,11 +1093,11 @@ class Interpolation2D(Extrapolator):
     """
     Base class for 2-D interpolation.
     """
-    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex, allowExtrapolation: bool = False) -> float:
+    def __call__(self, x: typing.SupportsFloat, y: typing.SupportsFloat, allowExtrapolation: bool = False) -> float:
         """
         Returns the interpolated value at (x, y).
         """
-    def isInRange(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> bool:
+    def isInRange(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> bool:
         """
         Returns true if (x, y) is in range.
         """
@@ -1169,17 +1169,17 @@ class LocalVolTermStructure(VolatilityTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention = ..., dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
     @typing.overload
-    def localVol(self, date: pyquantlib._pyquantlib.Date, underlyingLevel: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def localVol(self, date: pyquantlib._pyquantlib.Date, underlyingLevel: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the local volatility for the given date and underlying level.
         """
     @typing.overload
-    def localVol(self, time: typing.SupportsFloat | typing.SupportsIndex, underlyingLevel: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def localVol(self, time: typing.SupportsFloat, underlyingLevel: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the local volatility for the given time and underlying level.
         """
@@ -1341,7 +1341,7 @@ class OneFactorAffineModel(OneFactorModel, AffineModel):
     """
     Abstract base class for single-factor affine short-rate models.
     """
-    def discountBond(self, now: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, rate: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def discountBond(self, now: typing.SupportsFloat, maturity: typing.SupportsFloat, rate: typing.SupportsFloat) -> float:
         """
         Returns the discount bond price P(now, maturity, rate).
         """
@@ -1440,22 +1440,22 @@ class OptionletVolatilityStructure(VolatilityTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
     @typing.overload
-    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option tenor and strike.
         """
     @typing.overload
-    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option date and strike.
         """
     @typing.overload
-    def blackVariance(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option time and strike.
         """
@@ -1474,22 +1474,22 @@ class OptionletVolatilityStructure(VolatilityTermStructure):
         Returns smile section for option date.
         """
     @typing.overload
-    def smileSection(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> SmileSection:
+    def smileSection(self, optionTime: typing.SupportsFloat, extrapolate: bool = False) -> SmileSection:
         """
         Returns smile section for option time.
         """
     @typing.overload
-    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option tenor and strike.
         """
     @typing.overload
-    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option date and strike.
         """
     @typing.overload
-    def volatility(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTime: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option time and strike.
         """
@@ -1501,7 +1501,7 @@ class Payoff:
     """
     Abstract base class for option payoffs.
     """
-    def __call__(self, price: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def __call__(self, price: typing.SupportsFloat) -> float:
         """
         Calculates the payoff for a given price.
         """
@@ -1621,15 +1621,15 @@ class RiskNeutralDensityCalculator:
     """
     Abstract base for risk-neutral density calculations.
     """
-    def cdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def cdf(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
         """
         Returns cumulative distribution function at x and time t.
         """
-    def invcdf(self, p: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def invcdf(self, p: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
         """
         Returns inverse CDF at probability p and time t.
         """
-    def pdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def pdf(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
         """
         Returns probability density function at x and time t.
         """
@@ -1639,11 +1639,11 @@ class Seasonality:
     """
     def __init__(self) -> None:
         ...
-    def correctYoYRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat | typing.SupportsIndex, inflationTermStructure: InflationTermStructure) -> float:
+    def correctYoYRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat, inflationTermStructure: InflationTermStructure) -> float:
         """
         Returns the seasonality-corrected year-on-year rate.
         """
-    def correctZeroRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat | typing.SupportsIndex, inflationTermStructure: InflationTermStructure) -> float:
+    def correctZeroRate(self, date: pyquantlib._pyquantlib.Date, rate: typing.SupportsFloat, inflationTermStructure: InflationTermStructure) -> float:
         """
         Returns the seasonality-corrected zero rate.
         """
@@ -1669,12 +1669,12 @@ class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
         Default constructor for Python subclassing.
         """
     @typing.overload
-    def __init__(self, exerciseTime: typing.SupportsFloat | typing.SupportsIndex, dc: pyquantlib._pyquantlib.DayCounter, type: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat | typing.SupportsIndex) -> None:
+    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter, type: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat) -> None:
         """
         Constructs with exercise time (all args required).
         """
     @typing.overload
-    def __init__(self, exerciseTime: typing.SupportsFloat | typing.SupportsIndex, dc: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, exerciseTime: typing.SupportsFloat, dc: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with exercise time.
         """
@@ -1691,11 +1691,11 @@ class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
         """
         Returns the day counter.
         """
-    def density(self, strike: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, gap: typing.SupportsFloat | typing.SupportsIndex = 0.0001) -> float:
+    def density(self, strike: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, gap: typing.SupportsFloat = 0.0001) -> float:
         """
         Returns the probability density at the given strike.
         """
-    def digitalOptionPrice(self, strike: typing.SupportsFloat | typing.SupportsIndex, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, gap: typing.SupportsFloat | typing.SupportsIndex = 1e-05) -> float:
+    def digitalOptionPrice(self, strike: typing.SupportsFloat, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat = 1.0, gap: typing.SupportsFloat = 1e-05) -> float:
         """
         Returns the digital option price at the given strike.
         """
@@ -1715,7 +1715,7 @@ class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
         """
         Returns minimum strike.
         """
-    def optionPrice(self, strike: typing.SupportsFloat | typing.SupportsIndex, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> float:
+    def optionPrice(self, strike: typing.SupportsFloat, type: pyquantlib._pyquantlib.OptionType = ..., discount: typing.SupportsFloat = 1.0) -> float:
         """
         Returns the option price at the given strike.
         """
@@ -1727,21 +1727,21 @@ class SmileSection(Observer, pyquantlib._pyquantlib.Observable):
         """
         Returns the shift for shifted lognormal volatility.
         """
-    def variance(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def variance(self, strike: typing.SupportsFloat) -> float:
         """
         Returns variance at the given strike.
         """
-    def vega(self, strike: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> float:
+    def vega(self, strike: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> float:
         """
         Returns the vega at the given strike.
         """
     @typing.overload
-    def volatility(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def volatility(self, strike: typing.SupportsFloat) -> float:
         """
         Returns volatility at the given strike.
         """
     @typing.overload
-    def volatility(self, strike: typing.SupportsFloat | typing.SupportsIndex, volatilityType: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
+    def volatility(self, strike: typing.SupportsFloat, volatilityType: pyquantlib._pyquantlib.VolatilityType, shift: typing.SupportsFloat = 0.0) -> float:
         """
         Returns volatility at the given strike with specified type.
         """
@@ -1753,7 +1753,7 @@ class SpreadBlackScholesVanillaEngine(pyquantlib._pyquantlib.BasketOptionEngine)
     """
     Abstract base class for spread option pricing engines.
     """
-    def __init__(self, process1: pyquantlib._pyquantlib.GeneralizedBlackScholesProcess, process2: pyquantlib._pyquantlib.GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
+    def __init__(self, process1: pyquantlib._pyquantlib.GeneralizedBlackScholesProcess, process2: pyquantlib._pyquantlib.GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
         """
@@ -1768,15 +1768,15 @@ class StochasticProcess(Observer, pyquantlib._pyquantlib.Observable):
     """
     def __init__(self) -> None:
         ...
-    def diffusion(self, t: typing.SupportsFloat | typing.SupportsIndex, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Matrix:
+    def diffusion(self, t: typing.SupportsFloat, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Matrix:
         """
         Returns the diffusion matrix at time t given state x.
         """
-    def drift(self, t: typing.SupportsFloat | typing.SupportsIndex, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
+    def drift(self, t: typing.SupportsFloat, x: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
         """
         Returns the drift at time t given state x.
         """
-    def evolve(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: pyquantlib._pyquantlib.Array, dt: typing.SupportsFloat | typing.SupportsIndex, dw: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
+    def evolve(self, t0: typing.SupportsFloat, x0: pyquantlib._pyquantlib.Array, dt: typing.SupportsFloat, dw: pyquantlib._pyquantlib.Array) -> pyquantlib._pyquantlib.Array:
         """
         Evolves the process from state x0 at time t0.
         """
@@ -1802,29 +1802,29 @@ class StochasticProcess1D(StochasticProcess):
         """
         def __init__(self) -> None:
             ...
-        def diffusion(self, process: StochasticProcess1D, t0: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, dt: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        def diffusion(self, process: StochasticProcess1D, t0: typing.SupportsFloat, x0: typing.SupportsFloat, dt: typing.SupportsFloat) -> float:
             """
             Returns the discretized diffusion.
             """
-        def drift(self, process: StochasticProcess1D, t0: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, dt: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        def drift(self, process: StochasticProcess1D, t0: typing.SupportsFloat, x0: typing.SupportsFloat, dt: typing.SupportsFloat) -> float:
             """
             Returns the discretized drift.
             """
-        def variance(self, process: StochasticProcess1D, t0: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, dt: typing.SupportsFloat | typing.SupportsIndex) -> float:
+        def variance(self, process: StochasticProcess1D, t0: typing.SupportsFloat, x0: typing.SupportsFloat, dt: typing.SupportsFloat) -> float:
             """
             Returns the discretized variance.
             """
     def __init__(self) -> None:
         ...
-    def diffusion(self, t: typing.SupportsFloat | typing.SupportsIndex, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def diffusion(self, t: typing.SupportsFloat, x: typing.SupportsFloat) -> float:
         """
         Returns the diffusion at time t given state x.
         """
-    def drift(self, t: typing.SupportsFloat | typing.SupportsIndex, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def drift(self, t: typing.SupportsFloat, x: typing.SupportsFloat) -> float:
         """
         Returns the drift at time t given state x.
         """
-    def evolve(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, dt: typing.SupportsFloat | typing.SupportsIndex, dw: typing.SupportsFloat | typing.SupportsIndex) -> float:
+    def evolve(self, t0: typing.SupportsFloat, x0: typing.SupportsFloat, dt: typing.SupportsFloat, dw: typing.SupportsFloat) -> float:
         """
         Evolves the process from state x0 at time t0.
         """
@@ -1880,11 +1880,11 @@ class StrippedOptionletBase(LazyObject):
         """
         Returns the number of optionlet maturities.
         """
-    def optionletStrikes(self, i: typing.SupportsInt | typing.SupportsIndex) -> list[float]:
+    def optionletStrikes(self, i: typing.SupportsInt) -> list[float]:
         """
         Returns optionlet strikes for the i-th maturity.
         """
-    def optionletVolatilities(self, i: typing.SupportsInt | typing.SupportsIndex) -> list[float]:
+    def optionletVolatilities(self, i: typing.SupportsInt) -> list[float]:
         """
         Returns optionlet volatilities for the i-th maturity.
         """
@@ -1947,22 +1947,22 @@ class SwaptionVolatilityStructure(VolatilityTermStructure):
         Constructs with reference date.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days.
         """
     @typing.overload
-    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option tenor and swap tenor.
         """
     @typing.overload
-    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option date and swap tenor.
         """
     @typing.overload
-    def blackVariance(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, swapLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def blackVariance(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns Black variance for option time and swap length.
         """
@@ -1985,7 +1985,7 @@ class SwaptionVolatilityStructure(VolatilityTermStructure):
         Returns shift for option date and swap tenor.
         """
     @typing.overload
-    def shift(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, swapLength: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def shift(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns shift for option time and swap length.
         """
@@ -2000,7 +2000,7 @@ class SwaptionVolatilityStructure(VolatilityTermStructure):
         Returns smile section for option date and swap tenor.
         """
     @typing.overload
-    def smileSection(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, swapLength: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> SmileSection:
+    def smileSection(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, extrapolate: bool = False) -> SmileSection:
         """
         Returns smile section for option time and swap length.
         """
@@ -2015,17 +2015,17 @@ class SwaptionVolatilityStructure(VolatilityTermStructure):
         Converts swap dates to swap length.
         """
     @typing.overload
-    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option tenor and swap tenor.
         """
     @typing.overload
-    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionDate: pyquantlib._pyquantlib.Date, swapTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option date and swap tenor.
         """
     @typing.overload
-    def volatility(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, swapLength: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def volatility(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat, strike: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns volatility for option time and swap length.
         """
@@ -2048,7 +2048,7 @@ class TermStructure(Observer, pyquantlib._pyquantlib.Observable, Extrapolator):
         Constructs with reference date, calendar, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter = ...) -> None:
         """
         Constructs with settlement days, calendar, and day counter.
         """
@@ -2102,7 +2102,7 @@ class VolatilityTermStructure(TermStructure):
         Constructs with reference date, calendar, convention, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, businessDayConvention: pyquantlib._pyquantlib.BusinessDayConvention, dayCounter: pyquantlib._pyquantlib.DayCounter) -> None:
         """
         Constructs with settlement days, calendar, convention, and day counter.
         """
@@ -2137,7 +2137,7 @@ class YieldTermStructure(TermStructure):
         Constructs with reference date, calendar, day counter, and optional jumps.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter = ..., jumps: collections.abc.Sequence[pyquantlib._pyquantlib.QuoteHandle] = [], jumpDates: collections.abc.Sequence[pyquantlib._pyquantlib.Date] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt, calendar: pyquantlib._pyquantlib.Calendar, dayCounter: pyquantlib._pyquantlib.DayCounter = ..., jumps: collections.abc.Sequence[pyquantlib._pyquantlib.QuoteHandle] = [], jumpDates: collections.abc.Sequence[pyquantlib._pyquantlib.Date] = []) -> None:
         """
         Constructs with settlement days, calendar, day counter, and optional jumps.
         """
@@ -2147,7 +2147,7 @@ class YieldTermStructure(TermStructure):
         Returns the discount factor for the given date.
         """
     @typing.overload
-    def discount(self, time: typing.SupportsFloat | typing.SupportsIndex, extrapolate: bool = False) -> float:
+    def discount(self, time: typing.SupportsFloat, extrapolate: bool = False) -> float:
         """
         Returns the discount factor for the given time.
         """
@@ -2162,7 +2162,7 @@ class YieldTermStructure(TermStructure):
         Returns the forward rate for a date and period.
         """
     @typing.overload
-    def forwardRate(self, time1: typing.SupportsFloat | typing.SupportsIndex, time2: typing.SupportsFloat | typing.SupportsIndex, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency = ..., extrapolate: bool = False) -> pyquantlib._pyquantlib.InterestRate:
+    def forwardRate(self, time1: typing.SupportsFloat, time2: typing.SupportsFloat, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency = ..., extrapolate: bool = False) -> pyquantlib._pyquantlib.InterestRate:
         """
         Returns the forward rate between two times.
         """
@@ -2184,7 +2184,7 @@ class YieldTermStructure(TermStructure):
         Returns the zero rate for the given date.
         """
     @typing.overload
-    def zeroRate(self, time: typing.SupportsFloat | typing.SupportsIndex, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency = ..., extrapolate: bool = False) -> pyquantlib._pyquantlib.InterestRate:
+    def zeroRate(self, time: typing.SupportsFloat, compounding: pyquantlib._pyquantlib.Compounding, frequency: pyquantlib._pyquantlib.Frequency = ..., extrapolate: bool = False) -> pyquantlib._pyquantlib.InterestRate:
         """
         Returns the zero rate for the given time.
         """
@@ -2224,7 +2224,7 @@ class YoYInflationTermStructure(InflationTermStructure):
     """
     Abstract base class for year-on-year inflation term structures.
     """
-    def yoyRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
+    def yoyRate(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
         """
         Returns the year-on-year inflation rate for the given date.
         """
@@ -2256,17 +2256,17 @@ class YoYOptionletVolatilitySurface(VolatilityTermStructure):
         """
         Returns the observation lag.
         """
-    def totalVariance(self, exerciseDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+    def totalVariance(self, exerciseDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
         """
         Returns the total variance.
         """
     @typing.overload
-    def volatility(self, maturityDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat | typing.SupportsIndex, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+    def volatility(self, maturityDate: pyquantlib._pyquantlib.Date, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
         """
         Returns the volatility for a given maturity date and strike.
         """
     @typing.overload
-    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat | typing.SupportsIndex, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
+    def volatility(self, optionTenor: pyquantlib._pyquantlib.Period, strike: typing.SupportsFloat, obsLag: pyquantlib._pyquantlib.Period = ..., extrapolate: bool = False) -> float:
         """
         Returns the volatility for a given option tenor and strike.
         """
@@ -2310,7 +2310,7 @@ class ZeroInflationTermStructure(InflationTermStructure):
     """
     Abstract base class for zero-coupon inflation term structures.
     """
-    def zeroRate(self, date: pyquantlib._pyquantlib.Date, instObsLag: pyquantlib._pyquantlib.Period = ..., forceLinearInterpolation: bool = False, extrapolate: bool = False) -> float:
+    def zeroRate(self, date: pyquantlib._pyquantlib.Date, extrapolate: bool = False) -> float:
         """
         Returns the zero-coupon inflation rate for the given date.
         """

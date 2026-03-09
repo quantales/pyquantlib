@@ -90,6 +90,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "BondHelper, FixedRateBondHelper");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyieldcurve,
         "PiecewiseYieldCurve instantiations");
+    ADD_MAIN_BINDING(ql_termstructures::globalbootstrap,
+        "PiecewiseYieldCurve with GlobalBootstrap instantiations");
+    ADD_MAIN_BINDING(ql_termstructures::multicurve,
+        "MultiCurve - simultaneous multi-curve bootstrap");
 
     // Interpolated yield curves
     ADD_MAIN_BINDING(ql_termstructures::zerocurve,

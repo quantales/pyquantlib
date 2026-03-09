@@ -339,6 +339,87 @@ print(curve.discount(1.0))
 print(curve.nodes())
 ```
 
+## Global Bootstrap Piecewise Curves
+
+Piecewise yield curves using `GlobalBootstrap`, which solves for all nodes
+simultaneously via global optimization instead of iterative bootstrapping.
+Useful when instruments depend on each other or when the standard bootstrap
+fails to converge.
+
+### PiecewiseLogLinearDiscountGlobal
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLogLinearDiscountGlobal
+```
+
+### PiecewiseLinearZeroGlobal
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseLinearZeroGlobal
+```
+
+### PiecewiseBackwardFlatForwardGlobal
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseBackwardFlatForwardGlobal
+```
+
+```python
+curve = ql.PiecewiseLogLinearDiscountGlobal(
+    today, helpers, ql.Actual365Fixed(), accuracy=1e-12)
+
+# With instrument weights
+weights = [1.0] * len(helpers)
+curve = ql.PiecewiseLogLinearDiscountGlobal(
+    today, helpers, ql.Actual365Fixed(),
+    accuracy=1e-12, instrumentWeights=weights)
+
+# Settlement days constructor
+curve = ql.PiecewiseLogLinearDiscountGlobal(
+    2, ql.TARGET(), helpers, ql.Actual365Fixed(), accuracy=1e-12)
+```
+
+## MultiCurve
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MultiCurve
+```
+
+Manages a set of yield curves that form a dependency cycle, bootstrapping
+them simultaneously. Curves added with `addBootstrappedCurve` are solved
+together; curves added with `addNonBootstrappedCurve` are relinked but not
+bootstrapped (e.g. spreaded curves derived from bootstrapped ones).
+
+```python
+accuracy = 1e-10
+
+# Internal relinkable handles for the dependency cycle
+int_3m = ql.RelinkableYieldTermStructureHandle()
+int_6m = ql.RelinkableYieldTermStructureHandle()
+
+euribor3m = ql.Euribor3M(int_3m)
+euribor6m = ql.Euribor6M(int_6m)
+
+# Build helpers referencing each other's curves
+helpers_3m = [ql.FraRateHelper(q, i, euribor3m) for i in range(1, 10)]
+helpers_6m = [ql.SwapRateHelper(q, ql.Period(i, ql.Years), ...)
+              for i in range(2, 11)]
+
+# Create GlobalBootstrap curves
+curve_3m = ql.PiecewiseLogLinearDiscountGlobal(
+    today, helpers_3m, ql.Actual360(), accuracy=accuracy)
+curve_6m = ql.PiecewiseLogLinearDiscountGlobal(
+    today, helpers_6m, ql.Actual360(), accuracy=accuracy)
+
+# Solve the cycle
+mc = ql.MultiCurve(accuracy)
+ext_3m = mc.addBootstrappedCurve(int_3m, curve_3m)
+ext_6m = mc.addBootstrappedCurve(int_6m, curve_6m)
+
+# Use external handles for pricing
+print(ext_3m.currentLink().discount(1.0))
+```
+
 ## Fitted Bond Discount Curves
 
 ### FittedBondDiscountCurve

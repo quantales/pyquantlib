@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Term Structures
+- `MultiCurve` for simultaneous multi-curve bootstrap with dependency cycles (accuracy and optimizer constructors, `addBootstrappedCurve`, `addNonBootstrappedCurve`)
+- `PiecewiseLogLinearDiscountGlobal`, `PiecewiseLinearZeroGlobal`, `PiecewiseBackwardFlatForwardGlobal` piecewise yield curves using `GlobalBootstrap` (reference-date and settlement-days constructors, instrument weights)
+
 ## [0.6.0] - 2026-03-07
 
 ### Added
