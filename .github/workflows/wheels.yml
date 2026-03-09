@@ -19,7 +19,7 @@ on:
     types: [published]
 
 env:
-  QUANTLIB_VERSION: "1.40"
+  QUANTLIB_VERSION: "1.41"
   BOOST_VERSION: "1.86.0"
 
 jobs:

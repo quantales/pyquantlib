@@ -29,7 +29,7 @@ on:
       - ".github/workflows/windows.yml"
 
 env:
-  QUANTLIB_VERSION: "1.40"
+  QUANTLIB_VERSION: "1.41"
   BOOST_VERSION: "1.86.0"
   BOOST_VERSION_UNDERSCORE: "1_86_0"
 
