@@ -54,11 +54,9 @@ void ql_termstructures::inflationtermstructure(py::module_& m) {
         "Abstract base class for zero-coupon inflation term structures.")
         .def("zeroRate",
             static_cast<Rate (ZeroInflationTermStructure::*)(
-                const Date&, const Period&, bool, bool) const>(
+                const Date&, bool) const>(
                 &ZeroInflationTermStructure::zeroRate),
             py::arg("date"),
-            py::arg("instObsLag") = Period(-1, Days),
-            py::arg("forceLinearInterpolation") = false,
             py::arg("extrapolate") = false,
             "Returns the zero-coupon inflation rate for the given date.");
 
@@ -69,11 +67,9 @@ void ql_termstructures::inflationtermstructure(py::module_& m) {
         "Abstract base class for year-on-year inflation term structures.")
         .def("yoyRate",
             static_cast<Rate (YoYInflationTermStructure::*)(
-                const Date&, const Period&, bool, bool) const>(
+                const Date&, bool) const>(
                 &YoYInflationTermStructure::yoyRate),
             py::arg("date"),
-            py::arg("instObsLag") = Period(-1, Days),
-            py::arg("forceLinearInterpolation") = false,
             py::arg("extrapolate") = false,
             "Returns the year-on-year inflation rate for the given date.");
 }
