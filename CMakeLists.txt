@@ -39,7 +39,7 @@ option(PYQUANTLIB_DETAILED_ERRORS "Enable detailed pybind11 error messages" ON)
 # ==============================================================================
 
 file(READ "${CMAKE_SOURCE_DIR}/pyquantlib/version.py" VERSION_PY_CONTENTS)
-string(REGEX MATCH "__version__ *= *\"([0-9]+\\.[0-9]+\\.[0-9]+)\"" _ "${VERSION_PY_CONTENTS}")
+string(REGEX MATCH "__version__ *= *\"([0-9]+\\.[0-9]+\\.[0-9]+[^\"]*)\"" _ "${VERSION_PY_CONTENTS}")
 set(PYQUANTLIB_VERSION "${CMAKE_MATCH_1}")
 
 if(NOT PYQUANTLIB_VERSION)
@@ -113,9 +113,8 @@ endif()
 # QuantLib discovery order:
 # 1. CMake argument: -DQuantLib_ROOT=/path/to/quantlib
 # 2. Environment variable: QuantLib_ROOT or QL_DIR
-# 3. vcpkg toolchain (automatic if CMAKE_TOOLCHAIN_FILE is set)
-# 4. System paths (brew on macOS, apt/dnf packages on Linux)
-# 5. Manual fallback for source builds without CMake config
+# 3. CMake config from source build (including preset build directories)
+# 4. Manual fallback for source builds without CMake config
 
 # Support legacy QL_DIR environment variable
 if(NOT DEFINED QuantLib_ROOT)
@@ -126,7 +125,20 @@ if(NOT DEFINED QuantLib_ROOT)
     endif()
 endif()
 
-# First, try standard CMake find_package (works for vcpkg, brew, system packages)
+# If QuantLib_ROOT points to a source tree, locate any CMake config files
+# generated in build subdirectories (e.g. build/windows-msvc-release/cmake/)
+# so that find_package(CONFIG) can discover them automatically.
+if(QuantLib_ROOT)
+    file(GLOB_RECURSE _ql_config_files
+        "${QuantLib_ROOT}/build/*/QuantLibConfig.cmake"
+    )
+    foreach(_config_file ${_ql_config_files})
+        get_filename_component(_config_dir "${_config_file}" DIRECTORY)
+        list(APPEND CMAKE_PREFIX_PATH "${_config_dir}")
+    endforeach()
+endif()
+
+# Try CMake find_package (source builds with CMake config)
 find_package(QuantLib 1.30 QUIET CONFIG)
 
 if(QuantLib_FOUND)
@@ -175,14 +187,23 @@ else()
         set(_ql_lib_names QuantLib)
     endif()
     
+    # Collect search paths: fixed well-known locations + any preset build dirs
+    set(_ql_lib_paths
+        "${QuantLib_ROOT}/lib"
+        "${QuantLib_ROOT}/lib64"
+        "${QuantLib_ROOT}/lib/x86_64-linux-gnu"
+        "${QuantLib_ROOT}/build/ql"
+        "${QuantLib_ROOT}/build/ql/Release"
+    )
+    # CMake preset builds place output under build/<preset-name>/ql/[Release/]
+    file(GLOB _ql_preset_dirs "${QuantLib_ROOT}/build/*/ql")
+    foreach(_dir ${_ql_preset_dirs})
+        list(APPEND _ql_lib_paths "${_dir}" "${_dir}/Release" "${_dir}/Debug")
+    endforeach()
+
     find_library(QuantLib_LIBRARY
         NAMES ${_ql_lib_names}
-        PATHS 
-            "${QuantLib_ROOT}/lib"
-            "${QuantLib_ROOT}/lib64"
-            "${QuantLib_ROOT}/lib/x86_64-linux-gnu"
-            "${QuantLib_ROOT}/build/ql"
-            "${QuantLib_ROOT}/build/ql/Release"
+        PATHS ${_ql_lib_paths}
         NO_DEFAULT_PATH
     )
     
@@ -190,7 +211,7 @@ else()
         message(FATAL_ERROR
             "QuantLib library not found.\n"
             "Searched for: ${_ql_lib_names}\n"
-            "In paths: ${QuantLib_ROOT}/lib, ${QuantLib_ROOT}/build/ql"
+            "In paths: ${_ql_lib_paths}"
         )
     endif()
     
