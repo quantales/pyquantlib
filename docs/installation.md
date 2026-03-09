@@ -6,6 +6,11 @@
 - **QuantLib**: 1.40+
 - **Platforms**: Windows, macOS, Linux
 
+| PyQuantLib | QuantLib | Notes |
+|---|---|---|
+| 0.1.0 -- 0.6.0 | 1.40, 1.41 | Built and tested against 1.40; verified compatible with 1.41 |
+| 0.7.0+ | 1.41+ | Requires 1.41 (uses MultiCurve/GlobalBootstrap API) |
+
 PyQuantLib provides bindings for a subset of QuantLib. Foundational components are available: time handling, term structures, common instruments, and pricing engines. Coverage is actively growing. See the {doc}`api/index` for what's available.
 
 ```{note}
