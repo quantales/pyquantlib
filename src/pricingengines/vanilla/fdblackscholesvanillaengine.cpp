@@ -13,6 +13,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/pricingengines/vanilla/fdblackscholesvanillaengine.hpp>
+#include <ql/pricingengines/vanilla/cashdividendeuropeanengine.hpp>
 #include <ql/processes/blackscholesprocess.hpp>
 #include <pybind11/pybind11.h>
 
@@ -20,15 +21,8 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_pricingengines::fdblackscholesvanillaengine(py::module_& m) {
-    // CashDividendModel enum
-    py::enum_<FdBlackScholesVanillaEngine::CashDividendModel>(
-        m, "CashDividendModel",
-        "Cash dividend model for finite difference engines.")
-        .value("Spot", FdBlackScholesVanillaEngine::Spot,
-            "Spot adjustment model.")
-        .value("Escrowed", FdBlackScholesVanillaEngine::Escrowed,
-            "Escrowed dividend model.")
-        .export_values();
+    // CashDividendModel enum is registered by cashdividendeuropeanengine
+    // FdBlackScholesVanillaEngine reuses it.
 
     // FdBlackScholesVanillaEngine
     py::class_<FdBlackScholesVanillaEngine,
@@ -36,11 +30,16 @@ void ql_pricingengines::fdblackscholesvanillaengine(py::module_& m) {
                PricingEngine>(
         m, "FdBlackScholesVanillaEngine",
         "Finite-differences Black-Scholes vanilla option engine.")
-        .def(py::init<ext::shared_ptr<GeneralizedBlackScholesProcess>,
-                      Size, Size, Size,
-                      const FdmSchemeDesc&,
-                      bool, Real,
-                      FdBlackScholesVanillaEngine::CashDividendModel>(),
+        .def(py::init([](ext::shared_ptr<GeneralizedBlackScholesProcess> process,
+                         Size tGrid, Size xGrid, Size dampingSteps,
+                         const FdmSchemeDesc& schemeDesc,
+                         bool localVol, Real illegalLocalVolOverwrite,
+                         CashDividendEuropeanEngine::CashDividendModel cashDividendModel) {
+            return ext::make_shared<FdBlackScholesVanillaEngine>(
+                std::move(process), tGrid, xGrid, dampingSteps,
+                schemeDesc, localVol, illegalLocalVolOverwrite,
+                static_cast<FdBlackScholesVanillaEngine::CashDividendModel>(cashDividendModel));
+        }),
             py::arg("process"),
             py::arg("tGrid") = 100,
             py::arg("xGrid") = 100,
@@ -48,7 +47,7 @@ void ql_pricingengines::fdblackscholesvanillaengine(py::module_& m) {
             py::arg("schemeDesc") = FdmSchemeDesc::Douglas(),
             py::arg("localVol") = false,
             py::arg("illegalLocalVolOverwrite") = -Null<Real>(),
-            py::arg("cashDividendModel") = FdBlackScholesVanillaEngine::Spot,
+            py::arg("cashDividendModel") = CashDividendEuropeanEngine::Spot,
             "Constructs a finite-difference Black-Scholes engine.\n\n"
             "Parameters:\n"
             "  process: Black-Scholes process\n"

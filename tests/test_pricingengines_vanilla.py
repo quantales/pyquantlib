@@ -1466,6 +1466,55 @@ def test_dividend_european(bsm_american_env):
 
 
 # =============================================================================
+# CashDividendEuropeanEngine
+# =============================================================================
+
+
+def test_cash_dividend_european_spot(bsm_american_env):
+    """Test CashDividendEuropeanEngine with Spot model."""
+    import datetime
+
+    env = bsm_american_env
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(datetime.date(2025, 1, 15))
+    dividends = [ql.FixedDividend(2.0, datetime.date(2024, 7, 15))]
+    engine = ql.CashDividendEuropeanEngine(
+        env["process"], dividends, ql.CashDividendModel.Spot)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(8.1984190816, rel=1e-4)
+
+
+def test_cash_dividend_european_escrowed(bsm_american_env):
+    """Test CashDividendEuropeanEngine with Escrowed model."""
+    import datetime
+
+    env = bsm_american_env
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(datetime.date(2025, 1, 15))
+    dividends = [ql.FixedDividend(2.0, datetime.date(2024, 7, 15))]
+    engine = ql.CashDividendEuropeanEngine(
+        env["process"], dividends, ql.CashDividendModel.Escrowed)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(8.1217220283, rel=1e-4)
+
+
+def test_cash_dividend_european_default_model(bsm_american_env):
+    """Test CashDividendEuropeanEngine default model is Spot."""
+    import datetime
+
+    env = bsm_american_env
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    exercise = ql.EuropeanExercise(datetime.date(2025, 1, 15))
+    dividends = [ql.FixedDividend(2.0, datetime.date(2024, 7, 15))]
+    engine = ql.CashDividendEuropeanEngine(env["process"], dividends)
+    option = ql.VanillaOption(payoff, exercise)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(8.1984190816, rel=1e-4)
+
+
+# =============================================================================
 # AnalyticBSMHullWhiteEngine
 # =============================================================================
 

@@ -82,7 +82,9 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     // Overnight indexed coupon pricers
     ADD_MAIN_BINDING(ql_cashflows::overnightindexedcouponpricer,
         "CompoundingOvernightIndexedCouponPricer, "
-        "ArithmeticAveragedOvernightIndexedCouponPricer");
+        "ArithmeticAveragedOvernightIndexedCouponPricer, "
+        "BlackCompoundingOvernightIndexedCouponPricer, "
+        "BlackAveragingOvernightIndexedCouponPricer");
 
     // BMA coupons
     ADD_MAIN_BINDING(ql_cashflows::averagebmacoupon,

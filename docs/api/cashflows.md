@@ -344,6 +344,22 @@ pricer = ql.ArithmeticAveragedOvernightIndexedCouponPricer(
 )
 ```
 
+### BlackCompoundingOvernightIndexedCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCompoundingOvernightIndexedCouponPricer
+```
+
+Black pricer for capped/floored compounded overnight coupons.
+
+### BlackAveragingOvernightIndexedCouponPricer
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackAveragingOvernightIndexedCouponPricer
+```
+
+Black pricer for capped/floored averaged overnight coupons. Requires `RateAveraging.Type.Simple`.
+
 ### setCouponPricer
 
 ```{eval-rst}

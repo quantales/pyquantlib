@@ -524,6 +524,7 @@ namespace ql_pricingengines {
     void analyticdigitalamericanengine(py::module_&);
     void mcdigitalengine(py::module_&);
     void analyticdividendeuropeanengine(py::module_&);
+    void cashdividendeuropeanengine(py::module_&);
     void analyticbsmhullwhiteengine(py::module_&);
     void analyticcapfloorengine(py::module_&);
     void treecapfloorengine(py::module_&);

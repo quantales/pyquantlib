@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Pricing Engines
+- `CashDividendEuropeanEngine` semi-analytic European engine with cash dividends (Healy, 2021), `CashDividendModel` enum (`Spot`, `Escrowed`)
+
+#### Cash Flows
+- `BlackCompoundingOvernightIndexedCouponPricer` Black pricer for capped/floored compounded overnight coupons
+- `BlackAveragingOvernightIndexedCouponPricer` Black pricer for capped/floored averaged overnight coupons
+
+#### Instruments
+- `ContinuousAveragingAsianOption` seasoned constructor with `startDate` parameter
+
 #### Term Structures
 - `MultiCurve` for simultaneous multi-curve bootstrap with dependency cycles (accuracy and optimizer constructors, `addBootstrappedCurve`, `addNonBootstrappedCurve`)
 - `PiecewiseLogLinearDiscountGlobal`, `PiecewiseLinearZeroGlobal`, `PiecewiseBackwardFlatForwardGlobal` piecewise yield curves using `GlobalBootstrap` (reference-date and settlement-days constructors, instrument weights)

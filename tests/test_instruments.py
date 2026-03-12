@@ -1945,6 +1945,17 @@ def test_continuous_asian_construction(asian_env):
         assert not opt.isExpired()
 
 
+def test_continuous_asian_seasoned_construction(asian_env):
+    """Test ContinuousAveragingAsianOption with startDate (seasoned)."""
+    start_date = ql.Date(15, ql.October, 2024)
+    for avg in [ql.AverageType.Geometric, ql.AverageType.Arithmetic]:
+        opt = ql.ContinuousAveragingAsianOption(
+            avg, start_date, asian_env["payoff"], asian_env["exercise"],
+        )
+        assert opt is not None
+        assert not opt.isExpired()
+
+
 # =============================================================================
 # DiscreteAveragingAsianOption
 # =============================================================================

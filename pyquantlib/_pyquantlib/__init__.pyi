@@ -7,7 +7,7 @@ import numpy
 import numpy.typing
 import typing
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AdaptiveRungeKutta', 'AdjustDigitals', 'AdjustNone', 'AdjustYts', 'Akima', 'AmericanExercise', 'AmortizingCmsRateBond', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBSMHullWhiteEngine', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCEVEngine', 'AnalyticCapFloorEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDigitalAmericanEngine', 'AnalyticDigitalAmericanKOEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDividendEuropeanEngine', 'AnalyticDoubleBarrierBinaryEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticGJRGARCHEngine', 'AnalyticH1HWEngine', 'AnalyticHaganPricer', 'AnalyticHestonEngine', 'AnalyticHestonHullWhiteEngine', 'AnalyticHolderExtensibleOptionEngine', 'AnalyticPDFHestonEngine', 'AnalyticPTDHestonEngine', 'AnalyticSimpleChooserEngine', 'AnalyticTwoAssetCorrelationEngine', 'AnalyticWriterExtensibleOptionEngine', 'AndreasenHugeCalibrationType', 'AndreasenHugeInterpolationType', 'AndreasenHugeLocalVolAdapter', 'AndreasenHugeVolatilityAdapter', 'AndreasenHugeVolatilityInterpl', 'Annual', 'Apr', 'April', 'Argentina', 'ArithmeticAveragedOvernightIndexedCouponPricer', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBMACoupon', 'AverageBMALeg', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BFGS', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BMAIndex', 'BOOST_VERSION', 'BRLCurrency', 'BSMRNDCalculator', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCalculator', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BatesProcessHandle', 'BermudanExercise', 'BespokeCalendar', 'BicubicSpline', 'BilinearInterpolation', 'Bimonthly', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackCalculator', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConditionSide', 'BoundaryConstraint', 'BoxMullerGaussianRng', 'Brazil', 'Brent', 'BrownianBridge', 'Burley2020SobolBrownianBridgeRsg', 'Burley2020SobolBrownianGenerator', 'Burley2020SobolBrownianGeneratorFactory', 'Burley2020SobolRsg', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CEVCalculator', 'CEVRNDCalculator', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COSHestonEngine', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CapHelper', 'CappedFlooredCmsCoupon', 'CappedFlooredCoupon', 'CappedFlooredIborCoupon', 'CappedFlooredYoYInflationCoupon', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChebyshevInterpolation', 'ChebyshevPointsType', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompositeZeroYieldStructure', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'CompoundingOvernightIndexedCouponPricer', 'Concentrating1dMesher', 'ConjugateGradient', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'CoxIngersollRoss', 'CraigSneyd', 'CraigSneydScheme', 'CrankNicolson', 'CrankNicolsonScheme', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CustomRegion', 'CustomSmile', 'CzechRepublic', 'DASHCurrency', 'DEConfiguration', 'DECrossoverType', 'DEMCurrency', 'DEStrategy', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'Diagonal', 'DifferentialEvolution', 'DigitalCmsCoupon', 'DigitalCmsLeg', 'DigitalCoupon', 'DigitalIborCoupon', 'DigitalIborLeg', 'DigitalReplication', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DouglasScheme', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExpSinhIntegral', 'ExplicitEuler', 'ExplicitEulerScheme', 'ExponentialFittingHestonEngine', 'ExponentialJump1dMesher', 'ExponentialSplinesFitting', 'ExtendedCoxIngersollRoss', 'ExtendedOUDiscretization', 'ExtendedOrnsteinUhlenbeckProcess', 'ExtrapolatePayoffFlat', 'FFTVarianceGammaEngine', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Factors', 'Fd2dBlackScholesVanillaEngine', 'FdBatesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesRebateEngine', 'FdBlackScholesShoutEngine', 'FdBlackScholesVanillaEngine', 'FdCEVVanillaEngine', 'FdG2SwaptionEngine', 'FdHestonHullWhiteVanillaEngine', 'FdHestonVanillaEngine', 'FdHullWhiteSwaptionEngine', 'FdOrnsteinUhlenbeckVanillaEngine', 'FdSabrVanillaEngine', 'Fdm1DimSolver', 'Fdm1dMesher', 'Fdm2DimSolver', 'Fdm2dBlackScholesOp', 'Fdm2dBlackScholesSolver', 'Fdm3DimSolver', 'FdmAmericanStepCondition', 'FdmArithmeticAverageCondition', 'FdmBackwardSolver', 'FdmBatesOp', 'FdmBatesSolver', 'FdmBermudanStepCondition', 'FdmBlackScholesFwdOp', 'FdmBlackScholesMesher', 'FdmBlackScholesOp', 'FdmBlackScholesSolver', 'FdmBoundaryCondition', 'FdmCEV1dMesher', 'FdmCEVOp', 'FdmCellAveragingInnerValue', 'FdmDirichletBoundary', 'FdmDiscountDirichletBoundary', 'FdmDividendHandler', 'FdmG2Op', 'FdmG2Solver', 'FdmHestonFwdOp', 'FdmHestonGreensFctAlgorithm', 'FdmHestonHullWhiteOp', 'FdmHestonLocalVolatilityVarianceMesher', 'FdmHestonOp', 'FdmHestonSolver', 'FdmHestonVarianceMesher', 'FdmHullWhiteOp', 'FdmHullWhiteSolver', 'FdmLinearOp', 'FdmLinearOpComposite', 'FdmLinearOpIterator', 'FdmLinearOpLayout', 'FdmLocalVolFwdOp', 'FdmLogBasketInnerValue', 'FdmLogInnerValue', 'FdmMesher', 'FdmMesherComposite', 'FdmOrnsteinUhlenbeckOp', 'FdmQuantoHelper', 'FdmSabrOp', 'FdmSchemeDesc', 'FdmSchemeType', 'FdmSimpleProcess1dMesher', 'FdmSimpleSwingCondition', 'FdmSnapshotCondition', 'FdmSolverDesc', 'FdmSquareRootFwdOp', 'FdmSquareRootFwdOpTransformationType', 'FdmStepConditionComposite', 'FdmTimeDepDirichletBoundary', 'FdmZeroInnerValue', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FirstDerivativeOp', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FlatSmileSection', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardFlatInterpolation', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardSpreadedTermStructure', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2ForwardProcess', 'G2Handle', 'G2Process', 'G2SwaptionEngine', 'GBPCurrency', 'GBSMRNDCalculator', 'GELCurrency', 'GHSCurrency', 'GJRGARCHModel', 'GJRGARCHProcess', 'GJRGARCHProcessDiscretization', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GaussChebyshev2ndIntegration', 'GaussChebyshev2ndIntegrator', 'GaussChebyshevIntegration', 'GaussChebyshevIntegrator', 'GaussGegenbauerIntegration', 'GaussHermiteIntegration', 'GaussHyperbolicIntegration', 'GaussJacobiIntegration', 'GaussKronrodAdaptive', 'GaussKronrodNonAdaptive', 'GaussLaguerreIntegration', 'GaussLegendreIntegration', 'GaussLegendreIntegrator', 'GaussLobattoIntegral', 'Gaussian1dCapFloorEngine', 'Gaussian1dFloatFloatSwaptionEngine', 'Gaussian1dJamshidianSwaptionEngine', 'Gaussian1dModelHandle', 'Gaussian1dNonstandardSwaptionEngine', 'Gaussian1dSwaptionEngine', 'GaussianLowDiscrepancySequenceGenerator', 'GaussianMultiPathGenerator', 'GaussianPathGenerator', 'GaussianRandomGenerator', 'GaussianRandomSequenceGenerator', 'GaussianSobolMultiPathGenerator', 'GaussianSobolPathGenerator', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'GeneralizedBlackScholesProcessHandle', 'GeometricBrownianMotionProcess', 'Germany', 'Glued1dMesher', 'Greeks', 'Gsr', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HaganPricer', 'HalfMonthModifiedFollowing', 'HaltonRsg', 'Harmonic', 'Hermite', 'HestonBlackVolSurface', 'HestonExpansionEngine', 'HestonExpansionFormula', 'HestonModel', 'HestonModelHandle', 'HestonModelHelper', 'HestonProcess', 'HestonProcessHandle', 'HestonRNDCalculator', 'HestonSLVFDMModel', 'HestonSLVFokkerPlanckFdmParams', 'HestonSLVMCModel', 'HestonSLVProcess', 'HolderExtensibleOption', 'HongKong', 'Hours', 'HullWhite', 'HullWhiteForwardProcess', 'HullWhiteHandle', 'HullWhiteProcess', 'Hundsdorfer', 'HundsdorferScheme', 'Hungary', 'HybridHestonHullWhiteProcess', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'ImplicitEulerScheme', 'ImplicitEulerSolverType', 'ImpliedTermStructure', 'IncrementalStatistics', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'JuQuadraticApproximationEngine', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KahaleInterpolation', 'KahaleSmile', 'KahaleSmileSection', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'LagrangeInterpolation', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolRNDCalculator', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCBarrierEngine', 'MCDigitalEngine', 'MCDiscreteArithmeticAPEngine', 'MCDoubleBarrierEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCEuropeanGJRGARCHEngine', 'MCEuropeanHestonEngine', 'MCForwardEuropeanBSEngine', 'MCForwardEuropeanHestonEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTBrownianGenerator', 'MTBrownianGeneratorFactory', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeFdHestonVanillaEngine', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Mar', 'March', 'MargrabeOption', 'MarkovFunctional', 'MarkovFunctionalAdjustments', 'MarkovFunctionalModelOutputs', 'MarkovFunctionalModelSettings', 'Matrix', 'MaxBasketPayoff', 'May', 'MersenneTwisterUniformRng', 'Merton76Process', 'MethodOfLines', 'MethodOfLinesScheme', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'MidPointTrapezoidIntegral', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedCraigSneydScheme', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'MultiCurve', 'MultiPath', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NinePointLinearOp', 'NoArbSabrInterpolatedSmileSection', 'NoArbSabrModel', 'NoArbSabrSmileSection', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NoPayoffExtrapolation', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NthOrderDerivativeOp', 'NullCalendar', 'NullReal', 'NullSize', 'NumericHaganPricer', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'Ordering', 'OrnsteinUhlenbeckProcess', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'Path', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatForwardGlobal', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLinearZeroGlobal', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearDiscountGlobal', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Predefined1dMesher', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QdPlusAmericanEngine', 'QdPlusAmericanEngineSolverType', 'QuantoForwardVanillaEngine', 'QuantoForwardVanillaOption', 'QuantoTermStructure', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'ReplicationType', 'RichardsonExtrapolation', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SVD', 'SabrInterpolatedSmileSection', 'SabrSmile', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'SampleMultiPath', 'SampleNumber', 'SamplePath', 'SampleRealVector', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'SecondDerivativeOp', 'SecondOrderMixedDerivativeOp', 'Seconds', 'SegmentIntegral', 'Semiannual', 'Sep', 'September', 'SequenceStatistics', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Simplex', 'SimpsonIntegral', 'Singapore', 'Slovakia', 'SmileDeleteArbitragePoints', 'SmileExponentialExtrapolation', 'SobolBrownianBridgeRsg', 'SobolBrownianGenerator', 'SobolBrownianGeneratorFactory', 'SobolRsg', 'Sofr', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'SpreadedSwaptionVolatility', 'Sqrt', 'SquareRootProcess', 'SquareRootProcessRNDCalculator', 'Statistics', 'SteepestDescent', 'Steps', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapSpreadIndex', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'SymmetricSchurDecomposition', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'TabulatedGaussLegendre', 'Taiwan', 'TanhSinhIntegral', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TrapezoidIntegral', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeCapFloorEngine', 'TreeSwaptionEngine', 'TripleBandLinearOp', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'TwoAssetCorrelationOption', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USRegion', 'UYUCurrency', 'Ukraine', 'UltimateForwardTermStructure', 'Unadjusted', 'Uniform1dMesher', 'UniformRandomSequenceGenerator', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceGammaEngine', 'VarianceGammaModel', 'VarianceGammaProcess', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'WriterExtensibleOption', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldCurveModel', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AdaptiveRungeKutta', 'AdjustDigitals', 'AdjustNone', 'AdjustYts', 'Akima', 'AmericanExercise', 'AmortizingCmsRateBond', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBSMHullWhiteEngine', 'AnalyticBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCEVEngine', 'AnalyticCapFloorEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDigitalAmericanEngine', 'AnalyticDigitalAmericanKOEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDividendEuropeanEngine', 'AnalyticDoubleBarrierBinaryEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticGJRGARCHEngine', 'AnalyticH1HWEngine', 'AnalyticHaganPricer', 'AnalyticHestonEngine', 'AnalyticHestonHullWhiteEngine', 'AnalyticHolderExtensibleOptionEngine', 'AnalyticPDFHestonEngine', 'AnalyticPTDHestonEngine', 'AnalyticSimpleChooserEngine', 'AnalyticTwoAssetCorrelationEngine', 'AnalyticWriterExtensibleOptionEngine', 'AndreasenHugeCalibrationType', 'AndreasenHugeInterpolationType', 'AndreasenHugeLocalVolAdapter', 'AndreasenHugeVolatilityAdapter', 'AndreasenHugeVolatilityInterpl', 'Annual', 'Apr', 'April', 'Argentina', 'ArithmeticAveragedOvernightIndexedCouponPricer', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBMACoupon', 'AverageBMALeg', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BFGS', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BMAIndex', 'BOOST_VERSION', 'BRLCurrency', 'BSMRNDCalculator', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCalculator', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BatesProcessHandle', 'BermudanExercise', 'BespokeCalendar', 'BicubicSpline', 'BilinearInterpolation', 'Bimonthly', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackAveragingOvernightIndexedCouponPricer', 'BlackCalculator', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackCompoundingOvernightIndexedCouponPricer', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConditionSide', 'BoundaryConstraint', 'BoxMullerGaussianRng', 'Brazil', 'Brent', 'BrownianBridge', 'Burley2020SobolBrownianBridgeRsg', 'Burley2020SobolBrownianGenerator', 'Burley2020SobolBrownianGeneratorFactory', 'Burley2020SobolRsg', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CEVCalculator', 'CEVRNDCalculator', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COSHestonEngine', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CapHelper', 'CappedFlooredCmsCoupon', 'CappedFlooredCoupon', 'CappedFlooredIborCoupon', 'CappedFlooredYoYInflationCoupon', 'CashDividendEuropeanEngine', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChebyshevInterpolation', 'ChebyshevPointsType', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompositeZeroYieldStructure', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'CompoundingOvernightIndexedCouponPricer', 'Concentrating1dMesher', 'ConjugateGradient', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'CoxIngersollRoss', 'CraigSneyd', 'CraigSneydScheme', 'CrankNicolson', 'CrankNicolsonScheme', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'CustomRegion', 'CustomSmile', 'CzechRepublic', 'DASHCurrency', 'DEConfiguration', 'DECrossoverType', 'DEMCurrency', 'DEStrategy', 'DKKCurrency', 'Daily', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'Diagonal', 'DifferentialEvolution', 'DigitalCmsCoupon', 'DigitalCmsLeg', 'DigitalCoupon', 'DigitalIborCoupon', 'DigitalIborLeg', 'DigitalReplication', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DouglasScheme', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExpSinhIntegral', 'ExplicitEuler', 'ExplicitEulerScheme', 'ExponentialFittingHestonEngine', 'ExponentialJump1dMesher', 'ExponentialSplinesFitting', 'ExtendedCoxIngersollRoss', 'ExtendedOUDiscretization', 'ExtendedOrnsteinUhlenbeckProcess', 'ExtrapolatePayoffFlat', 'FFTVarianceGammaEngine', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Factors', 'Fd2dBlackScholesVanillaEngine', 'FdBatesVanillaEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesRebateEngine', 'FdBlackScholesShoutEngine', 'FdBlackScholesVanillaEngine', 'FdCEVVanillaEngine', 'FdG2SwaptionEngine', 'FdHestonHullWhiteVanillaEngine', 'FdHestonVanillaEngine', 'FdHullWhiteSwaptionEngine', 'FdOrnsteinUhlenbeckVanillaEngine', 'FdSabrVanillaEngine', 'Fdm1DimSolver', 'Fdm1dMesher', 'Fdm2DimSolver', 'Fdm2dBlackScholesOp', 'Fdm2dBlackScholesSolver', 'Fdm3DimSolver', 'FdmAmericanStepCondition', 'FdmArithmeticAverageCondition', 'FdmBackwardSolver', 'FdmBatesOp', 'FdmBatesSolver', 'FdmBermudanStepCondition', 'FdmBlackScholesFwdOp', 'FdmBlackScholesMesher', 'FdmBlackScholesOp', 'FdmBlackScholesSolver', 'FdmBoundaryCondition', 'FdmCEV1dMesher', 'FdmCEVOp', 'FdmCellAveragingInnerValue', 'FdmDirichletBoundary', 'FdmDiscountDirichletBoundary', 'FdmDividendHandler', 'FdmG2Op', 'FdmG2Solver', 'FdmHestonFwdOp', 'FdmHestonGreensFctAlgorithm', 'FdmHestonHullWhiteOp', 'FdmHestonLocalVolatilityVarianceMesher', 'FdmHestonOp', 'FdmHestonSolver', 'FdmHestonVarianceMesher', 'FdmHullWhiteOp', 'FdmHullWhiteSolver', 'FdmLinearOp', 'FdmLinearOpComposite', 'FdmLinearOpIterator', 'FdmLinearOpLayout', 'FdmLocalVolFwdOp', 'FdmLogBasketInnerValue', 'FdmLogInnerValue', 'FdmMesher', 'FdmMesherComposite', 'FdmOrnsteinUhlenbeckOp', 'FdmQuantoHelper', 'FdmSabrOp', 'FdmSchemeDesc', 'FdmSchemeType', 'FdmSimpleProcess1dMesher', 'FdmSimpleSwingCondition', 'FdmSnapshotCondition', 'FdmSolverDesc', 'FdmSquareRootFwdOp', 'FdmSquareRootFwdOpTransformationType', 'FdmStepConditionComposite', 'FdmTimeDepDirichletBoundary', 'FdmZeroInnerValue', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FirstDerivativeOp', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatForward', 'FlatHazardRate', 'FlatSmileSection', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardFlatInterpolation', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardSpreadedTermStructure', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'G2', 'G2ForwardProcess', 'G2Handle', 'G2Process', 'G2SwaptionEngine', 'GBPCurrency', 'GBSMRNDCalculator', 'GELCurrency', 'GHSCurrency', 'GJRGARCHModel', 'GJRGARCHProcess', 'GJRGARCHProcessDiscretization', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GaussChebyshev2ndIntegration', 'GaussChebyshev2ndIntegrator', 'GaussChebyshevIntegration', 'GaussChebyshevIntegrator', 'GaussGegenbauerIntegration', 'GaussHermiteIntegration', 'GaussHyperbolicIntegration', 'GaussJacobiIntegration', 'GaussKronrodAdaptive', 'GaussKronrodNonAdaptive', 'GaussLaguerreIntegration', 'GaussLegendreIntegration', 'GaussLegendreIntegrator', 'GaussLobattoIntegral', 'Gaussian1dCapFloorEngine', 'Gaussian1dFloatFloatSwaptionEngine', 'Gaussian1dJamshidianSwaptionEngine', 'Gaussian1dModelHandle', 'Gaussian1dNonstandardSwaptionEngine', 'Gaussian1dSwaptionEngine', 'GaussianLowDiscrepancySequenceGenerator', 'GaussianMultiPathGenerator', 'GaussianPathGenerator', 'GaussianRandomGenerator', 'GaussianRandomSequenceGenerator', 'GaussianSobolMultiPathGenerator', 'GaussianSobolPathGenerator', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'GeneralizedBlackScholesProcessHandle', 'GeometricBrownianMotionProcess', 'Germany', 'Glued1dMesher', 'Greeks', 'Gsr', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HaganPricer', 'HalfMonthModifiedFollowing', 'HaltonRsg', 'Harmonic', 'Hermite', 'HestonBlackVolSurface', 'HestonExpansionEngine', 'HestonExpansionFormula', 'HestonModel', 'HestonModelHandle', 'HestonModelHelper', 'HestonProcess', 'HestonProcessHandle', 'HestonRNDCalculator', 'HestonSLVFDMModel', 'HestonSLVFokkerPlanckFdmParams', 'HestonSLVMCModel', 'HestonSLVProcess', 'HolderExtensibleOption', 'HongKong', 'Hours', 'HullWhite', 'HullWhiteForwardProcess', 'HullWhiteHandle', 'HullWhiteProcess', 'Hundsdorfer', 'HundsdorferScheme', 'Hungary', 'HybridHestonHullWhiteProcess', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'ImplicitEulerScheme', 'ImplicitEulerSolverType', 'ImpliedTermStructure', 'IncrementalStatistics', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'JuQuadraticApproximationEngine', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KahaleInterpolation', 'KahaleSmile', 'KahaleSmileSection', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'LagrangeInterpolation', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolRNDCalculator', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogLinearInterpolation', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanEngine', 'MCBarrierEngine', 'MCDigitalEngine', 'MCDiscreteArithmeticAPEngine', 'MCDoubleBarrierEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCEuropeanGJRGARCHEngine', 'MCEuropeanHestonEngine', 'MCForwardEuropeanBSEngine', 'MCForwardEuropeanHestonEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTBrownianGenerator', 'MTBrownianGeneratorFactory', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeFdHestonVanillaEngine', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Mar', 'March', 'MargrabeOption', 'MarkovFunctional', 'MarkovFunctionalAdjustments', 'MarkovFunctionalModelOutputs', 'MarkovFunctionalModelSettings', 'Matrix', 'MaxBasketPayoff', 'May', 'MersenneTwisterUniformRng', 'Merton76Process', 'MethodOfLines', 'MethodOfLinesScheme', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'MidPointTrapezoidIntegral', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'ModifiedCraigSneyd', 'ModifiedCraigSneydScheme', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'MultiCurve', 'MultiPath', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NinePointLinearOp', 'NoArbSabrInterpolatedSmileSection', 'NoArbSabrModel', 'NoArbSabrSmileSection', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NoPayoffExtrapolation', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NthOrderDerivativeOp', 'NullCalendar', 'NullReal', 'NullSize', 'NumericHaganPricer', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'Ordering', 'OrnsteinUhlenbeckProcess', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'Path', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatForwardGlobal', 'PiecewiseBackwardFlatHazard', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLinearZeroGlobal', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearDiscountGlobal', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Predefined1dMesher', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QdPlusAmericanEngine', 'QdPlusAmericanEngineSolverType', 'QuantoForwardVanillaEngine', 'QuantoForwardVanillaOption', 'QuantoTermStructure', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'ReplicationType', 'RichardsonExtrapolation', 'Romania', 'Rounding', 'Russia', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SVD', 'SabrInterpolatedSmileSection', 'SabrSmile', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'SampleMultiPath', 'SampleNumber', 'SamplePath', 'SampleRealVector', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'SecondDerivativeOp', 'SecondOrderMixedDerivativeOp', 'Seconds', 'SegmentIntegral', 'Semiannual', 'Sep', 'September', 'SequenceStatistics', 'Settings', 'SettlementMethod', 'SettlementType', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Simplex', 'SimpsonIntegral', 'Singapore', 'Slovakia', 'SmileDeleteArbitragePoints', 'SmileExponentialExtrapolation', 'SobolBrownianBridgeRsg', 'SobolBrownianGenerator', 'SobolBrownianGeneratorFactory', 'SobolRsg', 'Sofr', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'SpreadedSwaptionVolatility', 'Sqrt', 'SquareRootProcess', 'SquareRootProcessRNDCalculator', 'Statistics', 'SteepestDescent', 'Steps', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapSpreadIndex', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'SymmetricSchurDecomposition', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'TabulatedGaussLegendre', 'Taiwan', 'TanhSinhIntegral', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TrapezoidIntegral', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeCapFloorEngine', 'TreeSwaptionEngine', 'TripleBandLinearOp', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'TwoAssetCorrelationOption', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USRegion', 'UYUCurrency', 'Ukraine', 'UltimateForwardTermStructure', 'Unadjusted', 'Uniform1dMesher', 'UniformRandomSequenceGenerator', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceGammaEngine', 'VarianceGammaModel', 'VarianceGammaProcess', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'WriterExtensibleOption', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldCurveModel', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -126,7 +126,7 @@ class Actual365Fixed(DayCounter):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -148,7 +148,7 @@ class Actual365Fixed(DayCounter):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -215,7 +215,7 @@ class ActualActual(DayCounter):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -237,7 +237,7 @@ class ActualActual(DayCounter):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -262,15 +262,15 @@ class AdaptiveRungeKutta:
     """
     Adaptive step-size Runge-Kutta ODE integrator (Cash-Karp method).
     """
-    def __call__(self, ode: collections.abc.Callable[[typing.SupportsFloat, collections.abc.Sequence[typing.SupportsFloat]], list[float]], y1: collections.abc.Sequence[typing.SupportsFloat], x1: typing.SupportsFloat, x2: typing.SupportsFloat) -> list[float]:
+    def __call__(self, ode: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex, collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]], list[float]], y1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], x1: typing.SupportsFloat | typing.SupportsIndex, x2: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Integrates N-dimensional ODE from x1 to x2 with initial condition y(x1) = y1.
         """
-    def __init__(self, eps: typing.SupportsFloat = 1e-06, h1: typing.SupportsFloat = 0.0001, hmin: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, eps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, h1: typing.SupportsFloat | typing.SupportsIndex = 0.0001, hmin: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with prescribed error *eps*, initial step *h1*, and minimum step *hmin*.
         """
-    def solve1d(self, ode: collections.abc.Callable[[typing.SupportsFloat, typing.SupportsFloat], float], y1: typing.SupportsFloat, x1: typing.SupportsFloat, x2: typing.SupportsFloat) -> float:
+    def solve1d(self, ode: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex], float], y1: typing.SupportsFloat | typing.SupportsIndex, x1: typing.SupportsFloat | typing.SupportsIndex, x2: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Integrates 1-dimensional ODE from x1 to x2 with initial condition y(x1) = y1.
         """
@@ -286,7 +286,7 @@ class AmortizingCmsRateBond(Bond):
     """
     Amortizing CMS-rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, notionals: collections.abc.Sequence[typing.SupportsFloat], schedule: Schedule, index: SwapIndex, paymentDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat] = [], floors: collections.abc.Sequence[typing.SupportsFloat] = [], inArrears: bool = False, issueDate: Date = ..., redemptions: collections.abc.Sequence[typing.SupportsFloat] = [100.0]) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, notionals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], schedule: Schedule, index: SwapIndex, paymentDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], inArrears: bool = False, issueDate: Date = ..., redemptions: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [100.0]) -> None:
         """
         Constructs an amortizing CMS-rate bond.
         """
@@ -294,7 +294,7 @@ class AmortizingFixedRateBond(Bond):
     """
     Amortizing fixed-rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, notionals: collections.abc.Sequence[typing.SupportsFloat], schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, redemptions: collections.abc.Sequence[typing.SupportsFloat] = [100.0], paymentLag: typing.SupportsInt = 0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, notionals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, redemptions: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [100.0], paymentLag: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs an amortizing fixed-rate bond.
         """
@@ -310,7 +310,7 @@ class AmortizingFloatingRateBond(Bond):
     """
     Amortizing floating-rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, notionals: collections.abc.Sequence[typing.SupportsFloat], schedule: Schedule, index: IborIndex, accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat] = [], floors: collections.abc.Sequence[typing.SupportsFloat] = [], inArrears: bool = False, issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, redemptions: collections.abc.Sequence[typing.SupportsFloat] = [100.0], paymentLag: typing.SupportsInt = 0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, notionals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], schedule: Schedule, index: IborIndex, accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], inArrears: bool = False, issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, redemptions: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [100.0], paymentLag: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs an amortizing floating-rate bond.
         """
@@ -318,7 +318,7 @@ class AmortizingPayment(SimpleCashFlow):
     """
     Amortizing payment cash flow.
     """
-    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, amount: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs an amortizing payment with the given amount and date.
         """
@@ -326,13 +326,13 @@ class AnalyticAmericanMargrabeEngine(base.PricingEngine):
     """
     Analytic engine for American exchange (Margrabe) options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class AnalyticBSMHullWhiteEngine(base.PricingEngine):
     """
     BSM engine with Hull-White stochastic interest rates.
     """
-    def __init__(self, equityShortRateCorrelation: typing.SupportsFloat, process: GeneralizedBlackScholesProcess, hullWhiteModel: HullWhite) -> None:
+    def __init__(self, equityShortRateCorrelation: typing.SupportsFloat | typing.SupportsIndex, process: GeneralizedBlackScholesProcess, hullWhiteModel: HullWhite) -> None:
         """
         Constructs BSM Hull-White engine.
         """
@@ -348,7 +348,7 @@ class AnalyticBlackVasicekEngine(base.PricingEngine):
     """
     European option engine with stochastic Vasicek interest rates.
     """
-    def __init__(self, bsProcess: GeneralizedBlackScholesProcess, vasicekProcess: Vasicek, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, bsProcess: GeneralizedBlackScholesProcess, vasicekProcess: Vasicek, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with BS process, Vasicek model, and correlation.
         """
@@ -357,12 +357,12 @@ class AnalyticCEVEngine(base.PricingEngine):
     Analytic Constant Elasticity of Variance pricing engine.
     """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, discountCurve: YieldTermStructureHandle) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle) -> None:
         """
         Constructs AnalyticCEVEngine.
         """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, discountCurve: base.YieldTermStructure) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, discountCurve: base.YieldTermStructure) -> None:
         """
         Constructs from yield term structure (handle created internally).
         """
@@ -474,7 +474,7 @@ class AnalyticDoubleBarrierEngine(base.PricingEngine):
     """
     Analytic double barrier option engine (Ikeda-Kunitomo).
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, series: typing.SupportsInt = 5) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, series: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         """
         Constructs AnalyticDoubleBarrierEngine.
         """
@@ -501,7 +501,7 @@ class AnalyticEuropeanMargrabeEngine(base.PricingEngine):
     """
     Analytic engine for European exchange (Margrabe) options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class AnalyticGJRGARCHEngine(base.PricingEngine):
     """
@@ -514,12 +514,12 @@ class AnalyticH1HWEngine(AnalyticHestonHullWhiteEngine):
     H1-HW approximation with equity-rate correlation.
     """
     @typing.overload
-    def __init__(self, model: HestonModel, hullWhiteModel: HullWhite, rhoSr: typing.SupportsFloat, integrationOrder: typing.SupportsInt = 144) -> None:
+    def __init__(self, model: HestonModel, hullWhiteModel: HullWhite, rhoSr: typing.SupportsFloat | typing.SupportsIndex, integrationOrder: typing.SupportsInt | typing.SupportsIndex = 144) -> None:
         """
         Constructs with Gauss-Laguerre integration.
         """
     @typing.overload
-    def __init__(self, model: HestonModel, hullWhiteModel: HullWhite, rhoSr: typing.SupportsFloat, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+    def __init__(self, model: HestonModel, hullWhiteModel: HullWhite, rhoSr: typing.SupportsFloat | typing.SupportsIndex, relTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with adaptive Gauss-Lobatto integration.
         """
@@ -542,17 +542,17 @@ class AnalyticHestonEngine(base.GenericHestonModelEngine):
     Analytic pricing engine for Heston stochastic volatility model.
     """
     @typing.overload
-    def __init__(self, model: HestonModel, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+    def __init__(self, model: HestonModel, relTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with adaptive Gauss-Lobatto integration.
         """
     @typing.overload
-    def __init__(self, model: HestonModel, integrationOrder: typing.SupportsInt = 144) -> None:
+    def __init__(self, model: HestonModel, integrationOrder: typing.SupportsInt | typing.SupportsIndex = 144) -> None:
         """
         Constructs with Gauss-Laguerre integration.
         """
     @typing.overload
-    def __init__(self, model: HestonModel, cpxLog: ComplexLogFormula, integration: Integration, andersenPiterbargEpsilon: typing.SupportsFloat = 1e-25, alpha: typing.SupportsFloat = -0.5) -> None:
+    def __init__(self, model: HestonModel, cpxLog: ComplexLogFormula, integration: Integration, andersenPiterbargEpsilon: typing.SupportsFloat | typing.SupportsIndex = 1e-25, alpha: typing.SupportsFloat | typing.SupportsIndex = -0.5) -> None:
         """
         Constructs with full control over integration method.
         """
@@ -560,7 +560,7 @@ class AnalyticHestonEngine(base.GenericHestonModelEngine):
         """
         Returns number of integration evaluations.
         """
-    def priceVanillaPayoff(self, payoff: PlainVanillaPayoff, maturity: typing.SupportsFloat) -> float:
+    def priceVanillaPayoff(self, payoff: PlainVanillaPayoff, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Prices vanilla payoff for given maturity.
         """
@@ -569,12 +569,12 @@ class AnalyticHestonHullWhiteEngine(AnalyticHestonEngine):
     Heston engine with Hull-White stochastic interest rates.
     """
     @typing.overload
-    def __init__(self, hestonModel: HestonModel, hullWhiteModel: HullWhite, integrationOrder: typing.SupportsInt = 144) -> None:
+    def __init__(self, hestonModel: HestonModel, hullWhiteModel: HullWhite, integrationOrder: typing.SupportsInt | typing.SupportsIndex = 144) -> None:
         """
         Constructs with Gauss-Laguerre integration.
         """
     @typing.overload
-    def __init__(self, hestonModel: HestonModel, hullWhiteModel: HullWhite, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+    def __init__(self, hestonModel: HestonModel, hullWhiteModel: HullWhite, relTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with adaptive Gauss-Lobatto integration.
         """
@@ -588,15 +588,15 @@ class AnalyticPDFHestonEngine(base.PricingEngine):
     """
     PDF-based Heston engine for arbitrary European payoffs.
     """
-    def Pv(self, x_t: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def Pv(self, x_t: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns probability density in log-space.
         """
-    def __init__(self, model: HestonModel, gaussLobattoEps: typing.SupportsFloat = 1e-06, gaussLobattoIntegrationOrder: typing.SupportsInt = 10000) -> None:
+    def __init__(self, model: HestonModel, gaussLobattoEps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, gaussLobattoIntegrationOrder: typing.SupportsInt | typing.SupportsIndex = 10000) -> None:
         """
         Constructs PDF Heston engine.
         """
-    def cdf(self, X: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def cdf(self, X: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns cumulative distribution function Pr(x < X).
         """
@@ -605,17 +605,17 @@ class AnalyticPTDHestonEngine(base.PricingEngine):
     Analytic piecewise time-dependent Heston engine.
     """
     @typing.overload
-    def __init__(self, model: PiecewiseTimeDependentHestonModel, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+    def __init__(self, model: PiecewiseTimeDependentHestonModel, relTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with adaptive Gauss-Lobatto integration.
         """
     @typing.overload
-    def __init__(self, model: PiecewiseTimeDependentHestonModel, integrationOrder: typing.SupportsInt = 144) -> None:
+    def __init__(self, model: PiecewiseTimeDependentHestonModel, integrationOrder: typing.SupportsInt | typing.SupportsIndex = 144) -> None:
         """
         Constructs with Gauss-Laguerre integration.
         """
     @typing.overload
-    def __init__(self, model: PiecewiseTimeDependentHestonModel, cpxLog: ..., integration: Integration, andersenPiterbargEpsilon: typing.SupportsFloat = 1e-08) -> None:
+    def __init__(self, model: PiecewiseTimeDependentHestonModel, cpxLog: ..., integration: Integration, andersenPiterbargEpsilon: typing.SupportsFloat | typing.SupportsIndex = 1e-08) -> None:
         """
         Constructs with full control over integration method.
         """
@@ -671,7 +671,7 @@ class AndreasenHugeCalibrationType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -679,7 +679,7 @@ class AndreasenHugeCalibrationType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -713,7 +713,7 @@ class AndreasenHugeInterpolationType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -721,7 +721,7 @@ class AndreasenHugeInterpolationType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -743,7 +743,7 @@ class AndreasenHugeVolatilityAdapter(base.BlackVolTermStructure):
     """
     BlackVolTermStructure adapter for Andreasen-Huge volatility interpolation. Provides implied Black volatility.
     """
-    def __init__(self, volInterpl: AndreasenHugeVolatilityInterpl, eps: typing.SupportsFloat = 1e-06) -> None:
+    def __init__(self, volInterpl: AndreasenHugeVolatilityInterpl, eps: typing.SupportsFloat | typing.SupportsIndex = 1e-06) -> None:
         """
         Constructs from an AndreasenHugeVolatilityInterpl instance.
         """
@@ -751,7 +751,7 @@ class AndreasenHugeVolatilityInterpl:
     """
     Andreasen-Huge local volatility calibration and interpolation. Calibrates a local vol surface to a sparse grid of vanilla options.
     """
-    def __init__(self, calibrationSet: collections.abc.Sequence[tuple[..., base.Quote]], spot: QuoteHandle, rTS: YieldTermStructureHandle, qTS: YieldTermStructureHandle, interpolationType: AndreasenHugeInterpolationType = ..., calibrationType: AndreasenHugeCalibrationType = ..., nGridPoints: typing.SupportsInt = 500, minStrike: typing.Any = None, maxStrike: typing.Any = None, optimizationMethod: base.OptimizationMethod = None, endCriteria: EndCriteria = ...) -> None:
+    def __init__(self, calibrationSet: collections.abc.Sequence[tuple[..., base.Quote]], spot: QuoteHandle, rTS: YieldTermStructureHandle, qTS: YieldTermStructureHandle, interpolationType: AndreasenHugeInterpolationType = ..., calibrationType: AndreasenHugeCalibrationType = ..., nGridPoints: typing.SupportsInt | typing.SupportsIndex = 500, minStrike: typing.Any = None, maxStrike: typing.Any = None, optimizationMethod: base.OptimizationMethod = None, endCriteria: EndCriteria = ...) -> None:
         """
         Constructs from a calibration set of (VanillaOption, Quote) pairs.
         """
@@ -759,11 +759,11 @@ class AndreasenHugeVolatilityInterpl:
         """
         Returns (min, max, avg) calibration error in volatility units.
         """
-    def fwd(self, t: typing.SupportsFloat) -> float:
+    def fwd(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the forward price at time t.
         """
-    def localVol(self, t: typing.SupportsFloat, strike: typing.SupportsFloat) -> float:
+    def localVol(self, t: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the calibrated local volatility.
         """
@@ -773,7 +773,7 @@ class AndreasenHugeVolatilityInterpl:
         ...
     def minStrike(self) -> float:
         ...
-    def optionPrice(self, t: typing.SupportsFloat, strike: typing.SupportsFloat, optionType: OptionType) -> float:
+    def optionPrice(self, t: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, optionType: OptionType) -> float:
         """
         Returns the calibrated option price.
         """
@@ -828,7 +828,7 @@ class Argentina(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -850,7 +850,7 @@ class Argentina(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -870,7 +870,7 @@ class ArithmeticAveragedOvernightIndexedCouponPricer(base.FloatingRateCouponPric
     Pricer for arithmetically averaged overnight indexed coupons.
     """
     @typing.overload
-    def __init__(self, meanReversion: typing.SupportsFloat = 0.03, volatility: typing.SupportsFloat = 0.0, byApprox: bool = False) -> None:
+    def __init__(self, meanReversion: typing.SupportsFloat | typing.SupportsIndex = 0.03, volatility: typing.SupportsFloat | typing.SupportsIndex = 0.0, byApprox: bool = False) -> None:
         """
         Constructs with convexity adjustment parameters.
         """
@@ -892,7 +892,7 @@ class Array:
     def __add__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __add__(self, arg0: typing.SupportsFloat) -> Array:
+    def __add__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     def __buffer__(self, flags):
         """
@@ -900,19 +900,19 @@ class Array:
         """
     def __eq__(self, arg0: Array) -> bool:
         ...
-    def __getitem__(self, i: typing.SupportsInt) -> float:
+    def __getitem__(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         ...
     @typing.overload
     def __iadd__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __iadd__(self, arg0: typing.SupportsFloat) -> Array:
+    def __iadd__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     @typing.overload
     def __imul__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __imul__(self, arg0: typing.SupportsFloat) -> Array:
+    def __imul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     @typing.overload
     def __init__(self) -> None:
@@ -920,12 +920,12 @@ class Array:
         Default constructor (empty array).
         """
     @typing.overload
-    def __init__(self, size: typing.SupportsInt) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Creates an array of given size.
         """
     @typing.overload
-    def __init__(self, size: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Creates an array of given size with all elements set to value.
         """
@@ -943,7 +943,7 @@ class Array:
     def __isub__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __isub__(self, arg0: typing.SupportsFloat) -> Array:
+    def __isub__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     def __iter__(self) -> collections.abc.Iterator[float]:
         ...
@@ -951,7 +951,7 @@ class Array:
     def __itruediv__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __itruediv__(self, arg0: typing.SupportsFloat) -> Array:
+    def __itruediv__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     def __len__(self) -> int:
         ...
@@ -959,13 +959,13 @@ class Array:
     def __mul__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __mul__(self, arg0: typing.SupportsFloat) -> Array:
+    def __mul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     def __ne__(self, arg0: Array) -> bool:
         ...
     def __neg__(self) -> Array:
         ...
-    def __radd__(self, arg0: typing.SupportsFloat) -> Array:
+    def __radd__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     def __release_buffer__(self, buffer):
         """
@@ -973,27 +973,27 @@ class Array:
         """
     def __repr__(self) -> str:
         ...
-    def __rmul__(self, arg0: typing.SupportsFloat) -> Array:
+    def __rmul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
-    def __rsub__(self, arg0: typing.SupportsFloat) -> Array:
+    def __rsub__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
-    def __rtruediv__(self, arg0: typing.SupportsFloat) -> Array:
+    def __rtruediv__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
-    def __setitem__(self, i: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+    def __setitem__(self, i: typing.SupportsInt | typing.SupportsIndex, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @typing.overload
     def __sub__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __sub__(self, arg0: typing.SupportsFloat) -> Array:
+    def __sub__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
     @typing.overload
     def __truediv__(self, arg0: Array) -> Array:
         ...
     @typing.overload
-    def __truediv__(self, arg0: typing.SupportsFloat) -> Array:
+    def __truediv__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         ...
-    def at(self, i: typing.SupportsInt) -> float:
+    def at(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Access element with bounds checking.
         """
@@ -1005,7 +1005,7 @@ class Array:
         """
         Returns true if the array is empty.
         """
-    def fill(self, value: typing.SupportsFloat) -> None:
+    def fill(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Fills the array with a value.
         """
@@ -1014,12 +1014,12 @@ class Array:
         Returns the first element.
         """
     @typing.overload
-    def resize(self, size: typing.SupportsInt) -> None:
+    def resize(self, size: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Resizes the array.
         """
     @typing.overload
-    def resize(self, size: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+    def resize(self, size: typing.SupportsInt | typing.SupportsIndex, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Resizes the array, filling new elements with value.
         """
@@ -1035,13 +1035,13 @@ class AssetOrNothingPayoff(base.StrikedTypePayoff):
     """
     Binary payoff: asset value if in the money, zero otherwise.
     """
-    def __init__(self, type: OptionType, strike: typing.SupportsFloat) -> None:
+    def __init__(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class AssetSwap(Swap):
     """
     Bullet bond vs Libor swap.
     """
-    def __init__(self, payBondCoupon: bool, bond: Bond, bondCleanPrice: typing.SupportsFloat, iborIndex: IborIndex, spread: typing.SupportsFloat, floatSchedule: Schedule = ..., floatingDayCount: typing.Any = None, parAssetSwap: bool = True) -> None:
+    def __init__(self, payBondCoupon: bool, bond: Bond, bondCleanPrice: typing.SupportsFloat | typing.SupportsIndex, iborIndex: IborIndex, spread: typing.SupportsFloat | typing.SupportsIndex, floatSchedule: Schedule = ..., floatingDayCount: typing.Any = None, parAssetSwap: bool = True) -> None:
         """
         Constructs an asset swap.
         """
@@ -1146,7 +1146,7 @@ class Australia(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -1168,7 +1168,7 @@ class Australia(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -1258,7 +1258,7 @@ class Austria(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -1280,7 +1280,7 @@ class Austria(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -1300,7 +1300,7 @@ class AverageBMACoupon(FloatingRateCoupon):
     """
     Coupon paying the weighted average of BMA fixings.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None) -> None:
         """
         Constructs an average BMA coupon.
         """
@@ -1325,22 +1325,22 @@ class AverageBMALeg:
         Builds and returns the leg.
         """
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> AverageBMALeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> AverageBMALeg:
         """
         Sets a single gearing.
         """
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> AverageBMALeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> AverageBMALeg:
         """
         Sets gearing schedule.
         """
     @typing.overload
-    def withNotionals(self, notional: typing.SupportsFloat) -> AverageBMALeg:
+    def withNotionals(self, notional: typing.SupportsFloat | typing.SupportsIndex) -> AverageBMALeg:
         """
         Sets a single notional.
         """
     @typing.overload
-    def withNotionals(self, notionals: collections.abc.Sequence[typing.SupportsFloat]) -> AverageBMALeg:
+    def withNotionals(self, notionals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> AverageBMALeg:
         """
         Sets notional schedule.
         """
@@ -1353,12 +1353,12 @@ class AverageBMALeg:
         Sets payment day counter.
         """
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> AverageBMALeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> AverageBMALeg:
         """
         Sets a single spread.
         """
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> AverageBMALeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> AverageBMALeg:
         """
         Sets spread schedule.
         """
@@ -1372,7 +1372,7 @@ class AverageBasketPayoff(base.BasketPayoff):
         Constructs with base payoff and weights.
         """
     @typing.overload
-    def __init__(self, basePayoff: base.Payoff, n: typing.SupportsInt) -> None:
+    def __init__(self, basePayoff: base.Payoff, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with base payoff and equal weights for n assets.
         """
@@ -1401,7 +1401,7 @@ class AverageType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -1409,7 +1409,7 @@ class AverageType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -1563,12 +1563,12 @@ class BachelierCalculator:
     Bachelier (normal-volatility) calculator for option pricing and Greeks.
     """
     @typing.overload
-    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from payoff, forward, stdDev, and discount.
         """
     @typing.overload
-    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from option type, strike, forward, stdDev, and discount.
         """
@@ -1580,7 +1580,7 @@ class BachelierCalculator:
         """
         Returns beta.
         """
-    def delta(self, spot: typing.SupportsFloat) -> float:
+    def delta(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to change in the underlying spot price.
         """
@@ -1588,11 +1588,11 @@ class BachelierCalculator:
         """
         Sensitivity to change in the underlying forward price.
         """
-    def dividendRho(self, maturity: typing.SupportsFloat) -> float:
+    def dividendRho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to dividend/growth rate.
         """
-    def elasticity(self, spot: typing.SupportsFloat) -> float:
+    def elasticity(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Percent sensitivity to percent change in spot price.
         """
@@ -1600,7 +1600,7 @@ class BachelierCalculator:
         """
         Percent sensitivity to percent change in forward price.
         """
-    def gamma(self, spot: typing.SupportsFloat) -> float:
+    def gamma(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Second order derivative w.r.t. spot price.
         """
@@ -1616,7 +1616,7 @@ class BachelierCalculator:
         """
         Probability of being ITM in bond martingale measure.
         """
-    def rho(self, maturity: typing.SupportsFloat) -> float:
+    def rho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to discounting rate.
         """
@@ -1628,11 +1628,11 @@ class BachelierCalculator:
         """
         Sensitivity to strike.
         """
-    def theta(self, spot: typing.SupportsFloat, maturity: typing.SupportsFloat) -> float:
+    def theta(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to time to maturity.
         """
-    def thetaPerDay(self, spot: typing.SupportsFloat, maturity: typing.SupportsFloat) -> float:
+    def thetaPerDay(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to time to maturity per day (365-day basis).
         """
@@ -1640,7 +1640,7 @@ class BachelierCalculator:
         """
         Returns the option value.
         """
-    def vega(self, maturity: typing.SupportsFloat) -> float:
+    def vega(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to volatility.
         """
@@ -1649,12 +1649,12 @@ class BachelierCapFloorEngine(base.PricingEngine):
     Bachelier (normal) cap/floor engine.
     """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ...) -> None:
         """
         Constructs with flat normal volatility (handle).
         """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ...) -> None:
         """
         Constructs with flat normal volatility.
         """
@@ -1673,7 +1673,7 @@ class BachelierSwaptionEngine(base.PricingEngine):
     Normal Bachelier-formula swaption engine.
     """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ...) -> None:
         """
         Constructs from constant normal volatility.
         """
@@ -1683,7 +1683,7 @@ class BachelierSwaptionEngine(base.PricingEngine):
         Constructs from quote normal volatility.
         """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ...) -> None:
         """
         Constructs from constant normal volatility (handle).
         """
@@ -1715,7 +1715,7 @@ class BackwardFlatInterpolation(base.Interpolation):
     """
     Backward-flat interpolation between discrete points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -1724,7 +1724,7 @@ class BaroneAdesiWhaleyApproximationEngine(base.PricingEngine):
     Barone-Adesi and Whaley approximation engine for American options (1987).
     """
     @staticmethod
-    def criticalPrice(payoff: base.StrikedTypePayoff, riskFreeDiscount: typing.SupportsFloat, dividendDiscount: typing.SupportsFloat, variance: typing.SupportsFloat, tolerance: typing.SupportsFloat = 1e-06) -> float:
+    def criticalPrice(payoff: base.StrikedTypePayoff, riskFreeDiscount: typing.SupportsFloat | typing.SupportsIndex, dividendDiscount: typing.SupportsFloat | typing.SupportsIndex, variance: typing.SupportsFloat | typing.SupportsIndex, tolerance: typing.SupportsFloat | typing.SupportsIndex = 1e-06) -> float:
         """
         Computes the critical price for early exercise.
         """
@@ -1736,11 +1736,11 @@ class BarrierOption(base.OneAssetOption):
     """
     Barrier option on a single asset.
     """
-    def __init__(self, barrierType: BarrierType, barrier: typing.SupportsFloat, rebate: typing.SupportsFloat, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, barrierType: BarrierType, barrier: typing.SupportsFloat | typing.SupportsIndex, rebate: typing.SupportsFloat | typing.SupportsIndex, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         """
         Constructs BarrierOption.
         """
-    def impliedVolatility(self, price: typing.SupportsFloat, process: GeneralizedBlackScholesProcess, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, process: GeneralizedBlackScholesProcess, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
         """
         Returns implied volatility.
         """
@@ -1771,7 +1771,7 @@ class BarrierType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -1779,7 +1779,7 @@ class BarrierType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -1806,12 +1806,12 @@ class BatesEngine(AnalyticHestonEngine):
     Analytic pricing engine for the Bates model.
     """
     @typing.overload
-    def __init__(self, model: BatesModel, integrationOrder: typing.SupportsInt = 144) -> None:
+    def __init__(self, model: BatesModel, integrationOrder: typing.SupportsInt | typing.SupportsIndex = 144) -> None:
         """
         Constructs with Bates model and integration order.
         """
     @typing.overload
-    def __init__(self, model: BatesModel, relTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt) -> None:
+    def __init__(self, model: BatesModel, relTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with Bates model, relative tolerance, and max evaluations.
         """
@@ -1840,12 +1840,12 @@ class BatesProcess(HestonProcess):
     Bates stochastic volatility process with jumps.
     """
     @typing.overload
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, lambda: typing.SupportsFloat, nu: typing.SupportsFloat, delta: typing.SupportsFloat, discretization: HestonProcess.Discretization = ...) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat | typing.SupportsIndex, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, lambda: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, delta: typing.SupportsFloat | typing.SupportsIndex, discretization: HestonProcess.Discretization = ...) -> None:
         """
         Constructs Bates process with Heston parameters plus jump parameters.
         """
     @typing.overload
-    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, lambda: typing.SupportsFloat, nu: typing.SupportsFloat, delta: typing.SupportsFloat, discretization: HestonProcess.Discretization = ...) -> None:
+    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat | typing.SupportsIndex, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, lambda: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, delta: typing.SupportsFloat | typing.SupportsIndex, discretization: HestonProcess.Discretization = ...) -> None:
         """
         Constructs with term structures and quote (handles created internally).
         """
@@ -1930,27 +1930,27 @@ class BicubicSpline(base.Interpolation2D):
     """
     Bicubic spline interpolation on a 2-D grid.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat], z: Matrix) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], z: Matrix) -> None:
         """
         Constructs from x, y arrays and z matrix.
         """
-    def derivativeX(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeX(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the partial derivative with respect to x.
         """
-    def derivativeXY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeXY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the cross partial derivative.
         """
-    def derivativeY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the partial derivative with respect to y.
         """
-    def secondDerivativeX(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def secondDerivativeX(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the second partial derivative with respect to x.
         """
-    def secondDerivativeY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def secondDerivativeY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the second partial derivative with respect to y.
         """
@@ -1958,7 +1958,7 @@ class BilinearInterpolation(base.Interpolation2D):
     """
     Bilinear interpolation on a 2-D grid.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat], z: Matrix) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], z: Matrix) -> None:
         """
         Constructs from x, y arrays and z matrix.
         """
@@ -1968,25 +1968,25 @@ class Bisection:
     """
     def __init__(self) -> None:
         ...
-    def setLowerBound(self, lowerBound: typing.SupportsFloat) -> None:
+    def setLowerBound(self, lowerBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets lower bound for the function domain.
         """
-    def setMaxEvaluations(self, evaluations: typing.SupportsInt) -> None:
+    def setMaxEvaluations(self, evaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Sets maximum number of function evaluations.
         """
-    def setUpperBound(self, upperBound: typing.SupportsFloat) -> None:
+    def setUpperBound(self, upperBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets upper bound for the function domain.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, step: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, step: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root with automatic bracketing.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, xMin: typing.SupportsFloat, xMax: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, xMin: typing.SupportsFloat | typing.SupportsIndex, xMax: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root within explicit bracket.
         """
@@ -1994,11 +1994,11 @@ class BivariateCumulativeNormalDistribution:
     """
     Cumulative bivariate normal distribution (West 2004).
     """
-    def __call__(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the cumulative bivariate normal probability.
         """
-    def __init__(self, rho: typing.SupportsFloat) -> None:
+    def __init__(self, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs BivariateCumulativeNormalDistribution with correlation rho.
         """
@@ -2014,21 +2014,35 @@ class BjerksundStenslandSpreadEngine(base.SpreadBlackScholesVanillaEngine):
     """
     Bjerksund-Stensland analytical approximation for spread options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
+        """
+class BlackAveragingOvernightIndexedCouponPricer(ArithmeticAveragedOvernightIndexedCouponPricer):
+    """
+    Black pricer for capped/floored averaged overnight coupons.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs without optionlet volatility.
+        """
+    @typing.overload
+    def __init__(self, v: ..., effectiveVolatilityInput: bool = False) -> None:
+        """
+        Constructs with optionlet volatility and effective vol flag.
         """
 class BlackCalculator:
     """
     Black 1976 calculator for option pricing and Greeks.
     """
     @typing.overload
-    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, payoff: base.StrikedTypePayoff, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from payoff, forward, stdDev, and discount.
         """
     @typing.overload
-    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from option type, strike, forward, stdDev, and discount.
         """
@@ -2040,7 +2054,7 @@ class BlackCalculator:
         """
         Returns beta.
         """
-    def delta(self, spot: typing.SupportsFloat) -> float:
+    def delta(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to change in the underlying spot price.
         """
@@ -2048,11 +2062,11 @@ class BlackCalculator:
         """
         Sensitivity to change in the underlying forward price.
         """
-    def dividendRho(self, maturity: typing.SupportsFloat) -> float:
+    def dividendRho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to dividend/growth rate.
         """
-    def elasticity(self, spot: typing.SupportsFloat) -> float:
+    def elasticity(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Percent sensitivity to percent change in spot price.
         """
@@ -2060,7 +2074,7 @@ class BlackCalculator:
         """
         Percent sensitivity to percent change in forward price.
         """
-    def gamma(self, spot: typing.SupportsFloat) -> float:
+    def gamma(self, spot: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Second order derivative w.r.t. spot price.
         """
@@ -2076,7 +2090,7 @@ class BlackCalculator:
         """
         Probability of being ITM in bond martingale measure, N(d2).
         """
-    def rho(self, maturity: typing.SupportsFloat) -> float:
+    def rho(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to discounting rate.
         """
@@ -2088,11 +2102,11 @@ class BlackCalculator:
         """
         Sensitivity to strike.
         """
-    def theta(self, spot: typing.SupportsFloat, maturity: typing.SupportsFloat) -> float:
+    def theta(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to time to maturity.
         """
-    def thetaPerDay(self, spot: typing.SupportsFloat, maturity: typing.SupportsFloat) -> float:
+    def thetaPerDay(self, spot: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to time to maturity per day (365-day basis).
         """
@@ -2100,7 +2114,7 @@ class BlackCalculator:
         """
         Returns the option value.
         """
-    def vega(self, maturity: typing.SupportsFloat) -> float:
+    def vega(self, maturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sensitivity to volatility.
         """
@@ -2147,22 +2161,22 @@ class BlackCapFloorEngine(base.PricingEngine):
     Black-formula cap/floor engine.
     """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with flat volatility (handle).
         """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with flat volatility.
         """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: QuoteHandle, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: QuoteHandle, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with quote volatility (handle).
         """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: base.Quote, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: base.Quote, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with quote volatility.
         """
@@ -2171,12 +2185,12 @@ class BlackCdsOptionEngine(base.PricingEngine):
     Black-formula CDS option engine.
     """
     @typing.overload
-    def __init__(self, defaultProbTS: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat, termStructure: YieldTermStructureHandle, vol: QuoteHandle) -> None:
+    def __init__(self, defaultProbTS: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, termStructure: YieldTermStructureHandle, vol: QuoteHandle) -> None:
         """
         Constructs the Black CDS option engine.
         """
     @typing.overload
-    def __init__(self, defaultProbTS: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat, termStructure: base.YieldTermStructure, vol: base.Quote) -> None:
+    def __init__(self, defaultProbTS: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, termStructure: base.YieldTermStructure, vol: base.Quote) -> None:
         """
         Constructs the Black CDS option engine (handles created internally).
         """
@@ -2188,12 +2202,26 @@ class BlackCdsOptionEngine(base.PricingEngine):
         """
         Returns the volatility handle.
         """
+class BlackCompoundingOvernightIndexedCouponPricer(CompoundingOvernightIndexedCouponPricer):
+    """
+    Black pricer for capped/floored compounded overnight coupons.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs without optionlet volatility.
+        """
+    @typing.overload
+    def __init__(self, v: ..., effectiveVolatilityInput: bool = False) -> None:
+        """
+        Constructs with optionlet volatility and effective vol flag.
+        """
 class BlackConstantVol(base.BlackVolatilityTermStructure):
     """
     Constant Black volatility term structure.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from reference date and constant volatility.
         """
@@ -2208,17 +2236,17 @@ class BlackConstantVol(base.BlackVolatilityTermStructure):
         Constructs from reference date and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and constant volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote (handle created internally).
         """
@@ -2241,12 +2269,12 @@ class BlackKarasinski(base.OneFactorModel, base.TermStructureConsistentModel):
     Black-Karasinski model: d(ln r) = (theta(t) - a*ln(r))dt + sigma*dW.
     """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.1) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.1) -> None:
         """
         Constructs Black-Karasinski model with term structure, mean reversion, and volatility.
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.1) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.1) -> None:
         """
         Constructs Black-Karasinski model from term structure.
         """
@@ -2295,22 +2323,22 @@ class BlackSwaptionEngine(base.PricingEngine):
     Shifted lognormal Black-formula swaption engine.
     """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from constant volatility.
         """
     @typing.overload
-    def __init__(self, discountCurve: base.YieldTermStructure, vol: base.Quote, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: base.YieldTermStructure, vol: base.Quote, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from quote volatility.
         """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from constant volatility (handle).
         """
     @typing.overload
-    def __init__(self, discountCurve: YieldTermStructureHandle, vol: QuoteHandle, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, discountCurve: YieldTermStructureHandle, vol: QuoteHandle, dayCounter: DayCounter = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from quote volatility (handle).
         """
@@ -2318,7 +2346,7 @@ class BlackVarianceSurface(base.BlackVarianceTermStructure):
     """
     Black volatility surface modelled as a variance surface.
     """
-    def __init__(self, referenceDate: Date, calendar: Calendar, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat], blackVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: BlackVarianceSurfaceExtrapolation = ..., upperExtrapolation: BlackVarianceSurfaceExtrapolation = ...) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], blackVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: BlackVarianceSurfaceExtrapolation = ..., upperExtrapolation: BlackVarianceSurfaceExtrapolation = ...) -> None:
         """
         Constructs from date/strike grid and volatility matrix.
         """
@@ -2363,7 +2391,7 @@ class BlackVarianceSurfaceExtrapolation:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -2371,7 +2399,7 @@ class BlackVarianceSurfaceExtrapolation:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -2452,12 +2480,12 @@ class Bond(base.Instrument):
         def __init__(self) -> None:
             ...
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, issueDate: Date = ..., coupons: collections.abc.Sequence[base.CashFlow] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, issueDate: Date = ..., coupons: collections.abc.Sequence[base.CashFlow] = []) -> None:
         """
         Constructs from settlement days, calendar, issue date, and coupons.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, faceAmount: typing.SupportsFloat, maturityDate: Date, issueDate: Date = ..., cashflows: collections.abc.Sequence[base.CashFlow] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, faceAmount: typing.SupportsFloat | typing.SupportsIndex, maturityDate: Date, issueDate: Date = ..., cashflows: collections.abc.Sequence[base.CashFlow] = []) -> None:
         """
         Constructs from settlement days, calendar, face amount, maturity, issue date, and cashflows.
         """
@@ -2466,12 +2494,12 @@ class Bond(base.Instrument):
         Returns the accrued amount at date d.
         """
     @typing.overload
-    def bondYield(self, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, accuracy: typing.SupportsFloat = 1e-08, maxEvaluations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.05, priceType: BondPriceType = ...) -> float:
+    def bondYield(self, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-08, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.05, priceType: BondPriceType = ...) -> float:
         """
         Calculates the yield from the engine price.
         """
     @typing.overload
-    def bondYield(self, price: BondPrice, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ..., accuracy: typing.SupportsFloat = 1e-08, maxEvaluations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.05) -> float:
+    def bondYield(self, price: BondPrice, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-08, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.05) -> float:
         """
         Calculates the yield from a given price.
         """
@@ -2489,7 +2517,7 @@ class Bond(base.Instrument):
         Returns the clean price (requires pricing engine).
         """
     @typing.overload
-    def cleanPrice(self, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ...) -> float:
+    def cleanPrice(self, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ...) -> float:
         """
         Returns the clean price given a yield.
         """
@@ -2499,7 +2527,7 @@ class Bond(base.Instrument):
         Returns the dirty price (requires pricing engine).
         """
     @typing.overload
-    def dirtyPrice(self, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ...) -> float:
+    def dirtyPrice(self, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlement: Date = ...) -> float:
         """
         Returns the dirty price given a yield.
         """
@@ -2557,7 +2585,7 @@ class Bond(base.Instrument):
         Returns the settlement value (requires pricing engine).
         """
     @typing.overload
-    def settlementValue(self, cleanPrice: typing.SupportsFloat) -> float:
+    def settlementValue(self, cleanPrice: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the settlement value for a given clean price.
         """
@@ -2570,12 +2598,12 @@ class BondForward(base.Forward):
     Forward contract on a bond.
     """
     @typing.overload
-    def __init__(self, valueDate: Date, maturityDate: Date, type: PositionType, strike: typing.SupportsFloat, settlementDays: typing.SupportsInt, dayCounter: DayCounter, calendar: Calendar, businessDayConvention: BusinessDayConvention, bond: Bond, discountCurve: YieldTermStructureHandle = ..., incomeDiscountCurve: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, valueDate: Date, maturityDate: Date, type: PositionType, strike: typing.SupportsFloat | typing.SupportsIndex, settlementDays: typing.SupportsInt | typing.SupportsIndex, dayCounter: DayCounter, calendar: Calendar, businessDayConvention: BusinessDayConvention, bond: Bond, discountCurve: YieldTermStructureHandle = ..., incomeDiscountCurve: YieldTermStructureHandle = ...) -> None:
         """
         Constructs a bond forward.
         """
     @typing.overload
-    def __init__(self, valueDate: Date, maturityDate: Date, type: PositionType, strike: typing.SupportsFloat, settlementDays: typing.SupportsInt, dayCounter: DayCounter, calendar: Calendar, businessDayConvention: BusinessDayConvention, bond: Bond, discountCurve: base.YieldTermStructure, incomeDiscountCurve: base.YieldTermStructure) -> None:
+    def __init__(self, valueDate: Date, maturityDate: Date, type: PositionType, strike: typing.SupportsFloat | typing.SupportsIndex, settlementDays: typing.SupportsInt | typing.SupportsIndex, dayCounter: DayCounter, calendar: Calendar, businessDayConvention: BusinessDayConvention, bond: Bond, discountCurve: base.YieldTermStructure, incomeDiscountCurve: base.YieldTermStructure) -> None:
         """
         Constructs a bond forward (handles created internally).
         """
@@ -2627,12 +2655,12 @@ class BondFunctions:
         Accrued period as a year fraction.
         """
     @staticmethod
-    def basisPointValue(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
+    def basisPointValue(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
         """
         Basis point value (DV01).
         """
     @staticmethod
-    def bondYield(bond: Bond, price: BondPrice, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat = 1e-10, maxIterations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.05) -> float:
+    def bondYield(bond: Bond, price: BondPrice, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxIterations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.05) -> float:
         """
         Bond yield (IRR) from price.
         """
@@ -2647,12 +2675,12 @@ class BondFunctions:
         Clean price from discount curve.
         """
     @staticmethod
-    def cleanPriceFromYield(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
+    def cleanPriceFromYield(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
         """
         Clean price from yield.
         """
     @staticmethod
-    def convexity(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
+    def convexity(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
         """
         Bond convexity.
         """
@@ -2662,12 +2690,12 @@ class BondFunctions:
         Dirty price from discount curve.
         """
     @staticmethod
-    def dirtyPriceFromYield(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
+    def dirtyPriceFromYield(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
         """
         Dirty price from yield.
         """
     @staticmethod
-    def duration(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, type: DurationType = ..., settlementDate: Date = ...) -> float:
+    def duration(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, type: DurationType = ..., settlementDate: Date = ...) -> float:
         """
         Bond duration.
         """
@@ -2717,12 +2745,12 @@ class BondFunctions:
         Start date of the bond.
         """
     @staticmethod
-    def yieldValueBasisPoint(bond: Bond, yield: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
+    def yieldValueBasisPoint(bond: Bond, yield: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ...) -> float:
         """
         Yield value of a basis point.
         """
     @staticmethod
-    def zSpread(bond: Bond, price: BondPrice, discountCurve: base.YieldTermStructure, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat = 1e-10, maxIterations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.0) -> float:
+    def zSpread(bond: Bond, price: BondPrice, discountCurve: base.YieldTermStructure, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxIterations: typing.SupportsInt | typing.SupportsIndex = 100, guess: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
         """
         Z-spread over a discount curve.
         """
@@ -2752,7 +2780,7 @@ class BondPrice:
     """
     Bond price with type (clean or dirty).
     """
-    def __init__(self, amount: typing.SupportsFloat, type: BondPriceType) -> None:
+    def __init__(self, amount: typing.SupportsFloat | typing.SupportsIndex, type: BondPriceType) -> None:
         """
         Constructs a bond price.
         """
@@ -2785,7 +2813,7 @@ class BondPriceType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -2793,7 +2821,7 @@ class BondPriceType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -2858,7 +2886,7 @@ class BoundaryConditionSide:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -2866,7 +2894,7 @@ class BoundaryConditionSide:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -2880,7 +2908,7 @@ class BoundaryConstraint(base.Constraint):
     """
     Constraint enforcing values within bounds.
     """
-    def __init__(self, low: typing.SupportsFloat, high: typing.SupportsFloat) -> None:
+    def __init__(self, low: typing.SupportsFloat | typing.SupportsIndex, high: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class BoxMullerGaussianRng:
     """
@@ -2892,7 +2920,7 @@ class BoxMullerGaussianRng:
         Constructs from a uniform random number generator.
         """
     @typing.overload
-    def __init__(self, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with seed (0 for clock-based random seed).
         """
@@ -2974,7 +3002,7 @@ class Brazil(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -2996,7 +3024,7 @@ class Brazil(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -3018,25 +3046,25 @@ class Brent:
     """
     def __init__(self) -> None:
         ...
-    def setLowerBound(self, lowerBound: typing.SupportsFloat) -> None:
+    def setLowerBound(self, lowerBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets lower bound for the function domain.
         """
-    def setMaxEvaluations(self, evaluations: typing.SupportsInt) -> None:
+    def setMaxEvaluations(self, evaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Sets maximum number of function evaluations.
         """
-    def setUpperBound(self, upperBound: typing.SupportsFloat) -> None:
+    def setUpperBound(self, upperBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets upper bound for the function domain.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, step: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, step: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root with automatic bracketing.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, xMin: typing.SupportsFloat, xMax: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, xMin: typing.SupportsFloat | typing.SupportsIndex, xMax: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root within explicit bracket.
         """
@@ -3045,7 +3073,7 @@ class BrownianBridge:
     Builds Wiener process paths using Gaussian variates.
     """
     @typing.overload
-    def __init__(self, steps: typing.SupportsInt) -> None:
+    def __init__(self, steps: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a bridge with the given number of unit-time steps.
         """
@@ -3055,7 +3083,7 @@ class BrownianBridge:
         Constructs a bridge from a time grid.
         """
     @typing.overload
-    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a bridge from step times.
         """
@@ -3093,7 +3121,7 @@ class BrownianBridge:
         """
         Step times.
         """
-    def transform(self, input: collections.abc.Sequence[typing.SupportsFloat]) -> list[float]:
+    def transform(self, input: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> list[float]:
         """
         Transforms random variates into Brownian bridge path variations.
         """
@@ -3101,7 +3129,7 @@ class Burley2020SobolBrownianBridgeRsg:
     """
     Scrambled Sobol quasi-random sequence generator with Brownian bridge ordering (Burley 2020 hash-based Owen scrambling).
     """
-    def __init__(self, factors: typing.SupportsInt, steps: typing.SupportsInt, ordering: Ordering = ..., seed: typing.SupportsInt = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt = 43) -> None:
+    def __init__(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, ordering: Ordering = ..., seed: typing.SupportsInt | typing.SupportsIndex = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt | typing.SupportsIndex = 43) -> None:
         """
         Constructs scrambled Sobol Brownian bridge sequence generator.
         """
@@ -3121,7 +3149,7 @@ class Burley2020SobolBrownianGenerator(base.BrownianGenerator):
     """
     Scrambled Sobol Brownian generator with Brownian bridging.
     """
-    def __init__(self, factors: typing.SupportsInt, steps: typing.SupportsInt, ordering: Ordering, seed: typing.SupportsInt = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt = 43) -> None:
+    def __init__(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, ordering: Ordering, seed: typing.SupportsInt | typing.SupportsIndex = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt | typing.SupportsIndex = 43) -> None:
         """
         Constructs a scrambled Sobol Brownian generator.
         """
@@ -3129,7 +3157,7 @@ class Burley2020SobolBrownianGeneratorFactory(base.BrownianGeneratorFactory):
     """
     Factory for scrambled Sobol Brownian generators.
     """
-    def __init__(self, ordering: Ordering, seed: typing.SupportsInt = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt = 43) -> None:
+    def __init__(self, ordering: Ordering, seed: typing.SupportsInt | typing.SupportsIndex = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt | typing.SupportsIndex = 43) -> None:
         """
         Constructs a scrambled Sobol Brownian generator factory.
         """
@@ -3137,7 +3165,7 @@ class Burley2020SobolRsg:
     """
     Scrambled Sobol sequence (Burley 2020 hash-based Owen scrambling).
     """
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt = 43) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 42, directionIntegers: SobolRsg.DirectionIntegers = ..., scrambleSeed: typing.SupportsInt | typing.SupportsIndex = 43) -> None:
         """
         Constructs scrambled Sobol sequence generator.
         """
@@ -3153,7 +3181,7 @@ class Burley2020SobolRsg:
         """
         Returns next sample sequence.
         """
-    def skipTo(self, n: typing.SupportsInt) -> None:
+    def skipTo(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Skips to the n-th sample in the sequence.
         """
@@ -3199,7 +3227,7 @@ class BusinessDayConvention:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -3207,7 +3235,7 @@ class BusinessDayConvention:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -3230,7 +3258,7 @@ class CEVCalculator:
     """
     Constant Elasticity of Variance option value calculator.
     """
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs CEVCalculator.
         """
@@ -3246,7 +3274,7 @@ class CEVCalculator:
         """
         Returns initial forward.
         """
-    def value(self, optionType: OptionType, strike: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def value(self, optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns CEV option value.
         """
@@ -3254,11 +3282,11 @@ class CEVRNDCalculator(base.RiskNeutralDensityCalculator):
     """
     Constant Elasticity of Variance risk-neutral density calculator.
     """
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with forward price, alpha, and beta.
         """
-    def massAtZero(self, t: typing.SupportsFloat) -> float:
+    def massAtZero(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns probability mass at zero for time t.
         """
@@ -3322,35 +3350,35 @@ class COSHestonEngine(base.PricingEngine):
     """
     Heston engine using Fourier-cosine series expansion.
     """
-    def __init__(self, model: HestonModel, L: typing.SupportsFloat = 16, N: typing.SupportsInt = 200) -> None:
+    def __init__(self, model: HestonModel, L: typing.SupportsFloat | typing.SupportsIndex = 16, N: typing.SupportsInt | typing.SupportsIndex = 200) -> None:
         """
         Constructs COS Heston engine.
         """
-    def c1(self, t: typing.SupportsFloat) -> float:
+    def c1(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         ...
-    def c2(self, t: typing.SupportsFloat) -> float:
+    def c2(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         ...
-    def c3(self, t: typing.SupportsFloat) -> float:
+    def c3(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         ...
-    def c4(self, t: typing.SupportsFloat) -> float:
+    def c4(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         ...
-    def chF(self, u: typing.SupportsFloat, t: typing.SupportsFloat) -> complex:
+    def chF(self, u: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> complex:
         """
         Returns the normalized characteristic function.
         """
-    def kurtosis(self, t: typing.SupportsFloat) -> float:
+    def kurtosis(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the kurtosis.
         """
-    def mu(self, t: typing.SupportsFloat) -> float:
+    def mu(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the mean.
         """
-    def skew(self, t: typing.SupportsFloat) -> float:
+    def skew(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the skewness.
         """
-    def var(self, t: typing.SupportsFloat) -> float:
+    def var(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the variance.
         """
@@ -3392,7 +3420,7 @@ class CPI:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -3400,7 +3428,7 @@ class CPI:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -3422,7 +3450,7 @@ class CPIBond(Bond):
     """
     CPI inflation-linked bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, baseCPI: typing.SupportsFloat, observationLag: Period, cpiIndex: ZeroInflationIndex, observationInterpolation: CPI.InterpolationType, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, baseCPI: typing.SupportsFloat | typing.SupportsIndex, observationLag: Period, cpiIndex: ZeroInflationIndex, observationInterpolation: CPI.InterpolationType, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
         """
         Constructs a CPI inflation-linked bond.
         """
@@ -3501,7 +3529,7 @@ class Calendar:
         Adjusts a non-business day to the appropriate nearby business day.
         """
     @typing.overload
-    def advance(self, d: Date, n: typing.SupportsInt, unit: TimeUnit, convention: BusinessDayConvention = ..., endOfMonth: bool = False) -> Date:
+    def advance(self, d: Date, n: typing.SupportsInt | typing.SupportsIndex, unit: TimeUnit, convention: BusinessDayConvention = ..., endOfMonth: bool = False) -> Date:
         """
         Advances the date by the given number of time units.
         """
@@ -3584,7 +3612,7 @@ class CalendarVector:
         Return true the container contains ``x``
         """
     @typing.overload
-    def __delitem__(self, arg0: typing.SupportsInt) -> None:
+    def __delitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Delete the list elements at index ``i``
         """
@@ -3601,7 +3629,7 @@ class CalendarVector:
         Retrieve list elements using a slice object
         """
     @typing.overload
-    def __getitem__(self, arg0: typing.SupportsInt) -> Calendar:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Calendar:
         ...
     @typing.overload
     def __init__(self) -> None:
@@ -3618,7 +3646,7 @@ class CalendarVector:
     def __init__(self) -> None:
         ...
     @typing.overload
-    def __init__(self, size: typing.SupportsInt) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __iter__(self) -> collections.abc.Iterator[Calendar]:
         ...
@@ -3631,7 +3659,7 @@ class CalendarVector:
         Return the canonical string representation of this list.
         """
     @typing.overload
-    def __setitem__(self, arg0: typing.SupportsInt, arg1: Calendar) -> None:
+    def __setitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: Calendar) -> None:
         ...
     @typing.overload
     def __setitem__(self, arg0: slice, arg1: CalendarVector) -> None:
@@ -3660,7 +3688,7 @@ class CalendarVector:
         """
         Extend the list by appending all the items in the given list
         """
-    def insert(self, i: typing.SupportsInt, x: Calendar) -> None:
+    def insert(self, i: typing.SupportsInt | typing.SupportsIndex, x: Calendar) -> None:
         """
         Insert an item at a given position.
         """
@@ -3670,7 +3698,7 @@ class CalendarVector:
         Remove and return the last item
         """
     @typing.overload
-    def pop(self, i: typing.SupportsInt) -> Calendar:
+    def pop(self, i: typing.SupportsInt | typing.SupportsIndex) -> Calendar:
         """
         Remove and return the item at index ``i``
         """
@@ -3702,7 +3730,7 @@ class CalibrationErrorType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -3710,7 +3738,7 @@ class CalibrationErrorType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -3761,7 +3789,7 @@ class CallabilityType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -3769,7 +3797,7 @@ class CallabilityType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -3784,7 +3812,7 @@ class CallableBondConstantVolatility(base.CallableBondVolatilityStructure):
     Constant callable-bond volatility.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, referenceDate: Date, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs with reference date and scalar volatility.
         """
@@ -3794,12 +3822,12 @@ class CallableBondConstantVolatility(base.CallableBondVolatilityStructure):
         Constructs with reference date and quoted volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs with settlement days and scalar volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs with settlement days and quoted volatility.
         """
@@ -3809,7 +3837,7 @@ class CallableBondConstantVolatility(base.CallableBondVolatilityStructure):
         Constructs with reference date and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
         """
         Constructs with settlement days and quote (handle created internally).
         """
@@ -3817,7 +3845,7 @@ class CallableFixedRateBond(base.CallableBond):
     """
     Callable/puttable fixed rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., putCallSchedule: collections.abc.Sequence[Callability] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., putCallSchedule: collections.abc.Sequence[Callability] = []) -> None:
         """
         Constructs a callable fixed rate bond.
         """
@@ -3825,7 +3853,7 @@ class CallableZeroCouponBond(base.CallableBond):
     """
     Callable/puttable zero coupon bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, calendar: Calendar, maturityDate: Date, dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., putCallSchedule: collections.abc.Sequence[Callability] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, calendar: Calendar, maturityDate: Date, dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., putCallSchedule: collections.abc.Sequence[Callability] = []) -> None:
         """
         Constructs a callable zero coupon bond.
         """
@@ -3898,7 +3926,7 @@ class Canada(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -3920,7 +3948,7 @@ class Canada(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -3940,7 +3968,7 @@ class Cap(CapFloor):
     """
     Interest rate cap.
     """
-    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a cap.
         """
@@ -3949,12 +3977,12 @@ class CapFloor(base.Instrument):
     Interest rate cap, floor, or collar.
     """
     @typing.overload
-    def __init__(self, type: CapFloorType, floatingLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat], floorRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, type: CapFloorType, floatingLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floorRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a cap/floor/collar.
         """
     @typing.overload
-    def __init__(self, type: CapFloorType, floatingLeg: collections.abc.Sequence[base.CashFlow], strikes: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, type: CapFloorType, floatingLeg: collections.abc.Sequence[base.CashFlow], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a cap or floor with uniform strikes.
         """
@@ -3974,7 +4002,7 @@ class CapFloor(base.Instrument):
         """
         Returns the floor rates.
         """
-    def impliedVolatility(self, price: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, guess: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, guess: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
         """
         Returns the implied volatility.
         """
@@ -3999,12 +4027,12 @@ class CapFloorTermVolSurface(base.LazyObject, base.CapFloorTermVolatilityStructu
     Cap/floor smile volatility surface.
     """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], strikes: collections.abc.Sequence[typing.SupportsFloat], volatilities: Matrix, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], volatilities: Matrix, dayCounter: DayCounter = ...) -> None:
         """
         Constructs from settlement days and volatility matrix.
         """
     @typing.overload
-    def __init__(self, settlementDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], strikes: collections.abc.Sequence[typing.SupportsFloat], volatilities: Matrix, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, settlementDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], volatilities: Matrix, dayCounter: DayCounter = ...) -> None:
         """
         Constructs from settlement date and volatility matrix.
         """
@@ -4060,7 +4088,7 @@ class CapFloorType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4068,7 +4096,7 @@ class CapFloorType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4083,16 +4111,16 @@ class CapHelper(base.BlackCalibrationHelper):
     Calibration helper for ATM caps.
     """
     @typing.overload
-    def __init__(self, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs cap helper with handles.
         """
     @typing.overload
-    def __init__(self, length: Period, volatility: base.Quote, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, length: Period, volatility: base.Quote, index: IborIndex, fixedLegFrequency: Frequency, fixedLegDayCounter: DayCounter, includeFirstSwaplet: bool, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs cap helper (handles created internally).
         """
-    def blackPrice(self, volatility: typing.SupportsFloat) -> float:
+    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns Black price for given volatility.
         """
@@ -4104,7 +4132,7 @@ class CappedFlooredCmsCoupon(CappedFlooredCoupon):
     """
     Capped/floored CMS coupon.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
         """
         Constructs a capped/floored CMS coupon.
         """
@@ -4160,7 +4188,7 @@ class CappedFlooredIborCoupon(CappedFlooredCoupon):
     """
     Capped/floored Ibor coupon.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
         """
         Constructs a capped/floored Ibor coupon.
         """
@@ -4174,7 +4202,7 @@ class CappedFlooredYoYInflationCoupon(YoYInflationCoupon):
         Constructs from an underlying YoY inflation coupon.
         """
     @typing.overload
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., observationLag: Period, interpolation: ..., dayCounter: DayCounter, gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., observationLag: Period, interpolation: ..., dayCounter: DayCounter, gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, cap: typing.Any = None, floor: typing.Any = None, refPeriodStart: Date = ..., refPeriodEnd: Date = ...) -> None:
         """
         Constructs a capped/floored YoY inflation coupon.
         """
@@ -4202,13 +4230,21 @@ class CappedFlooredYoYInflationCoupon(YoYInflationCoupon):
         """
         Returns True if the coupon is floored.
         """
+class CashDividendEuropeanEngine(base.PricingEngine):
+    """
+    Semi-analytic European engine with cash dividends (Healy, 2021).
+    """
+    def __init__(self, process: GeneralizedBlackScholesProcess, dividends: collections.abc.Sequence[base.Dividend], cashDividendModel: CashDividendModel = ...) -> None:
+        """
+        Constructs with process, dividend schedule, and model type.
+        """
 class CashDividendModel:
     """
-    Cash dividend model for finite difference engines.
+    Cash dividend model type.
     
     Members:
     
-      Spot : Spot adjustment model.
+      Spot : Spot dividend model.
     
       Escrowed : Escrowed dividend model.
     """
@@ -4223,7 +4259,7 @@ class CashDividendModel:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4231,7 +4267,7 @@ class CashDividendModel:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4245,7 +4281,7 @@ class CashOrNothingPayoff(base.StrikedTypePayoff):
     """
     Binary payoff: fixed cash amount if in the money, zero otherwise.
     """
-    def __init__(self, type: OptionType, strike: typing.SupportsFloat, cashPayoff: typing.SupportsFloat) -> None:
+    def __init__(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, cashPayoff: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     def cashPayoff(self) -> float:
         """
@@ -4264,12 +4300,12 @@ class CdsOption(base.Option):
         Returns the at-the-money rate.
         """
     @typing.overload
-    def impliedVolatility(self, price: typing.SupportsFloat, termStructure: YieldTermStructureHandle, defaultProbTS: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, termStructure: YieldTermStructureHandle, defaultProbTS: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
         """
         Returns the implied volatility.
         """
     @typing.overload
-    def impliedVolatility(self, price: typing.SupportsFloat, termStructure: base.YieldTermStructure, defaultProbTS: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, termStructure: base.YieldTermStructure, defaultProbTS: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
         """
         Returns the implied volatility (handles created internally).
         """
@@ -4302,7 +4338,7 @@ class CdsPricingModel:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4310,7 +4346,7 @@ class CdsPricingModel:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4324,19 +4360,19 @@ class CeilingTruncation(Rounding):
     """
     Ceiling truncation.
     """
-    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         ...
 class ChebyshevInterpolation(base.Interpolation):
     """
     Chebyshev interpolation on [-1, 1].
     """
     @staticmethod
-    def nodesStatic(n: typing.SupportsInt, pointsType: ChebyshevPointsType) -> Array:
+    def nodesStatic(n: typing.SupportsInt | typing.SupportsIndex, pointsType: ChebyshevPointsType) -> Array:
         """
         Returns Chebyshev nodes for given n and type.
         """
     @typing.overload
-    def __init__(self, n: typing.SupportsInt, f: collections.abc.Callable[[typing.SupportsFloat], float], pointsType: ChebyshevPointsType = ...) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], pointsType: ChebyshevPointsType = ...) -> None:
         """
         Constructs from n points and function f on [-1, 1].
         """
@@ -4374,7 +4410,7 @@ class ChebyshevPointsType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4382,7 +4418,7 @@ class ChebyshevPointsType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4475,7 +4511,7 @@ class Chile(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -4497,7 +4533,7 @@ class Chile(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -4566,7 +4602,7 @@ class China(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -4588,7 +4624,7 @@ class China(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -4614,13 +4650,13 @@ class ClosestRounding(Rounding):
     """
     Closest-rounding.
     """
-    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         ...
 class CmsCoupon(FloatingRateCoupon):
     """
     Coupon paying a CMS swap rate.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
         """
         Constructs a CMS coupon.
         """
@@ -4643,46 +4679,46 @@ class CmsLeg:
     def inArrears(self, flag: bool = True) -> CmsLeg:
         ...
     @typing.overload
-    def withCaps(self, cap: typing.SupportsFloat) -> CmsLeg:
+    def withCaps(self, cap: typing.SupportsFloat | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat]) -> CmsLeg:
+    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> CmsLeg:
         ...
     def withExCouponPeriod(self, period: Period, calendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool = False) -> CmsLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> CmsLeg:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt]) -> CmsLeg:
+    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> CmsLeg:
         ...
     @typing.overload
-    def withFloors(self, floor: typing.SupportsFloat) -> CmsLeg:
+    def withFloors(self, floor: typing.SupportsFloat | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat]) -> CmsLeg:
+    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> CmsLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> CmsLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> CmsLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> CmsLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> CmsLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> CmsLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> CmsLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> CmsLeg:
         ...
     def withPaymentDayCounter(self, dayCounter: DayCounter) -> CmsLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> CmsLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> CmsLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> CmsLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> CmsLeg:
         ...
     def withZeroPayments(self, flag: bool = True) -> CmsLeg:
         ...
@@ -4690,7 +4726,7 @@ class CmsRateBond(Bond):
     """
     CMS-rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, index: SwapIndex, paymentDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat] = [], floors: collections.abc.Sequence[typing.SupportsFloat] = [], inArrears: bool = False, redemption: typing.SupportsFloat = 100.0, issueDate: Date = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, index: SwapIndex, paymentDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], inArrears: bool = False, redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ...) -> None:
         """
         Constructs a CMS-rate bond.
         """
@@ -4698,7 +4734,7 @@ class Collar(CapFloor):
     """
     Interest rate collar.
     """
-    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat], floorRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floorRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a collar.
         """
@@ -4706,7 +4742,7 @@ class ComplexChooserOption(base.OneAssetOption):
     """
     Complex chooser option (different strikes and exercises for call/put).
     """
-    def __init__(self, choosingDate: Date, strikeCall: typing.SupportsFloat, strikePut: typing.SupportsFloat, exerciseCall: Exercise, exercisePut: Exercise) -> None:
+    def __init__(self, choosingDate: Date, strikeCall: typing.SupportsFloat | typing.SupportsIndex, strikePut: typing.SupportsFloat | typing.SupportsIndex, exerciseCall: Exercise, exercisePut: Exercise) -> None:
         ...
 class ComplexLogFormula:
     """
@@ -4747,7 +4783,7 @@ class ComplexLogFormula:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4755,7 +4791,7 @@ class ComplexLogFormula:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4779,7 +4815,7 @@ class CompositeInstrument(base.Instrument):
         """
         Constructs an empty composite instrument.
         """
-    def add(self, instrument: base.Instrument, multiplier: typing.SupportsFloat = 1.0) -> None:
+    def add(self, instrument: base.Instrument, multiplier: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Adds an instrument with a multiplier.
         """
@@ -4787,7 +4823,7 @@ class CompositeInstrument(base.Instrument):
         """
         Returns whether all components are expired.
         """
-    def subtract(self, instrument: base.Instrument, multiplier: typing.SupportsFloat = 1.0) -> None:
+    def subtract(self, instrument: base.Instrument, multiplier: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Subtracts an instrument with a multiplier.
         """
@@ -4804,12 +4840,12 @@ class CompositeZeroYieldStructure(base.YieldTermStructure):
     Composite zero-yield term structure from two curves and a binary function.
     """
     @typing.overload
-    def __init__(self, curve1: YieldTermStructureHandle, curve2: YieldTermStructureHandle, composer: collections.abc.Callable[[typing.SupportsFloat, typing.SupportsFloat], float], compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, curve1: YieldTermStructureHandle, curve2: YieldTermStructureHandle, composer: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex], float], compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from yield curve handles and a composer function.
         """
     @typing.overload
-    def __init__(self, curve1: base.YieldTermStructure, curve2: base.YieldTermStructure, composer: collections.abc.Callable[[typing.SupportsFloat, typing.SupportsFloat], float], compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, curve1: base.YieldTermStructure, curve2: base.YieldTermStructure, composer: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex], float], compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from yield curves and composer (handles created internally).
         """
@@ -4855,7 +4891,7 @@ class Compounding:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -4877,7 +4913,7 @@ class Compounding:
         ...
     def __rxor__(self, other: typing.Any) -> typing.Any:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -4906,12 +4942,12 @@ class Concentrating1dMesher(Fdm1dMesher):
     One-dimensional mesher concentrating around critical points.
     """
     @typing.overload
-    def __init__(self, start: typing.SupportsFloat, end: typing.SupportsFloat, size: typing.SupportsInt, cPoint: typing.Any = None, requireCPoint: bool = False) -> None:
+    def __init__(self, start: typing.SupportsFloat | typing.SupportsIndex, end: typing.SupportsFloat | typing.SupportsIndex, size: typing.SupportsInt | typing.SupportsIndex, cPoint: typing.Any = None, requireCPoint: bool = False) -> None:
         """
         Constructs with optional concentration point (location, density).
         """
     @typing.overload
-    def __init__(self, start: typing.SupportsFloat, end: typing.SupportsFloat, size: typing.SupportsInt, cPoints: collections.abc.Sequence[tuple[typing.SupportsFloat, typing.SupportsFloat, bool]], tol: typing.SupportsFloat = 1e-08) -> None:
+    def __init__(self, start: typing.SupportsFloat | typing.SupportsIndex, end: typing.SupportsFloat | typing.SupportsIndex, size: typing.SupportsInt | typing.SupportsIndex, cPoints: collections.abc.Sequence[tuple[typing.SupportsFloat | typing.SupportsIndex, typing.SupportsFloat | typing.SupportsIndex, bool]], tol: typing.SupportsFloat | typing.SupportsIndex = 1e-08) -> None:
         """
         Constructs with multiple concentration points.
         """
@@ -4928,32 +4964,32 @@ class ConstantOptionletVolatility(base.OptionletVolatilityStructure):
     Constant optionlet volatility, no time-strike dependence.
     """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and constant volatility.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and constant volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and quote handle.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and quote (handle created internally).
         """
@@ -4965,39 +5001,39 @@ class ConstantParameter(Parameter):
     def __init__(self, constraint: base.Constraint) -> None:
         ...
     @typing.overload
-    def __init__(self, value: typing.SupportsFloat, constraint: base.Constraint) -> None:
+    def __init__(self, value: typing.SupportsFloat | typing.SupportsIndex, constraint: base.Constraint) -> None:
         ...
 class ConstantSwaptionVolatility(base.SwaptionVolatilityStructure):
     """
     Constant swaption volatility, no time-strike dependence.
     """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and constant volatility.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and constant volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and quote handle.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: QuoteHandle, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from settlement days and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, volatility: base.Quote, dayCounter: DayCounter, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs from reference date and quote (handle created internally).
         """
@@ -5010,17 +5046,17 @@ class ConstantYoYOptionletVolatility(base.YoYOptionletVolatilitySurface):
     Constant YoY inflation optionlet volatility.
     """
     @typing.overload
-    def __init__(self, volatility: typing.SupportsFloat, settlementDays: typing.SupportsInt, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat = -1.0, maxStrike: typing.SupportsFloat = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, volatility: typing.SupportsFloat | typing.SupportsIndex, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat | typing.SupportsIndex = -1.0, maxStrike: typing.SupportsFloat | typing.SupportsIndex = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with a constant volatility value.
         """
     @typing.overload
-    def __init__(self, volatility: QuoteHandle, settlementDays: typing.SupportsInt, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat = -1.0, maxStrike: typing.SupportsFloat = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, volatility: QuoteHandle, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat | typing.SupportsIndex = -1.0, maxStrike: typing.SupportsFloat | typing.SupportsIndex = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with a volatility quote.
         """
     @typing.overload
-    def __init__(self, volatility: base.Quote, settlementDays: typing.SupportsInt, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat = -1.0, maxStrike: typing.SupportsFloat = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, volatility: base.Quote, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, bdc: BusinessDayConvention, dayCounter: DayCounter, observationLag: Period, frequency: Frequency, indexIsInterpolated: bool, minStrike: typing.SupportsFloat | typing.SupportsIndex = -1.0, maxStrike: typing.SupportsFloat | typing.SupportsIndex = 100.0, volatilityType: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with a volatility quote (handle created internally).
         """
@@ -5028,21 +5064,27 @@ class ContinuousAveragingAsianOption(base.OneAssetOption):
     """
     Continuous-averaging Asian option.
     """
+    @typing.overload
     def __init__(self, averageType: AverageType, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         """
-        Constructs ContinuousAveragingAsianOption.
+        Constructs an unseasoned ContinuousAveragingAsianOption.
+        """
+    @typing.overload
+    def __init__(self, averageType: AverageType, startDate: Date, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+        """
+        Constructs a seasoned ContinuousAveragingAsianOption with start date.
         """
 class ContinuousFixedLookbackOption(base.OneAssetOption):
     """
     Continuous fixed-strike lookback option.
     """
-    def __init__(self, currentMinmax: typing.SupportsFloat, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, currentMinmax: typing.SupportsFloat | typing.SupportsIndex, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
 class ContinuousFloatingLookbackOption(base.OneAssetOption):
     """
     Continuous floating-strike lookback option.
     """
-    def __init__(self, currentMinmax: typing.SupportsFloat, payoff: FloatingTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, currentMinmax: typing.SupportsFloat | typing.SupportsIndex, payoff: FloatingTypePayoff, exercise: Exercise) -> None:
         ...
 class ContinuousPartialFixedLookbackOption(ContinuousFixedLookbackOption):
     """
@@ -5054,7 +5096,7 @@ class ContinuousPartialFloatingLookbackOption(ContinuousFloatingLookbackOption):
     """
     Continuous partial floating-strike lookback option.
     """
-    def __init__(self, currentMinmax: typing.SupportsFloat, lambda: typing.SupportsFloat, lookbackPeriodEnd: Date, payoff: FloatingTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, currentMinmax: typing.SupportsFloat | typing.SupportsIndex, lambda: typing.SupportsFloat | typing.SupportsIndex, lookbackPeriodEnd: Date, payoff: FloatingTypePayoff, exercise: Exercise) -> None:
         ...
 class ConvertibleBond(Bond):
     """
@@ -5072,7 +5114,7 @@ class ConvertibleFixedCouponBond(ConvertibleBond):
     """
     Convertible fixed-coupon bond.
     """
-    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt, coupons: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat = 100.0, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
+    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat | typing.SupportsIndex, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt | typing.SupportsIndex, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
         """
         Constructs a convertible fixed-coupon bond.
         """
@@ -5080,7 +5122,7 @@ class ConvertibleFloatingRateBond(ConvertibleBond):
     """
     Convertible floating-rate bond.
     """
-    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt, index: IborIndex, fixingDays: typing.SupportsInt, spreads: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat = 100.0, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
+    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat | typing.SupportsIndex, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt | typing.SupportsIndex, index: IborIndex, fixingDays: typing.SupportsInt | typing.SupportsIndex, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
         """
         Constructs a convertible floating-rate bond.
         """
@@ -5088,7 +5130,7 @@ class ConvertibleZeroCouponBond(ConvertibleBond):
     """
     Convertible zero-coupon bond.
     """
-    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt, dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat = 100.0) -> None:
+    def __init__(self, exercise: Exercise, conversionRatio: typing.SupportsFloat | typing.SupportsIndex, callability: collections.abc.Sequence[Callability], issueDate: Date, settlementDays: typing.SupportsInt | typing.SupportsIndex, dayCounter: DayCounter, schedule: Schedule, redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0) -> None:
         """
         Constructs a convertible zero-coupon bond.
         """
@@ -5096,11 +5138,11 @@ class CoxIngersollRoss(base.OneFactorAffineModel):
     """
     Cox-Ingersoll-Ross short-rate model.
     """
-    def __init__(self, r0: typing.SupportsFloat = 0.05, theta: typing.SupportsFloat = 0.1, k: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.1, withFellerConstraint: bool = True) -> None:
+    def __init__(self, r0: typing.SupportsFloat | typing.SupportsIndex = 0.05, theta: typing.SupportsFloat | typing.SupportsIndex = 0.1, k: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.1, withFellerConstraint: bool = True) -> None:
         """
         Constructs CIR model.
         """
-    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, bondMaturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond option price.
         """
@@ -5108,15 +5150,15 @@ class CraigSneydScheme:
     """
     Craig-Sneyd ADI time-stepping scheme.
     """
-    def __init__(self, theta: typing.SupportsFloat, mu: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
+    def __init__(self, theta: typing.SupportsFloat | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
         """
         Constructs from theta, mu, operator, and boundary conditions.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -5124,7 +5166,7 @@ class CrankNicolsonScheme:
     """
     Crank-Nicolson time-stepping scheme.
     """
-    def __init__(self, theta: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = [], relTol: typing.SupportsFloat = 1e-08, solverType: ImplicitEulerSolverType = ...) -> None:
+    def __init__(self, theta: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = [], relTol: typing.SupportsFloat | typing.SupportsIndex = 1e-08, solverType: ImplicitEulerSolverType = ...) -> None:
         """
         Constructs from theta, operator, and solver settings.
         """
@@ -5132,11 +5174,11 @@ class CrankNicolsonScheme:
         """
         Returns the number of solver iterations in the last step.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -5145,12 +5187,12 @@ class CreditDefaultSwap(base.Instrument):
     Credit default swap.
     """
     @typing.overload
-    def __init__(self, side: ProtectionSide, notional: typing.SupportsFloat, spread: typing.SupportsFloat, schedule: Schedule, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, protectionStart: Date = ..., claim: base.Claim = None, lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, tradeDate: Date = ..., cashSettlementDays: typing.SupportsInt = 3) -> None:
+    def __init__(self, side: ProtectionSide, notional: typing.SupportsFloat | typing.SupportsIndex, spread: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, protectionStart: Date = ..., claim: base.Claim = None, lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, tradeDate: Date = ..., cashSettlementDays: typing.SupportsInt | typing.SupportsIndex = 3) -> None:
         """
         Constructs CDS quoted as running spread only.
         """
     @typing.overload
-    def __init__(self, side: ProtectionSide, notional: typing.SupportsFloat, upfront: typing.SupportsFloat, spread: typing.SupportsFloat, schedule: Schedule, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, protectionStart: Date = ..., upfrontDate: Date = ..., claim: base.Claim = None, lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, tradeDate: Date = ..., cashSettlementDays: typing.SupportsInt = 3) -> None:
+    def __init__(self, side: ProtectionSide, notional: typing.SupportsFloat | typing.SupportsIndex, upfront: typing.SupportsFloat | typing.SupportsIndex, spread: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, protectionStart: Date = ..., upfrontDate: Date = ..., claim: base.Claim = None, lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, tradeDate: Date = ..., cashSettlementDays: typing.SupportsInt | typing.SupportsIndex = 3) -> None:
         """
         Constructs CDS quoted as upfront and running spread.
         """
@@ -5158,7 +5200,7 @@ class CreditDefaultSwap(base.Instrument):
         """
         Accrual rebate NPV.
         """
-    def conventionalSpread(self, conventionalRecovery: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, dayCounter: DayCounter, model: CdsPricingModel = ...) -> float:
+    def conventionalSpread(self, conventionalRecovery: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, dayCounter: DayCounter, model: CdsPricingModel = ...) -> float:
         """
         Conventional spread.
         """
@@ -5186,7 +5228,7 @@ class CreditDefaultSwap(base.Instrument):
         """
         Fair upfront.
         """
-    def impliedHazardRate(self, targetNPV: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat = 0.4, accuracy: typing.SupportsFloat = 1e-08, model: CdsPricingModel = ...) -> float:
+    def impliedHazardRate(self, targetNPV: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat | typing.SupportsIndex = 0.4, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-08, model: CdsPricingModel = ...) -> float:
         """
         Implied hazard rate.
         """
@@ -5238,11 +5280,11 @@ class CubicBSplinesFitting(base.FittingMethod):
     """
     Cubic B-splines fitting method.
     """
-    def __init__(self, knotVector: collections.abc.Sequence[typing.SupportsFloat], constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
+    def __init__(self, knotVector: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
         """
         Constructs a cubic B-splines fitting method.
         """
-    def basisFunction(self, i: typing.SupportsInt, t: typing.SupportsFloat) -> float:
+    def basisFunction(self, i: typing.SupportsInt | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the i-th basis function value at time t.
         """
@@ -5276,7 +5318,7 @@ class CubicBoundaryCondition:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -5284,7 +5326,7 @@ class CubicBoundaryCondition:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -5336,7 +5378,7 @@ class CubicDerivativeApprox:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -5344,7 +5386,7 @@ class CubicDerivativeApprox:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -5358,7 +5400,7 @@ class CubicInterpolation(base.Interpolation):
     """
     Cubic interpolation between discrete points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat], derivativeApprox: CubicDerivativeApprox = ..., monotonic: bool = False, leftCondition: CubicBoundaryCondition = ..., leftConditionValue: typing.SupportsFloat = 0.0, rightCondition: CubicBoundaryCondition = ..., rightConditionValue: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], derivativeApprox: CubicDerivativeApprox = ..., monotonic: bool = False, leftCondition: CubicBoundaryCondition = ..., leftConditionValue: typing.SupportsFloat | typing.SupportsIndex = 0.0, rightCondition: CubicBoundaryCondition = ..., rightConditionValue: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs cubic interpolation from x and y arrays.
         """
@@ -5366,7 +5408,7 @@ class CubicNaturalSpline(base.Interpolation):
     """
     Natural cubic spline interpolation.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -5374,15 +5416,15 @@ class CumulativeNormalDistribution:
     """
     Cumulative normal distribution function.
     """
-    def __call__(self, x: typing.SupportsFloat) -> float:
+    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the cumulative probability at x.
         """
-    def __init__(self, average: typing.SupportsFloat = 0.0, sigma: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, average: typing.SupportsFloat | typing.SupportsIndex = 0.0, sigma: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs CumulativeNormalDistribution.
         """
-    def derivative(self, x: typing.SupportsFloat) -> float:
+    def derivative(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the derivative (density) at x.
         """
@@ -5489,7 +5531,7 @@ class CzechRepublic(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -5511,7 +5553,7 @@ class CzechRepublic(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -5550,7 +5592,7 @@ class DEConfiguration:
         """
         Sets whether to apply bounds.
         """
-    def withCrossoverProbability(self, p: typing.SupportsFloat) -> DEConfiguration:
+    def withCrossoverProbability(self, p: typing.SupportsFloat | typing.SupportsIndex) -> DEConfiguration:
         """
         Sets crossover probability.
         """
@@ -5562,15 +5604,15 @@ class DEConfiguration:
         """
         Sets lower bounds.
         """
-    def withPopulationMembers(self, n: typing.SupportsInt) -> DEConfiguration:
+    def withPopulationMembers(self, n: typing.SupportsInt | typing.SupportsIndex) -> DEConfiguration:
         """
         Sets number of population members.
         """
-    def withSeed(self, seed: typing.SupportsInt) -> DEConfiguration:
+    def withSeed(self, seed: typing.SupportsInt | typing.SupportsIndex) -> DEConfiguration:
         """
         Sets random seed.
         """
-    def withStepsizeWeight(self, w: typing.SupportsFloat) -> DEConfiguration:
+    def withStepsizeWeight(self, w: typing.SupportsFloat | typing.SupportsIndex) -> DEConfiguration:
         """
         Sets step size weight.
         """
@@ -5604,7 +5646,7 @@ class DEConfiguration:
         Crossover probability (CR).
         """
     @crossoverProbability.setter
-    def crossoverProbability(self, arg0: typing.SupportsFloat) -> None:
+    def crossoverProbability(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def crossoverType(self) -> DECrossoverType:
@@ -5628,7 +5670,7 @@ class DEConfiguration:
         Number of population members.
         """
     @populationMembers.setter
-    def populationMembers(self, arg0: typing.SupportsInt) -> None:
+    def populationMembers(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def seed(self) -> int:
@@ -5636,7 +5678,7 @@ class DEConfiguration:
         Random seed.
         """
     @seed.setter
-    def seed(self, arg0: typing.SupportsInt) -> None:
+    def seed(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def stepsizeWeight(self) -> float:
@@ -5644,7 +5686,7 @@ class DEConfiguration:
         Step size weight (F).
         """
     @stepsizeWeight.setter
-    def stepsizeWeight(self, arg0: typing.SupportsFloat) -> None:
+    def stepsizeWeight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def strategy(self) -> DEStrategy:
@@ -5686,7 +5728,7 @@ class DECrossoverType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -5694,7 +5736,7 @@ class DECrossoverType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -5751,7 +5793,7 @@ class DEStrategy:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -5759,7 +5801,7 @@ class DEStrategy:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -5796,7 +5838,7 @@ class Date:
         Whether a date is the last day of its month.
         """
     @staticmethod
-    def isLeap(y: typing.SupportsInt) -> bool:
+    def isLeap(y: typing.SupportsInt | typing.SupportsIndex) -> bool:
         """
         Whether the given year is a leap one.
         """
@@ -5821,7 +5863,7 @@ class Date:
         Next given weekday following the given date.
         """
     @staticmethod
-    def nthWeekday(n: typing.SupportsInt, w: Weekday, m: Month, y: typing.SupportsInt) -> Date:
+    def nthWeekday(n: typing.SupportsInt | typing.SupportsIndex, w: Weekday, m: Month, y: typing.SupportsInt | typing.SupportsIndex) -> Date:
         """
         The n-th given weekday in the given month and year.
         """
@@ -5836,7 +5878,7 @@ class Date:
         Today's date.
         """
     @typing.overload
-    def __add__(self, days: typing.SupportsInt) -> Date:
+    def __add__(self, days: typing.SupportsInt | typing.SupportsIndex) -> Date:
         """
         Return a new date incremented by the given number of days.
         """
@@ -5854,7 +5896,7 @@ class Date:
     def __hash__(self) -> int:
         ...
     @typing.overload
-    def __iadd__(self, days: typing.SupportsInt) -> Date:
+    def __iadd__(self, days: typing.SupportsInt | typing.SupportsIndex) -> Date:
         """
         Increment date by the given number of days.
         """
@@ -5869,12 +5911,12 @@ class Date:
         Default constructor returning a null date.
         """
     @typing.overload
-    def __init__(self, serialNumber: typing.SupportsInt) -> None:
+    def __init__(self, serialNumber: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructor taking a serial number as given by Excel.
         """
     @typing.overload
-    def __init__(self, d: typing.SupportsInt, m: Month, y: typing.SupportsInt) -> None:
+    def __init__(self, d: typing.SupportsInt | typing.SupportsIndex, m: Month, y: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructor taking day, month, year.
         """
@@ -5882,7 +5924,7 @@ class Date:
     def __init__(self, arg0: typing.Any) -> None:
         ...
     @typing.overload
-    def __isub__(self, days: typing.SupportsInt) -> Date:
+    def __isub__(self, days: typing.SupportsInt | typing.SupportsIndex) -> Date:
         """
         Decrement date by the given number of days.
         """
@@ -5902,7 +5944,7 @@ class Date:
     def __str__(self) -> str:
         ...
     @typing.overload
-    def __sub__(self, days: typing.SupportsInt) -> Date:
+    def __sub__(self, days: typing.SupportsInt | typing.SupportsIndex) -> Date:
         """
         Return a new date decremented by the given number of days.
         """
@@ -5978,7 +6020,7 @@ class DateGeneration:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -6000,7 +6042,7 @@ class DateGeneration:
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -6140,7 +6182,7 @@ class DepositRateHelper(base.RelativeDateRateHelper):
     Rate helper for bootstrapping over deposit rates.
     """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, index: IborIndex) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, index: IborIndex) -> None:
         """
         Constructs from rate and Ibor index.
         """
@@ -6155,7 +6197,7 @@ class DepositRateHelper(base.RelativeDateRateHelper):
         Constructs from quote and Ibor index (handle created internally).
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, tenor: Period, fixingDays: typing.SupportsInt, calendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, tenor: Period, fixingDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter) -> None:
         """
         Constructs from rate and explicit market conventions.
         """
@@ -6204,28 +6246,28 @@ class DigitalCmsLeg:
     def withCallATM(self, flag: bool = True) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withCallPayoffs(self, payoff: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withCallPayoffs(self, payoff: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withCallPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withCallPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withCallStrikes(self, strike: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withCallStrikes(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withCallStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withCallStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> DigitalCmsLeg:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt]) -> DigitalCmsLeg:
+    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     def withLongCallOption(self, type: PositionType) -> DigitalCmsLeg:
         ...
@@ -6234,10 +6276,10 @@ class DigitalCmsLeg:
     def withNakedOption(self, nakedOption: bool = True) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> DigitalCmsLeg:
         ...
@@ -6246,24 +6288,24 @@ class DigitalCmsLeg:
     def withPutATM(self, flag: bool = True) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withPutPayoffs(self, payoff: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withPutPayoffs(self, payoff: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withPutPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withPutPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withPutStrikes(self, strike: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withPutStrikes(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withPutStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withPutStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
     def withReplication(self, replication: DigitalReplication) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> DigitalCmsLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> DigitalCmsLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalCmsLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalCmsLeg:
         ...
 class DigitalCoupon(FloatingRateCoupon):
     """
@@ -6358,28 +6400,28 @@ class DigitalIborLeg:
     def withCallATM(self, flag: bool = True) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withCallPayoffs(self, payoff: typing.SupportsFloat) -> DigitalIborLeg:
+    def withCallPayoffs(self, payoff: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withCallPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withCallPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withCallStrikes(self, strike: typing.SupportsFloat) -> DigitalIborLeg:
+    def withCallStrikes(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withCallStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withCallStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> DigitalIborLeg:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt]) -> DigitalIborLeg:
+    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> DigitalIborLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     def withLongCallOption(self, type: PositionType) -> DigitalIborLeg:
         ...
@@ -6388,10 +6430,10 @@ class DigitalIborLeg:
     def withNakedOption(self, nakedOption: bool = True) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> DigitalIborLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> DigitalIborLeg:
         ...
@@ -6400,30 +6442,30 @@ class DigitalIborLeg:
     def withPutATM(self, flag: bool = True) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withPutPayoffs(self, payoff: typing.SupportsFloat) -> DigitalIborLeg:
+    def withPutPayoffs(self, payoff: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withPutPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withPutPayoffs(self, payoffs: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withPutStrikes(self, strike: typing.SupportsFloat) -> DigitalIborLeg:
+    def withPutStrikes(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withPutStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withPutStrikes(self, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
     def withReplication(self, replication: DigitalReplication) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> DigitalIborLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> DigitalIborLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> DigitalIborLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> DigitalIborLeg:
         ...
 class DigitalReplication:
     """
     Digital option replication configuration.
     """
-    def __init__(self, replicationType: ReplicationType = ..., gap: typing.SupportsFloat = 0.0001) -> None:
+    def __init__(self, replicationType: ReplicationType = ..., gap: typing.SupportsFloat | typing.SupportsIndex = 0.0001) -> None:
         """
         Constructs with replication type and gap.
         """
@@ -6440,12 +6482,12 @@ class DiscountCurve(base.YieldTermStructure):
     Yield curve based on discount factors with log-linear interpolation.
     """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter) -> None:
         """
         Constructs from dates, discount factors, and day counter.
         """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], discounts: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, calendar: Calendar) -> None:
         """
         Constructs from dates, discount factors, day counter, and calendar.
         """
@@ -6510,12 +6552,12 @@ class DiscreteAveragingAsianOption(base.OneAssetOption):
     Discrete-averaging Asian option.
     """
     @typing.overload
-    def __init__(self, averageType: AverageType, runningAccumulator: typing.SupportsFloat, pastFixings: typing.SupportsInt, fixingDates: collections.abc.Sequence[Date], payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, averageType: AverageType, runningAccumulator: typing.SupportsFloat | typing.SupportsIndex, pastFixings: typing.SupportsInt | typing.SupportsIndex, fixingDates: collections.abc.Sequence[Date], payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         """
         Constructs with running accumulator and past fixings count.
         """
     @typing.overload
-    def __init__(self, averageType: AverageType, fixingDates: collections.abc.Sequence[Date], payoff: base.StrikedTypePayoff, exercise: Exercise, allPastFixings: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, averageType: AverageType, fixingDates: collections.abc.Sequence[Date], payoff: base.StrikedTypePayoff, exercise: Exercise, allPastFixings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with all fixing dates.
         """
@@ -6523,11 +6565,11 @@ class DoubleBarrierOption(base.OneAssetOption):
     """
     Double barrier option on a single asset.
     """
-    def __init__(self, barrierType: DoubleBarrierType, barrier_lo: typing.SupportsFloat, barrier_hi: typing.SupportsFloat, rebate: typing.SupportsFloat, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, barrierType: DoubleBarrierType, barrier_lo: typing.SupportsFloat | typing.SupportsIndex, barrier_hi: typing.SupportsFloat | typing.SupportsIndex, rebate: typing.SupportsFloat | typing.SupportsIndex, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         """
         Constructs DoubleBarrierOption.
         """
-    def impliedVolatility(self, price: typing.SupportsFloat, process: GeneralizedBlackScholesProcess, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, process: GeneralizedBlackScholesProcess, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
         """
         Returns implied volatility.
         """
@@ -6558,7 +6600,7 @@ class DoubleBarrierType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -6566,7 +6608,7 @@ class DoubleBarrierType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -6580,15 +6622,15 @@ class DouglasScheme:
     """
     Douglas ADI time-stepping scheme.
     """
-    def __init__(self, theta: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
+    def __init__(self, theta: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
         """
         Constructs from theta, operator, and boundary conditions.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -6596,7 +6638,7 @@ class DownRounding(Rounding):
     """
     Down-rounding.
     """
-    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         ...
 class DurationType:
     """
@@ -6622,7 +6664,7 @@ class DurationType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -6630,7 +6672,7 @@ class DurationType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -6792,7 +6834,7 @@ class EndCriteria:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -6800,7 +6842,7 @@ class EndCriteria:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -6815,27 +6857,27 @@ class EndCriteria:
         """
         Returns true if the optimization succeeded.
         """
-    def __init__(self, maxIterations: typing.SupportsInt, maxStationaryStateIterations: typing.SupportsInt, rootEpsilon: typing.SupportsFloat, functionEpsilon: typing.SupportsFloat, gradientNormEpsilon: typing.SupportsFloat) -> None:
+    def __init__(self, maxIterations: typing.SupportsInt | typing.SupportsIndex, maxStationaryStateIterations: typing.SupportsInt | typing.SupportsIndex, rootEpsilon: typing.SupportsFloat | typing.SupportsIndex, functionEpsilon: typing.SupportsFloat | typing.SupportsIndex, gradientNormEpsilon: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Creates end criteria for optimization.
         """
-    def checkMaxIterations(self, iteration: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+    def checkMaxIterations(self, iteration: typing.SupportsInt | typing.SupportsIndex, ecType: EndCriteria.Type) -> tuple[bool, EndCriteria.Type]:
         """
         Checks if maximum iterations reached. Returns (bool, ecType).
         """
-    def checkStationaryFunctionAccuracy(self, f: typing.SupportsFloat, positiveOptimization: bool, ecType: EndCriteria.Type) -> tuple:
+    def checkStationaryFunctionAccuracy(self, f: typing.SupportsFloat | typing.SupportsIndex, positiveOptimization: bool, ecType: EndCriteria.Type) -> tuple[bool, EndCriteria.Type]:
         """
         Checks for stationary function accuracy. Returns (bool, ecType).
         """
-    def checkStationaryFunctionValue(self, fxOld: typing.SupportsFloat, fxNew: typing.SupportsFloat, statStateIterations: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+    def checkStationaryFunctionValue(self, fxOld: typing.SupportsFloat | typing.SupportsIndex, fxNew: typing.SupportsFloat | typing.SupportsIndex, statStateIterations: typing.SupportsInt | typing.SupportsIndex, ecType: EndCriteria.Type) -> tuple[bool, int, EndCriteria.Type]:
         """
         Checks for stationary function value. Returns (bool, statStateIterations, ecType).
         """
-    def checkStationaryPoint(self, xOld: typing.SupportsFloat, xNew: typing.SupportsFloat, statState: typing.SupportsInt, ecType: EndCriteria.Type) -> tuple:
+    def checkStationaryPoint(self, xOld: typing.SupportsFloat | typing.SupportsIndex, xNew: typing.SupportsFloat | typing.SupportsIndex, statState: typing.SupportsInt | typing.SupportsIndex, ecType: EndCriteria.Type) -> tuple[bool, EndCriteria.Type]:
         """
         Checks for stationary point. Returns (bool, ecType).
         """
-    def checkZeroGradientNorm(self, gNorm: typing.SupportsFloat, ecType: EndCriteria.Type) -> tuple:
+    def checkZeroGradientNorm(self, gNorm: typing.SupportsFloat | typing.SupportsIndex, ecType: EndCriteria.Type) -> tuple[bool, EndCriteria.Type]:
         """
         Checks for zero gradient norm. Returns (bool, ecType).
         """
@@ -6931,12 +6973,12 @@ class EquityTotalReturnSwap(Swap):
     Equity total return swap.
     """
     @typing.overload
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, schedule: Schedule, equityIndex: EquityIndex, interestRateIndex: IborIndex, dayCounter: DayCounter, margin: typing.SupportsFloat, gearing: typing.SupportsFloat = 1.0, paymentCalendar: typing.Any = None, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt = 0) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, equityIndex: EquityIndex, interestRateIndex: IborIndex, dayCounter: DayCounter, margin: typing.SupportsFloat | typing.SupportsIndex, gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, paymentCalendar: typing.Any = None, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs an equity TRS with an IBOR interest rate leg.
         """
     @typing.overload
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, schedule: Schedule, equityIndex: EquityIndex, interestRateIndex: OvernightIndex, dayCounter: DayCounter, margin: typing.SupportsFloat, gearing: typing.SupportsFloat = 1.0, paymentCalendar: typing.Any = None, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt = 0) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, equityIndex: EquityIndex, interestRateIndex: OvernightIndex, dayCounter: DayCounter, margin: typing.SupportsFloat | typing.SupportsIndex, gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, paymentCalendar: typing.Any = None, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs an equity TRS with an overnight interest rate leg.
         """
@@ -7336,7 +7378,7 @@ class ExchangeRate:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -7344,7 +7386,7 @@ class ExchangeRate:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -7361,7 +7403,7 @@ class ExchangeRate:
         """
         Creates a derived rate by chaining two rates.
         """
-    def __init__(self, source: Currency, target: Currency, rate: typing.SupportsFloat) -> None:
+    def __init__(self, source: Currency, target: Currency, rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs an exchange rate from source to target currency.
         """
@@ -7419,11 +7461,11 @@ class ExpSinhIntegral(base.Integrator):
     """
     Exp-sinh quadrature for rapidly convergent integration of smooth functions.
     """
-    def __init__(self, relTolerance: typing.SupportsFloat = 1.4901161193847656e-08, maxRefinements: typing.SupportsInt = 9) -> None:
+    def __init__(self, relTolerance: typing.SupportsFloat | typing.SupportsIndex = 1.4901161193847656e-08, maxRefinements: typing.SupportsInt | typing.SupportsIndex = 9) -> None:
         """
         Constructs with relative tolerance and max refinements.
         """
-    def integrateHalfInfinite(self, f: collections.abc.Callable[[typing.SupportsFloat], float]) -> float:
+    def integrateHalfInfinite(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float]) -> float:
         """
         Integrates f(x) over the half-infinite interval [0, inf).
         """
@@ -7435,11 +7477,11 @@ class ExplicitEulerScheme:
         """
         Constructs from operator and boundary conditions.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -7447,7 +7489,7 @@ class ExponentialFittingHestonEngine(base.PricingEngine):
     """
     Heston engine using exponentially-fitted Gauss-Laguerre quadrature.
     """
-    def __init__(self, model: HestonModel, cv: ComplexLogFormula = ..., scaling: typing.Any = None, alpha: typing.SupportsFloat = -0.5) -> None:
+    def __init__(self, model: HestonModel, cv: ComplexLogFormula = ..., scaling: typing.Any = None, alpha: typing.SupportsFloat | typing.SupportsIndex = -0.5) -> None:
         """
         Constructs exponential fitting Heston engine.
         """
@@ -7455,27 +7497,27 @@ class ExponentialJump1dMesher(Fdm1dMesher):
     """
     1D mesher for exponential jump-diffusion processes.
     """
-    def __init__(self, steps: typing.SupportsInt, beta: typing.SupportsFloat, jumpIntensity: typing.SupportsFloat, eta: typing.SupportsFloat, eps: typing.SupportsFloat = 0.001) -> None:
+    def __init__(self, steps: typing.SupportsInt | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, jumpIntensity: typing.SupportsFloat | typing.SupportsIndex, eta: typing.SupportsFloat | typing.SupportsIndex, eps: typing.SupportsFloat | typing.SupportsIndex = 0.001) -> None:
         """
         Constructs with step count and jump parameters.
         """
     @typing.overload
-    def jumpSizeDensity(self, x: typing.SupportsFloat) -> float:
+    def jumpSizeDensity(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Asymptotic jump size density (t -> infinity).
         """
     @typing.overload
-    def jumpSizeDensity(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def jumpSizeDensity(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Time-dependent jump size density.
         """
     @typing.overload
-    def jumpSizeDistribution(self, x: typing.SupportsFloat) -> float:
+    def jumpSizeDistribution(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Asymptotic jump size distribution.
         """
     @typing.overload
-    def jumpSizeDistribution(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def jumpSizeDistribution(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Time-dependent jump size distribution.
         """
@@ -7483,7 +7525,7 @@ class ExponentialSplinesFitting(base.FittingMethod):
     """
     Exponential splines fitting method.
     """
-    def __init__(self, constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308, numCoeffs: typing.SupportsInt = 9, fixedKappa: typing.Any = None, constraint: base.Constraint = ...) -> None:
+    def __init__(self, constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308, numCoeffs: typing.SupportsInt | typing.SupportsIndex = 9, fixedKappa: typing.Any = None, constraint: base.Constraint = ...) -> None:
         """
         Constructs an exponential splines fitting method.
         """
@@ -7492,12 +7534,12 @@ class ExtendedCoxIngersollRoss(CoxIngersollRoss, base.TermStructureConsistentMod
     Extended Cox-Ingersoll-Ross model fitted to term structure.
     """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, theta: typing.SupportsFloat = 0.1, k: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.1, x0: typing.SupportsFloat = 0.05, withFellerConstraint: bool = True) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, theta: typing.SupportsFloat | typing.SupportsIndex = 0.1, k: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.1, x0: typing.SupportsFloat | typing.SupportsIndex = 0.05, withFellerConstraint: bool = True) -> None:
         """
         Constructs extended CIR model.
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, theta: typing.SupportsFloat = 0.1, k: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.1, x0: typing.SupportsFloat = 0.05, withFellerConstraint: bool = True) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, theta: typing.SupportsFloat | typing.SupportsIndex = 0.1, k: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.1, x0: typing.SupportsFloat | typing.SupportsIndex = 0.05, withFellerConstraint: bool = True) -> None:
         """
         Constructs extended CIR model (handle created internally).
         """
@@ -7525,7 +7567,7 @@ class ExtendedOUDiscretization:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -7533,7 +7575,7 @@ class ExtendedOUDiscretization:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -7547,7 +7589,7 @@ class ExtendedOrnsteinUhlenbeckProcess(base.StochasticProcess1D):
     """
     Extended OU process with time-dependent level: dx = a(b(t) - x)dt + sigma*dW.
     """
-    def __init__(self, speed: typing.SupportsFloat, sigma: typing.SupportsFloat, x0: typing.SupportsFloat, b: collections.abc.Callable[[typing.SupportsFloat], float], discretization: ExtendedOUDiscretization = ..., intEps: typing.SupportsFloat = 0.0001) -> None:
+    def __init__(self, speed: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex, b: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], discretization: ExtendedOUDiscretization = ..., intEps: typing.SupportsFloat | typing.SupportsIndex = 0.0001) -> None:
         """
         Constructs with time-dependent level function b(t).
         """
@@ -7567,7 +7609,7 @@ class FFTVarianceGammaEngine(base.PricingEngine):
     """
     FFT Variance Gamma option engine.
     """
-    def __init__(self, process: VarianceGammaProcess, logStrikeSpacing: typing.SupportsFloat = 0.001) -> None:
+    def __init__(self, process: VarianceGammaProcess, logStrikeSpacing: typing.SupportsFloat | typing.SupportsIndex = 0.001) -> None:
         ...
 class FIMCurrency(Currency):
     """
@@ -7630,7 +7672,7 @@ class Fd2dBlackScholesVanillaEngine(BasketOptionEngine):
     """
     2D finite-difference Black-Scholes engine for basket options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat, xGrid: typing.SupportsInt = 100, yGrid: typing.SupportsInt = 100, tGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, yGrid: typing.SupportsInt | typing.SupportsIndex = 100, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex = -3.4028234663852886e+38) -> None:
         """
         Constructs with two processes, correlation, and optional grid/scheme parameters.
         """
@@ -7639,12 +7681,12 @@ class FdBatesVanillaEngine(base.PricingEngine):
     Partial integro finite-differences Bates vanilla option engine.
     """
     @typing.overload
-    def __init__(self, model: BatesModel, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: BatesModel, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Bates engine.
         """
     @typing.overload
-    def __init__(self, model: BatesModel, dividends: ..., std: ..., tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: BatesModel, dividends: ..., std: ..., tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Bates engine with dividends.
         """
@@ -7652,7 +7694,7 @@ class FdBlackScholesBarrierEngine(base.PricingEngine):
     """
     Finite-differences Black-Scholes barrier option engine.
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex = -3.4028234663852886e+38) -> None:
         """
         Constructs FdBlackScholesBarrierEngine.
         """
@@ -7660,7 +7702,7 @@ class FdBlackScholesRebateEngine(base.PricingEngine):
     """
     Finite-differences Black-Scholes barrier option rebate engine.
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex = -3.4028234663852886e+38) -> None:
         """
         Constructs FdBlackScholesRebateEngine.
         """
@@ -7669,12 +7711,12 @@ class FdBlackScholesShoutEngine(base.PricingEngine):
     Finite-differences Black-Scholes shout option engine.
     """
     @typing.overload
-    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Black-Scholes shout engine.
         """
     @typing.overload
-    def __init__(self, process: GeneralizedBlackScholesProcess, dividends: ..., std: ..., tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, dividends: ..., std: ..., tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Black-Scholes shout engine with dividends.
         """
@@ -7682,7 +7724,7 @@ class FdBlackScholesVanillaEngine(base.PricingEngine):
     """
     Finite-differences Black-Scholes vanilla option engine.
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat = -3.4028234663852886e+38, cashDividendModel: CashDividendModel = ...) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex = -3.4028234663852886e+38, cashDividendModel: CashDividendModel = ...) -> None:
         """
         Constructs a finite-difference Black-Scholes engine.
         
@@ -7701,12 +7743,12 @@ class FdCEVVanillaEngine(base.PricingEngine):
     Finite-differences CEV vanilla option engine.
     """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, tGrid: typing.SupportsInt = 50, xGrid: typing.SupportsInt = 400, dampingSteps: typing.SupportsInt = 0, scalingFactor: typing.SupportsFloat = 1.0, eps: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, xGrid: typing.SupportsInt | typing.SupportsIndex = 400, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, scalingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD CEV engine with handle.
         """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, discountCurve: base.YieldTermStructure, tGrid: typing.SupportsInt = 50, xGrid: typing.SupportsInt = 400, dampingSteps: typing.SupportsInt = 0, scalingFactor: typing.SupportsFloat = 1.0, eps: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, discountCurve: base.YieldTermStructure, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, xGrid: typing.SupportsInt | typing.SupportsIndex = 400, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, scalingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD CEV engine (handle created internally).
         """
@@ -7714,7 +7756,7 @@ class FdG2SwaptionEngine(base.PricingEngine):
     """
     Finite-differences swaption engine for G2++ two-factor model.
     """
-    def __init__(self, model: G2, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 50, yGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, invEps: typing.SupportsFloat = 1e-05, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: G2, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 50, yGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, invEps: typing.SupportsFloat | typing.SupportsIndex = 1e-05, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD G2 swaption engine.
         """
@@ -7723,12 +7765,12 @@ class FdHestonHullWhiteVanillaEngine(base.PricingEngine):
     Finite-differences Heston + Hull-White vanilla option engine.
     """
     @typing.overload
-    def __init__(self, model: HestonModel, hwProcess: HullWhiteProcess, corrEquityShortRate: typing.SupportsFloat, tGrid: typing.SupportsInt = 50, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 40, rGrid: typing.SupportsInt = 20, dampingSteps: typing.SupportsInt = 0, controlVariate: bool = True, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: HestonModel, hwProcess: HullWhiteProcess, corrEquityShortRate: typing.SupportsFloat | typing.SupportsIndex, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 40, rGrid: typing.SupportsInt | typing.SupportsIndex = 20, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, controlVariate: bool = True, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Heston-HW engine.
         """
     @typing.overload
-    def __init__(self, model: HestonModel, hwProcess: HullWhiteProcess, dividends: collections.abc.Sequence[base.Dividend], corrEquityShortRate: typing.SupportsFloat, tGrid: typing.SupportsInt = 50, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 40, rGrid: typing.SupportsInt = 20, dampingSteps: typing.SupportsInt = 0, controlVariate: bool = True, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: HestonModel, hwProcess: HullWhiteProcess, dividends: collections.abc.Sequence[base.Dividend], corrEquityShortRate: typing.SupportsFloat | typing.SupportsIndex, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 40, rGrid: typing.SupportsInt | typing.SupportsIndex = 20, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, controlVariate: bool = True, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Heston-HW engine with dividends.
         """
@@ -7737,16 +7779,16 @@ class FdHestonVanillaEngine(base.PricingEngine):
     Finite-differences Heston vanilla option engine.
     """
     @typing.overload
-    def __init__(self, model: HestonModel, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, model: HestonModel, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs FD Heston engine.
         """
     @typing.overload
-    def __init__(self, model: HestonModel, dividends: collections.abc.Sequence[base.Dividend], tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, vGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, schemeDesc: FdmSchemeDesc = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, model: HestonModel, dividends: collections.abc.Sequence[base.Dividend], tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, vGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, schemeDesc: FdmSchemeDesc = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs FD Heston engine with dividends.
         """
-    def enableMultipleStrikesCaching(self, strikes: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def enableMultipleStrikesCaching(self, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Enables caching for multiple strikes.
         """
@@ -7754,7 +7796,7 @@ class FdHullWhiteSwaptionEngine(base.PricingEngine):
     """
     Finite-differences swaption engine for Hull-White model.
     """
-    def __init__(self, model: HullWhite, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, invEps: typing.SupportsFloat = 1e-05, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, model: HullWhite, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, invEps: typing.SupportsFloat | typing.SupportsIndex = 1e-05, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD Hull-White swaption engine.
         """
@@ -7763,12 +7805,12 @@ class FdOrnsteinUhlenbeckVanillaEngine(base.PricingEngine):
     Finite-differences Ornstein-Uhlenbeck vanilla option engine.
     """
     @typing.overload
-    def __init__(self, process: OrnsteinUhlenbeckProcess, riskFreeRate: base.YieldTermStructure, tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, epsilon: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, process: OrnsteinUhlenbeckProcess, riskFreeRate: base.YieldTermStructure, tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, epsilon: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD OU engine.
         """
     @typing.overload
-    def __init__(self, process: OrnsteinUhlenbeckProcess, riskFreeRate: base.YieldTermStructure, dividends: collections.abc.Sequence[base.Dividend], tGrid: typing.SupportsInt = 100, xGrid: typing.SupportsInt = 100, dampingSteps: typing.SupportsInt = 0, epsilon: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, process: OrnsteinUhlenbeckProcess, riskFreeRate: base.YieldTermStructure, dividends: collections.abc.Sequence[base.Dividend], tGrid: typing.SupportsInt | typing.SupportsIndex = 100, xGrid: typing.SupportsInt | typing.SupportsIndex = 100, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, epsilon: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD OU engine with dividends.
         """
@@ -7777,12 +7819,12 @@ class FdSabrVanillaEngine(base.PricingEngine):
     Finite-differences SABR vanilla option engine.
     """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, rTS: YieldTermStructureHandle, tGrid: typing.SupportsInt = 50, fGrid: typing.SupportsInt = 400, xGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, scalingFactor: typing.SupportsFloat = 1.0, eps: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, rTS: YieldTermStructureHandle, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, fGrid: typing.SupportsInt | typing.SupportsIndex = 400, xGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, scalingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD SABR engine with handle.
         """
     @typing.overload
-    def __init__(self, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, rTS: base.YieldTermStructure, tGrid: typing.SupportsInt = 50, fGrid: typing.SupportsInt = 400, xGrid: typing.SupportsInt = 50, dampingSteps: typing.SupportsInt = 0, scalingFactor: typing.SupportsFloat = 1.0, eps: typing.SupportsFloat = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, rTS: base.YieldTermStructure, tGrid: typing.SupportsInt | typing.SupportsIndex = 50, fGrid: typing.SupportsInt | typing.SupportsIndex = 400, xGrid: typing.SupportsInt | typing.SupportsIndex = 50, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0, scalingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs FD SABR engine (handle created internally).
         """
@@ -7794,19 +7836,19 @@ class Fdm1DimSolver(base.LazyObject):
         """
         Constructs with solver descriptor, scheme descriptor, and operator.
         """
-    def derivativeX(self, x: typing.SupportsFloat) -> float:
+    def derivativeX(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns first derivative at coordinate x.
         """
-    def derivativeXX(self, x: typing.SupportsFloat) -> float:
+    def derivativeXX(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns second derivative at coordinate x.
         """
-    def interpolateAt(self, x: typing.SupportsFloat) -> float:
+    def interpolateAt(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Interpolates solution at coordinate x.
         """
-    def thetaAt(self, x: typing.SupportsFloat) -> float:
+    def thetaAt(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at coordinate x.
         """
@@ -7814,21 +7856,21 @@ class Fdm1dMesher:
     """
     Base class for one-dimensional FDM meshers.
     """
-    def __init__(self, size: typing.SupportsInt) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a 1D mesher of the given size.
         """
     def __len__(self) -> int:
         ...
-    def dminus(self, index: typing.SupportsInt) -> float:
+    def dminus(self, index: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the backward difference at index.
         """
-    def dplus(self, index: typing.SupportsInt) -> float:
+    def dplus(self, index: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the forward difference at index.
         """
-    def location(self, index: typing.SupportsInt) -> float:
+    def location(self, index: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the location at index.
         """
@@ -7848,31 +7890,31 @@ class Fdm2DimSolver(base.LazyObject):
         """
         Constructs with solver descriptor, scheme descriptor, and operator.
         """
-    def derivativeX(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeX(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns first derivative w.r.t. x.
         """
-    def derivativeXX(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeXX(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns second derivative w.r.t. x.
         """
-    def derivativeXY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeXY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns cross derivative w.r.t. x and y.
         """
-    def derivativeY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns first derivative w.r.t. y.
         """
-    def derivativeYY(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def derivativeYY(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns second derivative w.r.t. y.
         """
-    def interpolateAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def interpolateAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Interpolates solution at coordinates (x, y).
         """
-    def thetaAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def thetaAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at coordinates (x, y).
         """
@@ -7880,7 +7922,7 @@ class Fdm2dBlackScholesOp(FdmLinearOpComposite):
     """
     Two-dimensional Black-Scholes FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, p1: GeneralizedBlackScholesProcess, p2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat, maturity: typing.SupportsFloat, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
+    def __init__(self, mesher: FdmMesher, p1: GeneralizedBlackScholesProcess, p2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
         """
         Constructs a 2D Black-Scholes operator.
         """
@@ -7889,40 +7931,40 @@ class Fdm2dBlackScholesSolver(base.LazyObject):
     Specialized 2D FDM solver for two-asset Black-Scholes.
     """
     @typing.overload
-    def __init__(self, p1: GeneralizedBlackScholesProcessHandle, p2: GeneralizedBlackScholesProcessHandle, correlation: typing.SupportsFloat, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
+    def __init__(self, p1: GeneralizedBlackScholesProcessHandle, p2: GeneralizedBlackScholesProcessHandle, correlation: typing.SupportsFloat | typing.SupportsIndex, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
         """
         Constructs from two BS process handles and correlation.
         """
     @typing.overload
-    def __init__(self, p1: GeneralizedBlackScholesProcess, p2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
+    def __init__(self, p1: GeneralizedBlackScholesProcess, p2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None) -> None:
         """
         Constructs from two BS processes (handles created internally).
         """
-    def deltaXat(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def deltaXat(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns delta with respect to first asset.
         """
-    def deltaYat(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def deltaYat(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns delta with respect to second asset.
         """
-    def gammaXYat(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def gammaXYat(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns cross-gamma between assets.
         """
-    def gammaXat(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def gammaXat(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns gamma with respect to first asset.
         """
-    def gammaYat(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def gammaYat(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns gamma with respect to second asset.
         """
-    def thetaAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def thetaAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta.
         """
-    def valueAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def valueAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at spot prices x and y.
         """
@@ -7934,11 +7976,11 @@ class Fdm3DimSolver(base.LazyObject):
         """
         Constructs with solver descriptor, scheme descriptor, and operator.
         """
-    def interpolateAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat, z: typing.SupportsFloat) -> float:
+    def interpolateAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex, z: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Interpolates solution at coordinates (x, y, z).
         """
-    def thetaAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat, z: typing.SupportsFloat) -> float:
+    def thetaAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex, z: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at coordinates (x, y, z).
         """
@@ -7954,7 +7996,7 @@ class FdmArithmeticAverageCondition(base.FdmStepCondition):
     """
     Arithmetic average step condition for Asian option FDM pricing.
     """
-    def __init__(self, averageTimes: collections.abc.Sequence[typing.SupportsFloat], runningAverage: typing.SupportsFloat, pastFixings: typing.SupportsInt, mesher: FdmMesher, equityDirection: typing.SupportsInt) -> None:
+    def __init__(self, averageTimes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], runningAverage: typing.SupportsFloat | typing.SupportsIndex, pastFixings: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher, equityDirection: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with averaging times, running average, past fixings, mesher, and equity direction index.
         """
@@ -7966,7 +8008,7 @@ class FdmBackwardSolver:
         """
         Constructs with operator, boundary conditions, step conditions, and scheme.
         """
-    def rollback(self, a: Array, from_: typing.SupportsFloat, to: typing.SupportsFloat, steps: typing.SupportsInt, dampingSteps: typing.SupportsInt) -> Array:
+    def rollback(self, a: Array, from_: typing.SupportsFloat | typing.SupportsIndex, to: typing.SupportsFloat | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, dampingSteps: typing.SupportsInt | typing.SupportsIndex) -> Array:
         """
         Rolls back array from time 'from' to time 'to' (returns modified copy).
         """
@@ -7974,7 +8016,7 @@ class FdmBatesOp(FdmLinearOpComposite):
     """
     Bates (Heston + jumps) FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, batesProcess: BatesProcess, bcSet: collections.abc.Sequence[FdmBoundaryCondition], integroIntegrationOrder: typing.SupportsInt, quantoHelper: FdmQuantoHelper = None) -> None:
+    def __init__(self, mesher: FdmMesher, batesProcess: BatesProcess, bcSet: collections.abc.Sequence[FdmBoundaryCondition], integroIntegrationOrder: typing.SupportsInt | typing.SupportsIndex, quantoHelper: FdmQuantoHelper = None) -> None:
         """
         Constructs a Bates operator.
         """
@@ -7983,28 +8025,28 @@ class FdmBatesSolver(base.LazyObject):
     Specialized 2D FDM solver for Bates jump-diffusion model.
     """
     @typing.overload
-    def __init__(self, process: BatesProcessHandle, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., integroIntegrationOrder: typing.SupportsInt = 12, quantoHelper: typing.Any = None) -> None:
+    def __init__(self, process: BatesProcessHandle, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., integroIntegrationOrder: typing.SupportsInt | typing.SupportsIndex = 12, quantoHelper: typing.Any = None) -> None:
         """
         Constructs from Bates process handle.
         """
     @typing.overload
-    def __init__(self, process: BatesProcess, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., integroIntegrationOrder: typing.SupportsInt = 12, quantoHelper: typing.Any = None) -> None:
+    def __init__(self, process: BatesProcess, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., integroIntegrationOrder: typing.SupportsInt | typing.SupportsIndex = 12, quantoHelper: typing.Any = None) -> None:
         """
         Constructs from Bates process (handle created internally).
         """
-    def deltaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def deltaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns delta at spot s and variance v.
         """
-    def gammaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def gammaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns gamma at spot s and variance v.
         """
-    def thetaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def thetaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at spot s and variance v.
         """
-    def valueAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def valueAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at spot s and variance v.
         """
@@ -8024,7 +8066,7 @@ class FdmBlackScholesFwdOp(FdmLinearOpComposite):
     """
     Black-Scholes Fokker-Planck forward operator.
     """
-    def __init__(self, mesher: FdmMesher, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, direction: typing.SupportsInt = 0) -> None:
+    def __init__(self, mesher: FdmMesher, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat | typing.SupportsIndex, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, direction: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs a Black-Scholes forward operator.
         """
@@ -8033,11 +8075,11 @@ class FdmBlackScholesMesher(Fdm1dMesher):
     One-dimensional mesher for the Black-Scholes process (in ln(S)).
     """
     @staticmethod
-    def processHelper(s0: QuoteHandle, rTS: YieldTermStructureHandle, qTS: YieldTermStructureHandle, vol: typing.SupportsFloat) -> GeneralizedBlackScholesProcess:
+    def processHelper(s0: QuoteHandle, rTS: YieldTermStructureHandle, qTS: YieldTermStructureHandle, vol: typing.SupportsFloat | typing.SupportsIndex) -> GeneralizedBlackScholesProcess:
         """
         Creates a GeneralizedBlackScholesProcess from basic inputs.
         """
-    def __init__(self, size: typing.SupportsInt, process: GeneralizedBlackScholesProcess, maturity: typing.SupportsFloat, strike: typing.SupportsFloat, xMinConstraint: typing.Any = None, xMaxConstraint: typing.Any = None, eps: typing.SupportsFloat = 0.0001, scaleFactor: typing.SupportsFloat = 1.5, cPoint: typing.Any = None, dividendSchedule: collections.abc.Sequence[base.Dividend] = [], fdmQuantoHelper: FdmQuantoHelper = None, spotAdjustment: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, process: GeneralizedBlackScholesProcess, maturity: typing.SupportsFloat | typing.SupportsIndex, strike: typing.SupportsFloat | typing.SupportsIndex, xMinConstraint: typing.Any = None, xMaxConstraint: typing.Any = None, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, scaleFactor: typing.SupportsFloat | typing.SupportsIndex = 1.5, cPoint: typing.Any = None, dividendSchedule: collections.abc.Sequence[base.Dividend] = [], fdmQuantoHelper: FdmQuantoHelper = None, spotAdjustment: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs a Black-Scholes mesher.
         """
@@ -8045,7 +8087,7 @@ class FdmBlackScholesOp(FdmLinearOpComposite):
     """
     Black-Scholes FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, direction: typing.SupportsInt = 0, quantoHelper: FdmQuantoHelper = None) -> None:
+    def __init__(self, mesher: FdmMesher, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat | typing.SupportsIndex, localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, direction: typing.SupportsInt | typing.SupportsIndex = 0, quantoHelper: FdmQuantoHelper = None) -> None:
         """
         Constructs a Black-Scholes operator.
         """
@@ -8054,28 +8096,28 @@ class FdmBlackScholesSolver(base.LazyObject):
     Specialized 1D FDM solver for Black-Scholes processes.
     """
     @typing.overload
-    def __init__(self, process: GeneralizedBlackScholesProcessHandle, strike: typing.SupportsFloat, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, quantoHelper: typing.Any = None) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcessHandle, strike: typing.SupportsFloat | typing.SupportsIndex, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, quantoHelper: typing.Any = None) -> None:
         """
         Constructs from process handle.
         """
     @typing.overload
-    def __init__(self, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, quantoHelper: typing.Any = None) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, strike: typing.SupportsFloat | typing.SupportsIndex, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., localVol: bool = False, illegalLocalVolOverwrite: typing.Any = None, quantoHelper: typing.Any = None) -> None:
         """
         Constructs from process (handle created internally).
         """
-    def deltaAt(self, s: typing.SupportsFloat) -> float:
+    def deltaAt(self, s: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns delta at spot price s.
         """
-    def gammaAt(self, s: typing.SupportsFloat) -> float:
+    def gammaAt(self, s: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns gamma at spot price s.
         """
-    def thetaAt(self, s: typing.SupportsFloat) -> float:
+    def thetaAt(self, s: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at spot price s.
         """
-    def valueAt(self, s: typing.SupportsFloat) -> float:
+    def valueAt(self, s: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at spot price s.
         """
@@ -8083,7 +8125,7 @@ class FdmBoundaryCondition:
     """
     Boundary condition for FDM operators.
     """
-    def setTime(self, t: typing.SupportsFloat) -> None:
+    def setTime(self, t: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the current time for time-dependent conditions.
         """
@@ -8091,7 +8133,7 @@ class FdmCEV1dMesher(Fdm1dMesher):
     """
     One-dimensional mesher for the CEV model.
     """
-    def __init__(self, size: typing.SupportsInt, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, maturity: typing.SupportsFloat, eps: typing.SupportsFloat = 0.0001, scaleFactor: typing.SupportsFloat = 1.5, cPoint: typing.Any = None) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, eps: typing.SupportsFloat | typing.SupportsIndex = 0.0001, scaleFactor: typing.SupportsFloat | typing.SupportsIndex = 1.5, cPoint: typing.Any = None) -> None:
         """
         Constructs a CEV mesher.
         """
@@ -8099,7 +8141,7 @@ class FdmCEVOp(FdmLinearOpComposite):
     """
     Constant Elasticity of Variance FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, direction: typing.SupportsInt) -> None:
+    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, direction: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a CEV operator.
         """
@@ -8107,7 +8149,7 @@ class FdmCellAveragingInnerValue(base.FdmInnerValueCalculator):
     """
     Cell-averaging inner value calculator for FDM grids.
     """
-    def __init__(self, payoff: base.Payoff, mesher: FdmMesher, direction: typing.SupportsInt, gridMapping: typing.Any = None) -> None:
+    def __init__(self, payoff: base.Payoff, mesher: FdmMesher, direction: typing.SupportsInt | typing.SupportsIndex, gridMapping: typing.Any = None) -> None:
         """
         Constructs with payoff, mesher, direction, and optional grid mapping.
         """
@@ -8115,7 +8157,7 @@ class FdmDirichletBoundary(FdmBoundaryCondition):
     """
     Dirichlet boundary condition for FDM. Sets a fixed value on a boundary.
     """
-    def __init__(self, mesher: FdmMesher, valueOnBoundary: typing.SupportsFloat, direction: typing.SupportsInt, side: BoundaryConditionSide) -> None:
+    def __init__(self, mesher: FdmMesher, valueOnBoundary: typing.SupportsFloat | typing.SupportsIndex, direction: typing.SupportsInt | typing.SupportsIndex, side: BoundaryConditionSide) -> None:
         """
         Constructs with mesher, boundary value, direction, and side.
         """
@@ -8123,7 +8165,7 @@ class FdmDiscountDirichletBoundary(FdmBoundaryCondition):
     """
     Discounted Dirichlet boundary condition for FDM.
     """
-    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, maturityTime: typing.SupportsFloat, valueOnBoundary: typing.SupportsFloat, direction: typing.SupportsInt, side: BoundaryConditionSide) -> None:
+    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, maturityTime: typing.SupportsFloat | typing.SupportsIndex, valueOnBoundary: typing.SupportsFloat | typing.SupportsIndex, direction: typing.SupportsInt | typing.SupportsIndex, side: BoundaryConditionSide) -> None:
         """
         Constructs with mesher, yield curve, maturity time, boundary value, direction, and side.
         """
@@ -8131,7 +8173,7 @@ class FdmDividendHandler(base.FdmStepCondition):
     """
     Applies discrete dividends as a step condition.
     """
-    def __init__(self, schedule: collections.abc.Sequence[base.Dividend], mesher: FdmMesher, referenceDate: Date, dayCounter: DayCounter, equityDirection: typing.SupportsInt) -> None:
+    def __init__(self, schedule: collections.abc.Sequence[base.Dividend], mesher: FdmMesher, referenceDate: Date, dayCounter: DayCounter, equityDirection: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with dividend schedule, mesher, reference date, day counter, and equity direction.
         """
@@ -8151,7 +8193,7 @@ class FdmG2Op(FdmLinearOpComposite):
     """
     G2++ two-factor interest rate FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, model: ..., direction1: typing.SupportsInt, direction2: typing.SupportsInt) -> None:
+    def __init__(self, mesher: FdmMesher, model: ..., direction1: typing.SupportsInt | typing.SupportsIndex, direction2: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a G2 operator.
         """
@@ -8169,7 +8211,7 @@ class FdmG2Solver(base.LazyObject):
         """
         Constructs from G2 model (handle created internally).
         """
-    def valueAt(self, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def valueAt(self, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at state variables x and y.
         """
@@ -8177,7 +8219,7 @@ class FdmHestonFwdOp(FdmLinearOpComposite):
     """
     Heston Fokker-Planck forward operator.
     """
-    def __init__(self, mesher: FdmMesher, process: HestonProcess, type: FdmSquareRootFwdOpTransformationType = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, mesher: FdmMesher, process: HestonProcess, type: FdmSquareRootFwdOpTransformationType = ..., leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs a Heston forward operator.
         """
@@ -8205,7 +8247,7 @@ class FdmHestonGreensFctAlgorithm:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -8213,7 +8255,7 @@ class FdmHestonGreensFctAlgorithm:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -8227,7 +8269,7 @@ class FdmHestonHullWhiteOp(FdmLinearOpComposite):
     """
     Heston-Hull-White FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, hestonProcess: HestonProcess, hwProcess: HullWhiteProcess, equityShortRateCorrelation: typing.SupportsFloat) -> None:
+    def __init__(self, mesher: FdmMesher, hestonProcess: HestonProcess, hwProcess: HullWhiteProcess, equityShortRateCorrelation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a Heston-Hull-White operator.
         """
@@ -8235,7 +8277,7 @@ class FdmHestonLocalVolatilityVarianceMesher(Fdm1dMesher):
     """
     Variance mesher for the Heston model with local volatility.
     """
-    def __init__(self, size: typing.SupportsInt, process: HestonProcess, leverageFct: base.LocalVolTermStructure, maturity: typing.SupportsFloat, tAvgSteps: typing.SupportsInt = 10, epsilon: typing.SupportsFloat = 0.0001, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, process: HestonProcess, leverageFct: base.LocalVolTermStructure, maturity: typing.SupportsFloat | typing.SupportsIndex, tAvgSteps: typing.SupportsInt | typing.SupportsIndex = 10, epsilon: typing.SupportsFloat | typing.SupportsIndex = 0.0001, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs a Heston local vol variance mesher.
         """
@@ -8247,7 +8289,7 @@ class FdmHestonOp(FdmLinearOpComposite):
     """
     Heston stochastic volatility FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, hestonProcess: HestonProcess, quantoHelper: FdmQuantoHelper = None, leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, mesher: FdmMesher, hestonProcess: HestonProcess, quantoHelper: FdmQuantoHelper = None, leverageFct: base.LocalVolTermStructure = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs a Heston operator.
         """
@@ -8256,36 +8298,36 @@ class FdmHestonSolver(base.LazyObject):
     Specialized 2D FDM solver for Heston stochastic volatility.
     """
     @typing.overload
-    def __init__(self, process: HestonProcessHandle, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., quantoHelper: typing.Any = None, leverageFct: typing.Any = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, process: HestonProcessHandle, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., quantoHelper: typing.Any = None, leverageFct: typing.Any = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from Heston process handle.
         """
     @typing.overload
-    def __init__(self, process: HestonProcess, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., quantoHelper: typing.Any = None, leverageFct: typing.Any = None, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, process: HestonProcess, solverDesc: FdmSolverDesc, schemeDesc: FdmSchemeDesc = ..., quantoHelper: typing.Any = None, leverageFct: typing.Any = None, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from Heston process (handle created internally).
         """
-    def deltaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def deltaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns delta at spot s and variance v.
         """
-    def gammaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def gammaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns gamma at spot s and variance v.
         """
-    def meanVarianceDeltaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def meanVarianceDeltaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns mean-variance adjusted delta.
         """
-    def meanVarianceGammaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def meanVarianceGammaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns mean-variance adjusted gamma.
         """
-    def thetaAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def thetaAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at spot s and variance v.
         """
-    def valueAt(self, s: typing.SupportsFloat, v: typing.SupportsFloat) -> float:
+    def valueAt(self, s: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at spot s and variance v.
         """
@@ -8293,7 +8335,7 @@ class FdmHestonVarianceMesher(Fdm1dMesher):
     """
     One-dimensional variance mesher for the Heston model.
     """
-    def __init__(self, size: typing.SupportsInt, process: HestonProcess, maturity: typing.SupportsFloat, tAvgSteps: typing.SupportsInt = 10, epsilon: typing.SupportsFloat = 0.0001, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, process: HestonProcess, maturity: typing.SupportsFloat | typing.SupportsIndex, tAvgSteps: typing.SupportsInt | typing.SupportsIndex = 10, epsilon: typing.SupportsFloat | typing.SupportsIndex = 0.0001, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs a Heston variance mesher.
         """
@@ -8305,7 +8347,7 @@ class FdmHullWhiteOp(FdmLinearOpComposite):
     """
     Hull-White interest rate FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, model: ..., direction: typing.SupportsInt) -> None:
+    def __init__(self, mesher: FdmMesher, model: ..., direction: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a Hull-White operator.
         """
@@ -8323,7 +8365,7 @@ class FdmHullWhiteSolver(base.LazyObject):
         """
         Constructs from Hull-White model (handle created internally).
         """
-    def valueAt(self, r: typing.SupportsFloat) -> float:
+    def valueAt(self, r: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns option value at interest rate r.
         """
@@ -8339,7 +8381,7 @@ class FdmLinearOpComposite(FdmLinearOp):
     """
     Composite linear operator for multi-dimensional FDM problems.
     """
-    def apply_direction(self, direction: typing.SupportsInt, r: Array) -> Array:
+    def apply_direction(self, direction: typing.SupportsInt | typing.SupportsIndex, r: Array) -> Array:
         """
         Applies the operator in a single direction.
         """
@@ -8347,11 +8389,11 @@ class FdmLinearOpComposite(FdmLinearOp):
         """
         Applies the mixed derivative part.
         """
-    def preconditioner(self, r: Array, s: typing.SupportsFloat) -> Array:
+    def preconditioner(self, r: Array, s: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies the preconditioner.
         """
-    def setTime(self, t1: typing.SupportsFloat, t2: typing.SupportsFloat) -> None:
+    def setTime(self, t1: typing.SupportsFloat | typing.SupportsIndex, t2: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time interval.
         """
@@ -8359,7 +8401,7 @@ class FdmLinearOpComposite(FdmLinearOp):
         """
         Returns the number of operator dimensions.
         """
-    def solve_splitting(self, direction: typing.SupportsInt, r: Array, s: typing.SupportsFloat) -> Array:
+    def solve_splitting(self, direction: typing.SupportsInt | typing.SupportsIndex, r: Array, s: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Solves the implicit splitting step.
         """
@@ -8368,17 +8410,17 @@ class FdmLinearOpIterator:
     Iterator for a FDM linear operator layout.
     """
     @typing.overload
-    def __init__(self, index: typing.SupportsInt = 0) -> None:
+    def __init__(self, index: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with a flat index.
         """
     @typing.overload
-    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt]) -> None:
+    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         """
         Constructs from grid dimensions.
         """
     @typing.overload
-    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt], coordinates: collections.abc.Sequence[typing.SupportsInt], index: typing.SupportsInt) -> None:
+    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], coordinates: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], index: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs from dimensions, coordinates, and flat index.
         """
@@ -8402,7 +8444,7 @@ class FdmLinearOpLayout:
     """
     Memory layout of a FDM linear operator grid.
     """
-    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt]) -> None:
+    def __init__(self, dim: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         """
         Constructs from grid dimensions.
         """
@@ -8422,21 +8464,21 @@ class FdmLinearOpLayout:
         """
         Returns an iterator past the last element.
         """
-    def index(self, coordinates: collections.abc.Sequence[typing.SupportsInt]) -> int:
+    def index(self, coordinates: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> int:
         """
         Returns the flat index for given coordinates.
         """
-    def iter_neighbourhood(self, iterator: FdmLinearOpIterator, i: typing.SupportsInt, offset: typing.SupportsInt) -> FdmLinearOpIterator:
+    def iter_neighbourhood(self, iterator: FdmLinearOpIterator, i: typing.SupportsInt | typing.SupportsIndex, offset: typing.SupportsInt | typing.SupportsIndex) -> FdmLinearOpIterator:
         """
         Returns a neighbour iterator in dimension i.
         """
     @typing.overload
-    def neighbourhood(self, iterator: FdmLinearOpIterator, i: typing.SupportsInt, offset: typing.SupportsInt) -> int:
+    def neighbourhood(self, iterator: FdmLinearOpIterator, i: typing.SupportsInt | typing.SupportsIndex, offset: typing.SupportsInt | typing.SupportsIndex) -> int:
         """
         Returns neighbour flat index in dimension i.
         """
     @typing.overload
-    def neighbourhood(self, iterator: FdmLinearOpIterator, i1: typing.SupportsInt, offset1: typing.SupportsInt, i2: typing.SupportsInt, offset2: typing.SupportsInt) -> int:
+    def neighbourhood(self, iterator: FdmLinearOpIterator, i1: typing.SupportsInt | typing.SupportsIndex, offset1: typing.SupportsInt | typing.SupportsIndex, i2: typing.SupportsInt | typing.SupportsIndex, offset2: typing.SupportsInt | typing.SupportsIndex) -> int:
         """
         Returns neighbour flat index in dimensions i1 and i2.
         """
@@ -8452,7 +8494,7 @@ class FdmLocalVolFwdOp(FdmLinearOpComposite):
     """
     Local volatility Fokker-Planck forward operator.
     """
-    def __init__(self, mesher: FdmMesher, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, direction: typing.SupportsInt = 0) -> None:
+    def __init__(self, mesher: FdmMesher, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, direction: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs a local volatility forward operator.
         """
@@ -8468,7 +8510,7 @@ class FdmLogInnerValue(FdmCellAveragingInnerValue):
     """
     Log-space inner value calculator for equity options.
     """
-    def __init__(self, payoff: base.Payoff, mesher: FdmMesher, direction: typing.SupportsInt) -> None:
+    def __init__(self, payoff: base.Payoff, mesher: FdmMesher, direction: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with payoff, mesher, and direction.
         """
@@ -8476,11 +8518,11 @@ class FdmMesher:
     """
     Abstract base class for multi-dimensional FDM meshers.
     """
-    def dminus(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt) -> float:
+    def dminus(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the backward difference at iterator position.
         """
-    def dplus(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt) -> float:
+    def dplus(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the forward difference at iterator position.
         """
@@ -8488,11 +8530,11 @@ class FdmMesher:
         """
         Returns the grid layout.
         """
-    def location(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt) -> float:
+    def location(self, iter: FdmLinearOpIterator, direction: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the location at iterator position.
         """
-    def locations(self, direction: typing.SupportsInt) -> Array:
+    def locations(self, direction: typing.SupportsInt | typing.SupportsIndex) -> Array:
         """
         Returns all locations along a direction.
         """
@@ -8538,7 +8580,7 @@ class FdmOrnsteinUhlenbeckOp(FdmLinearOpComposite):
     """
     Ornstein-Uhlenbeck process FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, process: OrnsteinUhlenbeckProcess, rTS: base.YieldTermStructure, direction: typing.SupportsInt = 0) -> None:
+    def __init__(self, mesher: FdmMesher, process: OrnsteinUhlenbeckProcess, rTS: base.YieldTermStructure, direction: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs an Ornstein-Uhlenbeck operator.
         """
@@ -8546,17 +8588,17 @@ class FdmQuantoHelper(Observable):
     """
     Helper storing market data for FDM quanto adjustment.
     """
-    def __init__(self, rTS: base.YieldTermStructure, fTS: base.YieldTermStructure, fxVolTS: base.BlackVolTermStructure, equityFxCorrelation: typing.SupportsFloat, exchRateATMlevel: typing.SupportsFloat) -> None:
+    def __init__(self, rTS: base.YieldTermStructure, fTS: base.YieldTermStructure, fxVolTS: base.BlackVolTermStructure, equityFxCorrelation: typing.SupportsFloat | typing.SupportsIndex, exchRateATMlevel: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from rate curves, FX vol, correlation, and FX rate.
         """
     @typing.overload
-    def quantoAdjustment(self, equityVol: typing.SupportsFloat, t1: typing.SupportsFloat, t2: typing.SupportsFloat) -> float:
+    def quantoAdjustment(self, equityVol: typing.SupportsFloat | typing.SupportsIndex, t1: typing.SupportsFloat | typing.SupportsIndex, t2: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the quanto adjustment for scalar equity volatility.
         """
     @typing.overload
-    def quantoAdjustment(self, equityVol: Array, t1: typing.SupportsFloat, t2: typing.SupportsFloat) -> Array:
+    def quantoAdjustment(self, equityVol: Array, t1: typing.SupportsFloat | typing.SupportsIndex, t2: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Returns the quanto adjustment for an Array of equity volatilities.
         """
@@ -8579,7 +8621,7 @@ class FdmSabrOp(FdmLinearOpComposite):
     """
     SABR stochastic volatility FDM operator.
     """
-    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, f0: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat) -> None:
+    def __init__(self, mesher: FdmMesher, rTS: base.YieldTermStructure, f0: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a SABR operator.
         """
@@ -8618,7 +8660,7 @@ class FdmSchemeDesc:
         Implicit Euler scheme.
         """
     @staticmethod
-    def MethodOfLines(eps: typing.SupportsFloat = 0.001, relInitStepSize: typing.SupportsFloat = 0.01) -> FdmSchemeDesc:
+    def MethodOfLines(eps: typing.SupportsFloat | typing.SupportsIndex = 0.001, relInitStepSize: typing.SupportsFloat | typing.SupportsIndex = 0.01) -> FdmSchemeDesc:
         """
         Method of lines scheme.
         """
@@ -8637,7 +8679,7 @@ class FdmSchemeDesc:
         """
         TR-BDF2 scheme.
         """
-    def __init__(self, type: FdmSchemeType, theta: typing.SupportsFloat, mu: typing.SupportsFloat) -> None:
+    def __init__(self, type: FdmSchemeType, theta: typing.SupportsFloat | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with scheme type, theta, and mu.
         """
@@ -8692,7 +8734,7 @@ class FdmSchemeType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -8700,7 +8742,7 @@ class FdmSchemeType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -8714,7 +8756,7 @@ class FdmSimpleProcess1dMesher(Fdm1dMesher):
     """
     One-dimensional mesher for a generic stochastic process.
     """
-    def __init__(self, size: typing.SupportsInt, process: base.StochasticProcess1D, maturity: typing.SupportsFloat, tAvgSteps: typing.SupportsInt = 10, epsilon: typing.SupportsFloat = 0.0001, mandatoryPoint: typing.Any = None) -> None:
+    def __init__(self, size: typing.SupportsInt | typing.SupportsIndex, process: base.StochasticProcess1D, maturity: typing.SupportsFloat | typing.SupportsIndex, tAvgSteps: typing.SupportsInt | typing.SupportsIndex = 10, epsilon: typing.SupportsFloat | typing.SupportsIndex = 0.0001, mandatoryPoint: typing.Any = None) -> None:
         """
         Constructs from a 1D stochastic process.
         """
@@ -8722,7 +8764,7 @@ class FdmSimpleSwingCondition(base.FdmStepCondition):
     """
     Simple swing option step condition for FDM pricing.
     """
-    def __init__(self, exerciseTimes: collections.abc.Sequence[typing.SupportsFloat], mesher: FdmMesher, calculator: base.FdmInnerValueCalculator, swingDirection: typing.SupportsInt, minExercises: typing.SupportsInt = 0) -> None:
+    def __init__(self, exerciseTimes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], mesher: FdmMesher, calculator: base.FdmInnerValueCalculator, swingDirection: typing.SupportsInt | typing.SupportsIndex, minExercises: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with exercise times, mesher, calculator, swing direction index, and minimum exercises.
         """
@@ -8730,7 +8772,7 @@ class FdmSnapshotCondition(base.FdmStepCondition):
     """
     Captures array values at a specific time (for theta calculation).
     """
-    def __init__(self, t: typing.SupportsFloat) -> None:
+    def __init__(self, t: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with snapshot time.
         """
@@ -8746,7 +8788,7 @@ class FdmSolverDesc:
     """
     Descriptor for FDM solver configuration.
     """
-    def __init__(self, mesher: FdmMesher, bcSet: collections.abc.Sequence[FdmBoundaryCondition], condition: FdmStepConditionComposite, calculator: base.FdmInnerValueCalculator, maturity: typing.SupportsFloat, timeSteps: typing.SupportsInt, dampingSteps: typing.SupportsInt = 0) -> None:
+    def __init__(self, mesher: FdmMesher, bcSet: collections.abc.Sequence[FdmBoundaryCondition], condition: FdmStepConditionComposite, calculator: base.FdmInnerValueCalculator, maturity: typing.SupportsFloat | typing.SupportsIndex, timeSteps: typing.SupportsInt | typing.SupportsIndex, dampingSteps: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs solver descriptor.
         """
@@ -8775,7 +8817,7 @@ class FdmSquareRootFwdOp(FdmLinearOpComposite):
     """
     Square-root process Fokker-Planck forward operator.
     """
-    def __init__(self, mesher: FdmMesher, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, direction: typing.SupportsInt, type: FdmSquareRootFwdOpTransformationType = ...) -> None:
+    def __init__(self, mesher: FdmMesher, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, direction: typing.SupportsInt | typing.SupportsIndex, type: FdmSquareRootFwdOpTransformationType = ...) -> None:
         """
         Constructs a square-root forward operator.
         """
@@ -8787,7 +8829,7 @@ class FdmSquareRootFwdOp(FdmLinearOpComposite):
         """
         Returns the upper boundary factor.
         """
-    def v(self, i: typing.SupportsInt) -> float:
+    def v(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the transformed value at index i.
         """
@@ -8815,7 +8857,7 @@ class FdmSquareRootFwdOpTransformationType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -8823,7 +8865,7 @@ class FdmSquareRootFwdOpTransformationType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -8847,7 +8889,7 @@ class FdmStepConditionComposite(base.FdmStepCondition):
         """
         Creates a standard composite for vanilla option FDM pricing.
         """
-    def __init__(self, stoppingTimes: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat]], conditions: collections.abc.Sequence[base.FdmStepCondition]) -> None:
+    def __init__(self, stoppingTimes: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]], conditions: collections.abc.Sequence[base.FdmStepCondition]) -> None:
         """
         Constructs from stopping times and conditions.
         """
@@ -8863,7 +8905,7 @@ class FdmTimeDepDirichletBoundary(FdmBoundaryCondition):
     """
     Time-dependent Dirichlet boundary condition for FDM.
     """
-    def __init__(self, mesher: FdmMesher, valueOnBoundary: collections.abc.Callable[[typing.SupportsFloat], float], direction: typing.SupportsInt, side: BoundaryConditionSide) -> None:
+    def __init__(self, mesher: FdmMesher, valueOnBoundary: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], direction: typing.SupportsInt | typing.SupportsIndex, side: BoundaryConditionSide) -> None:
         """
         Constructs with scalar time-dependent boundary value function.
         """
@@ -8900,7 +8942,7 @@ class FirstDerivativeOp(TripleBandLinearOp):
     """
     First derivative operator on an FDM grid.
     """
-    def __init__(self, direction: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, direction: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs from direction and mesher.
         """
@@ -8909,17 +8951,17 @@ class FittedBondDiscountCurve(base.YieldTermStructure, base.LazyObject):
     Discount curve fitted to a set of bonds.
     """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, bonds: collections.abc.Sequence[BondHelper], dayCounter: DayCounter, fittingMethod: base.FittingMethod, accuracy: typing.SupportsFloat = 1e-10, maxEvaluations: typing.SupportsInt = 10000, guess: Array = ..., simplexLambda: typing.SupportsFloat = 1.0, maxStationaryStateIterations: typing.SupportsInt = 100) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, bonds: collections.abc.Sequence[BondHelper], dayCounter: DayCounter, fittingMethod: base.FittingMethod, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 10000, guess: Array = ..., simplexLambda: typing.SupportsFloat | typing.SupportsIndex = 1.0, maxStationaryStateIterations: typing.SupportsInt | typing.SupportsIndex = 100) -> None:
         """
         Constructs from settlement days with bond fitting.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, bonds: collections.abc.Sequence[BondHelper], dayCounter: DayCounter, fittingMethod: base.FittingMethod, accuracy: typing.SupportsFloat = 1e-10, maxEvaluations: typing.SupportsInt = 10000, guess: Array = ..., simplexLambda: typing.SupportsFloat = 1.0, maxStationaryStateIterations: typing.SupportsInt = 100) -> None:
+    def __init__(self, referenceDate: Date, bonds: collections.abc.Sequence[BondHelper], dayCounter: DayCounter, fittingMethod: base.FittingMethod, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-10, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 10000, guess: Array = ..., simplexLambda: typing.SupportsFloat | typing.SupportsIndex = 1.0, maxStationaryStateIterations: typing.SupportsInt | typing.SupportsIndex = 100) -> None:
         """
         Constructs from reference date with bond fitting.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, fittingMethod: base.FittingMethod, parameters: Array, maxDate: Date, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, fittingMethod: base.FittingMethod, parameters: Array, maxDate: Date, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days with precalculated parameters.
         """
@@ -8944,7 +8986,7 @@ class FixedDividend(base.Dividend):
     """
     Fixed cash dividend.
     """
-    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, amount: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs a fixed dividend.
         """
@@ -8973,7 +9015,7 @@ class FixedLocalVolExtrapolation:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -8981,7 +9023,7 @@ class FixedLocalVolExtrapolation:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -8996,17 +9038,17 @@ class FixedLocalVolSurface(base.LocalVolTermStructure):
     Fixed local volatility surface with strike/time grid.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
         """
         Constructs from dates and uniform strikes.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat], strikes: collections.abc.Sequence[typing.SupportsFloat], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
         """
         Constructs from times and uniform strikes.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat], strikes: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat]], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
+    def __init__(self, referenceDate: Date, times: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], strikes: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]], localVolMatrix: Matrix, dayCounter: DayCounter, lowerExtrapolation: FixedLocalVolExtrapolation = ..., upperExtrapolation: FixedLocalVolExtrapolation = ...) -> None:
         """
         Constructs from times and varying strikes per time point.
         """
@@ -9030,7 +9072,7 @@ class FixedRateBond(Bond):
     """
     Fixed rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, firstPeriodDayCounter: typing.Any = None) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, firstPeriodDayCounter: typing.Any = None) -> None:
         """
         Constructs a fixed rate bond.
         """
@@ -9047,17 +9089,17 @@ class FixedRateBondHelper(BondHelper):
     Fixed-coupon bond helper for bootstrapping yield curves.
     """
     @typing.overload
-    def __init__(self, price: QuoteHandle, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
+    def __init__(self, price: QuoteHandle, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
         """
         Constructs from price handle and bond parameters.
         """
     @typing.overload
-    def __init__(self, price: base.Quote, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
+    def __init__(self, price: base.Quote, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
         """
         Constructs from quote and bond parameters (handle created internally).
         """
     @typing.overload
-    def __init__(self, price: typing.SupportsFloat, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
+    def __init__(self, price: typing.SupportsFloat | typing.SupportsIndex, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, coupons: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., paymentCalendar: typing.Any = None, exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False, priceType: typing.Any = None) -> None:
         """
         Constructs from price value and bond parameters.
         """
@@ -9066,12 +9108,12 @@ class FixedRateCoupon(base.Coupon):
     Coupon paying a fixed interest rate.
     """
     @typing.overload
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, interestRate: InterestRate, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, interestRate: InterestRate, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
         """
         Constructs a fixed-rate coupon from an InterestRate.
         """
     @typing.overload
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, rate: typing.SupportsFloat, dayCounter: DayCounter, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, rate: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, accrualStartDate: Date, accrualEndDate: Date, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., exCouponDate: Date = ...) -> None:
         """
         Constructs a fixed-rate coupon from rate and day counter.
         """
@@ -9092,13 +9134,13 @@ class FixedRateLeg:
         Builds and returns the leg of cash flows.
         """
     @typing.overload
-    def withCouponRates(self, rate: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
+    def withCouponRates(self, rate: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
         ...
     @typing.overload
     def withCouponRates(self, interestRate: InterestRate) -> FixedRateLeg:
         ...
     @typing.overload
-    def withCouponRates(self, rates: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
+    def withCouponRates(self, rates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> FixedRateLeg:
         ...
     @typing.overload
     def withCouponRates(self, interestRates: collections.abc.Sequence[InterestRate]) -> FixedRateLeg:
@@ -9110,16 +9152,16 @@ class FixedRateLeg:
     def withLastPeriodDayCounter(self, dayCounter: DayCounter) -> FixedRateLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> FixedRateLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> FixedRateLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> FixedRateLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> FixedRateLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> FixedRateLeg:
         ...
     def withPaymentCalendar(self, calendar: Calendar) -> FixedRateLeg:
         ...
-    def withPaymentLag(self, lag: typing.SupportsInt) -> FixedRateLeg:
+    def withPaymentLag(self, lag: typing.SupportsInt | typing.SupportsIndex) -> FixedRateLeg:
         ...
 class FixedVsFloatingSwap(Swap):
     """
@@ -9220,13 +9262,13 @@ class FixedVsFloatingSwapArguments(SwapArguments):
     def fixedCoupons(self) -> list[float]:
         ...
     @fixedCoupons.setter
-    def fixedCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def fixedCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def fixedNominals(self) -> list[float]:
         ...
     @fixedNominals.setter
-    def fixedNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def fixedNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def fixedPayDates(self) -> list[Date]:
@@ -9244,13 +9286,13 @@ class FixedVsFloatingSwapArguments(SwapArguments):
     def floatingAccrualTimes(self) -> list[float]:
         ...
     @floatingAccrualTimes.setter
-    def floatingAccrualTimes(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def floatingAccrualTimes(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def floatingCoupons(self) -> list[float]:
         ...
     @floatingCoupons.setter
-    def floatingCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def floatingCoupons(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def floatingFixingDates(self) -> list[Date]:
@@ -9262,7 +9304,7 @@ class FixedVsFloatingSwapArguments(SwapArguments):
     def floatingNominals(self) -> list[float]:
         ...
     @floatingNominals.setter
-    def floatingNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def floatingNominals(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def floatingPayDates(self) -> list[Date]:
@@ -9280,13 +9322,13 @@ class FixedVsFloatingSwapArguments(SwapArguments):
     def floatingSpreads(self) -> list[float]:
         ...
     @floatingSpreads.setter
-    def floatingSpreads(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def floatingSpreads(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def nominal(self) -> float:
         ...
     @nominal.setter
-    def nominal(self, arg0: typing.SupportsFloat) -> None:
+    def nominal(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class FixedVsFloatingSwapResults(SwapResults):
     """
@@ -9298,20 +9340,20 @@ class FixedVsFloatingSwapResults(SwapResults):
     def fairRate(self) -> float:
         ...
     @fairRate.setter
-    def fairRate(self, arg0: typing.SupportsFloat) -> None:
+    def fairRate(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def fairSpread(self) -> float:
         ...
     @fairSpread.setter
-    def fairSpread(self, arg0: typing.SupportsFloat) -> None:
+    def fairSpread(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class FlatForward(base.YieldTermStructure):
     """
     Flat interest-rate curve.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, forward: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, referenceDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from reference date and forward rate.
         """
@@ -9326,17 +9368,17 @@ class FlatForward(base.YieldTermStructure):
         Constructs from reference date and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, forward: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from settlement days and forward rate.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: QuoteHandle, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, forward: QuoteHandle, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from settlement days and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, forward: base.Quote, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, forward: base.Quote, dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from settlement days and quote (handle created internally).
         """
@@ -9353,7 +9395,7 @@ class FlatHazardRate(base.DefaultProbabilityTermStructure):
     Flat hazard rate term structure.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, hazardRate: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, referenceDate: Date, hazardRate: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from date and hazard rate.
         """
@@ -9368,12 +9410,12 @@ class FlatHazardRate(base.DefaultProbabilityTermStructure):
         Constructs from date and hazard rate quote.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, hazardRate: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, hazardRate: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and hazard rate.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, hazardRate: QuoteHandle, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, hazardRate: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and hazard rate quote handle.
         """
@@ -9386,12 +9428,12 @@ class FlatSmileSection(base.SmileSection):
     Smile section with constant volatility.
     """
     @typing.overload
-    def __init__(self, d: Date, vol: typing.SupportsFloat, dc: DayCounter = ..., referenceDate: Date = ..., atmLevel: typing.Any = None, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, d: Date, vol: typing.SupportsFloat | typing.SupportsIndex, dc: DayCounter = ..., referenceDate: Date = ..., atmLevel: typing.Any = None, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with exercise date.
         """
     @typing.overload
-    def __init__(self, exerciseTime: typing.SupportsFloat, vol: typing.SupportsFloat, dc: DayCounter = ..., atmLevel: typing.Any = None, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, exerciseTime: typing.SupportsFloat | typing.SupportsIndex, vol: typing.SupportsFloat | typing.SupportsIndex, dc: DayCounter = ..., atmLevel: typing.Any = None, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with exercise time.
         """
@@ -9400,12 +9442,12 @@ class FloatFloatSwap(Swap):
     Swap exchanging two floating legs with caps and floors.
     """
     @typing.overload
-    def __init__(self, type: SwapType, nominal1: typing.SupportsFloat, nominal2: typing.SupportsFloat, schedule1: Schedule, index1: base.InterestRateIndex, dayCount1: DayCounter, schedule2: Schedule, index2: base.InterestRateIndex, dayCount2: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, gearing1: typing.SupportsFloat = 1.0, spread1: typing.SupportsFloat = 0.0, cappedRate1: typing.Any = None, flooredRate1: typing.Any = None, gearing2: typing.SupportsFloat = 1.0, spread2: typing.SupportsFloat = 0.0, cappedRate2: typing.Any = None, flooredRate2: typing.Any = None, paymentConvention1: typing.Any = None, paymentConvention2: typing.Any = None) -> None:
+    def __init__(self, type: SwapType, nominal1: typing.SupportsFloat | typing.SupportsIndex, nominal2: typing.SupportsFloat | typing.SupportsIndex, schedule1: Schedule, index1: base.InterestRateIndex, dayCount1: DayCounter, schedule2: Schedule, index2: base.InterestRateIndex, dayCount2: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, gearing1: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread1: typing.SupportsFloat | typing.SupportsIndex = 0.0, cappedRate1: typing.Any = None, flooredRate1: typing.Any = None, gearing2: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread2: typing.SupportsFloat | typing.SupportsIndex = 0.0, cappedRate2: typing.Any = None, flooredRate2: typing.Any = None, paymentConvention1: typing.Any = None, paymentConvention2: typing.Any = None) -> None:
         """
         Constructs with scalar parameters.
         """
     @typing.overload
-    def __init__(self, type: SwapType, nominal1: collections.abc.Sequence[typing.SupportsFloat], nominal2: collections.abc.Sequence[typing.SupportsFloat], schedule1: Schedule, index1: base.InterestRateIndex, dayCount1: DayCounter, schedule2: Schedule, index2: base.InterestRateIndex, dayCount2: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, gearing1: collections.abc.Sequence[typing.SupportsFloat] = [], spread1: collections.abc.Sequence[typing.SupportsFloat] = [], cappedRate1: collections.abc.Sequence[typing.SupportsFloat] = [], flooredRate1: collections.abc.Sequence[typing.SupportsFloat] = [], gearing2: collections.abc.Sequence[typing.SupportsFloat] = [], spread2: collections.abc.Sequence[typing.SupportsFloat] = [], cappedRate2: collections.abc.Sequence[typing.SupportsFloat] = [], flooredRate2: collections.abc.Sequence[typing.SupportsFloat] = [], paymentConvention1: typing.Any = None, paymentConvention2: typing.Any = None) -> None:
+    def __init__(self, type: SwapType, nominal1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], nominal2: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], schedule1: Schedule, index1: base.InterestRateIndex, dayCount1: DayCounter, schedule2: Schedule, index2: base.InterestRateIndex, dayCount2: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, gearing1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], spread1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], cappedRate1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], flooredRate1: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], gearing2: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], spread2: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], cappedRate2: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], flooredRate2: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], paymentConvention1: typing.Any = None, paymentConvention2: typing.Any = None) -> None:
         """
         Constructs with vector parameters.
         """
@@ -9525,7 +9567,7 @@ class FloatingRateBond(Bond):
     """
     Floating rate bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, faceAmount: typing.SupportsFloat, schedule: Schedule, iborIndex: IborIndex, accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat] = [], floors: collections.abc.Sequence[typing.SupportsFloat] = [], inArrears: bool = False, redemption: typing.SupportsFloat = 100.0, issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, faceAmount: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, iborIndex: IborIndex, accrualDayCounter: DayCounter, paymentConvention: BusinessDayConvention = ..., fixingDays: typing.Any = None, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [1.0], spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [0.0], caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], inArrears: bool = False, redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ..., exCouponPeriod: Period = ..., exCouponCalendar: typing.Any = None, exCouponConvention: BusinessDayConvention = ..., exCouponEndOfMonth: bool = False) -> None:
         """
         Constructs a floating rate bond.
         """
@@ -9533,7 +9575,7 @@ class FloatingRateCoupon(base.Coupon):
     """
     Coupon paying a variable index-based rate.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
         """
         Constructs a floating-rate coupon.
         """
@@ -9591,7 +9633,7 @@ class Floor(CapFloor):
     """
     Interest rate floor.
     """
-    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, floatingLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a floor.
         """
@@ -9599,19 +9641,19 @@ class FloorTruncation(Rounding):
     """
     Floor truncation.
     """
-    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         ...
 class ForwardCurve(base.YieldTermStructure):
     """
     Yield curve based on forward rates with backward-flat interpolation.
     """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter) -> None:
         """
         Constructs from dates, forward rates, and day counter.
         """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], forwards: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, calendar: Calendar) -> None:
         """
         Constructs from dates, forward rates, day counter, and calendar.
         """
@@ -9645,7 +9687,7 @@ class ForwardFlatInterpolation(base.Interpolation):
     """
     Forward-flat interpolation (step function using current node's value).
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -9660,17 +9702,17 @@ class ForwardRateAgreement(base.Instrument):
     Forward rate agreement (FRA).
     """
     @typing.overload
-    def __init__(self, index: IborIndex, valueDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat, notionalAmount: typing.SupportsFloat, discountCurve: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, index: IborIndex, valueDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat | typing.SupportsIndex, notionalAmount: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle = ...) -> None:
         """
         Constructs FRA using indexed coupon.
         """
     @typing.overload
-    def __init__(self, index: IborIndex, valueDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat, notionalAmount: typing.SupportsFloat, discountCurve: base.YieldTermStructure) -> None:
+    def __init__(self, index: IborIndex, valueDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat | typing.SupportsIndex, notionalAmount: typing.SupportsFloat | typing.SupportsIndex, discountCurve: base.YieldTermStructure) -> None:
         """
         Constructs FRA with term structure (handle created internally).
         """
     @typing.overload
-    def __init__(self, index: IborIndex, valueDate: Date, maturityDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat, notionalAmount: typing.SupportsFloat, discountCurve: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, index: IborIndex, valueDate: Date, maturityDate: Date, type: PositionType, strikeForwardRate: typing.SupportsFloat | typing.SupportsIndex, notionalAmount: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle = ...) -> None:
         """
         Constructs FRA using par-rate approximation.
         """
@@ -9720,7 +9762,7 @@ class ForwardTypePayoff(base.Payoff):
     """
     Payoff for forward contracts.
     """
-    def __init__(self, type: PositionType, strike: typing.SupportsFloat) -> None:
+    def __init__(self, type: PositionType, strike: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a forward payoff.
         """
@@ -9736,29 +9778,29 @@ class ForwardVanillaOption(base.OneAssetOption):
     """
     Forward-start vanilla option.
     """
-    def __init__(self, moneyness: typing.SupportsFloat, resetDate: Date, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, moneyness: typing.SupportsFloat | typing.SupportsIndex, resetDate: Date, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
 class FraRateHelper(base.RelativeDateRateHelper):
     """
     Rate helper for bootstrapping over FRA rates.
     """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, monthsToStart: typing.SupportsInt, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, monthsToStart: typing.SupportsInt | typing.SupportsIndex, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
         """
         Constructs from rate, months to start, and Ibor index.
         """
     @typing.overload
-    def __init__(self, rate: QuoteHandle, monthsToStart: typing.SupportsInt, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
+    def __init__(self, rate: QuoteHandle, monthsToStart: typing.SupportsInt | typing.SupportsIndex, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
         """
         Constructs from quote handle, months to start, and Ibor index.
         """
     @typing.overload
-    def __init__(self, rate: base.Quote, monthsToStart: typing.SupportsInt, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
+    def __init__(self, rate: base.Quote, monthsToStart: typing.SupportsInt | typing.SupportsIndex, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
         """
         Constructs from quote, months to start, and Ibor index (handle created internally).
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, periodToStart: Period, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, periodToStart: Period, index: IborIndex, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., useIndexedCoupon: bool = True) -> None:
         """
         Constructs from rate, period to start, and Ibor index.
         """
@@ -9767,12 +9809,12 @@ class FractionalDividend(base.Dividend):
     Fractional (proportional) dividend.
     """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs a fractional dividend (rate only).
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, nominal: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, nominal: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs a fractional dividend with nominal.
         """
@@ -9846,7 +9888,7 @@ class France(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -9868,7 +9910,7 @@ class France(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -9950,7 +9992,7 @@ class Frequency:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -9972,7 +10014,7 @@ class Frequency:
         ...
     def __rxor__(self, other: typing.Any) -> typing.Any:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -9989,12 +10031,12 @@ class G2(base.TwoFactorModel, base.AffineModel, base.TermStructureConsistentMode
     Two-additive-factor Gaussian model G2++.
     """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01, b: typing.SupportsFloat = 0.1, eta: typing.SupportsFloat = 0.01, rho: typing.SupportsFloat = -0.75) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.01, b: typing.SupportsFloat | typing.SupportsIndex = 0.1, eta: typing.SupportsFloat | typing.SupportsIndex = 0.01, rho: typing.SupportsFloat | typing.SupportsIndex = -0.75) -> None:
         """
         Constructs G2++ model with term structure and parameters.
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01, b: typing.SupportsFloat = 0.1, eta: typing.SupportsFloat = 0.01, rho: typing.SupportsFloat = -0.75) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.01, b: typing.SupportsFloat | typing.SupportsIndex = 0.1, eta: typing.SupportsFloat | typing.SupportsIndex = 0.01, rho: typing.SupportsFloat | typing.SupportsIndex = -0.75) -> None:
         """
         Constructs G2++ model from term structure.
         """
@@ -10006,11 +10048,11 @@ class G2(base.TwoFactorModel, base.AffineModel, base.TermStructureConsistentMode
         """
         Returns second factor mean reversion speed.
         """
-    def discountBond(self, t: typing.SupportsFloat, T: typing.SupportsFloat, x: typing.SupportsFloat, y: typing.SupportsFloat) -> float:
+    def discountBond(self, t: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex, x: typing.SupportsFloat | typing.SupportsIndex, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond price P(t,T) given state variables x and y.
         """
-    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, bondMaturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond option price.
         """
@@ -10030,7 +10072,7 @@ class G2ForwardProcess(base.ForwardMeasureProcess):
     """
     G2 forward-measure two-factor short-rate process.
     """
-    def __init__(self, a: typing.SupportsFloat, sigma: typing.SupportsFloat, b: typing.SupportsFloat, eta: typing.SupportsFloat, rho: typing.SupportsFloat) -> None:
+    def __init__(self, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, eta: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs G2ForwardProcess.
         """
@@ -10079,7 +10121,7 @@ class G2Process(base.StochasticProcess):
     """
     G2 two-factor short-rate stochastic process.
     """
-    def __init__(self, a: typing.SupportsFloat, sigma: typing.SupportsFloat, b: typing.SupportsFloat, eta: typing.SupportsFloat, rho: typing.SupportsFloat) -> None:
+    def __init__(self, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, eta: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs G2Process.
         """
@@ -10115,7 +10157,7 @@ class G2SwaptionEngine(base.PricingEngine):
     """
     Swaption engine for two-factor G2++ model.
     """
-    def __init__(self, model: G2, range: typing.SupportsFloat, intervals: typing.SupportsInt) -> None:
+    def __init__(self, model: G2, range: typing.SupportsFloat | typing.SupportsIndex, intervals: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs G2 swaption engine with integration parameters.
         """
@@ -10194,10 +10236,10 @@ class GJRGARCHProcess(base.StochasticProcess):
     GJR-GARCH(1,1) stochastic process.
     """
     @typing.overload
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, omega: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, gamma: typing.SupportsFloat, lambda_: typing.SupportsFloat, daysPerYear: typing.SupportsFloat = 252.0, discretization: GJRGARCHProcessDiscretization = ...) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat | typing.SupportsIndex, omega: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, gamma: typing.SupportsFloat | typing.SupportsIndex, lambda_: typing.SupportsFloat | typing.SupportsIndex, daysPerYear: typing.SupportsFloat | typing.SupportsIndex = 252.0, discretization: GJRGARCHProcessDiscretization = ...) -> None:
         ...
     @typing.overload
-    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat, omega: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, gamma: typing.SupportsFloat, lambda_: typing.SupportsFloat, daysPerYear: typing.SupportsFloat = 252.0, discretization: GJRGARCHProcessDiscretization = ...) -> None:
+    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat | typing.SupportsIndex, omega: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, gamma: typing.SupportsFloat | typing.SupportsIndex, lambda_: typing.SupportsFloat | typing.SupportsIndex, daysPerYear: typing.SupportsFloat | typing.SupportsIndex = 252.0, discretization: GJRGARCHProcessDiscretization = ...) -> None:
         """
         Constructs from shared_ptr objects (handles created internally).
         """
@@ -10265,7 +10307,7 @@ class GJRGARCHProcessDiscretization:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -10273,7 +10315,7 @@ class GJRGARCHProcessDiscretization:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -10298,7 +10340,7 @@ class GapPayoff(base.StrikedTypePayoff):
     """
     Gap payoff: vanilla minus digital, with two strikes.
     """
-    def __init__(self, type: OptionType, strike: typing.SupportsFloat, secondStrike: typing.SupportsFloat) -> None:
+    def __init__(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, secondStrike: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     def secondStrike(self) -> float:
         """
@@ -10328,7 +10370,7 @@ class GaussChebyshev2ndIntegration(base.GaussianQuadrature):
     """
     Gauss-Chebyshev 2nd kind integration over [-1, 1] with weight (1-x^2)^(1/2).
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10336,7 +10378,7 @@ class GaussChebyshev2ndIntegrator(base.Integrator):
     """
     Integrator using Gauss-Chebyshev 2nd kind quadrature.
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10344,7 +10386,7 @@ class GaussChebyshevIntegration(base.GaussianQuadrature):
     """
     Gauss-Chebyshev integration over [-1, 1] with weight (1-x^2)^(-1/2).
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10352,7 +10394,7 @@ class GaussChebyshevIntegrator(base.Integrator):
     """
     Integrator using Gauss-Chebyshev quadrature.
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10360,7 +10402,7 @@ class GaussGegenbauerIntegration(base.GaussianQuadrature):
     """
     Gauss-Gegenbauer integration over [-1, 1] with weight (1-x^2)^(lambda-1/2).
     """
-    def __init__(self, n: typing.SupportsInt, lambda_: typing.SupportsFloat) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex, lambda_: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points and parameter lambda.
         """
@@ -10368,7 +10410,7 @@ class GaussHermiteIntegration(base.GaussianQuadrature):
     """
     Gauss-Hermite integration over (-inf, inf) with weight |x|^(2*mu) * exp(-x^2).
     """
-    def __init__(self, n: typing.SupportsInt, mu: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with n quadrature points and parameter mu.
         """
@@ -10376,7 +10418,7 @@ class GaussHyperbolicIntegration(base.GaussianQuadrature):
     """
     Gauss-Hyperbolic integration over (-inf, inf) with weight 1/cosh(x).
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10384,7 +10426,7 @@ class GaussJacobiIntegration(base.GaussianQuadrature):
     """
     Gauss-Jacobi integration over [-1, 1] with weight (1-x)^alpha * (1+x)^beta.
     """
-    def __init__(self, n: typing.SupportsInt, alpha: typing.SupportsFloat, beta: typing.SupportsFloat) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points and parameters alpha, beta.
         """
@@ -10392,7 +10434,7 @@ class GaussKronrodAdaptive(base.Integrator):
     """
     Adaptive Gauss-Kronrod integration using 15-point rule.
     """
-    def __init__(self, tolerance: typing.SupportsFloat, maxFunctionEvaluations: typing.Any = None) -> None:
+    def __init__(self, tolerance: typing.SupportsFloat | typing.SupportsIndex, maxFunctionEvaluations: typing.Any = None) -> None:
         """
         Constructs with tolerance and optional max function evaluations.
         """
@@ -10400,7 +10442,7 @@ class GaussKronrodNonAdaptive(base.Integrator):
     """
     Non-adaptive Gauss-Kronrod integration using 10/21/43/87-point rules.
     """
-    def __init__(self, absoluteAccuracy: typing.SupportsFloat, maxEvaluations: typing.SupportsInt, relativeAccuracy: typing.SupportsFloat) -> None:
+    def __init__(self, absoluteAccuracy: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex, relativeAccuracy: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with absolute accuracy, max evaluations, and relative accuracy.
         """
@@ -10412,7 +10454,7 @@ class GaussLaguerreIntegration(base.GaussianQuadrature):
     """
     Gauss-Laguerre integration over [0, inf) with weight x^s * exp(-x).
     """
-    def __init__(self, n: typing.SupportsInt, s: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex, s: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs with n quadrature points and parameter s.
         """
@@ -10420,7 +10462,7 @@ class GaussLegendreIntegration(base.GaussianQuadrature):
     """
     Gauss-Legendre integration over [-1, 1] with unit weight.
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10428,7 +10470,7 @@ class GaussLegendreIntegrator(base.Integrator):
     """
     Integrator using Gauss-Legendre quadrature.
     """
-    def __init__(self, n: typing.SupportsInt) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with n quadrature points.
         """
@@ -10436,7 +10478,7 @@ class GaussLobattoIntegral(base.Integrator):
     """
     Adaptive Gauss-Lobatto integration.
     """
-    def __init__(self, maxIterations: typing.SupportsInt, absAccuracy: typing.SupportsFloat, relAccuracy: typing.Any = None, useConvergenceEstimate: bool = True) -> None:
+    def __init__(self, maxIterations: typing.SupportsInt | typing.SupportsIndex, absAccuracy: typing.SupportsFloat | typing.SupportsIndex, relAccuracy: typing.Any = None, useConvergenceEstimate: bool = True) -> None:
         """
         Constructs with max iterations, absolute accuracy, optional relative accuracy, and convergence estimate flag.
         """
@@ -10444,7 +10486,7 @@ class Gaussian1dCapFloorEngine(base.PricingEngine):
     """
     Gaussian 1-D cap/floor pricing engine.
     """
-    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt = 64, stddevs: typing.SupportsFloat = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, discountCurve: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt | typing.SupportsIndex = 64, stddevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, discountCurve: YieldTermStructureHandle = ...) -> None:
         """
         Constructs Gaussian 1-D cap/floor engine.
         """
@@ -10476,7 +10518,7 @@ class Gaussian1dFloatFloatSwaptionEngine(base.PricingEngine):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -10484,7 +10526,7 @@ class Gaussian1dFloatFloatSwaptionEngine(base.PricingEngine):
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -10497,7 +10539,7 @@ class Gaussian1dFloatFloatSwaptionEngine(base.PricingEngine):
     Digital: typing.ClassVar[Gaussian1dFloatFloatSwaptionEngine.Probabilities]  # value = <Probabilities.Digital: 2>
     Naive: typing.ClassVar[Gaussian1dFloatFloatSwaptionEngine.Probabilities]  # value = <Probabilities.Naive: 1>
     None_: typing.ClassVar[Gaussian1dFloatFloatSwaptionEngine.Probabilities]  # value = <Probabilities.None_: 0>
-    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt = 64, stddevs: typing.SupportsFloat = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, oas: QuoteHandle = ..., discountCurve: YieldTermStructureHandle = ..., includeTodaysExercise: bool = False, probabilities: Gaussian1dFloatFloatSwaptionEngine.Probabilities = ...) -> None:
+    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt | typing.SupportsIndex = 64, stddevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, oas: QuoteHandle = ..., discountCurve: YieldTermStructureHandle = ..., includeTodaysExercise: bool = False, probabilities: Gaussian1dFloatFloatSwaptionEngine.Probabilities = ...) -> None:
         """
         Constructs Gaussian 1-D float-float swaption engine.
         """
@@ -10578,7 +10620,7 @@ class Gaussian1dNonstandardSwaptionEngine(base.PricingEngine):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -10586,7 +10628,7 @@ class Gaussian1dNonstandardSwaptionEngine(base.PricingEngine):
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -10599,7 +10641,7 @@ class Gaussian1dNonstandardSwaptionEngine(base.PricingEngine):
     Digital: typing.ClassVar[Gaussian1dNonstandardSwaptionEngine.Probabilities]  # value = <Probabilities.Digital: 2>
     Naive: typing.ClassVar[Gaussian1dNonstandardSwaptionEngine.Probabilities]  # value = <Probabilities.Naive: 1>
     None_: typing.ClassVar[Gaussian1dNonstandardSwaptionEngine.Probabilities]  # value = <Probabilities.None_: 0>
-    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt = 64, stddevs: typing.SupportsFloat = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, oas: QuoteHandle = ..., discountCurve: YieldTermStructureHandle = ..., probabilities: Gaussian1dNonstandardSwaptionEngine.Probabilities = ...) -> None:
+    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt | typing.SupportsIndex = 64, stddevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, oas: QuoteHandle = ..., discountCurve: YieldTermStructureHandle = ..., probabilities: Gaussian1dNonstandardSwaptionEngine.Probabilities = ...) -> None:
         """
         Constructs Gaussian 1-D nonstandard swaption engine.
         """
@@ -10631,7 +10673,7 @@ class Gaussian1dSwaptionEngine(base.PricingEngine):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -10639,7 +10681,7 @@ class Gaussian1dSwaptionEngine(base.PricingEngine):
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -10652,7 +10694,7 @@ class Gaussian1dSwaptionEngine(base.PricingEngine):
     Digital: typing.ClassVar[Gaussian1dSwaptionEngine.Probabilities]  # value = <Probabilities.Digital: 2>
     Naive: typing.ClassVar[Gaussian1dSwaptionEngine.Probabilities]  # value = <Probabilities.Naive: 1>
     None_: typing.ClassVar[Gaussian1dSwaptionEngine.Probabilities]  # value = <Probabilities.None_: 0>
-    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt = 64, stddevs: typing.SupportsFloat = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, discountCurve: YieldTermStructureHandle = ..., probabilities: Gaussian1dSwaptionEngine.Probabilities = ...) -> None:
+    def __init__(self, model: base.Gaussian1dModel, integrationPoints: typing.SupportsInt | typing.SupportsIndex = 64, stddevs: typing.SupportsFloat | typing.SupportsIndex = 7.0, extrapolatePayoff: bool = True, flatPayoffExtrapolation: bool = False, discountCurve: YieldTermStructureHandle = ..., probabilities: Gaussian1dSwaptionEngine.Probabilities = ...) -> None:
         """
         Constructs Gaussian 1-D swaption engine.
         """
@@ -10666,7 +10708,7 @@ class GaussianLowDiscrepancySequenceGenerator:
         Constructs from a Sobol sequence generator.
         """
     @typing.overload
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
         """
         Constructs from dimensionality, seed, and direction integers.
         """
@@ -10703,7 +10745,7 @@ class GaussianPathGenerator:
     Single-factor path generator using pseudo-random Gaussian variates.
     """
     @typing.overload
-    def __init__(self, process: base.StochasticProcess, length: typing.SupportsFloat, timeSteps: typing.SupportsInt, generator: GaussianRandomSequenceGenerator, brownianBridge: bool) -> None:
+    def __init__(self, process: base.StochasticProcess, length: typing.SupportsFloat | typing.SupportsIndex, timeSteps: typing.SupportsInt | typing.SupportsIndex, generator: GaussianRandomSequenceGenerator, brownianBridge: bool) -> None:
         """
         Constructs from process, time length, steps, and generator.
         """
@@ -10738,7 +10780,7 @@ class GaussianRandomGenerator:
         Constructs from a uniform random number generator.
         """
     @typing.overload
-    def __init__(self, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with seed (0 for clock-based random seed).
         """
@@ -10756,7 +10798,7 @@ class GaussianRandomSequenceGenerator:
         Constructs from a uniform random sequence generator.
         """
     @typing.overload
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs from dimensionality and seed.
         """
@@ -10793,7 +10835,7 @@ class GaussianSobolPathGenerator:
     Single-factor path generator using Sobol low-discrepancy variates.
     """
     @typing.overload
-    def __init__(self, process: base.StochasticProcess, length: typing.SupportsFloat, timeSteps: typing.SupportsInt, generator: GaussianLowDiscrepancySequenceGenerator, brownianBridge: bool) -> None:
+    def __init__(self, process: base.StochasticProcess, length: typing.SupportsFloat | typing.SupportsIndex, timeSteps: typing.SupportsInt | typing.SupportsIndex, generator: GaussianLowDiscrepancySequenceGenerator, brownianBridge: bool) -> None:
         """
         Constructs from process, time length, steps, and generator.
         """
@@ -10940,7 +10982,7 @@ class GeometricBrownianMotionProcess(base.StochasticProcess1D):
     """
     Geometric Brownian motion process: dS = mu*S*dt + sigma*S*dW.
     """
-    def __init__(self, initialValue: typing.SupportsFloat, mu: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, initialValue: typing.SupportsFloat | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a GBM process.
         """
@@ -11066,7 +11108,7 @@ class Germany(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -11088,7 +11130,7 @@ class Germany(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -11127,7 +11169,7 @@ class Greeks:
         Delta sensitivity.
         """
     @delta.setter
-    def delta(self, arg0: typing.SupportsFloat) -> None:
+    def delta(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def dividendRho(self) -> float:
@@ -11135,7 +11177,7 @@ class Greeks:
         Dividend rho sensitivity.
         """
     @dividendRho.setter
-    def dividendRho(self, arg0: typing.SupportsFloat) -> None:
+    def dividendRho(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def gamma(self) -> float:
@@ -11143,7 +11185,7 @@ class Greeks:
         Gamma sensitivity.
         """
     @gamma.setter
-    def gamma(self, arg0: typing.SupportsFloat) -> None:
+    def gamma(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def rho(self) -> float:
@@ -11151,7 +11193,7 @@ class Greeks:
         Rho sensitivity.
         """
     @rho.setter
-    def rho(self, arg0: typing.SupportsFloat) -> None:
+    def rho(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def theta(self) -> float:
@@ -11159,7 +11201,7 @@ class Greeks:
         Theta sensitivity.
         """
     @theta.setter
-    def theta(self, arg0: typing.SupportsFloat) -> None:
+    def theta(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vega(self) -> float:
@@ -11167,7 +11209,7 @@ class Greeks:
         Vega sensitivity.
         """
     @vega.setter
-    def vega(self, arg0: typing.SupportsFloat) -> None:
+    def vega(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class Gsr(base.Gaussian1dModel, base.CalibratedModel):
     """
@@ -11181,49 +11223,49 @@ class Gsr(base.Gaussian1dModel, base.CalibratedModel):
         """
         Returns fix-parameter mask with all volatilities fixed.
         """
-    def MoveReversion(self, i: typing.SupportsInt) -> list[bool]:
+    def MoveReversion(self, i: typing.SupportsInt | typing.SupportsIndex) -> list[bool]:
         """
         Returns fix-parameter mask with only reversion i free.
         """
-    def MoveVolatility(self, i: typing.SupportsInt) -> list[bool]:
+    def MoveVolatility(self, i: typing.SupportsInt | typing.SupportsIndex) -> list[bool]:
         """
         Returns fix-parameter mask with only volatility i free.
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], reversion: typing.SupportsFloat, T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], reversion: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with constant mean reversion.
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], reversions: collections.abc.Sequence[typing.SupportsFloat], T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], reversions: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with piecewise mean reversion.
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[QuoteHandle], reversion: QuoteHandle, T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[QuoteHandle], reversion: QuoteHandle, T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with constant mean reversion (floating data).
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[QuoteHandle], reversions: collections.abc.Sequence[QuoteHandle], T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[QuoteHandle], reversions: collections.abc.Sequence[QuoteHandle], T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with piecewise mean reversion (floating data).
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], reversion: typing.SupportsFloat, T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], reversion: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with constant mean reversion (handle created internally).
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], reversions: collections.abc.Sequence[typing.SupportsFloat], T: typing.SupportsFloat = 60.0) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], reversions: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], T: typing.SupportsFloat | typing.SupportsIndex = 60.0) -> None:
         """
         Constructs GSR with piecewise mean reversion (handle created internally).
         """
-    def calibrateReversionsIterative(self, helpers: collections.abc.Sequence[base.BlackCalibrationHelper], method: base.OptimizationMethod, endCriteria: EndCriteria, constraint: base.Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def calibrateReversionsIterative(self, helpers: collections.abc.Sequence[base.BlackCalibrationHelper], method: base.OptimizationMethod, endCriteria: EndCriteria, constraint: base.Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Calibrates reversions one by one to helpers.
         """
-    def calibrateVolatilitiesIterative(self, helpers: collections.abc.Sequence[base.BlackCalibrationHelper], method: base.OptimizationMethod, endCriteria: EndCriteria, constraint: base.Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def calibrateVolatilitiesIterative(self, helpers: collections.abc.Sequence[base.BlackCalibrationHelper], method: base.OptimizationMethod, endCriteria: EndCriteria, constraint: base.Constraint = ..., weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Calibrates volatilities one by one to helpers.
         """
@@ -11235,7 +11277,7 @@ class Gsr(base.Gaussian1dModel, base.CalibratedModel):
         """
         Returns the mean reversion parameters.
         """
-    def setNumeraireTime(self, T: typing.SupportsFloat) -> None:
+    def setNumeraireTime(self, T: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the forward measure time.
         """
@@ -11276,19 +11318,19 @@ class HaganPricer(base.CmsCouponPricer, base.MeanRevertingPricer):
     """
     CMS coupon pricer using Hagan static replication.
     """
-    def capletPrice(self, effectiveCap: typing.SupportsFloat) -> float:
+    def capletPrice(self, effectiveCap: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the caplet price.
         """
-    def capletRate(self, effectiveCap: typing.SupportsFloat) -> float:
+    def capletRate(self, effectiveCap: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the caplet rate.
         """
-    def floorletPrice(self, effectiveFloor: typing.SupportsFloat) -> float:
+    def floorletPrice(self, effectiveFloor: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the floorlet price.
         """
-    def floorletRate(self, effectiveFloor: typing.SupportsFloat) -> float:
+    def floorletRate(self, effectiveFloor: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the floorlet rate.
         """
@@ -11308,7 +11350,7 @@ class HaltonRsg:
     """
     Halton low-discrepancy sequence generator.
     """
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 0, randomStart: bool = True, randomShift: bool = False) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0, randomStart: bool = True, randomShift: bool = False) -> None:
         """
         Constructs Halton sequence generator.
         """
@@ -11370,7 +11412,7 @@ class HestonExpansionFormula:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -11378,7 +11420,7 @@ class HestonExpansionFormula:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -11462,21 +11504,21 @@ class HestonModelHelper(base.BlackCalibrationHelper):
     Calibration helper for the Heston model.
     """
     @typing.overload
-    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat, strikePrice: typing.SupportsFloat, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
+    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat | typing.SupportsIndex, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
         """
         Constructs Heston helper with Real spot price.
         """
     @typing.overload
-    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat, strikePrice: typing.SupportsFloat, volatility: base.Quote, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, errorType: CalibrationErrorType = ...) -> None:
+    def __init__(self, maturity: Period, calendar: Calendar, s0: typing.SupportsFloat | typing.SupportsIndex, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: base.Quote, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, errorType: CalibrationErrorType = ...) -> None:
         """
         Constructs Heston helper with Real spot (handles created internally).
         """
     @typing.overload
-    def __init__(self, maturity: Period, calendar: Calendar, s0: QuoteHandle, strikePrice: typing.SupportsFloat, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
+    def __init__(self, maturity: Period, calendar: Calendar, s0: QuoteHandle, strikePrice: typing.SupportsFloat | typing.SupportsIndex, volatility: QuoteHandle, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, errorType: CalibrationErrorType = ...) -> None:
         """
         Constructs Heston helper with Handle<Quote> spot price.
         """
-    def blackPrice(self, volatility: typing.SupportsFloat) -> float:
+    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns Black price for given volatility.
         """
@@ -11534,7 +11576,7 @@ class HestonProcess(base.StochasticProcess):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -11542,7 +11584,7 @@ class HestonProcess(base.StochasticProcess):
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -11562,10 +11604,10 @@ class HestonProcess(base.StochasticProcess):
     QuadraticExponentialMartingale: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.QuadraticExponentialMartingale: 5>
     Reflection: typing.ClassVar[HestonProcess.Discretization]  # value = <Discretization.Reflection: 2>
     @typing.overload
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, d: HestonProcess.Discretization = ...) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat | typing.SupportsIndex, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, d: HestonProcess.Discretization = ...) -> None:
         ...
     @typing.overload
-    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, d: HestonProcess.Discretization = ...) -> None:
+    def __init__(self, riskFreeRate: base.YieldTermStructure, dividendYield: base.YieldTermStructure, s0: base.Quote, v0: typing.SupportsFloat | typing.SupportsIndex, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, d: HestonProcess.Discretization = ...) -> None:
         """
         Constructs from term structures (handles created internally).
         """
@@ -11577,7 +11619,7 @@ class HestonProcess(base.StochasticProcess):
         """
         Returns the mean-reversion speed.
         """
-    def pdf(self, x: typing.SupportsFloat, v: typing.SupportsFloat, t: typing.SupportsFloat, eps: typing.SupportsFloat = 0.001) -> float:
+    def pdf(self, x: typing.SupportsFloat | typing.SupportsIndex, v: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex, eps: typing.SupportsFloat | typing.SupportsIndex = 0.001) -> float:
         """
         Returns the probability density at (x, v) for time t, where x is log-spot.
         """
@@ -11650,7 +11692,7 @@ class HestonRNDCalculator(base.RiskNeutralDensityCalculator):
     """
     Heston model risk-neutral density calculator.
     """
-    def __init__(self, hestonProcess: HestonProcess, integrationEps: typing.SupportsFloat = 1e-06, maxIntegrationIterations: typing.SupportsInt = 10000) -> None:
+    def __init__(self, hestonProcess: HestonProcess, integrationEps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIntegrationIterations: typing.SupportsInt | typing.SupportsIndex = 10000) -> None:
         """
         Constructs with Heston process and integration parameters.
         """
@@ -11659,12 +11701,12 @@ class HestonSLVFDMModel(base.LazyObject):
     Heston stochastic local volatility model calibrated via FDM.
     """
     @typing.overload
-    def __init__(self, localVol: LocalVolTermStructureHandle, hestonModel: HestonModelHandle, endDate: Date, params: HestonSLVFokkerPlanckFdmParams, logging: bool = False, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, localVol: LocalVolTermStructureHandle, hestonModel: HestonModelHandle, endDate: Date, params: HestonSLVFokkerPlanckFdmParams, logging: bool = False, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, localVol: base.LocalVolTermStructure, hestonModel: HestonModel, endDate: Date, params: HestonSLVFokkerPlanckFdmParams, logging: bool = False, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, localVol: base.LocalVolTermStructure, hestonModel: HestonModel, endDate: Date, params: HestonSLVFokkerPlanckFdmParams, logging: bool = False, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from objects (handles created internally).
         """
@@ -11686,7 +11728,7 @@ class HestonSLVFokkerPlanckFdmParams:
     """
     greensAlgorithm: FdmHestonGreensFctAlgorithm
     trafoType: FdmSquareRootFwdOpTransformationType
-    def __init__(self, xGrid: typing.SupportsInt = 301, vGrid: typing.SupportsInt = 601, tMaxStepsPerYear: typing.SupportsInt = 2000, tMinStepsPerYear: typing.SupportsInt = 30, tStepNumberDecay: typing.SupportsFloat = 2.0, nRannacherTimeSteps: typing.SupportsInt = 2, predictionCorrectionSteps: typing.SupportsInt = 2, x0Density: typing.SupportsFloat = 0.1, localVolEpsProb: typing.SupportsFloat = 0.0001, maxIntegrationIterations: typing.SupportsInt = 10000, vLowerEps: typing.SupportsFloat = 1e-06, vUpperEps: typing.SupportsFloat = 1e-06, vMin: typing.SupportsFloat = 1e-06, v0Density: typing.SupportsFloat = 1.0, vLowerBoundDensity: typing.SupportsFloat = 10.0, vUpperBoundDensity: typing.SupportsFloat = 10.0, leverageFctPropEps: typing.SupportsFloat = 1e-05, greensAlgorithm: FdmHestonGreensFctAlgorithm = ..., trafoType: FdmSquareRootFwdOpTransformationType = ..., schemeDesc: FdmSchemeDesc = ...) -> None:
+    def __init__(self, xGrid: typing.SupportsInt | typing.SupportsIndex = 301, vGrid: typing.SupportsInt | typing.SupportsIndex = 601, tMaxStepsPerYear: typing.SupportsInt | typing.SupportsIndex = 2000, tMinStepsPerYear: typing.SupportsInt | typing.SupportsIndex = 30, tStepNumberDecay: typing.SupportsFloat | typing.SupportsIndex = 2.0, nRannacherTimeSteps: typing.SupportsInt | typing.SupportsIndex = 2, predictionCorrectionSteps: typing.SupportsInt | typing.SupportsIndex = 2, x0Density: typing.SupportsFloat | typing.SupportsIndex = 0.1, localVolEpsProb: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxIntegrationIterations: typing.SupportsInt | typing.SupportsIndex = 10000, vLowerEps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, vUpperEps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, vMin: typing.SupportsFloat | typing.SupportsIndex = 1e-06, v0Density: typing.SupportsFloat | typing.SupportsIndex = 1.0, vLowerBoundDensity: typing.SupportsFloat | typing.SupportsIndex = 10.0, vUpperBoundDensity: typing.SupportsFloat | typing.SupportsIndex = 10.0, leverageFctPropEps: typing.SupportsFloat | typing.SupportsIndex = 1e-05, greensAlgorithm: FdmHestonGreensFctAlgorithm = ..., trafoType: FdmSquareRootFwdOpTransformationType = ..., schemeDesc: FdmSchemeDesc = ...) -> None:
         """
         Constructs with keyword arguments.
         """
@@ -11694,31 +11736,31 @@ class HestonSLVFokkerPlanckFdmParams:
     def leverageFctPropEps(self) -> float:
         ...
     @leverageFctPropEps.setter
-    def leverageFctPropEps(self, arg0: typing.SupportsFloat) -> None:
+    def leverageFctPropEps(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def localVolEpsProb(self) -> float:
         ...
     @localVolEpsProb.setter
-    def localVolEpsProb(self, arg0: typing.SupportsFloat) -> None:
+    def localVolEpsProb(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def maxIntegrationIterations(self) -> int:
         ...
     @maxIntegrationIterations.setter
-    def maxIntegrationIterations(self, arg0: typing.SupportsInt) -> None:
+    def maxIntegrationIterations(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def nRannacherTimeSteps(self) -> int:
         ...
     @nRannacherTimeSteps.setter
-    def nRannacherTimeSteps(self, arg0: typing.SupportsInt) -> None:
+    def nRannacherTimeSteps(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def predictionCorrectionSteps(self) -> int:
         ...
     @predictionCorrectionSteps.setter
-    def predictionCorrectionSteps(self, arg1: typing.SupportsInt) -> None:
+    def predictionCorrectionSteps(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def schemeDesc(self) -> FdmSchemeDesc:
@@ -11727,85 +11769,85 @@ class HestonSLVFokkerPlanckFdmParams:
     def tMaxStepsPerYear(self) -> int:
         ...
     @tMaxStepsPerYear.setter
-    def tMaxStepsPerYear(self, arg0: typing.SupportsInt) -> None:
+    def tMaxStepsPerYear(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def tMinStepsPerYear(self) -> int:
         ...
     @tMinStepsPerYear.setter
-    def tMinStepsPerYear(self, arg0: typing.SupportsInt) -> None:
+    def tMinStepsPerYear(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def tStepNumberDecay(self) -> float:
         ...
     @tStepNumberDecay.setter
-    def tStepNumberDecay(self, arg0: typing.SupportsFloat) -> None:
+    def tStepNumberDecay(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def v0Density(self) -> float:
         ...
     @v0Density.setter
-    def v0Density(self, arg0: typing.SupportsFloat) -> None:
+    def v0Density(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vGrid(self) -> int:
         ...
     @vGrid.setter
-    def vGrid(self, arg0: typing.SupportsInt) -> None:
+    def vGrid(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def vLowerBoundDensity(self) -> float:
         ...
     @vLowerBoundDensity.setter
-    def vLowerBoundDensity(self, arg0: typing.SupportsFloat) -> None:
+    def vLowerBoundDensity(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vLowerEps(self) -> float:
         ...
     @vLowerEps.setter
-    def vLowerEps(self, arg0: typing.SupportsFloat) -> None:
+    def vLowerEps(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vMin(self) -> float:
         ...
     @vMin.setter
-    def vMin(self, arg0: typing.SupportsFloat) -> None:
+    def vMin(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vUpperBoundDensity(self) -> float:
         ...
     @vUpperBoundDensity.setter
-    def vUpperBoundDensity(self, arg0: typing.SupportsFloat) -> None:
+    def vUpperBoundDensity(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def vUpperEps(self) -> float:
         ...
     @vUpperEps.setter
-    def vUpperEps(self, arg0: typing.SupportsFloat) -> None:
+    def vUpperEps(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def x0Density(self) -> float:
         ...
     @x0Density.setter
-    def x0Density(self, arg0: typing.SupportsFloat) -> None:
+    def x0Density(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def xGrid(self) -> int:
         ...
     @xGrid.setter
-    def xGrid(self, arg0: typing.SupportsInt) -> None:
+    def xGrid(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
 class HestonSLVMCModel(base.LazyObject):
     """
     Heston stochastic local volatility model calibrated via Monte Carlo.
     """
     @typing.overload
-    def __init__(self, localVol: LocalVolTermStructureHandle, hestonModel: HestonModelHandle, brownianGeneratorFactory: base.BrownianGeneratorFactory, endDate: Date, timeStepsPerYear: typing.SupportsInt = 365, nBins: typing.SupportsInt = 201, calibrationPaths: typing.SupportsInt = 32768, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, localVol: LocalVolTermStructureHandle, hestonModel: HestonModelHandle, brownianGeneratorFactory: base.BrownianGeneratorFactory, endDate: Date, timeStepsPerYear: typing.SupportsInt | typing.SupportsIndex = 365, nBins: typing.SupportsInt | typing.SupportsIndex = 201, calibrationPaths: typing.SupportsInt | typing.SupportsIndex = 32768, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, localVol: base.LocalVolTermStructure, hestonModel: HestonModel, brownianGeneratorFactory: base.BrownianGeneratorFactory, endDate: Date, timeStepsPerYear: typing.SupportsInt = 365, nBins: typing.SupportsInt = 201, calibrationPaths: typing.SupportsInt = 32768, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, localVol: base.LocalVolTermStructure, hestonModel: HestonModel, brownianGeneratorFactory: base.BrownianGeneratorFactory, endDate: Date, timeStepsPerYear: typing.SupportsInt | typing.SupportsIndex = 365, nBins: typing.SupportsInt | typing.SupportsIndex = 201, calibrationPaths: typing.SupportsInt | typing.SupportsIndex = 32768, mandatoryDates: collections.abc.Sequence[Date] = [], mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from objects (handles created internally).
         """
@@ -11825,7 +11867,7 @@ class HestonSLVProcess(base.StochasticProcess):
     """
     Heston stochastic local volatility process.
     """
-    def __init__(self, hestonProcess: HestonProcess, leverageFct: base.LocalVolTermStructure, mixingFactor: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, hestonProcess: HestonProcess, leverageFct: base.LocalVolTermStructure, mixingFactor: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs from Heston process and leverage function.
         """
@@ -11881,7 +11923,7 @@ class HolderExtensibleOption(base.OneAssetOption):
     """
     Holder-extensible option.
     """
-    def __init__(self, type: OptionType, premium: typing.SupportsFloat, secondExpiryDate: Date, secondStrike: typing.SupportsFloat, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, type: OptionType, premium: typing.SupportsFloat | typing.SupportsIndex, secondExpiryDate: Date, secondStrike: typing.SupportsFloat | typing.SupportsIndex, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
 class HongKong(Calendar):
     """
@@ -11939,7 +11981,7 @@ class HongKong(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -11961,7 +12003,7 @@ class HongKong(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -11981,21 +12023,21 @@ class HullWhite(Vasicek, base.TermStructureConsistentModel):
     Hull-White extended Vasicek model: dr = (theta(t) - a*r)dt + sigma*dW.
     """
     @staticmethod
-    def convexityBias(futurePrice: typing.SupportsFloat, t: typing.SupportsFloat, T: typing.SupportsFloat, sigma: typing.SupportsFloat, a: typing.SupportsFloat) -> float:
+    def convexityBias(futurePrice: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, a: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Computes futures convexity bias.
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.01) -> None:
         """
         Constructs Hull-White model with term structure, mean reversion, and volatility.
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat = 0.1, sigma: typing.SupportsFloat = 0.01) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.01) -> None:
         """
         Constructs Hull-White model from term structure.
         """
-    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, bondMaturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond option price.
         """
@@ -12003,21 +12045,21 @@ class HullWhiteForwardProcess(base.ForwardMeasureProcess1D):
     """
     Hull-White forward-measure short-rate process.
     """
-    def B(self, t: typing.SupportsFloat, T: typing.SupportsFloat) -> float:
+    def B(self, t: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond function B(t, T).
         """
-    def M_T(self, s: typing.SupportsFloat, t: typing.SupportsFloat, T: typing.SupportsFloat) -> float:
+    def M_T(self, s: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex, T: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns forward-measure adjustment M_T(s, t, T).
         """
     @typing.overload
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, a: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from yield term structure handle.
         """
     @typing.overload
-    def __init__(self, riskFreeRate: base.YieldTermStructure, a: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, riskFreeRate: base.YieldTermStructure, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from yield term structure (handle created internally).
         """
@@ -12025,7 +12067,7 @@ class HullWhiteForwardProcess(base.ForwardMeasureProcess1D):
         """
         Returns mean reversion speed.
         """
-    def alpha(self, t: typing.SupportsFloat) -> float:
+    def alpha(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns alpha at time t.
         """
@@ -12079,12 +12121,12 @@ class HullWhiteProcess(base.StochasticProcess1D):
     Hull-White short-rate stochastic process.
     """
     @typing.overload
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, a: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from yield term structure handle.
         """
     @typing.overload
-    def __init__(self, riskFreeRate: base.YieldTermStructure, a: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, riskFreeRate: base.YieldTermStructure, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from yield term structure (handle created internally).
         """
@@ -12092,7 +12134,7 @@ class HullWhiteProcess(base.StochasticProcess1D):
         """
         Returns mean reversion speed.
         """
-    def alpha(self, t: typing.SupportsFloat) -> float:
+    def alpha(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns alpha at time t.
         """
@@ -12104,15 +12146,15 @@ class HundsdorferScheme:
     """
     Hundsdorfer ADI time-stepping scheme.
     """
-    def __init__(self, theta: typing.SupportsFloat, mu: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
+    def __init__(self, theta: typing.SupportsFloat | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
         """
         Constructs from theta, mu, operator, and boundary conditions.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -12164,7 +12206,7 @@ class HybridHestonHullWhiteProcess(base.StochasticProcess):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -12172,7 +12214,7 @@ class HybridHestonHullWhiteProcess(base.StochasticProcess):
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -12184,7 +12226,7 @@ class HybridHestonHullWhiteProcess(base.StochasticProcess):
             ...
     BSMHullWhite: typing.ClassVar[HybridHestonHullWhiteProcess.Discretization]  # value = <Discretization.BSMHullWhite: 1>
     Euler: typing.ClassVar[HybridHestonHullWhiteProcess.Discretization]  # value = <Discretization.Euler: 0>
-    def __init__(self, hestonProcess: HestonProcess, hullWhiteProcess: HullWhiteForwardProcess, corrEquityShortRate: typing.SupportsFloat, discretization: HybridHestonHullWhiteProcess.Discretization = ...) -> None:
+    def __init__(self, hestonProcess: HestonProcess, hullWhiteProcess: HullWhiteForwardProcess, corrEquityShortRate: typing.SupportsFloat | typing.SupportsIndex, discretization: HybridHestonHullWhiteProcess.Discretization = ...) -> None:
         """
         Constructs HybridHestonHullWhiteProcess.
         """
@@ -12284,7 +12326,7 @@ class IborCoupon(FloatingRateCoupon):
     """
     Coupon paying a Libor-type index.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, isInArrears: bool = False, exCouponDate: Date = ...) -> None:
         """
         Constructs an Ibor coupon.
         """
@@ -12338,17 +12380,17 @@ class IborIndex(base.InterestRateIndex):
     Base class for IBOR indexes (e.g. Euribor, Libor).
     """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter) -> None:
         """
         Constructs an IBOR index without forwarding curve.
         """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, h: ...) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, h: ...) -> None:
         """
         Constructs an IBOR index with forwarding term structure handle.
         """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, forwardingTermStructure: ...) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool, dayCounter: DayCounter, forwardingTermStructure: ...) -> None:
         """
         Constructs an IBOR index with forwarding term structure.
         """
@@ -12383,36 +12425,36 @@ class IborLeg:
     def inArrears(self, flag: bool = True) -> IborLeg:
         ...
     @typing.overload
-    def withCaps(self, cap: typing.SupportsFloat) -> IborLeg:
+    def withCaps(self, cap: typing.SupportsFloat | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat]) -> IborLeg:
+    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> IborLeg:
         ...
     def withExCouponPeriod(self, period: Period, calendar: Calendar, convention: BusinessDayConvention, endOfMonth: bool = False) -> IborLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> IborLeg:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt]) -> IborLeg:
+    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> IborLeg:
         ...
     @typing.overload
-    def withFloors(self, floor: typing.SupportsFloat) -> IborLeg:
+    def withFloors(self, floor: typing.SupportsFloat | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat]) -> IborLeg:
+    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> IborLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> IborLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> IborLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> IborLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> IborLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> IborLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> IborLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> IborLeg:
         ...
@@ -12420,13 +12462,13 @@ class IborLeg:
         ...
     def withPaymentDayCounter(self, dayCounter: DayCounter) -> IborLeg:
         ...
-    def withPaymentLag(self, lag: typing.SupportsInt) -> IborLeg:
+    def withPaymentLag(self, lag: typing.SupportsInt | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> IborLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> IborLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> IborLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> IborLeg:
         ...
     def withZeroPayments(self, flag: bool = True) -> IborLeg:
         ...
@@ -12477,7 +12519,7 @@ class Iceland(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -12499,7 +12541,7 @@ class Iceland(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -12518,7 +12560,7 @@ class ImplicitEulerScheme:
     """
     Implicit Euler time-stepping scheme.
     """
-    def __init__(self, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = [], relTol: typing.SupportsFloat = 1e-08, solverType: ImplicitEulerSolverType = ...) -> None:
+    def __init__(self, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = [], relTol: typing.SupportsFloat | typing.SupportsIndex = 1e-08, solverType: ImplicitEulerSolverType = ...) -> None:
         """
         Constructs from operator, boundary conditions, and solver settings.
         """
@@ -12526,11 +12568,11 @@ class ImplicitEulerScheme:
         """
         Returns the number of solver iterations in the last step.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -12555,7 +12597,7 @@ class ImplicitEulerSolverType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -12563,7 +12605,7 @@ class ImplicitEulerSolverType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -12593,17 +12635,17 @@ class IncrementalStatistics:
     """
     def __init__(self) -> None:
         ...
-    def add(self, value: typing.SupportsFloat, weight: typing.SupportsFloat = 1.0) -> None:
+    def add(self, value: typing.SupportsFloat | typing.SupportsIndex, weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Adds a datum to the set, possibly with a weight.
         """
     @typing.overload
-    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Adds a sequence of data to the set.
         """
     @typing.overload
-    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat], weights: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Adds a sequence of data with weights.
         """
@@ -12730,7 +12772,7 @@ class India(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -12752,7 +12794,7 @@ class India(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -12829,7 +12871,7 @@ class Indonesia(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -12851,7 +12893,7 @@ class Indonesia(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -12881,37 +12923,37 @@ class Integration:
     Integration methods for Heston engine.
     """
     @staticmethod
-    def discreteSimpson(evaluations: typing.SupportsInt = 1000) -> Integration:
+    def discreteSimpson(evaluations: typing.SupportsInt | typing.SupportsIndex = 1000) -> Integration:
         ...
     @staticmethod
-    def discreteTrapezoid(evaluations: typing.SupportsInt = 1000) -> Integration:
+    def discreteTrapezoid(evaluations: typing.SupportsInt | typing.SupportsIndex = 1000) -> Integration:
         ...
     @staticmethod
-    def expSinh(relTolerance: typing.SupportsFloat = 1e-08) -> Integration:
+    def expSinh(relTolerance: typing.SupportsFloat | typing.SupportsIndex = 1e-08) -> Integration:
         ...
     @staticmethod
-    def gaussChebyshev(integrationOrder: typing.SupportsInt = 128) -> Integration:
+    def gaussChebyshev(integrationOrder: typing.SupportsInt | typing.SupportsIndex = 128) -> Integration:
         ...
     @staticmethod
-    def gaussChebyshev2nd(integrationOrder: typing.SupportsInt = 128) -> Integration:
+    def gaussChebyshev2nd(integrationOrder: typing.SupportsInt | typing.SupportsIndex = 128) -> Integration:
         ...
     @staticmethod
-    def gaussKronrod(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+    def gaussKronrod(absTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 1000) -> Integration:
         ...
     @staticmethod
-    def gaussLaguerre(integrationOrder: typing.SupportsInt = 128) -> Integration:
+    def gaussLaguerre(integrationOrder: typing.SupportsInt | typing.SupportsIndex = 128) -> Integration:
         ...
     @staticmethod
-    def gaussLegendre(integrationOrder: typing.SupportsInt = 128) -> Integration:
+    def gaussLegendre(integrationOrder: typing.SupportsInt | typing.SupportsIndex = 128) -> Integration:
         ...
     @staticmethod
-    def gaussLobatto(relTolerance: typing.SupportsFloat, absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000, useConvergenceEstimate: bool = False) -> Integration:
+    def gaussLobatto(relTolerance: typing.SupportsFloat | typing.SupportsIndex, absTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 1000, useConvergenceEstimate: bool = False) -> Integration:
         ...
     @staticmethod
-    def simpson(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+    def simpson(absTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 1000) -> Integration:
         ...
     @staticmethod
-    def trapezoid(absTolerance: typing.SupportsFloat, maxEvaluations: typing.SupportsInt = 1000) -> Integration:
+    def trapezoid(absTolerance: typing.SupportsFloat | typing.SupportsIndex, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 1000) -> Integration:
         ...
     def isAdaptiveIntegration(self) -> bool:
         ...
@@ -12923,13 +12965,13 @@ class InterestRate:
     """
     @staticmethod
     @typing.overload
-    def impliedRate(compound: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat) -> InterestRate:
+    def impliedRate(compound: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat | typing.SupportsIndex) -> InterestRate:
         """
         Implied rate from a compound factor over a time period.
         """
     @staticmethod
     @typing.overload
-    def impliedRate(compound: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> InterestRate:
+    def impliedRate(compound: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, startDate: Date, endDate: Date, refStart: Date = ..., refEnd: Date = ...) -> InterestRate:
         """
         Implied rate from a compound factor between two dates.
         """
@@ -12945,7 +12987,7 @@ class InterestRate:
         Default constructor returning a null interest rate.
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency) -> None:
         """
         Construct an interest rate with the given parameters.
         """
@@ -12956,7 +12998,7 @@ class InterestRate:
     def __str__(self) -> str:
         ...
     @typing.overload
-    def compoundFactor(self, time: typing.SupportsFloat) -> float:
+    def compoundFactor(self, time: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Compound factor for a given time period.
         """
@@ -12974,7 +13016,7 @@ class InterestRate:
         Returns the day counter.
         """
     @typing.overload
-    def discountFactor(self, time: typing.SupportsFloat) -> float:
+    def discountFactor(self, time: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Discount factor for a given time period.
         """
@@ -12984,7 +13026,7 @@ class InterestRate:
         Discount factor between two dates.
         """
     @typing.overload
-    def equivalentRate(self, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat) -> InterestRate:
+    def equivalentRate(self, compounding: Compounding, frequency: Frequency, time: typing.SupportsFloat | typing.SupportsIndex) -> InterestRate:
         """
         Equivalent rate with different compounding over a time period.
         """
@@ -13010,15 +13052,15 @@ class InverseCumulativeNormal:
     Inverse cumulative normal distribution function.
     """
     @staticmethod
-    def standard_value(x: typing.SupportsFloat) -> float:
+    def standard_value(x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the inverse for standard normal (average=0, sigma=1).
         """
-    def __call__(self, x: typing.SupportsFloat) -> float:
+    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the inverse cumulative normal at x.
         """
-    def __init__(self, average: typing.SupportsFloat = 0.0, sigma: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, average: typing.SupportsFloat | typing.SupportsIndex = 0.0, sigma: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs InverseCumulativeNormal.
         """
@@ -13043,7 +13085,7 @@ class IsdaAccrualBias:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -13051,7 +13093,7 @@ class IsdaAccrualBias:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -13066,12 +13108,12 @@ class IsdaCdsEngine(base.PricingEngine):
     ISDA-compliant CDS engine.
     """
     @typing.overload
-    def __init__(self, probability: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, includeSettlementDateFlows: bool | None = None, numericalFix: IsdaNumericalFix = ..., accrualBias: IsdaAccrualBias = ..., forwardsInCouponPeriod: IsdaForwardsInCouponPeriod = ...) -> None:
+    def __init__(self, probability: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, includeSettlementDateFlows: bool | None = None, numericalFix: IsdaNumericalFix = ..., accrualBias: IsdaAccrualBias = ..., forwardsInCouponPeriod: IsdaForwardsInCouponPeriod = ...) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, probability: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat, discountCurve: base.YieldTermStructure, includeSettlementDateFlows: bool | None = None, numericalFix: IsdaNumericalFix = ..., accrualBias: IsdaAccrualBias = ..., forwardsInCouponPeriod: IsdaForwardsInCouponPeriod = ...) -> None:
+    def __init__(self, probability: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: base.YieldTermStructure, includeSettlementDateFlows: bool | None = None, numericalFix: IsdaNumericalFix = ..., accrualBias: IsdaAccrualBias = ..., forwardsInCouponPeriod: IsdaForwardsInCouponPeriod = ...) -> None:
         """
         Constructs from term structures (handles created internally).
         """
@@ -13104,7 +13146,7 @@ class IsdaForwardsInCouponPeriod:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -13112,7 +13154,7 @@ class IsdaForwardsInCouponPeriod:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -13143,7 +13185,7 @@ class IsdaNumericalFix:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -13151,7 +13193,7 @@ class IsdaNumericalFix:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -13218,7 +13260,7 @@ class Israel(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -13240,7 +13282,7 @@ class Israel(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -13322,7 +13364,7 @@ class Italy(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -13344,7 +13386,7 @@ class Italy(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -13485,7 +13527,7 @@ class JointCalendarRule:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -13507,7 +13549,7 @@ class JointCalendarRule:
         ...
     def __rxor__(self, other: typing.Any) -> typing.Any:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -13622,7 +13664,7 @@ class KahaleSmileSection(base.SmileSection):
     """
     Arbitrage-free smile section using Kahale's C^1 inter- and extrapolation method.
     """
-    def __init__(self, source: typing.Any, atm: typing.Any = None, interpolate: bool = False, exponentialExtrapolation: bool = False, deleteArbitragePoints: bool = False, moneynessGrid: collections.abc.Sequence[typing.SupportsFloat] = [], gap: typing.SupportsFloat = 1e-05, forcedLeftIndex: typing.SupportsInt = -1, forcedRightIndex: typing.SupportsInt = 2147483647) -> None:
+    def __init__(self, source: typing.Any, atm: typing.Any = None, interpolate: bool = False, exponentialExtrapolation: bool = False, deleteArbitragePoints: bool = False, moneynessGrid: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], gap: typing.SupportsFloat | typing.SupportsIndex = 1e-05, forcedLeftIndex: typing.SupportsInt | typing.SupportsIndex = -1, forcedRightIndex: typing.SupportsInt | typing.SupportsIndex = 2147483647) -> None:
         """
         Constructs from a source SmileSection, optionally specifying ATM level, interpolation, and extrapolation parameters.
         """
@@ -13642,7 +13684,7 @@ class KerkhofSeasonality(MultiplicativePriceSeasonality):
     """
     Kerkhof seasonality correction (monthly frequency).
     """
-    def __init__(self, seasonalityBaseDate: Date, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, seasonalityBaseDate: Date, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs from base date and monthly factors.
         """
@@ -13650,7 +13692,7 @@ class KirkEngine(base.SpreadBlackScholesVanillaEngine):
     """
     Kirk engine for spread option pricing on two futures.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
         """
@@ -13705,11 +13747,11 @@ class LagrangeInterpolation(base.Interpolation):
     """
     Lagrange interpolation through discrete points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
-    def value(self, y: Array, x: typing.SupportsFloat) -> float:
+    def value(self, y: Array, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Evaluates at x using alternative y values.
         """
@@ -13717,7 +13759,7 @@ class LevenbergMarquardt(base.OptimizationMethod):
     """
     Levenberg-Marquardt optimization method.
     """
-    def __init__(self, epsfcn: typing.SupportsFloat = 1e-08, xtol: typing.SupportsFloat = 1e-08, gtol: typing.SupportsFloat = 1e-08) -> None:
+    def __init__(self, epsfcn: typing.SupportsFloat | typing.SupportsIndex = 1e-08, xtol: typing.SupportsFloat | typing.SupportsIndex = 1e-08, gtol: typing.SupportsFloat | typing.SupportsIndex = 1e-08) -> None:
         """
         Creates a Levenberg-Marquardt optimizer.
         """
@@ -13725,7 +13767,7 @@ class LinearInterpolation(base.Interpolation):
     """
     Linear interpolation between discrete points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -13743,19 +13785,19 @@ class LinearTsrPricer(base.CmsCouponPricer, base.MeanRevertingPricer):
         """
         Constructs from shared pointers (handles created internally).
         """
-    def capletPrice(self, effectiveCap: typing.SupportsFloat) -> float:
+    def capletPrice(self, effectiveCap: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the caplet price.
         """
-    def capletRate(self, effectiveCap: typing.SupportsFloat) -> float:
+    def capletRate(self, effectiveCap: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the caplet rate.
         """
-    def floorletPrice(self, effectiveFloor: typing.SupportsFloat) -> float:
+    def floorletPrice(self, effectiveFloor: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the floorlet price.
         """
-    def floorletRate(self, effectiveFloor: typing.SupportsFloat) -> float:
+    def floorletRate(self, effectiveFloor: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the floorlet rate.
         """
@@ -13784,36 +13826,36 @@ class LinearTsrPricerSettings:
         Constructs default settings (RateBound strategy).
         """
     @typing.overload
-    def withBSStdDevs(self, stdDevs: typing.SupportsFloat = 3.0) -> LinearTsrPricerSettings:
+    def withBSStdDevs(self, stdDevs: typing.SupportsFloat | typing.SupportsIndex = 3.0) -> LinearTsrPricerSettings:
         """
         Sets Black-Scholes std devs strategy with default bounds.
         """
     @typing.overload
-    def withBSStdDevs(self, stdDevs: typing.SupportsFloat, lowerRateBound: typing.SupportsFloat, upperRateBound: typing.SupportsFloat) -> LinearTsrPricerSettings:
+    def withBSStdDevs(self, stdDevs: typing.SupportsFloat | typing.SupportsIndex, lowerRateBound: typing.SupportsFloat | typing.SupportsIndex, upperRateBound: typing.SupportsFloat | typing.SupportsIndex) -> LinearTsrPricerSettings:
         """
         Sets Black-Scholes std devs strategy with explicit bounds.
         """
     @typing.overload
-    def withPriceThreshold(self, priceThreshold: typing.SupportsFloat = 1e-08) -> LinearTsrPricerSettings:
+    def withPriceThreshold(self, priceThreshold: typing.SupportsFloat | typing.SupportsIndex = 1e-08) -> LinearTsrPricerSettings:
         """
         Sets price threshold strategy with default bounds.
         """
     @typing.overload
-    def withPriceThreshold(self, priceThreshold: typing.SupportsFloat, lowerRateBound: typing.SupportsFloat, upperRateBound: typing.SupportsFloat) -> LinearTsrPricerSettings:
+    def withPriceThreshold(self, priceThreshold: typing.SupportsFloat | typing.SupportsIndex, lowerRateBound: typing.SupportsFloat | typing.SupportsIndex, upperRateBound: typing.SupportsFloat | typing.SupportsIndex) -> LinearTsrPricerSettings:
         """
         Sets price threshold strategy with explicit bounds.
         """
-    def withRateBound(self, lowerRateBound: typing.SupportsFloat = 0.0, upperRateBound: typing.SupportsFloat = 2.0) -> LinearTsrPricerSettings:
+    def withRateBound(self, lowerRateBound: typing.SupportsFloat | typing.SupportsIndex = 0.0, upperRateBound: typing.SupportsFloat | typing.SupportsIndex = 2.0) -> LinearTsrPricerSettings:
         """
         Sets rate bound strategy with explicit bounds.
         """
     @typing.overload
-    def withVegaRatio(self, vegaRatio: typing.SupportsFloat = 0.01) -> LinearTsrPricerSettings:
+    def withVegaRatio(self, vegaRatio: typing.SupportsFloat | typing.SupportsIndex = 0.01) -> LinearTsrPricerSettings:
         """
         Sets vega ratio strategy with default bounds.
         """
     @typing.overload
-    def withVegaRatio(self, vegaRatio: typing.SupportsFloat, lowerRateBound: typing.SupportsFloat, upperRateBound: typing.SupportsFloat) -> LinearTsrPricerSettings:
+    def withVegaRatio(self, vegaRatio: typing.SupportsFloat | typing.SupportsIndex, lowerRateBound: typing.SupportsFloat | typing.SupportsIndex, upperRateBound: typing.SupportsFloat | typing.SupportsIndex) -> LinearTsrPricerSettings:
         """
         Sets vega ratio strategy with explicit bounds.
         """
@@ -13844,7 +13886,7 @@ class LinearTsrPricerStrategy:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -13852,7 +13894,7 @@ class LinearTsrPricerStrategy:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -13867,7 +13909,7 @@ class LocalConstantVol(base.LocalVolTermStructure):
     Constant local volatility term structure.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, referenceDate: Date, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from reference date and constant volatility.
         """
@@ -13882,17 +13924,17 @@ class LocalConstantVol(base.LocalVolTermStructure):
         Constructs from reference date and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: typing.SupportsFloat, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: typing.SupportsFloat | typing.SupportsIndex, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and constant volatility.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: QuoteHandle, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, volatility: base.Quote, dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days and quote (handle created internally).
         """
@@ -13901,28 +13943,28 @@ class LocalVolRNDCalculator(base.RiskNeutralDensityCalculator):
     Risk-neutral density calculator using local volatility and FDM.
     """
     @typing.overload
-    def __init__(self, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, xGrid: typing.SupportsInt = 101, tGrid: typing.SupportsInt = 51, x0Density: typing.SupportsFloat = 0.1, localVolProbEps: typing.SupportsFloat = 1e-06, maxIter: typing.SupportsInt = 10000, gaussianStepSize: typing.Any = None) -> None:
+    def __init__(self, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, xGrid: typing.SupportsInt | typing.SupportsIndex = 101, tGrid: typing.SupportsInt | typing.SupportsIndex = 51, x0Density: typing.SupportsFloat | typing.SupportsIndex = 0.1, localVolProbEps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIter: typing.SupportsInt | typing.SupportsIndex = 10000, gaussianStepSize: typing.Any = None) -> None:
         """
         Constructs from spot, yield curves, local vol surface, and grid parameters.
         """
     @typing.overload
-    def __init__(self, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, timeGrid: TimeGrid, xGrid: typing.SupportsInt = 101, x0Density: typing.SupportsFloat = 0.1, eps: typing.SupportsFloat = 1e-06, maxIter: typing.SupportsInt = 10000, gaussianStepSize: typing.Any = None) -> None:
+    def __init__(self, spot: base.Quote, rTS: base.YieldTermStructure, qTS: base.YieldTermStructure, localVol: base.LocalVolTermStructure, timeGrid: TimeGrid, xGrid: typing.SupportsInt | typing.SupportsIndex = 101, x0Density: typing.SupportsFloat | typing.SupportsIndex = 0.1, eps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIter: typing.SupportsInt | typing.SupportsIndex = 10000, gaussianStepSize: typing.Any = None) -> None:
         """
         Constructs from spot, yield curves, local vol, and explicit time grid.
         """
-    def cdf(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def cdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the cumulative distribution at x and time t.
         """
-    def invcdf(self, p: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def invcdf(self, p: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the inverse CDF at probability p and time t.
         """
-    def mesher(self, t: typing.SupportsFloat) -> Fdm1dMesher:
+    def mesher(self, t: typing.SupportsFloat | typing.SupportsIndex) -> Fdm1dMesher:
         """
         Returns the 1D mesher at time t.
         """
-    def pdf(self, x: typing.SupportsFloat, t: typing.SupportsFloat) -> float:
+    def pdf(self, x: typing.SupportsFloat | typing.SupportsIndex, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the probability density at x and time t.
         """
@@ -13940,7 +13982,7 @@ class LocalVolSurface(base.LocalVolTermStructure):
         Constructs from Black vol surface and quote handle for underlying.
         """
     @typing.overload
-    def __init__(self, blackVolTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat) -> None:
+    def __init__(self, blackVolTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from Black vol surface and fixed underlying value.
         """
@@ -13950,7 +13992,7 @@ class LocalVolSurface(base.LocalVolTermStructure):
         Constructs from term structures and quote (handles created internally).
         """
     @typing.overload
-    def __init__(self, blackVolTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat) -> None:
+    def __init__(self, blackVolTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from term structures and fixed value (handles created internally).
         """
@@ -13999,7 +14041,7 @@ class LogLinearInterpolation(base.Interpolation):
     """
     Log-linear interpolation between discrete points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -14017,7 +14059,7 @@ class MCEuropeanBasketEngine(base.PricingEngine):
     """
     Monte Carlo pricing engine for European basket options (pseudo-random).
     """
-    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt = ..., timeStepsPerYear: typing.SupportsInt = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt = ..., requiredTolerance: typing.SupportsFloat = ..., maxSamples: typing.SupportsInt = ..., seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt | typing.SupportsIndex = ..., timeStepsPerYear: typing.SupportsInt | typing.SupportsIndex = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt | typing.SupportsIndex = ..., requiredTolerance: typing.SupportsFloat | typing.SupportsIndex = ..., maxSamples: typing.SupportsInt | typing.SupportsIndex = ..., seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs MC European basket engine with pseudo-random numbers.
         """
@@ -14025,7 +14067,7 @@ class MCLDEuropeanBasketEngine(base.PricingEngine):
     """
     Monte Carlo pricing engine for European basket options (low-discrepancy/Sobol).
     """
-    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt = ..., timeStepsPerYear: typing.SupportsInt = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt = ..., requiredTolerance: typing.SupportsFloat = ..., maxSamples: typing.SupportsInt = ..., seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, process: StochasticProcessArray, timeSteps: typing.SupportsInt | typing.SupportsIndex = ..., timeStepsPerYear: typing.SupportsInt | typing.SupportsIndex = ..., brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.SupportsInt | typing.SupportsIndex = ..., requiredTolerance: typing.SupportsFloat | typing.SupportsIndex = ..., maxSamples: typing.SupportsInt | typing.SupportsIndex = ..., seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs MC European basket engine with low-discrepancy sequences.
         """
@@ -14033,7 +14075,7 @@ class MTBrownianGenerator(base.BrownianGenerator):
     """
     Mersenne-Twister Brownian generator.
     """
-    def __init__(self, factors: typing.SupportsInt, steps: typing.SupportsInt, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs from dimensions and optional seed.
         """
@@ -14041,7 +14083,7 @@ class MTBrownianGeneratorFactory(base.BrownianGeneratorFactory):
     """
     Factory for Mersenne-Twister Brownian generators.
     """
-    def __init__(self, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with optional seed.
         """
@@ -14138,7 +14180,7 @@ class MakeCapFloor:
         """
         Sets the next-to-last date.
         """
-    def withNominal(self, nominal: typing.SupportsFloat) -> MakeCapFloor:
+    def withNominal(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> MakeCapFloor:
         """
         Sets the nominal amount.
         """
@@ -14170,17 +14212,17 @@ class MakeFdHestonVanillaEngine:
         """
         Returns the pricing engine.
         """
-    def withCashDividends(self, dividendDates: collections.abc.Sequence[Date], dividendAmounts: collections.abc.Sequence[typing.SupportsFloat]) -> MakeFdHestonVanillaEngine:
+    def withCashDividends(self, dividendDates: collections.abc.Sequence[Date], dividendAmounts: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> MakeFdHestonVanillaEngine:
         ...
-    def withDampingSteps(self, dampingSteps: typing.SupportsInt) -> MakeFdHestonVanillaEngine:
+    def withDampingSteps(self, dampingSteps: typing.SupportsInt | typing.SupportsIndex) -> MakeFdHestonVanillaEngine:
         ...
     def withFdmSchemeDesc(self, schemeDesc: FdmSchemeDesc) -> MakeFdHestonVanillaEngine:
         ...
-    def withTGrid(self, tGrid: typing.SupportsInt) -> MakeFdHestonVanillaEngine:
+    def withTGrid(self, tGrid: typing.SupportsInt | typing.SupportsIndex) -> MakeFdHestonVanillaEngine:
         ...
-    def withVGrid(self, vGrid: typing.SupportsInt) -> MakeFdHestonVanillaEngine:
+    def withVGrid(self, vGrid: typing.SupportsInt | typing.SupportsIndex) -> MakeFdHestonVanillaEngine:
         ...
-    def withXGrid(self, xGrid: typing.SupportsInt) -> MakeFdHestonVanillaEngine:
+    def withXGrid(self, xGrid: typing.SupportsInt | typing.SupportsIndex) -> MakeFdHestonVanillaEngine:
         ...
 class MakeOIS:
     """
@@ -14256,15 +14298,15 @@ class MakeOIS:
         """
         Sets the termination date convention for the fixed leg.
         """
-    def withLockoutDays(self, lockoutDays: typing.SupportsInt) -> MakeOIS:
+    def withLockoutDays(self, lockoutDays: typing.SupportsInt | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the lockout days.
         """
-    def withLookbackDays(self, lookbackDays: typing.SupportsInt) -> MakeOIS:
+    def withLookbackDays(self, lookbackDays: typing.SupportsInt | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the lookback days.
         """
-    def withNominal(self, nominal: typing.SupportsFloat) -> MakeOIS:
+    def withNominal(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the nominal amount.
         """
@@ -14292,7 +14334,7 @@ class MakeOIS:
         """
         Sets the date generation rule for the overnight leg.
         """
-    def withOvernightLegSpread(self, spread: typing.SupportsFloat) -> MakeOIS:
+    def withOvernightLegSpread(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the spread on the overnight leg.
         """
@@ -14312,7 +14354,7 @@ class MakeOIS:
         """
         Sets the payment frequency for both legs.
         """
-    def withPaymentLag(self, lag: typing.SupportsInt) -> MakeOIS:
+    def withPaymentLag(self, lag: typing.SupportsInt | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the payment lag in days.
         """
@@ -14324,7 +14366,7 @@ class MakeOIS:
         """
         Sets the date generation rule for both legs.
         """
-    def withSettlementDays(self, settlementDays: typing.SupportsInt) -> MakeOIS:
+    def withSettlementDays(self, settlementDays: typing.SupportsInt | typing.SupportsIndex) -> MakeOIS:
         """
         Sets the settlement days.
         """
@@ -14408,7 +14450,7 @@ class MakeSwaption:
         """
         Uses indexed coupons for the underlying swap.
         """
-    def withNominal(self, nominal: typing.SupportsFloat) -> MakeSwaption:
+    def withNominal(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> MakeSwaption:
         """
         Sets the nominal amount.
         """
@@ -14530,7 +14572,7 @@ class MakeVanillaSwap:
         """
         Sets the floating leg date generation rule.
         """
-    def withFloatingLegSpread(self, spread: typing.SupportsFloat) -> MakeVanillaSwap:
+    def withFloatingLegSpread(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> MakeVanillaSwap:
         """
         Sets the floating leg spread.
         """
@@ -14546,7 +14588,7 @@ class MakeVanillaSwap:
         """
         Uses indexed coupons for the floating leg.
         """
-    def withNominal(self, nominal: typing.SupportsFloat) -> MakeVanillaSwap:
+    def withNominal(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> MakeVanillaSwap:
         """
         Sets the nominal amount.
         """
@@ -14562,7 +14604,7 @@ class MakeVanillaSwap:
         """
         Sets the date generation rule.
         """
-    def withSettlementDays(self, settlementDays: typing.SupportsInt) -> MakeVanillaSwap:
+    def withSettlementDays(self, settlementDays: typing.SupportsInt | typing.SupportsIndex) -> MakeVanillaSwap:
         """
         Sets the settlement days.
         """
@@ -14578,7 +14620,7 @@ class MakeYoYInflationCapFloor:
     """
     Builder for YoY inflation caps and floors.
     """
-    def __init__(self, type: YoYInflationCapFloorType, index: YoYInflationIndex, length: typing.SupportsInt, calendar: Calendar, observationLag: Period, interpolation: CPI.InterpolationType) -> None:
+    def __init__(self, type: YoYInflationCapFloorType, index: YoYInflationIndex, length: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, observationLag: Period, interpolation: CPI.InterpolationType) -> None:
         """
         Constructs a MakeYoYInflationCapFloor builder.
         """
@@ -14592,11 +14634,11 @@ class MakeYoYInflationCapFloor:
         ...
     def withEffectiveDate(self, effectiveDate: Date) -> MakeYoYInflationCapFloor:
         ...
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> MakeYoYInflationCapFloor:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> MakeYoYInflationCapFloor:
         ...
     def withForwardStart(self, forwardStart: Period) -> MakeYoYInflationCapFloor:
         ...
-    def withNominal(self, nominal: typing.SupportsFloat) -> MakeYoYInflationCapFloor:
+    def withNominal(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> MakeYoYInflationCapFloor:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> MakeYoYInflationCapFloor:
         ...
@@ -14604,13 +14646,13 @@ class MakeYoYInflationCapFloor:
         ...
     def withPricingEngine(self, engine: base.PricingEngine) -> MakeYoYInflationCapFloor:
         ...
-    def withStrike(self, strike: typing.SupportsFloat) -> MakeYoYInflationCapFloor:
+    def withStrike(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> MakeYoYInflationCapFloor:
         ...
 class MargrabeOption(base.MultiAssetOption):
     """
     Exchange option (Margrabe): option to exchange one asset for another.
     """
-    def __init__(self, Q1: typing.SupportsInt, Q2: typing.SupportsInt, exercise: Exercise) -> None:
+    def __init__(self, Q1: typing.SupportsInt | typing.SupportsIndex, Q2: typing.SupportsInt | typing.SupportsIndex, exercise: Exercise) -> None:
         ...
     def delta1(self) -> float:
         """
@@ -14633,22 +14675,22 @@ class MarkovFunctional(base.Gaussian1dModel, base.CalibratedModel):
     Markov Functional 1-factor model.
     """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, reversion: typing.SupportsFloat, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], swaptionVol: SwaptionVolatilityStructureHandle, swaptionExpiries: collections.abc.Sequence[Date], swaptionTenors: collections.abc.Sequence[Period], swapIndexBase: SwapIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, reversion: typing.SupportsFloat | typing.SupportsIndex, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], swaptionVol: SwaptionVolatilityStructureHandle, swaptionExpiries: collections.abc.Sequence[Date], swaptionTenors: collections.abc.Sequence[Period], swapIndexBase: SwapIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
         """
         Constructs swaption smile calibrated model.
         """
     @typing.overload
-    def __init__(self, termStructure: YieldTermStructureHandle, reversion: typing.SupportsFloat, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], capletVol: OptionletVolatilityStructureHandle, capletExpiries: collections.abc.Sequence[Date], iborIndex: IborIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
+    def __init__(self, termStructure: YieldTermStructureHandle, reversion: typing.SupportsFloat | typing.SupportsIndex, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], capletVol: OptionletVolatilityStructureHandle, capletExpiries: collections.abc.Sequence[Date], iborIndex: IborIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
         """
         Constructs caplet smile calibrated model.
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, reversion: typing.SupportsFloat, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], swaptionVol: SwaptionVolatilityStructureHandle, swaptionExpiries: collections.abc.Sequence[Date], swaptionTenors: collections.abc.Sequence[Period], swapIndexBase: SwapIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, reversion: typing.SupportsFloat | typing.SupportsIndex, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], swaptionVol: SwaptionVolatilityStructureHandle, swaptionExpiries: collections.abc.Sequence[Date], swaptionTenors: collections.abc.Sequence[Period], swapIndexBase: SwapIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
         """
         Constructs swaption calibrated model (handle created internally).
         """
     @typing.overload
-    def __init__(self, termStructure: base.YieldTermStructure, reversion: typing.SupportsFloat, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat], capletVol: OptionletVolatilityStructureHandle, capletExpiries: collections.abc.Sequence[Date], iborIndex: IborIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
+    def __init__(self, termStructure: base.YieldTermStructure, reversion: typing.SupportsFloat | typing.SupportsIndex, volstepdates: collections.abc.Sequence[Date], volatilities: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], capletVol: OptionletVolatilityStructureHandle, capletExpiries: collections.abc.Sequence[Date], iborIndex: IborIndex, modelSettings: MarkovFunctionalModelSettings = ...) -> None:
         """
         Constructs caplet calibrated model (handle created internally).
         """
@@ -14720,7 +14762,7 @@ class MarkovFunctionalAdjustments:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -14728,7 +14770,7 @@ class MarkovFunctionalAdjustments:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -14809,51 +14851,51 @@ class MarkovFunctionalModelSettings:
         Constructs default settings (KahaleSmile + SmileExponentialExtrapolation).
         """
     @typing.overload
-    def __init__(self, yGridPoints: typing.SupportsInt, yStdDevs: typing.SupportsFloat, gaussHermitePoints: typing.SupportsInt, digitalGap: typing.SupportsFloat, marketRateAccuracy: typing.SupportsFloat, lowerRateBound: typing.SupportsFloat, upperRateBound: typing.SupportsFloat, adjustments: typing.SupportsInt, smileMoneyCheckpoints: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, yGridPoints: typing.SupportsInt | typing.SupportsIndex, yStdDevs: typing.SupportsFloat | typing.SupportsIndex, gaussHermitePoints: typing.SupportsInt | typing.SupportsIndex, digitalGap: typing.SupportsFloat | typing.SupportsIndex, marketRateAccuracy: typing.SupportsFloat | typing.SupportsIndex, lowerRateBound: typing.SupportsFloat | typing.SupportsIndex, upperRateBound: typing.SupportsFloat | typing.SupportsIndex, adjustments: typing.SupportsInt | typing.SupportsIndex, smileMoneyCheckpoints: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with full parameters.
         """
-    def addAdjustment(self, a: typing.SupportsInt) -> MarkovFunctionalModelSettings:
+    def addAdjustment(self, a: typing.SupportsInt | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Adds an adjustment flag.
         """
-    def removeAdjustment(self, a: typing.SupportsInt) -> MarkovFunctionalModelSettings:
+    def removeAdjustment(self, a: typing.SupportsInt | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Removes an adjustment flag.
         """
-    def withAdjustments(self, a: typing.SupportsInt) -> MarkovFunctionalModelSettings:
+    def withAdjustments(self, a: typing.SupportsInt | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets adjustment flags.
         """
-    def withDigitalGap(self, d: typing.SupportsFloat) -> MarkovFunctionalModelSettings:
+    def withDigitalGap(self, d: typing.SupportsFloat | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets digital gap for smile calibration.
         """
-    def withGaussHermitePoints(self, n: typing.SupportsInt) -> MarkovFunctionalModelSettings:
+    def withGaussHermitePoints(self, n: typing.SupportsInt | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets Gauss-Hermite integration points.
         """
-    def withLowerRateBound(self, l: typing.SupportsFloat) -> MarkovFunctionalModelSettings:
+    def withLowerRateBound(self, l: typing.SupportsFloat | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets lower rate bound.
         """
-    def withMarketRateAccuracy(self, a: typing.SupportsFloat) -> MarkovFunctionalModelSettings:
+    def withMarketRateAccuracy(self, a: typing.SupportsFloat | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets market rate inversion accuracy.
         """
-    def withSmileMoneynessCheckpoints(self, m: collections.abc.Sequence[typing.SupportsFloat]) -> MarkovFunctionalModelSettings:
+    def withSmileMoneynessCheckpoints(self, m: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> MarkovFunctionalModelSettings:
         """
         Sets smile moneyness checkpoints.
         """
-    def withUpperRateBound(self, u: typing.SupportsFloat) -> MarkovFunctionalModelSettings:
+    def withUpperRateBound(self, u: typing.SupportsFloat | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets upper rate bound.
         """
-    def withYGridPoints(self, n: typing.SupportsInt) -> MarkovFunctionalModelSettings:
+    def withYGridPoints(self, n: typing.SupportsInt | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets grid points for state process discretization.
         """
-    def withYStdDevs(self, s: typing.SupportsFloat) -> MarkovFunctionalModelSettings:
+    def withYStdDevs(self, s: typing.SupportsFloat | typing.SupportsIndex) -> MarkovFunctionalModelSettings:
         """
         Sets standard deviations for state grid coverage.
         """
@@ -14861,49 +14903,49 @@ class MarkovFunctionalModelSettings:
     def adjustments(self) -> int:
         ...
     @adjustments.setter
-    def adjustments(self, arg0: typing.SupportsInt) -> None:
+    def adjustments(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def digitalGap(self) -> float:
         ...
     @digitalGap.setter
-    def digitalGap(self, arg0: typing.SupportsFloat) -> None:
+    def digitalGap(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def gaussHermitePoints(self) -> int:
         ...
     @gaussHermitePoints.setter
-    def gaussHermitePoints(self, arg0: typing.SupportsInt) -> None:
+    def gaussHermitePoints(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def lowerRateBound(self) -> float:
         ...
     @lowerRateBound.setter
-    def lowerRateBound(self, arg0: typing.SupportsFloat) -> None:
+    def lowerRateBound(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def marketRateAccuracy(self) -> float:
         ...
     @marketRateAccuracy.setter
-    def marketRateAccuracy(self, arg0: typing.SupportsFloat) -> None:
+    def marketRateAccuracy(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def upperRateBound(self) -> float:
         ...
     @upperRateBound.setter
-    def upperRateBound(self, arg0: typing.SupportsFloat) -> None:
+    def upperRateBound(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def yGridPoints(self) -> int:
         ...
     @yGridPoints.setter
-    def yGridPoints(self, arg0: typing.SupportsInt) -> None:
+    def yGridPoints(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
     def yStdDevs(self) -> float:
         ...
     @yStdDevs.setter
-    def yStdDevs(self, arg0: typing.SupportsFloat) -> None:
+    def yStdDevs(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class Matrix:
     """
@@ -14916,18 +14958,18 @@ class Matrix:
         Return a buffer object that exposes the underlying memory of the object.
         """
     @typing.overload
-    def __getitem__(self, arg0: typing.SupportsInt) -> numpy.typing.NDArray[numpy.float64]:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> numpy.typing.NDArray[numpy.float64]:
         """
         Gets a row as a NumPy array view.
         """
     @typing.overload
-    def __getitem__(self, arg0: tuple[typing.SupportsInt, typing.SupportsInt]) -> float:
+    def __getitem__(self, arg0: tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> float:
         """
         Gets element at (row, column).
         """
     def __iadd__(self, arg0: Matrix) -> Matrix:
         ...
-    def __imul__(self, arg0: typing.SupportsFloat) -> Matrix:
+    def __imul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         ...
     @typing.overload
     def __init__(self) -> None:
@@ -14935,12 +14977,12 @@ class Matrix:
         Default constructor (empty matrix).
         """
     @typing.overload
-    def __init__(self, rows: typing.SupportsInt, columns: typing.SupportsInt) -> None:
+    def __init__(self, rows: typing.SupportsInt | typing.SupportsIndex, columns: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Creates a zero-filled matrix.
         """
     @typing.overload
-    def __init__(self, rows: typing.SupportsInt, columns: typing.SupportsInt, value: typing.SupportsFloat) -> None:
+    def __init__(self, rows: typing.SupportsInt | typing.SupportsIndex, columns: typing.SupportsInt | typing.SupportsIndex, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Creates a matrix filled with value.
         """
@@ -14960,13 +15002,13 @@ class Matrix:
         """
         Iterates over elements in row-major order.
         """
-    def __itruediv__(self, arg0: typing.SupportsFloat) -> Matrix:
+    def __itruediv__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         ...
     @typing.overload
     def __mul__(self, arg0: Matrix) -> Matrix:
         ...
     @typing.overload
-    def __mul__(self, arg0: typing.SupportsFloat) -> Matrix:
+    def __mul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         ...
     def __release_buffer__(self, buffer):
         """
@@ -14974,9 +15016,9 @@ class Matrix:
         """
     def __repr__(self) -> str:
         ...
-    def __rmul__(self, arg0: typing.SupportsFloat) -> Matrix:
+    def __rmul__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         ...
-    def __setitem__(self, arg0: tuple[typing.SupportsInt, typing.SupportsInt], arg1: typing.SupportsFloat) -> None:
+    def __setitem__(self, arg0: tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex], arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets element at (row, column).
         """
@@ -14984,9 +15026,9 @@ class Matrix:
         ...
     def __sub__(self, arg0: Matrix) -> Matrix:
         ...
-    def __truediv__(self, arg0: typing.SupportsFloat) -> Matrix:
+    def __truediv__(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         ...
-    def column(self, index: typing.SupportsInt) -> Array:
+    def column(self, index: typing.SupportsInt | typing.SupportsIndex) -> Array:
         """
         Returns a column as an Array.
         """
@@ -15011,7 +15053,7 @@ class Matrix:
         Swaps contents with another matrix.
         """
     @property
-    def shape(self) -> tuple:
+    def shape(self) -> tuple[int, int]:
         """
         Returns (rows, columns) tuple.
         """
@@ -15028,12 +15070,12 @@ class MersenneTwisterUniformRng:
     Mersenne Twister uniform random number generator (period 2^19937-1).
     """
     @typing.overload
-    def __init__(self, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with seed (0 for clock-based random seed).
         """
     @typing.overload
-    def __init__(self, seeds: collections.abc.Sequence[typing.SupportsInt]) -> None:
+    def __init__(self, seeds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
         """
         Constructs with a vector of seeds.
         """
@@ -15099,15 +15141,15 @@ class MethodOfLinesScheme:
     """
     Method of lines time-stepping scheme (Runge-Kutta).
     """
-    def __init__(self, eps: typing.SupportsFloat, relInitStepSize: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
+    def __init__(self, eps: typing.SupportsFloat | typing.SupportsIndex, relInitStepSize: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
         """
         Constructs from tolerance, initial step size, operator, and BCs.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -15161,7 +15203,7 @@ class Mexico(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -15183,7 +15225,7 @@ class Mexico(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -15203,12 +15245,12 @@ class MidPointCdsEngine(base.PricingEngine):
     Mid-point engine for credit default swaps.
     """
     @typing.overload
-    def __init__(self, probability: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, includeSettlementDateFlows: bool | None = None) -> None:
+    def __init__(self, probability: DefaultProbabilityTermStructureHandle, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, includeSettlementDateFlows: bool | None = None) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, probability: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat, discountCurve: base.YieldTermStructure, includeSettlementDateFlows: bool | None = None) -> None:
+    def __init__(self, probability: base.DefaultProbabilityTermStructure, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: base.YieldTermStructure, includeSettlementDateFlows: bool | None = None) -> None:
         """
         Constructs from term structures (handles created internally).
         """
@@ -15216,7 +15258,7 @@ class MidPointTrapezoidIntegral(base.Integrator):
     """
     Integral of a 1-D function using the mid-point trapezoid formula.
     """
-    def __init__(self, accuracy: typing.SupportsFloat, maxIterations: typing.SupportsInt) -> None:
+    def __init__(self, accuracy: typing.SupportsFloat | typing.SupportsIndex, maxIterations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with target accuracy and maximum iterations.
         """
@@ -15232,15 +15274,15 @@ class ModifiedCraigSneydScheme:
     """
     Modified Craig-Sneyd ADI time-stepping scheme.
     """
-    def __init__(self, theta: typing.SupportsFloat, mu: typing.SupportsFloat, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
+    def __init__(self, theta: typing.SupportsFloat | typing.SupportsIndex, mu: typing.SupportsFloat | typing.SupportsIndex, map: FdmLinearOpComposite, bcSet: collections.abc.Sequence[FdmBoundaryCondition] = []) -> None:
         """
         Constructs from theta, mu, operator, and boundary conditions.
         """
-    def setStep(self, dt: typing.SupportsFloat) -> None:
+    def setStep(self, dt: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the time step size.
         """
-    def step(self, a: Array, t: typing.SupportsFloat) -> Array:
+    def step(self, a: Array, t: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Applies one time step and returns the modified array.
         """
@@ -15278,7 +15320,7 @@ class Money:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -15300,7 +15342,7 @@ class Money:
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -15349,7 +15391,7 @@ class Money:
         ...
     def __iadd__(self, other: Money) -> Money:
         ...
-    def __imul__(self, factor: typing.SupportsFloat) -> Money:
+    def __imul__(self, factor: typing.SupportsFloat | typing.SupportsIndex) -> Money:
         ...
     @typing.overload
     def __init__(self) -> None:
@@ -15357,18 +15399,18 @@ class Money:
         Default constructor.
         """
     @typing.overload
-    def __init__(self, currency: Currency, value: typing.SupportsFloat) -> None:
+    def __init__(self, currency: Currency, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from currency and value.
         """
     @typing.overload
-    def __init__(self, value: typing.SupportsFloat, currency: Currency) -> None:
+    def __init__(self, value: typing.SupportsFloat | typing.SupportsIndex, currency: Currency) -> None:
         """
         Constructs from value and currency.
         """
     def __isub__(self, other: Money) -> Money:
         ...
-    def __itruediv__(self, divisor: typing.SupportsFloat) -> Money:
+    def __itruediv__(self, divisor: typing.SupportsFloat | typing.SupportsIndex) -> Money:
         ...
     def __le__(self, arg0: Money) -> bool:
         ...
@@ -15400,7 +15442,7 @@ class MonotonicCubicNaturalSpline(base.Interpolation):
     """
     Monotonic natural cubic spline interpolation.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat], y: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], y: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs interpolation from x and y arrays.
         """
@@ -15480,7 +15522,7 @@ class Month:
     Sep: typing.ClassVar[Month]  # value = <Month.September: 9>
     September: typing.ClassVar[Month]  # value = <Month.September: 9>
     __members__: typing.ClassVar[dict[str, Month]]  # value = {'January': <Month.January: 1>, 'February': <Month.February: 2>, 'March': <Month.March: 3>, 'April': <Month.April: 4>, 'May': <Month.May: 5>, 'June': <Month.June: 6>, 'July': <Month.July: 7>, 'August': <Month.August: 8>, 'September': <Month.September: 9>, 'October': <Month.October: 10>, 'November': <Month.November: 11>, 'December': <Month.December: 12>, 'Jan': <Month.January: 1>, 'Feb': <Month.February: 2>, 'Mar': <Month.March: 3>, 'Apr': <Month.April: 4>, 'Jun': <Month.June: 6>, 'Jul': <Month.July: 7>, 'Aug': <Month.August: 8>, 'Sep': <Month.September: 9>, 'Oct': <Month.October: 10>, 'Nov': <Month.November: 11>, 'Dec': <Month.December: 12>}
-    def __add__(self, arg0: typing.SupportsInt) -> Month:
+    def __add__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Month:
         ...
     def __and__(self, other: typing.Any) -> typing.Any:
         ...
@@ -15496,7 +15538,7 @@ class Month:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -15510,7 +15552,7 @@ class Month:
         ...
     def __or__(self, other: typing.Any) -> typing.Any:
         ...
-    def __radd__(self: typing.SupportsInt, arg0: Month) -> Month:
+    def __radd__(self: typing.SupportsInt | typing.SupportsIndex, arg0: Month) -> Month:
         ...
     def __rand__(self, other: typing.Any) -> typing.Any:
         ...
@@ -15518,15 +15560,15 @@ class Month:
         ...
     def __ror__(self, other: typing.Any) -> typing.Any:
         ...
-    def __rsub__(self: typing.SupportsInt, arg0: Month) -> Month:
+    def __rsub__(self: typing.SupportsInt | typing.SupportsIndex, arg0: Month) -> Month:
         ...
     def __rxor__(self, other: typing.Any) -> typing.Any:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
-    def __sub__(self, arg0: typing.SupportsInt) -> Month:
+    def __sub__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Month:
         ...
     def __xor__(self, other: typing.Any) -> typing.Any:
         ...
@@ -15548,7 +15590,7 @@ class MoreGreeks:
         ITM cash probability.
         """
     @itmCashProbability.setter
-    def itmCashProbability(self, arg0: typing.SupportsFloat) -> None:
+    def itmCashProbability(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def strikeSensitivity(self) -> float:
@@ -15556,14 +15598,14 @@ class MoreGreeks:
         Strike sensitivity.
         """
     @strikeSensitivity.setter
-    def strikeSensitivity(self, arg0: typing.SupportsFloat) -> None:
+    def strikeSensitivity(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class MultiCurve(base.Observer):
     """
     Manages a set of yield curves that form a dependency cycle.
     """
     @typing.overload
-    def __init__(self, accuracy: typing.SupportsFloat) -> None:
+    def __init__(self, accuracy: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with a target accuracy for the bootstrap.
         """
@@ -15584,12 +15626,12 @@ class MultiPath:
     """
     Correlated multiple asset paths.
     """
-    def __getitem__(self, j: typing.SupportsInt) -> Path:
+    def __getitem__(self, j: typing.SupportsInt | typing.SupportsIndex) -> Path:
         """
         Returns the path for asset j.
         """
     @typing.overload
-    def __init__(self, nAsset: typing.SupportsInt, timeGrid: TimeGrid) -> None:
+    def __init__(self, nAsset: typing.SupportsInt | typing.SupportsIndex, timeGrid: TimeGrid) -> None:
         """
         Constructs paths for nAsset assets on the given time grid.
         """
@@ -15620,7 +15662,7 @@ class MultiplicativePriceSeasonality(base.Seasonality):
         Constructs a default (empty) seasonality.
         """
     @typing.overload
-    def __init__(self, seasonalityBaseDate: Date, frequency: Frequency, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, seasonalityBaseDate: Date, frequency: Frequency, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs from base date, frequency, and factors.
         """
@@ -15640,7 +15682,7 @@ class MultiplicativePriceSeasonality(base.Seasonality):
         """
         Returns the seasonality factors.
         """
-    def set(self, seasonalityBaseDate: Date, frequency: Frequency, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def set(self, seasonalityBaseDate: Date, frequency: Frequency, seasonalityFactors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Sets the seasonality parameters.
         """
@@ -15696,7 +15738,7 @@ class NelsonSiegelFitting(base.FittingMethod):
     """
     Nelson-Siegel fitting method.
     """
-    def __init__(self, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
+    def __init__(self, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
         """
         Constructs a Nelson-Siegel fitting method.
         """
@@ -15764,7 +15806,7 @@ class NewZealand(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -15786,7 +15828,7 @@ class NewZealand(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -15808,25 +15850,25 @@ class Newton:
     """
     def __init__(self) -> None:
         ...
-    def setLowerBound(self, lowerBound: typing.SupportsFloat) -> None:
+    def setLowerBound(self, lowerBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets lower bound for the function domain.
         """
-    def setMaxEvaluations(self, evaluations: typing.SupportsInt) -> None:
+    def setMaxEvaluations(self, evaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Sets maximum number of function evaluations.
         """
-    def setUpperBound(self, upperBound: typing.SupportsFloat) -> None:
+    def setUpperBound(self, upperBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets upper bound for the function domain.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, derivative: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, step: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, derivative: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, step: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root with automatic bracketing.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, derivative: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, xMin: typing.SupportsFloat, xMax: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, derivative: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, xMin: typing.SupportsFloat | typing.SupportsIndex, xMax: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root within explicit bracket.
         """
@@ -15834,7 +15876,7 @@ class NinePointLinearOp(FdmLinearOp):
     """
     Nine-point linear operator for 2D FDM grids.
     """
-    def __init__(self, d0: typing.SupportsInt, d1: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, d0: typing.SupportsInt | typing.SupportsIndex, d1: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs from two directions and a mesher.
         """
@@ -15850,7 +15892,7 @@ class NoArbSabrInterpolatedSmileSection(base.SmileSection):
     """
     Smile section calibrated to market data using no-arbitrage SABR interpolation. Inherits from both SmileSection and LazyObject.
     """
-    def __init__(self, optionDate: Date, forward: typing.SupportsFloat, strikes: collections.abc.Sequence[typing.SupportsFloat], hasFloatingStrikes: bool, atmVolatility: typing.SupportsFloat, vols: collections.abc.Sequence[typing.SupportsFloat], alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, isAlphaFixed: bool = False, isBetaFixed: bool = False, isNuFixed: bool = False, isRhoFixed: bool = False, vegaWeighted: bool = True, endCriteria: EndCriteria = None, method: base.OptimizationMethod = None, dayCounter: DayCounter = ...) -> None:
+    def __init__(self, optionDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], hasFloatingStrikes: bool, atmVolatility: typing.SupportsFloat | typing.SupportsIndex, vols: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, isAlphaFixed: bool = False, isBetaFixed: bool = False, isNuFixed: bool = False, isRhoFixed: bool = False, vegaWeighted: bool = True, endCriteria: EndCriteria = None, method: base.OptimizationMethod = None, dayCounter: DayCounter = ...) -> None:
         """
         Constructs from market data (no quotes).
         """
@@ -15878,7 +15920,7 @@ class NoArbSabrModel:
     """
     No-arbitrage SABR model (Doust, 2012). Provides arbitrage-free option prices, digital prices, and density.
     """
-    def __init__(self, expiryTime: typing.SupportsFloat, forward: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat) -> None:
+    def __init__(self, expiryTime: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a no-arbitrage SABR model.
         """
@@ -15890,11 +15932,11 @@ class NoArbSabrModel:
         ...
     def beta(self) -> float:
         ...
-    def density(self, strike: typing.SupportsFloat) -> float:
+    def density(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the probability density at the given strike.
         """
-    def digitalOptionPrice(self, strike: typing.SupportsFloat) -> float:
+    def digitalOptionPrice(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the (undiscounted) digital call option price.
         """
@@ -15910,7 +15952,7 @@ class NoArbSabrModel:
         """
         Returns the model-implied numerical forward.
         """
-    def optionPrice(self, strike: typing.SupportsFloat) -> float:
+    def optionPrice(self, strike: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the (undiscounted) call option price for the given strike.
         """
@@ -15921,12 +15963,12 @@ class NoArbSabrSmileSection(base.SmileSection):
     No-arbitrage SABR smile section. Wraps NoArbSabrModel to provide a SmileSection interface.
     """
     @typing.overload
-    def __init__(self, timeToExpiry: typing.SupportsFloat, forward: typing.SupportsFloat, sabrParameters: collections.abc.Sequence[typing.SupportsFloat], shift: typing.SupportsFloat = 0.0, volatilityType: VolatilityType = ...) -> None:
+    def __init__(self, timeToExpiry: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, sabrParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, volatilityType: VolatilityType = ...) -> None:
         """
         Constructs from time to expiry, forward, and SABR parameters [alpha, beta, nu, rho].
         """
     @typing.overload
-    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat, sabrParameters: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter = ..., shift: typing.SupportsFloat = 0.0, volatilityType: VolatilityType = ...) -> None:
+    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, sabrParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, volatilityType: VolatilityType = ...) -> None:
         """
         Constructs from expiry date, forward, and SABR parameters [alpha, beta, nu, rho].
         """
@@ -15945,22 +15987,22 @@ class NoExceptLocalVolSurface(LocalVolSurface):
     Local volatility surface that returns a fallback value instead of throwing.
     """
     @typing.overload
-    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: QuoteHandle, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: QuoteHandle, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with quote handle for underlying.
         """
     @typing.overload
-    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+    def __init__(self, blackTS: BlackVolTermStructureHandle, riskFreeTS: YieldTermStructureHandle, dividendTS: YieldTermStructureHandle, underlying: typing.SupportsFloat | typing.SupportsIndex, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with fixed underlying value.
         """
     @typing.overload
-    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: base.Quote, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: base.Quote, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from term structures and quote (handles created internally).
         """
     @typing.overload
-    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat, illegalLocalVolOverwrite: typing.SupportsFloat) -> None:
+    def __init__(self, blackTS: base.BlackVolTermStructure, riskFreeTS: base.YieldTermStructure, dividendTS: base.YieldTermStructure, underlying: typing.SupportsFloat | typing.SupportsIndex, illegalLocalVolOverwrite: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from term structures and fixed value (handles created internally).
         """
@@ -15974,12 +16016,12 @@ class NonstandardSwap(Swap):
         Constructs from a fixed-vs-floating swap.
         """
     @typing.overload
-    def __init__(self, type: SwapType, fixedNominal: collections.abc.Sequence[typing.SupportsFloat], floatingNominal: collections.abc.Sequence[typing.SupportsFloat], fixedSchedule: Schedule, fixedRate: collections.abc.Sequence[typing.SupportsFloat], fixedDayCount: DayCounter, floatingSchedule: Schedule, iborIndex: IborIndex, gearing: typing.SupportsFloat, spread: typing.SupportsFloat, floatingDayCount: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, paymentConvention: typing.Any = None) -> None:
+    def __init__(self, type: SwapType, fixedNominal: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floatingNominal: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], fixedSchedule: Schedule, fixedRate: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], fixedDayCount: DayCounter, floatingSchedule: Schedule, iborIndex: IborIndex, gearing: typing.SupportsFloat | typing.SupportsIndex, spread: typing.SupportsFloat | typing.SupportsIndex, floatingDayCount: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, paymentConvention: typing.Any = None) -> None:
         """
         Constructs with scalar gearing and spread.
         """
     @typing.overload
-    def __init__(self, type: SwapType, fixedNominal: collections.abc.Sequence[typing.SupportsFloat], floatingNominal: collections.abc.Sequence[typing.SupportsFloat], fixedSchedule: Schedule, fixedRate: collections.abc.Sequence[typing.SupportsFloat], fixedDayCount: DayCounter, floatingSchedule: Schedule, iborIndex: IborIndex, gearings: collections.abc.Sequence[typing.SupportsFloat], spreads: collections.abc.Sequence[typing.SupportsFloat], floatingDayCount: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, paymentConvention: typing.Any = None) -> None:
+    def __init__(self, type: SwapType, fixedNominal: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floatingNominal: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], fixedSchedule: Schedule, fixedRate: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], fixedDayCount: DayCounter, floatingSchedule: Schedule, iborIndex: IborIndex, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floatingDayCount: DayCounter, intermediateCapitalExchange: bool = False, finalCapitalExchange: bool = False, paymentConvention: typing.Any = None) -> None:
         """
         Constructs with vector gearings and spreads.
         """
@@ -16085,15 +16127,15 @@ class NormalDistribution:
     """
     Normal (Gaussian) distribution function.
     """
-    def __call__(self, x: typing.SupportsFloat) -> float:
+    def __call__(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the probability density at x.
         """
-    def __init__(self, average: typing.SupportsFloat = 0.0, sigma: typing.SupportsFloat = 1.0) -> None:
+    def __init__(self, average: typing.SupportsFloat | typing.SupportsIndex = 0.0, sigma: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Constructs NormalDistribution.
         """
-    def derivative(self, x: typing.SupportsFloat) -> float:
+    def derivative(self, x: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the derivative of the density at x.
         """
@@ -16124,7 +16166,7 @@ class NthOrderDerivativeOp(FdmLinearOp):
     """
     Nth-order finite difference derivative operator.
     """
-    def __init__(self, direction: typing.SupportsInt, order: typing.SupportsInt, nPoints: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, direction: typing.SupportsInt | typing.SupportsIndex, order: typing.SupportsInt | typing.SupportsIndex, nPoints: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs with direction, derivative order, stencil width, and mesher.
         """
@@ -16160,12 +16202,12 @@ class NumericHaganPricer(HaganPricer):
     Numeric CMS coupon pricer using Hagan integration.
     """
     @typing.overload
-    def __init__(self, swaptionVol: ..., modelOfYieldCurve: YieldCurveModel, meanReversion: QuoteHandle, lowerLimit: typing.SupportsFloat = 0.0, upperLimit: typing.SupportsFloat = 1.0, precision: typing.SupportsFloat = 1e-06, hardUpperLimit: typing.SupportsFloat = 1.7976931348623157e+308) -> None:
+    def __init__(self, swaptionVol: ..., modelOfYieldCurve: YieldCurveModel, meanReversion: QuoteHandle, lowerLimit: typing.SupportsFloat | typing.SupportsIndex = 0.0, upperLimit: typing.SupportsFloat | typing.SupportsIndex = 1.0, precision: typing.SupportsFloat | typing.SupportsIndex = 1e-06, hardUpperLimit: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308) -> None:
         """
         Constructs with explicit handles.
         """
     @typing.overload
-    def __init__(self, swaptionVol: ..., modelOfYieldCurve: YieldCurveModel, meanReversion: base.Quote, lowerLimit: typing.SupportsFloat = 0.0, upperLimit: typing.SupportsFloat = 1.0, precision: typing.SupportsFloat = 1e-06, hardUpperLimit: typing.SupportsFloat = 1.7976931348623157e+308) -> None:
+    def __init__(self, swaptionVol: ..., modelOfYieldCurve: YieldCurveModel, meanReversion: base.Quote, lowerLimit: typing.SupportsFloat | typing.SupportsIndex = 0.0, upperLimit: typing.SupportsFloat | typing.SupportsIndex = 1.0, precision: typing.SupportsFloat | typing.SupportsIndex = 1e-06, hardUpperLimit: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308) -> None:
         """
         Constructs from shared pointers (handles created internally).
         """
@@ -16186,27 +16228,27 @@ class OISRateHelper(base.RelativeDateRateHelper):
     Rate helper for bootstrapping over OIS rates.
     """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, tenor: Period, fixedRate: typing.SupportsFloat, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, tenor: Period, fixedRate: typing.SupportsFloat | typing.SupportsIndex, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat | typing.SupportsIndex = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs from settlement days, tenor, and overnight index.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, tenor: Period, fixedRate: QuoteHandle, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, tenor: Period, fixedRate: QuoteHandle, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat | typing.SupportsIndex = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs from settlement days, tenor, and quote handle.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, tenor: Period, fixedRate: base.Quote, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, tenor: Period, fixedRate: base.Quote, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, forwardStart: Period = ..., overnightSpread: typing.SupportsFloat | typing.SupportsIndex = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs from settlement days, tenor, and quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, startDate: Date, endDate: Date, fixedRate: typing.SupportsFloat, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, overnightSpread: typing.SupportsFloat = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, startDate: Date, endDate: Date, fixedRate: typing.SupportsFloat | typing.SupportsIndex, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, overnightSpread: typing.SupportsFloat | typing.SupportsIndex = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs from start date, end date, rate, and overnight index.
         """
     @typing.overload
-    def __init__(self, startDate: Date, endDate: Date, fixedRate: QuoteHandle, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, overnightSpread: typing.SupportsFloat = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, startDate: Date, endDate: Date, fixedRate: QuoteHandle, overnightIndex: OvernightIndex, discountingCurve: YieldTermStructureHandle = ..., telescopicValueDates: bool = False, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentConvention: BusinessDayConvention = ..., paymentFrequency: Frequency = ..., paymentCalendar: typing.Any = None, overnightSpread: typing.SupportsFloat | typing.SupportsIndex = 0.0, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs from start date, end date, quote handle, and overnight index.
         """
@@ -16270,7 +16312,7 @@ class OperatorSplittingSpreadEngine(base.SpreadBlackScholesVanillaEngine):
     """
     Operator splitting analytical approximation for spread options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
         """
@@ -16295,7 +16337,7 @@ class OptionType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -16303,7 +16345,7 @@ class OptionType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -16318,12 +16360,12 @@ class OptionletStripper1(base.OptionletStripper):
     Strips optionlet volatilities from a cap/floor term volatility surface.
     """
     @typing.overload
-    def __init__(self, termVolSurface: CapFloorTermVolSurface, index: IborIndex, switchStrike: typing.Any = None, accuracy: typing.SupportsFloat = 1e-06, maxIter: typing.SupportsInt = 100, discount: YieldTermStructureHandle = ..., type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0, dontThrow: bool = False, optionletFrequency: typing.Any = None) -> None:
+    def __init__(self, termVolSurface: CapFloorTermVolSurface, index: IborIndex, switchStrike: typing.Any = None, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIter: typing.SupportsInt | typing.SupportsIndex = 100, discount: YieldTermStructureHandle = ..., type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0, dontThrow: bool = False, optionletFrequency: typing.Any = None) -> None:
         """
         Constructs an optionlet stripper.
         """
     @typing.overload
-    def __init__(self, termVolSurface: CapFloorTermVolSurface, index: IborIndex, switchStrike: typing.Any = None, accuracy: typing.SupportsFloat = 1e-06, maxIter: typing.SupportsInt = 100, discount: base.YieldTermStructure, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0, dontThrow: bool = False, optionletFrequency: typing.Any = None) -> None:
+    def __init__(self, termVolSurface: CapFloorTermVolSurface, index: IborIndex, switchStrike: typing.Any = None, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIter: typing.SupportsInt | typing.SupportsIndex = 100, discount: base.YieldTermStructure, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0, dontThrow: bool = False, optionletFrequency: typing.Any = None) -> None:
         """
         Constructs an optionlet stripper (handle created internally).
         """
@@ -16412,7 +16454,7 @@ class Ordering:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -16420,7 +16462,7 @@ class Ordering:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -16434,7 +16476,7 @@ class OrnsteinUhlenbeckProcess(base.StochasticProcess1D):
     """
     Ornstein-Uhlenbeck mean-reverting process: dx = a(r - x)dt + sigma dW.
     """
-    def __init__(self, speed: typing.SupportsFloat, volatility: typing.SupportsFloat, x0: typing.SupportsFloat = 0.0, level: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, speed: typing.SupportsFloat | typing.SupportsIndex, volatility: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex = 0.0, level: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs an OU process.
         """
@@ -16459,12 +16501,12 @@ class OvernightIndex(IborIndex):
     Base class for overnight indexes.
     """
     @typing.overload
-    def __init__(self, familyName: str, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter) -> None:
+    def __init__(self, familyName: str, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter) -> None:
         """
         Constructs an overnight index without forwarding curve.
         """
     @typing.overload
-    def __init__(self, familyName: str, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter, h: ...) -> None:
+    def __init__(self, familyName: str, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, dayCounter: DayCounter, h: ...) -> None:
         """
         Constructs an overnight index with forwarding term structure handle.
         """
@@ -16472,7 +16514,7 @@ class OvernightIndexedCoupon(FloatingRateCoupon):
     """
     Coupon paying the compounded daily overnight rate.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, overnightIndex: ..., gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt = 0, applyObservationShift: bool = False) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, overnightIndex: ..., gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ..., dayCounter: typing.Any = None, telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ..., lookbackDays: typing.Any = None, lockoutDays: typing.SupportsInt | typing.SupportsIndex = 0, applyObservationShift: bool = False) -> None:
         """
         Constructs an overnight indexed coupon.
         """
@@ -16509,12 +16551,12 @@ class OvernightIndexedSwap(FixedVsFloatingSwap):
     Overnight indexed swap: fixed vs overnight floating leg.
     """
     @typing.overload
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, schedule: Schedule, fixedRate: typing.SupportsFloat, fixedDC: DayCounter, overnightIndex: OvernightIndex, spread: typing.SupportsFloat = 0.0, paymentLag: typing.SupportsInt = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, schedule: Schedule, fixedRate: typing.SupportsFloat | typing.SupportsIndex, fixedDC: DayCounter, overnightIndex: OvernightIndex, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs an overnight indexed swap.
         """
     @typing.overload
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat, fixedDC: DayCounter, overnightSchedule: Schedule, overnightIndex: OvernightIndex, spread: typing.SupportsFloat = 0.0, paymentLag: typing.SupportsInt = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat | typing.SupportsIndex, fixedDC: DayCounter, overnightSchedule: Schedule, overnightIndex: OvernightIndex, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, paymentLag: typing.SupportsInt | typing.SupportsIndex = 0, paymentAdjustment: BusinessDayConvention = ..., telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs an OIS with separate fixed and overnight schedules.
         """
@@ -16542,7 +16584,7 @@ class OvernightIndexedSwapIndex(SwapIndex):
     """
     OIS swap rate index.
     """
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, overnightIndex: OvernightIndex, telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, overnightIndex: OvernightIndex, telescopicValueDates: bool = False, averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs an OIS swap rate index.
         """
@@ -16565,20 +16607,20 @@ class OvernightLeg:
     def withAveragingMethod(self, averagingMethod: RateAveraging.Type) -> OvernightLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> OvernightLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> OvernightLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> OvernightLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> OvernightLeg:
         ...
-    def withLockoutDays(self, lockoutDays: typing.SupportsInt) -> OvernightLeg:
+    def withLockoutDays(self, lockoutDays: typing.SupportsInt | typing.SupportsIndex) -> OvernightLeg:
         ...
-    def withLookbackDays(self, lookbackDays: typing.SupportsInt) -> OvernightLeg:
-        ...
-    @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> OvernightLeg:
+    def withLookbackDays(self, lookbackDays: typing.SupportsInt | typing.SupportsIndex) -> OvernightLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> OvernightLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> OvernightLeg:
+        ...
+    @typing.overload
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> OvernightLeg:
         ...
     def withObservationShift(self, applyObservationShift: bool = True) -> OvernightLeg:
         ...
@@ -16588,13 +16630,13 @@ class OvernightLeg:
         ...
     def withPaymentDayCounter(self, dayCounter: DayCounter) -> OvernightLeg:
         ...
-    def withPaymentLag(self, lag: typing.SupportsInt) -> OvernightLeg:
+    def withPaymentLag(self, lag: typing.SupportsInt | typing.SupportsIndex) -> OvernightLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> OvernightLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> OvernightLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> OvernightLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> OvernightLeg:
         ...
     def withTelescopicValueDates(self, telescopicValueDates: bool) -> OvernightLeg:
         ...
@@ -16674,7 +16716,7 @@ class Parameter:
     """
     Model parameter with constraint.
     """
-    def __call__(self, t: typing.SupportsFloat) -> float:
+    def __call__(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns parameter value at time t.
         """
@@ -16688,7 +16730,7 @@ class Parameter:
         """
         Returns parameter values.
         """
-    def setParam(self, i: typing.SupportsInt, x: typing.SupportsFloat) -> None:
+    def setParam(self, i: typing.SupportsInt | typing.SupportsIndex, x: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets the i-th parameter value.
         """
@@ -16704,7 +16746,7 @@ class Path:
     """
     Single-factor random walk.
     """
-    def __getitem__(self, i: typing.SupportsInt) -> float:
+    def __getitem__(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns value at index i.
         """
@@ -16732,7 +16774,7 @@ class Path:
         """
         Number of points in the path.
         """
-    def time(self, i: typing.SupportsInt) -> float:
+    def time(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns time at index i.
         """
@@ -16740,7 +16782,7 @@ class Path:
         """
         Returns the underlying time grid.
         """
-    def value(self, i: typing.SupportsInt) -> float:
+    def value(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns value at index i.
         """
@@ -16748,7 +16790,7 @@ class PercentageStrikePayoff(base.StrikedTypePayoff):
     """
     Payoff with strike expressed as moneyness percentage.
     """
-    def __init__(self, type: OptionType, moneyness: typing.SupportsFloat) -> None:
+    def __init__(self, type: OptionType, moneyness: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class Period:
     """
@@ -16766,13 +16808,13 @@ class Period:
         ...
     def __iadd__(self, arg0: Period) -> Period:
         ...
-    def __imul__(self, arg0: typing.SupportsInt) -> Period:
+    def __imul__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Period:
         ...
     @typing.overload
     def __init__(self) -> None:
         ...
     @typing.overload
-    def __init__(self, length: typing.SupportsInt, units: TimeUnit) -> None:
+    def __init__(self, length: typing.SupportsInt | typing.SupportsIndex, units: TimeUnit) -> None:
         ...
     @typing.overload
     def __init__(self, frequency: Frequency) -> None:
@@ -16784,13 +16826,13 @@ class Period:
         """
     def __isub__(self, arg0: Period) -> Period:
         ...
-    def __itruediv__(self, arg0: typing.SupportsInt) -> Period:
+    def __itruediv__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Period:
         ...
     def __le__(self, arg0: Period) -> bool:
         ...
     def __lt__(self, arg0: Period) -> bool:
         ...
-    def __mul__(self, arg0: typing.SupportsInt) -> Period:
+    def __mul__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Period:
         ...
     def __ne__(self, arg0: Period) -> bool:
         ...
@@ -16800,7 +16842,7 @@ class Period:
         ...
     def __repr__(self) -> str:
         ...
-    def __rmul__(self, arg0: typing.SupportsInt) -> Period:
+    def __rmul__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Period:
         ...
     def __rsub__(self, arg0: typing.Any) -> Date:
         ...
@@ -16808,7 +16850,7 @@ class Period:
         ...
     def __sub__(self, arg0: Period) -> Period:
         ...
-    def __truediv__(self, arg0: typing.SupportsInt) -> Period:
+    def __truediv__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Period:
         ...
     def frequency(self) -> Frequency:
         ...
@@ -16830,7 +16872,7 @@ class PiecewiseBackwardFlatForward(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -16855,22 +16897,22 @@ class PiecewiseBackwardFlatForwardGlobal(base.YieldTermStructure):
     Piecewise yield curve using backward-flat forward-rate interpolation with global bootstrap.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using default optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using a custom optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap, additional helpers, and penalty functions.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs from settlement days with global bootstrap.
         """
@@ -16900,7 +16942,7 @@ class PiecewiseBackwardFlatHazard(base.DefaultProbabilityTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -16930,7 +16972,7 @@ class PiecewiseCubicDiscount(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -16960,7 +17002,7 @@ class PiecewiseCubicZero(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -16990,7 +17032,7 @@ class PiecewiseLinearDefaultDensity(base.DefaultProbabilityTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17020,7 +17062,7 @@ class PiecewiseLinearDiscount(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17050,7 +17092,7 @@ class PiecewiseLinearForward(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17080,7 +17122,7 @@ class PiecewiseLinearZero(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17105,22 +17147,22 @@ class PiecewiseLinearZeroGlobal(base.YieldTermStructure):
     Piecewise yield curve using linear zero-rate interpolation with global bootstrap.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using default optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using a custom optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap, additional helpers, and penalty functions.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs from settlement days with global bootstrap.
         """
@@ -17150,7 +17192,7 @@ class PiecewiseLogLinearDiscount(base.YieldTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17175,22 +17217,22 @@ class PiecewiseLogLinearDiscountGlobal(base.YieldTermStructure):
     Piecewise yield curve using log-linear discount factor interpolation with global bootstrap.
     """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using default optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, optimizer: base.OptimizationMethod, endCriteria: EndCriteria = None, instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap using a custom optimizer.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, referenceDate: Date, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, additionalHelpers: collections.abc.Sequence[base.RateHelper], additionalDates: collections.abc.Callable[[], list[Date]], additionalPenalties: collections.abc.Callable[[], Array], accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs with global bootstrap, additional helpers, and penalty functions.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.RateHelper], dayCounter: DayCounter, accuracy: typing.SupportsFloat | typing.SupportsIndex = ..., instrumentWeights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs from settlement days with global bootstrap.
         """
@@ -17220,7 +17262,7 @@ class PiecewiseLogLinearSurvival(base.DefaultProbabilityTermStructure):
         Constructs from reference date, instruments, and day counter.
         """
     @typing.overload
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, instruments: collections.abc.Sequence[base.DefaultProbabilityHelper], dayCounter: DayCounter) -> None:
         """
         Constructs from settlement days, calendar, instruments, and day counter.
         """
@@ -17244,7 +17286,7 @@ class PiecewiseTimeDependentHestonModel(base.CalibratedModel):
     """
     Piecewise time-dependent Heston stochastic volatility model.
     """
-    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat, theta: Parameter, kappa: Parameter, sigma: Parameter, rho: Parameter, timeGrid: TimeGrid) -> None:
+    def __init__(self, riskFreeRate: YieldTermStructureHandle, dividendYield: YieldTermStructureHandle, s0: QuoteHandle, v0: typing.SupportsFloat | typing.SupportsIndex, theta: Parameter, kappa: Parameter, sigma: Parameter, rho: Parameter, timeGrid: TimeGrid) -> None:
         """
         Constructs time-dependent Heston model.
         """
@@ -17252,11 +17294,11 @@ class PiecewiseTimeDependentHestonModel(base.CalibratedModel):
         """
         Returns dividend yield term structure.
         """
-    def kappa(self, t: typing.SupportsFloat) -> float:
+    def kappa(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns kappa at time t.
         """
-    def rho(self, t: typing.SupportsFloat) -> float:
+    def rho(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns rho at time t.
         """
@@ -17268,11 +17310,11 @@ class PiecewiseTimeDependentHestonModel(base.CalibratedModel):
         """
         Returns initial spot price.
         """
-    def sigma(self, t: typing.SupportsFloat) -> float:
+    def sigma(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns sigma at time t.
         """
-    def theta(self, t: typing.SupportsFloat) -> float:
+    def theta(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns theta at time t.
         """
@@ -17288,7 +17330,7 @@ class PiecewiseYoYInflationCurve(base.YoYInflationTermStructure):
     """
     Piecewise year-on-year inflation curve bootstrapped from helpers.
     """
-    def __init__(self, referenceDate: Date, baseDate: Date, baseYoYRate: typing.SupportsFloat, frequency: Frequency, dayCounter: DayCounter, instruments: collections.abc.Sequence[base.YoYInflationHelper], seasonality: typing.Any = None, accuracy: typing.SupportsFloat = 1e-12) -> None:
+    def __init__(self, referenceDate: Date, baseDate: Date, baseYoYRate: typing.SupportsFloat | typing.SupportsIndex, frequency: Frequency, dayCounter: DayCounter, instruments: collections.abc.Sequence[base.YoYInflationHelper], seasonality: typing.Any = None, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-12) -> None:
         """
         Constructs from reference date, base date, base rate, and helpers.
         """
@@ -17312,7 +17354,7 @@ class PiecewiseZeroInflationCurve(base.ZeroInflationTermStructure):
     """
     Piecewise zero-inflation curve bootstrapped from helpers.
     """
-    def __init__(self, referenceDate: Date, baseDate: Date, frequency: Frequency, dayCounter: DayCounter, instruments: collections.abc.Sequence[base.ZeroInflationHelper], seasonality: typing.Any = None, accuracy: typing.SupportsFloat = 1e-14) -> None:
+    def __init__(self, referenceDate: Date, baseDate: Date, frequency: Frequency, dayCounter: DayCounter, instruments: collections.abc.Sequence[base.ZeroInflationHelper], seasonality: typing.Any = None, accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-14) -> None:
         """
         Constructs from reference date, base date, and helpers.
         """
@@ -17360,7 +17402,7 @@ class Pillar:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -17368,7 +17410,7 @@ class Pillar:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -17382,7 +17424,7 @@ class PlainVanillaPayoff(base.StrikedTypePayoff):
     """
     Plain vanilla payoff (max(S-K,0) for call, max(K-S,0) for put).
     """
-    def __init__(self, type: OptionType, strike: typing.SupportsFloat) -> None:
+    def __init__(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class Poland(Calendar):
     """
@@ -17432,7 +17474,7 @@ class Poland(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -17454,7 +17496,7 @@ class Poland(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -17506,7 +17548,7 @@ class PolynomialType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -17514,7 +17556,7 @@ class PolynomialType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -17545,7 +17587,7 @@ class PositionType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -17553,7 +17595,7 @@ class PositionType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -17573,7 +17615,7 @@ class Predefined1dMesher(Fdm1dMesher):
     """
     One-dimensional mesher from predefined grid points.
     """
-    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, x: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs from explicit grid locations.
         """
@@ -17630,7 +17672,7 @@ class ProtectionSide:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -17638,7 +17680,7 @@ class ProtectionSide:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -17711,7 +17753,7 @@ class QdFpFixedPointEquation:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -17719,7 +17761,7 @@ class QdFpFixedPointEquation:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -17737,7 +17779,7 @@ class QdFpLegendreScheme(QdFpIterationScheme):
     """
     Gauss-Legendre (l,m,n)-p iteration scheme.
     """
-    def __init__(self, l: typing.SupportsInt, m: typing.SupportsInt, n: typing.SupportsInt, p: typing.SupportsInt) -> None:
+    def __init__(self, l: typing.SupportsInt | typing.SupportsIndex, m: typing.SupportsInt | typing.SupportsIndex, n: typing.SupportsInt | typing.SupportsIndex, p: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with integration order l, iteration steps m, Chebyshev nodes n, and final integration order p.
         """
@@ -17745,7 +17787,7 @@ class QdFpLegendreTanhSinhScheme(QdFpLegendreScheme):
     """
     Legendre-Tanh-Sinh (l,m,n)-eps iteration scheme.
     """
-    def __init__(self, l: typing.SupportsInt, m: typing.SupportsInt, n: typing.SupportsInt, eps: typing.SupportsFloat) -> None:
+    def __init__(self, l: typing.SupportsInt | typing.SupportsIndex, m: typing.SupportsInt | typing.SupportsIndex, n: typing.SupportsInt | typing.SupportsIndex, eps: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with integration order l, iteration steps m, Chebyshev nodes n, and tanh-sinh precision eps.
         """
@@ -17753,7 +17795,7 @@ class QdFpTanhSinhIterationScheme(QdFpIterationScheme):
     """
     Tanh-sinh (m,n)-eps iteration scheme.
     """
-    def __init__(self, m: typing.SupportsInt, n: typing.SupportsInt, eps: typing.SupportsFloat) -> None:
+    def __init__(self, m: typing.SupportsInt | typing.SupportsIndex, n: typing.SupportsInt | typing.SupportsIndex, eps: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with iteration steps m, Chebyshev nodes n, and tanh-sinh precision eps.
         """
@@ -17761,7 +17803,7 @@ class QdPlusAmericanEngine(base.PricingEngine):
     """
     QD+ American option pricing engine.
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, interpolationPoints: typing.SupportsInt = 8, solverType: QdPlusAmericanEngineSolverType = ..., eps: typing.SupportsFloat = 1e-06, maxIter: typing.Any = None) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, interpolationPoints: typing.SupportsInt | typing.SupportsIndex = 8, solverType: QdPlusAmericanEngineSolverType = ..., eps: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIter: typing.Any = None) -> None:
         """
         Constructs QD+ American engine.
         """
@@ -17795,7 +17837,7 @@ class QdPlusAmericanEngineSolverType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -17803,7 +17845,7 @@ class QdPlusAmericanEngineSolverType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -17829,7 +17871,7 @@ class QuantoForwardVanillaOption(ForwardVanillaOption):
     """
     Quanto forward-start vanilla option.
     """
-    def __init__(self, moneyness: typing.SupportsFloat, resetDate: Date, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
+    def __init__(self, moneyness: typing.SupportsFloat | typing.SupportsIndex, resetDate: Date, payoff: base.StrikedTypePayoff, exercise: Exercise) -> None:
         ...
     def qlambda(self) -> float:
         """
@@ -17848,12 +17890,12 @@ class QuantoTermStructure(base.YieldTermStructure):
     Quanto-adjusted dividend yield term structure.
     """
     @typing.overload
-    def __init__(self, underlyingDividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, foreignRiskFreeTS: YieldTermStructureHandle, underlyingBlackVolTS: BlackVolTermStructureHandle, strike: typing.SupportsFloat, exchRateBlackVolTS: BlackVolTermStructureHandle, exchRateATMlevel: typing.SupportsFloat, underlyingExchRateCorrelation: typing.SupportsFloat) -> None:
+    def __init__(self, underlyingDividendTS: YieldTermStructureHandle, riskFreeTS: YieldTermStructureHandle, foreignRiskFreeTS: YieldTermStructureHandle, underlyingBlackVolTS: BlackVolTermStructureHandle, strike: typing.SupportsFloat | typing.SupportsIndex, exchRateBlackVolTS: BlackVolTermStructureHandle, exchRateATMlevel: typing.SupportsFloat | typing.SupportsIndex, underlyingExchRateCorrelation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, underlyingDividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, foreignRiskFreeTS: base.YieldTermStructure, underlyingBlackVolTS: base.BlackVolTermStructure, strike: typing.SupportsFloat, exchRateBlackVolTS: base.BlackVolTermStructure, exchRateATMlevel: typing.SupportsFloat, underlyingExchRateCorrelation: typing.SupportsFloat) -> None:
+    def __init__(self, underlyingDividendTS: base.YieldTermStructure, riskFreeTS: base.YieldTermStructure, foreignRiskFreeTS: base.YieldTermStructure, underlyingBlackVolTS: base.BlackVolTermStructure, strike: typing.SupportsFloat | typing.SupportsIndex, exchRateBlackVolTS: base.BlackVolTermStructure, exchRateATMlevel: typing.SupportsFloat | typing.SupportsIndex, underlyingExchRateCorrelation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from shared_ptrs (handles created internally).
         """
@@ -17991,7 +18033,7 @@ class RateAveraging:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -17999,7 +18041,7 @@ class RateAveraging:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -18013,7 +18055,7 @@ class Redemption(SimpleCashFlow):
     """
     Bond redemption payment.
     """
-    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, amount: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs a redemption with the given amount and date.
         """
@@ -18240,7 +18282,7 @@ class ReplicatingVarianceSwapEngine(base.PricingEngine):
     """
     Variance swap engine using replicating portfolio.
     """
-    def __init__(self, process: GeneralizedBlackScholesProcess, dk: typing.SupportsFloat = 5.0, callStrikes: collections.abc.Sequence[typing.SupportsFloat] = [], putStrikes: collections.abc.Sequence[typing.SupportsFloat] = []) -> None:
+    def __init__(self, process: GeneralizedBlackScholesProcess, dk: typing.SupportsFloat | typing.SupportsIndex = 5.0, callStrikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = [], putStrikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex] = []) -> None:
         """
         Constructs the replicating variance swap engine.
         """
@@ -18268,7 +18310,7 @@ class ReplicationType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -18276,7 +18318,7 @@ class ReplicationType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -18291,16 +18333,16 @@ class RichardsonExtrapolation:
     Richardson extrapolation for improving convergence.
     """
     @typing.overload
-    def __call__(self, t: typing.SupportsFloat = 2.0) -> float:
+    def __call__(self, t: typing.SupportsFloat | typing.SupportsIndex = 2.0) -> float:
         """
         Returns the extrapolated value with ratio t.
         """
     @typing.overload
-    def __call__(self, t: typing.SupportsFloat, s: typing.SupportsFloat) -> float:
+    def __call__(self, t: typing.SupportsFloat | typing.SupportsIndex, s: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the second-order extrapolated value with ratios t and s.
         """
-    def __init__(self, f: collections.abc.Callable[[typing.SupportsFloat], float], deltaH: typing.SupportsFloat, n: typing.Any = None) -> None:
+    def __init__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float], deltaH: typing.SupportsFloat | typing.SupportsIndex, n: typing.Any = None) -> None:
         """
         Constructs from function f, step size delta_h, and optional order n.
         """
@@ -18358,7 +18400,7 @@ class Romania(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -18380,7 +18422,7 @@ class Romania(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -18433,7 +18475,7 @@ class Rounding:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -18441,7 +18483,7 @@ class Rounding:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -18451,11 +18493,11 @@ class Rounding:
         @property
         def value(self) -> int:
             ...
-    def __call__(self, value: typing.SupportsFloat) -> float:
+    def __call__(self, value: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Rounds the given value.
         """
-    def __init__(self, precision: typing.SupportsInt, type: Rounding.Type = ..., digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, type: Rounding.Type = ..., digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         """
         Creates a rounding convention.
         """
@@ -18529,7 +18571,7 @@ class Russia(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -18551,7 +18593,7 @@ class Russia(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -18658,7 +18700,7 @@ class SabrInterpolatedSmileSection(base.SmileSection, base.LazyObject):
     """
     Smile section calibrated via SABR interpolation.
     """
-    def __init__(self, optionDate: Date, forward: typing.SupportsFloat, strikes: collections.abc.Sequence[typing.SupportsFloat], hasFloatingStrikes: bool, atmVolatility: typing.SupportsFloat, vols: collections.abc.Sequence[typing.SupportsFloat], alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, isAlphaFixed: bool = False, isBetaFixed: bool = False, isNuFixed: bool = False, isRhoFixed: bool = False, vegaWeighted: bool = True, endCriteria: EndCriteria = None, method: base.OptimizationMethod = None, dayCounter: DayCounter = ..., shift: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, optionDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], hasFloatingStrikes: bool, atmVolatility: typing.SupportsFloat | typing.SupportsIndex, vols: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, isAlphaFixed: bool = False, isBetaFixed: bool = False, isNuFixed: bool = False, isRhoFixed: bool = False, vegaWeighted: bool = True, endCriteria: EndCriteria = None, method: base.OptimizationMethod = None, dayCounter: DayCounter = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs and calibrates SABR to market strikes and volatilities.
         """
@@ -18695,12 +18737,12 @@ class SabrSmileSection(base.SmileSection):
     SABR parametric smile section.
     """
     @typing.overload
-    def __init__(self, timeToExpiry: typing.SupportsFloat, forward: typing.SupportsFloat, sabrParameters: collections.abc.Sequence[typing.SupportsFloat], shift: typing.SupportsFloat = 0.0, volatilityType: VolatilityType = ...) -> None:
+    def __init__(self, timeToExpiry: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, sabrParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, volatilityType: VolatilityType = ...) -> None:
         """
         Constructs from time to expiry, forward, and SABR parameters [alpha, beta, nu, rho].
         """
     @typing.overload
-    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat, sabrParameters: collections.abc.Sequence[typing.SupportsFloat], referenceDate: Date = ..., dayCounter: DayCounter = ..., shift: typing.SupportsFloat = 0.0, volatilityType: VolatilityType = ...) -> None:
+    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, sabrParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], referenceDate: Date = ..., dayCounter: DayCounter = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, volatilityType: VolatilityType = ...) -> None:
         """
         Constructs from expiry date, forward, and SABR parameters [alpha, beta, nu, rho].
         """
@@ -18724,7 +18766,7 @@ class SabrSwaptionVolatilityCube(SwaptionVolatilityCube):
     """
     SABR-parameterized swaption volatility cube.
     """
-    def __init__(self, atmVolStructure: SwaptionVolatilityStructureHandle, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], strikeSpreads: collections.abc.Sequence[typing.SupportsFloat], volSpreads: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], swapIndexBase: SwapIndex, shortSwapIndexBase: SwapIndex, vegaWeightedSmileFit: bool, parametersGuess: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], isParameterFixed: collections.abc.Sequence[bool], isAtmCalibrated: bool, endCriteria: EndCriteria = None, maxErrorTolerance: typing.Any = None, optMethod: base.OptimizationMethod = None, errorAccept: typing.Any = None, useMaxError: bool = False, maxGuesses: typing.SupportsInt = 50, backwardFlat: bool = False, cutoffStrike: typing.SupportsFloat = 0.0001) -> None:
+    def __init__(self, atmVolStructure: SwaptionVolatilityStructureHandle, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], strikeSpreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], volSpreads: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], swapIndexBase: SwapIndex, shortSwapIndexBase: SwapIndex, vegaWeightedSmileFit: bool, parametersGuess: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], isParameterFixed: collections.abc.Sequence[bool], isAtmCalibrated: bool, endCriteria: EndCriteria = None, maxErrorTolerance: typing.Any = None, optMethod: base.OptimizationMethod = None, errorAccept: typing.Any = None, useMaxError: bool = False, maxGuesses: typing.SupportsInt | typing.SupportsIndex = 50, backwardFlat: bool = False, cutoffStrike: typing.SupportsFloat | typing.SupportsIndex = 0.0001) -> None:
         """
         Constructs SABR swaption volatility cube.
         """
@@ -18737,12 +18779,12 @@ class SabrSwaptionVolatilityCube(SwaptionVolatilityCube):
         Returns the market volatility cube.
         """
     @typing.overload
-    def recalibration(self, beta: typing.SupportsFloat, swapTenor: Period) -> None:
+    def recalibration(self, beta: typing.SupportsFloat | typing.SupportsIndex, swapTenor: Period) -> None:
         """
         Recalibrates with fixed beta for a given swap tenor.
         """
     @typing.overload
-    def recalibration(self, beta: collections.abc.Sequence[typing.SupportsFloat], swapTenor: Period) -> None:
+    def recalibration(self, beta: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], swapTenor: Period) -> None:
         """
         Recalibrates with beta vector for a given swap tenor.
         """
@@ -18778,13 +18820,13 @@ class SampleMultiPath:
         Sample weight.
         """
     @weight.setter
-    def weight(self, arg0: typing.SupportsFloat) -> None:
+    def weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class SampleNumber:
     """
     Weighted scalar sample (value + weight).
     """
-    def __init__(self, value: typing.SupportsFloat, weight: typing.SupportsFloat) -> None:
+    def __init__(self, value: typing.SupportsFloat | typing.SupportsIndex, weight: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a weighted scalar sample.
         """
@@ -18796,7 +18838,7 @@ class SampleNumber:
         Sample value.
         """
     @value.setter
-    def value(self, arg0: typing.SupportsFloat) -> None:
+    def value(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def weight(self) -> float:
@@ -18804,7 +18846,7 @@ class SampleNumber:
         Sample weight.
         """
     @weight.setter
-    def weight(self, arg0: typing.SupportsFloat) -> None:
+    def weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class SamplePath:
     """
@@ -18826,13 +18868,13 @@ class SamplePath:
         Sample weight.
         """
     @weight.setter
-    def weight(self, arg0: typing.SupportsFloat) -> None:
+    def weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class SampleRealVector:
     """
     Weighted vector sample (value + weight).
     """
-    def __init__(self, value: collections.abc.Sequence[typing.SupportsFloat], weight: typing.SupportsFloat) -> None:
+    def __init__(self, value: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weight: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a weighted vector sample.
         """
@@ -18844,7 +18886,7 @@ class SampleRealVector:
         Sample values.
         """
     @value.setter
-    def value(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def value(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def weight(self) -> float:
@@ -18852,7 +18894,7 @@ class SampleRealVector:
         Sample weight.
         """
     @weight.setter
-    def weight(self, arg0: typing.SupportsFloat) -> None:
+    def weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
 class SaudiArabia(Calendar):
     """
@@ -18897,7 +18939,7 @@ class SaudiArabia(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -18919,7 +18961,7 @@ class SaudiArabia(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -18948,7 +18990,7 @@ class Schedule:
     """
     Payment schedule for a financial instrument.
     """
-    def __getitem__(self, arg0: typing.SupportsInt) -> Date:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Date:
         ...
     @typing.overload
     def __init__(self, dates: collections.abc.Sequence[Date], calendar: Calendar = ..., convention: BusinessDayConvention = ..., terminationDateConvention: pyquantlib._pyquantlib.BusinessDayConvention | None = None, tenor: pyquantlib._pyquantlib.Period | None = None, rule: pyquantlib._pyquantlib.DateGeneration.Rule | None = None, endOfMonth: bool | None = None, isRegular: collections.abc.Sequence[bool] = []) -> None:
@@ -18965,7 +19007,7 @@ class Schedule:
         ...
     def after(self, arg0: Date) -> Schedule:
         ...
-    def at(self, arg0: typing.SupportsInt) -> Date:
+    def at(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Date:
         ...
     def back(self) -> Date:
         ...
@@ -18973,7 +19015,7 @@ class Schedule:
         ...
     def calendar(self) -> Calendar:
         ...
-    def date(self, arg0: typing.SupportsInt) -> Date:
+    def date(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Date:
         ...
     def dates(self) -> list[Date]:
         ...
@@ -18996,7 +19038,7 @@ class Schedule:
     def hasTerminationDateBusinessDayConvention(self) -> bool:
         ...
     @typing.overload
-    def isRegular(self, arg0: typing.SupportsInt) -> bool:
+    def isRegular(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> bool:
         ...
     @typing.overload
     def isRegular(self) -> list[bool]:
@@ -19023,25 +19065,25 @@ class Secant:
     """
     def __init__(self) -> None:
         ...
-    def setLowerBound(self, lowerBound: typing.SupportsFloat) -> None:
+    def setLowerBound(self, lowerBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets lower bound for the function domain.
         """
-    def setMaxEvaluations(self, evaluations: typing.SupportsInt) -> None:
+    def setMaxEvaluations(self, evaluations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Sets maximum number of function evaluations.
         """
-    def setUpperBound(self, upperBound: typing.SupportsFloat) -> None:
+    def setUpperBound(self, upperBound: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Sets upper bound for the function domain.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, step: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, step: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root with automatic bracketing.
         """
     @typing.overload
-    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat, guess: typing.SupportsFloat, xMin: typing.SupportsFloat, xMax: typing.SupportsFloat) -> float:
+    def solve(self, f: collections.abc.Callable, accuracy: typing.SupportsFloat | typing.SupportsIndex, guess: typing.SupportsFloat | typing.SupportsIndex, xMin: typing.SupportsFloat | typing.SupportsIndex, xMax: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Finds root within explicit bracket.
         """
@@ -19049,7 +19091,7 @@ class SecondDerivativeOp(TripleBandLinearOp):
     """
     Second derivative operator on an FDM grid.
     """
-    def __init__(self, direction: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, direction: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs from direction and mesher.
         """
@@ -19057,7 +19099,7 @@ class SecondOrderMixedDerivativeOp(NinePointLinearOp):
     """
     Second-order mixed derivative operator for 2D FDM grids.
     """
-    def __init__(self, d0: typing.SupportsInt, d1: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, d0: typing.SupportsInt | typing.SupportsIndex, d1: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs from two directions and a mesher.
         """
@@ -19065,7 +19107,7 @@ class SegmentIntegral(base.Integrator):
     """
     Integral of a 1-D function using the segment (trapezoid) algorithm.
     """
-    def __init__(self, intervals: typing.SupportsInt) -> None:
+    def __init__(self, intervals: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with the given number of intervals.
         """
@@ -19073,15 +19115,15 @@ class SequenceStatistics:
     """
     N-dimensional statistics tool with covariance and correlation.
     """
-    def __init__(self, dimension: typing.SupportsInt = 0) -> None:
+    def __init__(self, dimension: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs with given dimension (0 for auto-detection).
         """
-    def add(self, sample: collections.abc.Sequence[typing.SupportsFloat], weight: typing.SupportsFloat = 1.0) -> None:
+    def add(self, sample: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Adds an N-dimensional sample, possibly with a weight.
         """
-    def averageShortfall(self, target: typing.SupportsFloat) -> list[float]:
+    def averageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the average shortfall for each dimension.
         """
@@ -19105,31 +19147,31 @@ class SequenceStatistics:
         """
         Returns the error estimate for each dimension.
         """
-    def expectedShortfall(self, percentile: typing.SupportsFloat) -> list[float]:
+    def expectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the expected shortfall for each dimension.
         """
-    def gaussianAverageShortfall(self, target: typing.SupportsFloat) -> list[float]:
+    def gaussianAverageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian average shortfall for each dimension.
         """
-    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat) -> list[float]:
+    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian expected shortfall for each dimension.
         """
-    def gaussianPercentile(self, y: typing.SupportsFloat) -> list[float]:
+    def gaussianPercentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian percentile for each dimension.
         """
-    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat) -> list[float]:
+    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian potential upside for each dimension.
         """
-    def gaussianShortfall(self, target: typing.SupportsFloat) -> list[float]:
+    def gaussianShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian shortfall for each dimension.
         """
-    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat) -> list[float]:
+    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the gaussian VaR for each dimension.
         """
@@ -19149,19 +19191,19 @@ class SequenceStatistics:
         """
         Returns the minimum for each dimension.
         """
-    def percentile(self, y: typing.SupportsFloat) -> list[float]:
+    def percentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the percentile for each dimension.
         """
-    def potentialUpside(self, percentile: typing.SupportsFloat) -> list[float]:
+    def potentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the potential upside for each dimension.
         """
-    def regret(self, target: typing.SupportsFloat) -> list[float]:
+    def regret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the regret for each dimension.
         """
-    def reset(self, dimension: typing.SupportsInt = 0) -> None:
+    def reset(self, dimension: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Resets the data, optionally with a new dimension.
         """
@@ -19177,7 +19219,7 @@ class SequenceStatistics:
         """
         Returns the semi variance for each dimension.
         """
-    def shortfall(self, target: typing.SupportsFloat) -> list[float]:
+    def shortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the shortfall for each dimension.
         """
@@ -19193,7 +19235,7 @@ class SequenceStatistics:
         """
         Returns the standard deviation for each dimension.
         """
-    def valueAtRisk(self, percentile: typing.SupportsFloat) -> list[float]:
+    def valueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
         """
         Returns the VaR for each dimension.
         """
@@ -19285,7 +19327,7 @@ class SettlementMethod:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -19293,7 +19335,7 @@ class SettlementMethod:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -19324,7 +19366,7 @@ class SettlementType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -19332,7 +19374,7 @@ class SettlementType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -19387,7 +19429,7 @@ class SimpleCashFlow(base.CashFlow):
     """
     Simple cash flow paying a fixed amount on a given date.
     """
-    def __init__(self, amount: typing.SupportsFloat, date: Date) -> None:
+    def __init__(self, amount: typing.SupportsFloat | typing.SupportsIndex, date: Date) -> None:
         """
         Constructs a cash flow with the given amount and date.
         """
@@ -19395,7 +19437,7 @@ class SimpleChooserOption(base.OneAssetOption):
     """
     Simple chooser option (choose call or put at choosing date).
     """
-    def __init__(self, choosingDate: Date, strike: typing.SupportsFloat, exercise: Exercise) -> None:
+    def __init__(self, choosingDate: Date, strike: typing.SupportsFloat | typing.SupportsIndex, exercise: Exercise) -> None:
         ...
 class SimpleDayCounter(DayCounter):
     """
@@ -19407,7 +19449,7 @@ class SimplePolynomialFitting(base.FittingMethod):
     """
     Simple polynomial fitting method.
     """
-    def __init__(self, degree: typing.SupportsInt, constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
+    def __init__(self, degree: typing.SupportsInt | typing.SupportsIndex, constrainAtZero: bool = True, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
         """
         Constructs a simple polynomial fitting method.
         """
@@ -19421,7 +19463,7 @@ class SimpleQuote(base.Quote):
         Constructs an invalid SimpleQuote.
         """
     @typing.overload
-    def __init__(self, value: typing.SupportsFloat) -> None:
+    def __init__(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a SimpleQuote with the given value.
         """
@@ -19433,7 +19475,7 @@ class SimpleQuote(base.Quote):
         """
         Resets the quote to an invalid state.
         """
-    def setValue(self, value: typing.SupportsFloat) -> float:
+    def setValue(self, value: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Sets the quote value and notifies observers.
         """
@@ -19445,7 +19487,7 @@ class Simplex(base.OptimizationMethod):
     """
     Multi-dimensional simplex optimization method.
     """
-    def __init__(self, lambda_: typing.SupportsFloat) -> None:
+    def __init__(self, lambda_: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with the characteristic length scale lambda.
         """
@@ -19457,7 +19499,7 @@ class SimpsonIntegral(TrapezoidIntegral, base.Integrator):
     """
     Integral of a 1-D function using the Simpson formula.
     """
-    def __init__(self, accuracy: typing.SupportsFloat, maxIterations: typing.SupportsInt) -> None:
+    def __init__(self, accuracy: typing.SupportsFloat | typing.SupportsIndex, maxIterations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with target accuracy and maximum iterations.
         """
@@ -19513,7 +19555,7 @@ class Singapore(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -19535,7 +19577,7 @@ class Singapore(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -19600,7 +19642,7 @@ class Slovakia(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -19622,7 +19664,7 @@ class Slovakia(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -19641,7 +19683,7 @@ class SobolBrownianBridgeRsg:
     """
     Sobol quasi-random sequence generator with Brownian bridge ordering.
     """
-    def __init__(self, factors: typing.SupportsInt, steps: typing.SupportsInt, ordering: Ordering = ..., seed: typing.SupportsInt = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
+    def __init__(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, ordering: Ordering = ..., seed: typing.SupportsInt | typing.SupportsIndex = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
         """
         Constructs Sobol Brownian bridge sequence generator.
         """
@@ -19661,7 +19703,7 @@ class SobolBrownianGenerator(base.BrownianGenerator):
     """
     Sobol Brownian generator with Brownian bridging.
     """
-    def __init__(self, factors: typing.SupportsInt, steps: typing.SupportsInt, ordering: Ordering, seed: typing.SupportsInt = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
+    def __init__(self, factors: typing.SupportsInt | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex, ordering: Ordering, seed: typing.SupportsInt | typing.SupportsIndex = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
         """
         Constructs a Sobol Brownian generator.
         """
@@ -19669,7 +19711,7 @@ class SobolBrownianGeneratorFactory(base.BrownianGeneratorFactory):
     """
     Factory for Sobol Brownian generators.
     """
-    def __init__(self, ordering: Ordering, seed: typing.SupportsInt = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
+    def __init__(self, ordering: Ordering, seed: typing.SupportsInt | typing.SupportsIndex = 0, directionIntegers: SobolRsg.DirectionIntegers = ...) -> None:
         """
         Constructs a Sobol Brownian generator factory.
         """
@@ -19722,7 +19764,7 @@ class SobolRsg:
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -19730,7 +19772,7 @@ class SobolRsg:
             ...
         def __repr__(self) -> str:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -19750,7 +19792,7 @@ class SobolRsg:
     SobolLevitan: typing.ClassVar[SobolRsg.DirectionIntegers]  # value = <DirectionIntegers.SobolLevitan: 2>
     SobolLevitanLemieux: typing.ClassVar[SobolRsg.DirectionIntegers]  # value = <DirectionIntegers.SobolLevitanLemieux: 3>
     Unit: typing.ClassVar[SobolRsg.DirectionIntegers]  # value = <DirectionIntegers.Unit: 0>
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 0, directionIntegers: SobolRsg.DirectionIntegers = ..., useGrayCode: bool = True) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0, directionIntegers: SobolRsg.DirectionIntegers = ..., useGrayCode: bool = True) -> None:
         """
         Constructs Sobol sequence generator.
         """
@@ -19766,7 +19808,7 @@ class SobolRsg:
         """
         Returns next sample sequence.
         """
-    def skipTo(self, n: typing.SupportsInt) -> None:
+    def skipTo(self, n: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Skips to the n-th sample in the sequence.
         """
@@ -19793,7 +19835,7 @@ class SoftCallability(Callability):
     """
     Callability with a trigger level for soft-call provisions.
     """
-    def __init__(self, price: BondPrice, date: Date, trigger: typing.SupportsFloat) -> None:
+    def __init__(self, price: BondPrice, date: Date, trigger: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs a soft callability with price, date, and trigger.
         """
@@ -19921,7 +19963,7 @@ class SouthKorea(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -19943,7 +19985,7 @@ class SouthKorea(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -19972,12 +20014,12 @@ class SpreadCdsHelper(base.DefaultProbabilityHelper):
     Spread-quoted CDS bootstrap helper.
     """
     @typing.overload
-    def __init__(self, runningSpread: typing.SupportsFloat, tenor: Period, settlementDays: typing.SupportsInt, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
+    def __init__(self, runningSpread: typing.SupportsFloat | typing.SupportsIndex, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
         """
         Constructs from running spread.
         """
     @typing.overload
-    def __init__(self, runningSpread: QuoteHandle, tenor: Period, settlementDays: typing.SupportsInt, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
+    def __init__(self, runningSpread: QuoteHandle, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
         """
         Constructs from running spread quote.
         """
@@ -19986,12 +20028,12 @@ class SpreadFittingMethod(base.FittingMethod):
     Spread fitting method over a reference curve.
     """
     @typing.overload
-    def __init__(self, method: base.FittingMethod, discountCurve: YieldTermStructureHandle, minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308) -> None:
+    def __init__(self, method: base.FittingMethod, discountCurve: YieldTermStructureHandle, minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308) -> None:
         """
         Constructs with a discount curve handle.
         """
     @typing.overload
-    def __init__(self, method: base.FittingMethod, discountCurve: typing.Any, minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308) -> None:
+    def __init__(self, method: base.FittingMethod, discountCurve: typing.Any, minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308) -> None:
         """
         Constructs with a discount curve (handle created internally).
         """
@@ -20013,7 +20055,7 @@ class SquareRootProcess(base.StochasticProcess1D):
     """
     Square root (CIR) process: dx = a(b - x)dt + sigma*sqrt(x)*dW.
     """
-    def __init__(self, b: typing.SupportsFloat, a: typing.SupportsFloat, sigma: typing.SupportsFloat, x0: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, b: typing.SupportsFloat | typing.SupportsIndex, a: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, x0: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs a square root process.
         """
@@ -20037,19 +20079,19 @@ class SquareRootProcessRNDCalculator(base.RiskNeutralDensityCalculator):
     """
     Square-root process risk-neutral density calculator.
     """
-    def __init__(self, v0: typing.SupportsFloat, kappa: typing.SupportsFloat, theta: typing.SupportsFloat, sigma: typing.SupportsFloat) -> None:
+    def __init__(self, v0: typing.SupportsFloat | typing.SupportsIndex, kappa: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with initial value, mean reversion, long-run mean, and volatility.
         """
-    def stationary_cdf(self, v: typing.SupportsFloat) -> float:
+    def stationary_cdf(self, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns stationary cumulative distribution at v.
         """
-    def stationary_invcdf(self, q: typing.SupportsFloat) -> float:
+    def stationary_invcdf(self, q: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns stationary inverse CDF at quantile q.
         """
-    def stationary_pdf(self, v: typing.SupportsFloat) -> float:
+    def stationary_pdf(self, v: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns stationary probability density at v.
         """
@@ -20059,21 +20101,21 @@ class Statistics:
     """
     def __init__(self) -> None:
         ...
-    def add(self, value: typing.SupportsFloat, weight: typing.SupportsFloat = 1.0) -> None:
+    def add(self, value: typing.SupportsFloat | typing.SupportsIndex, weight: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> None:
         """
         Adds a datum to the set, possibly with a weight.
         """
     @typing.overload
-    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Adds a sequence of data to the set.
         """
     @typing.overload
-    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat], weights: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def addSequence(self, values: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], weights: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Adds a sequence of data with weights.
         """
-    def averageShortfall(self, target: typing.SupportsFloat) -> float:
+    def averageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the averaged shortfallness below target.
         """
@@ -20089,11 +20131,11 @@ class Statistics:
         """
         Returns the error estimate on the mean value.
         """
-    def expectedShortfall(self, percentile: typing.SupportsFloat) -> float:
+    def expectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the expected shortfall at a given percentile.
         """
-    def gaussianAverageShortfall(self, target: typing.SupportsFloat) -> float:
+    def gaussianAverageShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption averaged shortfallness.
         """
@@ -20105,31 +20147,31 @@ class Statistics:
         """
         Returns the gaussian-assumption downside variance.
         """
-    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat) -> float:
+    def gaussianExpectedShortfall(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption expected shortfall.
         """
-    def gaussianPercentile(self, percentile: typing.SupportsFloat) -> float:
+    def gaussianPercentile(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption percentile.
         """
-    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat) -> float:
+    def gaussianPotentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption potential upside.
         """
-    def gaussianRegret(self, target: typing.SupportsFloat) -> float:
+    def gaussianRegret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption regret below target.
         """
-    def gaussianShortfall(self, target: typing.SupportsFloat) -> float:
+    def gaussianShortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption shortfall probability.
         """
-    def gaussianTopPercentile(self, percentile: typing.SupportsFloat) -> float:
+    def gaussianTopPercentile(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption top percentile.
         """
-    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat) -> float:
+    def gaussianValueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the gaussian-assumption VaR.
         """
@@ -20149,15 +20191,15 @@ class Statistics:
         """
         Returns the minimum sample value.
         """
-    def percentile(self, y: typing.SupportsFloat) -> float:
+    def percentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the y-th percentile.
         """
-    def potentialUpside(self, percentile: typing.SupportsFloat) -> float:
+    def potentialUpside(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the potential upside at a given percentile.
         """
-    def regret(self, target: typing.SupportsFloat) -> float:
+    def regret(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the variance of observations below target.
         """
@@ -20177,7 +20219,7 @@ class Statistics:
         """
         Returns the variance of observations below the mean.
         """
-    def shortfall(self, target: typing.SupportsFloat) -> float:
+    def shortfall(self, target: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the probability of missing the target.
         """
@@ -20193,11 +20235,11 @@ class Statistics:
         """
         Returns the standard deviation.
         """
-    def topPercentile(self, y: typing.SupportsFloat) -> float:
+    def topPercentile(self, y: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the y-th top percentile.
         """
-    def valueAtRisk(self, percentile: typing.SupportsFloat) -> float:
+    def valueAtRisk(self, percentile: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the value-at-risk at a given percentile.
         """
@@ -20229,23 +20271,23 @@ class StochasticProcessArray(base.StochasticProcess):
         """
         Returns the correlation matrix.
         """
-    def covariance(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Matrix:
+    def covariance(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: Array, dt: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         """
         Returns the covariance matrix.
         """
-    def diffusion(self, t: typing.SupportsFloat, x: Array) -> Matrix:
+    def diffusion(self, t: typing.SupportsFloat | typing.SupportsIndex, x: Array) -> Matrix:
         """
         Returns the diffusion matrix at time t and state x.
         """
-    def drift(self, t: typing.SupportsFloat, x: Array) -> Array:
+    def drift(self, t: typing.SupportsFloat | typing.SupportsIndex, x: Array) -> Array:
         """
         Returns the drift at time t and state x.
         """
-    def evolve(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat, dw: Array) -> Array:
+    def evolve(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: Array, dt: typing.SupportsFloat | typing.SupportsIndex, dw: Array) -> Array:
         """
         Returns the asset value after a time interval.
         """
-    def expectation(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Array:
+    def expectation(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: Array, dt: typing.SupportsFloat | typing.SupportsIndex) -> Array:
         """
         Returns the expectation of the process.
         """
@@ -20253,7 +20295,7 @@ class StochasticProcessArray(base.StochasticProcess):
         """
         Returns the initial values of all processes.
         """
-    def process(self, i: typing.SupportsInt) -> base.StochasticProcess1D:
+    def process(self, i: typing.SupportsInt | typing.SupportsIndex) -> base.StochasticProcess1D:
         """
         Returns the i-th process.
         """
@@ -20261,7 +20303,7 @@ class StochasticProcessArray(base.StochasticProcess):
         """
         Returns the number of processes.
         """
-    def stdDeviation(self, t0: typing.SupportsFloat, x0: Array, dt: typing.SupportsFloat) -> Matrix:
+    def stdDeviation(self, t0: typing.SupportsFloat | typing.SupportsIndex, x0: Array, dt: typing.SupportsFloat | typing.SupportsIndex) -> Matrix:
         """
         Returns the standard deviation matrix.
         """
@@ -20297,7 +20339,7 @@ class StulzEngine(BasketOptionEngine):
     """
     Stulz analytical engine for 2D min/max European basket options.
     """
-    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat) -> None:
+    def __init__(self, process1: GeneralizedBlackScholesProcess, process2: GeneralizedBlackScholesProcess, correlation: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs with two Black-Scholes processes and correlation.
         """
@@ -20305,7 +20347,7 @@ class SuperFundPayoff(base.StrikedTypePayoff):
     """
     Binary superfund payoff between two strikes (normalized by lower strike).
     """
-    def __init__(self, strike: typing.SupportsFloat, secondStrike: typing.SupportsFloat) -> None:
+    def __init__(self, strike: typing.SupportsFloat | typing.SupportsIndex, secondStrike: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     def secondStrike(self) -> float:
         """
@@ -20315,7 +20357,7 @@ class SuperSharePayoff(base.StrikedTypePayoff):
     """
     Binary supershare payoff: fixed cash between two strikes.
     """
-    def __init__(self, strike: typing.SupportsFloat, secondStrike: typing.SupportsFloat, cashPayoff: typing.SupportsFloat) -> None:
+    def __init__(self, strike: typing.SupportsFloat | typing.SupportsIndex, secondStrike: typing.SupportsFloat | typing.SupportsIndex, cashPayoff: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     def cashPayoff(self) -> float:
         """
@@ -20329,7 +20371,7 @@ class SvenssonFitting(base.FittingMethod):
     """
     Svensson fitting method.
     """
-    def __init__(self, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat = 0.0, maxCutoffTime: typing.SupportsFloat = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
+    def __init__(self, weights: Array = ..., optimizationMethod: base.OptimizationMethod = None, l2: Array = ..., minCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 0.0, maxCutoffTime: typing.SupportsFloat | typing.SupportsIndex = 1.7976931348623157e+308, constraint: base.Constraint = ...) -> None:
         """
         Constructs a Svensson fitting method.
         """
@@ -20349,12 +20391,12 @@ class SviSmileSection(base.SmileSection):
       m: horizontal translation
     """
     @typing.overload
-    def __init__(self, timeToExpiry: typing.SupportsFloat, forward: typing.SupportsFloat, sviParameters: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, timeToExpiry: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, sviParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs from time to expiry, forward, and SVI parameters [a, b, sigma, rho, m].
         """
     @typing.overload
-    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat, sviParameters: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter = ...) -> None:
+    def __init__(self, expiryDate: Date, forward: typing.SupportsFloat | typing.SupportsIndex, sviParameters: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter = ...) -> None:
         """
         Constructs from expiry date, forward, SVI parameters [a, b, sigma, rho, m], and day counter.
         """
@@ -20378,7 +20420,7 @@ class Swap(base.Instrument):
         """
         Constructs multi-leg swap.
         """
-    def endDiscounts(self, j: typing.SupportsInt) -> float:
+    def endDiscounts(self, j: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the end discount factor for leg j.
         """
@@ -20386,15 +20428,15 @@ class Swap(base.Instrument):
         """
         Returns True if the swap has expired.
         """
-    def leg(self, j: typing.SupportsInt) -> list[base.CashFlow]:
+    def leg(self, j: typing.SupportsInt | typing.SupportsIndex) -> list[base.CashFlow]:
         """
         Returns leg j.
         """
-    def legBPS(self, j: typing.SupportsInt) -> float:
+    def legBPS(self, j: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the BPS of leg j.
         """
-    def legNPV(self, j: typing.SupportsInt) -> float:
+    def legNPV(self, j: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the NPV of leg j.
         """
@@ -20414,7 +20456,7 @@ class Swap(base.Instrument):
         """
         Returns the number of legs.
         """
-    def payer(self, j: typing.SupportsInt) -> bool:
+    def payer(self, j: typing.SupportsInt | typing.SupportsIndex) -> bool:
         """
         Returns True if leg j is paid.
         """
@@ -20422,7 +20464,7 @@ class Swap(base.Instrument):
         """
         Returns the start date.
         """
-    def startDiscounts(self, j: typing.SupportsInt) -> float:
+    def startDiscounts(self, j: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the start discount factor for leg j.
         """
@@ -20444,24 +20486,24 @@ class SwapArguments(base.PricingEngine.arguments):
     def payer(self) -> list[float]:
         ...
     @payer.setter
-    def payer(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def payer(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
 class SwapIndex(base.InterestRateIndex):
     """
     Swap rate index.
     """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex) -> None:
         """
         Constructs a swap index.
         """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountingTermStructure: ...) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountingTermStructure: ...) -> None:
         """
         Constructs a swap index with discounting term structure.
         """
     @typing.overload
-    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountCurve: ...) -> None:
+    def __init__(self, familyName: str, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, currency: Currency, fixingCalendar: Calendar, fixedLegTenor: Period, fixedLegConvention: BusinessDayConvention, fixedLegDayCounter: DayCounter, iborIndex: IborIndex, discountCurve: ...) -> None:
         """
         Constructs a swap index with discounting curve.
         """
@@ -20498,7 +20540,7 @@ class SwapRateHelper(base.RelativeDateRateHelper):
     Rate helper for bootstrapping over swap rates.
     """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, tenor: Period, calendar: Calendar, fixedFrequency: Frequency, fixedConvention: BusinessDayConvention, fixedDayCount: DayCounter, iborIndex: IborIndex, spread: QuoteHandle = ..., fwdStart: Period = ..., discountingCurve: YieldTermStructureHandle = ..., settlementDays: typing.Any = None, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., endOfMonth: bool = False) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, tenor: Period, calendar: Calendar, fixedFrequency: Frequency, fixedConvention: BusinessDayConvention, fixedDayCount: DayCounter, iborIndex: IborIndex, spread: QuoteHandle = ..., fwdStart: Period = ..., discountingCurve: YieldTermStructureHandle = ..., settlementDays: typing.Any = None, pillar: Pillar.Choice = ..., customPillarDate: Date = ..., endOfMonth: bool = False) -> None:
         """
         Constructs from rate, tenor, and market conventions.
         """
@@ -20536,37 +20578,37 @@ class SwapResults(base.Instrument.results):
     def endDiscounts(self) -> list[float]:
         ...
     @endDiscounts.setter
-    def endDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def endDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def legBPS(self) -> list[float]:
         ...
     @legBPS.setter
-    def legBPS(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def legBPS(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def legNPV(self) -> list[float]:
         ...
     @legNPV.setter
-    def legNPV(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def legNPV(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
     @property
     def npvDateDiscount(self) -> float:
         ...
     @npvDateDiscount.setter
-    def npvDateDiscount(self, arg0: typing.SupportsFloat) -> None:
+    def npvDateDiscount(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @property
     def startDiscounts(self) -> list[float]:
         ...
     @startDiscounts.setter
-    def startDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def startDiscounts(self, arg0: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         ...
 class SwapSpreadIndex(base.InterestRateIndex):
     """
     Index for the spread between two swap rates.
     """
-    def __init__(self, familyName: str, swapIndex1: SwapIndex, swapIndex2: SwapIndex, gearing1: typing.SupportsFloat = 1.0, gearing2: typing.SupportsFloat = -1.0) -> None:
+    def __init__(self, familyName: str, swapIndex1: SwapIndex, swapIndex2: SwapIndex, gearing1: typing.SupportsFloat | typing.SupportsIndex = 1.0, gearing2: typing.SupportsFloat | typing.SupportsIndex = -1.0) -> None:
         """
         Constructs a swap spread index.
         """
@@ -20607,7 +20649,7 @@ class SwapType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -20615,7 +20657,7 @@ class SwapType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -20639,7 +20681,7 @@ class Swaption(base.Option):
         """
         Constructs a swaption.
         """
-    def impliedVolatility(self, price: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, guess: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0, type: VolatilityType = ..., displacement: typing.SupportsFloat = 0.0, priceType: SwaptionPriceType = ...) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, guess: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0, type: VolatilityType = ..., displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0, priceType: SwaptionPriceType = ...) -> float:
         """
         Returns the implied volatility.
         """
@@ -20679,36 +20721,36 @@ class SwaptionHelper(base.BlackCalibrationHelper):
     Calibration helper for interest-rate swaptions.
     """
     @typing.overload
-    def __init__(self, maturity: Period, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, maturity: Period, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper with period maturity and length.
         """
     @typing.overload
-    def __init__(self, maturity: Period, length: Period, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, maturity: Period, length: Period, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper from period maturity and length.
         """
     @typing.overload
-    def __init__(self, exerciseDate: Date, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, exerciseDate: Date, length: Period, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper with exercise date and swap length.
         """
     @typing.overload
-    def __init__(self, exerciseDate: Date, length: Period, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, exerciseDate: Date, length: Period, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper from exercise date and swap length.
         """
     @typing.overload
-    def __init__(self, exerciseDate: Date, endDate: Date, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, exerciseDate: Date, endDate: Date, volatility: QuoteHandle, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: YieldTermStructureHandle, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper with exercise and end dates.
         """
     @typing.overload
-    def __init__(self, exerciseDate: Date, endDate: Date, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat = ..., nominal: typing.SupportsFloat = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat = 0.0, settlementDays: typing.SupportsInt = ..., averagingMethod: RateAveraging.Type = ...) -> None:
+    def __init__(self, exerciseDate: Date, endDate: Date, volatility: base.Quote, index: IborIndex, fixedLegTenor: Period, fixedLegDayCounter: DayCounter, floatingLegDayCounter: DayCounter, termStructure: base.YieldTermStructure, errorType: CalibrationErrorType = ..., strike: typing.SupportsFloat | typing.SupportsIndex = ..., nominal: typing.SupportsFloat | typing.SupportsIndex = 1.0, type: VolatilityType = ..., shift: typing.SupportsFloat | typing.SupportsIndex = 0.0, settlementDays: typing.SupportsInt | typing.SupportsIndex = ..., averagingMethod: RateAveraging.Type = ...) -> None:
         """
         Constructs swaption helper from exercise and end dates.
         """
-    def blackPrice(self, volatility: typing.SupportsFloat) -> float:
+    def blackPrice(self, volatility: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns Black price for given volatility.
         """
@@ -20745,7 +20787,7 @@ class SwaptionPriceType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -20753,7 +20795,7 @@ class SwaptionPriceType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -20816,12 +20858,12 @@ class SwaptionVolatilityMatrix(base.SwaptionVolatilityDiscrete):
         Constructs from reference date with fixed volatility matrix.
         """
     @typing.overload
-    def __init__(self, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], volatilities: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], dayCounter: DayCounter, flatExtrapolation: bool = False, type: VolatilityType = ..., shifts: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat]] = []) -> None:
+    def __init__(self, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], volatilities: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], dayCounter: DayCounter, flatExtrapolation: bool = False, type: VolatilityType = ..., shifts: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]] = []) -> None:
         """
         Constructs from calendar with quote handle matrix.
         """
     @typing.overload
-    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], volatilities: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], dayCounter: DayCounter, flatExtrapolation: bool = False, type: VolatilityType = ..., shifts: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat]] = []) -> None:
+    def __init__(self, referenceDate: Date, calendar: Calendar, businessDayConvention: BusinessDayConvention, optionTenors: collections.abc.Sequence[Period], swapTenors: collections.abc.Sequence[Period], volatilities: collections.abc.Sequence[collections.abc.Sequence[QuoteHandle]], dayCounter: DayCounter, flatExtrapolation: bool = False, type: VolatilityType = ..., shifts: collections.abc.Sequence[collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]] = []) -> None:
         """
         Constructs from reference date with quote handle matrix.
         """
@@ -20836,7 +20878,7 @@ class SwaptionVolatilityMatrix(base.SwaptionVolatilityDiscrete):
         Returns row/column index pair for given option date and swap tenor.
         """
     @typing.overload
-    def locate(self, optionTime: typing.SupportsFloat, swapLength: typing.SupportsFloat) -> tuple[int, int]:
+    def locate(self, optionTime: typing.SupportsFloat | typing.SupportsIndex, swapLength: typing.SupportsFloat | typing.SupportsIndex) -> tuple[int, int]:
         """
         Returns row/column index pair for given option time and swap length.
         """
@@ -21027,11 +21069,11 @@ class TabulatedGaussLegendre:
     """
     Tabulated Gauss-Legendre quadrature (precomputed for orders 6, 7, 12, 20).
     """
-    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat], float]) -> float:
+    def __call__(self, f: collections.abc.Callable[[typing.SupportsFloat | typing.SupportsIndex], float]) -> float:
         """
         Evaluates the quadrature integral of f.
         """
-    def __init__(self, n: typing.SupportsInt = 20) -> None:
+    def __init__(self, n: typing.SupportsInt | typing.SupportsIndex = 20) -> None:
         """
         Constructs with the given order (6, 7, 12, or 20).
         """
@@ -21087,7 +21129,7 @@ class Taiwan(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -21109,7 +21151,7 @@ class Taiwan(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -21128,7 +21170,7 @@ class TanhSinhIntegral(base.Integrator):
     """
     Tanh-sinh quadrature for rapidly convergent integration of smooth functions.
     """
-    def __init__(self, relTolerance: typing.SupportsFloat = 1.4901161193847656e-08, maxRefinements: typing.SupportsInt = 15, minComplement: typing.SupportsFloat = 8.900295434028806e-308) -> None:
+    def __init__(self, relTolerance: typing.SupportsFloat | typing.SupportsIndex = 1.4901161193847656e-08, maxRefinements: typing.SupportsInt | typing.SupportsIndex = 15, minComplement: typing.SupportsFloat | typing.SupportsIndex = 8.900295434028806e-308) -> None:
         """
         Constructs with relative tolerance, max refinements, and min complement.
         """
@@ -21222,7 +21264,7 @@ class Thirty360(DayCounter):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -21244,7 +21286,7 @@ class Thirty360(DayCounter):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -21277,7 +21319,7 @@ class TimeGrid:
     """
     Time grid for discretized models.
     """
-    def __getitem__(self, i: typing.SupportsInt) -> float:
+    def __getitem__(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         ...
     @typing.overload
     def __init__(self) -> None:
@@ -21285,17 +21327,17 @@ class TimeGrid:
         Default constructor.
         """
     @typing.overload
-    def __init__(self, end: typing.SupportsFloat, steps: typing.SupportsInt) -> None:
+    def __init__(self, end: typing.SupportsFloat | typing.SupportsIndex, steps: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a regularly spaced time grid.
         """
     @typing.overload
-    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs from mandatory time points.
         """
     @typing.overload
-    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat], steps: typing.SupportsInt) -> None:
+    def __init__(self, times: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], steps: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs from mandatory time points with minimum steps.
         """
@@ -21303,7 +21345,7 @@ class TimeGrid:
         ...
     def __len__(self) -> int:
         ...
-    def at(self, i: typing.SupportsInt) -> float:
+    def at(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the time at index i with bounds checking.
         """
@@ -21311,15 +21353,15 @@ class TimeGrid:
         """
         Returns the last time.
         """
-    def closestIndex(self, t: typing.SupportsFloat) -> int:
+    def closestIndex(self, t: typing.SupportsFloat | typing.SupportsIndex) -> int:
         """
         Returns the index of the time closest to t.
         """
-    def closestTime(self, t: typing.SupportsFloat) -> float:
+    def closestTime(self, t: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns the time on the grid closest to t.
         """
-    def dt(self, i: typing.SupportsInt) -> float:
+    def dt(self, i: typing.SupportsInt | typing.SupportsIndex) -> float:
         """
         Returns the time step dt(i) = t(i+1) - t(i).
         """
@@ -21331,7 +21373,7 @@ class TimeGrid:
         """
         Returns the first time (t=0).
         """
-    def index(self, t: typing.SupportsFloat) -> int:
+    def index(self, t: typing.SupportsFloat | typing.SupportsIndex) -> int:
         """
         Returns the index i such that grid[i] = t.
         """
@@ -21385,7 +21427,7 @@ class TimeUnit:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -21393,7 +21435,7 @@ class TimeUnit:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -21407,7 +21449,7 @@ class TrapezoidIntegral(base.Integrator):
     """
     Integral of a 1-D function using the trapezoid formula.
     """
-    def __init__(self, accuracy: typing.SupportsFloat, maxIterations: typing.SupportsInt) -> None:
+    def __init__(self, accuracy: typing.SupportsFloat | typing.SupportsIndex, maxIterations: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs with target accuracy and maximum iterations.
         """
@@ -21416,12 +21458,12 @@ class TreeCallableFixedRateBondEngine(base.PricingEngine):
     Numerical lattice engine for callable fixed rate bonds.
     """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs tree engine with model and time steps.
         """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: YieldTermStructureHandle) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: YieldTermStructureHandle) -> None:
         """
         Constructs tree engine with model, time steps, and term structure.
         """
@@ -21431,7 +21473,7 @@ class TreeCallableFixedRateBondEngine(base.PricingEngine):
         Constructs tree engine with model and time grid.
         """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: base.YieldTermStructure) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: base.YieldTermStructure) -> None:
         """
         Constructs tree engine (handle created internally).
         """
@@ -21440,12 +21482,12 @@ class TreeCallableZeroCouponBondEngine(TreeCallableFixedRateBondEngine):
     Numerical lattice engine for callable zero coupon bonds.
     """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs tree engine with model and time steps.
         """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: base.YieldTermStructure) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: base.YieldTermStructure) -> None:
         """
         Constructs tree engine (handle created internally).
         """
@@ -21454,7 +21496,7 @@ class TreeCapFloorEngine(base.PricingEngine):
     Lattice cap/floor engine for short-rate models.
     """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: YieldTermStructureHandle = ...) -> None:
         """
         Constructs tree cap/floor engine with time steps.
         """
@@ -21464,7 +21506,7 @@ class TreeCapFloorEngine(base.PricingEngine):
         Constructs tree cap/floor engine with time grid.
         """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: base.YieldTermStructure) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: base.YieldTermStructure) -> None:
         """
         Constructs tree cap/floor engine (handle created internally).
         """
@@ -21473,7 +21515,7 @@ class TreeSwaptionEngine(base.PricingEngine):
     Numerical lattice engine for swaptions.
     """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: YieldTermStructureHandle = ...) -> None:
         """
         Constructs tree engine with model and time steps.
         """
@@ -21483,12 +21525,12 @@ class TreeSwaptionEngine(base.PricingEngine):
         Constructs tree engine with model and time grid.
         """
     @typing.overload
-    def __init__(self, model: ShortRateModelHandle, timeSteps: typing.SupportsInt, termStructure: YieldTermStructureHandle = ...) -> None:
+    def __init__(self, model: ShortRateModelHandle, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: YieldTermStructureHandle = ...) -> None:
         """
         Constructs tree engine with model handle and time steps.
         """
     @typing.overload
-    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt, termStructure: base.YieldTermStructure) -> None:
+    def __init__(self, model: base.ShortRateModel, timeSteps: typing.SupportsInt | typing.SupportsIndex, termStructure: base.YieldTermStructure) -> None:
         """
         Constructs tree engine with model, time steps, and term structure.
         """
@@ -21496,7 +21538,7 @@ class TripleBandLinearOp(FdmLinearOp):
     """
     Triple-band (tridiagonal) linear operator.
     """
-    def __init__(self, direction: typing.SupportsInt, mesher: FdmMesher) -> None:
+    def __init__(self, direction: typing.SupportsInt | typing.SupportsIndex, mesher: FdmMesher) -> None:
         """
         Constructs from direction and mesher.
         """
@@ -21526,7 +21568,7 @@ class TripleBandLinearOp(FdmLinearOp):
         """
         Right-multiplies by a diagonal matrix.
         """
-    def solve_splitting(self, r: Array, a: typing.SupportsFloat, b: typing.SupportsFloat = 1.0) -> Array:
+    def solve_splitting(self, r: Array, a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> Array:
         """
         Solves the splitting step.
         """
@@ -21566,7 +21608,7 @@ class TwoAssetCorrelationOption(base.MultiAssetOption):
     """
     Two-asset correlation option.
     """
-    def __init__(self, type: OptionType, strike1: typing.SupportsFloat, strike2: typing.SupportsFloat, exercise: Exercise) -> None:
+    def __init__(self, type: OptionType, strike1: typing.SupportsFloat | typing.SupportsIndex, strike2: typing.SupportsFloat | typing.SupportsIndex, exercise: Exercise) -> None:
         ...
 class UAHCurrency(Currency):
     """
@@ -21703,7 +21745,7 @@ class Ukraine(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -21725,7 +21767,7 @@ class Ukraine(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -21745,12 +21787,12 @@ class UltimateForwardTermStructure(base.YieldTermStructure):
     UFR extrapolation (Smith-Wilson) for regulatory term structures.
     """
     @typing.overload
-    def __init__(self, curveHandle: YieldTermStructureHandle, lastLiquidForwardRate: QuoteHandle, ultimateForwardRate: QuoteHandle, firstSmoothingPoint: Period, alpha: typing.SupportsFloat) -> None:
+    def __init__(self, curveHandle: YieldTermStructureHandle, lastLiquidForwardRate: QuoteHandle, ultimateForwardRate: QuoteHandle, firstSmoothingPoint: Period, alpha: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from handles.
         """
     @typing.overload
-    def __init__(self, curve: base.YieldTermStructure, lastLiquidForwardRate: base.Quote, ultimateForwardRate: base.Quote, firstSmoothingPoint: Period, alpha: typing.SupportsFloat) -> None:
+    def __init__(self, curve: base.YieldTermStructure, lastLiquidForwardRate: base.Quote, ultimateForwardRate: base.Quote, firstSmoothingPoint: Period, alpha: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from shared_ptrs (handles created internally).
         """
@@ -21758,7 +21800,7 @@ class Uniform1dMesher(Fdm1dMesher):
     """
     One-dimensional uniform grid mesher.
     """
-    def __init__(self, start: typing.SupportsFloat, end: typing.SupportsFloat, size: typing.SupportsInt) -> None:
+    def __init__(self, start: typing.SupportsFloat | typing.SupportsIndex, end: typing.SupportsFloat | typing.SupportsIndex, size: typing.SupportsInt | typing.SupportsIndex) -> None:
         """
         Constructs a uniform grid from start to end.
         """
@@ -21767,12 +21809,12 @@ class UniformRandomSequenceGenerator:
     Uniform random sequence generator (uses Mersenne Twister).
     """
     @typing.overload
-    def __init__(self, dimensionality: typing.SupportsInt, rng: MersenneTwisterUniformRng) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, rng: MersenneTwisterUniformRng) -> None:
         """
         Constructs from dimensionality and a uniform RNG.
         """
     @typing.overload
-    def __init__(self, dimensionality: typing.SupportsInt, seed: typing.SupportsInt = 0) -> None:
+    def __init__(self, dimensionality: typing.SupportsInt | typing.SupportsIndex, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs from dimensionality and seed.
         """
@@ -21901,7 +21943,7 @@ class UnitedKingdom(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -21923,7 +21965,7 @@ class UnitedKingdom(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -22103,7 +22145,7 @@ class UnitedStates(Calendar):
             ...
         def __index__(self) -> int:
             ...
-        def __init__(self, value: typing.SupportsInt) -> None:
+        def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __int__(self) -> int:
             ...
@@ -22125,7 +22167,7 @@ class UnitedStates(Calendar):
             ...
         def __rxor__(self, other: typing.Any) -> typing.Any:
             ...
-        def __setstate__(self, state: typing.SupportsInt) -> None:
+        def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
             ...
         def __str__(self) -> str:
             ...
@@ -22150,19 +22192,19 @@ class UpRounding(Rounding):
     """
     Up-rounding.
     """
-    def __init__(self, precision: typing.SupportsInt, digit: typing.SupportsInt = 5) -> None:
+    def __init__(self, precision: typing.SupportsInt | typing.SupportsIndex, digit: typing.SupportsInt | typing.SupportsIndex = 5) -> None:
         ...
 class UpfrontCdsHelper(base.DefaultProbabilityHelper):
     """
     Upfront-quoted CDS bootstrap helper.
     """
     @typing.overload
-    def __init__(self, upfront: typing.SupportsFloat, runningSpread: typing.SupportsFloat, tenor: Period, settlementDays: typing.SupportsInt, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, upfrontSettlementDays: typing.SupportsInt = 3, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
+    def __init__(self, upfront: typing.SupportsFloat | typing.SupportsIndex, runningSpread: typing.SupportsFloat | typing.SupportsIndex, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, upfrontSettlementDays: typing.SupportsInt | typing.SupportsIndex = 3, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
         """
         Constructs from upfront and running spread.
         """
     @typing.overload
-    def __init__(self, upfront: QuoteHandle, runningSpread: typing.SupportsFloat, tenor: Period, settlementDays: typing.SupportsInt, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat, discountCurve: YieldTermStructureHandle, upfrontSettlementDays: typing.SupportsInt = 3, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
+    def __init__(self, upfront: QuoteHandle, runningSpread: typing.SupportsFloat | typing.SupportsIndex, tenor: Period, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, frequency: Frequency, paymentConvention: BusinessDayConvention, rule: DateGeneration.Rule, dayCounter: DayCounter, recoveryRate: typing.SupportsFloat | typing.SupportsIndex, discountCurve: YieldTermStructureHandle, upfrontSettlementDays: typing.SupportsInt | typing.SupportsIndex = 3, settlesAccrual: bool = True, paysAtDefaultTime: bool = True, startDate: Date = ..., lastPeriodDayCounter: typing.Any = None, rebatesAccrual: bool = True, model: CdsPricingModel = ...) -> None:
         """
         Constructs from upfront quote and running spread.
         """
@@ -22252,7 +22294,7 @@ class VanillaSwap(FixedVsFloatingSwap):
     """
     Plain vanilla swap: fixed vs IBOR floating leg.
     """
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat, fixedDayCount: DayCounter, floatSchedule: Schedule, iborIndex: IborIndex, spread: typing.SupportsFloat, floatingDayCount: DayCounter, paymentConvention: pyquantlib._pyquantlib.BusinessDayConvention | None = None, useIndexedCoupons: bool | None = None) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat | typing.SupportsIndex, fixedDayCount: DayCounter, floatSchedule: Schedule, iborIndex: IborIndex, spread: typing.SupportsFloat | typing.SupportsIndex, floatingDayCount: DayCounter, paymentConvention: pyquantlib._pyquantlib.BusinessDayConvention | None = None, useIndexedCoupons: bool | None = None) -> None:
         """
         Constructs a vanilla swap.
         """
@@ -22260,7 +22302,7 @@ class VarianceGammaEngine(base.PricingEngine):
     """
     Analytic Variance Gamma option engine.
     """
-    def __init__(self, process: VarianceGammaProcess, absoluteError: typing.SupportsFloat = 1e-05) -> None:
+    def __init__(self, process: VarianceGammaProcess, absoluteError: typing.SupportsFloat | typing.SupportsIndex = 1e-05) -> None:
         ...
 class VarianceGammaModel(base.CalibratedModel):
     """
@@ -22289,10 +22331,10 @@ class VarianceGammaProcess(base.StochasticProcess1D):
     Variance Gamma stochastic process.
     """
     @typing.overload
-    def __init__(self, s0: QuoteHandle, dividendYield: YieldTermStructureHandle, riskFreeRate: YieldTermStructureHandle, sigma: typing.SupportsFloat, nu: typing.SupportsFloat, theta: typing.SupportsFloat) -> None:
+    def __init__(self, s0: QuoteHandle, dividendYield: YieldTermStructureHandle, riskFreeRate: YieldTermStructureHandle, sigma: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
     @typing.overload
-    def __init__(self, s0: base.Quote, dividendYield: base.YieldTermStructure, riskFreeRate: base.YieldTermStructure, sigma: typing.SupportsFloat, nu: typing.SupportsFloat, theta: typing.SupportsFloat) -> None:
+    def __init__(self, s0: base.Quote, dividendYield: base.YieldTermStructure, riskFreeRate: base.YieldTermStructure, sigma: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, theta: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Constructs from shared_ptr objects (handles created internally).
         """
@@ -22324,7 +22366,7 @@ class VarianceSwap(base.Instrument):
     """
     Variance swap instrument.
     """
-    def __init__(self, position: PositionType, strike: typing.SupportsFloat, notional: typing.SupportsFloat, startDate: Date, maturityDate: Date) -> None:
+    def __init__(self, position: PositionType, strike: typing.SupportsFloat | typing.SupportsIndex, notional: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, maturityDate: Date) -> None:
         """
         Constructs a variance swap.
         """
@@ -22356,7 +22398,7 @@ class Vasicek(base.OneFactorAffineModel):
     """
     Vasicek short-rate model: dr = a(b - r)dt + sigma*dW.
     """
-    def __init__(self, r0: typing.SupportsFloat = 0.05, a: typing.SupportsFloat = 0.1, b: typing.SupportsFloat = 0.05, sigma: typing.SupportsFloat = 0.01, lambda: typing.SupportsFloat = 0.0) -> None:
+    def __init__(self, r0: typing.SupportsFloat | typing.SupportsIndex = 0.05, a: typing.SupportsFloat | typing.SupportsIndex = 0.1, b: typing.SupportsFloat | typing.SupportsIndex = 0.05, sigma: typing.SupportsFloat | typing.SupportsIndex = 0.01, lambda: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> None:
         """
         Constructs Vasicek model with initial rate, mean reversion, long-term rate, volatility, and risk premium.
         """
@@ -22368,7 +22410,7 @@ class Vasicek(base.OneFactorAffineModel):
         """
         Returns long-term mean rate.
         """
-    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat, maturity: typing.SupportsFloat, bondMaturity: typing.SupportsFloat) -> float:
+    def discountBondOption(self, type: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, maturity: typing.SupportsFloat | typing.SupportsIndex, bondMaturity: typing.SupportsFloat | typing.SupportsIndex) -> float:
         """
         Returns discount bond option price.
         """
@@ -22406,7 +22448,7 @@ class VolatilityType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -22414,7 +22456,7 @@ class VolatilityType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -22487,7 +22529,7 @@ class Weekday:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -22509,7 +22551,7 @@ class Weekday:
         ...
     def __rxor__(self, other: typing.Any) -> typing.Any:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -22700,7 +22742,7 @@ class YearOnYearInflationSwap(Swap):
     """
     Year-on-year inflation swap.
     """
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat, fixedDayCount: DayCounter, yoySchedule: Schedule, yoyIndex: YoYInflationIndex, observationLag: Period, interpolation: CPI.InterpolationType, spread: typing.SupportsFloat, yoyDayCount: DayCounter, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ...) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, fixedSchedule: Schedule, fixedRate: typing.SupportsFloat | typing.SupportsIndex, fixedDayCount: DayCounter, yoySchedule: Schedule, yoyIndex: YoYInflationIndex, observationLag: Period, interpolation: CPI.InterpolationType, spread: typing.SupportsFloat | typing.SupportsIndex, yoyDayCount: DayCounter, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ...) -> None:
         """
         Constructs a year-on-year inflation swap.
         """
@@ -22791,7 +22833,7 @@ class YearOnYearInflationSwapHelper(base.RelativeDateYoYInflationHelper):
         Constructs from quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, swapObsLag: Period, maturity: Date, calendar: Calendar, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, yoyInflationIndex: YoYInflationIndex, interpolation: CPI.InterpolationType, nominalTermStructure: YieldTermStructureHandle) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, swapObsLag: Period, maturity: Date, calendar: Calendar, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, yoyInflationIndex: YoYInflationIndex, interpolation: CPI.InterpolationType, nominalTermStructure: YieldTermStructureHandle) -> None:
         """
         Constructs from fixed rate.
         """
@@ -22826,7 +22868,7 @@ class YieldCurveModel:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -22834,7 +22876,7 @@ class YieldCurveModel:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -22927,7 +22969,7 @@ class YoYInflationCap(YoYInflationCapFloor):
     """
     YoY inflation cap.
     """
-    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a YoY inflation cap.
         """
@@ -22936,12 +22978,12 @@ class YoYInflationCapFloor(base.Instrument):
     YoY inflation cap, floor, or collar.
     """
     @typing.overload
-    def __init__(self, type: YoYInflationCapFloorType, yoyLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat], floorRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, type: YoYInflationCapFloorType, yoyLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floorRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a YoY inflation cap/floor/collar.
         """
     @typing.overload
-    def __init__(self, type: YoYInflationCapFloorType, yoyLeg: collections.abc.Sequence[base.CashFlow], strikes: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, type: YoYInflationCapFloorType, yoyLeg: collections.abc.Sequence[base.CashFlow], strikes: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a YoY inflation cap or floor with uniform strikes.
         """
@@ -22957,7 +22999,7 @@ class YoYInflationCapFloor(base.Instrument):
         """
         Returns the floor rates.
         """
-    def impliedVolatility(self, price: typing.SupportsFloat, yoyCurve: YoYInflationTermStructureHandle, guess: typing.SupportsFloat, accuracy: typing.SupportsFloat = 0.0001, maxEvaluations: typing.SupportsInt = 100, minVol: typing.SupportsFloat = 1e-07, maxVol: typing.SupportsFloat = 4.0) -> float:
+    def impliedVolatility(self, price: typing.SupportsFloat | typing.SupportsIndex, yoyCurve: YoYInflationTermStructureHandle, guess: typing.SupportsFloat | typing.SupportsIndex, accuracy: typing.SupportsFloat | typing.SupportsIndex = 0.0001, maxEvaluations: typing.SupportsInt | typing.SupportsIndex = 100, minVol: typing.SupportsFloat | typing.SupportsIndex = 1e-07, maxVol: typing.SupportsFloat | typing.SupportsIndex = 4.0) -> float:
         """
         Returns the implied volatility.
         """
@@ -22973,7 +23015,7 @@ class YoYInflationCapFloor(base.Instrument):
         """
         Returns the maturity date.
         """
-    def optionlet(self, n: typing.SupportsInt) -> YoYInflationCapFloor:
+    def optionlet(self, n: typing.SupportsInt | typing.SupportsIndex) -> YoYInflationCapFloor:
         """
         Returns the n-th optionlet as a single-cashflow cap/floor.
         """
@@ -23013,7 +23055,7 @@ class YoYInflationCapFloorType:
         ...
     def __index__(self) -> int:
         ...
-    def __init__(self, value: typing.SupportsInt) -> None:
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __int__(self) -> int:
         ...
@@ -23021,7 +23063,7 @@ class YoYInflationCapFloorType:
         ...
     def __repr__(self) -> str:
         ...
-    def __setstate__(self, state: typing.SupportsInt) -> None:
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     def __str__(self) -> str:
         ...
@@ -23035,7 +23077,7 @@ class YoYInflationCollar(YoYInflationCapFloor):
     """
     YoY inflation collar.
     """
-    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat], floorRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], capRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], floorRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a YoY inflation collar.
         """
@@ -23043,7 +23085,7 @@ class YoYInflationCoupon(base.InflationCoupon):
     """
     Year-on-year inflation coupon.
     """
-    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt, index: ..., observationLag: Period, interpolation: ..., dayCounter: DayCounter, gearing: typing.SupportsFloat = 1.0, spread: typing.SupportsFloat = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ...) -> None:
+    def __init__(self, paymentDate: Date, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, endDate: Date, fixingDays: typing.SupportsInt | typing.SupportsIndex, index: ..., observationLag: Period, interpolation: ..., dayCounter: DayCounter, gearing: typing.SupportsFloat | typing.SupportsIndex = 1.0, spread: typing.SupportsFloat | typing.SupportsIndex = 0.0, refPeriodStart: Date = ..., refPeriodEnd: Date = ...) -> None:
         """
         Constructs a YoY inflation coupon.
         """
@@ -23107,7 +23149,7 @@ class YoYInflationCurve(base.YoYInflationTermStructure):
     """
     Year-on-year inflation curve with linear interpolation.
     """
-    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], rates: collections.abc.Sequence[typing.SupportsFloat], frequency: Frequency, dayCounter: DayCounter, seasonality: typing.Any = None) -> None:
+    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], rates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], frequency: Frequency, dayCounter: DayCounter, seasonality: typing.Any = None) -> None:
         """
         Constructs from dates and year-on-year rates.
         """
@@ -23135,7 +23177,7 @@ class YoYInflationFloor(YoYInflationCapFloor):
     """
     YoY inflation floor.
     """
-    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat]) -> None:
+    def __init__(self, yoyLeg: collections.abc.Sequence[base.CashFlow], exerciseRates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> None:
         """
         Constructs a YoY inflation floor.
         """
@@ -23349,7 +23391,7 @@ class ZeroCouponBond(Bond):
     """
     Zero coupon bond.
     """
-    def __init__(self, settlementDays: typing.SupportsInt, calendar: Calendar, faceAmount: typing.SupportsFloat, maturityDate: Date, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat = 100.0, issueDate: Date = ...) -> None:
+    def __init__(self, settlementDays: typing.SupportsInt | typing.SupportsIndex, calendar: Calendar, faceAmount: typing.SupportsFloat | typing.SupportsIndex, maturityDate: Date, paymentConvention: BusinessDayConvention = ..., redemption: typing.SupportsFloat | typing.SupportsIndex = 100.0, issueDate: Date = ...) -> None:
         """
         Constructs a zero coupon bond.
         """
@@ -23357,7 +23399,7 @@ class ZeroCouponInflationSwap(Swap):
     """
     Zero-coupon inflation swap.
     """
-    def __init__(self, type: SwapType, nominal: typing.SupportsFloat, startDate: Date, maturity: Date, fixCalendar: Calendar, fixConvention: BusinessDayConvention, dayCounter: DayCounter, fixedRate: typing.SupportsFloat, infIndex: ZeroInflationIndex, observationLag: Period, observationInterpolation: CPI.InterpolationType, adjustInfObsDates: bool = False, infCalendar: typing.Any = None, infConvention: typing.Any = None) -> None:
+    def __init__(self, type: SwapType, nominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, maturity: Date, fixCalendar: Calendar, fixConvention: BusinessDayConvention, dayCounter: DayCounter, fixedRate: typing.SupportsFloat | typing.SupportsIndex, infIndex: ZeroInflationIndex, observationLag: Period, observationInterpolation: CPI.InterpolationType, adjustInfObsDates: bool = False, infCalendar: typing.Any = None, infConvention: typing.Any = None) -> None:
         """
         Constructs a zero-coupon inflation swap.
         """
@@ -23444,7 +23486,7 @@ class ZeroCouponInflationSwapHelper(base.RelativeDateZeroInflationHelper):
         Constructs from quote (handle created internally).
         """
     @typing.overload
-    def __init__(self, rate: typing.SupportsFloat, swapObsLag: Period, maturity: Date, calendar: Calendar, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, zeroInflationIndex: ZeroInflationIndex, observationInterpolation: CPI.InterpolationType) -> None:
+    def __init__(self, rate: typing.SupportsFloat | typing.SupportsIndex, swapObsLag: Period, maturity: Date, calendar: Calendar, paymentConvention: BusinessDayConvention, dayCounter: DayCounter, zeroInflationIndex: ZeroInflationIndex, observationInterpolation: CPI.InterpolationType) -> None:
         """
         Constructs from fixed rate.
         """
@@ -23457,12 +23499,12 @@ class ZeroCouponSwap(Swap):
     Zero-coupon interest rate swap.
     """
     @typing.overload
-    def __init__(self, type: SwapType, baseNominal: typing.SupportsFloat, startDate: Date, maturityDate: Date, fixedPayment: typing.SupportsFloat, iborIndex: IborIndex, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt = 0) -> None:
+    def __init__(self, type: SwapType, baseNominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, maturityDate: Date, fixedPayment: typing.SupportsFloat | typing.SupportsIndex, iborIndex: IborIndex, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs from fixed payment amount.
         """
     @typing.overload
-    def __init__(self, type: SwapType, baseNominal: typing.SupportsFloat, startDate: Date, maturityDate: Date, fixedRate: typing.SupportsFloat, fixedDayCounter: DayCounter, iborIndex: IborIndex, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt = 0) -> None:
+    def __init__(self, type: SwapType, baseNominal: typing.SupportsFloat | typing.SupportsIndex, startDate: Date, maturityDate: Date, fixedRate: typing.SupportsFloat | typing.SupportsIndex, fixedDayCounter: DayCounter, iborIndex: IborIndex, paymentCalendar: Calendar, paymentConvention: BusinessDayConvention = ..., paymentDelay: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
         """
         Constructs from fixed rate.
         """
@@ -23519,12 +23561,12 @@ class ZeroCurve(base.YieldTermStructure):
     Yield curve based on zero rates with linear interpolation.
     """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from dates, yields, and day counter.
         """
     @typing.overload
-    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat], dayCounter: DayCounter, calendar: Calendar, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
+    def __init__(self, dates: collections.abc.Sequence[Date], yields: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], dayCounter: DayCounter, calendar: Calendar, compounding: Compounding = ..., frequency: Frequency = ...) -> None:
         """
         Constructs from dates, yields, day counter, and calendar.
         """
@@ -23552,7 +23594,7 @@ class ZeroInflationCashFlow(base.CashFlow):
     """
     Cash flow dependent on a zero-inflation index ratio.
     """
-    def __init__(self, notional: typing.SupportsFloat, index: ..., observationInterpolation: ..., startDate: Date, endDate: Date, observationLag: Period, paymentDate: Date, growthOnly: bool = False) -> None:
+    def __init__(self, notional: typing.SupportsFloat | typing.SupportsIndex, index: ..., observationInterpolation: ..., startDate: Date, endDate: Date, observationLag: Period, paymentDate: Date, growthOnly: bool = False) -> None:
         """
         Constructs a zero-inflation cash flow.
         """
@@ -23592,7 +23634,7 @@ class ZeroInflationCurve(base.ZeroInflationTermStructure):
     """
     Zero-inflation curve with linear interpolation.
     """
-    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], rates: collections.abc.Sequence[typing.SupportsFloat], frequency: Frequency, dayCounter: DayCounter, seasonality: typing.Any = None) -> None:
+    def __init__(self, referenceDate: Date, dates: collections.abc.Sequence[Date], rates: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex], frequency: Frequency, dayCounter: DayCounter, seasonality: typing.Any = None) -> None:
         """
         Constructs from dates and zero rates.
         """
@@ -23715,51 +23757,51 @@ class yoyInflationLeg:
         Builds and returns the leg of cash flows.
         """
     @typing.overload
-    def withCaps(self, cap: typing.SupportsFloat) -> yoyInflationLeg:
+    def withCaps(self, cap: typing.SupportsFloat | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat]) -> yoyInflationLeg:
+    def withCaps(self, caps: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: typing.SupportsInt) -> yoyInflationLeg:
+    def withFixingDays(self, fixingDays: typing.SupportsInt | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt]) -> yoyInflationLeg:
+    def withFixingDays(self, fixingDays: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withFloors(self, floor: typing.SupportsFloat) -> yoyInflationLeg:
+    def withFloors(self, floor: typing.SupportsFloat | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat]) -> yoyInflationLeg:
+    def withFloors(self, floors: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withGearings(self, gearing: typing.SupportsFloat) -> yoyInflationLeg:
+    def withGearings(self, gearing: typing.SupportsFloat | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat]) -> yoyInflationLeg:
+    def withGearings(self, gearings: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominal: typing.SupportsFloat) -> yoyInflationLeg:
+    def withNotionals(self, nominal: typing.SupportsFloat | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat]) -> yoyInflationLeg:
+    def withNotionals(self, nominals: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
     def withPaymentAdjustment(self, convention: BusinessDayConvention) -> yoyInflationLeg:
         ...
     def withPaymentDayCounter(self, dayCounter: DayCounter) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withSpreads(self, spread: typing.SupportsFloat) -> yoyInflationLeg:
+    def withSpreads(self, spread: typing.SupportsFloat | typing.SupportsIndex) -> yoyInflationLeg:
         ...
     @typing.overload
-    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat]) -> yoyInflationLeg:
+    def withSpreads(self, spreads: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> yoyInflationLeg:
         ...
 def Abs(array: Array) -> Array:
     """
     Returns element-wise absolute values.
     """
 @typing.overload
-def BinomialConvertibleEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt, creditSpread: base.Quote, dividends: collections.abc.Sequence[base.Dividend] = []) -> base.PricingEngine:
+def BinomialConvertibleEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt | typing.SupportsIndex, creditSpread: base.Quote, dividends: collections.abc.Sequence[base.Dividend] = []) -> base.PricingEngine:
     """
     Binomial Tsiveriotis-Fernandes engine for convertible bonds.
     
@@ -23778,11 +23820,11 @@ def BinomialConvertibleEngine(process: GeneralizedBlackScholesProcess, treeType:
       dividends: Dividend schedule (optional)
     """
 @typing.overload
-def BinomialConvertibleEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt, creditSpread: QuoteHandle, dividends: collections.abc.Sequence[base.Dividend] = []) -> base.PricingEngine:
+def BinomialConvertibleEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt | typing.SupportsIndex, creditSpread: QuoteHandle, dividends: collections.abc.Sequence[base.Dividend] = []) -> base.PricingEngine:
     """
     Binomial Tsiveriotis-Fernandes engine for convertible bonds (Handle version).
     """
-def BinomialVanillaEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt) -> base.PricingEngine:
+def BinomialVanillaEngine(process: GeneralizedBlackScholesProcess, treeType: str, timeSteps: typing.SupportsInt | typing.SupportsIndex) -> base.PricingEngine:
     """
     Binomial tree pricing engine for vanilla options.
     
@@ -23798,7 +23840,7 @@ def BinomialVanillaEngine(process: GeneralizedBlackScholesProcess, treeType: str
         'joshi' or 'joshi4': Joshi
       timeSteps: Number of time steps (minimum 2)
     """
-def DividendVector(dividendDates: collections.abc.Sequence[Date], dividends: collections.abc.Sequence[typing.SupportsFloat]) -> list[base.Dividend]:
+def DividendVector(dividendDates: collections.abc.Sequence[Date], dividends: collections.abc.Sequence[typing.SupportsFloat | typing.SupportsIndex]) -> list[base.Dividend]:
     """
     Builds a sequence of fixed dividends from dates and amounts.
     """
@@ -23814,7 +23856,7 @@ def Log(array: Array) -> Array:
     """
     Returns element-wise natural logarithms.
     """
-def MCAmericanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, controlVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0, polynomialOrder: typing.SupportsInt = 2, polynomialType: PolynomialType = ..., calibrationSamples: typing.SupportsInt = 2048) -> base.PricingEngine:
+def MCAmericanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, controlVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0, polynomialOrder: typing.SupportsInt | typing.SupportsIndex = 2, polynomialType: PolynomialType = ..., calibrationSamples: typing.SupportsInt | typing.SupportsIndex = 2048) -> base.PricingEngine:
     """
     Monte Carlo American option pricing engine (Longstaff-Schwartz).
     
@@ -23833,26 +23875,26 @@ def MCAmericanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'ps
       polynomialType: Polynomial basis type (Monomial, Laguerre, etc.)
       calibrationSamples: Samples for regression calibration
     """
-def MCBarrierEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, isBiased: bool = False, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCBarrierEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, isBiased: bool = False, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo barrier option pricing engine.
     
     Uses Brownian-bridge correction for the barrier by default.
     Set isBiased=True for the simpler (biased) path pricer.
     """
-def MCDigitalEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCDigitalEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo digital option pricing engine.
     """
-def MCDiscreteArithmeticAPEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', brownianBridge: bool = True, antitheticVariate: bool = False, controlVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCDiscreteArithmeticAPEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', brownianBridge: bool = True, antitheticVariate: bool = False, controlVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo discrete arithmetic average price Asian engine.
     """
-def MCDoubleBarrierEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCDoubleBarrierEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo double barrier option pricing engine.
     """
-def MCEuropeanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCEuropeanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo European option pricing engine.
     
@@ -23868,11 +23910,11 @@ def MCEuropeanEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'ps
       maxSamples: Maximum samples
       seed: Random seed (0 for random)
     """
-def MCEuropeanGJRGARCHEngine(process: GJRGARCHProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCEuropeanGJRGARCHEngine(process: GJRGARCHProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo GJR-GARCH European option pricing engine.
     """
-def MCEuropeanHestonEngine(process: HestonProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCEuropeanHestonEngine(process: HestonProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo European Heston option pricing engine.
     
@@ -23887,15 +23929,15 @@ def MCEuropeanHestonEngine(process: HestonProcess, rngType: str = 'pseudorandom'
       maxSamples: Maximum samples
       seed: Random seed (0 for random)
     """
-def MCForwardEuropeanBSEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0) -> base.PricingEngine:
+def MCForwardEuropeanBSEngine(process: GeneralizedBlackScholesProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, brownianBridge: bool = False, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0) -> base.PricingEngine:
     """
     Monte Carlo forward-start European BS option engine.
     """
-def MCForwardEuropeanHestonEngine(process: HestonProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt = 0, controlVariate: bool = False) -> base.PricingEngine:
+def MCForwardEuropeanHestonEngine(process: HestonProcess, rngType: str = 'pseudorandom', timeSteps: typing.Any = None, timeStepsPerYear: typing.Any = None, antitheticVariate: bool = False, requiredSamples: typing.Any = None, requiredTolerance: typing.Any = None, maxSamples: typing.Any = None, seed: typing.SupportsInt | typing.SupportsIndex = 0, controlVariate: bool = False) -> base.PricingEngine:
     """
     Monte Carlo forward-start European Heston option engine.
     """
-def Pow(array: Array, exponent: typing.SupportsFloat) -> Array:
+def Pow(array: Array, exponent: typing.SupportsFloat | typing.SupportsIndex) -> Array:
     """
     Returns element-wise power.
     """
@@ -23903,47 +23945,47 @@ def Sqrt(array: Array) -> Array:
     """
     Returns element-wise square roots.
     """
-def bachelierBlackFormula(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> float:
+def bachelierBlackFormula(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> float:
     """
     Bachelier (normal) formula. stdDev = absoluteVol * sqrt(T).
     """
-def bachelierBlackFormulaImpliedVol(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, tte: typing.SupportsFloat, bachelierPrice: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> float:
+def bachelierBlackFormulaImpliedVol(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, tte: typing.SupportsFloat | typing.SupportsIndex, bachelierPrice: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> float:
     """
     Bachelier implied volatility (exact, Jaeckel 2017).
     """
-def bachelierBlackFormulaStdDevDerivative(strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0) -> float:
+def bachelierBlackFormulaStdDevDerivative(strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> float:
     """
     Bachelier formula derivative w.r.t. stdDev.
     """
-def blackFormula(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormula(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Black 1976 formula. stdDev = volatility * sqrt(T).
     """
-def blackFormulaAssetItmProbability(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaAssetItmProbability(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Asset measure probability N(d1).
     """
-def blackFormulaCashItmProbability(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaCashItmProbability(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Probability of finishing in the money N(d2).
     """
-def blackFormulaForwardDerivative(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaForwardDerivative(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Black formula derivative w.r.t. forward.
     """
-def blackFormulaImpliedStdDev(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, blackPrice: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0, guess: typing.SupportsFloat = ..., accuracy: typing.SupportsFloat = 1e-06, maxIterations: typing.SupportsInt = 100) -> float:
+def blackFormulaImpliedStdDev(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, blackPrice: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0, guess: typing.SupportsFloat | typing.SupportsIndex = ..., accuracy: typing.SupportsFloat | typing.SupportsIndex = 1e-06, maxIterations: typing.SupportsInt | typing.SupportsIndex = 100) -> float:
     """
     Black 1976 implied standard deviation (volatility * sqrt(T)).
     """
-def blackFormulaImpliedStdDevApproximation(optionType: OptionType, strike: typing.SupportsFloat, forward: typing.SupportsFloat, blackPrice: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaImpliedStdDevApproximation(optionType: OptionType, strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, blackPrice: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Approximated Black implied stdDev (Corrado-Miller).
     """
-def blackFormulaStdDevDerivative(strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaStdDevDerivative(strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Black formula derivative w.r.t. stdDev. Vega = this * sqrt(T).
     """
-def blackFormulaVolDerivative(strike: typing.SupportsFloat, forward: typing.SupportsFloat, stdDev: typing.SupportsFloat, expiry: typing.SupportsFloat, discount: typing.SupportsFloat = 1.0, displacement: typing.SupportsFloat = 0.0) -> float:
+def blackFormulaVolDerivative(strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, stdDev: typing.SupportsFloat | typing.SupportsIndex, expiry: typing.SupportsFloat | typing.SupportsIndex, discount: typing.SupportsFloat | typing.SupportsIndex = 1.0, displacement: typing.SupportsFloat | typing.SupportsIndex = 0.0) -> float:
     """
     Black formula derivative w.r.t. implied vol (vega).
     """
@@ -23951,7 +23993,7 @@ def cdsMaturity(tradeDate: Date, tenor: Period, rule: DateGeneration.Rule) -> Da
     """
     CDS maturity date from trade date and tenor.
     """
-def checkSviParameters(a: typing.SupportsFloat, b: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, m: typing.SupportsFloat, tte: typing.SupportsFloat) -> None:
+def checkSviParameters(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, m: typing.SupportsFloat | typing.SupportsIndex, tte: typing.SupportsFloat | typing.SupportsIndex) -> None:
     """
     Validates SVI parameters for no-arbitrage conditions.
     
@@ -23962,11 +24004,11 @@ def checkSviParameters(a: typing.SupportsFloat, b: typing.SupportsFloat, sigma: 
       - a + b * sigma * sqrt(1 - rho^2) >= 0
       - b * (1 + |rho|) <= 4
     """
-def close(m1: Money, m2: Money, n: typing.SupportsInt = 42) -> bool:
+def close(m1: Money, m2: Money, n: typing.SupportsInt | typing.SupportsIndex = 42) -> bool:
     """
     Returns true if the two amounts are close.
     """
-def close_enough(m1: Money, m2: Money, n: typing.SupportsInt = 42) -> bool:
+def close_enough(m1: Money, m2: Money, n: typing.SupportsInt | typing.SupportsIndex = 42) -> bool:
     """
     Returns true if the two amounts are close enough.
     """
@@ -23990,7 +24032,7 @@ def outerProduct(a1: Array, a2: Array) -> Matrix:
     """
     Returns the outer product of two arrays.
     """
-def sabrVolatility(strike: typing.SupportsFloat, forward: typing.SupportsFloat, expiryTime: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, volatilityType: VolatilityType = ...) -> float:
+def sabrVolatility(strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, expiryTime: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, volatilityType: VolatilityType = ...) -> float:
     """
     Computes SABR implied volatility (with parameter validation).
     """
@@ -24004,11 +24046,11 @@ def setCouponPricer(leg: collections.abc.Sequence[base.CashFlow], pricer: base.I
     """
     Sets the coupon pricer for all inflation coupons in the leg.
     """
-def shiftedSabrVolatility(strike: typing.SupportsFloat, forward: typing.SupportsFloat, expiryTime: typing.SupportsFloat, alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat, shift: typing.SupportsFloat, volatilityType: VolatilityType = ...) -> float:
+def shiftedSabrVolatility(strike: typing.SupportsFloat | typing.SupportsIndex, forward: typing.SupportsFloat | typing.SupportsIndex, expiryTime: typing.SupportsFloat | typing.SupportsIndex, alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, shift: typing.SupportsFloat | typing.SupportsIndex, volatilityType: VolatilityType = ...) -> float:
     """
     Computes shifted SABR implied volatility.
     """
-def sinkingNotionals(bondLength: Period, frequency: Frequency, couponRate: typing.SupportsFloat, initialNotional: typing.SupportsFloat) -> list[float]:
+def sinkingNotionals(bondLength: Period, frequency: Frequency, couponRate: typing.SupportsFloat | typing.SupportsIndex, initialNotional: typing.SupportsFloat | typing.SupportsIndex) -> list[float]:
     """
     Returns notionals for French amortization.
     """
@@ -24016,7 +24058,7 @@ def sinkingSchedule(startDate: Date, bondLength: Period, frequency: Frequency, p
     """
     Returns a schedule for French amortization.
     """
-def sviTotalVariance(a: typing.SupportsFloat, b: typing.SupportsFloat, sigma: typing.SupportsFloat, rho: typing.SupportsFloat, m: typing.SupportsFloat, k: typing.SupportsFloat) -> float:
+def sviTotalVariance(a: typing.SupportsFloat | typing.SupportsIndex, b: typing.SupportsFloat | typing.SupportsIndex, sigma: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex, m: typing.SupportsFloat | typing.SupportsIndex, k: typing.SupportsFloat | typing.SupportsIndex) -> float:
     """
     Computes SVI total variance: a + b * (rho * (k - m) + sqrt((k - m)^2 + sigma^2)).
     
@@ -24032,7 +24074,7 @@ def transpose(matrix: Matrix) -> Matrix:
     """
     Returns the transpose of a matrix.
     """
-def validateSabrParameters(alpha: typing.SupportsFloat, beta: typing.SupportsFloat, nu: typing.SupportsFloat, rho: typing.SupportsFloat) -> None:
+def validateSabrParameters(alpha: typing.SupportsFloat | typing.SupportsIndex, beta: typing.SupportsFloat | typing.SupportsIndex, nu: typing.SupportsFloat | typing.SupportsIndex, rho: typing.SupportsFloat | typing.SupportsIndex) -> None:
     """
     Validates SABR parameters (raises on invalid).
     """
@@ -24040,7 +24082,7 @@ def weeks(period: Period) -> float:
     """
     Convert a Period to weeks.
     """
-def yearFractionToDate(dayCounter: DayCounter, referenceDate: Date, t: typing.SupportsFloat) -> Date:
+def yearFractionToDate(dayCounter: DayCounter, referenceDate: Date, t: typing.SupportsFloat | typing.SupportsIndex) -> Date:
     ...
 def years(period: Period) -> float:
     """

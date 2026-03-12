@@ -13,6 +13,7 @@
 
 #include "pyquantlib/pyquantlib.h"
 #include <ql/cashflows/overnightindexedcouponpricer.hpp>
+#include <ql/cashflows/blackovernightindexedcouponpricer.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -45,4 +46,28 @@ void ql_cashflows::overnightindexedcouponpricer(py::module_& m) {
         .def("swapletRate",
             &ArithmeticAveragedOvernightIndexedCouponPricer::swapletRate,
             "Returns the averaged swaplet rate.");
+
+    py::class_<BlackCompoundingOvernightIndexedCouponPricer,
+               CompoundingOvernightIndexedCouponPricer,
+               ext::shared_ptr<BlackCompoundingOvernightIndexedCouponPricer>>(
+        m, "BlackCompoundingOvernightIndexedCouponPricer",
+        "Black pricer for capped/floored compounded overnight coupons.")
+        .def(py::init<>(),
+            "Constructs without optionlet volatility.")
+        .def(py::init<Handle<OptionletVolatilityStructure>, bool>(),
+            py::arg("v"),
+            py::arg("effectiveVolatilityInput") = false,
+            "Constructs with optionlet volatility and effective vol flag.");
+
+    py::class_<BlackAveragingOvernightIndexedCouponPricer,
+               ArithmeticAveragedOvernightIndexedCouponPricer,
+               ext::shared_ptr<BlackAveragingOvernightIndexedCouponPricer>>(
+        m, "BlackAveragingOvernightIndexedCouponPricer",
+        "Black pricer for capped/floored averaged overnight coupons.")
+        .def(py::init<>(),
+            "Constructs without optionlet volatility.")
+        .def(py::init<Handle<OptionletVolatilityStructure>, bool>(),
+            py::arg("v"),
+            py::arg("effectiveVolatilityInput") = false,
+            "Constructs with optionlet volatility and effective vol flag.");
 }

@@ -436,6 +436,27 @@ engine = ql.QdFpAmericanEngine(process)
 .. autoclass:: pyquantlib.AnalyticDividendEuropeanEngine
 ```
 
+### CashDividendEuropeanEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CashDividendEuropeanEngine
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CashDividendModel
+   :members:
+   :undoc-members:
+```
+
+Semi-analytic European engine with cash dividends (Healy, 2021).
+Supports Spot and Escrowed dividend models.
+
+```python
+dividends = [ql.FixedDividend(2.0, ex_date)]
+engine = ql.CashDividendEuropeanEngine(
+    process, dividends, ql.CashDividendModel.Spot)
+```
+
 ### AnalyticBSMHullWhiteEngine
 
 ```{eval-rst}

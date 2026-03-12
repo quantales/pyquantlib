@@ -2195,6 +2195,71 @@ def test_arithmeticaveragedovernightpricer_with_coupon():
     ql.Settings.instance().evaluationDate = original_date
 
 
+def test_black_compounding_overnight_pricer_construction():
+    """Test BlackCompoundingOvernightIndexedCouponPricer construction."""
+    pricer = ql.BlackCompoundingOvernightIndexedCouponPricer()
+    assert pricer is not None
+
+
+def test_black_averaging_overnight_pricer_construction():
+    """Test BlackAveragingOvernightIndexedCouponPricer construction."""
+    pricer = ql.BlackAveragingOvernightIndexedCouponPricer()
+    assert pricer is not None
+
+
+def test_black_compounding_overnight_pricer_with_vol():
+    """Test BlackCompoundingOvernightIndexedCouponPricer with vol surface."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.May, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    rate_curve = ql.FlatForward(today, 0.035, ql.Actual365Fixed())
+    handle = ql.YieldTermStructureHandle(rate_curve)
+    vol = ql.ConstantOptionletVolatility(
+        0, calendar, ql.Following, 0.20, ql.Actual365Fixed())
+    vol_handle = ql.OptionletVolatilityStructureHandle(vol)
+
+    index = ql.OvernightIndex(
+        "TESTBLKCP", 0, ql.EURCurrency(), calendar,
+        ql.Actual360(), handle)
+    start = calendar.advance(today, ql.Period("2Y"))
+    end = calendar.advance(start, ql.Period("3M"))
+    coupon = ql.OvernightIndexedCoupon(
+        end, 10_000_000.0, start, end, index)
+    pricer = ql.BlackCompoundingOvernightIndexedCouponPricer(vol_handle)
+    coupon.setPricer(pricer)
+    rate = coupon.rate()
+    assert rate == pytest.approx(0.034673, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_black_averaging_overnight_pricer_with_vol():
+    """Test BlackAveragingOvernightIndexedCouponPricer with vol surface."""
+    original_date = ql.Settings.instance().evaluationDate
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.instance().evaluationDate = today
+    calendar = ql.TARGET()
+    rate_curve = ql.FlatForward(today, 0.035, ql.Actual365Fixed())
+    handle = ql.YieldTermStructureHandle(rate_curve)
+    vol = ql.ConstantOptionletVolatility(
+        0, calendar, ql.Following, 0.20, ql.Actual365Fixed())
+    vol_handle = ql.OptionletVolatilityStructureHandle(vol)
+
+    index = ql.OvernightIndex(
+        "TESTBLKAV", 0, ql.EURCurrency(), calendar,
+        ql.Actual360(), handle)
+    start = calendar.advance(today, ql.Period("2Y"))
+    end = calendar.advance(start, ql.Period("3M"))
+    coupon = ql.OvernightIndexedCoupon(
+        end, 10_000_000.0, start, end, index,
+        averagingMethod=ql.RateAveraging.Type.Simple)
+    pricer = ql.BlackAveragingOvernightIndexedCouponPricer(vol_handle)
+    coupon.setPricer(pricer)
+    rate = coupon.rate()
+    assert rate == pytest.approx(0.034524, rel=1e-4)
+    ql.Settings.instance().evaluationDate = original_date
+
+
 # =============================================================================
 # AverageBMACoupon
 # =============================================================================

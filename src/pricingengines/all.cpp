@@ -56,6 +56,10 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::mcdigitalengine,
         "MCDigitalEngine - Monte Carlo digital option pricing");
 
+    // Cash dividend engine (registers CashDividendModel enum used by FD engines)
+    ADD_MAIN_BINDING(ql_pricingengines::cashdividendeuropeanengine,
+        "CashDividendEuropeanEngine - semi-analytic European with cash dividends");
+
     // FD vanilla engines
     ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesvanillaengine,
         "FdBlackScholesVanillaEngine - 1D finite-difference vanilla option pricing");

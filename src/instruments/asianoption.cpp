@@ -32,7 +32,15 @@ void ql_instruments::asianoption(py::module_& m) {
             py::arg("averageType"),
             py::arg("payoff"),
             py::arg("exercise"),
-            "Constructs ContinuousAveragingAsianOption.");
+            "Constructs an unseasoned ContinuousAveragingAsianOption.")
+        .def(py::init<Average::Type, Date,
+                       const ext::shared_ptr<StrikedTypePayoff>&,
+                       const ext::shared_ptr<Exercise>&>(),
+            py::arg("averageType"),
+            py::arg("startDate"),
+            py::arg("payoff"),
+            py::arg("exercise"),
+            "Constructs a seasoned ContinuousAveragingAsianOption with start date.");
 
     py::class_<DiscreteAveragingAsianOption, OneAssetOption,
                ext::shared_ptr<DiscreteAveragingAsianOption>>(
