@@ -141,4 +141,11 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "HolderExtensibleOption - holder-extensible option");
     ADD_MAIN_BINDING(ql_instruments::writerextensibleoption,
         "WriterExtensibleOption - writer-extensible option");
+
+    ADD_MAIN_BINDING(ql_instruments::partialtimebarrieroption,
+        "PartialTimeBarrierOption - partial-time barrier option");
+    ADD_MAIN_BINDING(ql_instruments::softbarrieroption,
+        "SoftBarrierOption - soft barrier option");
+    ADD_MAIN_BINDING(ql_instruments::twoassetbarrieroption,
+        "TwoAssetBarrierOption - two-asset barrier option");
 }

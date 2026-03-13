@@ -119,6 +119,14 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "Fd2dBlackScholesVanillaEngine - 2D FD basket option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::mceuropeanbasketengine,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::choibasketengine,
+        "ChoiBasketEngine - Choi N-dim basket option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::singlefactorbsmbasketengine,
+        "SingleFactorBsmBasketEngine - single-factor BSM basket option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::mcamericanbasketengine,
+        "MCAmericanBasketEngine - MC American basket option pricing (Longstaff-Schwartz)");
+    ADD_MAIN_BINDING(ql_pricingengines::fdndimblackscholesvanillaengine,
+        "FdndimBlackScholesVanillaEngine - N-dim FD Black-Scholes basket pricing");
 
     ADD_MAIN_BINDING(ql_pricingengines::analyticbarrierengine,
         "AnalyticBarrierEngine - Analytic barrier option engine");
@@ -134,6 +142,22 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "MCBarrierEngine - MC barrier option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::mcdoublebarrierengine,
         "MCDoubleBarrierEngine - MC double barrier option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticbinarybarrierengine,
+        "AnalyticBinaryBarrierEngine - analytic binary barrier option");
+    ADD_MAIN_BINDING(ql_pricingengines::binomialbarrierengine,
+        "BinomialBarrierEngine - binomial tree barrier option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdhestonbarrierengine,
+        "FdHestonBarrierEngine - FD Heston barrier option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdhestondoublebarrierengine,
+        "FdHestonDoubleBarrierEngine - FD Heston double barrier option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdhestonrebateengine,
+        "FdHestonRebateEngine - FD Heston rebate engine");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticpartialtimebarrieroptionengine,
+        "AnalyticPartialTimeBarrierOptionEngine - partial-time barrier option");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticsoftbarrierengine,
+        "AnalyticSoftBarrierEngine - soft barrier option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analytictwoassetbarrierengine,
+        "AnalyticTwoAssetBarrierEngine - two-asset barrier option pricing");
 
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousgeometricasianengine,
         "AnalyticContinuousGeometricAveragePriceAsianEngine - Continuous geometric Asian");
@@ -143,6 +167,22 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "MCDiscreteArithmeticAPEngine - MC discrete arithmetic Asian");
     ADD_MAIN_BINDING(ql_pricingengines::turnbullwakemanasianengine,
         "TurnbullWakemanAsianEngine - Turnbull-Wakeman Asian approximation");
+    ADD_MAIN_BINDING(ql_pricingengines::choiasianengine,
+        "ChoiAsianEngine - Choi discrete arithmetic Asian option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::analyticdiscretegeometricaveragestrikeengine,
+        "AnalyticDiscreteGeometricAverageStrikeAsianEngine - discrete geometric strike Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::continuousarithmeticasianlevyengine,
+        "ContinuousArithmeticAsianLevyEngine - Levy continuous arithmetic Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesasianengine,
+        "FdBlackScholesAsianEngine - FD discrete Asian option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdiscretearithmeticaphestonengine,
+        "MCDiscreteArithmeticAPHestonEngine - MC discrete arithmetic Asian (Heston)");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdiscretegeometricaphestonengine,
+        "MCDiscreteGeometricAPHestonEngine - MC discrete geometric Asian (Heston)");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdiscretearithmeticasengine,
+        "MCDiscreteArithmeticASEngine - MC discrete arithmetic average strike Asian");
+    ADD_MAIN_BINDING(ql_pricingengines::mcdiscretegeometricapengine,
+        "MCDiscreteGeometricAPEngine - MC discrete geometric average price Asian");
 
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousfloatinglookbackengine,
         "AnalyticContinuousFloatingLookbackEngine - floating-strike lookback");

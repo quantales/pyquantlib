@@ -438,6 +438,9 @@ namespace ql_instruments {
     void quantoforwardvanillaoption(py::module_&);
     void holderextensibleoption(py::module_&);
     void writerextensibleoption(py::module_&);
+    void partialtimebarrieroption(py::module_&);
+    void softbarrieroption(py::module_&);
+    void twoassetbarrieroption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -542,6 +545,29 @@ namespace ql_pricingengines {
     void mcforwardeuropeanbsengine(py::module_&);
     void mcforwardeuropeanhestonengine(py::module_&);
     void mceuropeanhestonengine(py::module_&);
+    // Asian engines
+    void choiasianengine(py::module_&);
+    void analyticdiscretegeometricaveragestrikeengine(py::module_&);
+    void continuousarithmeticasianlevyengine(py::module_&);
+    void fdblackscholesasianengine(py::module_&);
+    void mcdiscretearithmeticaphestonengine(py::module_&);
+    void mcdiscretegeometricaphestonengine(py::module_&);
+    void mcdiscretearithmeticasengine(py::module_&);
+    void mcdiscretegeometricapengine(py::module_&);
+    // Barrier engines
+    void analyticbinarybarrierengine(py::module_&);
+    void binomialbarrierengine(py::module_&);
+    void fdhestonbarrierengine(py::module_&);
+    void fdhestondoublebarrierengine(py::module_&);
+    void fdhestonrebateengine(py::module_&);
+    void analyticpartialtimebarrieroptionengine(py::module_&);
+    void analyticsoftbarrierengine(py::module_&);
+    void analytictwoassetbarrierengine(py::module_&);
+    // Basket engines
+    void choibasketengine(py::module_&);
+    void singlefactorbsmbasketengine(py::module_&);
+    void mcamericanbasketengine(py::module_&);
+    void fdndimblackscholesvanillaengine(py::module_&);
 }
 
 namespace ql_methods {

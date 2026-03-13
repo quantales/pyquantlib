@@ -172,3 +172,255 @@ def test_geometric_less_than_arithmetic(asian_engine_env):
     arith.setPricingEngine(ql.TurnbullWakemanAsianEngine(process))
 
     assert geom.NPV() < arith.NPV()
+
+
+# =============================================================================
+# ChoiAsianEngine
+# =============================================================================
+
+
+def test_choiasianengine_pricing(asian_engine_env):
+    """Test Choi (2018) discrete arithmetic Asian engine."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0,
+        asian_engine_env["fixing_dates"],
+        asian_engine_env["payoff"],
+        asian_engine_env["exercise"],
+    )
+    opt.setPricingEngine(ql.ChoiAsianEngine(asian_engine_env["process"]))
+    assert opt.NPV() == pytest.approx(5.500887412039026, rel=1e-6)
+
+
+def test_choiasianengine_vs_turnbullwakeman(asian_engine_env):
+    """Test Choi and Turnbull-Wakeman give similar results."""
+    fixing_dates = asian_engine_env["fixing_dates"]
+    payoff = asian_engine_env["payoff"]
+    exercise = asian_engine_env["exercise"]
+    process = asian_engine_env["process"]
+
+    choi = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    choi.setPricingEngine(ql.ChoiAsianEngine(process))
+
+    tw = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    tw.setPricingEngine(ql.TurnbullWakemanAsianEngine(process))
+
+    assert choi.NPV() == pytest.approx(tw.NPV(), rel=5e-3)
+
+
+# =============================================================================
+# AnalyticDiscreteGeometricAverageStrikeAsianEngine
+# =============================================================================
+
+
+def test_analytic_discr_geom_avg_strike_engine(asian_engine_env):
+    """Test analytic discrete geometric average strike Asian engine."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0,
+        asian_engine_env["fixing_dates"],
+        asian_engine_env["payoff"],
+        asian_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.AnalyticDiscreteGeometricAverageStrikeAsianEngine(
+            asian_engine_env["process"]
+        )
+    )
+    assert opt.NPV() == pytest.approx(5.100335631703423, rel=1e-6)
+
+
+# =============================================================================
+# ContinuousArithmeticAsianLevyEngine
+# =============================================================================
+
+
+def test_continuousarithmeticasianlevyengine_pricing(asian_engine_env):
+    """Test Levy (1992) continuous arithmetic Asian engine."""
+    today = ql.Date(15, ql.January, 2025)
+    start_date = today - ql.Period("3M")
+    opt = ql.ContinuousAveragingAsianOption(
+        ql.AverageType.Arithmetic, start_date,
+        asian_engine_env["payoff"], asian_engine_env["exercise"],
+    )
+    avg_quote = ql.SimpleQuote(100.0)
+    opt.setPricingEngine(
+        ql.ContinuousArithmeticAsianLevyEngine(asian_engine_env["process"], avg_quote)
+    )
+    assert opt.NPV() == pytest.approx(4.148618988046543, rel=1e-6)
+
+
+# =============================================================================
+# FdBlackScholesAsianEngine
+# =============================================================================
+
+
+def test_fdblackscholesasianengine_pricing(asian_engine_env):
+    """Test FD Black-Scholes discrete Asian engine."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0,
+        asian_engine_env["fixing_dates"],
+        asian_engine_env["payoff"],
+        asian_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.FdBlackScholesAsianEngine(asian_engine_env["process"], 50, 100, 50)
+    )
+    assert opt.NPV() == pytest.approx(5.528937331418059, rel=1e-4)
+
+
+def test_fdblackscholesasianengine_vs_choi(asian_engine_env):
+    """Test FD Asian engine matches Choi closely."""
+    fixing_dates = asian_engine_env["fixing_dates"]
+    payoff = asian_engine_env["payoff"]
+    exercise = asian_engine_env["exercise"]
+    process = asian_engine_env["process"]
+
+    fd = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    fd.setPricingEngine(ql.FdBlackScholesAsianEngine(process, 50, 100, 50))
+
+    choi = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    choi.setPricingEngine(ql.ChoiAsianEngine(process))
+
+    assert fd.NPV() == pytest.approx(choi.NPV(), rel=0.01)
+
+
+# =============================================================================
+# MCDiscreteArithmeticASEngine (average strike)
+# =============================================================================
+
+
+def test_mcdiscretearithmeticasengine_pricing(asian_engine_env):
+    """Test MC discrete arithmetic average strike Asian engine."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0,
+        asian_engine_env["fixing_dates"],
+        asian_engine_env["payoff"],
+        asian_engine_env["exercise"],
+    )
+    opt.setPricingEngine(ql.MCDiscreteArithmeticASEngine(
+        asian_engine_env["process"], requiredSamples=100000, seed=42,
+    ))
+    assert opt.NPV() == pytest.approx(4.901558292650434, rel=1e-6)
+
+
+# =============================================================================
+# MCDiscreteGeometricAPEngine (geometric average price)
+# =============================================================================
+
+
+def test_mcdiscretegeometricapengine_pricing(asian_engine_env):
+    """Test MC discrete geometric average price Asian engine."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0,
+        asian_engine_env["fixing_dates"],
+        asian_engine_env["payoff"],
+        asian_engine_env["exercise"],
+    )
+    opt.setPricingEngine(ql.MCDiscreteGeometricAPEngine(
+        asian_engine_env["process"], requiredSamples=100000, seed=42,
+    ))
+    assert opt.NPV() == pytest.approx(5.3010351406253715, rel=1e-6)
+
+
+def test_mcdiscretegeometricapengine_vs_analytic(asian_engine_env):
+    """Test MC geometric average price matches analytic closely."""
+    fixing_dates = asian_engine_env["fixing_dates"]
+    payoff = asian_engine_env["payoff"]
+    exercise = asian_engine_env["exercise"]
+    process = asian_engine_env["process"]
+
+    mc = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    mc.setPricingEngine(ql.MCDiscreteGeometricAPEngine(
+        process, requiredSamples=100000, seed=42,
+    ))
+
+    analytic = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0, fixing_dates, payoff, exercise,
+    )
+    analytic.setPricingEngine(
+        ql.AnalyticDiscreteGeometricAveragePriceAsianEngine(process)
+    )
+
+    assert mc.NPV() == pytest.approx(analytic.NPV(), rel=0.01)
+
+
+# =============================================================================
+# MCDiscreteArithmeticAPHestonEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def heston_asian_env():
+    """Setup for Heston Asian engine tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    rate = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+
+    heston_process = ql.HestonProcess(
+        ql.YieldTermStructureHandle(rate),
+        ql.YieldTermStructureHandle(div),
+        ql.QuoteHandle(spot),
+        0.04, 2.0, 0.04, 0.5, -0.7,
+    )
+
+    expiry = today + ql.Period("1Y")
+    exercise = ql.EuropeanExercise(expiry)
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+
+    fixing_dates = []
+    d = today + ql.Period("1M")
+    while d <= expiry:
+        fixing_dates.append(d)
+        d = d + ql.Period("1M")
+
+    return {
+        "process": heston_process,
+        "exercise": exercise,
+        "payoff": payoff,
+        "fixing_dates": fixing_dates,
+    }
+
+
+def test_mcdiscretearithmeticaphestonengine_pricing(heston_asian_env):
+    """Test MC discrete arithmetic average price Asian (Heston)."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Arithmetic, 0.0, 0,
+        heston_asian_env["fixing_dates"],
+        heston_asian_env["payoff"],
+        heston_asian_env["exercise"],
+    )
+    opt.setPricingEngine(ql.MCDiscreteArithmeticAPHestonEngine(
+        heston_asian_env["process"], requiredSamples=50000, seed=42,
+    ))
+    assert opt.NPV() == pytest.approx(5.287663810316519, rel=1e-6)
+
+
+# =============================================================================
+# MCDiscreteGeometricAPHestonEngine
+# =============================================================================
+
+
+def test_mcdiscretegeometricaphestonengine_pricing(heston_asian_env):
+    """Test MC discrete geometric average price Asian (Heston)."""
+    opt = ql.DiscreteAveragingAsianOption(
+        ql.AverageType.Geometric, 0.0, 0,
+        heston_asian_env["fixing_dates"],
+        heston_asian_env["payoff"],
+        heston_asian_env["exercise"],
+    )
+    opt.setPricingEngine(ql.MCDiscreteGeometricAPHestonEngine(
+        heston_asian_env["process"], requiredSamples=50000, seed=42,
+    ))
+    assert opt.NPV() == pytest.approx(5.162332657002766, rel=1e-6)

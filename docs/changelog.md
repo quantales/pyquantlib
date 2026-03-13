@@ -15,6 +15,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Pricing Engines
 - `CashDividendEuropeanEngine` semi-analytic European engine with cash dividends (Healy, 2021), `CashDividendModel` enum (`Spot`, `Escrowed`)
+- `ChoiAsianEngine` Choi (2018) analytic discrete arithmetic Asian engine
+- `AnalyticDiscreteGeometricAverageStrikeAsianEngine` analytic discrete geometric average strike Asian engine
+- `ContinuousArithmeticAsianLevyEngine` Levy (1992) continuous arithmetic Asian engine
+- `FdBlackScholesAsianEngine` finite-difference Black-Scholes discrete Asian engine
+- `MCDiscreteArithmeticASEngine` Monte Carlo discrete arithmetic average strike Asian engine
+- `MCDiscreteGeometricAPEngine` Monte Carlo discrete geometric average price Asian engine
+- `MCDiscreteArithmeticAPHestonEngine` Monte Carlo discrete arithmetic Asian engine under Heston dynamics
+- `MCDiscreteGeometricAPHestonEngine` Monte Carlo discrete geometric Asian engine under Heston dynamics
+- `AnalyticBinaryBarrierEngine` analytic binary (one-touch) barrier option engine
+- `BinomialBarrierEngine` binomial tree barrier engine with configurable tree type and discretization (Derman-Kani)
+- `FdHestonBarrierEngine` finite-difference Heston barrier option engine
+- `FdHestonDoubleBarrierEngine` finite-difference Heston double barrier option engine
+- `FdHestonRebateEngine` finite-difference Heston rebate engine for barrier options
+- `AnalyticPartialTimeBarrierOptionEngine` analytic engine for partial-time barrier options (Heynen-Kat)
+- `AnalyticSoftBarrierEngine` analytic engine for soft barrier options
+- `AnalyticTwoAssetBarrierEngine` analytic engine for two-asset barrier options
+- `ChoiBasketEngine` Choi (2018) analytic engine for average and spread basket options
+- `SingleFactorBsmBasketEngine` single-factor BSM approximation for average basket options
+- `MCAmericanBasketEngine` Monte Carlo American basket engine (Longstaff-Schwartz)
+- `FdndimBlackScholesVanillaEngine` N-dimensional finite-difference Black-Scholes basket engine
 
 #### Cash Flows
 - `BlackCompoundingOvernightIndexedCouponPricer` Black pricer for capped/floored compounded overnight coupons
@@ -22,6 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Instruments
 - `ContinuousAveragingAsianOption` seasoned constructor with `startDate` parameter
+- `PartialTimeBarrierOption` partial-time barrier option with `PartialBarrierRange` enum
+- `SoftBarrierOption` soft barrier option with proportional knock-in/out over barrier range
+- `TwoAssetBarrierOption` barrier option monitored on a second correlated asset
+
+#### Core
+- `AmericanExercise` `payoffAtExpiry` parameter
 
 #### Term Structures
 - `MultiCurve` for simultaneous multi-curve bootstrap with dependency cycles (accuracy and optimizer constructors, `addBootstrappedCurve`, `addNonBootstrappedCurve`)

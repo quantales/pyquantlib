@@ -489,6 +489,44 @@ engine = ql.CashDividendEuropeanEngine(
 .. autoclass:: pyquantlib.StulzEngine
 ```
 
+### ChoiBasketEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ChoiBasketEngine
+```
+
+Choi (2018) analytic engine for average and spread basket options.
+
+### SingleFactorBsmBasketEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SingleFactorBsmBasketEngine
+```
+
+Single-factor BSM approximation for average basket options.
+
+### MCAmericanBasketEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCAmericanBasketEngine
+```
+
+Monte Carlo American basket engine using Longstaff-Schwartz regression.
+
+### FdndimBlackScholesVanillaEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdndimBlackScholesVanillaEngine
+```
+
+N-dimensional finite-difference Black-Scholes basket engine.
+
+### MCLDEuropeanBasketEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MCLDEuropeanBasketEngine
+```
+
 ## Swaption Engines
 
 ### BlackSwaptionEngine
@@ -723,6 +761,75 @@ engine = ql.MCDoubleBarrierEngine(
 )
 ```
 
+### AnalyticBinaryBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticBinaryBarrierEngine
+```
+
+Analytic binary (one-touch) barrier option engine.
+
+### BinomialBarrierEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.BinomialBarrierEngine
+```
+
+Binomial tree barrier engine with configurable tree type and discretization.
+
+```python
+engine = ql.BinomialBarrierEngine(process, "crr", 200)
+engine = ql.BinomialBarrierEngine(process, "crr", 200, discretization="dermankani")
+```
+
+### FdHestonBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHestonBarrierEngine
+```
+
+Finite-difference Heston barrier option engine.
+
+### FdHestonDoubleBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHestonDoubleBarrierEngine
+```
+
+Finite-difference Heston double barrier option engine.
+
+### FdHestonRebateEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdHestonRebateEngine
+```
+
+Finite-difference Heston rebate engine for barrier options.
+
+### AnalyticPartialTimeBarrierOptionEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticPartialTimeBarrierOptionEngine
+```
+
+Analytic engine for partial-time barrier options (Heynen-Kat).
+
+### AnalyticSoftBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticSoftBarrierEngine
+```
+
+Analytic engine for soft barrier options.
+
+### AnalyticTwoAssetBarrierEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticTwoAssetBarrierEngine
+```
+
+Analytic engine for two-asset barrier options.
+
 ## Asian Engines
 
 ### AnalyticContinuousGeometricAveragePriceAsianEngine
@@ -762,6 +869,68 @@ engine = ql.MCDiscreteArithmeticAPEngine(
     process, requiredSamples=100000, seed=42, controlVariate=True,
 )
 ```
+
+### ChoiAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ChoiAsianEngine
+```
+
+Choi (2018) analytic discrete arithmetic Asian engine.
+
+### AnalyticDiscreteGeometricAverageStrikeAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticDiscreteGeometricAverageStrikeAsianEngine
+```
+
+### ContinuousArithmeticAsianLevyEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ContinuousArithmeticAsianLevyEngine
+```
+
+Levy (1992) continuous arithmetic average price Asian engine.
+
+### FdBlackScholesAsianEngine
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdBlackScholesAsianEngine
+```
+
+Finite-difference Black-Scholes engine for discrete Asian options.
+
+### MCDiscreteArithmeticASEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDiscreteArithmeticASEngine
+```
+
+Monte Carlo discrete arithmetic average strike Asian engine.
+
+### MCDiscreteGeometricAPEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDiscreteGeometricAPEngine
+```
+
+Monte Carlo discrete geometric average price Asian engine.
+
+### MCDiscreteArithmeticAPHestonEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDiscreteArithmeticAPHestonEngine
+```
+
+Monte Carlo discrete arithmetic Asian engine under Heston dynamics.
+
+### MCDiscreteGeometricAPHestonEngine
+
+```{eval-rst}
+.. autofunction:: pyquantlib.MCDiscreteGeometricAPHestonEngine
+```
+
+Monte Carlo discrete geometric Asian engine under Heston dynamics.
 
 ## Lookback Engines
 

@@ -532,3 +532,166 @@ def test_mcldeuropeanbasketengine(market_data):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(4.297040981007655, rel=1e-4)
+
+
+# =============================================================================
+# ChoiBasketEngine
+# =============================================================================
+
+
+def test_choibasketengine_average(market_data):
+    """Test ChoiBasketEngine for average basket call."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    avg_payoff = ql.AverageBasketPayoff(payoff, 2)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+
+    option = ql.BasketOption(avg_payoff, exercise)
+    option.setPricingEngine(ql.ChoiBasketEngine([process1, process2], correlation))
+    assert option.NPV() == pytest.approx(6.150619076575352, rel=1e-4)
+
+
+def test_choibasketengine_spread(market_data):
+    """Test ChoiBasketEngine for spread option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 0.0)
+    spread_payoff = ql.SpreadBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+
+    option = ql.BasketOption(spread_payoff, exercise)
+    option.setPricingEngine(ql.ChoiBasketEngine([process1, process2], correlation))
+    assert option.NPV() == pytest.approx(6.366553930805362, rel=1e-4)
+
+
+# =============================================================================
+# SingleFactorBsmBasketEngine
+# =============================================================================
+
+
+def test_singlefactorbsmbasketengine_average(market_data):
+    """Test SingleFactorBsmBasketEngine for average basket call."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    avg_payoff = ql.AverageBasketPayoff(payoff, 2)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+
+    option = ql.BasketOption(avg_payoff, exercise)
+    option.setPricingEngine(ql.SingleFactorBsmBasketEngine([process1, process2]))
+    assert option.NPV() == pytest.approx(6.963192760707679, rel=1e-4)
+
+
+# =============================================================================
+# MCAmericanBasketEngine
+# =============================================================================
+
+
+def test_mcamericanbasketengine_pricing(market_data):
+    """Test MCAmericanBasketEngine for American max call option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+    process_array = ql.StochasticProcessArray([process1, process2], correlation)
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    max_payoff = ql.MaxBasketPayoff(payoff)
+    exercise = ql.AmericanExercise(today, ql.Date(15, 7, 2025))
+
+    option = ql.BasketOption(max_payoff, exercise)
+    option.setPricingEngine(ql.MCAmericanBasketEngine(
+        process_array, timeSteps=50, requiredSamples=10000, seed=42,
+    ))
+    assert option.NPV() == pytest.approx(10.56134154200426, rel=1e-4)
+
+
+# =============================================================================
+# FdndimBlackScholesVanillaEngine
+# =============================================================================
+
+
+def test_fdndimblackscholesvanillaengine_max(market_data):
+    """Test FdndimBlackScholesVanillaEngine for max call option."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    max_payoff = ql.MaxBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+
+    option = ql.BasketOption(max_payoff, exercise)
+    option.setPricingEngine(
+        ql.FdndimBlackScholesVanillaEngine([process1, process2], correlation, 50)
+    )
+    assert option.NPV() == pytest.approx(10.556408558573764, rel=1e-4)
+
+
+def test_fdndimblackscholesvanillaengine_vs_stulz(market_data):
+    """Test FdndimBlackScholesVanillaEngine matches Stulz closely."""
+    today, dc, cal = market_data["today"], market_data["dc"], market_data["cal"]
+    rate_handle, div_handle = market_data["rate_handle"], market_data["div_handle"]
+
+    process1 = make_bs_process(100.0, 0.20, rate_handle, div_handle, today, cal, dc)
+    process2 = make_bs_process(100.0, 0.25, rate_handle, div_handle, today, cal, dc)
+
+    correlation = ql.Matrix(2, 2)
+    correlation[0][0] = 1.0
+    correlation[0][1] = 0.5
+    correlation[1][0] = 0.5
+    correlation[1][1] = 1.0
+
+    payoff = ql.PlainVanillaPayoff(ql.OptionType.Call, 100.0)
+    max_payoff = ql.MaxBasketPayoff(payoff)
+    exercise = ql.EuropeanExercise(ql.Date(15, 7, 2025))
+
+    fd = ql.BasketOption(max_payoff, exercise)
+    fd.setPricingEngine(
+        ql.FdndimBlackScholesVanillaEngine([process1, process2], correlation, 50)
+    )
+
+    stulz = ql.BasketOption(max_payoff, exercise)
+    stulz.setPricingEngine(ql.StulzEngine(process1, process2, 0.5))
+
+    assert fd.NPV() == pytest.approx(stulz.NPV(), rel=1e-2)

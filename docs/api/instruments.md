@@ -613,6 +613,48 @@ option.setPricingEngine(ql.AnalyticDoubleBarrierEngine(process))
 print(option.NPV())
 ```
 
+### PartialTimeBarrierOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PartialTimeBarrierOption
+```
+
+Barrier monitored over a partial time window (start or end of option life).
+
+```python
+option = ql.PartialTimeBarrierOption(
+    ql.BarrierType.DownOut, ql.PartialBarrierRange.Start,
+    80.0, 0.0, cover_date, payoff, exercise,
+)
+option.setPricingEngine(ql.AnalyticPartialTimeBarrierOptionEngine(process))
+```
+
+### SoftBarrierOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SoftBarrierOption
+```
+
+Soft barrier option with proportional knock-in/out over a barrier range.
+
+```python
+option = ql.SoftBarrierOption(ql.BarrierType.DownOut, 70.0, 80.0, payoff, exercise)
+option.setPricingEngine(ql.AnalyticSoftBarrierEngine(process))
+```
+
+### TwoAssetBarrierOption
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TwoAssetBarrierOption
+```
+
+Barrier option where barrier monitoring is on a second (correlated) asset.
+
+```python
+option = ql.TwoAssetBarrierOption(ql.BarrierType.DownOut, 80.0, payoff, exercise)
+option.setPricingEngine(ql.AnalyticTwoAssetBarrierEngine(process1, process2, rho))
+```
+
 ## Asian Options
 
 ### ContinuousAveragingAsianOption

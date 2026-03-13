@@ -4082,3 +4082,61 @@ def test_writerextensibleoption_pricing():
     option = ql.WriterExtensibleOption(payoff1, exercise1, payoff2, exercise2)
     option.setPricingEngine(ql.AnalyticWriterExtensibleOptionEngine(process))
     assert option.NPV() == pytest.approx(9.789299, rel=1e-4)
+
+
+# =============================================================================
+# PartialTimeBarrierOption
+# =============================================================================
+
+
+def test_partialtimebarrieroption_construction():
+    """Test PartialTimeBarrierOption construction."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, 1, 2026))
+    cover_date = ql.Date(15, 7, 2025)
+
+    option = ql.PartialTimeBarrierOption(
+        ql.BarrierType.DownOut, ql.PartialBarrierRange.Start,
+        80.0, 0.0, cover_date, payoff, exercise,
+    )
+    assert option is not None
+
+
+def test_partialbarrierrange_enum():
+    """Test PartialBarrierRange enum values."""
+    assert hasattr(ql, "PartialBarrierRange")
+    assert hasattr(ql.PartialBarrierRange, "Start")
+    assert hasattr(ql.PartialBarrierRange, "EndB1")
+    assert hasattr(ql.PartialBarrierRange, "EndB2")
+
+
+# =============================================================================
+# SoftBarrierOption
+# =============================================================================
+
+
+def test_softbarrieroption_construction():
+    """Test SoftBarrierOption construction."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, 1, 2026))
+
+    option = ql.SoftBarrierOption(
+        ql.BarrierType.DownOut, 70.0, 80.0, payoff, exercise,
+    )
+    assert option is not None
+
+
+# =============================================================================
+# TwoAssetBarrierOption
+# =============================================================================
+
+
+def test_twoassetbarrieroption_construction():
+    """Test TwoAssetBarrierOption construction."""
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+    exercise = ql.EuropeanExercise(ql.Date(15, 1, 2026))
+
+    option = ql.TwoAssetBarrierOption(
+        ql.BarrierType.DownOut, 80.0, payoff, exercise,
+    )
+    assert option is not None

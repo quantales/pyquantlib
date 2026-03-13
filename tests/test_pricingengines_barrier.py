@@ -303,3 +303,257 @@ def test_mcdoublebarrierengine_lowdiscrepancy(barrier_engine_env):
         )
     )
     assert opt.NPV() > 0.0
+
+
+# =============================================================================
+# AnalyticBinaryBarrierEngine
+# =============================================================================
+
+
+def test_analyticbinarybarrierengine_pricing(barrier_engine_env):
+    """Test AnalyticBinaryBarrierEngine pricing."""
+    am_exercise = ql.AmericanExercise(
+        ql.Date(15, ql.January, 2025),
+        ql.Date(15, ql.January, 2025) + ql.Period("1Y"),
+        payoffAtExpiry=True,
+    )
+    binary_payoff = ql.CashOrNothingPayoff(ql.Call, 100.0, 1.0)
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 0.0, binary_payoff, am_exercise,
+    )
+    opt.setPricingEngine(ql.AnalyticBinaryBarrierEngine(barrier_engine_env["process"]))
+    assert opt.NPV() == pytest.approx(0.4821800827386251, rel=1e-6)
+
+
+def test_analyticbinarybarrierengine_knockin(barrier_engine_env):
+    """Test AnalyticBinaryBarrierEngine knock-in pricing."""
+    am_exercise = ql.AmericanExercise(
+        ql.Date(15, ql.January, 2025),
+        ql.Date(15, ql.January, 2025) + ql.Period("1Y"),
+        payoffAtExpiry=True,
+    )
+    binary_payoff = ql.CashOrNothingPayoff(ql.Call, 100.0, 1.0)
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownIn, 80.0, 0.0, binary_payoff, am_exercise,
+    )
+    opt.setPricingEngine(ql.AnalyticBinaryBarrierEngine(barrier_engine_env["process"]))
+    assert opt.NPV() == pytest.approx(0.012401008314598444, rel=1e-6)
+
+
+# =============================================================================
+# BinomialBarrierEngine
+# =============================================================================
+
+
+def test_binomialbarrierengine_crr(barrier_engine_env):
+    """Test BinomialBarrierEngine with CRR tree."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 0.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.BinomialBarrierEngine(barrier_engine_env["process"], "crr", 200)
+    )
+    assert opt.NPV() == pytest.approx(9.143885847791243, rel=1e-6)
+
+
+def test_binomialbarrierengine_jr(barrier_engine_env):
+    """Test BinomialBarrierEngine with JR tree."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 0.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.BinomialBarrierEngine(barrier_engine_env["process"], "jr", 200)
+    )
+    assert opt.NPV() == pytest.approx(9.160286051475572, rel=1e-6)
+
+
+def test_binomialbarrierengine_dermankani(barrier_engine_env):
+    """Test BinomialBarrierEngine with Derman-Kani discretization."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 0.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.BinomialBarrierEngine(
+            barrier_engine_env["process"], "crr", 200, discretization="dermankani",
+        )
+    )
+    assert opt.NPV() == pytest.approx(9.142520528763514, rel=1e-6)
+
+
+def test_binomialbarrierengine_vs_analytic(barrier_engine_env):
+    """Test binomial barrier engine converges to analytic."""
+    payoff = barrier_engine_env["payoff"]
+    exercise = barrier_engine_env["exercise"]
+    process = barrier_engine_env["process"]
+
+    analytic = ql.BarrierOption(ql.BarrierType.DownOut, 80.0, 0.0, payoff, exercise)
+    analytic.setPricingEngine(ql.AnalyticBarrierEngine(process))
+
+    binom = ql.BarrierOption(ql.BarrierType.DownOut, 80.0, 0.0, payoff, exercise)
+    binom.setPricingEngine(ql.BinomialBarrierEngine(process, "crr", 200))
+
+    assert binom.NPV() == pytest.approx(analytic.NPV(), rel=1e-2)
+
+
+# =============================================================================
+# FdHestonBarrierEngine
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def heston_barrier_env():
+    """Setup for Heston barrier engine tests."""
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+
+    spot = ql.SimpleQuote(100.0)
+    rate = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+
+    heston_process = ql.HestonProcess(
+        ql.YieldTermStructureHandle(rate),
+        ql.YieldTermStructureHandle(div),
+        ql.QuoteHandle(spot),
+        0.04, 2.0, 0.04, 0.5, -0.7,
+    )
+    heston_model = ql.HestonModel(heston_process)
+
+    expiry = today + ql.Period("1Y")
+    exercise = ql.EuropeanExercise(expiry)
+    payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+
+    return {
+        "model": heston_model,
+        "exercise": exercise,
+        "payoff": payoff,
+    }
+
+
+def test_fdhestonbarrierengine_pricing(heston_barrier_env):
+    """Test FdHestonBarrierEngine pricing."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 0.0,
+        heston_barrier_env["payoff"], heston_barrier_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.FdHestonBarrierEngine(heston_barrier_env["model"], 50, 100, 50)
+    )
+    assert opt.NPV() == pytest.approx(8.491695384530761, rel=1e-4)
+
+
+# =============================================================================
+# FdHestonDoubleBarrierEngine
+# =============================================================================
+
+
+def test_fdhestondoublebarrierengine_pricing(heston_barrier_env):
+    """Test FdHestonDoubleBarrierEngine pricing."""
+    opt = ql.DoubleBarrierOption(
+        ql.DoubleBarrierType.KnockOut, 80.0, 120.0, 0.0,
+        heston_barrier_env["payoff"], heston_barrier_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.FdHestonDoubleBarrierEngine(heston_barrier_env["model"], 50, 100, 50)
+    )
+    assert opt.NPV() == pytest.approx(2.9932595843170007, rel=1e-4)
+
+
+# =============================================================================
+# FdHestonRebateEngine
+# =============================================================================
+
+
+def test_fdhestonrebateengine_pricing(heston_barrier_env):
+    """Test FdHestonRebateEngine pricing with rebate."""
+    opt = ql.BarrierOption(
+        ql.BarrierType.DownOut, 80.0, 5.0,
+        heston_barrier_env["payoff"], heston_barrier_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.FdHestonRebateEngine(heston_barrier_env["model"], 50, 100, 50)
+    )
+    assert opt.NPV() == pytest.approx(4.79105607818244, rel=1e-4)
+
+
+# =============================================================================
+# AnalyticPartialTimeBarrierOptionEngine
+# =============================================================================
+
+
+def test_analyticpartialtimebarrieroptionengine_pricing(barrier_engine_env):
+    """Test AnalyticPartialTimeBarrierOptionEngine pricing."""
+    today = ql.Date(15, ql.January, 2025)
+    cover_date = today + ql.Period("6M")
+    opt = ql.PartialTimeBarrierOption(
+        ql.BarrierType.DownOut, ql.PartialBarrierRange.Start,
+        80.0, 0.0, cover_date,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.AnalyticPartialTimeBarrierOptionEngine(barrier_engine_env["process"])
+    )
+    assert opt.NPV() == pytest.approx(9.14972425417782, rel=1e-6)
+
+
+# =============================================================================
+# AnalyticSoftBarrierEngine
+# =============================================================================
+
+
+def test_analyticsoftbarrierengine_pricing(barrier_engine_env):
+    """Test AnalyticSoftBarrierEngine pricing."""
+    opt = ql.SoftBarrierOption(
+        ql.BarrierType.DownOut, 70.0, 80.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.AnalyticSoftBarrierEngine(barrier_engine_env["process"])
+    )
+    assert opt.NPV() == pytest.approx(9.204022684248903, rel=1e-6)
+
+
+def test_analyticsoftbarrierengine_knockin(barrier_engine_env):
+    """Test AnalyticSoftBarrierEngine knock-in pricing."""
+    opt = ql.SoftBarrierOption(
+        ql.BarrierType.DownIn, 80.0, 90.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    opt.setPricingEngine(
+        ql.AnalyticSoftBarrierEngine(barrier_engine_env["process"])
+    )
+    assert opt.NPV() == pytest.approx(0.599188319787428, rel=1e-6)
+
+
+# =============================================================================
+# AnalyticTwoAssetBarrierEngine
+# =============================================================================
+
+
+def test_analytictwoassetbarrierengine_pricing(barrier_engine_env):
+    """Test AnalyticTwoAssetBarrierEngine pricing."""
+    today = ql.Date(15, ql.January, 2025)
+    spot2 = ql.SimpleQuote(110.0)
+    rate = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(today, 0.02, ql.Actual365Fixed())
+    vol2 = ql.BlackConstantVol(today, ql.TARGET(), 0.25, ql.Actual365Fixed())
+    process2 = ql.BlackScholesMertonProcess(
+        ql.QuoteHandle(spot2),
+        ql.YieldTermStructureHandle(div),
+        ql.YieldTermStructureHandle(rate),
+        ql.BlackVolTermStructureHandle(vol2),
+    )
+
+    opt = ql.TwoAssetBarrierOption(
+        ql.BarrierType.DownOut, 80.0,
+        barrier_engine_env["payoff"], barrier_engine_env["exercise"],
+    )
+    rho_quote = ql.SimpleQuote(0.5)
+    opt.setPricingEngine(
+        ql.AnalyticTwoAssetBarrierEngine(
+            barrier_engine_env["process"], process2, rho_quote,
+        )
+    )
+    assert opt.NPV() == pytest.approx(8.600164075254149, rel=1e-6)

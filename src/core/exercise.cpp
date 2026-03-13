@@ -36,8 +36,9 @@ void ql_core::exercise(py::module_& m) {
 
     py::class_<AmericanExercise, Exercise, ext::shared_ptr<AmericanExercise>>(
         m, "AmericanExercise", "American-style exercise (date range).")
-        .def(py::init<const Date&, const Date&>(),
+        .def(py::init<const Date&, const Date&, bool>(),
             py::arg("earliestDate"), py::arg("latestDate"),
+            py::arg("payoffAtExpiry") = false,
             "Constructs with earliest and latest exercise dates.");
 
     py::class_<BermudanExercise, Exercise, ext::shared_ptr<BermudanExercise>>(
