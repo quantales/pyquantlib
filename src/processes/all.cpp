@@ -18,7 +18,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
     ADD_MAIN_BINDING(ql_processes::eulerdiscretization,
         "EulerDiscretization - Euler scheme for SDE discretization");
 
-    // Equity / diffusion processes
     ADD_MAIN_BINDING(ql_processes::blackscholesprocess,
         "BlackScholesProcess - geometric Brownian motion processes");
     ADD_MAIN_BINDING(ql_processes::generalizedblackscholesprocesshandle,
@@ -42,7 +41,6 @@ DECLARE_MODULE_BINDINGS(processes_bindings) {
     ADD_MAIN_BINDING(ql_processes::stochasticprocessarray,
         "StochasticProcessArray - array of correlated 1D processes");
 
-    // Short-rate / mean-reverting processes
     ADD_MAIN_BINDING(ql_processes::ornsteinuhlenbeckprocess,
         "OrnsteinUhlenbeckProcess - mean-reverting OU process");
     ADD_MAIN_BINDING(ql_processes::extendedornsteinuhlenbeckprocess,

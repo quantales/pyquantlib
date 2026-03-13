@@ -36,7 +36,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::bivariatenormaldistribution, "Bivariate cumulative normal distribution");
     ADD_MAIN_BINDING(ql_math::solvers1d, "1-D root-finding solvers");
 
-    // Statistics
     ADD_MAIN_BINDING(ql_math::statistics,
         "Statistics - empirical-distribution risk measures");
     ADD_MAIN_BINDING(ql_math::incrementalstatistics,
@@ -44,7 +43,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::sequencestatistics,
         "SequenceStatistics - N-dimensional statistics with covariance");
 
-    // Random number generators
     ADD_MAIN_BINDING(ql_math::mt19937uniformrng,
         "MersenneTwisterUniformRng - MT19937 uniform RNG");
     ADD_MAIN_BINDING(ql_math::sobolrsg,
@@ -71,7 +69,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::sobolbrownianbridgersg,
         "Sobol Brownian bridge sequence generators");
 
-    // Integrals
     ADD_BASE_BINDING(ql_math::integrator, "Integrator ABC");
     ADD_MAIN_BINDING(ql_math::segmentintegral, "Segment integral");
     ADD_MAIN_BINDING(ql_math::trapezoidintegral,
@@ -85,7 +82,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::gaussianquadratures,
         "Gaussian quadrature integration methods");
 
-    // Optimizers
     ADD_MAIN_BINDING(ql_math::simplex, "Simplex optimizer");
     ADD_MAIN_BINDING(ql_math::conjugategradient, "Conjugate gradient optimizer");
     ADD_MAIN_BINDING(ql_math::steepestdescent, "Steepest descent optimizer");
@@ -93,7 +89,6 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::differentialevolution,
         "Differential evolution optimizer");
 
-    // 2-D interpolation
     ADD_BASE_BINDING(ql_math::interpolation2d, "Interpolation2D base class");
     ADD_MAIN_BINDING(ql_math::forwardflatinterpolation,
         "Forward-flat interpolation");
@@ -106,12 +101,10 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::richardsonextrapolation,
         "Richardson extrapolation");
 
-    // Matrix utilities
     ADD_MAIN_BINDING(ql_math::svd, "Singular value decomposition");
     ADD_MAIN_BINDING(ql_math::symmetricschurdecomposition,
         "Symmetric Schur decomposition");
 
-    // ODE solvers
     ADD_MAIN_BINDING(ql_math::adaptiverungekutta,
         "Adaptive Runge-Kutta ODE solver");
 }

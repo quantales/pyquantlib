@@ -15,12 +15,10 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(cashflows_bindings) {
-    // Abstract base classes
     ADD_BASE_BINDING(ql_cashflows::coupon, "Coupon ABC");
     ADD_BASE_BINDING(ql_cashflows::couponpricer_base,
         "FloatingRateCouponPricer ABC");
 
-    // Concrete implementations
     ADD_MAIN_BINDING(ql_cashflows::simplecashflow, "SimpleCashFlow");
     ADD_MAIN_BINDING(ql_cashflows::fixedratecoupon, "FixedRateCoupon");
     ADD_MAIN_BINDING(ql_cashflows::floatingratecoupon,
@@ -36,7 +34,6 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     ADD_MAIN_BINDING(ql_cashflows::duration,
         "Duration::Type enum");
 
-    // CMS support
     ADD_BASE_BINDING(ql_cashflows::cmscouponpricer,
         "CmsCouponPricer, MeanRevertingPricer ABCs");
     ADD_MAIN_BINDING(ql_cashflows::cmscoupon,
@@ -44,7 +41,6 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     ADD_MAIN_BINDING(ql_cashflows::lineartsrpricer,
         "LinearTsrPricer");
 
-    // Inflation cashflows
     ADD_BASE_BINDING(ql_cashflows::inflationcoupon,
         "InflationCoupon ABC");
     ADD_MAIN_BINDING(ql_cashflows::zeroinflationcashflow,
@@ -57,11 +53,9 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
         "InflationCouponPricer ABC, YoYInflationCouponPricer, "
         "Black/UnitDisplaced/Bachelier pricers");
 
-    // Dividends
     ADD_MAIN_BINDING(ql_cashflows::dividend,
         "Dividend ABC, FixedDividend, FractionalDividend, DividendVector");
 
-    // Capped/floored and digital coupons
     ADD_MAIN_BINDING(ql_cashflows::replication,
         "Replication::Type, DigitalReplication");
     ADD_MAIN_BINDING(ql_cashflows::capflooredcoupon,
@@ -74,19 +68,16 @@ DECLARE_MODULE_BINDINGS(cashflows_bindings) {
     ADD_MAIN_BINDING(ql_cashflows::digitalcmscoupon,
         "DigitalCmsCoupon, DigitalCmsLeg");
 
-    // CMS pricers (Hagan)
     ADD_MAIN_BINDING(ql_cashflows::conundrumpricer,
         "YieldCurveModel, HaganPricer, AnalyticHaganPricer, "
         "NumericHaganPricer");
 
-    // Overnight indexed coupon pricers
     ADD_MAIN_BINDING(ql_cashflows::overnightindexedcouponpricer,
         "CompoundingOvernightIndexedCouponPricer, "
         "ArithmeticAveragedOvernightIndexedCouponPricer, "
         "BlackCompoundingOvernightIndexedCouponPricer, "
         "BlackAveragingOvernightIndexedCouponPricer");
 
-    // BMA coupons
     ADD_MAIN_BINDING(ql_cashflows::averagebmacoupon,
         "AverageBMACoupon, AverageBMALeg");
 }

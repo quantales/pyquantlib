@@ -15,17 +15,14 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(experimental_bindings) {
-    // Volatility
     ADD_MAIN_BINDING(ql_experimental::svismilesection,
         "SviSmileSection (Stochastic Volatility Inspired)");
 
-    // Credit
     ADD_MAIN_BINDING(ql_experimental::cdsoption,
         "CdsOption - option on credit default swap");
     ADD_MAIN_BINDING(ql_experimental::blackcdsoptionengine,
         "BlackCdsOptionEngine - Black-formula CDS option engine");
 
-    // Callable bonds
     ADD_MAIN_BINDING(ql_experimental::callablebond,
         "CallableBond, CallableFixedRateBond, CallableZeroCouponBond");
     ADD_MAIN_BINDING(ql_experimental::callablebondvolstructure,
@@ -37,11 +34,9 @@ DECLARE_MODULE_BINDINGS(experimental_bindings) {
     ADD_MAIN_BINDING(ql_experimental::blackcallablebondengine,
         "BlackCallableFixedRateBondEngine, BlackCallableZeroCouponBondEngine");
 
-    // Two-asset correlation option
     ADD_MAIN_BINDING(ql_experimental::twoassetcorrelationoption,
         "TwoAssetCorrelationOption - two-asset correlation option");
 
-    // Variance Gamma
     ADD_MAIN_BINDING(ql_experimental::variancegammaprocess,
         "VarianceGammaProcess - VG stochastic process");
     ADD_MAIN_BINDING(ql_experimental::variancegammamodel,

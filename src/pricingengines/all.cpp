@@ -24,7 +24,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::bacheliercalculator,
         "BachelierCalculator - Bachelier (normal-vol) pricing and Greeks calculator");
 
-    // Vanilla engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticeuropeanengine,
         "AnalyticEuropeanEngine - Black-Scholes European option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::integralengine,
@@ -56,11 +55,9 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::mcdigitalengine,
         "MCDigitalEngine - Monte Carlo digital option pricing");
 
-    // Cash dividend engine (registers CashDividendModel enum used by FD engines)
     ADD_MAIN_BINDING(ql_pricingengines::cashdividendeuropeanengine,
         "CashDividendEuropeanEngine - semi-analytic European with cash dividends");
 
-    // FD vanilla engines
     ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesvanillaengine,
         "FdBlackScholesVanillaEngine - 1D finite-difference vanilla option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdhestonvanillaengine,
@@ -78,7 +75,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::fdornsteinuhlenbeckvanillaengine,
         "FdOrnsteinUhlenbeckVanillaEngine - FD Ornstein-Uhlenbeck pricing");
 
-    // Heston engine variants
     ADD_MAIN_BINDING(ql_pricingengines::analytichestonengine,
         "AnalyticHestonEngine - Heston stochastic volatility pricing");
     ADD_MAIN_BINDING(ql_pricingengines::batesengine,
@@ -100,7 +96,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::mceuropeanhestonengine,
         "MCEuropeanHestonEngine - MC European Heston pricing");
 
-    // GARCH / CEV engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticgjrgarchengine,
         "AnalyticGJRGARCHEngine - analytic GJR-GARCH option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::mceuropeangjrgarchengine,
@@ -108,7 +103,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::analyticcevengine,
         "AnalyticCEVEngine - analytic CEV option pricing");
 
-    // Spread / basket engines
     ADD_MAIN_BINDING(ql_pricingengines::spreadblackscholesvanillaengine,
         "SpreadBlackScholesVanillaEngine - spread option pricing base class");
     ADD_MAIN_BINDING(ql_pricingengines::kirkengine,
@@ -126,7 +120,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::mceuropeanbasketengine,
         "MCEuropeanBasketEngine - Monte Carlo European basket option pricing");
 
-    // Barrier engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticbarrierengine,
         "AnalyticBarrierEngine - Analytic barrier option engine");
     ADD_MAIN_BINDING(ql_pricingengines::analyticdoublebarrierengine,
@@ -142,7 +135,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::mcdoublebarrierengine,
         "MCDoubleBarrierEngine - MC double barrier option pricing");
 
-    // Asian engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousgeometricasianengine,
         "AnalyticContinuousGeometricAveragePriceAsianEngine - Continuous geometric Asian");
     ADD_MAIN_BINDING(ql_pricingengines::analyticdiscretegeometricasianengine,
@@ -152,7 +144,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::turnbullwakemanasianengine,
         "TurnbullWakemanAsianEngine - Turnbull-Wakeman Asian approximation");
 
-    // Lookback engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousfloatinglookbackengine,
         "AnalyticContinuousFloatingLookbackEngine - floating-strike lookback");
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuousfixedlookbackengine,
@@ -162,7 +153,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::analyticcontinuouspartialfixedlookbackengine,
         "AnalyticContinuousPartialFixedLookbackEngine - partial fixed lookback");
 
-    // Exotic engines
     ADD_MAIN_BINDING(ql_pricingengines::analyticcliquetengine,
         "AnalyticCliquetEngine - cliquet option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::analyticcompoundoptionengine,
@@ -182,7 +172,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::analytictwoassetcorrelationengine,
         "AnalyticTwoAssetCorrelationEngine - two-asset correlation option pricing");
 
-    // Forward / quanto engines
     ADD_MAIN_BINDING(ql_pricingengines::forwardengine,
         "ForwardEuropeanEngine, ForwardPerformanceEuropeanEngine");
     ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanbsengine,
@@ -192,7 +181,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::quantoengine,
         "QuantoVanillaEngine, QuantoForwardVanillaEngine - quanto option pricing");
 
-    // Swaption engines
     ADD_MAIN_BINDING(ql_pricingengines::blackswaptionengine,
         "BlackSwaptionEngine, BachelierSwaptionEngine - swaption engines");
     ADD_MAIN_BINDING(ql_pricingengines::treeswaptionengine,
@@ -214,7 +202,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::gaussian1dfloatfloatswaptionengine,
         "Gaussian1dFloatFloatSwaptionEngine - Gaussian 1-D float-float swaption engine");
 
-    // Cap/floor engines
     ADD_MAIN_BINDING(ql_pricingengines::blackcapfloorengine,
         "BlackCapFloorEngine - Black-formula cap/floor engine");
     ADD_MAIN_BINDING(ql_pricingengines::bacheliercapfloorengine,
@@ -228,7 +215,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
     ADD_MAIN_BINDING(ql_pricingengines::inflationcapfloorengines,
         "YoYInflation Black/UnitDisplaced/Bachelier CapFloorEngine");
 
-    // Bond / swap / credit engines
     ADD_MAIN_BINDING(ql_pricingengines::discountingbondengine,
         "DiscountingBondEngine - Discounting engine for bonds");
     ADD_MAIN_BINDING(ql_pricingengines::bondfunctions,

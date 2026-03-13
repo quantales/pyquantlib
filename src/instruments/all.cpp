@@ -90,7 +90,6 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
     ADD_MAIN_BINDING(ql_instruments::creditdefaultswap,
         "CreditDefaultSwap - credit default swap");
 
-    // Inflation instruments
     ADD_MAIN_BINDING(ql_instruments::zerocouponinflationswap,
         "ZeroCouponInflationSwap");
     ADD_MAIN_BINDING(ql_instruments::yearonyearinflationswap,
@@ -99,7 +98,6 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "YoYInflationCapFloor, Cap, Floor, Collar");
     ADD_MAIN_BINDING(ql_instruments::makeyoyinflationcapfloor,
         "MakeYoYInflationCapFloor builder");
-
     ADD_MAIN_BINDING(ql_instruments::bondforward,
         "BondForward - forward contract on a bond");
     ADD_MAIN_BINDING(ql_instruments::varianceswap,
@@ -120,7 +118,6 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "ConvertibleBond, ConvertibleZeroCouponBond, "
         "ConvertibleFixedCouponBond, ConvertibleFloatingRateBond, SoftCallability");
 
-    // Lookback options
     ADD_MAIN_BINDING(ql_instruments::lookbackoption,
         "ContinuousFloatingLookbackOption, ContinuousFixedLookbackOption, "
         "ContinuousPartialFloatingLookbackOption, ContinuousPartialFixedLookbackOption");
@@ -140,7 +137,6 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "ForwardVanillaOption - forward-start vanilla option");
     ADD_MAIN_BINDING(ql_instruments::quantoforwardvanillaoption,
         "QuantoForwardVanillaOption - quanto forward-start option");
-    // Extensible options
     ADD_MAIN_BINDING(ql_instruments::holderextensibleoption,
         "HolderExtensibleOption - holder-extensible option");
     ADD_MAIN_BINDING(ql_instruments::writerextensibleoption,

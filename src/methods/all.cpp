@@ -15,7 +15,6 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(methods_bindings) {
-    // finitedifferences
     ADD_MAIN_BINDING(ql_methods::fdmbackwardsolver,
         "FdmSchemeDesc and FdmSchemeType from fdmbackwardsolver.hpp");
     ADD_MAIN_BINDING(ql_methods::fdmhestongreensfct,
@@ -118,7 +117,6 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "ModifiedCraigSneydScheme - modified Craig-Sneyd ADI");
     ADD_MAIN_BINDING(ql_methods::methodoflinesscheme,
         "MethodOfLinesScheme - method of lines time stepping");
-    // Step conditions + inner value + solvers
     ADD_BASE_BINDING(ql_methods::stepcondition,
         "FdmStepCondition - step condition ABC");
     ADD_MAIN_BINDING(ql_methods::fdminnervaluecalculator,
@@ -157,7 +155,6 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "Fdm2dBlackScholesSolver - specialized 2D two-asset BS solver");
     ADD_MAIN_BINDING(ql_methods::fdmbatessolver,
         "FdmBatesSolver - specialized 2D Bates solver");
-    // RND calculators
     ADD_BASE_BINDING(ql_methods::riskneutraldensitycalculator,
         "RiskNeutralDensityCalculator - ABC");
     ADD_MAIN_BINDING(ql_methods::bsmrndcalculator,
@@ -172,7 +169,6 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "SquareRootProcessRNDCalculator - square root process RND");
     ADD_MAIN_BINDING(ql_methods::localvolrndcalculator,
         "LocalVolRNDCalculator - local vol FDM-based RND calculator");
-    // Monte Carlo
     ADD_MAIN_BINDING(ql_methods::lsmbasissystem,
         "LsmBasisSystem - polynomial type enum for LSM basis systems");
     ADD_MAIN_BINDING(ql_methods::path,

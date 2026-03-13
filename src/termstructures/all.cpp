@@ -15,7 +15,6 @@
 #include "pyquantlib/binding_manager.h"
 
 DECLARE_MODULE_BINDINGS(termstructures_bindings) {
-    // Abstract base classes
     ADD_BASE_BINDING(ql_termstructures::yieldtermstructure,
         "YieldTermStructure ABC");
     ADD_BASE_BINDING(ql_termstructures::voltermstructure,
@@ -25,7 +24,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_BASE_BINDING(ql_termstructures::localvoltermstructure,
         "LocalVolTermStructure ABC");
 
-    // Handle types
     ADD_MAIN_BINDING(ql_termstructures::yieldtermstructurehandle,
         "Handle<YieldTermStructure>");
     ADD_MAIN_BINDING(ql_termstructures::relinkableyieldtermstructurehandle,
@@ -39,11 +37,9 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::relinkablelocalvoltermstructurehandle,
         "RelinkableHandle<LocalVolTermStructure>");
 
-    // Enums
     ADD_MAIN_BINDING(ql_termstructures::volatilitytype,
         "VolatilityType - ShiftedLognormal or Normal");
 
-    // Concrete implementations
     ADD_MAIN_BINDING(ql_termstructures::flatforward,
         "FlatForward yield curve");
     ADD_MAIN_BINDING(ql_termstructures::blackconstantvol,
@@ -59,7 +55,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::noexceptlocalvolsurface,
         "NoExceptLocalVolSurface with fallback value");
 
-    // Smile sections
     ADD_BASE_BINDING(ql_termstructures::smilesection,
         "SmileSection ABC");
     ADD_MAIN_BINDING(ql_termstructures::flatsmilesection,
@@ -77,7 +72,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::kahalesmilesection,
         "KahaleSmileSection - arbitrage-free smile section");
 
-    // Rate helpers and curve bootstrapping
     ADD_MAIN_BINDING(ql_termstructures::pillar,
         "Pillar enum");
     ADD_BASE_BINDING(ql_termstructures::ratehelper,
@@ -95,7 +89,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::multicurve,
         "MultiCurve - simultaneous multi-curve bootstrap");
 
-    // Interpolated yield curves
     ADD_MAIN_BINDING(ql_termstructures::zerocurve,
         "ZeroCurve - zero rate curve with linear interpolation");
     ADD_MAIN_BINDING(ql_termstructures::discountcurve,
@@ -105,7 +98,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::zerospreadedtermstructure,
         "ZeroSpreadedTermStructure - yield curve with additive spread");
 
-    // Fitted bond discount curve
     ADD_BASE_BINDING(ql_termstructures::fittingmethod,
         "FittingMethod ABC");
     ADD_MAIN_BINDING(ql_termstructures::fittedbonddiscountcurve,
@@ -113,7 +105,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::nonlinearfittingmethods,
         "NelsonSiegel, Svensson, ExponentialSplines, CubicBSplines, SimplePolynomial, Spread");
 
-    // Swaption volatility
     ADD_BASE_BINDING(ql_termstructures::swaptionvolstructure,
         "SwaptionVolatilityStructure ABC");
     ADD_MAIN_BINDING(ql_termstructures::swaptionvolstructurehandle,
@@ -131,13 +122,11 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::sabrswaptionvolcube,
         "SabrSwaptionVolatilityCube");
 
-    // Cap/floor term volatility
     ADD_BASE_BINDING(ql_termstructures::capfloortermvolatilitystructure,
         "CapFloorTermVolatilityStructure ABC");
     ADD_MAIN_BINDING(ql_termstructures::capfloortermvolsurface,
         "CapFloorTermVolSurface");
 
-    // Optionlet volatility
     ADD_BASE_BINDING(ql_termstructures::optionletvolatilitystructure,
         "OptionletVolatilityStructure ABC");
     ADD_MAIN_BINDING(ql_termstructures::optionletvolatilitystructurehandle,
@@ -147,7 +136,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::constantoptionletvolatility,
         "ConstantOptionletVolatility");
 
-    // Optionlet stripping
     ADD_BASE_BINDING(ql_termstructures::strippedoptionletbase,
         "StrippedOptionletBase ABC");
     ADD_BASE_BINDING(ql_termstructures::optionletstripper,
@@ -157,7 +145,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::strippedoptionletadapter,
         "StrippedOptionletAdapter");
 
-    // Credit term structures
     ADD_BASE_BINDING(ql_termstructures::defaultprobabilitytermstructure,
         "DefaultProbabilityTermStructure ABC");
     ADD_MAIN_BINDING(ql_termstructures::defaultprobabilitytermstructurehandle,
@@ -171,7 +158,6 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::piecewisedefaultcurve,
         "PiecewiseDefaultCurve instantiations");
 
-    // Inflation term structures
     ADD_BASE_BINDING(ql_termstructures::inflationtermstructure,
         "InflationTermStructure, ZeroInflationTermStructure, "
         "YoYInflationTermStructure ABCs");
@@ -180,35 +166,29 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
     ADD_MAIN_BINDING(ql_termstructures::yoyinflationtermstructurehandle,
         "Handle<YoYInflationTermStructure>");
 
-    // Seasonality
     ADD_MAIN_BINDING(ql_termstructures::seasonality,
         "Seasonality ABC, MultiplicativePriceSeasonality, KerkhofSeasonality");
 
-    // Inflation bootstrap helpers
     ADD_BASE_BINDING(ql_termstructures::inflationhelper,
         "ZeroInflationHelper, YoYInflationHelper ABCs");
     ADD_MAIN_BINDING(ql_termstructures::inflationhelpers,
         "ZeroCouponInflationSwapHelper, YearOnYearInflationSwapHelper");
 
-    // Interpolated inflation curves
     ADD_MAIN_BINDING(ql_termstructures::interpolatedzeroinflationcurve,
         "ZeroInflationCurve (Linear)");
     ADD_MAIN_BINDING(ql_termstructures::interpolatedyoyinflationcurve,
         "YoYInflationCurve (Linear)");
 
-    // Piecewise (bootstrapped) inflation curves
     ADD_MAIN_BINDING(ql_termstructures::piecewisezeroinflationcurve,
         "PiecewiseZeroInflationCurve (Linear)");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyoyinflationcurve,
         "PiecewiseYoYInflationCurve (Linear)");
 
-    // YoY inflation optionlet volatility
     ADD_MAIN_BINDING(
         ql_termstructures::yoyinflationoptionletvolatilitystructure,
         "YoYOptionletVolatilitySurface ABC, ConstantYoYOptionletVolatility, "
         "Handle");
 
-    // Additional yield / vol term structures
     ADD_MAIN_BINDING(ql_termstructures::forwardspreadedtermstructure,
         "ForwardSpreadedTermStructure - forward rate + spread");
     ADD_MAIN_BINDING(ql_termstructures::impliedtermstructure,
