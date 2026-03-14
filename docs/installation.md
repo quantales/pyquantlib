@@ -3,7 +3,7 @@
 ## Compatibility
 
 - **Python**: 3.10, 3.11, 3.12, 3.13
-- **QuantLib**: 1.40+
+- **QuantLib**: 1.41+
 - **Platforms**: Windows, macOS, Linux
 
 | PyQuantLib | QuantLib | Notes |
@@ -11,7 +11,7 @@
 | 0.1.0 -- 0.6.0 | 1.40, 1.41 | Built and tested against 1.40; verified compatible with 1.41 |
 | 0.7.0+ | 1.41+ | Requires 1.41 (uses MultiCurve/GlobalBootstrap API) |
 
-PyQuantLib provides bindings for a subset of QuantLib. Foundational components are available: time handling, term structures, common instruments, and pricing engines. Coverage is actively growing. See the {doc}`api/index` for what's available.
+PyQuantLib provides comprehensive bindings for QuantLib, covering time handling, term structures, instruments, pricing engines, stochastic processes, models, finite-difference methods, Monte Carlo infrastructure, and more. See the {doc}`api/index` for the full list.
 
 ```{note}
 Check versions at runtime: `ql.__version__` (PyQuantLib) and `ql.QL_VERSION` (QuantLib).
