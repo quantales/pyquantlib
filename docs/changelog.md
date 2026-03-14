@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Upgraded QuantLib dependency from 1.40 to 1.41
+- `FdBlackScholesVanillaEngine` gains optional `cashDividendModel` parameter (`CashDividendModel.Spot` or `.Escrowed`)
+
 ### Added
 
 #### Pricing Engines
@@ -631,7 +635,9 @@ Initial release targeting QuantLib 1.40.
 - API is subject to change during beta period
 - `QdFpAmericanEngine` has a known issue on Windows (access violation during `calculate()`)
 
-[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/quantales/pyquantlib/compare/v0.5.1...v0.6.0
+[0.5.1]: https://github.com/quantales/pyquantlib/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/quantales/pyquantlib/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/quantales/pyquantlib/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/quantales/pyquantlib/compare/v0.2.0...v0.3.0
