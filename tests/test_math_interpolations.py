@@ -589,3 +589,53 @@ def test_sabr_interpolation_data_lifetime():
     val = interp(0.05)
     assert math.isfinite(val)
     assert val > 0
+
+
+# ---------------------------------------------------------------------------
+# ConvexMonotoneInterpolation
+# ---------------------------------------------------------------------------
+
+def test_convex_monotone_construction():
+    """ConvexMonotoneInterpolation constructs and evaluates."""
+    x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
+    y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
+    interp = ql.ConvexMonotoneInterpolation(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    # Produces finite positive values across the range
+    for t in [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]:
+        assert interp(t) > 0
+
+
+def test_convex_monotone_preserves_monotonicity():
+    """Convex monotone interpolation preserves monotonicity."""
+    x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
+    y = [0.01, 0.012, 0.015, 0.020, 0.025, 0.030]
+    interp = ql.ConvexMonotoneInterpolation(x, y)
+
+    prev = interp(0.0)
+    for t in np.linspace(0.1, 5.0, 50):
+        val = interp(t)
+        assert val >= prev - 1e-10
+        prev = val
+
+
+def test_convex_monotone_custom_params():
+    """Custom quadraticity and monotonicity parameters."""
+    x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
+    y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
+    interp = ql.ConvexMonotoneInterpolation(
+        x, y, quadraticity=0.0, monotonicity=1.0)
+    assert interp(2.5) > 0
+
+
+def test_convex_monotone_data_lifetime():
+    """Convex monotone interpolation survives after input lists go out of scope."""
+    def make():
+        x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
+        y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
+        return ql.ConvexMonotoneInterpolation(x, y)
+
+    interp = make()
+    val = interp(2.0)
+    assert math.isfinite(val)
+    assert val > 0

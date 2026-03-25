@@ -35,6 +35,7 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::mixedinterpolation, "Mixed linear/cubic interpolation");
     ADD_MAIN_BINDING(ql_math::loginterpolation, "Log-cubic and log-mixed interpolation");
     ADD_MAIN_BINDING(ql_math::sabrinterpolation, "SABR interpolation");
+    ADD_MAIN_BINDING(ql_math::convexmonotoneinterpolation, "Convex monotone interpolation");
     ADD_MAIN_BINDING(ql_math::normaldistribution, "Normal distribution functions");
     ADD_MAIN_BINDING(ql_math::bivariatenormaldistribution, "Bivariate cumulative normal distribution");
     ADD_MAIN_BINDING(ql_math::solvers1d, "1-D root-finding solvers");

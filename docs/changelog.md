@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Math -- Interpolations
+- `MixedLinearCubicInterpolation` mixed linear/cubic interpolation with configurable switch point and behavior
+- `MixedLinearCubicNaturalSpline`, `MixedLinearMonotonicCubicNaturalSpline`, `MixedLinearKrugerCubic`, `MixedLinearFritschButlandCubic` convenience classes
+- `MixedInterpolationBehavior` enum (`ShareRanges`, `SplitRanges`)
+- `LogCubicInterpolation` log-cubic interpolation with configurable derivative approximation and boundary conditions
+- `LogCubicNaturalSpline`, `MonotonicLogCubicNaturalSpline`, `KrugerLogCubic`, `HarmonicLogCubic`, `FritschButlandLogCubic` convenience classes
+- `LogMixedLinearCubicInterpolation` log-mixed linear/cubic interpolation
+- `LogMixedLinearCubicNaturalSpline` convenience class
+- `SABRInterpolation` SABR smile interpolation with calibration (alpha, beta, nu, rho accessors, RMS/max error, end criteria)
+- `ConvexMonotoneInterpolation` convex monotone yield-curve interpolation (Hagan & West, 2006)
+
 ## [0.7.0] - 2026-03-14
 
 ### Changed

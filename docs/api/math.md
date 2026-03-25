@@ -303,6 +303,21 @@ interp.update()
 print(f"alpha={interp.alpha():.4f}, rho={interp.rho():.4f}, rms={interp.rmsError():.6f}")
 ```
 
+### ConvexMonotoneInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConvexMonotoneInterpolation
+```
+
+Convex monotone yield-curve interpolation (Hagan & West, 2006). Preserves
+monotonicity and convexity of the forward rate curve.
+
+```python
+x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
+y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
+interp = ql.ConvexMonotoneInterpolation(x, y, quadraticity=0.3, monotonicity=0.7)
+```
+
 ### ForwardFlatInterpolation
 
 ```{eval-rst}
