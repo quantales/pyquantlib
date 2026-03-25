@@ -98,6 +98,8 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
         "Forward-flat interpolation");
     ADD_MAIN_BINDING(ql_math::lagrangeinterpolation, "Lagrange interpolation");
     ADD_MAIN_BINDING(ql_math::bilinearinterpolation, "Bilinear interpolation");
+    ADD_MAIN_BINDING(ql_math::backwardflatlinearinterpolation, "Backward-flat linear 2D interpolation");
+    ADD_MAIN_BINDING(ql_math::flatextrapolation2d, "Flat extrapolation 2D");
     ADD_MAIN_BINDING(ql_math::bicubicsplineinterpolation,
         "Bicubic spline interpolation");
     ADD_MAIN_BINDING(ql_math::chebyshevinterpolation,

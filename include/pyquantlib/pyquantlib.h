@@ -101,6 +101,8 @@ namespace ql_math {
     void loginterpolation(py::module_&);
     void sabrinterpolation(py::module_&);
     void convexmonotoneinterpolation(py::module_&);
+    void backwardflatlinearinterpolation(py::module_&);
+    void flatextrapolation2d(py::module_&);
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
     void solvers1d(py::module_&);

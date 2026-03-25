@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `LogMixedLinearCubicNaturalSpline` convenience class
 - `SABRInterpolation` SABR smile interpolation with calibration (alpha, beta, nu, rho accessors, RMS/max error, end criteria)
 - `ConvexMonotoneInterpolation` convex monotone yield-curve interpolation (Hagan & West, 2006)
+- `BackwardflatLinearInterpolation` 2-D backward-flat/linear interpolation
+- `FlatExtrapolator2D` 2-D flat extrapolation decorator
 
 ## [0.7.0] - 2026-03-14
 

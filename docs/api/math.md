@@ -318,6 +318,29 @@ y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
 interp = ql.ConvexMonotoneInterpolation(x, y, quadraticity=0.3, monotonicity=0.7)
 ```
 
+### BackwardflatLinearInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BackwardflatLinearInterpolation
+```
+
+2-D interpolation: backward-flat in the first component, linear in the second.
+
+### FlatExtrapolator2D
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FlatExtrapolator2D
+```
+
+Decorator that adds flat extrapolation outside the range of any 2-D interpolation.
+
+```python
+inner = ql.BilinearInterpolation(x, y, z)
+extrap = ql.FlatExtrapolator2D(inner)
+extrap.enableExtrapolation()
+extrap(0.0, 0.0)  # clamps to boundary value
+```
+
 ### ForwardFlatInterpolation
 
 ```{eval-rst}

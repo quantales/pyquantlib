@@ -639,3 +639,95 @@ def test_convex_monotone_data_lifetime():
     val = interp(2.0)
     assert math.isfinite(val)
     assert val > 0
+
+
+# ---------------------------------------------------------------------------
+# BackwardflatLinearInterpolation (2D)
+# ---------------------------------------------------------------------------
+
+def test_backwardflat_linear_2d_construction():
+    """BackwardflatLinearInterpolation constructs and evaluates."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0, 30.0]
+    z = ql.Matrix(3, 3)
+    for i in range(3):
+        for j in range(3):
+            z[i][j] = (i + 1) * (j + 1) * 1.0
+    interp = ql.BackwardflatLinearInterpolation(x, y, z)
+    assert isinstance(interp, ql.base.Interpolation2D)
+
+
+def test_backwardflat_linear_2d_at_nodes():
+    """Backward-flat linear 2D hits node values."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0]
+    z = ql.Matrix(2, 3)
+    z[0][0] = 1.0; z[0][1] = 2.0; z[0][2] = 3.0
+    z[1][0] = 4.0; z[1][1] = 5.0; z[1][2] = 6.0
+    interp = ql.BackwardflatLinearInterpolation(x, y, z)
+
+    assert interp(1.0, 10.0) == pytest.approx(1.0)
+    assert interp(2.0, 20.0) == pytest.approx(5.0)
+    assert interp(3.0, 20.0) == pytest.approx(6.0)
+
+
+def test_backwardflat_linear_2d_interpolation():
+    """Backward-flat in x, linear in y."""
+    x = [1.0, 2.0]
+    y = [0.0, 1.0]
+    z = ql.Matrix(2, 2)
+    z[0][0] = 10.0; z[0][1] = 20.0
+    z[1][0] = 30.0; z[1][1] = 40.0
+    interp = ql.BackwardflatLinearInterpolation(x, y, z)
+
+    # Linear in y at x=1.0
+    assert interp(1.0, 0.5) == pytest.approx(20.0)  # (10+30)/2
+
+    # Backward-flat in x: between 1 and 2, uses x=2 value
+    assert interp(1.5, 0.0) == pytest.approx(20.0)  # backflat -> z[0][1]
+
+
+# ---------------------------------------------------------------------------
+# FlatExtrapolator2D
+# ---------------------------------------------------------------------------
+
+def test_flat_extrapolator_2d_construction():
+    """FlatExtrapolator2D wraps a 2D interpolation."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0, 30.0]
+    z = ql.Matrix(3, 3)
+    for i in range(3):
+        for j in range(3):
+            z[i][j] = float(i + j)
+    inner = ql.BilinearInterpolation(x, y, z)
+    extrap = ql.FlatExtrapolator2D(inner)
+    assert isinstance(extrap, ql.base.Interpolation2D)
+
+
+def test_flat_extrapolator_2d_within_range():
+    """FlatExtrapolator2D passes through to inner interpolation within range."""
+    x = [1.0, 2.0, 3.0]
+    y = [10.0, 20.0]
+    z = ql.Matrix(2, 3)
+    z[0][0] = 1.0; z[0][1] = 2.0; z[0][2] = 3.0
+    z[1][0] = 4.0; z[1][1] = 5.0; z[1][2] = 6.0
+    inner = ql.BilinearInterpolation(x, y, z)
+    extrap = ql.FlatExtrapolator2D(inner)
+
+    assert extrap(2.0, 15.0) == pytest.approx(inner(2.0, 15.0))
+
+
+def test_flat_extrapolator_2d_outside_range():
+    """FlatExtrapolator2D clamps to boundary values outside range."""
+    x = [1.0, 2.0]
+    y = [10.0, 20.0]
+    z = ql.Matrix(2, 2)
+    z[0][0] = 1.0; z[0][1] = 2.0
+    z[1][0] = 3.0; z[1][1] = 4.0
+    inner = ql.BilinearInterpolation(x, y, z)
+    extrap = ql.FlatExtrapolator2D(inner)
+    extrap.enableExtrapolation()
+
+    # Outside x range: clamps to boundary
+    assert extrap(0.0, 10.0) == pytest.approx(extrap(1.0, 10.0))
+    assert extrap(5.0, 20.0) == pytest.approx(extrap(2.0, 20.0))
