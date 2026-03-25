@@ -383,3 +383,112 @@ def test_mixed_data_lifetime():
 
     interp = make()
     assert interp(3.0) == pytest.approx(9.0)
+
+
+# ---------------------------------------------------------------------------
+# LogCubicInterpolation
+# ---------------------------------------------------------------------------
+
+def test_log_cubic_construction():
+    """LogCubicInterpolation constructs and evaluates."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [1.0, 2.0, 3.0, 4.0, 5.0]  # must be positive for log
+    interp = ql.LogCubicInterpolation(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(1.0) == pytest.approx(1.0)
+    assert interp(5.0) == pytest.approx(5.0)
+
+
+def test_log_cubic_natural_spline():
+    """LogCubicNaturalSpline convenience class."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.01, 0.02, 0.03, 0.04, 0.05]
+    interp = ql.LogCubicNaturalSpline(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(3.0) == pytest.approx(0.03)
+
+
+def test_monotonic_log_cubic_natural_spline():
+    """MonotonicLogCubicNaturalSpline preserves monotonicity."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.90, 0.92, 0.95, 0.97, 0.99]
+    interp = ql.MonotonicLogCubicNaturalSpline(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+
+    prev = interp(1.0)
+    for t in np.linspace(1.1, 5.0, 40):
+        val = interp(t)
+        assert val >= prev - 1e-10
+        prev = val
+
+
+def test_kruger_log_cubic():
+    """KrugerLogCubic convenience class."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.01, 0.02, 0.03, 0.04, 0.05]
+    interp = ql.KrugerLogCubic(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(4.0) == pytest.approx(0.04)
+
+
+def test_harmonic_log_cubic():
+    """HarmonicLogCubic convenience class."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.01, 0.02, 0.03, 0.04, 0.05]
+    interp = ql.HarmonicLogCubic(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(5.0) == pytest.approx(0.05)
+
+
+def test_fritsch_butland_log_cubic():
+    """FritschButlandLogCubic convenience class."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.01, 0.02, 0.03, 0.04, 0.05]
+    interp = ql.FritschButlandLogCubic(x, y)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(3.0) == pytest.approx(0.03)
+
+
+def test_log_cubic_data_lifetime():
+    """Log-cubic interpolation survives after input lists go out of scope."""
+    def make():
+        x = [1.0, 2.0, 3.0, 4.0, 5.0]
+        y = [0.01, 0.02, 0.03, 0.04, 0.05]
+        return ql.KrugerLogCubic(x, y)
+
+    interp = make()
+    assert interp(3.0) == pytest.approx(0.03)
+
+
+# ---------------------------------------------------------------------------
+# LogMixedLinearCubicInterpolation
+# ---------------------------------------------------------------------------
+
+def test_log_mixed_construction():
+    """LogMixedLinearCubicInterpolation constructs and evaluates."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    y = [0.90, 0.92, 0.95, 0.97, 0.98, 0.99]
+    interp = ql.LogMixedLinearCubicInterpolation(x, y, n=2)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(1.0) == pytest.approx(0.90)
+    assert interp(6.0) == pytest.approx(0.99)
+
+
+def test_log_mixed_natural_spline():
+    """LogMixedLinearCubicNaturalSpline convenience class."""
+    x = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+    y = [0.90, 0.92, 0.95, 0.97, 0.98, 0.99]
+    interp = ql.LogMixedLinearCubicNaturalSpline(x, y, n=2)
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp(4.0) == pytest.approx(0.97)
+
+
+def test_log_mixed_data_lifetime():
+    """Log-mixed interpolation survives after input lists go out of scope."""
+    def make():
+        x = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        y = [0.90, 0.92, 0.95, 0.97, 0.98, 0.99]
+        return ql.LogMixedLinearCubicNaturalSpline(x, y, n=2)
+
+    interp = make()
+    assert interp(3.0) == pytest.approx(0.95)

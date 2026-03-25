@@ -222,6 +222,65 @@ interp = ql.MixedLinearCubicInterpolation(x, y, n=2)
    :undoc-members:
 ```
 
+### LogCubicInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LogCubicInterpolation
+```
+
+Interpolation in log-space using cubic splines. Essential for yield curve construction
+where discount factors must remain positive.
+
+```python
+x = [1.0, 2.0, 3.0, 4.0, 5.0]
+y = [0.99, 0.97, 0.94, 0.90, 0.85]
+interp = ql.LogCubicInterpolation(x, y)
+```
+
+### LogCubicNaturalSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LogCubicNaturalSpline
+```
+
+### MonotonicLogCubicNaturalSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MonotonicLogCubicNaturalSpline
+```
+
+### KrugerLogCubic
+
+```{eval-rst}
+.. autoclass:: pyquantlib.KrugerLogCubic
+```
+
+### HarmonicLogCubic
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HarmonicLogCubic
+```
+
+### FritschButlandLogCubic
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FritschButlandLogCubic
+```
+
+### LogMixedLinearCubicInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LogMixedLinearCubicInterpolation
+```
+
+Log-space mixed interpolation: log-linear for the first `n` points, log-cubic for the rest.
+
+### LogMixedLinearCubicNaturalSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LogMixedLinearCubicNaturalSpline
+```
+
 ### ForwardFlatInterpolation
 
 ```{eval-rst}
