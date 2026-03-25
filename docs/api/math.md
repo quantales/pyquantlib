@@ -177,6 +177,51 @@ Monotonicity-preserving cubic spline that prevents oscillations.
    :undoc-members:
 ```
 
+### MixedLinearCubicInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedLinearCubicInterpolation
+```
+
+Mixed interpolation that uses linear for the first `n` points and cubic for the rest.
+Useful for yield curves where short-end behavior differs from long-end.
+
+```python
+x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+interp = ql.MixedLinearCubicInterpolation(x, y, n=2)
+```
+
+### MixedLinearCubicNaturalSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedLinearCubicNaturalSpline
+```
+
+### MixedLinearMonotonicCubicNaturalSpline
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedLinearMonotonicCubicNaturalSpline
+```
+
+### MixedLinearKrugerCubic
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedLinearKrugerCubic
+```
+
+### MixedLinearFritschButlandCubic
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedLinearFritschButlandCubic
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MixedInterpolationBehavior
+   :members:
+   :undoc-members:
+```
+
 ### ForwardFlatInterpolation
 
 ```{eval-rst}

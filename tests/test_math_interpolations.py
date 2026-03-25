@@ -289,3 +289,97 @@ def test_richardson_second_order():
     re = ql.RichardsonExtrapolation(f, 0.01)
     result = re(4.0, 2.0)
     assert result == pytest.approx(1.0, rel=1e-10)
+
+
+# ---------------------------------------------------------------------------
+# MixedLinearCubicInterpolation
+# ---------------------------------------------------------------------------
+
+def test_mixed_interpolation_behavior_enum():
+    """MixedInterpolationBehavior enum is accessible."""
+    assert ql.MixedInterpolationBehavior.ShareRanges is not None
+    assert ql.MixedInterpolationBehavior.SplitRanges is not None
+
+
+def test_mixed_linear_cubic_construction():
+    """MixedLinearCubicInterpolation constructs and evaluates."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+    # Switch at n=2: first 2 points linear, rest cubic
+    interp = ql.MixedLinearCubicInterpolation(x, y, n=2)
+    assert isinstance(interp, ql.base.Interpolation)
+
+    # At nodes
+    assert interp(0.0) == pytest.approx(0.0)
+    assert interp(3.0) == pytest.approx(9.0)
+    assert interp(5.0) == pytest.approx(25.0)
+
+    # Between nodes
+    val = interp(2.5)
+    assert 4.0 < val < 9.0
+
+
+def test_mixed_linear_cubic_natural_spline():
+    """MixedLinearCubicNaturalSpline convenience class."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+    interp = ql.MixedLinearCubicNaturalSpline(x, y, n=2)
+    assert isinstance(interp, ql.MixedLinearCubicInterpolation)
+    assert interp(3.0) == pytest.approx(9.0)
+
+
+def test_mixed_linear_monotonic_cubic():
+    """MixedLinearMonotonicCubicNaturalSpline preserves monotonicity."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [1.0, 2.0, 3.0, 5.0, 8.0, 13.0]
+    interp = ql.MixedLinearMonotonicCubicNaturalSpline(x, y, n=2)
+    assert isinstance(interp, ql.MixedLinearCubicInterpolation)
+
+    # Check monotonicity between nodes
+    prev = interp(0.0)
+    for t in np.linspace(0.1, 5.0, 50):
+        val = interp(t)
+        assert val >= prev - 1e-10
+        prev = val
+
+
+def test_mixed_linear_kruger():
+    """MixedLinearKrugerCubic convenience class."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+    interp = ql.MixedLinearKrugerCubic(x, y, n=2)
+    assert isinstance(interp, ql.MixedLinearCubicInterpolation)
+    assert interp(4.0) == pytest.approx(16.0)
+
+
+def test_mixed_linear_fritsch_butland():
+    """MixedLinearFritschButlandCubic convenience class."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+    interp = ql.MixedLinearFritschButlandCubic(x, y, n=2)
+    assert isinstance(interp, ql.MixedLinearCubicInterpolation)
+    assert interp(5.0) == pytest.approx(25.0)
+
+
+def test_mixed_split_ranges():
+    """SplitRanges behavior splits interpolation at switch point."""
+    x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+    y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+    interp = ql.MixedLinearCubicNaturalSpline(
+        x, y, n=2, behavior=ql.MixedInterpolationBehavior.SplitRanges)
+
+    # Should still hit nodes exactly
+    assert interp(0.0) == pytest.approx(0.0)
+    assert interp(2.0) == pytest.approx(4.0)
+    assert interp(5.0) == pytest.approx(25.0)
+
+
+def test_mixed_data_lifetime():
+    """Interpolation survives after input lists go out of scope."""
+    def make():
+        x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+        y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
+        return ql.MixedLinearCubicNaturalSpline(x, y, n=2)
+
+    interp = make()
+    assert interp(3.0) == pytest.approx(9.0)
