@@ -281,6 +281,28 @@ Log-space mixed interpolation: log-linear for the first `n` points, log-cubic fo
 .. autoclass:: pyquantlib.LogMixedLinearCubicNaturalSpline
 ```
 
+### SABRInterpolation
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SABRInterpolation
+```
+
+SABR smile interpolation that calibrates alpha, beta, nu, rho to market volatilities.
+
+```python
+strikes = [0.03, 0.04, 0.05, 0.06, 0.07]
+vols = [0.25, 0.22, 0.20, 0.21, 0.23]
+
+interp = ql.SABRInterpolation(
+    strikes, vols, expiry=1.0, forward=0.05,
+    alpha=0.2, beta=0.5, nu=0.4, rho=-0.3,
+    alphaIsFixed=False, betaIsFixed=True,
+    nuIsFixed=False, rhoIsFixed=False,
+)
+interp.update()
+print(f"alpha={interp.alpha():.4f}, rho={interp.rho():.4f}, rms={interp.rmsError():.6f}")
+```
+
 ### ForwardFlatInterpolation
 
 ```{eval-rst}

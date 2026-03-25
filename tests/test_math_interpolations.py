@@ -492,3 +492,100 @@ def test_log_mixed_data_lifetime():
 
     interp = make()
     assert interp(3.0) == pytest.approx(0.95)
+
+
+# ---------------------------------------------------------------------------
+# SABRInterpolation
+# ---------------------------------------------------------------------------
+
+def _sabr_test_data():
+    """Generate SABR test data from known parameters (mirrors QL test suite)."""
+    forward = 0.039
+    expiry = 1.0
+    alpha, beta, nu, rho_val = 0.3, 0.6, 0.02, 0.01
+
+    strikes = [0.03 + 0.002 * i for i in range(31)]
+    vols = [
+        ql.sabrVolatility(K, forward, expiry, alpha, beta, nu, rho_val)
+        for K in strikes
+    ]
+    return strikes, vols, forward, expiry, alpha, beta, nu, rho_val
+
+
+def test_sabr_interpolation_fixed():
+    """SABRInterpolation with all params fixed evaluates correctly."""
+    strikes, vols, forward, expiry, alpha, beta, nu, rho_val = _sabr_test_data()
+
+    interp = ql.SABRInterpolation(
+        strikes, vols, expiry, forward,
+        alpha=alpha, beta=beta, nu=nu, rho=rho_val,
+        alphaIsFixed=True, betaIsFixed=True,
+        nuIsFixed=True, rhoIsFixed=True,
+    )
+    interp.update()
+
+    assert isinstance(interp, ql.base.Interpolation)
+    assert interp.expiry() == pytest.approx(expiry)
+    assert interp.forward() == pytest.approx(forward)
+    assert interp.alpha() == pytest.approx(alpha)
+    assert interp.beta() == pytest.approx(beta)
+
+    # Should reproduce input vols exactly
+    for K, v in zip(strikes, vols):
+        assert interp(K) == pytest.approx(v, rel=1e-10)
+
+
+def test_sabr_interpolation_calibration():
+    """Calibrated SABR recovers original parameters."""
+    strikes, vols, forward, expiry, alpha, beta, nu, rho_val = _sabr_test_data()
+
+    interp = ql.SABRInterpolation(
+        strikes, vols, expiry, forward,
+        alpha=0.2, beta=beta, nu=0.1, rho=0.0,
+        alphaIsFixed=False, betaIsFixed=True,
+        nuIsFixed=False, rhoIsFixed=False,
+        vegaWeighted=True,
+    )
+    interp.update()
+
+    assert interp.alpha() == pytest.approx(alpha, rel=0.01)
+    assert interp.nu() == pytest.approx(nu, rel=0.1)
+    assert interp.rmsError() < 1e-4
+
+
+def test_sabr_interpolation_accessors():
+    """SABR accessors return calibrated values."""
+    strikes, vols, forward, expiry, alpha, beta, nu, rho_val = _sabr_test_data()
+
+    interp = ql.SABRInterpolation(
+        strikes, vols, expiry, forward,
+        alpha=alpha, beta=beta, nu=nu, rho=rho_val,
+        alphaIsFixed=True, betaIsFixed=True,
+        nuIsFixed=True, rhoIsFixed=True,
+    )
+    interp.update()
+
+    assert interp.rmsError() < 1e-10
+    assert interp.maxError() < 1e-10
+    assert interp.endCriteria() is not None
+    weights = interp.interpolationWeights()
+    assert len(weights) == len(strikes)
+
+
+def test_sabr_interpolation_data_lifetime():
+    """SABR interpolation survives after input lists go out of scope."""
+    def make():
+        strikes, vols, forward, expiry, alpha, beta, nu, rho_val = _sabr_test_data()
+        interp = ql.SABRInterpolation(
+            strikes, vols, expiry, forward,
+            alpha=alpha, beta=beta, nu=nu, rho=rho_val,
+            alphaIsFixed=True, betaIsFixed=True,
+            nuIsFixed=True, rhoIsFixed=True,
+        )
+        interp.update()
+        return interp
+
+    interp = make()
+    val = interp(0.05)
+    assert math.isfinite(val)
+    assert val > 0

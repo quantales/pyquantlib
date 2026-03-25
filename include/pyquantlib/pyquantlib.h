@@ -99,6 +99,7 @@ namespace ql_math {
     void cubicinterpolation(py::module_&);
     void mixedinterpolation(py::module_&);
     void loginterpolation(py::module_&);
+    void sabrinterpolation(py::module_&);
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
     void solvers1d(py::module_&);
