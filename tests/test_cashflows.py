@@ -1086,6 +1086,7 @@ def test_lineartsrpricer_cms_leg(cms_env):
 @pytest.fixture
 def inflation_env():
     """Shared setup for inflation cashflow tests."""
+    original_date = ql.Settings.instance().evaluationDate
     today = ql.Date(15, ql.January, 2025)
     ql.Settings.instance().evaluationDate = today
 
@@ -1129,7 +1130,7 @@ def inflation_env():
         "schedule": schedule,
     }
     yield env
-    ql.Settings.instance().evaluationDate = ql.Date()
+    ql.Settings.instance().evaluationDate = original_date
     cpi.clearFixings()
     yoy_idx.clearFixings()
 
@@ -1768,6 +1769,10 @@ def test_cappedflooredcoupon_floor_only(ibor_data):
 
 def test_cappedflooredcoupon_rate_with_pricer(ibor_data):
     """Test CappedFlooredCoupon rate computation with pricer."""
+    # Pin the evaluation date: module-scoped fixtures elsewhere mutate the global
+    # eval date and only restore at module teardown, so the optionlet-vol reference
+    # (and hence the rate) would otherwise be order-dependent.
+    ql.Settings.instance().evaluationDate = ibor_data["today"]
     schedule = ibor_data["schedule"]
     index = ibor_data["index"]
     # Use future dates to avoid needing past fixings
@@ -1785,7 +1790,7 @@ def test_cappedflooredcoupon_rate_with_pricer(ibor_data):
     )
     cf.setPricer(pricer)
     rate = cf.rate()
-    assert rate == pytest.approx(0.029814, rel=1e-4)
+    assert rate == pytest.approx(0.02980420924058199, rel=1e-4)
 
 
 def test_cappedfloorediborcoupon_construction(ibor_data):

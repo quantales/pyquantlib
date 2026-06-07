@@ -194,9 +194,9 @@ def test_burley2020sobol_first_sequence():
     """Test Burley2020 Sobol first sequence values."""
     rsg = ql.Burley2020SobolRsg(3, 42, ql.SobolRsg.DirectionIntegers.Jaeckel, 43)
     seq = rsg.nextSequence()
-    assert seq.value[0] == pytest.approx(0.9181515972595662, rel=1e-10)
-    assert seq.value[1] == pytest.approx(0.32165447482839227, rel=1e-10)
-    assert seq.value[2] == pytest.approx(0.31782629038207233, rel=1e-10)
+    assert seq.value[0] == pytest.approx(0.9181515973759815, rel=1e-10)
+    assert seq.value[1] == pytest.approx(0.3216544749448076, rel=1e-10)
+    assert seq.value[2] == pytest.approx(0.31782629049848765, rel=1e-10)
     assert seq.weight == 1.0
 
 
@@ -205,9 +205,9 @@ def test_burley2020sobol_second_sequence():
     rsg = ql.Burley2020SobolRsg(3, 42, ql.SobolRsg.DirectionIntegers.Jaeckel, 43)
     rsg.nextSequence()
     seq = rsg.nextSequence()
-    assert seq.value[0] == pytest.approx(0.3266997954342514, rel=1e-10)
-    assert seq.value[1] == pytest.approx(0.9593072687275708, rel=1e-10)
-    assert seq.value[2] == pytest.approx(0.4291225718334317, rel=1e-10)
+    assert seq.value[0] == pytest.approx(0.32669979555066675, rel=1e-10)
+    assert seq.value[1] == pytest.approx(0.9593072688439861, rel=1e-10)
+    assert seq.value[2] == pytest.approx(0.42912257194984704, rel=1e-10)
 
 
 def test_burley2020sobol_skip_to():
@@ -484,12 +484,12 @@ def test_burley2020_brownian_bridge_first_sequence():
     """Test Burley2020SobolBrownianBridgeRsg first sequence values."""
     rsg = ql.Burley2020SobolBrownianBridgeRsg(2, 3)
     seq = rsg.nextSequence()
-    assert seq.value[0] == pytest.approx(0.9398948176716029, rel=1e-10)
-    assert seq.value[1] == pytest.approx(-0.451082668052647, rel=1e-10)
-    assert seq.value[2] == pytest.approx(0.4577318335382752, rel=1e-10)
-    assert seq.value[3] == pytest.approx(-0.06314067665477635, rel=1e-10)
-    assert seq.value[4] == pytest.approx(1.0146790818631997, rel=1e-10)
-    assert seq.value[5] == pytest.approx(-0.2878500932361654, rel=1e-10)
+    assert seq.value[0] == pytest.approx(0.9398948183575535, rel=1e-10)
+    assert seq.value[1] == pytest.approx(-0.4510826676207317, rel=1e-10)
+    assert seq.value[2] == pytest.approx(0.45773183408483487, rel=1e-10)
+    assert seq.value[3] == pytest.approx(-0.06314067638045506, rel=1e-10)
+    assert seq.value[4] == pytest.approx(1.014679081963802, rel=1e-10)
+    assert seq.value[5] == pytest.approx(-0.2878500933797681, rel=1e-10)
     assert seq.weight == 1.0
 
 

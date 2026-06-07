@@ -41,7 +41,7 @@ Building from source requires QuantLib built with specific CMake flags. See [CON
 - CMake 3.18+
 - C++17 compatible compiler
 - Boost headers
-- **QuantLib 1.40+** built with `std::shared_ptr` support (see below)
+- **QuantLib 1.41+** built with `std::shared_ptr` support (see below)
 
 #### QuantLib Build Requirement
 

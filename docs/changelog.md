@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Upgraded QuantLib dependency from 1.41 to 1.42.1
+
 ### Added
 
 #### Math -- Interpolations
