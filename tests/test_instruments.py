@@ -3376,6 +3376,26 @@ def test_floatfloatswap_inspectors(floatfloat_swap_env):
     assert ffs.dayCount2() is not None
 
 
+def test_floatfloatswap_fair_spread(floatfloat_swap_env):
+    """fairSpread1/fairSpread2 reprice the swap to zero NPV when applied."""
+    env = floatfloat_swap_env
+    ffs = ql.FloatFloatSwap(
+        ql.SwapType.Payer,
+        1000000.0, 1000000.0,
+        env["schedule"], env["euribor"], ql.Actual360(),
+        env["schedule"], env["euribor"], ql.Actual360(),
+        spread1=0.005,
+    )
+    ffs.setPricingEngine(env["engine"])
+
+    # Leg 1 already carries spread1=0.005, so its fair spread is 0; leg 2 needs
+    # +0.005 to offset it.
+    fs1 = ffs.fairSpread1()
+    fs2 = ffs.fairSpread2()
+    assert fs1 == pytest.approx(0.0, abs=1e-8)
+    assert fs2 == pytest.approx(0.005, rel=1e-6)
+
+
 # =============================================================================
 # NonstandardSwaption
 # =============================================================================

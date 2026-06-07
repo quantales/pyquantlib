@@ -197,5 +197,10 @@ void ql_instruments::floatfloatswap(py::module_& m) {
             "Returns leg 1 cash flows.")
         .def("leg2", &FloatFloatSwap::leg2,
             py::return_value_policy::reference_internal,
-            "Returns leg 2 cash flows.");
+            "Returns leg 2 cash flows.")
+        // Results
+        .def("fairSpread1", &FloatFloatSwap::fairSpread1,
+            "Returns the spread on leg 1 that makes the swap fair.")
+        .def("fairSpread2", &FloatFloatSwap::fairSpread2,
+            "Returns the spread on leg 2 that makes the swap fair.");
 }

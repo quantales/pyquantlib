@@ -484,6 +484,18 @@ def test_floatingratecoupon_construction(ibor_data):
     assert coupon.gearing() == pytest.approx(1.0)
     assert coupon.spread() == pytest.approx(0.0)
     assert not coupon.isInArrears()
+    assert coupon.fixingConvention() == ql.Preceding
+
+
+def test_floatingratecoupon_fixing_convention(ibor_data):
+    """fixingConvention is configurable and reported back."""
+    schedule = ibor_data["schedule"]
+    coupon = ql.FloatingRateCoupon(
+        schedule[1], ibor_data["nominal"], schedule[0], schedule[1],
+        2, ibor_data["index"],
+        fixingConvention=ql.ModifiedFollowing,
+    )
+    assert coupon.fixingConvention() == ql.ModifiedFollowing
 
 
 def test_floatingratecoupon_inheritance(ibor_data):

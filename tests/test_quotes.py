@@ -346,3 +346,39 @@ def test_compositequote_error_wrong_arity():
 
     with pytest.raises(TypeError):
         composite.value()
+
+
+# --- MultiCompositeQuote ---
+
+def test_multicompositequote_basic():
+    quotes = [ql.SimpleQuote(10.0), ql.SimpleQuote(20.0), ql.SimpleQuote(30.0)]
+    handles = [ql.QuoteHandle(q) for q in quotes]
+
+    composite = ql.MultiCompositeQuote(handles, sum)
+
+    assert composite.isValid()
+    assert composite.value() == pytest.approx(60.0)
+    assert composite.inputValue(0) == pytest.approx(10.0)
+    assert composite.inputValue(2) == pytest.approx(30.0)
+
+
+def test_multicompositequote_updates_with_underlying():
+    quotes = [ql.SimpleQuote(1.0), ql.SimpleQuote(2.0), ql.SimpleQuote(3.0)]
+    handles = [ql.QuoteHandle(q) for q in quotes]
+
+    composite = ql.MultiCompositeQuote(handles, lambda v: max(v) - min(v))
+
+    assert composite.value() == pytest.approx(2.0)
+
+    quotes[0].setValue(10.0)
+    assert composite.value() == pytest.approx(8.0)
+
+
+def test_multicompositequote_error_wrong_return_type():
+    quotes = [ql.SimpleQuote(10.0), ql.SimpleQuote(20.0)]
+    handles = [ql.QuoteHandle(q) for q in quotes]
+
+    composite = ql.MultiCompositeQuote(handles, lambda v: "not a number")
+
+    with pytest.raises(TypeError, match="Python function failed to cast result to Real"):
+        composite.value()

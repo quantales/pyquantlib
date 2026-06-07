@@ -175,6 +175,7 @@ namespace ql_quotes {
     void simplequote(py::module_&);
     void derivedquote(py::module_&);
     void compositequote(py::module_&);
+    void multicompositequote(py::module_&);
 }
 
 namespace ql_currencies {

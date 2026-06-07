@@ -395,6 +395,9 @@ def test_piecewise_classes_exist():
     """Test all PiecewiseYieldCurve instantiations exist."""
     assert hasattr(ql, "PiecewiseLogLinearDiscount")
     assert hasattr(ql, "PiecewiseLinearDiscount")
+    assert hasattr(ql, "PiecewiseCubicDiscount")
+    assert hasattr(ql, "PiecewiseLogCubicDiscount")
+    assert hasattr(ql, "PiecewiseKrugerLogDiscount")
     assert hasattr(ql, "PiecewiseLinearZero")
     assert hasattr(ql, "PiecewiseCubicZero")
     assert hasattr(ql, "PiecewiseLinearForward")
@@ -465,6 +468,36 @@ def test_piecewise_loglinear_discount(curve_env):
     zero_5y = curve.zeroRate(
         five_years, curve_env["day_counter"], ql.Continuous
     )
+    assert zero_5y.rate() == pytest.approx(0.039, abs=0.005)
+
+
+def test_piecewise_logcubic_discount(curve_env):
+    """Test PiecewiseLogCubicDiscount (monotonic log-cubic) bootstrapping."""
+    helpers = _build_helpers(
+        curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
+    )
+    curve = ql.PiecewiseLogCubicDiscount(
+        curve_env["today"], helpers, curve_env["day_counter"]
+    )
+    assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+    five_years = curve_env["today"] + ql.Period(5, ql.Years)
+    zero_5y = curve.zeroRate(five_years, curve_env["day_counter"], ql.Continuous)
+    assert zero_5y.rate() == pytest.approx(0.039, abs=0.005)
+
+
+def test_piecewise_krugerlog_discount(curve_env):
+    """Test PiecewiseKrugerLogDiscount bootstrapping."""
+    helpers = _build_helpers(
+        curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
+    )
+    curve = ql.PiecewiseKrugerLogDiscount(
+        curve_env["today"], helpers, curve_env["day_counter"]
+    )
+    assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+    five_years = curve_env["today"] + ql.Period(5, ql.Years)
+    zero_5y = curve.zeroRate(five_years, curve_env["day_counter"], ql.Continuous)
     assert zero_5y.rate() == pytest.approx(0.039, abs=0.005)
 
 

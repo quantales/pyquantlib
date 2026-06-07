@@ -29,6 +29,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BackwardflatLinearInterpolation` 2-D backward-flat/linear interpolation
 - `FlatExtrapolator2D` 2-D flat extrapolation decorator
 
+#### Quotes
+- `MultiCompositeQuote` quote composed from several quotes via a function of their values (QuantLib 1.42)
+
+#### Term Structures -- Yield
+- `PiecewiseLogCubicDiscount` piecewise yield curve using monotonic log-cubic discount-factor interpolation
+- `PiecewiseKrugerLogDiscount` piecewise yield curve using Kruger log-cubic discount-factor interpolation
+
+#### Instruments
+- `FloatFloatSwap` gains `fairSpread1()` and `fairSpread2()` accessors (QuantLib 1.42)
+
+#### Cash Flows
+- `FloatingRateCoupon` gains a `fixingConvention` constructor argument and `fixingConvention()` accessor (QuantLib 1.42)
+
 ## [0.7.0] - 2026-03-14
 
 ### Changed

@@ -14,6 +14,7 @@
 #include "pyquantlib/pyquantlib.h"
 #include <ql/cashflows/floatingratecoupon.hpp>
 #include <ql/cashflows/couponpricer.hpp>
+#include <ql/time/businessdayconvention.hpp>
 #include <ql/indexes/interestrateindex.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <pybind11/pybind11.h>
@@ -32,14 +33,15 @@ void ql_cashflows::floatingratecoupon(py::module_& m) {
                          Real gearing, Spread spread,
                          const Date& refPeriodStart, const Date& refPeriodEnd,
                          const py::object& dayCounter,
-                         bool isInArrears, const Date& exCouponDate) {
+                         bool isInArrears, const Date& exCouponDate,
+                         BusinessDayConvention fixingConvention) {
             DayCounter dc;
             if (!dayCounter.is_none())
                 dc = dayCounter.cast<DayCounter>();
             return ext::make_shared<FloatingRateCoupon>(
                 paymentDate, nominal, startDate, endDate, fixingDays, index,
                 gearing, spread, refPeriodStart, refPeriodEnd, dc,
-                isInArrears, exCouponDate);
+                isInArrears, exCouponDate, fixingConvention);
         }),
              py::arg("paymentDate"), py::arg("nominal"),
              py::arg("startDate"), py::arg("endDate"),
@@ -48,6 +50,7 @@ void ql_cashflows::floatingratecoupon(py::module_& m) {
              py::arg("refPeriodStart") = Date(), py::arg("refPeriodEnd") = Date(),
              py::arg("dayCounter") = py::none(),
              py::arg("isInArrears") = false, py::arg("exCouponDate") = Date(),
+             py::arg("fixingConvention") = Preceding,
              "Constructs a floating-rate coupon.")
         .def("index", &FloatingRateCoupon::index,
              "Returns the floating index.")
@@ -67,6 +70,8 @@ void ql_cashflows::floatingratecoupon(py::module_& m) {
              "Returns the convexity-adjusted fixing.")
         .def("isInArrears", &FloatingRateCoupon::isInArrears,
              "Returns whether the coupon fixes in arrears.")
+        .def("fixingConvention", &FloatingRateCoupon::fixingConvention,
+             "Returns the business day convention used for the fixing date.")
         .def("setPricer", &FloatingRateCoupon::setPricer,
              py::arg("pricer"),
              "Sets the coupon pricer.")
