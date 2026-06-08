@@ -1,0 +1,64 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
+# QuantLib is free software under a modified BSD license.
+# See http://quantlib.org/ for more information.
+#
+# Source: https://github.com/quantales/pyquantlib
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
+name: Docker image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "src/**"
+      - "include/**"
+      - "CMakeLists.txt"
+      - "pyproject.toml"
+      - ".github/workflows/docker.yml"
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "src/**"
+      - "include/**"
+      - "CMakeLists.txt"
+      - "pyproject.toml"
+      - ".github/workflows/docker.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: pyquantlib:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test
+        run: |
+          docker run --rm pyquantlib:ci python -c "
+          import pyquantlib as ql
+          print('PyQuantLib', ql.__version__)
+          # Exercises the Settings singleton: the canary for a correct static QuantLib build.
+          ql.Settings.evaluationDate = ql.Date(15, ql.January, 2025)
+          assert ql.Settings.evaluationDate == ql.Date(15, ql.January, 2025)
+          q = ql.SimpleQuote(100.0)
+          assert q.value() == 100.0
+          print('Smoke test passed')
+          "
