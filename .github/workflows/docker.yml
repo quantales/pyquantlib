@@ -62,3 +62,25 @@ jobs:
           assert q.value() == 100.0
           print('Smoke test passed')
           "
+
+      - name: JupyterLab server test
+        run: |
+          # Launch the image with its real CMD and confirm the server serves /lab.
+          docker run -d --rm --name pql-jupyter -p 8888:8888 pyquantlib:ci
+          ready=0
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/lab || true)
+            if [ "$code" = "200" ]; then
+              echo "JupyterLab responded with HTTP 200 (attempt $i)"
+              ready=1
+              break
+            fi
+            echo "attempt $i: HTTP $code, waiting..."
+            sleep 2
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo "JupyterLab did not become ready in time; container logs:"
+            docker logs pql-jupyter || true
+          fi
+          docker stop pql-jupyter
+          test "$ready" -eq 1
