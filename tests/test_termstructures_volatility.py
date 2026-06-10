@@ -2626,3 +2626,56 @@ def test_andreasen_huge_local_vol_adapter(ah_setup):
     lv = adapter.localVol(0.5, 100.0)
     assert lv == pytest.approx(0.15428, rel=1e-3)
     assert lv == pytest.approx(ah.localVol(0.5, 100.0), abs=1e-10)
+
+
+# --- BlackVolatilitySurfaceDelta ---
+
+def _delta_surface():
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    cal = ql.TARGET()
+    dom = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.03, dc))
+    forn = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.01, dc))
+    spot = ql.QuoteHandle(ql.SimpleQuote(1.20))
+    dates = [today + ql.Period("3M"), today + ql.Period("1Y")]
+    # columns: 25-delta put, ATM, 25-delta call
+    vols = [[0.11, 0.10, 0.115],
+            [0.12, 0.11, 0.125]]
+    surf = ql.BlackVolatilitySurfaceDelta(
+        today, dates, [-0.25], [0.25], True, vols, dc, cal, spot, dom, forn,
+    )
+    return today, surf
+
+
+def test_blackvolsurfacedelta_construction_and_vol():
+    today, surf = _delta_surface()
+    assert [str(d) for d in surf.dates()] == ["April 15th, 2025", "January 15th, 2026"]
+    assert surf.blackVol(0.5, 1.20) == pytest.approx(0.10922177, rel=1e-5)
+
+
+def test_blackvolsurfacedelta_smile_section():
+    today, surf = _delta_surface()
+    smile_t = surf.blackVolSmile(0.5)
+    assert smile_t.volatility(1.20) == pytest.approx(0.10922177, rel=1e-5)
+
+    smile_d = surf.blackVolSmile(today + ql.Period("1Y"))
+    assert smile_d.volatility(1.20) == pytest.approx(0.11339165, rel=1e-5)
+
+
+def test_blackvolsurfacedelta_interpolation_method_enum():
+    # Non-default smile interpolation builds successfully.
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    dom = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.03, dc))
+    forn = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.01, dc))
+    spot = ql.QuoteHandle(ql.SimpleQuote(1.20))
+    dates = [today + ql.Period("3M"), today + ql.Period("1Y")]
+    vols = [[0.11, 0.10, 0.115], [0.12, 0.11, 0.125]]
+    surf = ql.BlackVolatilitySurfaceDelta(
+        today, dates, [-0.25], [0.25], True, vols, dc, ql.TARGET(), spot, dom, forn,
+        interpolationMethod=ql.BlackVolatilitySurfaceDelta.SmileInterpolationMethod.NaturalCubic,
+        timeExtrapolationType=ql.BlackVolTimeExtrapolation.FlatVolatility,
+    )
+    assert surf.blackVol(0.5, 1.20) == pytest.approx(0.10762045, rel=1e-5)

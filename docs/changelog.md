@@ -31,13 +31,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Quotes
 - `MultiCompositeQuote` quote composed from several quotes via a function of their values (QuantLib 1.42)
+- `DeltaVolQuote` FX delta-vs-vol quote with `DeltaType` and `AtmType` conventions
+
+#### Instruments
+- `FxForward` FX forward instrument with nominal- and rate-based constructors (QuantLib 1.42)
+- `MultipleResetsSwap` swap with a compounded or averaged multiple-resets floating leg (QuantLib 1.42)
+- `FloatFloatSwap` gains `fairSpread1()` and `fairSpread2()` accessors (QuantLib 1.42)
+
+#### Pricing Engines
+- `DiscountingFxForwardEngine` FX forward discounting engine (QuantLib 1.42)
 
 #### Term Structures -- Yield
 - `PiecewiseLogCubicDiscount` piecewise yield curve using monotonic log-cubic discount-factor interpolation
 - `PiecewiseKrugerLogDiscount` piecewise yield curve using Kruger log-cubic discount-factor interpolation
+- `MultipleResetsSwapRateHelper` bootstrap helper for multiple-resets swap quotes (QuantLib 1.42)
 
-#### Instruments
-- `FloatFloatSwap` gains `fairSpread1()` and `fairSpread2()` accessors (QuantLib 1.42)
+#### Term Structures -- Volatility
+- `BlackVolatilitySurfaceDelta` FX Black volatility surface parameterized by market deltas (QuantLib 1.42)
+- `BlackVolTimeExtrapolation` time-extrapolation strategy enum for Black volatility term structures
 
 #### Cash Flows
 - `FloatingRateCoupon` gains a `fixingConvention` constructor argument and `fixingConvention()` accessor (QuantLib 1.42)

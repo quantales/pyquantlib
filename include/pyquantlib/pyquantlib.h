@@ -176,6 +176,7 @@ namespace ql_quotes {
     void derivedquote(py::module_&);
     void compositequote(py::module_&);
     void multicompositequote(py::module_&);
+    void deltavolquote(py::module_&);
 }
 
 namespace ql_currencies {
@@ -251,6 +252,9 @@ namespace ql_termstructures {
     void relinkableblackvoltermstructurehandle(py::module_&);
     void blackconstantvol(py::module_&);
     void blackvariancesurface(py::module_&);
+    void blackvoltimeextrapolation(py::module_&);
+    void blackvolsurfacedelta(py::module_&);
+    void multipleresetsswaphelper(py::module_&);
     void localvoltermstructure(py::module_&);
     void localvoltermstructurehandle(py::module_&);
     void relinkablelocalvoltermstructurehandle(py::module_&);
@@ -411,6 +415,8 @@ namespace ql_instruments {
     void zerocouponswap(py::module_&);
     void compositeinstrument(py::module_&);
     void forwardrateagreement(py::module_&);
+    void fxforward(py::module_&);
+    void multipleresetsswap(py::module_&);
     void barriertype(py::module_&);
     void barrieroption(py::module_&);
     void doublebarriertype(py::module_&);
@@ -512,6 +518,7 @@ namespace ql_pricingengines {
     void analyticeuropeanmargrabeengine(py::module_&);
     void analyticamericanmargrabeengine(py::module_&);
     void forwardengine(py::module_&);
+    void discountingfxforwardengine(py::module_&);
     void quantoengine(py::module_&);
     void blackcalculator(py::module_&);
     void bacheliercalculator(py::module_&);

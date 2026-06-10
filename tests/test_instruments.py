@@ -4160,3 +4160,102 @@ def test_twoassetbarrieroption_construction():
         ql.BarrierType.DownOut, 80.0, payoff, exercise,
     )
     assert option is not None
+
+
+# =============================================================================
+# FxForward
+# =============================================================================
+
+
+@pytest.fixture
+def fxforward_env():
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    source = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.03, dc))
+    target = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.01, dc))
+    spot = ql.QuoteHandle(ql.SimpleQuote(1.10))
+    engine = ql.DiscountingFxForwardEngine(source, target, spot)
+    return {"today": today, "engine": engine,
+            "maturity": today + ql.Period("1Y")}
+
+
+def test_fxforward_nominal_pricing(fxforward_env):
+    env = fxforward_env
+    fx = ql.FxForward(
+        1_000_000.0, ql.EURCurrency(),
+        1_100_000.0, ql.USDCurrency(),
+        env["maturity"], True, 2, ql.TARGET(),
+    )
+    fx.setPricingEngine(env["engine"])
+
+    assert fx.NPV() == pytest.approx(19499.0125873559, rel=1e-4)
+    assert fx.fairForwardRate() == pytest.approx(1.1220984976, rel=1e-6)
+    assert fx.npvSourceCurrency() == pytest.approx(19499.0125873559, rel=1e-4)
+    assert fx.npvTargetCurrency() == pytest.approx(21448.9138460915, rel=1e-4)
+    assert fx.forwardRate() == pytest.approx(1.10)
+    assert fx.settlementDate() == ql.Date(17, ql.January, 2025)
+
+
+def test_fxforward_rate_constructor(fxforward_env):
+    env = fxforward_env
+    fx = ql.FxForward(
+        1_000_000.0, ql.EURCurrency(), ql.USDCurrency(),
+        1.10, env["maturity"], True,
+    )
+    assert fx.forwardRate() == pytest.approx(1.10)
+    assert fx.targetNominal() == pytest.approx(1_100_000.0)
+    assert fx.paySourceCurrency() is True
+
+
+# =============================================================================
+# MultipleResetsSwap
+# =============================================================================
+
+
+@pytest.fixture
+def multipleresets_env():
+    calendar = ql.TARGET()
+    today = calendar.adjust(ql.Date(15, ql.January, 2024))
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    ts = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    index = ql.Euribor3M(ts)
+    index.addFixing(ql.Date(11, ql.January, 2024), 0.05)
+    engine = ql.DiscountingSwapEngine(ts)
+    start = today
+    maturity = ql.Date(15, ql.January, 2026)
+    fixed = ql.MakeSchedule(effectiveDate=start, terminationDate=maturity,
+                            tenor=ql.Period("6M"), calendar=calendar,
+                            convention=ql.ModifiedFollowing)
+    reset = ql.MakeSchedule(effectiveDate=start, terminationDate=maturity,
+                            tenor=ql.Period("3M"), calendar=calendar,
+                            convention=ql.ModifiedFollowing)
+    return {"today": today, "dc": dc, "index": index, "engine": engine,
+            "fixed": fixed, "reset": reset}
+
+
+def test_multipleresetsswap_pricing(multipleresets_env):
+    env = multipleresets_env
+    swap = ql.MultipleResetsSwap(
+        ql.SwapType.Payer, 1_000_000.0, env["fixed"], 0.06,
+        ql.Thirty360(ql.Thirty360.BondBasis), env["reset"], env["index"], 2,
+        0.0, ql.RateAveraging.Type.Compound,
+    )
+    swap.setPricingEngine(env["engine"])
+
+    assert swap.NPV() == pytest.approx(-17389.431, rel=1e-4)
+    assert swap.fairRate() == pytest.approx(0.0507478330, rel=1e-6)
+    assert swap.resetsPerCoupon() == 2
+    assert swap.averagingMethod() == ql.RateAveraging.Type.Compound
+    assert len(swap.fullResetSchedule()) == len(env["reset"])
+
+
+def test_multipleresetsswap_fair_rate_zero_npv(multipleresets_env):
+    env = multipleresets_env
+    fair = ql.MultipleResetsSwap(
+        ql.SwapType.Payer, 1_000_000.0, env["fixed"], 0.0507478330,
+        ql.Thirty360(ql.Thirty360.BondBasis), env["reset"], env["index"], 2,
+    )
+    fair.setPricingEngine(env["engine"])
+    assert fair.NPV() == pytest.approx(0.0, abs=5.0)

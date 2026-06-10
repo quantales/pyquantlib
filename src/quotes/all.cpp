@@ -19,4 +19,5 @@ DECLARE_MODULE_BINDINGS(quotes_bindings) {
     ADD_MAIN_BINDING(ql_quotes::derivedquote, "DerivedQuote");
     ADD_MAIN_BINDING(ql_quotes::compositequote, "CompositeQuote");
     ADD_MAIN_BINDING(ql_quotes::multicompositequote, "MultiCompositeQuote");
+    ADD_MAIN_BINDING(ql_quotes::deltavolquote, "DeltaVolQuote");
 }

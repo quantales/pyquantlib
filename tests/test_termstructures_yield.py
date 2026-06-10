@@ -4,6 +4,8 @@ Tests for yield term structure bindings.
 Corresponds to src/termstructures/yield/*.cpp bindings.
 """
 
+import gc
+
 import pytest
 
 import pyquantlib as ql
@@ -1789,4 +1791,36 @@ def test_multicurve_bootstrapped_and_spreaded():
     assert d3m == pytest.approx(0.862127529678, rel=1e-6)
     assert dois == pytest.approx(0.906984561259, rel=1e-6)
 
+    ql.Settings.instance().evaluationDate = original_date
+
+
+def test_multipleresetsswaphelper_bootstrap():
+    """A flat 5% input bootstraps to a flat 5% curve through the helpers."""
+    calendar = ql.TARGET()
+    today = calendar.adjust(ql.Date(15, ql.January, 2024))
+    original_date = ql.Settings.instance().evaluationDate
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+
+    ts = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+    index = ql.Euribor3M(ts)
+    index.addFixing(ql.Date(11, ql.January, 2024), 0.05)
+
+    helpers = [
+        ql.MultipleResetsSwapRateHelper(
+            0, tenor, ql.QuoteHandle(ql.SimpleQuote(0.05)), index, 2)
+        for tenor in (ql.Period("1Y"), ql.Period("2Y"), ql.Period("3Y"))
+    ]
+
+    curve = ql.PiecewiseLogLinearDiscount(today, helpers, dc)
+    zero_2y = curve.zeroRate(today + ql.Period("2Y"), dc, ql.Continuous)
+    assert zero_2y.rate() == pytest.approx(0.05, abs=1e-4)
+
+    # After bootstrapping, each helper reprices its quote.
+    assert helpers[0].impliedQuote() == pytest.approx(0.05, abs=1e-8)
+
+    # Release the helpers before restoring the date so the Settings change does
+    # not re-notify them (they rebuild their schedules off the new evaluation date).
+    del curve, helpers, index, ts
+    gc.collect()
     ql.Settings.instance().evaluationDate = original_date

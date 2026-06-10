@@ -65,6 +65,10 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "MakeVanillaSwap - helper for constructing vanilla swaps");
     ADD_MAIN_BINDING(ql_instruments::forwardrateagreement,
         "ForwardRateAgreement - FRA instrument");
+    ADD_MAIN_BINDING(ql_instruments::fxforward,
+        "FxForward - FX forward instrument");
+    ADD_MAIN_BINDING(ql_instruments::multipleresetsswap,
+        "MultipleResetsSwap - multiple-resets floating leg swap");
     ADD_MAIN_BINDING(ql_instruments::barriertype,
         "BarrierType - barrier type enum");
     ADD_MAIN_BINDING(ql_instruments::barrieroption,

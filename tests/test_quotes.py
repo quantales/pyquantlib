@@ -382,3 +382,31 @@ def test_multicompositequote_error_wrong_return_type():
 
     with pytest.raises(TypeError, match="Python function failed to cast result to Real"):
         composite.value()
+
+
+# --- DeltaVolQuote ---
+
+def test_deltavolquote_delta():
+    vol = ql.QuoteHandle(ql.SimpleQuote(0.12))
+    dv = ql.DeltaVolQuote(0.25, vol, 1.0, ql.DeltaVolQuote.Spot)
+
+    assert dv.isValid()
+    assert dv.value() == pytest.approx(0.12)
+    assert dv.delta() == pytest.approx(0.25)
+    assert dv.maturity() == pytest.approx(1.0)
+    assert dv.deltaType() == ql.DeltaVolQuote.Spot
+
+
+def test_deltavolquote_atm():
+    vol = ql.QuoteHandle(ql.SimpleQuote(0.11))
+    dv = ql.DeltaVolQuote(vol, ql.DeltaVolQuote.Fwd, 1.0, ql.DeltaVolQuote.AtmDeltaNeutral)
+
+    assert dv.value() == pytest.approx(0.11)
+    assert dv.deltaType() == ql.DeltaVolQuote.Fwd
+    assert dv.atmType() == ql.DeltaVolQuote.AtmDeltaNeutral
+
+
+def test_deltavolquote_hidden_handle():
+    # Constructing directly from a SimpleQuote (handle created internally).
+    dv = ql.DeltaVolQuote(0.10, ql.SimpleQuote(0.13), 0.5, ql.DeltaVolQuote.Fwd)
+    assert dv.value() == pytest.approx(0.13)

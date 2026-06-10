@@ -46,6 +46,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "BlackConstantVol volatility surface");
     ADD_MAIN_BINDING(ql_termstructures::blackvariancesurface,
         "BlackVarianceSurface volatility surface");
+    ADD_MAIN_BINDING(ql_termstructures::blackvoltimeextrapolation,
+        "BlackVolTimeExtrapolation time-extrapolation enum");
+    ADD_MAIN_BINDING(ql_termstructures::blackvolsurfacedelta,
+        "BlackVolatilitySurfaceDelta delta-parametrized vol surface");
     ADD_MAIN_BINDING(ql_termstructures::localconstantvol,
         "LocalConstantVol volatility surface");
     ADD_MAIN_BINDING(ql_termstructures::localvolsurface,
@@ -80,6 +84,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "DepositRateHelper, FraRateHelper, SwapRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::oisratehelper,
         "OISRateHelper");
+    ADD_MAIN_BINDING(ql_termstructures::multipleresetsswaphelper,
+        "MultipleResetsSwapRateHelper bootstrap helper");
     ADD_MAIN_BINDING(ql_termstructures::bondhelpers,
         "BondHelper, FixedRateBondHelper");
     ADD_MAIN_BINDING(ql_termstructures::piecewiseyieldcurve,

@@ -214,6 +214,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
 
     ADD_MAIN_BINDING(ql_pricingengines::forwardengine,
         "ForwardEuropeanEngine, ForwardPerformanceEuropeanEngine");
+    ADD_MAIN_BINDING(ql_pricingengines::discountingfxforwardengine,
+        "DiscountingFxForwardEngine - FX forward discounting engine");
     ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanbsengine,
         "MCForwardEuropeanBSEngine - MC forward-start BS pricing");
     ADD_MAIN_BINDING(ql_pricingengines::mcforwardeuropeanhestonengine,
