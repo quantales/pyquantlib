@@ -21,8 +21,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::kahalesmilesection(py::module_& m) {
-    py::class_<KahaleSmileSection, SmileSection,
-               ext::shared_ptr<KahaleSmileSection>>(
+    py::classh<KahaleSmileSection, SmileSection>(
         m, "KahaleSmileSection",
         "Arbitrage-free smile section using Kahale's C^1 inter- and "
         "extrapolation method.")

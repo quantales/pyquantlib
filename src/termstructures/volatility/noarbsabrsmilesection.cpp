@@ -21,8 +21,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::noarbsabrsmilesection(py::module_& m) {
-    py::class_<NoArbSabrSmileSection, SmileSection,
-               ext::shared_ptr<NoArbSabrSmileSection>>(
+    py::classh<NoArbSabrSmileSection, SmileSection>(
         m, "NoArbSabrSmileSection",
         "No-arbitrage SABR smile section. Wraps NoArbSabrModel to provide "
         "a SmileSection interface.")

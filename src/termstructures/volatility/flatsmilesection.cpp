@@ -20,8 +20,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::flatsmilesection(py::module_& m) {
-    py::class_<FlatSmileSection, SmileSection,
-               ext::shared_ptr<FlatSmileSection>>(
+    py::classh<FlatSmileSection, SmileSection>(
         m, "FlatSmileSection",
         "Smile section with constant volatility.")
         .def(py::init([](const Date& d, Volatility vol,

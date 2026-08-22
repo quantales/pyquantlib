@@ -23,8 +23,7 @@ namespace py = pybind11;
 using namespace QuantLib;
 
 void ql_termstructures::noarbsabrinterpolatedsmilesection(py::module_& m) {
-    py::class_<NoArbSabrInterpolatedSmileSection, SmileSection,
-               ext::shared_ptr<NoArbSabrInterpolatedSmileSection>>(
+    py::classh<NoArbSabrInterpolatedSmileSection, SmileSection>(
         m, "NoArbSabrInterpolatedSmileSection",
         "Smile section calibrated to market data using no-arbitrage SABR "
         "interpolation. Inherits from both SmileSection and LazyObject.")

@@ -23,7 +23,7 @@ using namespace QuantLib;
 
 void ql_experimental::svismilesection(py::module_& m) {
     // SviSmileSection - SVI parametric smile section
-    py::class_<SviSmileSection, SmileSection, ext::shared_ptr<SviSmileSection>>(
+    py::classh<SviSmileSection, SmileSection>(
         m, "SviSmileSection",
         "Stochastic Volatility Inspired (SVI) smile section.\n\n"
         "The SVI total variance formula is:\n"
