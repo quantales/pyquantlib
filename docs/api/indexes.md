@@ -7,6 +7,7 @@ Bindings for the `Index` class hierarchy: market reference rates that feed float
 | Family | Classes |
 |---|---|
 | Ibor (term) | {py:class}`pyquantlib.IborIndex` plus concrete `Euribor` |
+| LIBOR | {py:class}`pyquantlib.Libor`, {py:class}`pyquantlib.DailyTenorLibor`, {py:class}`pyquantlib.USDLibor`, {py:class}`pyquantlib.DailyTenorUSDLibor`, {py:class}`pyquantlib.USDLiborON` |
 | Overnight | {py:class}`pyquantlib.Sofr`, {py:class}`pyquantlib.Eonia`, {py:class}`pyquantlib.Estr`, {py:class}`pyquantlib.Sonia` |
 | Swap | {py:class}`pyquantlib.SwapIndex`, {py:class}`pyquantlib.OvernightIndexedSwapIndex`, plus standard fixings (`EuriborSwapIsdaFixA/B/IfrFix`, `EurLiborSwap*`, `UsdLiborSwap*`, `JpyLiborSwap*`, `GbpLiborSwapIsdaFix`, `ChfLiborSwapIsdaFix`) |
 | Special | {py:class}`pyquantlib.BMAIndex`, {py:class}`pyquantlib.SwapSpreadIndex`, {py:class}`pyquantlib.EquityIndex` |
@@ -83,6 +84,35 @@ fixing = ql.CPI.laggedFixing(index, date, observation_lag, interpolation)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Euribor
+```
+
+### LIBOR indexes
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Libor
+   :members:
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DailyTenorLibor
+```
+
+`Libor` applies the ICE date conventions: the value and maturity dates are computed on the joint calendar of the index currency and the financial centre, which `jointCalendar()` exposes.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.USDLibor
+.. autoclass:: pyquantlib.DailyTenorUSDLibor
+.. autoclass:: pyquantlib.USDLiborON
+```
+
+```python
+usd3m = ql.USDLibor(ql.Period(3, ql.Months))
+usd3m = ql.USDLibor(ql.Period(3, ql.Months), forwarding_curve)
+overnight = ql.USDLiborON(forwarding_curve)
+```
+
+```{note}
+USD LIBOR ceased publication in 2023. These indexes remain bound for valuing legacy trades and for reproducing historical results; new curve construction should use {py:class}`pyquantlib.Sofr`.
 ```
 
 ### Overnight indexes

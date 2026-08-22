@@ -16,6 +16,7 @@ Every instrument exposes the same `setPricingEngine(engine)` / `NPV()` interface
 | Caps / floors / collars | {py:class}`pyquantlib.CapFloor`, {py:class}`pyquantlib.Cap`, {py:class}`pyquantlib.Floor`, {py:class}`pyquantlib.Collar`, {py:class}`pyquantlib.YoYInflationCap`, {py:class}`pyquantlib.YoYInflationFloor`, {py:class}`pyquantlib.YoYInflationCollar`, {py:class}`pyquantlib.YoYInflationCapFloor`, {py:class}`pyquantlib.MakeYoYInflationCapFloor` |
 | Swaptions | {py:class}`pyquantlib.Swaption`, {py:class}`pyquantlib.MakeSwaption` |
 | FRAs / forwards | {py:class}`pyquantlib.ForwardRateAgreement`, {py:class}`pyquantlib.FxForward`, {py:class}`pyquantlib.BondForward`, {py:class}`pyquantlib.ForwardTypePayoff` |
+| Futures | {py:class}`pyquantlib.OvernightIndexFuture`, {py:class}`pyquantlib.PerpetualFutures`, {py:class}`pyquantlib.Futures` (date-rule enum) |
 | Vanilla options | {py:class}`pyquantlib.VanillaOption`, {py:class}`pyquantlib.BasketOption` |
 | Barrier options | {py:class}`pyquantlib.BarrierOption`, {py:class}`pyquantlib.DoubleBarrierOption`, {py:class}`pyquantlib.PartialTimeBarrierOption`, {py:class}`pyquantlib.SoftBarrierOption`, {py:class}`pyquantlib.TwoAssetBarrierOption` |
 | Path-dependent | {py:class}`pyquantlib.ContinuousAveragingAsianOption`, {py:class}`pyquantlib.DiscreteAveragingAsianOption`, {py:class}`pyquantlib.ContinuousFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousFixedLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFixedLookbackOption`, {py:class}`pyquantlib.CliquetOption` |
@@ -729,6 +730,41 @@ european = ql.EuropeanExercise(expiry)
 american = ql.AmericanExercise(today, expiry)
 bermudan = ql.BermudanExercise([d1, d2, d3])
 ```
+
+### Futures
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Futures
+```
+
+`Futures` carries the date-rule conventions used by futures rate helpers: `IMM` (third Wednesday of March, June, September, December), `ASX` (second Friday of the same months), and `Custom`.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OvernightIndexFuture
+   :members:
+```
+
+```python
+sofr = ql.Sofr(curve)
+future = ql.OvernightIndexFuture(sofr,
+                                 ql.Date(17, 9, 2025),   # value date
+                                 ql.Date(17, 12, 2025))  # delivery date
+```
+
+The averaging method defaults to `RateAveraging.Compound`; pass `RateAveraging.Simple` for an averaged contract. A convexity-adjustment quote may be supplied either as a handle or as a plain quote.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PerpetualFutures
+   :members:
+```
+
+```python
+perp = ql.PerpetualFutures(ql.PerpetualFutures.Linear,
+                           ql.PerpetualFutures.FundingWithCurrentSpot)
+perp.setPricingEngine(engine)
+```
+
+`PayoffType` selects the settlement currency (`Linear`, `Inverse`, `Quanto`); `FundingType` selects whether funding accrues against the previous or current spot. Pricing requires {py:class}`pyquantlib.DiscountingPerpetualFuturesEngine`.
 
 ## See also
 

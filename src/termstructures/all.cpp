@@ -46,6 +46,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "BlackConstantVol volatility surface");
     ADD_MAIN_BINDING(ql_termstructures::blackvariancesurface,
         "BlackVarianceSurface volatility surface");
+    ADD_MAIN_BINDING(ql_termstructures::piecewiseblackvariancesurface,
+        "PiecewiseBlackVarianceSurface - surface from smile sections");
     ADD_MAIN_BINDING(ql_termstructures::blackvoltimeextrapolation,
         "BlackVolTimeExtrapolation time-extrapolation enum");
     ADD_MAIN_BINDING(ql_termstructures::blackvolsurfacedelta,
@@ -82,6 +84,14 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "RateHelper, RelativeDateRateHelper ABCs");
     ADD_MAIN_BINDING(ql_termstructures::ratehelpers,
         "DepositRateHelper, FraRateHelper, SwapRateHelper");
+    // Futures::Type lives in src/instruments/futures.cpp, but is registered
+    // here: FuturesRateHelper defaults an argument to Futures::IMM, and the
+    // instruments module is registered after termstructures in main.cpp.
+    ADD_MAIN_BINDING(ql_instruments::futures, "Futures::Type conventions");
+    ADD_MAIN_BINDING(ql_termstructures::futuresratehelper,
+        "FuturesRateHelper - IborIndex futures bootstrap helper");
+    ADD_MAIN_BINDING(ql_termstructures::overnightindexfutureratehelper,
+        "OvernightIndexFutureRateHelper, SofrFutureRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::oisratehelper,
         "OISRateHelper");
     ADD_MAIN_BINDING(ql_termstructures::multipleresetsswaphelper,

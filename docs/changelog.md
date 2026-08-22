@@ -33,25 +33,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MultiCompositeQuote` quote composed from several quotes via a function of their values (QuantLib 1.42)
 - `DeltaVolQuote` FX delta-vs-vol quote with `DeltaType` and `AtmType` conventions
 
+#### Indexes
+- `Libor` and `DailyTenorLibor` ICE LIBOR base classes, with `jointCalendar()`
+- `USDLibor`, `DailyTenorUSDLibor`, and `USDLiborON` USD LIBOR indexes
+
 #### Instruments
 - `FxForward` FX forward instrument with nominal- and rate-based constructors (QuantLib 1.42)
 - `MultipleResetsSwap` swap with a compounded or averaged multiple-resets floating leg (QuantLib 1.42)
 - `FloatFloatSwap` gains `fairSpread1()` and `fairSpread2()` accessors (QuantLib 1.42)
+- `OvernightIndexFuture` future on a compounded or averaged overnight index
+- `PerpetualFutures` perpetual future, with `PayoffType` and `FundingType` enums
+- `Futures` date-rule convention enum (`IMM`, `ASX`, `Custom`)
 
 #### Pricing Engines
 - `DiscountingFxForwardEngine` FX forward discounting engine (QuantLib 1.42)
+- `DiscountingPerpetualFuturesEngine` perpetual futures engine (Ackerer, Hugonnier, Jermann, 2024), with a `InterpolationType` enum for the funding-rate schedule
 
 #### Term Structures -- Yield
 - `PiecewiseLogCubicDiscount` piecewise yield curve using monotonic log-cubic discount-factor interpolation
 - `PiecewiseKrugerLogDiscount` piecewise yield curve using Kruger log-cubic discount-factor interpolation
 - `MultipleResetsSwapRateHelper` bootstrap helper for multiple-resets swap quotes (QuantLib 1.42)
+- `FuturesRateHelper` bootstrap helper for IborIndex futures prices
+- `OvernightIndexFutureRateHelper` bootstrap helper for overnight compounding futures
+- `SofrFutureRateHelper` bootstrap helper for CME SOFR futures
 
 #### Term Structures -- Volatility
 - `BlackVolatilitySurfaceDelta` FX Black volatility surface parameterized by market deltas (QuantLib 1.42)
 - `BlackVolTimeExtrapolation` time-extrapolation strategy enum for Black volatility term structures
+- `PiecewiseBlackVarianceSurface` Black volatility surface built from one smile section per tenor, with a `makeFromGrid` constructor (QuantLib 1.42)
 
 #### Cash Flows
 - `FloatingRateCoupon` gains a `fixingConvention` constructor argument and `fixingConvention()` accessor (QuantLib 1.42)
+
+### Fixed
+- `Quote` abstract base class had no bound constructor, so Python subclasses calling `super().__init__()` raised `TypeError: No constructor defined!`. This blocked custom quotes entirely, including the example in the extending guide.
 
 ### Documentation
 - Restructured the documentation site: separate Concepts, Cookbook, and Contributing & Internals sections in the table of contents

@@ -4259,3 +4259,54 @@ def test_multipleresetsswap_fair_rate_zero_npv(multipleresets_env):
     )
     fair.setPricingEngine(env["engine"])
     assert fair.NPV() == pytest.approx(0.0, abs=5.0)
+
+# =============================================================================
+# Futures
+# =============================================================================
+
+
+def test_futures_type_enum():
+    """Test Futures date-rule convention enum."""
+    assert int(ql.Futures.IMM) == 0
+    assert int(ql.Futures.ASX) == 1
+    assert int(ql.Futures.Custom) == 2
+
+
+def test_overnightindexfuture_npv():
+    """Test OvernightIndexFuture prices off the index forwarding curve."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    sofr = ql.Sofr(curve)
+    future = ql.OvernightIndexFuture(sofr, ql.Date(17, 9, 2025),
+                                     ql.Date(17, 12, 2025))
+    assert future.NPV() == pytest.approx(95.0376275555, rel=1e-8)
+    assert future.valueDate() == ql.Date(17, 9, 2025)
+    assert future.maturityDate() == ql.Date(17, 12, 2025)
+
+
+def test_overnightindexfuture_accessors():
+    """Test OvernightIndexFuture exposes its index and convexity adjustment."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    sofr = ql.Sofr(curve)
+    future = ql.OvernightIndexFuture(sofr, ql.Date(17, 9, 2025),
+                                     ql.Date(17, 12, 2025))
+    assert future.overnightIndex().name() == sofr.name()
+    assert future.convexityAdjustment() == pytest.approx(0.0, abs=1e-12)
+
+
+def test_perpetualfutures_enums():
+    """Test PerpetualFutures payoff and funding enums."""
+    assert int(ql.PerpetualFutures.Linear) == 0
+    assert int(ql.PerpetualFutures.Inverse) == 1
+    assert int(ql.PerpetualFutures.Quanto) == 2
+    assert int(ql.PerpetualFutures.FundingWithPreviousSpot) == 0
+    assert int(ql.PerpetualFutures.FundingWithCurrentSpot) == 1
+
+
+def test_perpetualfutures_never_expires():
+    """Test PerpetualFutures has no expiry."""
+    perp = ql.PerpetualFutures(ql.PerpetualFutures.Linear)
+    assert perp.isExpired() is False

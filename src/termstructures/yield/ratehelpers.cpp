@@ -14,6 +14,8 @@
 #include "pyquantlib/pyquantlib.h"
 #include <ql/termstructures/yield/ratehelpers.hpp>
 #include <ql/quote.hpp>
+#include <ql/instruments/futures.hpp>
+#include <ql/indexes/iborindex.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -284,4 +286,60 @@ void ql_termstructures::ratehelpers(py::module_& m) {
         .def("forwardStart", &SwapRateHelper::forwardStart,
              py::return_value_policy::reference_internal,
              "Returns the forward start period.");
+}
+
+void ql_termstructures::futuresratehelper(py::module_& m) {
+    py::class_<FuturesRateHelper, RateHelper,
+               ext::shared_ptr<FuturesRateHelper>>(
+        m, "FuturesRateHelper",
+        "Rate helper for bootstrapping over IborIndex futures prices.")
+        // Price + IborIndex
+        .def(py::init([](Real price, const Date& iborStartDate,
+                         const ext::shared_ptr<IborIndex>& iborIndex,
+                         Real convexityAdjustment, Futures::Type type) {
+            return ext::make_shared<FuturesRateHelper>(
+                price, iborStartDate, iborIndex, convexityAdjustment, type);
+        }), py::arg("price"), py::arg("iborStartDate"), py::arg("iborIndex"),
+            py::arg("convexityAdjustment") = 0.0,
+            py::arg("type") = Futures::IMM,
+            "Constructs from a futures price and an Ibor index.")
+        // Quote handle + IborIndex
+        .def(py::init([](const Handle<Quote>& price, const Date& iborStartDate,
+                         const ext::shared_ptr<IborIndex>& iborIndex,
+                         const Handle<Quote>& convexityAdjustment,
+                         Futures::Type type) {
+            return ext::make_shared<FuturesRateHelper>(
+                price, iborStartDate, iborIndex, convexityAdjustment, type);
+        }), py::arg("price"), py::arg("iborStartDate"), py::arg("iborIndex"),
+            py::arg("convexityAdjustment") = Handle<Quote>(),
+            py::arg("type") = Futures::IMM,
+            "Constructs from a futures price quote handle and an Ibor index.")
+        // Price + explicit end date
+        .def(py::init([](Real price, const Date& iborStartDate,
+                         const Date& iborEndDate, const DayCounter& dayCounter,
+                         Real convexityAdjustment, Futures::Type type) {
+            return ext::make_shared<FuturesRateHelper>(
+                price, iborStartDate, iborEndDate, dayCounter,
+                convexityAdjustment, type);
+        }), py::arg("price"), py::arg("iborStartDate"), py::arg("iborEndDate"),
+            py::arg("dayCounter"), py::arg("convexityAdjustment") = 0.0,
+            py::arg("type") = Futures::IMM,
+            "Constructs from a futures price and an explicit period.")
+        // Price + length in months
+        .def(py::init([](Real price, const Date& iborStartDate,
+                         Natural lengthInMonths, const Calendar& calendar,
+                         BusinessDayConvention convention, bool endOfMonth,
+                         const DayCounter& dayCounter,
+                         Real convexityAdjustment, Futures::Type type) {
+            return ext::make_shared<FuturesRateHelper>(
+                price, iborStartDate, lengthInMonths, calendar, convention,
+                endOfMonth, dayCounter, convexityAdjustment, type);
+        }), py::arg("price"), py::arg("iborStartDate"),
+            py::arg("lengthInMonths"), py::arg("calendar"),
+            py::arg("convention"), py::arg("endOfMonth"),
+            py::arg("dayCounter"), py::arg("convexityAdjustment") = 0.0,
+            py::arg("type") = Futures::IMM,
+            "Constructs from a futures price and explicit market conventions.")
+        .def("convexityAdjustment", &FuturesRateHelper::convexityAdjustment,
+             "Returns the convexity adjustment.");
 }

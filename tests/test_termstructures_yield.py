@@ -1824,3 +1824,95 @@ def test_multipleresetsswaphelper_bootstrap():
     del curve, helpers, index, ts
     gc.collect()
     ql.Settings.instance().evaluationDate = original_date
+
+# =============================================================================
+# Futures rate helpers
+# =============================================================================
+
+
+def test_futuresratehelper_from_ibor_index():
+    """Test FuturesRateHelper takes its period from the Ibor index tenor."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    index = ql.USDLibor(ql.Period(3, ql.Months), curve)
+    helper = ql.FuturesRateHelper(97.5, ql.Date(17, 9, 2025), index)
+    assert helper.earliestDate() == ql.Date(17, 9, 2025)
+    assert helper.latestDate() == ql.Date(17, 12, 2025)
+    assert helper.pillarDate() == ql.Date(17, 12, 2025)
+
+
+def test_futuresratehelper_bootstrap():
+    """Test FuturesRateHelper contributes a pillar to a bootstrapped curve."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    calendar = ql.UnitedStates(ql.UnitedStates.Settlement)
+    index = ql.USDLibor(ql.Period(3, ql.Months),
+                        ql.FlatForward(today, 0.05, dc))
+    helpers = [
+        ql.DepositRateHelper(0.048, index),
+        ql.FuturesRateHelper(97.5, ql.Date(17, 9, 2025), 3, calendar,
+                             ql.ModifiedFollowing, True, ql.Actual360()),
+    ]
+    curve = ql.PiecewiseFlatForward(today, helpers, dc)
+    assert curve.discount(ql.Date(17, 12, 2025)) == pytest.approx(
+        0.9825894010, rel=1e-8)
+    assert curve.zeroRate(ql.Date(17, 12, 2025), dc,
+                          ql.Continuous).rate() == pytest.approx(
+        0.0364252289, rel=1e-8)
+
+
+def test_futuresratehelper_explicit_conventions():
+    """Test FuturesRateHelper with explicit market conventions."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    helper = ql.FuturesRateHelper(
+        97.5, ql.Date(17, 9, 2025), 3,
+        ql.UnitedStates(ql.UnitedStates.Settlement),
+        ql.ModifiedFollowing, True, ql.Actual360())
+    assert helper.latestDate() == ql.Date(17, 12, 2025)
+    assert helper.convexityAdjustment() == pytest.approx(0.0, abs=1e-12)
+
+
+def test_futuresratehelper_type_enum():
+    """Test FuturesRateHelper accepts the ASX date rule.
+
+    ASX contracts settle on the second Friday, so the start date must be a
+    valid ASX date or QuantLib rejects it.
+    """
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    helper = ql.FuturesRateHelper(
+        97.5, ql.Date(12, 9, 2025), 3,
+        ql.UnitedStates(ql.UnitedStates.Settlement),
+        ql.ModifiedFollowing, True, ql.Actual360(), 0.0, ql.Futures.ASX)
+    assert helper.latestDate() == ql.Date(12, 12, 2025)
+
+
+def test_overnightindexfutureratehelper_construction():
+    """Test OvernightIndexFutureRateHelper over an explicit period."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    sofr = ql.Sofr(curve)
+    helper = ql.OvernightIndexFutureRateHelper(
+        97.0, ql.Date(17, 9, 2025), ql.Date(17, 12, 2025), sofr)
+    assert helper.latestDate() == ql.Date(17, 12, 2025)
+    assert helper.convexityAdjustment() == pytest.approx(0.0, abs=1e-12)
+
+
+def test_sofrfutureratehelper_construction():
+    """Test SofrFutureRateHelper derives its dates from the contract month."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    helper = ql.SofrFutureRateHelper(97.0, ql.September, 2025, ql.Quarterly)
+    assert helper.latestDate() == ql.Date(17, 12, 2025)
+
+
+def test_sofrfutureratehelper_monthly_contract():
+    """Test the monthly SOFR contract spans a single reference month."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    helper = ql.SofrFutureRateHelper(97.0, ql.September, 2025, ql.Monthly)
+    assert helper.latestDate() == ql.Date(1, 10, 2025)

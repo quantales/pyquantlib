@@ -999,3 +999,51 @@ def test_swapspreadindex_accessors():
     ssi = ql.SwapSpreadIndex("CMS2s10s", idx1, idx2)
     assert ssi.swapIndex1() is not None
     assert ssi.swapIndex2() is not None
+
+# =============================================================================
+# LIBOR indexes
+# =============================================================================
+
+
+def test_usdlibor_construction():
+    """Test USDLibor pre-fills the ICE USD conventions."""
+    index = ql.USDLibor(ql.Period(3, ql.Months))
+    assert index.name() == "USDLibor3M Actual/360"
+    assert index.familyName() == "USDLibor"
+    assert index.fixingDays() == 2
+    assert index.dayCounter().name() == "Actual/360"
+    assert index.currency().code() == "USD"
+
+
+def test_usdlibor_joint_calendar():
+    """Test Libor exposes the joint index/financial-centre calendar."""
+    index = ql.USDLibor(ql.Period(3, ql.Months))
+    assert index.jointCalendar().name() == (
+        "JoinHolidays(London stock exchange, US with Libor impact)"
+    )
+
+
+def test_usdlibor_forecasts_from_curve():
+    """Test USDLibor forecasts a fixing from a forwarding curve."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+    index = ql.USDLibor(ql.Period(3, ql.Months), curve)
+    fixing_date = index.fixingCalendar().adjust(today)
+    assert index.fixing(fixing_date) == pytest.approx(0.0496271305, rel=1e-8)
+
+
+def test_usdliboron_construction():
+    """Test overnight USD LIBOR index."""
+    index = ql.USDLiborON()
+    assert index.name() == "USDLiborON Actual/360"
+    assert index.fixingDays() == 0
+
+
+def test_libor_custom_family():
+    """Test the Libor base class with explicit conventions."""
+    index = ql.Libor("MyLibor", ql.Period(6, ql.Months), 2, ql.USDCurrency(),
+                     ql.UnitedKingdom(ql.UnitedKingdom.Exchange),
+                     ql.Actual360())
+    assert index.familyName() == "MyLibor"
+    assert index.fixingDays() == 2

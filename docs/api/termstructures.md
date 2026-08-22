@@ -13,7 +13,7 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 | Piecewise (iterative bootstrap) | {py:class}`pyquantlib.PiecewiseLogLinearDiscount`, {py:class}`pyquantlib.PiecewiseLinearDiscount`, {py:class}`pyquantlib.PiecewiseCubicDiscount`, {py:class}`pyquantlib.PiecewiseLinearZero`, {py:class}`pyquantlib.PiecewiseCubicZero`, {py:class}`pyquantlib.PiecewiseLinearForward`, {py:class}`pyquantlib.PiecewiseBackwardFlatForward`, {py:class}`pyquantlib.PiecewiseLogCubicDiscount`, {py:class}`pyquantlib.PiecewiseKrugerLogDiscount` |
 | Global bootstrap | {py:class}`pyquantlib.PiecewiseLogLinearDiscountGlobal`, {py:class}`pyquantlib.PiecewiseLinearZeroGlobal`, {py:class}`pyquantlib.PiecewiseBackwardFlatForwardGlobal`, {py:class}`pyquantlib.MultiCurve` |
 | Fitted (parametric) | {py:class}`pyquantlib.FittedBondDiscountCurve`, {py:class}`pyquantlib.NelsonSiegelFitting`, {py:class}`pyquantlib.SvenssonFitting`, {py:class}`pyquantlib.ExponentialSplinesFitting`, {py:class}`pyquantlib.CubicBSplinesFitting`, {py:class}`pyquantlib.SimplePolynomialFitting`, {py:class}`pyquantlib.SpreadFittingMethod` |
-| Rate helpers | {py:class}`pyquantlib.DepositRateHelper`, {py:class}`pyquantlib.FraRateHelper`, {py:class}`pyquantlib.SwapRateHelper`, {py:class}`pyquantlib.OISRateHelper`, {py:class}`pyquantlib.MultipleResetsSwapRateHelper`, {py:class}`pyquantlib.BondHelper`, {py:class}`pyquantlib.FixedRateBondHelper` |
+| Rate helpers | {py:class}`pyquantlib.DepositRateHelper`, {py:class}`pyquantlib.FraRateHelper`, {py:class}`pyquantlib.SwapRateHelper`, {py:class}`pyquantlib.OISRateHelper`, {py:class}`pyquantlib.MultipleResetsSwapRateHelper`, {py:class}`pyquantlib.FuturesRateHelper`, {py:class}`pyquantlib.OvernightIndexFutureRateHelper`, {py:class}`pyquantlib.SofrFutureRateHelper`, {py:class}`pyquantlib.BondHelper`, {py:class}`pyquantlib.FixedRateBondHelper` |
 | Handles | {py:class}`pyquantlib.YieldTermStructureHandle`, {py:class}`pyquantlib.RelinkableYieldTermStructureHandle` |
 | Enums | {py:class}`pyquantlib.Pillar` |
 
@@ -21,7 +21,7 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 
 | Group | Classes |
 |---|---|
-| Black vol | {py:class}`pyquantlib.BlackConstantVol`, {py:class}`pyquantlib.BlackVarianceSurface`, {py:class}`pyquantlib.BlackVolatilitySurfaceDelta`, {py:class}`pyquantlib.HestonBlackVolSurface` |
+| Black vol | {py:class}`pyquantlib.BlackConstantVol`, {py:class}`pyquantlib.BlackVarianceSurface`, {py:class}`pyquantlib.PiecewiseBlackVarianceSurface`, {py:class}`pyquantlib.BlackVolatilitySurfaceDelta`, {py:class}`pyquantlib.HestonBlackVolSurface` |
 | Smile sections | {py:class}`pyquantlib.FlatSmileSection`, {py:class}`pyquantlib.SabrSmileSection`, {py:class}`pyquantlib.SabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrSmileSection`, {py:class}`pyquantlib.NoArbSabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrModel`, {py:class}`pyquantlib.KahaleSmileSection` |
 | SABR free functions | {py:func}`pyquantlib.sabrVolatility`, {py:func}`pyquantlib.shiftedSabrVolatility`, {py:func}`pyquantlib.validateSabrParameters` |
 | Local vol | {py:class}`pyquantlib.LocalConstantVol`, {py:class}`pyquantlib.LocalVolSurface`, {py:class}`pyquantlib.FixedLocalVolSurface`, {py:class}`pyquantlib.NoExceptLocalVolSurface` |
@@ -222,6 +222,40 @@ helper = ql.MultipleResetsSwapRateHelper(
 ```
 
 ```{eval-rst}
+.. autoclass:: pyquantlib.FuturesRateHelper
+   :members:
+```
+
+Bootstrap helper for IborIndex futures prices. The price is a quoted futures price (100 minus the rate), supplied as a `float` or a `QuoteHandle`, with an optional convexity adjustment. `type` selects the date rule from {py:class}`pyquantlib.Futures`.
+
+```python
+helper = ql.FuturesRateHelper(97.5, ql.Date(17, 9, 2025), euribor3m)
+
+helper = ql.FuturesRateHelper(97.5, ql.Date(17, 9, 2025), 3,
+                              ql.TARGET(), ql.ModifiedFollowing, True,
+                              ql.Actual360())
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OvernightIndexFutureRateHelper
+   :members:
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SofrFutureRateHelper
+```
+
+`OvernightIndexFutureRateHelper` bootstraps over overnight compounding futures between an explicit value date and delivery date. `SofrFutureRateHelper` derives from it and computes those dates from a reference month, year, and frequency, following the CME SOFR contract definition.
+
+```python
+helper = ql.SofrFutureRateHelper(97.0, ql.September, 2025, ql.Quarterly)
+```
+
+```{note}
+When the reference period starts in the past, the overnight index history must be populated with `addFixing` before the helper can be used.
+```
+
+```{eval-rst}
 .. autoclass:: pyquantlib.BondHelper
 ```
 
@@ -375,6 +409,25 @@ const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackVarianceSurface
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PiecewiseBlackVarianceSurface
+   :members:
+```
+
+Builds a Black volatility surface from one {py:class}`pyquantlib.base.SmileSection` per tenor, interpolating linearly in total variance between tenors at a given strike. Unlike {py:class}`pyquantlib.BlackVarianceSurface`, the smile at each tenor is supplied as a section object, so any smile parameterization (SABR, SVI, interpolated) can be used directly.
+
+```python
+surface = ql.PiecewiseBlackVarianceSurface(
+    today, [d6m, d1y], [smile_6m, smile_1y], ql.Actual365Fixed())
+```
+
+The static `makeFromGrid` constructor mirrors the `BlackVarianceSurface` signature and provides a migration path, turning each column of the matrix into a linearly interpolated smile section:
+
+```python
+surface = ql.PiecewiseBlackVarianceSurface.makeFromGrid(
+    today, dates, strikes, black_vols, ql.Actual365Fixed())
 ```
 
 ```{eval-rst}

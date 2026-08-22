@@ -83,6 +83,7 @@ See {doc}`/concepts/pricing-engines` for the instrument / engine separation, {do
 | Credit | {py:class}`pyquantlib.MidPointCdsEngine`, {py:class}`pyquantlib.IsdaCdsEngine` |
 | Swaps | {py:class}`pyquantlib.DiscountingSwapEngine` |
 | FX forwards | {py:class}`pyquantlib.DiscountingFxForwardEngine` |
+| Futures | {py:class}`pyquantlib.DiscountingPerpetualFuturesEngine` |
 | Variance swaps | {py:class}`pyquantlib.ReplicatingVarianceSwapEngine` |
 
 ### Calculators and free functions
@@ -848,6 +849,27 @@ engine = ql.DiscountingFxForwardEngine(eur_curve, usd_curve, spot_fx)
 fwd.setPricingEngine(engine)
 print(fwd.NPV(), fwd.fairForwardRate())
 ```
+
+## Futures engines
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountingPerpetualFuturesEngine
+   :members:
+```
+
+Prices a {py:class}`pyquantlib.PerpetualFutures` contract following Ackerer, Hugonnier, and Jermann (2024). The funding schedule is supplied as parallel sequences of times, funding rates, and interest-rate differentials; `fundingInterpType` selects how they are interpolated between the given times.
+
+```python
+engine = ql.DiscountingPerpetualFuturesEngine(
+    domestic_curve, foreign_curve, spot,
+    fundingTimes=[0.25, 0.5, 1.0],
+    fundingRates=[0.01, 0.012, 0.015],
+    interestRateDiffs=[0.02, 0.02, 0.02],
+)
+perp.setPricingEngine(engine)
+```
+
+`maxT` bounds the integration horizon for the perpetual payoff and defaults to 60 years. Cost grows roughly fourfold per doubling, and the price usually converges well before it: in the example above, `maxT=5` matches the default to full double precision in 0.05 s against 11 s.
 
 ## Bond functions
 

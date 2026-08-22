@@ -2679,3 +2679,55 @@ def test_blackvolsurfacedelta_interpolation_method_enum():
         timeExtrapolationType=ql.BlackVolTimeExtrapolation.FlatVolatility,
     )
     assert surf.blackVol(0.5, 1.20) == pytest.approx(0.10762045, rel=1e-5)
+
+# =============================================================================
+# PiecewiseBlackVarianceSurface
+# =============================================================================
+
+
+def _piecewise_surface_grid():
+    """Build a 3x2 (strike, date) vol grid and the matching surface."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dates = [today + ql.Period("6M"), today + ql.Period("1Y")]
+    strikes = [90.0, 100.0, 110.0]
+    vols = ql.Matrix(3, 2)
+    for i, row in enumerate([[0.22, 0.21], [0.20, 0.195], [0.21, 0.205]]):
+        for j, value in enumerate(row):
+            vols[i][j] = value
+    surface = ql.PiecewiseBlackVarianceSurface.makeFromGrid(
+        today, dates, strikes, vols, ql.Actual365Fixed())
+    return today, surface
+
+
+def test_piecewiseblackvariancesurface_pillar_vol():
+    """Test the surface reproduces the input vol at a grid pillar."""
+    _, surface = _piecewise_surface_grid()
+    assert surface.blackVol(0.5, 100.0) == pytest.approx(0.20, rel=1e-8)
+
+
+def test_piecewiseblackvariancesurface_interpolates_in_variance():
+    """Test the surface interpolates linearly in total variance between tenors."""
+    _, surface = _piecewise_surface_grid()
+    assert surface.blackVol(0.75, 100.0) == pytest.approx(0.1966899859,
+                                                          rel=1e-8)
+
+
+def test_piecewiseblackvariancesurface_bounds():
+    """Test surface date and strike bounds."""
+    today, surface = _piecewise_surface_grid()
+    assert surface.maxDate() == today + ql.Period("1Y")
+    assert surface.dayCounter().name() == "Actual/365 (Fixed)"
+    assert surface.minStrike() < 0.0
+    assert surface.maxStrike() > 0.0
+
+
+def test_piecewiseblackvariancesurface_from_smile_sections():
+    """Test constructing the surface directly from smile sections."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    section = ql.FlatSmileSection(today + ql.Period("6M"), 0.25, dc, today)
+    surface = ql.PiecewiseBlackVarianceSurface(
+        today, today + ql.Period("6M"), section, dc)
+    assert surface.blackVol(0.5, 100.0) == pytest.approx(0.25, rel=1e-8)

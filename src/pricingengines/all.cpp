@@ -271,4 +271,6 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "MidPointCdsEngine - mid-point CDS engine");
     ADD_MAIN_BINDING(ql_pricingengines::isdacdsengine,
         "IsdaCdsEngine - ISDA-compliant CDS engine");
+    ADD_MAIN_BINDING(ql_pricingengines::discountingperpetualfuturesengine,
+        "DiscountingPerpetualFuturesEngine - perpetual futures engine");
 }

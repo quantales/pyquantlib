@@ -152,4 +152,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "SoftBarrierOption - soft barrier option");
     ADD_MAIN_BINDING(ql_instruments::twoassetbarrieroption,
         "TwoAssetBarrierOption - two-asset barrier option");
+    ADD_MAIN_BINDING(ql_instruments::overnightindexfuture,
+        "OvernightIndexFuture - overnight index future");
+    ADD_MAIN_BINDING(ql_instruments::perpetualfutures,
+        "PerpetualFutures - perpetual future");
 }

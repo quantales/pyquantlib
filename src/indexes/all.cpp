@@ -18,6 +18,8 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
     ADD_BASE_BINDING(ql_indexes::interestrateindex, "InterestRateIndex ABC");
     ADD_MAIN_BINDING(ql_indexes::iborindex, "IborIndex - IBOR index base class");
     ADD_MAIN_BINDING(ql_indexes::euribor, "Euribor - Euribor indexes");
+    ADD_MAIN_BINDING(ql_indexes::libor, "Libor, DailyTenorLibor - ICE LIBOR bases");
+    ADD_MAIN_BINDING(ql_indexes::usdlibor, "USDLibor, DailyTenorUSDLibor, USDLiborON");
     ADD_MAIN_BINDING(ql_indexes::sofr, "Sofr - SOFR overnight index");
     ADD_MAIN_BINDING(ql_indexes::eonia, "Eonia - EONIA overnight index");
     ADD_MAIN_BINDING(ql_indexes::estr, "Estr - ESTR overnight index");

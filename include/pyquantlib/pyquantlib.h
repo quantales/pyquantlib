@@ -218,6 +218,8 @@ namespace ql_indexes {
     void interestrateindex(py::module_&);
     void iborindex(py::module_&);
     void euribor(py::module_&);
+    void libor(py::module_&);
+    void usdlibor(py::module_&);
     void sofr(py::module_&);
     void eonia(py::module_&);
     void estr(py::module_&);
@@ -241,6 +243,9 @@ namespace ql_indexes {
 }
 
 namespace ql_termstructures {
+    void futuresratehelper(py::module_&);
+    void overnightindexfutureratehelper(py::module_&);
+    void piecewiseblackvariancesurface(py::module_&);
     void yieldtermstructure(py::module_&);
     void yieldtermstructurehandle(py::module_&);
     void relinkableyieldtermstructurehandle(py::module_&);
@@ -387,6 +392,9 @@ namespace ql_models {
 }
 
 namespace ql_instruments {
+    void futures(py::module_&);
+    void overnightindexfuture(py::module_&);
+    void perpetualfutures(py::module_&);
     void bond(py::module_&);
     void fixedratebond(py::module_&);
     void zerocouponbond(py::module_&);
@@ -457,6 +465,7 @@ namespace ql_instruments {
 }
 
 namespace ql_pricingengines {
+    void discountingperpetualfuturesengine(py::module_&);
     void blackformula(py::module_&);
     void genericmodelengine(py::module_&);
     void analyticeuropeanengine(py::module_&);
