@@ -5,16 +5,22 @@
 
 import glob
 import json
+import glob
 import os
 import re
 import shutil
 import sys
 
-# On RTD, remove the source tree from sys.path so autodoc uses the installed
-# PyPI wheel (the source tree has no compiled _pyquantlib extension).
-if os.environ.get("READTHEDOCS"):
-    _src_root = os.path.normcase(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-    sys.path = [p for p in sys.path if os.path.normcase(os.path.abspath(p)) != _src_root]
+# Remove the source tree from sys.path when it holds no compiled _pyquantlib
+# extension, so autodoc uses the installed PyPI wheel instead. Without this the
+# checkout shadows the wheel and `pyquantlib._pyquantlib` resolves to the
+# stubs-only directory, which is empty at runtime. Applies to RTD and to any CI
+# runner building from the repo root; a local tree with a built extension is
+# left alone.
+_src_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if not glob.glob(os.path.join(_src_root, "pyquantlib", "_pyquantlib.*")):
+    _norm = os.path.normcase(_src_root)
+    sys.path = [p for p in sys.path if os.path.normcase(os.path.abspath(p)) != _norm]
 
 # -- Project information -----------------------------------------------------
 
