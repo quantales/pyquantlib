@@ -13,15 +13,17 @@
 
 ## Overview
 
-PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. Built with [pybind11](https://github.com/pybind/pybind11), it offers a more Pythonic API than existing alternatives.
+PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), the open-source library for quantitative finance. It is built on [pybind11](https://github.com/pybind/pybind11): every binding is written in standard C++, with no interface-definition language and no code-generation step between the caller and the QuantLib source.
+
+As an independent project, PyQuantLib complements the official [QuantLib-SWIG](https://github.com/lballabio/QuantLib-SWIG) bindings, which remain the established and most widely used way to run QuantLib from Python.
 
 ## Features
 
-- **Pythonic API**: Pass Python objects directly to functions (implicit conversion)
-- **Zero-copy NumPy**: Buffer protocol for efficient, bidirectional data exchange
-- **Type hints**: IDE-friendly with complete `.pyi` stub files
-- **Python subclassing**: Extend QuantLib classes without C++ recompilation
-- **Modern build**: scikit-build-core, CMake presets, cross-platform CI/CD
+- **Pythonic API**: pass quotes and term structures directly; handles are created internally. Plain Python types convert automatically, and `None` replaces `Null<Real>()`.
+- **Zero-copy NumPy**: `Array` and `Matrix` use the buffer protocol, so `np.array(arr, copy=False)` shares memory with no marshalling.
+- **Type hints**: complete `.pyi` stubs ship in the wheel for autocomplete and type-checking.
+- **Python subclassing**: override QuantLib's abstract base classes via pybind11 trampolines, without C++ recompilation.
+- **Modern build**: scikit-build-core, CMake presets, cross-platform CI.
 
 ## Installation
 
@@ -29,49 +31,17 @@ PyQuantLib provides Python bindings for [QuantLib](https://www.quantlib.org/), t
 pip install pyquantlib
 ```
 
-Pre-built wheels are available for Python 3.10--3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked -- no separate installation required.
+Pre-built wheels are available for Python 3.10 to 3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked, so no separate installation is required.
 
-### From Source
+### From source
 
-Building from source requires QuantLib built with specific CMake flags. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
-
-#### Prerequisites
-
-- Python 3.10+
-- CMake 3.18+
-- C++17 compatible compiler
-- Boost headers
-- **QuantLib 1.41+** built with `std::shared_ptr` support (see below)
-
-#### QuantLib Build Requirement
-
-> **Important**: PyQuantLib requires QuantLib built from source with specific settings.
-
-**Required CMake flags:**
-
-```bash
-cmake -DBUILD_SHARED_LIBS=OFF \
-      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-      -DQL_USE_STD_SHARED_PTR=ON \
-      -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL \  # Windows only
-      -DCMAKE_BUILD_TYPE=Release \
-      ...
-```
-
-| Flag | Why Required |
-|------|--------------|
-| `BUILD_SHARED_LIBS=OFF` | Static build prevents Settings singleton issues on Linux/macOS |
-| `CMAKE_POSITION_INDEPENDENT_CODE=ON` | Required for static libs in Python modules |
-| `QL_USE_STD_SHARED_PTR=ON` | pybind11 uses `std::shared_ptr` as default holder |
-| `CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL` | **Windows only**: Python extensions require dynamic runtime (`/MD`) |
-
-**Note**: Pre-built packages (Homebrew, vcpkg, apt) use shared builds and `boost::shared_ptr` -- they are **not compatible**. You must build QuantLib from source. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
+Building from source requires QuantLib 1.42+ compiled with specific CMake flags. Packages from Homebrew, vcpkg, and apt use shared builds and `boost::shared_ptr`, and are not compatible. See [CONTRIBUTING.md](CONTRIBUTING.md) for the required flags and full build instructions.
 
 ```bash
 pip install git+https://github.com/quantales/pyquantlib.git
 ```
 
-## Quick Start
+## Quick start
 
 ```python
 import pyquantlib as ql
@@ -83,42 +53,33 @@ ql.Settings.evaluationDate = today
 # Market data
 spot = ql.SimpleQuote(100.0)
 rate = ql.SimpleQuote(0.05)
-vol = ql.SimpleQuote(0.20)
+vol  = ql.SimpleQuote(0.20)
 
-# Term structures (pass quotes directly, handles created internally)
-dc = ql.Actual365Fixed()
-risk_free = ql.FlatForward(today, rate, dc)
-dividend = ql.FlatForward(today, 0.0, dc)
+# Term structures (pass quotes directly; handles created internally)
+dc         = ql.Actual365Fixed()
+risk_free  = ql.FlatForward(today, rate, dc)
+dividend   = ql.FlatForward(today, 0.0, dc)
 volatility = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 
-# Black-Scholes process (pass objects directly)
+# Black-Scholes process
 process = ql.GeneralizedBlackScholesProcess(spot, dividend, risk_free, volatility)
 
-# European call option
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
+# European call option, 1 year to expiry
+payoff   = ql.PlainVanillaPayoff(ql.Call, 100.0)
 exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
-option = ql.VanillaOption(payoff, exercise)
+option   = ql.VanillaOption(payoff, exercise)
 
 # Price with analytic Black-Scholes
 option.setPricingEngine(ql.AnalyticEuropeanEngine(process))
 
-print(f"NPV:   {option.NPV():.4f}")
-print(f"Delta: {option.delta():.4f}")
-print(f"Gamma: {option.gamma():.4f}")
-print(f"Vega:  {option.vega():.4f}")
-print(f"Theta: {option.theta():.4f}")
+print(f"NPV:   {option.NPV():.4f}")    # 10.4506
+print(f"Delta: {option.delta():.4f}")  # 0.6368
+print(f"Gamma: {option.gamma():.4f}")  # 0.0188
+print(f"Vega:  {option.vega():.4f}")   # 37.5240
+print(f"Theta: {option.theta():.4f}")  # -6.4140
 ```
 
-Output:
-```
-NPV:   10.4506
-Delta: 0.6368
-Gamma: 0.0188
-Vega:  37.5240
-Theta: -6.4140
-```
-
-## Module Organization
+## Module organization
 
 ```python
 import pyquantlib as ql          # Concrete classes
@@ -126,6 +87,20 @@ from pyquantlib.base import ...  # Abstract base classes (for subclassing)
 ```
 
 Coverage includes dates and calendars, market quotes, yield and volatility term structures, stochastic processes, instruments, and pricing engines. See the [API Reference](https://pyquantlib.readthedocs.io/en/latest/api/index.html) for the complete list.
+
+## Documentation
+
+Full documentation is available at [pyquantlib.readthedocs.io](https://pyquantlib.readthedocs.io/).
+
+| Section | Contents |
+|---------|----------|
+| [Quickstart](https://pyquantlib.readthedocs.io/en/latest/quickstart.html) | Installation and a first pricing example |
+| [Concepts](https://pyquantlib.readthedocs.io/en/latest/concepts/index.html) | Term structures, observables, engines, calibration, and the binding patterns behind them |
+| [Cookbook](https://pyquantlib.readthedocs.io/en/latest/cookbook/index.html) | Runnable recipes: curve bootstrapping, volatility surfaces, Heston calibration, NumPy interop |
+| [Examples](https://pyquantlib.readthedocs.io/en/latest/examples/index.html) | Jupyter notebooks, also available in [examples/](examples/) |
+| [API Reference](https://pyquantlib.readthedocs.io/en/latest/api/index.html) | Every bound class, by module |
+| [Architecture](https://pyquantlib.readthedocs.io/en/latest/architecture.html) | Design rationale and internals |
+| [Changelog](https://pyquantlib.readthedocs.io/en/latest/changelog.html) | Release history |
 
 ## Development
 
@@ -145,21 +120,8 @@ pip install -e .
 pytest
 ```
 
-## Documentation
-
-Full documentation is available at [pyquantlib.readthedocs.io](https://pyquantlib.readthedocs.io/). For the latest additions, see the [changelog](https://pyquantlib.readthedocs.io/en/latest/changelog.html).
-
-## Examples
-
-See the [examples](examples/) directory for Jupyter notebooks demonstrating PyQuantLib usage.
-
 ## License
 
 BSD 3-Clause License. See [LICENSE](LICENSE) for details.
 
-## Acknowledgments
-
-- [QuantLib](https://www.quantlib.org/) - Quantitative finance library
-- [pybind11](https://github.com/pybind/pybind11) - C++/Python bindings
-- [scikit-build-core](https://github.com/scikit-build/scikit-build-core) - Build system
-
+QuantLib is free software distributed under its own [modified BSD license](https://www.quantlib.org/license.shtml), and is copyright of its respective contributors.
