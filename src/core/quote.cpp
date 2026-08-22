@@ -22,6 +22,7 @@ using namespace QuantLib;
 void ql_core::quote(py::module_& m) {
     py::class_<Quote, PyQuote, ext::shared_ptr<Quote>, Observable>(m, "Quote",
         "Abstract base class for market quotes.")
+        .def(py::init_alias<>())
         .def("value", &Quote::value,
              "Returns the current value of the quote.")
         .def("isValid", &Quote::isValid,

@@ -9,7 +9,7 @@ import math
 import pytest
 
 import pyquantlib as ql
-from pyquantlib.base import Instrument, LazyObject
+from pyquantlib.base import Instrument, LazyObject, Quote
 
 
 # =============================================================================
@@ -432,3 +432,45 @@ def test_interestrate_hashable():
     rate_dict = {ir1: "first", ir3: "third"}
     assert rate_dict[ir1] == "first"
     assert rate_dict[ir2] == "first"
+
+# =============================================================================
+# Quote (abstract base class)
+# =============================================================================
+
+
+def test_quote_python_subclass():
+    """Test Quote can be subclassed from Python."""
+    class ConstantQuote(Quote):
+        def __init__(self, value):
+            super().__init__()
+            self._value = value
+
+        def value(self):
+            return self._value
+
+        def isValid(self):
+            return True
+
+    quote = ConstantQuote(1.25)
+    assert quote.value() == pytest.approx(1.25, rel=1e-12)
+    assert quote.isValid() is True
+
+
+def test_quote_python_subclass_drives_term_structure():
+    """Test a Python Quote subclass is usable wherever a Quote is expected."""
+    class ConstantQuote(Quote):
+        def __init__(self, value):
+            super().__init__()
+            self._value = value
+
+        def value(self):
+            return self._value
+
+        def isValid(self):
+            return True
+
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    curve = ql.FlatForward(today, ql.QuoteHandle(ConstantQuote(1.25)),
+                           ql.Actual365Fixed())
+    assert curve.zeroRate(1.0, ql.Continuous).rate() == pytest.approx(1.25, rel=1e-12)
