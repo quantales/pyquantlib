@@ -121,6 +121,9 @@ Desktop.ini
 # Documentation build
 /docs/_build/
 
+# Notebooks staged into the docs tree at build time (see docs/conf.py)
+/docs/examples/notebooks/
+
 # Local configuration overrides
 .env.local
 *.local.cmake

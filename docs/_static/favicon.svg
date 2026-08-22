@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#3776ab"/>
-  <text x="16" y="24" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-weight="700" font-size="20" fill="white">Q</text>
+  <rect width="32" height="32" rx="7" fill="#0F766E"/>
+  <text x="16" y="22"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="700"
+        font-size="17"
+        fill="white">Py</text>
 </svg>

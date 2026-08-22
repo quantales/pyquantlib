@@ -4,8 +4,6 @@ Pythonic wrapper functions for QuantLib Make* builders.
 Each function accepts the builder's constructor arguments as positional
 parameters and all builder options as keyword arguments, returning the
 built object directly.
-
-See docs/design/builder-pattern.md for the design rationale.
 """
 
 from . import _pyquantlib as _ql

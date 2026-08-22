@@ -1,15 +1,114 @@
-# Instruments Module
+# Instruments
 
-## Bonds
+Bindings for the `Instrument` class hierarchy: bonds, swaps, swaptions, caps and floors, options of every kind (vanilla, barrier, Asian, lookback, cliquet, compound, chooser, Margrabe, forward-start, quanto, basket), inflation products, credit derivatives, plus the supporting payoff and exercise classes that parameterise them.
 
-### Bond
+Every instrument exposes the same `setPricingEngine(engine)` / `NPV()` interface; specialised methods (`cleanPrice`, `bondYield`, `OAS`, `fairSpread`, `delta`, `vega`, ...) become available once the matching engine is attached. See {doc}`/concepts/pricing-engines` for the instrument / engine separation.
+
+## At a glance
+
+| Family | Classes |
+|---|---|
+| Bonds | {py:class}`pyquantlib.Bond`, {py:class}`pyquantlib.ZeroCouponBond`, {py:class}`pyquantlib.FixedRateBond`, {py:class}`pyquantlib.FloatingRateBond`, {py:class}`pyquantlib.AmortizingFixedRateBond`, {py:class}`pyquantlib.AmortizingFloatingRateBond`, {py:class}`pyquantlib.CmsRateBond`, {py:class}`pyquantlib.CPIBond` |
+| Callable / convertible bonds | {py:class}`pyquantlib.Callability`, {py:class}`pyquantlib.CallableFixedRateBond`, {py:class}`pyquantlib.CallableZeroCouponBond`, {py:class}`pyquantlib.SoftCallability`, {py:class}`pyquantlib.ConvertibleBond`, {py:class}`pyquantlib.ConvertibleZeroCouponBond`, {py:class}`pyquantlib.ConvertibleFixedCouponBond`, {py:class}`pyquantlib.ConvertibleFloatingRateBond` |
+| Swaps | {py:class}`pyquantlib.VanillaSwap`, {py:class}`pyquantlib.MakeVanillaSwap`, {py:class}`pyquantlib.OvernightIndexedSwap`, {py:class}`pyquantlib.ZeroCouponSwap`, {py:class}`pyquantlib.AssetSwap`, {py:class}`pyquantlib.EquityTotalReturnSwap` |
+| Inflation swaps | {py:class}`pyquantlib.ZeroCouponInflationSwap`, {py:class}`pyquantlib.YearOnYearInflationSwap` |
+| Exotic swaps / swaptions | {py:class}`pyquantlib.NonstandardSwap`, {py:class}`pyquantlib.FloatFloatSwap`, {py:class}`pyquantlib.MultipleResetsSwap`, {py:class}`pyquantlib.NonstandardSwaption`, {py:class}`pyquantlib.FloatFloatSwaption` |
+| Caps / floors / collars | {py:class}`pyquantlib.CapFloor`, {py:class}`pyquantlib.Cap`, {py:class}`pyquantlib.Floor`, {py:class}`pyquantlib.Collar`, {py:class}`pyquantlib.YoYInflationCap`, {py:class}`pyquantlib.YoYInflationFloor`, {py:class}`pyquantlib.YoYInflationCollar`, {py:class}`pyquantlib.YoYInflationCapFloor`, {py:class}`pyquantlib.MakeYoYInflationCapFloor` |
+| Swaptions | {py:class}`pyquantlib.Swaption`, {py:class}`pyquantlib.MakeSwaption` |
+| FRAs / forwards | {py:class}`pyquantlib.ForwardRateAgreement`, {py:class}`pyquantlib.FxForward`, {py:class}`pyquantlib.BondForward`, {py:class}`pyquantlib.ForwardTypePayoff` |
+| Vanilla options | {py:class}`pyquantlib.VanillaOption`, {py:class}`pyquantlib.BasketOption` |
+| Barrier options | {py:class}`pyquantlib.BarrierOption`, {py:class}`pyquantlib.DoubleBarrierOption`, {py:class}`pyquantlib.PartialTimeBarrierOption`, {py:class}`pyquantlib.SoftBarrierOption`, {py:class}`pyquantlib.TwoAssetBarrierOption` |
+| Path-dependent | {py:class}`pyquantlib.ContinuousAveragingAsianOption`, {py:class}`pyquantlib.DiscreteAveragingAsianOption`, {py:class}`pyquantlib.ContinuousFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousFixedLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFixedLookbackOption`, {py:class}`pyquantlib.CliquetOption` |
+| Compound / chooser / exchange | {py:class}`pyquantlib.CompoundOption`, {py:class}`pyquantlib.SimpleChooserOption`, {py:class}`pyquantlib.ComplexChooserOption`, {py:class}`pyquantlib.MargrabeOption` |
+| Forward-start / quanto | {py:class}`pyquantlib.ForwardVanillaOption`, {py:class}`pyquantlib.QuantoVanillaOption` |
+| Payoffs | {py:class}`pyquantlib.PlainVanillaPayoff`, {py:class}`pyquantlib.CashOrNothingPayoff`, {py:class}`pyquantlib.AssetOrNothingPayoff`, {py:class}`pyquantlib.GapPayoff`, {py:class}`pyquantlib.PercentageStrikePayoff`, {py:class}`pyquantlib.SuperFundPayoff`, {py:class}`pyquantlib.SuperSharePayoff`, {py:class}`pyquantlib.FloatingTypePayoff`, {py:class}`pyquantlib.MinBasketPayoff`, {py:class}`pyquantlib.MaxBasketPayoff`, {py:class}`pyquantlib.AverageBasketPayoff`, {py:class}`pyquantlib.SpreadBasketPayoff` |
+| Exercise | {py:class}`pyquantlib.EuropeanExercise`, {py:class}`pyquantlib.AmericanExercise`, {py:class}`pyquantlib.BermudanExercise` |
+| Variance / credit / composite | {py:class}`pyquantlib.VarianceSwap`, {py:class}`pyquantlib.CreditDefaultSwap`, {py:class}`pyquantlib.FaceValueClaim`, {py:class}`pyquantlib.FaceValueAccrualClaim`, {py:class}`pyquantlib.CompositeInstrument` |
+
+## Common patterns
+
+### Build a vanilla European option
+
+```python
+import pyquantlib as ql
+
+payoff   = ql.PlainVanillaPayoff(ql.Call, 100.0)
+exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
+option   = ql.VanillaOption(payoff, exercise)
+
+option.setPricingEngine(engine)
+print(option.NPV(), option.delta())
+```
+
+The same `(payoff, exercise)` constructor pattern parameterises most option classes; what differs across instruments is which `Payoff` subclasses are accepted (e.g. `BarrierOption` extends with barrier level, `MargrabeOption` carries two notionals).
+
+### Price a fixed-rate bond
+
+```python
+bond = ql.FixedRateBond(
+    settlementDays=2, faceAmount=100.0,
+    schedule=schedule, coupons=[0.05],
+    accrualDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
+)
+bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
+
+print(bond.cleanPrice())
+print(bond.bondYield(
+    ql.Thirty360(ql.Thirty360.BondBasis), ql.Compounded, ql.Annual,
+))
+```
+
+`Bond` exposes `cleanPrice`, `dirtyPrice`, `accruedAmount`, `bondYield`, `duration`, `convexity`, etc., once a discount engine is attached. For callable bonds with a tree engine, `OAS` and `cleanPriceOAS` become available too.
+
+### Build a swap with `MakeVanillaSwap`
+
+```python
+swap = ql.MakeVanillaSwap(
+    ql.Period(5, ql.Years), euribor6m, 0.04,
+    nominal=10_000_000.0,
+    fixedLegDayCount=ql.Thirty360(ql.Thirty360.BondBasis),
+    floatingLegSpread=0.001,
+)
+```
+
+`MakeVanillaSwap` and `MakeSwaption` are keyword-argument builders mirroring QuantLib's C++ `Make*` pattern. Constructor arguments are positional, builder options keyword-only.
+
+### Set up a barrier option
+
+```python
+payoff   = ql.PlainVanillaPayoff(ql.Call, 100.0)
+exercise = ql.EuropeanExercise(expiry)
+
+option = ql.BarrierOption(
+    ql.BarrierType.DownOut, barrier=80.0, rebate=0.0,
+    payoff=payoff, exercise=exercise,
+)
+option.setPricingEngine(ql.AnalyticBarrierEngine(process))
+print(option.NPV())
+```
+
+`BarrierType` values: `DownIn`, `UpIn`, `DownOut`, `UpOut`. `DoubleBarrierOption` adds two-sided variants (`KnockOut`, `KnockIn`, `KIKO`, `KOKI`).
+
+### Build an OIS
+
+```python
+sofr = ql.Sofr(curve_handle)
+ois = ql.OvernightIndexedSwap(
+    ql.SwapType.Receiver, 1_000_000.0, schedule,
+    fixedRate=0.035, fixedDC=ql.Actual360(), overnightIndex=sofr,
+)
+ois.setPricingEngine(ql.DiscountingSwapEngine(curve_handle))
+print(ois.NPV(), ois.fairRate())
+```
+
+## Reference
+
+### Bonds
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Bond
    :members:
 ```
-
-### ZeroCouponBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroCouponBond
@@ -18,25 +117,11 @@
 ```python
 bond = ql.ZeroCouponBond(2, ql.TARGET(), 100.0, maturity_date)
 bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
-print(bond.cleanPrice())
 ```
-
-### FixedRateBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedRateBond
 ```
-
-```python
-bond = ql.FixedRateBond(2, 100.0, schedule, [0.05],
-                         ql.Thirty360(ql.Thirty360.BondBasis))
-bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
-print(bond.cleanPrice())
-print(bond.bondYield(ql.Thirty360(ql.Thirty360.BondBasis),
-                      ql.Compounded, ql.Annual))
-```
-
-### FloatingRateBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FloatingRateBond
@@ -45,11 +130,7 @@ print(bond.bondYield(ql.Thirty360(ql.Thirty360.BondBasis),
 ```python
 bond = ql.FloatingRateBond(2, 100.0, schedule, euribor6m,
                             ql.Actual360(), spreads=[0.005])
-bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
-print(bond.cleanPrice())
 ```
-
-### AmortizingFixedRateBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AmortizingFixedRateBond
@@ -57,36 +138,23 @@ print(bond.cleanPrice())
 
 ```python
 notionals = ql.sinkingNotionals(ql.Period(5, ql.Years), ql.Annual, 0.05, 100.0)
-schedule = ql.sinkingSchedule(issue_date, ql.Period(5, ql.Years), ql.Annual, ql.TARGET())
+schedule  = ql.sinkingSchedule(issue_date, ql.Period(5, ql.Years), ql.Annual, ql.TARGET())
 bond = ql.AmortizingFixedRateBond(2, notionals, schedule, [0.05],
                                    ql.Thirty360(ql.Thirty360.BondBasis))
 ```
 
-### sinkingSchedule
-
 ```{eval-rst}
 .. autofunction:: pyquantlib.sinkingSchedule
-```
-
-### sinkingNotionals
-
-```{eval-rst}
 .. autofunction:: pyquantlib.sinkingNotionals
 ```
-
-### AmortizingFloatingRateBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AmortizingFloatingRateBond
 ```
 
-### CmsRateBond
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.CmsRateBond
 ```
-
-### CPIBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CPIBond
@@ -98,9 +166,7 @@ bond = ql.CPIBond(2, 100.0, 315.0, ql.Period(3, ql.Months),
                    ql.Actual365Fixed())
 ```
 
-## Callable Bonds
-
-### Callability
+### Callable bonds
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Callability
@@ -112,70 +178,53 @@ bond = ql.CPIBond(2, 100.0, 315.0, ql.Period(3, ql.Months),
    :undoc-members:
 ```
 
-| Value | Description |
-|-------|-------------|
-| `Call` | Issuer can call (redeem early) |
-| `Put` | Holder can put (sell back early) |
+| Value | Side |
+|---|---|
+| `Call` | Issuer can redeem early |
+| `Put` | Holder can sell back early |
 
 ```python
-call_price = ql.BondPrice(100.0, ql.BondPriceType.Clean)
-call = ql.Callability(call_price, ql.CallabilityType.Call,
-                       ql.Date(15, ql.June, 2030))
+call = ql.Callability(
+    ql.BondPrice(100.0, ql.BondPriceType.Clean),
+    ql.CallabilityType.Call,
+    ql.Date(15, ql.June, 2030),
+)
 ```
-
-### CallableFixedRateBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CallableFixedRateBond
 ```
 
 ```python
-call_schedule = [
+schedule = [
     ql.Callability(ql.BondPrice(100.0, ql.BondPriceType.Clean),
                     ql.CallabilityType.Call, call_date)
     for call_date in call_dates
 ]
 bond = ql.CallableFixedRateBond(2, 100.0, schedule, [0.05],
                                  ql.Actual365Fixed(),
-                                 putCallSchedule=call_schedule)
+                                 putCallSchedule=schedule)
 bond.setPricingEngine(ql.TreeCallableFixedRateBondEngine(hw_model, 100))
 print(bond.cleanPrice())
 print(bond.OAS(clean_price, curve, dc, ql.Continuous, ql.Annual))
 ```
 
-### CallableZeroCouponBond
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.CallableZeroCouponBond
 ```
 
-## Convertible Bonds
-
-### SoftCallability
+### Convertible bonds
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SoftCallability
 ```
 
-Callability with a trigger level for soft-call provisions.
-
-```python
-soft_call = ql.SoftCallability(
-    ql.BondPrice(110.0, ql.BondPriceType.Clean),
-    call_date, 1.20,
-)
-```
-
-### ConvertibleBond
+Callability with a trigger level.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConvertibleBond
    :members:
 ```
-
-Base class for convertible bonds (not directly constructible).
-
-### ConvertibleZeroCouponBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConvertibleZeroCouponBond
@@ -188,42 +237,19 @@ bond = ql.ConvertibleZeroCouponBond(
     ql.Actual365Fixed(), schedule,
 )
 bond.setPricingEngine(ql.BinomialConvertibleEngine(process, "crr", 801))
-print(bond.NPV())
 ```
-
-### ConvertibleFixedCouponBond
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConvertibleFixedCouponBond
 ```
 
-```python
-bond = ql.ConvertibleFixedCouponBond(
-    exercise, 1.0, call_schedule, issue_date, 2,
-    [0.05], ql.Thirty360(ql.Thirty360.BondBasis), schedule,
-)
-```
-
-### ConvertibleFloatingRateBond
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConvertibleFloatingRateBond
 ```
 
-```python
-bond = ql.ConvertibleFloatingRateBond(
-    exercise, 1.0, [], issue_date, 2,
-    euribor6m, 2, [0.005], ql.Actual360(), schedule,
-)
-```
-
-### EquityTotalReturnSwap
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.EquityTotalReturnSwap
 ```
-
-Equity total return swap: equity leg vs interest rate leg.
 
 ```python
 trs = ql.EquityTotalReturnSwap(
@@ -231,61 +257,26 @@ trs = ql.EquityTotalReturnSwap(
     equity_index, ibor_index, ql.Actual360(), 0.005,
 )
 trs.setPricingEngine(ql.DiscountingSwapEngine(curve))
-print(trs.NPV())
 print(trs.fairMargin())
 ```
 
-## Swaps
-
-### VanillaSwap
+### Swaps
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.VanillaSwap
 ```
 
-### MakeVanillaSwap
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MakeVanillaSwap
 ```
-
-Pythonic builder for VanillaSwap. Constructor arguments are positional; builder options are keyword arguments.
-
-```python
-swap = ql.MakeVanillaSwap(
-    ql.Period(5, ql.Years), euribor6m, 0.04,
-    nominal=10_000_000.0,
-    fixedLegDayCount=ql.Thirty360(ql.Thirty360.BondBasis),
-    floatingLegSpread=0.001,
-)
-```
-
-### OvernightIndexedSwap
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.OvernightIndexedSwap
 ```
 
-Overnight indexed swap: fixed vs overnight floating leg.
-
-```python
-sofr = ql.Sofr(curve)
-ois = ql.OvernightIndexedSwap(
-    ql.SwapType.Receiver, 1_000_000.0, schedule,
-    0.035, ql.Actual360(), sofr,
-)
-ois.setPricingEngine(ql.DiscountingSwapEngine(curve))
-print(ois.NPV())
-print(ois.fairRate())
-```
-
-### ZeroCouponSwap
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroCouponSwap
 ```
-
-Zero-coupon swap: single fixed payment vs floating leg.
 
 ```python
 swap = ql.ZeroCouponSwap(
@@ -293,67 +284,92 @@ swap = ql.ZeroCouponSwap(
     0.04, ql.Actual365Fixed(), schedule, euribor6m,
 )
 swap.setPricingEngine(ql.DiscountingSwapEngine(curve))
-print(swap.NPV())
 print(swap.fairFixedPayment(curve))
 ```
-
-### AssetSwap
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AssetSwap
 ```
 
-Asset swap exchanging a bond for a floating rate leg.
-
 ```python
 asset_swap = ql.AssetSwap(False, bond, 100.0, schedule, euribor6m, 0.0)
 asset_swap.setPricingEngine(ql.DiscountingSwapEngine(curve))
-print(asset_swap.NPV())
 print(asset_swap.fairSpread())
 ```
 
-## Caps, Floors, and Collars
+### Inflation swaps
 
-### CapFloor
+```{eval-rst}
+.. autoclass:: pyquantlib.ZeroCouponInflationSwap
+   :members:
+   :undoc-members:
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YearOnYearInflationSwap
+   :members:
+   :undoc-members:
+```
+
+### Caps, floors, collars
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CapFloor
    :members:
 ```
 
-### Cap
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Cap
-```
-
-### Floor
-
-```{eval-rst}
 .. autoclass:: pyquantlib.Floor
-```
-
-### Collar
-
-```{eval-rst}
 .. autoclass:: pyquantlib.Collar
 ```
 
 ```python
 leg = ql.IborLeg(schedule, euribor).withNotionals([1_000_000.0]).build()
 
-cap = ql.Cap(leg, [0.05])
+cap   = ql.Cap(leg, [0.05])
 floor = ql.Floor(leg, [0.03])
-collar = ql.Collar(leg, [0.05], [0.03])
+clr   = ql.Collar(leg, [0.05], [0.03])
 
 cap.setPricingEngine(ql.BlackCapFloorEngine(curve, 0.20))
-print(cap.NPV())
-print(cap.impliedVolatility(cap.NPV(), curve_handle, 0.20))
+print(cap.NPV(), cap.impliedVolatility(cap.NPV(), curve_handle, 0.20))
 ```
 
-## Forward Rate Agreement
+#### YoY inflation caps and floors
 
-### ForwardRateAgreement
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCapFloor
+   :members:
+   :undoc-members:
+
+.. autoclass:: pyquantlib.YoYInflationCapFloorType
+   :members:
+   :undoc-members:
+```
+
+| Value | Variant |
+|---|---|
+| `Cap` | YoY inflation cap |
+| `Floor` | YoY inflation floor |
+| `Collar` | YoY inflation collar |
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYInflationCap
+   :members:
+   :undoc-members:
+
+.. autoclass:: pyquantlib.YoYInflationFloor
+   :members:
+   :undoc-members:
+
+.. autoclass:: pyquantlib.YoYInflationCollar
+   :members:
+   :undoc-members:
+
+.. autofunction:: pyquantlib.MakeYoYInflationCapFloor
+```
+
+### Forward rate agreement
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ForwardRateAgreement
@@ -365,25 +381,18 @@ fra = ql.ForwardRateAgreement(
     euribor, value_date, ql.PositionType.Long,
     0.04, 1_000_000.0, curve,
 )
-print(fra.NPV())
-print(fra.forwardRate())
+print(fra.NPV(), fra.forwardRate())
 ```
 
-## Swaptions
-
-### Swaption
+### Swaptions
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Swaption
 ```
 
-### MakeSwaption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MakeSwaption
 ```
-
-Pythonic builder for Swaption. Constructor arguments are positional; builder options are keyword arguments.
 
 ```python
 swap_index = ql.EuriborSwapIsdaFixA(ql.Period(5, ql.Years), curve, curve)
@@ -393,277 +402,107 @@ swaption = ql.MakeSwaption(
 )
 ```
 
-## Composite Instruments
-
-### CompositeInstrument
+### Composite instruments
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CompositeInstrument
 ```
 
-Instrument composed of weighted sub-instruments.
-
 ```python
 composite = ql.CompositeInstrument()
-composite.add(option1)           # weight = 1.0
+composite.add(option1)              # weight = 1.0
 composite.add(option2)
-composite.subtract(option3)      # weight = -1.0
-composite.add(option4, 0.5)      # weight = 0.5
+composite.subtract(option3)         # weight = -1.0
+composite.add(option4, 0.5)         # weight = 0.5
 print(composite.NPV())
 ```
 
-## Credit Instruments
-
-### Claims
+### Credit instruments
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FaceValueClaim
-```
-
-```{eval-rst}
 .. autoclass:: pyquantlib.FaceValueAccrualClaim
 ```
 
-Claim objects define the loss amount on a default event. `FaceValueClaim` returns
-`notional * (1 - recoveryRate)`. `FaceValueAccrualClaim` adds accrued interest
-from a reference bond.
-
 ```python
 claim = ql.FaceValueClaim()
-loss = claim.amount(default_date, 1_000_000.0, 0.4)  # 600,000
+loss  = claim.amount(default_date, 1_000_000.0, 0.4)   # 600,000
 ```
-
-### CreditDefaultSwap
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CreditDefaultSwap
 ```
-
-Credit default swap quoted as running spread or upfront + spread.
 
 ```python
 cds = ql.CreditDefaultSwap(
     ql.ProtectionSide.Buyer, 10_000_000.0, 0.01,
     schedule, ql.Following, ql.Actual360(),
 )
-cds.setPricingEngine(ql.MidPointCdsEngine(
-    default_curve, 0.4, discount_curve,
-))
-print(cds.NPV())
+cds.setPricingEngine(ql.MidPointCdsEngine(default_curve, 0.4, discount_curve))
 print(cds.fairSpread())
 ```
-
-### cdsMaturity
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.cdsMaturity
 ```
 
-## Inflation Swaps
-
-### ZeroCouponInflationSwap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.ZeroCouponInflationSwap
-   :members:
-   :undoc-members:
-```
-
-Zero-coupon inflation swap: fixed rate vs zero-coupon inflation leg.
-
-### YearOnYearInflationSwap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YearOnYearInflationSwap
-   :members:
-   :undoc-members:
-```
-
-Year-on-year inflation swap: fixed rate vs YoY inflation leg.
-
-## YoY Inflation Caps, Floors, and Collars
-
-### YoYInflationCapFloor
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYInflationCapFloor
-   :members:
-   :undoc-members:
-```
-
-### YoYInflationCapFloorType
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYInflationCapFloorType
-   :members:
-   :undoc-members:
-```
-
-| Value | Description |
-|-------|-------------|
-| `Cap` | YoY inflation cap |
-| `Floor` | YoY inflation floor |
-| `Collar` | YoY inflation collar |
-
-### YoYInflationCap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYInflationCap
-   :members:
-   :undoc-members:
-```
-
-### YoYInflationFloor
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYInflationFloor
-   :members:
-   :undoc-members:
-```
-
-### YoYInflationCollar
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYInflationCollar
-   :members:
-   :undoc-members:
-```
-
-### MakeYoYInflationCapFloor
-
-```{eval-rst}
-.. autofunction:: pyquantlib.MakeYoYInflationCapFloor
-```
-
-Pythonic builder function for YoY inflation caps and floors. Constructor arguments are positional; builder options are keyword arguments.
-
-```python
-cap = ql.MakeYoYInflationCapFloor(
-    ql.YoYInflationCapFloorType.Cap, yoy_leg, [0.03],
-    pricingEngine=engine,
-)
-```
-
-## Options
-
-### VanillaOption
+### Vanilla and basket options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.VanillaOption
 ```
 
-```python
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-exercise = ql.EuropeanExercise(today + ql.Period("1Y"))
-option = ql.VanillaOption(payoff, exercise)
-
-option.setPricingEngine(engine)
-print(f"NPV: {option.NPV():.4f}")
-print(f"Delta: {option.delta():.4f}")
-```
-
-### BasketOption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BasketOption
 ```
 
-## Barrier Options
-
-### BarrierOption
+### Barrier options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BarrierOption
 ```
 
-| Barrier Type | Description |
-|-------------|-------------|
+| Barrier type | Activation |
+|---|---|
 | `DownIn` | Activated when spot falls below barrier |
 | `UpIn` | Activated when spot rises above barrier |
 | `DownOut` | Knocked out when spot falls below barrier |
 | `UpOut` | Knocked out when spot rises above barrier |
 
-```python
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-exercise = ql.EuropeanExercise(expiry)
-
-option = ql.BarrierOption(ql.BarrierType.DownOut, 80.0, 0.0, payoff, exercise)
-option.setPricingEngine(ql.AnalyticBarrierEngine(process))
-print(option.NPV())
-```
-
-### DoubleBarrierOption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.DoubleBarrierOption
 ```
 
-| Type | Description |
-|------|-------------|
+| Type | Activation |
+|---|---|
 | `KnockOut` | Knocked out if either barrier is hit |
 | `KnockIn` | Activated if either barrier is hit |
 | `KIKO` | Lower KI, upper KO |
 | `KOKI` | Lower KO, upper KI |
 
-```python
-option = ql.DoubleBarrierOption(
-    ql.DoubleBarrierType.KnockOut, 80.0, 120.0, 0.0, payoff, exercise,
-)
-option.setPricingEngine(ql.AnalyticDoubleBarrierEngine(process))
-print(option.NPV())
-```
-
-### PartialTimeBarrierOption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.PartialTimeBarrierOption
 ```
 
-Barrier monitored over a partial time window (start or end of option life).
-
-```python
-option = ql.PartialTimeBarrierOption(
-    ql.BarrierType.DownOut, ql.PartialBarrierRange.Start,
-    80.0, 0.0, cover_date, payoff, exercise,
-)
-option.setPricingEngine(ql.AnalyticPartialTimeBarrierOptionEngine(process))
-```
-
-### SoftBarrierOption
+Barrier monitored over a partial time window.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SoftBarrierOption
 ```
 
-Soft barrier option with proportional knock-in/out over a barrier range.
-
-```python
-option = ql.SoftBarrierOption(ql.BarrierType.DownOut, 70.0, 80.0, payoff, exercise)
-option.setPricingEngine(ql.AnalyticSoftBarrierEngine(process))
-```
-
-### TwoAssetBarrierOption
+Soft barrier with proportional knock-in / out over a barrier range.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.TwoAssetBarrierOption
 ```
 
-Barrier option where barrier monitoring is on a second (correlated) asset.
+Barrier monitoring on a second (correlated) asset.
 
-```python
-option = ql.TwoAssetBarrierOption(ql.BarrierType.DownOut, 80.0, payoff, exercise)
-option.setPricingEngine(ql.AnalyticTwoAssetBarrierEngine(process1, process2, rho))
-```
-
-## Asian Options
-
-### ContinuousAveragingAsianOption
+### Asian options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousAveragingAsianOption
 ```
-
-### DiscreteAveragingAsianOption
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscreteAveragingAsianOption
@@ -672,7 +511,6 @@ option.setPricingEngine(ql.AnalyticTwoAssetBarrierEngine(process1, process2, rho
 ```python
 fixing_dates = [today + ql.Period(f"{i}M") for i in range(1, 13)]
 
-# Geometric average (analytic)
 asian_geom = ql.DiscreteAveragingAsianOption(
     ql.AverageType.Geometric, 0.0, 0, fixing_dates, payoff, exercise,
 )
@@ -680,400 +518,221 @@ asian_geom.setPricingEngine(
     ql.AnalyticDiscreteGeometricAveragePriceAsianEngine(process)
 )
 
-# Arithmetic average (Turnbull-Wakeman approximation)
 asian_arith = ql.DiscreteAveragingAsianOption(
     ql.AverageType.Arithmetic, 0.0, 0, fixing_dates, payoff, exercise,
 )
 asian_arith.setPricingEngine(ql.TurnbullWakemanAsianEngine(process))
 ```
 
-## Lookback Options
-
-### ContinuousFloatingLookbackOption
+### Lookback options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousFloatingLookbackOption
-```
-
-Continuous floating-strike lookback option. The strike is determined at expiry as the minimum (call) or maximum (put) of the asset price over the option's life.
-
-```python
-payoff = ql.FloatingTypePayoff(ql.Call)
-exercise = ql.EuropeanExercise(expiry)
-option = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
-```
-
-### ContinuousFixedLookbackOption
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousFixedLookbackOption
-```
-
-Continuous fixed-strike lookback option. The payoff is based on the maximum (call) or minimum (put) of the asset price over the option's life.
-
-```python
-payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-exercise = ql.EuropeanExercise(expiry)
-option = ql.ContinuousFixedLookbackOption(100.0, payoff, exercise)
-```
-
-### ContinuousPartialFloatingLookbackOption
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousPartialFloatingLookbackOption
-```
-
-Partial floating-strike lookback option with a lookback period ending before expiry.
-
-```python
-option = ql.ContinuousPartialFloatingLookbackOption(
-    100.0, 1.0, lookback_end, payoff, exercise,
-)
-```
-
-### ContinuousPartialFixedLookbackOption
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousPartialFixedLookbackOption
 ```
 
-Partial fixed-strike lookback option with a lookback period starting after inception.
-
-```python
-option = ql.ContinuousPartialFixedLookbackOption(
-    lookback_start, payoff, exercise,
-)
-```
-
-## Cliquet Options
-
-### CliquetOption
+### Cliquet options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CliquetOption
 ```
 
-Cliquet (ratchet) option with periodic resets. The strike resets at each reset date to the then-current spot price.
-
 ```python
-payoff = ql.PercentageStrikePayoff(ql.Call, 1.0)
+payoff   = ql.PercentageStrikePayoff(ql.Call, 1.0)
 exercise = ql.EuropeanExercise(expiry)
-reset_dates = [today + ql.Period(f"{i}M") for i in range(3, 12, 3)]
-option = ql.CliquetOption(payoff, exercise, reset_dates)
+resets   = [today + ql.Period(f"{i}M") for i in range(3, 12, 3)]
+option   = ql.CliquetOption(payoff, exercise, resets)
 ```
 
-## Compound Options
-
-### CompoundOption
+### Compound, chooser, exchange options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CompoundOption
 ```
 
-Compound option (option on an option). The mother option gives the right to buy/sell the daughter option.
-
-```python
-mother_payoff = ql.PlainVanillaPayoff(ql.Call, 5.0)
-mother_exercise = ql.EuropeanExercise(today + ql.Period("6M"))
-daughter_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-daughter_exercise = ql.EuropeanExercise(expiry)
-option = ql.CompoundOption(
-    mother_payoff, mother_exercise, daughter_payoff, daughter_exercise,
-)
-```
-
-## Chooser Options
-
-### SimpleChooserOption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.SimpleChooserOption
-```
-
-Simple chooser option. The holder chooses at a future date whether the option is a call or put.
-
-```python
-option = ql.SimpleChooserOption(choosing_date, 100.0, exercise)
-```
-
-### ComplexChooserOption
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ComplexChooserOption
 ```
-
-Complex chooser option with different strikes and exercise dates for the call and put legs.
-
-```python
-option = ql.ComplexChooserOption(
-    choosing_date, call_strike, put_strike, call_exercise, put_exercise,
-)
-```
-
-## Margrabe Options
-
-### MargrabeOption
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MargrabeOption
 ```
 
-Margrabe option (exchange option): the right to exchange one asset for another.
-
 ```python
 option = ql.MargrabeOption(1, 1, exercise)
 option.setPricingEngine(engine)
-print(option.delta1(), option.delta2())
-print(option.gamma1(), option.gamma2())
+print(option.delta1(), option.delta2(), option.gamma1(), option.gamma2())
 ```
 
-## Forward-Start Options
-
-### ForwardVanillaOption
+### Forward-start and quanto options
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ForwardVanillaOption
 ```
 
-Forward-start vanilla option. The strike is set at a future reset date based on a moneyness ratio.
-
-```python
-option = ql.ForwardVanillaOption(1.0, reset_date, payoff, exercise)
-```
-
-## Quanto Options
-
-### QuantoVanillaOption
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.QuantoVanillaOption
 ```
 
-Quanto vanilla option with currency adjustment. Provides quanto-specific greeks: `qvega()`, `qrho()`, `qlambda()`.
+Quanto-specific Greeks: `qvega()`, `qrho()`, `qlambda()`.
 
-```python
-option = ql.QuantoVanillaOption(payoff, exercise)
-option.setPricingEngine(engine)
-print(option.qvega(), option.qrho(), option.qlambda())
-```
-
-## Payoffs
-
-### FloatingTypePayoff
+### Variance swaps
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.FloatingTypePayoff
+.. autoclass:: pyquantlib.VarianceSwap
 ```
 
-Floating-strike payoff for lookback options.
+### Exotic swaps and swaptions
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NonstandardSwap
+.. autoclass:: pyquantlib.FloatFloatSwap
+```
+
+`FloatFloatSwap` exposes `fairSpread1()` and `fairSpread2()` for the two floating legs once a pricing engine is attached.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.MultipleResetsSwap
+```
+
+A swap in which each floating coupon is computed from multiple fixings within the coupon period, either compounded or averaged. Used for term SOFR / SONIA structures.
 
 ```python
-payoff = ql.FloatingTypePayoff(ql.Call)
+index = ql.Euribor3M(curve)
+index.addFixing(ql.Date(11, ql.January, 2024), 0.05)
+
+swap = ql.MultipleResetsSwap(
+    ql.VanillaSwap.Payer,
+    1_000_000.0, fixed_schedule, 0.04, ql.Thirty360(ql.Thirty360.BondBasis),
+    float_schedule, index, 2, 0.0, ql.Actual360(),
+)
+swap.setPricingEngine(ql.DiscountingSwapEngine(curve))
+print(swap.NPV())
 ```
 
-### PlainVanillaPayoff
+```{eval-rst}
+.. autoclass:: pyquantlib.NonstandardSwaption
+.. autoclass:: pyquantlib.FloatFloatSwaption
+```
+
+### FX forward
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FxForward
+```
+
+`FxForward` supports two constructors: a nominal-based form (two currency notionals) and a rate-based form (source notional, rate, and maturity). The engine is {py:class}`pyquantlib.DiscountingFxForwardEngine`.
+
+```python
+eur = ql.EURCurrency()
+usd = ql.USDCurrency()
+
+# Nominal form: receive EUR 1M, pay USD 1.08M in 1Y
+fwd = ql.FxForward(
+    1_000_000.0, eur,
+    1_080_000.0, usd,
+    ql.Date(15, ql.June, 2026),
+    paySourceCurrency=False,
+)
+
+# Rate form: buy EUR 1M at forward rate 1.09
+fwd2 = ql.FxForward(
+    1_000_000.0, eur, usd,
+    ql.SimpleQuote(1.09),
+    ql.Date(15, ql.June, 2026),
+    paySourceCurrency=False,
+)
+
+engine = ql.DiscountingFxForwardEngine(eur_curve, usd_curve, spot_fx)
+fwd.setPricingEngine(engine)
+print(fwd.NPV(), fwd.fairForwardRate())
+```
+
+### Bond forwards
+
+```{eval-rst}
+.. autoclass:: pyquantlib.base.Forward
+.. autoclass:: pyquantlib.ForwardTypePayoff
+.. autoclass:: pyquantlib.BondForward
+```
+
+### Payoffs
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PlainVanillaPayoff
 ```
 
 | Type | Payoff |
-|------|--------|
+|---|---|
 | `Call` | $\max(S - K, 0)$ |
 | `Put` | $\max(K - S, 0)$ |
-
-```python
-call_payoff = ql.PlainVanillaPayoff(ql.Call, 100.0)
-put_payoff = ql.PlainVanillaPayoff(ql.Put, 100.0)
-```
-
-### CashOrNothingPayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CashOrNothingPayoff
 ```
 
-Binary payoff: pays a fixed cash amount if in the money, zero otherwise.
-
 | Type | Payoff |
-|------|--------|
+|---|---|
 | `Call` | $C$ if $S > K$, else $0$ |
 | `Put` | $C$ if $S < K$, else $0$ |
-
-```python
-digital_call = ql.CashOrNothingPayoff(ql.Call, 100.0, 10.0)
-```
-
-### AssetOrNothingPayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AssetOrNothingPayoff
 ```
 
-Binary payoff: pays the asset value if in the money, zero otherwise.
-
 | Type | Payoff |
-|------|--------|
+|---|---|
 | `Call` | $S$ if $S > K$, else $0$ |
 | `Put` | $S$ if $S < K$, else $0$ |
-
-```python
-digital = ql.AssetOrNothingPayoff(ql.Call, 100.0)
-```
-
-### GapPayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.GapPayoff
 ```
 
-Gap payoff with two strikes. Equivalent to a vanilla minus a digital.
-
 | Type | Payoff |
-|------|--------|
+|---|---|
 | `Call` | $S - K_2$ if $S > K_1$, else $0$ |
 | `Put` | $K_2 - S$ if $S < K_1$, else $0$ |
-
-```python
-gap = ql.GapPayoff(ql.Call, 100.0, 90.0)
-```
-
-### PercentageStrikePayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PercentageStrikePayoff
 ```
 
-Payoff with strike expressed as a moneyness percentage of the asset price.
-
-```python
-payoff = ql.PercentageStrikePayoff(ql.Call, 1.05)
-```
-
-### SuperFundPayoff
+Strike expressed as a moneyness ratio of the asset price.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SuperFundPayoff
-```
-
-Binary superfund payoff: pays $S / K_1$ if $K_1 < S < K_2$, zero otherwise.
-
-```python
-payoff = ql.SuperFundPayoff(90.0, 110.0)
-```
-
-### SuperSharePayoff
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SuperSharePayoff
+.. autoclass:: pyquantlib.FloatingTypePayoff
 ```
-
-Binary supershare payoff: pays a fixed cash amount if $K_1 < S < K_2$, zero otherwise.
-
-```python
-payoff = ql.SuperSharePayoff(90.0, 110.0, 5.0)
-```
-
-### MinBasketPayoff
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MinBasketPayoff
-```
-
-### MaxBasketPayoff
-
-```{eval-rst}
 .. autoclass:: pyquantlib.MaxBasketPayoff
-```
-
-### AverageBasketPayoff
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AverageBasketPayoff
-```
-
-### SpreadBasketPayoff
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SpreadBasketPayoff
 ```
 
-## Variance Swaps
-
-### VarianceSwap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.VarianceSwap
-```
-
-## Exotic Swaps
-
-### NonstandardSwap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.NonstandardSwap
-```
-
-### FloatFloatSwap
-
-```{eval-rst}
-.. autoclass:: pyquantlib.FloatFloatSwap
-```
-
-### NonstandardSwaption
-
-```{eval-rst}
-.. autoclass:: pyquantlib.NonstandardSwaption
-```
-
-### FloatFloatSwaption
-
-```{eval-rst}
-.. autoclass:: pyquantlib.FloatFloatSwaption
-```
-
-## Bond Forwards
-
-### Forward
-
-```{eval-rst}
-.. autoclass:: pyquantlib.base.Forward
-```
-
-### ForwardTypePayoff
-
-```{eval-rst}
-.. autoclass:: pyquantlib.ForwardTypePayoff
-```
-
-### BondForward
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BondForward
-```
-
-## Exercise Types
-
-### EuropeanExercise
+### Exercise types
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.EuropeanExercise
-```
-
-### AmericanExercise
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AmericanExercise
-```
-
-### BermudanExercise
-
-```{eval-rst}
 .. autoclass:: pyquantlib.BermudanExercise
 ```
 
 ```python
 european = ql.EuropeanExercise(expiry)
 american = ql.AmericanExercise(today, expiry)
-bermudan = ql.BermudanExercise([date1, date2, date3])
+bermudan = ql.BermudanExercise([d1, d2, d3])
 ```
+
+## See also
+
+- {doc}`/concepts/pricing-engines`: instrument / engine separation and the bridge pattern
+- {doc}`pricingengines`: engines that consume these instruments
+- {doc}`cashflows`: legs and coupons that feed swaps and bonds
+- {doc}`/cookbook/compare-engines`: same option, three engines

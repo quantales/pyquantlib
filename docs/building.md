@@ -91,7 +91,7 @@ cmake .. \
 - **`BUILD_SHARED_LIBS=OFF`**: Static build prevents Settings singleton issues on Linux/macOS. QuantLib's `Settings` singleton uses a static local variable. When QuantLib is a shared library, Python loads modules with `RTLD_LOCAL`, which can cause the singleton to exist in multiple instances.
 - **`CMAKE_POSITION_INDEPENDENT_CODE=ON`**: Required for static libs in Python modules.
 - **`QL_USE_STD_SHARED_PTR=ON`**: pybind11 uses `std::shared_ptr` as default holder.
-- **`CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL`** (Windows only): Ensures QuantLib uses the dynamic C/C++ runtime (`/MD`). Python extensions require the dynamic runtime, so QuantLib must match to avoid linker errors. This is independent from `BUILD_SHARED_LIBS` — a static library (`.lib`) can use dynamic runtime linkage.
+- **`CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL`** (Windows only): Ensures QuantLib uses the dynamic C/C++ runtime (`/MD`). Python extensions require the dynamic runtime, so QuantLib must match to avoid linker errors. This is independent from `BUILD_SHARED_LIBS`; a static library (`.lib`) can use dynamic runtime linkage.
 
 ## Building QuantLib
 

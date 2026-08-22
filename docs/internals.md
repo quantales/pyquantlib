@@ -80,10 +80,10 @@ In summary:
 | Constructor/method parameter types | Lazy (Python call time) | No |
 | Method return types | Lazy (Python call time) | No |
 | `py::implicitly_convertible<A, B>` | Lazy (Python call time) | No |
-| `py::arg("x") = default_value` | Immediate (registration time) | Yes -- see {doc}`design/bridge-defaults` |
+| `py::arg("x") = default_value` | Immediate (registration time) | Yes |
 
 ```{note}
-This lazy resolution applies to the *runtime type registry* used by pybind11's type casters when functions are called from Python. It is distinct from the *compile-time* type caster issue described in {doc}`design/cross-tu-holders`, where template instantiation across translation units requires the `py::cast()` workaround.
+This lazy resolution applies to the *runtime type registry* used by pybind11's type casters when functions are called from Python. It is distinct from the *compile-time* type caster issue, where template instantiation across translation units requires the `py::cast()` workaround.
 ```
 
 ### Convenience Macros
@@ -219,7 +219,7 @@ py::class_<QuantLib::Quote,
 
 ### Diamond Inheritance: py::classh and trampoline_self_life_support
 
-Some classes require `py::classh` (smart_holder) instead of `py::class_`, and their trampolines may need to inherit from `py::trampoline_self_life_support`. See {doc}`design/diamond-inheritance` for when this applies and why.
+Some classes require `py::classh` (smart_holder) instead of `py::class_`, and their trampolines may need to inherit from `py::trampoline_self_life_support`.
 
 ```cpp
 // SmileSection inherits from both Observable and Observer (diamond) -- uses py::classh
@@ -237,7 +237,7 @@ py::classh<SabrInterpolatedSmileSection, SmileSection, LazyObject>(
 2. **Use `override`**: If it doesn't compile with `override`, the method isn't virtual: remove it from the trampoline
 3. **`PYBIND11_OVERRIDE_PURE` vs `PYBIND11_OVERRIDE`**: Use `PYBIND11_OVERRIDE_PURE` for pure virtual methods (`= 0`), which throws if not implemented in Python. Use `PYBIND11_OVERRIDE` for virtual methods with a base implementation, which falls back to C++ if not overridden.
 4. **Trailing comma**: `PYBIND11_OVERRIDE` macros need trailing comma for zero-arg methods (C++20 compatibility)
-5. **Diamond inheritance**: See the {doc}`design/diamond-inheritance` design notes for when `py::classh` and `trampoline_self_life_support` are required.
+5. **Diamond inheritance**: `py::classh` and `trampoline_self_life_support` are required for classes that inherit from two bases sharing a common virtual ancestor.
 
 All trampolines are in `include/pyquantlib/trampolines.h`.
 

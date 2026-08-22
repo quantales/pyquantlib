@@ -1,171 +1,196 @@
-# Math Module
+# Math
+
+Bindings for QuantLib's numerical-utility layer: linear algebra (`Array`, `Matrix`, decompositions), interpolation (1-D linear / step / cubic, mixed and log-space cubics, smile and Chebyshev / Lagrange variants, plus 2-D bilinear / bicubic), descriptive statistics, optimisation, distributions, root finders, ODE solvers.
 
 ```{seealso}
-{doc}`/numpy` for detailed NumPy interoperability documentation.
+{doc}`/numpy` for `Array` / `Matrix` ↔ ndarray interop semantics.
 ```
 
-## Linear Algebra
+## At a glance
 
-### Array
+| Family | Classes |
+|---|---|
+| Linear algebra | {py:class}`pyquantlib.Array`, {py:class}`pyquantlib.Matrix`, {py:class}`pyquantlib.SVD`, {py:class}`pyquantlib.SymmetricSchurDecomposition` |
+| 1-D linear / step | {py:class}`pyquantlib.LinearInterpolation`, {py:class}`pyquantlib.LogLinearInterpolation`, {py:class}`pyquantlib.BackwardFlatInterpolation`, {py:class}`pyquantlib.ForwardFlatInterpolation` |
+| 1-D cubic | {py:class}`pyquantlib.CubicInterpolation`, {py:class}`pyquantlib.CubicNaturalSpline`, {py:class}`pyquantlib.MonotonicCubicNaturalSpline`, {py:class}`pyquantlib.LogCubicInterpolation`, {py:class}`pyquantlib.LogCubicNaturalSpline`, {py:class}`pyquantlib.MonotonicLogCubicNaturalSpline`, {py:class}`pyquantlib.KrugerLogCubic`, {py:class}`pyquantlib.HarmonicLogCubic`, {py:class}`pyquantlib.FritschButlandLogCubic` |
+| 1-D mixed | {py:class}`pyquantlib.MixedLinearCubicInterpolation`, {py:class}`pyquantlib.MixedLinearCubicNaturalSpline`, {py:class}`pyquantlib.MixedLinearMonotonicCubicNaturalSpline`, {py:class}`pyquantlib.MixedLinearKrugerCubic`, {py:class}`pyquantlib.MixedLinearFritschButlandCubic`, {py:class}`pyquantlib.LogMixedLinearCubicInterpolation`, {py:class}`pyquantlib.LogMixedLinearCubicNaturalSpline` |
+| 1-D smile / structured | {py:class}`pyquantlib.SABRInterpolation`, {py:class}`pyquantlib.ConvexMonotoneInterpolation`, {py:class}`pyquantlib.LagrangeInterpolation`, {py:class}`pyquantlib.ChebyshevInterpolation` |
+| 2-D | {py:class}`pyquantlib.BilinearInterpolation`, {py:class}`pyquantlib.BicubicSpline`, {py:class}`pyquantlib.BackwardflatLinearInterpolation`, {py:class}`pyquantlib.FlatExtrapolator2D` |
+| Statistics | {py:class}`pyquantlib.Statistics`, {py:class}`pyquantlib.IncrementalStatistics`, {py:class}`pyquantlib.SequenceStatistics` |
+| Optimisation | {py:class}`pyquantlib.LevenbergMarquardt`, {py:class}`pyquantlib.Simplex`, {py:class}`pyquantlib.ConjugateGradient`, {py:class}`pyquantlib.SteepestDescent`, {py:class}`pyquantlib.BFGS`, {py:class}`pyquantlib.DifferentialEvolution`, {py:class}`pyquantlib.EndCriteria`, {py:class}`pyquantlib.Problem`, {py:class}`pyquantlib.NoConstraint`, {py:class}`pyquantlib.PositiveConstraint`, {py:class}`pyquantlib.BoundaryConstraint`, {py:class}`pyquantlib.CompositeConstraint` |
+| Distributions | {py:class}`pyquantlib.NormalDistribution`, {py:class}`pyquantlib.CumulativeNormalDistribution`, {py:class}`pyquantlib.InverseCumulativeNormal`, {py:class}`pyquantlib.BivariateCumulativeNormalDistribution` |
+| 1-D solvers | {py:class}`pyquantlib.Brent`, {py:class}`pyquantlib.Bisection`, {py:class}`pyquantlib.Secant`, {py:class}`pyquantlib.Newton` |
+| ODE | {py:class}`pyquantlib.AdaptiveRungeKutta` |
+| Misc | {py:class}`pyquantlib.RichardsonExtrapolation` |
 
-```{eval-rst}
-.. autoclass:: pyquantlib.Array
+```{note}
+Abstract base classes (`Interpolation`, `Interpolation2D`, `Constraint`, `OptimizationMethod`, `CostFunction`) live under `pyquantlib.base` for `isinstance` checks and custom subclassing.
 ```
+
+## Common patterns
+
+### Move data between `ql.Array` / `ql.Matrix` and NumPy
 
 ```python
 import pyquantlib as ql
 import numpy as np
 
-arr = ql.Array([1.0, 2.0, 3.0])
-arr = ql.Array(np.array([1, 2, 3]))
+# ndarray -> ql (the binding copies into a fresh QL buffer)
+arr = ql.Array(np.array([1.0, 2.0, 3.0]))
+mat = ql.Matrix(np.eye(3))
 
-# Zero-copy view to numpy
-np_view = np.array(arr, copy=False)
+# ql -> ndarray (np.asarray shares memory; np.array copies)
+view = np.asarray(mat)        # owndata=False, mutates back into mat
+copy = np.array(mat)           # owndata=True, independent
 ```
 
-Functions expecting `Array` accept Python lists and numpy arrays directly:
+See {doc}`/cookbook/numpy-interop` for the full sharing semantics.
 
-```python
-result = ql.DotProduct([1, 2, 3], [4, 5, 6])  # automatic conversion
-```
-
-### Matrix
-
-```{eval-rst}
-.. autoclass:: pyquantlib.Matrix
-```
-
-```python
-mat = ql.Matrix([[1, 2], [3, 4]])
-mat = ql.Matrix(np.array([[1, 2], [3, 4]], dtype=float))
-
-# Zero-copy view to numpy
-np_view = np.array(mat, copy=False)
-```
-
-### SVD
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SVD
-```
-
-Singular value decomposition of a matrix.
-
-```python
-m = ql.Matrix([[1, 2], [3, 4], [5, 6]])
-svd = ql.SVD(m)
-U = svd.U()
-V = svd.V()
-s = svd.singularValues()
-```
-
-### SymmetricSchurDecomposition
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SymmetricSchurDecomposition
-```
-
-Eigenvalue decomposition of a symmetric matrix.
-
-```python
-m = ql.Matrix([[4, 1], [1, 3]])
-ssd = ql.SymmetricSchurDecomposition(m)
-eigenvalues = ssd.eigenvalues()
-eigenvectors = ssd.eigenvectors()
-```
-
-## Interpolation
-
-Interpolation classes for constructing continuous functions from discrete data points.
-
-### LinearInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LinearInterpolation
-```
-
-```python
-x = [1.0, 2.0, 3.0]
-y = [10.0, 20.0, 30.0]
-interp = ql.LinearInterpolation(x, y)
-
-interp(1.5)  # 15.0
-interp.derivative(1.5)  # 10.0
-```
-
-### LogLinearInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LogLinearInterpolation
-```
-
-Log-linear interpolation interpolates linearly in log-space, useful for discount factors.
-
-```python
-x = [1.0, 2.0]
-y = [1.0, math.e]
-interp = ql.LogLinearInterpolation(x, y)
-interp(1.5)  # exp(0.5)
-```
-
-### BackwardFlatInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BackwardFlatInterpolation
-```
-
-Step function that uses the value at the next node.
-
-```python
-x = [1.0, 2.0, 3.0]
-y = [10.0, 20.0, 30.0]
-interp = ql.BackwardFlatInterpolation(x, y)
-interp(1.5)  # 20.0 (uses next node's value)
-```
-
-### CubicInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.CubicInterpolation
-```
-
-Cubic spline interpolation with configurable derivative approximation and boundary conditions.
+### Build a 1-D interpolation and call it
 
 ```python
 x = [1.0, 2.0, 3.0, 4.0]
 y = [1.0, 4.0, 9.0, 16.0]
 
-# Default (Kruger derivative approximation)
-interp = ql.CubicInterpolation(x, y)
+interp = ql.CubicNaturalSpline(x, y)
+interp(2.5)              # interpolated value
+interp.derivative(2.5)   # first derivative
+```
 
-# Natural spline (second derivative = 0 at boundaries)
+All 1-D interpolations share the call interface: `interp(x)` for the value, plus `derivative(x)`, `secondDerivative(x)`, and `primitive(x)` where the kernel supports them. They are *not* drop-in replacements for each other (different smoothness and shape-preservation properties).
+
+### Calibrate a SABR smile
+
+```python
+strikes = [0.03, 0.04, 0.05, 0.06, 0.07]
+vols    = [0.25, 0.22, 0.20, 0.21, 0.23]
+
+sabr = ql.SABRInterpolation(
+    strikes, vols, expiry=1.0, forward=0.05,
+    alpha=0.2, beta=0.5, nu=0.4, rho=-0.3,
+    alphaIsFixed=False, betaIsFixed=True,
+    nuIsFixed=False, rhoIsFixed=False,
+)
+sabr.update()                                # runs the calibration
+print(sabr.alpha(), sabr.rho(), sabr.rmsError())
+```
+
+### Run a 1-D root finder
+
+```python
+brent = ql.Brent()
+
+# Bracket from a guess + step
+root = brent.solve(lambda x: x**2 - 4, accuracy=1e-10, guess=1.0, step=0.5)
+
+# Or with an explicit bracket
+root = brent.solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.0, 10.0)
+```
+
+`Brent`, `Bisection`, `Secant`, and `Newton` share the calling convention. `Newton` additionally accepts a derivative callable as the second argument. Common configuration: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.
+
+### Set up an optimisation problem
+
+```python
+lm = ql.LevenbergMarquardt(1e-8, 1e-8, 1e-8)
+ec = ql.EndCriteria(
+    maxIterations=500,
+    maxStationaryStateIterations=50,
+    rootEpsilon=1e-8,
+    functionEpsilon=1e-8,
+    gradientNormEpsilon=1e-8,
+)
+# Calibrated models call lm.minimize(...) internally; user-driven
+# minimisation goes through ql.Problem.
+```
+
+The Levenberg-Marquardt + `EndCriteria` pair is the default for calibration. Other algorithms (`Simplex`, `ConjugateGradient`, `BFGS`, `DifferentialEvolution`) plug into the same `model.calibrate(helpers, method, end_criteria)` signature.
+
+## Reference
+
+### Linear algebra
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Array
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Matrix
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SVD
+```
+
+```python
+m = ql.Matrix([[1, 2], [3, 4], [5, 6]])
+svd = ql.SVD(m)
+U, V, s = svd.U(), svd.V(), svd.singularValues()
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SymmetricSchurDecomposition
+```
+
+```python
+m = ql.Matrix([[4, 1], [1, 3]])
+ssd = ql.SymmetricSchurDecomposition(m)
+print(ssd.eigenvalues(), ssd.eigenvectors())
+```
+
+### 1-D linear and step interpolations
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LinearInterpolation
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LogLinearInterpolation
+```
+
+Linear in log-space; useful for discount factors.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BackwardFlatInterpolation
+```
+
+Step function using the next node's value.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ForwardFlatInterpolation
+```
+
+Step function using the current node's value.
+
+### 1-D cubic interpolations
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CubicInterpolation
+```
+
+The fully configurable cubic; convenience subclasses below pre-fill common boundary conditions.
+
+```python
 interp = ql.CubicInterpolation(
     x, y,
     derivativeApprox=ql.CubicDerivativeApprox.Spline,
     leftCondition=ql.CubicBoundaryCondition.SecondDerivative,
     leftConditionValue=0.0,
     rightCondition=ql.CubicBoundaryCondition.SecondDerivative,
-    rightConditionValue=0.0
+    rightConditionValue=0.0,
 )
 ```
 
-### CubicNaturalSpline
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.CubicNaturalSpline
-```
-
-Convenience class for natural cubic spline (second derivative = 0 at boundaries).
-
-### MonotonicCubicNaturalSpline
-
-```{eval-rst}
 .. autoclass:: pyquantlib.MonotonicCubicNaturalSpline
+.. autoclass:: pyquantlib.LogCubicInterpolation
+.. autoclass:: pyquantlib.LogCubicNaturalSpline
+.. autoclass:: pyquantlib.MonotonicLogCubicNaturalSpline
+.. autoclass:: pyquantlib.KrugerLogCubic
+.. autoclass:: pyquantlib.HarmonicLogCubic
+.. autoclass:: pyquantlib.FritschButlandLogCubic
 ```
-
-Monotonicity-preserving cubic spline that prevents oscillations.
-
-### Enums
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CubicDerivativeApprox
@@ -177,43 +202,25 @@ Monotonicity-preserving cubic spline that prevents oscillations.
    :undoc-members:
 ```
 
-### MixedLinearCubicInterpolation
+### 1-D mixed interpolations
+
+Use linear (or log-linear) for the first $n$ points and cubic (or log-cubic) for the rest.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MixedLinearCubicInterpolation
 ```
 
-Mixed interpolation that uses linear for the first `n` points and cubic for the rest.
-Useful for yield curves where short-end behavior differs from long-end.
-
 ```python
-x = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-y = [0.0, 1.0, 4.0, 9.0, 16.0, 25.0]
 interp = ql.MixedLinearCubicInterpolation(x, y, n=2)
 ```
 
-### MixedLinearCubicNaturalSpline
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MixedLinearCubicNaturalSpline
-```
-
-### MixedLinearMonotonicCubicNaturalSpline
-
-```{eval-rst}
 .. autoclass:: pyquantlib.MixedLinearMonotonicCubicNaturalSpline
-```
-
-### MixedLinearKrugerCubic
-
-```{eval-rst}
 .. autoclass:: pyquantlib.MixedLinearKrugerCubic
-```
-
-### MixedLinearFritschButlandCubic
-
-```{eval-rst}
 .. autoclass:: pyquantlib.MixedLinearFritschButlandCubic
+.. autoclass:: pyquantlib.LogMixedLinearCubicInterpolation
+.. autoclass:: pyquantlib.LogMixedLinearCubicNaturalSpline
 ```
 
 ```{eval-rst}
@@ -222,193 +229,27 @@ interp = ql.MixedLinearCubicInterpolation(x, y, n=2)
    :undoc-members:
 ```
 
-### LogCubicInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LogCubicInterpolation
-```
-
-Interpolation in log-space using cubic splines. Essential for yield curve construction
-where discount factors must remain positive.
-
-```python
-x = [1.0, 2.0, 3.0, 4.0, 5.0]
-y = [0.99, 0.97, 0.94, 0.90, 0.85]
-interp = ql.LogCubicInterpolation(x, y)
-```
-
-### LogCubicNaturalSpline
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LogCubicNaturalSpline
-```
-
-### MonotonicLogCubicNaturalSpline
-
-```{eval-rst}
-.. autoclass:: pyquantlib.MonotonicLogCubicNaturalSpline
-```
-
-### KrugerLogCubic
-
-```{eval-rst}
-.. autoclass:: pyquantlib.KrugerLogCubic
-```
-
-### HarmonicLogCubic
-
-```{eval-rst}
-.. autoclass:: pyquantlib.HarmonicLogCubic
-```
-
-### FritschButlandLogCubic
-
-```{eval-rst}
-.. autoclass:: pyquantlib.FritschButlandLogCubic
-```
-
-### LogMixedLinearCubicInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LogMixedLinearCubicInterpolation
-```
-
-Log-space mixed interpolation: log-linear for the first `n` points, log-cubic for the rest.
-
-### LogMixedLinearCubicNaturalSpline
-
-```{eval-rst}
-.. autoclass:: pyquantlib.LogMixedLinearCubicNaturalSpline
-```
-
-### SABRInterpolation
+### 1-D smile and structured interpolations
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SABRInterpolation
 ```
 
-SABR smile interpolation that calibrates alpha, beta, nu, rho to market volatilities.
-
-```python
-strikes = [0.03, 0.04, 0.05, 0.06, 0.07]
-vols = [0.25, 0.22, 0.20, 0.21, 0.23]
-
-interp = ql.SABRInterpolation(
-    strikes, vols, expiry=1.0, forward=0.05,
-    alpha=0.2, beta=0.5, nu=0.4, rho=-0.3,
-    alphaIsFixed=False, betaIsFixed=True,
-    nuIsFixed=False, rhoIsFixed=False,
-)
-interp.update()
-print(f"alpha={interp.alpha():.4f}, rho={interp.rho():.4f}, rms={interp.rmsError():.6f}")
-```
-
-### ConvexMonotoneInterpolation
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConvexMonotoneInterpolation
 ```
 
-Convex monotone yield-curve interpolation (Hagan & West, 2006). Preserves
-monotonicity and convexity of the forward rate curve.
-
 ```python
-x = [0.0, 0.5, 1.0, 2.0, 3.0, 5.0]
-y = [0.01, 0.015, 0.02, 0.025, 0.03, 0.035]
-interp = ql.ConvexMonotoneInterpolation(x, y, quadraticity=0.3, monotonicity=0.7)
+interp = ql.ConvexMonotoneInterpolation(
+    x, y, quadraticity=0.3, monotonicity=0.7,
+)
 ```
-
-### BackwardflatLinearInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BackwardflatLinearInterpolation
-```
-
-2-D interpolation: backward-flat in the first component, linear in the second.
-
-### FlatExtrapolator2D
-
-```{eval-rst}
-.. autoclass:: pyquantlib.FlatExtrapolator2D
-```
-
-Decorator that adds flat extrapolation outside the range of any 2-D interpolation.
-
-```python
-inner = ql.BilinearInterpolation(x, y, z)
-extrap = ql.FlatExtrapolator2D(inner)
-extrap.enableExtrapolation()
-extrap(0.0, 0.0)  # clamps to boundary value
-```
-
-### ForwardFlatInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.ForwardFlatInterpolation
-```
-
-Step function that uses the current node's value (forward-flat).
-
-```python
-x = [1.0, 2.0, 3.0]
-y = [10.0, 20.0, 30.0]
-interp = ql.ForwardFlatInterpolation(x, y)
-interp(1.5)  # 10.0 (uses current node's value)
-```
-
-### LagrangeInterpolation
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LagrangeInterpolation
 ```
 
-Lagrange polynomial interpolation. Supports evaluation with alternative y values via `value(y, x)`.
-
-```python
-x = [1.0, 2.0, 3.0]
-y = [1.0, 4.0, 9.0]
-interp = ql.LagrangeInterpolation(x, y)
-interp(1.5)  # 2.25
-
-# Evaluate with different y values
-alt_y = ql.Array([1.0, 8.0, 27.0])
-interp.value(alt_y, 2.0)  # 8.0
-```
-
-### BilinearInterpolation
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BilinearInterpolation
-```
-
-Bilinear interpolation on a 2-D grid. Matrix z uses QuantLib convention: `z[y_idx][x_idx]`.
-
-```python
-x = [0.0, 1.0]
-y = [0.0, 1.0]
-z = ql.Matrix([[1.0, 2.0], [3.0, 4.0]])
-interp = ql.BilinearInterpolation(x, y, z)
-interp(0.5, 0.5)  # 2.5
-```
-
-### BicubicSpline
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BicubicSpline
-```
-
-Bicubic spline interpolation on a 2-D grid with derivative methods.
-
-```python
-x = [0.0, 1.0, 2.0]
-y = [0.0, 1.0, 2.0]
-z = ql.Matrix([[0, 0, 0], [0, 1, 2], [0, 2, 4]])
-interp = ql.BicubicSpline(x, y, z)
-interp(1.0, 1.0)          # 1.0
-interp.derivativeX(1, 1)   # ~1.0
-```
-
-### ChebyshevInterpolation
+Supports evaluation with alternative $y$ values via `value(y, x)`.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ChebyshevInterpolation
@@ -418,33 +259,54 @@ interp.derivativeX(1, 1)   # ~1.0
    :undoc-members:
 ```
 
-Chebyshev polynomial interpolation on [-1, 1].
-
 ```python
 import math
 interp = ql.ChebyshevInterpolation(20, math.sin)
-interp(0.5)  # sin(0.5)
+interp(0.5)    # ~ sin(0.5)
 ```
 
-### RichardsonExtrapolation
+### 2-D interpolations
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BilinearInterpolation
+```
+
+`z` follows QuantLib convention: `z[y_idx][x_idx]`.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BicubicSpline
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BackwardflatLinearInterpolation
+```
+
+Backward-flat in the first component, linear in the second.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FlatExtrapolator2D
+```
+
+Decorator that adds flat extrapolation outside the range of any 2-D interpolation.
+
+```python
+inner  = ql.BilinearInterpolation(x, y, z)
+extrap = ql.FlatExtrapolator2D(inner)
+extrap.enableExtrapolation()
+extrap(0.0, 0.0)
+```
+
+### Richardson extrapolation
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RichardsonExtrapolation
 ```
 
-Richardson extrapolation for improving convergence of numerical methods.
-
 ```python
-f = lambda h: math.sin(h) / h
-re = ql.RichardsonExtrapolation(f, 0.01, n=2.0)
-re(2.0)  # ~1.0 (limit as h->0)
+import math
+re = ql.RichardsonExtrapolation(lambda h: math.sin(h) / h, 0.01, n=2.0)
+re(2.0)
 ```
-
-```{note}
-The abstract base classes `Interpolation` and `Interpolation2D` are available in `pyquantlib.base` for type checking.
-```
-
-## Statistics
 
 ### Statistics
 
@@ -452,89 +314,41 @@ The abstract base classes `Interpolation` and `Interpolation2D` are available in
 .. autoclass:: pyquantlib.Statistics
 ```
 
-General statistics accumulator with empirical-distribution risk measures, Gaussian-assumption analytics, and percentile/VaR/ES methods.
-
-```python
-stats = ql.Statistics()
-stats.addSequence([1.0, 2.0, 3.0, 4.0, 5.0])
-print(stats.mean(), stats.standardDeviation(), stats.skewness())
-```
-
-### IncrementalStatistics
+General accumulator with empirical-distribution measures (`mean`, `standardDeviation`, `skewness`, `kurtosis`, `percentile`, `valueAtRisk`, `expectedShortfall`).
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.IncrementalStatistics
 ```
 
-Online (streaming) statistics via boost accumulators. Supports weighted observations.
-
-```python
-stats = ql.IncrementalStatistics()
-stats.add(1.0, 1.0)
-stats.add(2.0, 1.0)
-print(stats.mean(), stats.weightSum())
-```
-
-### SequenceStatistics
+Online (streaming) statistics. Supports weighted observations.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SequenceStatistics
 ```
 
-N-dimensional statistics with covariance and correlation matrices.
+N-dimensional statistics with covariance and correlation.
 
-```python
-stats = ql.SequenceStatistics(2)
-stats.add([1.0, 2.0])
-stats.add([3.0, 4.0])
-print(stats.mean(), stats.covariance())
-```
-
-## Optimization
-
-### EndCriteria
+### Optimisation
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.EndCriteria
 ```
 
-### LevenbergMarquardt
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.LevenbergMarquardt
 ```
-
-### Simplex
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Simplex
 ```
 
-Nelder-Mead simplex optimization method.
-
-```python
-optimizer = ql.Simplex(0.1)
-```
-
-### ConjugateGradient
+Nelder-Mead simplex.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConjugateGradient
-```
-
-### SteepestDescent
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SteepestDescent
-```
-
-### BFGS
-
-```{eval-rst}
 .. autoclass:: pyquantlib.BFGS
 ```
-
-### DifferentialEvolution
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DifferentialEvolution
@@ -550,183 +364,107 @@ optimizer = ql.Simplex(0.1)
    :undoc-members:
 ```
 
-Global optimizer using differential evolution. Configuration uses a builder pattern:
-
 ```python
-config = ql.DEConfiguration()
-config = config.withStepsizeWeight(0.5).withCrossoverProbability(0.9)
-optimizer = ql.DifferentialEvolution(config)
+config    = ql.DEConfiguration().withStepsizeWeight(0.5).withCrossoverProbability(0.9)
+optimiser = ql.DifferentialEvolution(config)
 ```
-
-### Problem
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Problem
 ```
 
-### Constraints
+#### Constraints
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoConstraint
-
-
 .. autoclass:: pyquantlib.PositiveConstraint
-
-
 .. autoclass:: pyquantlib.BoundaryConstraint
-
-
 .. autoclass:: pyquantlib.CompositeConstraint
-
 ```
 
-```{note}
-Abstract base classes like `Constraint`, `OptimizationMethod`, and `CostFunction` are available in `pyquantlib.base` for subclassing.
-```
-
-## Distributions
-
-### NormalDistribution
+### Distributions
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NormalDistribution
 ```
 
-Normal (Gaussian) probability density function.
-
 ```python
-pdf = ql.NormalDistribution()       # standard normal (mean=0, sigma=1)
-pdf(0.0)                            # ~0.3989 (peak)
-pdf.derivative(0.0)                 # 0.0 (at the peak)
-
+pdf = ql.NormalDistribution()                    # standard normal
+pdf(0.0)                                          # ~ 0.3989
 pdf2 = ql.NormalDistribution(average=5.0, sigma=2.0)
 ```
-
-### CumulativeNormalDistribution
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CumulativeNormalDistribution
 ```
 
-Cumulative distribution function of the normal distribution.
-
-```python
-cdf = ql.CumulativeNormalDistribution()
-cdf(0.0)    # 0.5
-cdf(1.96)   # ~0.975
-```
-
-### InverseCumulativeNormal
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.InverseCumulativeNormal
 ```
 
-Inverse of the cumulative normal distribution (quantile function).
-
 ```python
 inv = ql.InverseCumulativeNormal()
-inv(0.5)    # 0.0
-inv(0.975)  # ~1.96
+inv(0.5)     # 0.0
+inv(0.975)   # ~ 1.96
 
-# Static method for standard normal
-ql.InverseCumulativeNormal.standard_value(0.975)  # ~1.96
+ql.InverseCumulativeNormal.standard_value(0.975)
 ```
-
-### BivariateCumulativeNormalDistribution
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BivariateCumulativeNormalDistribution
 ```
 
-Cumulative bivariate normal distribution with given correlation.
-
 ```python
 bvn = ql.BivariateCumulativeNormalDistribution(rho=0.5)
-bvn(0.0, 0.0)  # P(X<=0, Y<=0) with correlation 0.5
+bvn(0.0, 0.0)
 ```
 
-## 1-D Solvers
-
-Root-finding algorithms for one-dimensional functions.
-
-### Brent
+### 1-D solvers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Brent
 ```
 
-Brent's method combines bisection, secant, and inverse quadratic interpolation.
-
-```python
-solver = ql.Brent()
-root = solver.solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.0, 10.0)  # 2.0
-```
-
-### Bisection
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Bisection
 ```
-
-Simple bisection method. Robust but slower than Brent.
-
-### Secant
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Secant
 ```
 
-Secant method. Faster convergence than bisection, does not require derivative.
-
-### Newton
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.Newton
 ```
 
-Newton-Raphson method. Requires a separate derivative function.
-
 ```python
 solver = ql.Newton()
 root = solver.solve(
-    lambda x: x**2 - 4,       # f(x)
-    lambda x: 2 * x,           # f'(x)
+    lambda x: x ** 2 - 4,
+    lambda x: 2 * x,
     1e-10, 1.0, 0.0, 10.0,
 )
 ```
 
-All solvers support two calling conventions:
-
-```python
-# Automatic bracketing (guess + step)
-root = solver.solve(f, accuracy, guess, step)
-
-# Explicit bracket
-root = solver.solve(f, accuracy, guess, xMin, xMax)
-```
-
-Common methods: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.
-
-## ODE Solvers
-
-### AdaptiveRungeKutta
+### ODE solvers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AdaptiveRungeKutta
 ```
 
-Adaptive step-size Runge-Kutta ODE integrator using the Cash-Karp method.
-
 ```python
+import math
 rk = ql.AdaptiveRungeKutta(eps=1e-8)
 
-# 1-D ODE: y' = f(x, y)
-import math
-result = rk.solve1d(lambda x, y: y, 1.0, 0.0, 1.0)  # y' = y => e
-print(result)  # ~2.71828
+# 1-D ODE: y' = y
+rk.solve1d(lambda x, y: y, 1.0, 0.0, 1.0)        # ~ e
 
-# N-D ODE system: y' = F(x, y)
-result = rk(lambda x, y: [y[1], -y[0]], [1.0, 0.0], 0.0, math.pi)
-print(result)  # ~[-1, 0] (harmonic oscillator)
+# N-D ODE system (harmonic oscillator)
+rk(lambda x, y: [y[1], -y[0]], [1.0, 0.0], 0.0, math.pi)
 ```
+
+## See also
+
+- {doc}`/numpy`: NumPy / pandas interop reference
+- {doc}`/concepts/calibration`: how the optimisers fit into the calibration pipeline
+- {doc}`/cookbook/numpy-interop`: `Array` / `Matrix` ↔ ndarray sharing semantics

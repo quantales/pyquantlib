@@ -1,0 +1,85 @@
+# PyQuantLib: Python bindings for QuantLib
+# Copyright (c) 2025 Yassine Idyiahia
+#
+# QuantLib is Copyright (c) 2000-2025 The QuantLib Authors
+# QuantLib is free software under a modified BSD license.
+# See http://quantlib.org/ for more information.
+#
+# Source: https://github.com/quantales/pyquantlib
+# Licensed under the BSD 3-Clause License. See LICENSE file for details.
+
+name: Docs
+
+# Mirrors the Read the Docs build: the docs are built against the PyQuantLib
+# wheel from PyPI (pulled in by docs/requirements.txt), not a locally compiled
+# extension. Building from source here would hide autodoc problems that only
+# appear against the published wheel, which is what readers actually see.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "examples/**"
+      - ".readthedocs.yaml"
+      - ".github/workflows/docs.yml"
+  pull_request:
+    paths:
+      - "docs/**"
+      - "examples/**"
+      - ".readthedocs.yaml"
+      - ".github/workflows/docs.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r docs/requirements.txt
+
+      - name: Build HTML with warnings as errors
+        run: |
+          python -m sphinx -b html -W --keep-going docs docs/_build/html
+
+      - name: Upload built docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: html
+          path: docs/_build/html
+          retention-days: 7
+
+  linkcheck:
+    runs-on: ubuntu-latest
+    # External links break for reasons outside this repository, so a failure
+    # here is reported but does not block the branch.
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install documentation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r docs/requirements.txt
+
+      - name: Check links
+        run: |
+          python -m sphinx -b linkcheck docs docs/_build/linkcheck

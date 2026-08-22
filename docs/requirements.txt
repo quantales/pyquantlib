@@ -1,8 +1,10 @@
 # Sphinx documentation dependencies
 sphinx>=7.0
 furo>=2024.0
-myst-parser>=3.0
+myst-nb>=1.2          # supersedes myst-parser; adds the .ipynb reader
 sphinx-copybutton>=0.5
+sphinxext-opengraph>=0.9
+sphinxcontrib-mermaid>=0.9
 
 # PyPI wheel so autodoc can import the compiled C++ module on RTD
 pyquantlib

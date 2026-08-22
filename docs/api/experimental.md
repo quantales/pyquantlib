@@ -1,130 +1,82 @@
-# Experimental Module
+# Experimental
 
-Bindings for QuantLib's experimental features (`ql/experimental/`).
+Bindings for QuantLib's `ql/experimental/` namespace: features that are functional but whose interfaces may change in future QuantLib releases. PyQuantLib mirrors them as-is.
 
 ```{warning}
-These features are from QuantLib's experimental namespace and may change in future releases.
+The classes on this page live in QuantLib's experimental namespace. Their constructor signatures and observable behaviour can shift with a QuantLib version bump.
 ```
 
-## Volatility
+## At a glance
 
-### SviSmileSection
+| Class | Role |
+|---|---|
+| {py:class}`pyquantlib.SviSmileSection` | C++ SVI smile section. Pure-Python equivalent in {py:class}`pyquantlib.extensions.SviSmileSection`. |
+| {py:class}`pyquantlib.CallableBondConstantVolatility` | Flat short-rate volatility structure used by callable-bond pricing engines. |
+| {py:class}`pyquantlib.TreeCallableFixedRateBondEngine` / `...ZeroCouponBondEngine` | Lattice-based engines for callable bonds (drives a short-rate tree off the model and curve). |
+| {py:class}`pyquantlib.BlackCallableFixedRateBondEngine` / `...ZeroCouponBondEngine` | Black-formula engines for callable bonds with exactly one call/put date. |
+| {py:class}`pyquantlib.CdsOption` | Credit-default-swap option instrument. |
+| {py:class}`pyquantlib.BlackCdsOptionEngine` | Black-formula engine for CDS options. |
 
-```{eval-rst}
-.. autoclass:: pyquantlib.SviSmileSection
-```
+## Common patterns
 
-The SVI (Stochastic Volatility Inspired) model parametrizes total variance:
-
-$$w(k) = a + b \left( \rho (k - m) + \sqrt{(k - m)^2 + \sigma^2} \right)$$
-
-where $k = \log(K/F)$ is the log-moneyness.
-
-**Parameters** (passed as vector `[a, b, sigma, rho, m]`):
-
-| Parameter | Description | Constraint |
-|-----------|-------------|------------|
-| `a` | Vertical translation (level) | $a + b\sigma\sqrt{1-\rho^2} \geq 0$ |
-| `b` | Slope | $b \geq 0$, $b(1+\lvert\rho\rvert) \leq 4$ |
-| `sigma` | ATM curvature ($\sigma$) | $\sigma > 0$ |
-| `rho` | Rotation/skew ($\rho$) | $-1 < \rho < 1$ |
-| `m` | Horizontal translation | - |
+### Build an SVI smile section
 
 ```python
 import pyquantlib as ql
 
-# SVI parameters: [a, b, sigma, rho, m]
+# SVI parameter vector: [a, b, sigma, rho, m]
 svi_params = [0.04, 0.1, 0.3, -0.4, 0.0]
-
-# Create smile section (T=1y, F=100)
 smile = ql.SviSmileSection(1.0, 100.0, svi_params)
 
-# Query volatilities
-print(smile.volatility(100.0))  # ATM vol
-print(smile.volatility(110.0))  # OTM call vol
-
-# Price options
-call_price = smile.optionPrice(110.0, ql.OptionType.Call)
+print(smile.volatility(100.0))                       # ATM vol
+print(smile.volatility(110.0))                       # OTM call vol
+print(smile.optionPrice(110.0, ql.OptionType.Call))  # Black-76 call price
 ```
 
-## Callable Bonds
+The SVI parameterisation models *total variance*
 
-### CallableBondVolatilityStructure
+$$w(k) = a + b \left( \rho (k - m) + \sqrt{(k - m)^2 + \sigma^2} \right)$$
 
-```{eval-rst}
-.. autoclass:: pyquantlib.base.CallableBondVolatilityStructure
-```
+where $k = \log(K / F)$ is log-moneyness.
 
-Abstract base class for callable-bond volatility term structures.
+| Parameter | Role | Binding-validated constraint |
+|---|---|---|
+| `a` | Vertical level | $a + b \sigma \sqrt{1 - \rho^2} \geq 0$ |
+| `b` | Slope at the wings | $b \geq 0$, $b (1 + \lvert \rho \rvert) \leq 4$ |
+| `sigma` | ATM curvature | $\sigma > 0$ |
+| `rho` | Skew / rotation | $-1 < \rho < 1$ |
+| `m` | Horizontal shift | (no constraint) |
 
-### CallableBondConstantVolatility
+The constructor and `ql.checkSviParameters(...)` validate these. Pass `validate=False` to skip the checks.
 
-```{eval-rst}
-.. autoclass:: pyquantlib.CallableBondConstantVolatility
-```
-
-```python
-vol = ql.CallableBondConstantVolatility(today, 0.10, ql.Actual365Fixed())
-# or with a Quote
-vol = ql.CallableBondConstantVolatility(today, ql.SimpleQuote(0.10),
-                                         ql.Actual365Fixed())
-```
-
-### TreeCallableFixedRateBondEngine
-
-```{eval-rst}
-.. autoclass:: pyquantlib.TreeCallableFixedRateBondEngine
-```
-
-### TreeCallableZeroCouponBondEngine
-
-```{eval-rst}
-.. autoclass:: pyquantlib.TreeCallableZeroCouponBondEngine
-```
+### Price a callable bond with a tree engine
 
 ```python
 hw_model = ql.HullWhite(curve_handle, 0.03, 0.01)
-engine = ql.TreeCallableFixedRateBondEngine(hw_model, 100)
+engine   = ql.TreeCallableFixedRateBondEngine(hw_model, 100)   # 100 tree steps
 bond.setPricingEngine(engine)
 print(bond.cleanPrice())
 ```
 
-### BlackCallableFixedRateBondEngine
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BlackCallableFixedRateBondEngine
-```
-
-### BlackCallableZeroCouponBondEngine
-
-```{eval-rst}
-.. autoclass:: pyquantlib.BlackCallableZeroCouponBondEngine
-```
+### Price a callable bond with the Black engine
 
 ```python
-# Black engine requires exactly one call/put date
-vol = ql.CallableBondConstantVolatility(today, 0.10, dc)
+vol    = ql.CallableBondConstantVolatility(today, 0.10, ql.Actual365Fixed())
 engine = ql.BlackCallableFixedRateBondEngine(vol, discount_curve)
 bond.setPricingEngine(engine)
 print(bond.cleanPrice())
 print(bond.impliedVolatility(target_price, curve, 1e-8, 200, 0.001, 0.50))
 ```
 
-## Credit
+The Black engine assumes a single call or put date; for multiple call/put dates use a tree engine.
 
-### CdsOption
+## Reference
 
-```{eval-rst}
-.. autoclass:: pyquantlib.CdsOption
-```
-
-### BlackCdsOptionEngine
+### Volatility
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.BlackCdsOptionEngine
+.. autoclass:: pyquantlib.SviSmileSection
 ```
-
-### SVI Helper Functions
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.sviTotalVariance
@@ -134,11 +86,43 @@ print(bond.impliedVolatility(target_price, curve, 1e-8, 200, 0.001, 0.50))
 .. autofunction:: pyquantlib.checkSviParameters
 ```
 
-```python
-# Compute total variance directly
-k = 0.1  # log-moneyness
-var = ql.sviTotalVariance(0.04, 0.1, 0.3, -0.4, 0.0, k)
+### Callable bonds
 
-# Validate parameters (raises on invalid)
-ql.checkSviParameters(0.04, 0.1, 0.3, -0.4, 0.0, 1.0)
+```{eval-rst}
+.. autoclass:: pyquantlib.base.CallableBondVolatilityStructure
 ```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CallableBondConstantVolatility
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeCallableFixedRateBondEngine
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.TreeCallableZeroCouponBondEngine
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCallableFixedRateBondEngine
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCallableZeroCouponBondEngine
+```
+
+### Credit
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CdsOption
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackCdsOptionEngine
+```
+
+## See also
+
+- {doc}`extensions`: pure-Python `SviSmileSection` equivalent and `ModifiedKirkEngine`
+- {doc}`models`: `HullWhite` and other short-rate models used by the tree-callable engines

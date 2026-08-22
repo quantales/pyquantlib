@@ -209,8 +209,6 @@ py::arg("dayCounter")
 
 Most bindings fall into the first category. The third applies when the C++ null default triggers fallback behavior (e.g., `FloatingRateCoupon` using the index's day counter, or `Null<Natural>()` for optional lookback days). Getting this wrong produces silent, incorrect results.
 
-See {doc}`design/bridge-defaults` for the full story.
-
 ```{note}
 The same `py::none()` + lambda pattern works for `Null<T>()` sentinels, which pybind11 also cannot convert as default arguments.
 ```
@@ -235,8 +233,6 @@ pybind11 enum values are singletons. Passing them by reference to C++ functions 
 ```{note}
 This behavior is not explicitly documented in pybind11, but is a consequence of how `py::enum_` implements singletons internally. pybind11 v3 introduced `py::native_enum` which uses Python's native `enum` module and is recommended for new bindings. This may behave differently but has not been tested in PyQuantLib.
 ```
-
-See {doc}`design/enum-singletons` for the full story of how this issue was discovered and debugged.
 
 ### Trampoline Classes
 

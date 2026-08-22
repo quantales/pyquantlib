@@ -129,7 +129,7 @@ See [svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples
 The modification adds a skew correction term from Alos & Leon (2015) that improves accuracy for high correlation cases.
 
 ```{important}
-When subclassing pricing engines, **only override the calculation method with numeric parameters**, not the parameter extraction method. Let the C++ base class handle object lifetime management. See {doc}`design/python-subclassing` for details.
+When subclassing pricing engines, **only override the calculation method with numeric parameters**, not the parameter extraction method. Let the C++ base class handle object lifetime management.
 ```
 
 ```python
@@ -229,8 +229,6 @@ For prototyping and moderate workloads, Python extensions work well.
    - Pricing engines: Override `calculate(f1, f2, ...)` not `calculate()`
    - Term structures: Override `discountImpl(time)` not `discount(date)`
    - Processes: Override `drift(t, x)` with numbers, not object accessors
-
-   See {doc}`design/python-subclassing` for detailed explanation.
 
 ## See Also
 

@@ -1,12 +1,105 @@
-# Pricing Engines Module
+# Pricing engines
 
-## Vanilla Engines
+Bindings for the engine layer that turns instruments into prices. Every engine implements the same `PricingEngine` interface and is attached to an instrument with `setPricingEngine()`. PyQuantLib exposes around 120 concrete engines covering analytic formulas, finite-difference grids, Monte Carlo simulation, binomial trees, and lattice methods, organised by the instrument family they price.
 
-### AnalyticEuropeanEngine
+See {doc}`/concepts/pricing-engines` for the instrument / engine separation, {doc}`/cookbook/compare-engines` for the same-instrument-three-engines pattern, and {doc}`/cookbook/mc-engine-kwargs` for MC engine kwargs in practice.
 
-```{eval-rst}
-.. autoclass:: pyquantlib.AnalyticEuropeanEngine
+## At a glance
+
+### European vanilla options
+
+| Group | Engines |
+|---|---|
+| Black-Scholes analytic | {py:class}`pyquantlib.AnalyticEuropeanEngine`, {py:class}`pyquantlib.IntegralEngine`, {py:class}`pyquantlib.AnalyticDividendEuropeanEngine`, {py:class}`pyquantlib.CashDividendEuropeanEngine` |
+| Heston / Bates analytic | {py:class}`pyquantlib.AnalyticHestonEngine`, {py:class}`pyquantlib.AnalyticPTDHestonEngine`, {py:class}`pyquantlib.AnalyticPDFHestonEngine`, {py:class}`pyquantlib.HestonExpansionEngine`, {py:class}`pyquantlib.COSHestonEngine`, {py:class}`pyquantlib.ExponentialFittingHestonEngine`, {py:class}`pyquantlib.BatesEngine` |
+| Stochastic-rate / hybrid | {py:class}`pyquantlib.AnalyticBSMHullWhiteEngine`, {py:class}`pyquantlib.AnalyticHestonHullWhiteEngine`, {py:class}`pyquantlib.AnalyticH1HWEngine`, {py:class}`pyquantlib.AnalyticBlackVasicekEngine` |
+| CEV / SABR | {py:class}`pyquantlib.AnalyticCEVEngine`, {py:class}`pyquantlib.CEVCalculator`, {py:class}`pyquantlib.FdSabrVanillaEngine`, {py:class}`pyquantlib.FdCEVVanillaEngine` |
+| Finite difference | {py:class}`pyquantlib.FdBlackScholesVanillaEngine`, {py:class}`pyquantlib.FdHestonVanillaEngine`, {py:class}`pyquantlib.FdBatesVanillaEngine`, {py:class}`pyquantlib.FdHestonHullWhiteVanillaEngine`, {py:class}`pyquantlib.FdOrnsteinUhlenbeckVanillaEngine`, {py:class}`pyquantlib.FdBlackScholesShoutEngine` |
+| Monte Carlo | {py:class}`pyquantlib.MCEuropeanEngine`, {py:class}`pyquantlib.MCEuropeanHestonEngine`, {py:class}`pyquantlib.MCEuropeanGJRGARCHEngine` |
+| Tree | {py:class}`pyquantlib.BinomialVanillaEngine` |
+| Digitals | {py:class}`pyquantlib.AnalyticDigitalAmericanEngine`, {py:class}`pyquantlib.AnalyticDigitalAmericanKOEngine`, {py:class}`pyquantlib.MCDigitalEngine` |
+
+### American vanilla options
+
+| Group | Engines |
+|---|---|
+| Analytic approximations | {py:class}`pyquantlib.BaroneAdesiWhaleyApproximationEngine`, {py:class}`pyquantlib.BjerksundStenslandApproximationEngine`, {py:class}`pyquantlib.JuQuadraticApproximationEngine`, {py:class}`pyquantlib.QdFpAmericanEngine`, {py:class}`pyquantlib.QdPlusAmericanEngine` |
+| Finite difference | {py:class}`pyquantlib.FdBlackScholesVanillaEngine` (with `AmericanExercise`), {py:class}`pyquantlib.FdHestonVanillaEngine` |
+| Tree | {py:class}`pyquantlib.BinomialVanillaEngine` |
+| Monte Carlo | {py:class}`pyquantlib.MCAmericanEngine` |
+
+### Basket / spread / multi-asset
+
+| Group | Engines |
+|---|---|
+| Spread (analytic) | {py:class}`pyquantlib.KirkEngine`, {py:class}`pyquantlib.StulzEngine` |
+| Basket (analytic) | {py:class}`pyquantlib.ChoiBasketEngine`, {py:class}`pyquantlib.SingleFactorBsmBasketEngine` |
+| Basket (FD / MC) | {py:class}`pyquantlib.Fd2dBlackScholesVanillaEngine`, {py:class}`pyquantlib.FdndimBlackScholesVanillaEngine`, {py:class}`pyquantlib.MCEuropeanBasketEngine`, {py:class}`pyquantlib.MCAmericanBasketEngine`, {py:class}`pyquantlib.MCLDEuropeanBasketEngine` |
+
+### Swaptions
+
+| Group | Engines |
+|---|---|
+| Black / Bachelier | {py:class}`pyquantlib.BlackSwaptionEngine`, {py:class}`pyquantlib.BachelierSwaptionEngine` |
+| Tree / lattice | {py:class}`pyquantlib.TreeSwaptionEngine` |
+| Analytic short-rate | {py:class}`pyquantlib.JamshidianSwaptionEngine`, {py:class}`pyquantlib.G2SwaptionEngine` |
+| Finite difference | {py:class}`pyquantlib.FdHullWhiteSwaptionEngine`, {py:class}`pyquantlib.FdG2SwaptionEngine` |
+| Gaussian 1-D | {py:class}`pyquantlib.Gaussian1dSwaptionEngine`, {py:class}`pyquantlib.Gaussian1dJamshidianSwaptionEngine`, {py:class}`pyquantlib.Gaussian1dNonstandardSwaptionEngine`, {py:class}`pyquantlib.Gaussian1dFloatFloatSwaptionEngine` |
+
+### Barrier options
+
+| Group | Engines |
+|---|---|
+| Black-Scholes analytic | {py:class}`pyquantlib.AnalyticBarrierEngine`, {py:class}`pyquantlib.AnalyticDoubleBarrierEngine`, {py:class}`pyquantlib.AnalyticBinaryBarrierEngine`, {py:class}`pyquantlib.AnalyticDoubleBarrierBinaryEngine`, {py:class}`pyquantlib.AnalyticPartialTimeBarrierOptionEngine`, {py:class}`pyquantlib.AnalyticSoftBarrierEngine`, {py:class}`pyquantlib.AnalyticTwoAssetBarrierEngine` |
+| FD / tree / MC | {py:class}`pyquantlib.FdBlackScholesBarrierEngine`, {py:class}`pyquantlib.FdBlackScholesRebateEngine`, {py:class}`pyquantlib.BinomialBarrierEngine`, {py:class}`pyquantlib.MCBarrierEngine`, {py:class}`pyquantlib.MCDoubleBarrierEngine` |
+| Heston | {py:class}`pyquantlib.FdHestonBarrierEngine`, {py:class}`pyquantlib.FdHestonDoubleBarrierEngine`, {py:class}`pyquantlib.FdHestonRebateEngine` |
+
+### Asian options
+
+| Group | Engines |
+|---|---|
+| Geometric (analytic) | {py:class}`pyquantlib.AnalyticContinuousGeometricAveragePriceAsianEngine`, {py:class}`pyquantlib.AnalyticDiscreteGeometricAveragePriceAsianEngine`, {py:class}`pyquantlib.AnalyticDiscreteGeometricAverageStrikeAsianEngine` |
+| Arithmetic (approx) | {py:class}`pyquantlib.TurnbullWakemanAsianEngine`, {py:class}`pyquantlib.ContinuousArithmeticAsianLevyEngine`, {py:class}`pyquantlib.ChoiAsianEngine` |
+| FD / MC | {py:class}`pyquantlib.FdBlackScholesAsianEngine`, {py:class}`pyquantlib.MCDiscreteArithmeticAPEngine`, {py:class}`pyquantlib.MCDiscreteArithmeticASEngine`, {py:class}`pyquantlib.MCDiscreteGeometricAPEngine`, {py:class}`pyquantlib.MCDiscreteArithmeticAPHestonEngine`, {py:class}`pyquantlib.MCDiscreteGeometricAPHestonEngine` |
+
+### Other options
+
+| Group | Engines |
+|---|---|
+| Lookback | {py:class}`pyquantlib.AnalyticContinuousFloatingLookbackEngine`, {py:class}`pyquantlib.AnalyticContinuousFixedLookbackEngine`, {py:class}`pyquantlib.AnalyticContinuousPartialFloatingLookbackEngine`, {py:class}`pyquantlib.AnalyticContinuousPartialFixedLookbackEngine` |
+| Cliquet | {py:class}`pyquantlib.AnalyticCliquetEngine` |
+| Compound / chooser | {py:class}`pyquantlib.AnalyticCompoundOptionEngine`, {py:class}`pyquantlib.AnalyticSimpleChooserEngine`, {py:class}`pyquantlib.AnalyticComplexChooserEngine` |
+| Margrabe | {py:class}`pyquantlib.AnalyticEuropeanMargrabeEngine`, {py:class}`pyquantlib.AnalyticAmericanMargrabeEngine` |
+| Forward-start | {py:class}`pyquantlib.ForwardEuropeanEngine`, {py:class}`pyquantlib.ForwardPerformanceEuropeanEngine` |
+| Quanto | {py:class}`pyquantlib.QuantoVanillaEngine` |
+
+### Caps, floors, and bond / credit / swap engines
+
+| Group | Engines |
+|---|---|
+| Caps / floors | {py:class}`pyquantlib.BlackCapFloorEngine`, {py:class}`pyquantlib.BachelierCapFloorEngine`, {py:class}`pyquantlib.AnalyticCapFloorEngine`, {py:class}`pyquantlib.TreeCapFloorEngine`, {py:class}`pyquantlib.Gaussian1dCapFloorEngine` |
+| YoY inflation | {py:class}`pyquantlib.YoYInflationBlackCapFloorEngine`, {py:class}`pyquantlib.YoYInflationUnitDisplacedBlackCapFloorEngine`, {py:class}`pyquantlib.YoYInflationBachelierCapFloorEngine` |
+| Bonds / convertibles | {py:class}`pyquantlib.DiscountingBondEngine`, {py:class}`pyquantlib.BinomialConvertibleEngine` |
+| Credit | {py:class}`pyquantlib.MidPointCdsEngine`, {py:class}`pyquantlib.IsdaCdsEngine` |
+| Swaps | {py:class}`pyquantlib.DiscountingSwapEngine` |
+| FX forwards | {py:class}`pyquantlib.DiscountingFxForwardEngine` |
+| Variance swaps | {py:class}`pyquantlib.ReplicatingVarianceSwapEngine` |
+
+### Calculators and free functions
+
+| Group | What |
+|---|---|
+| Calculators | {py:class}`pyquantlib.BlackCalculator`, {py:class}`pyquantlib.BachelierCalculator`, {py:class}`pyquantlib.BondFunctions` |
+| Black-76 free functions | `blackFormula`, `blackFormulaImpliedStdDev`, `blackFormulaImpliedStdDevApproximation`, `blackFormulaStdDevDerivative`, `blackFormulaVolDerivative`, `blackFormulaForwardDerivative`, `blackFormulaCashItmProbability`, `blackFormulaAssetItmProbability` |
+| Bachelier free functions | `bachelierBlackFormula`, `bachelierBlackFormulaImpliedVol`, `bachelierBlackFormulaStdDevDerivative` |
+
+```{note}
+The abstract `PricingEngine` base class is exposed under `pyquantlib.base` for custom engine subclassing. See {doc}`/extending` for an end-to-end example.
 ```
+
+## Common patterns
+
+### Attach an analytic engine to a vanilla option
 
 ```python
 import pyquantlib as ql
@@ -20,34 +113,71 @@ print(f"Gamma: {option.gamma():.4f}")
 print(f"Vega:  {option.vega():.4f}")
 ```
 
-### IntegralEngine
+### Run an MC pricing with kwargs
+
+```python
+engine = ql.MCEuropeanEngine(
+    process,
+    timeSteps=1,
+    requiredSamples=100_000,
+    seed=42,
+)
+option.setPricingEngine(engine)
+print(option.NPV())
+```
+
+See {doc}`/cookbook/mc-engine-kwargs` and {doc}`/cookbook/mc-convergence`.
+
+### Price an American put with FD
+
+```python
+fd = ql.FdBlackScholesVanillaEngine(process, tGrid=200, xGrid=200)
+american.setPricingEngine(fd)
+print(american.NPV())
+```
+
+The same engine prices European exercise; the `FdmAmericanStepCondition` is wired in automatically when the option's exercise is `AmericanExercise`. See {doc}`/cookbook/american-fd`.
+
+### Build a Heston pricing pipeline
+
+```python
+heston_process = ql.HestonProcess(
+    rf_handle, dq_handle, spot_handle,
+    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+)
+heston_model = ql.HestonModel(heston_process)
+engine       = ql.AnalyticHestonEngine(heston_model)
+option.setPricingEngine(engine)
+```
+
+The Heston model + engine pair is the input to calibration. See {doc}`/cookbook/heston-calibration`.
+
+### Discount-curve engines for fixed-income
+
+```python
+bond.setPricingEngine(ql.DiscountingBondEngine(curve_handle))
+swap.setPricingEngine(ql.DiscountingSwapEngine(curve_handle))
+cap.setPricingEngine(ql.BlackCapFloorEngine(curve_handle, vol))
+cds.setPricingEngine(ql.MidPointCdsEngine(default_curve, 0.4, discount_curve))
+```
+
+## Vanilla engines
+
+```{eval-rst}
+.. autoclass:: pyquantlib.AnalyticEuropeanEngine
+```
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.IntegralEngine
 ```
 
-### AnalyticHestonEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticHestonEngine
 ```
 
-```python
-heston_process = ql.HestonProcess(
-    ql.YieldTermStructureHandle(risk_free),
-    ql.YieldTermStructureHandle(dividend),
-    ql.QuoteHandle(spot),
-    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
-)
-heston_model = ql.HestonModel(heston_process)
-engine = ql.AnalyticHestonEngine(heston_model)
-```
-
 ```{note}
-`AnalyticHestonEngine` computes NPV only. Greeks under Heston require finite difference engines.
+`AnalyticHestonEngine` computes NPV only. Greeks under Heston require finite-difference engines.
 ```
-
-### AnalyticBlackVasicekEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticBlackVasicekEngine
@@ -57,10 +187,8 @@ European option pricing with stochastic Vasicek interest rates.
 
 ```python
 vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.05, sigma=0.01)
-engine = ql.AnalyticBlackVasicekEngine(process, vasicek, correlation=0.5)
+engine  = ql.AnalyticBlackVasicekEngine(process, vasicek, correlation=0.5)
 ```
-
-### BatesEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BatesEngine
@@ -69,14 +197,12 @@ engine = ql.AnalyticBlackVasicekEngine(process, vasicek, correlation=0.5)
 ```python
 bates_process = ql.BatesProcess(
     risk_free, dividend, spot,
-    0.04, 1.0, 0.04, 0.5, -0.7,  # Heston params
-    0.1, -0.05, 0.1,              # Jump params
+    0.04, 1.0, 0.04, 0.5, -0.7,    # Heston params
+    0.1, -0.05, 0.1,                # Jump params
 )
-model = ql.BatesModel(bates_process)
+model  = ql.BatesModel(bates_process)
 engine = ql.BatesEngine(model)
 ```
-
-### COSHestonEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.COSHestonEngine
@@ -88,31 +214,23 @@ Fourier-cosine series expansion for fast Heston pricing.
 engine = ql.COSHestonEngine(heston_model, L=16, N=200)
 ```
 
-### ExponentialFittingHestonEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ExponentialFittingHestonEngine
 ```
 
-Exponentially-fitted Gauss-Laguerre quadrature for Heston pricing.
-
-### AnalyticPTDHestonEngine
+Exponentially-fitted Gauss-Laguerre quadrature for Heston.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticPTDHestonEngine
 ```
 
-Analytic engine for piecewise time-dependent Heston models.
-
-### AnalyticPDFHestonEngine
+Piecewise time-dependent Heston.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticPDFHestonEngine
 ```
 
 PDF-based Heston engine for arbitrary European payoffs.
-
-### HestonExpansionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonExpansionEngine
@@ -124,19 +242,11 @@ Heston engine based on analytic expansions (LPP2, LPP3, Forde).
 engine = ql.HestonExpansionEngine(model, ql.HestonExpansionFormula.LPP3)
 ```
 
-### AnalyticHestonHullWhiteEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticHestonHullWhiteEngine
 ```
 
 Heston model with Hull-White stochastic interest rates.
-
-```python
-engine = ql.AnalyticHestonHullWhiteEngine(heston_model, hull_white_model)
-```
-
-### AnalyticH1HWEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticH1HWEngine
@@ -148,19 +258,13 @@ H1-HW approximation including equity-rate correlation.
 engine = ql.AnalyticH1HWEngine(heston_model, hull_white_model, rhoSr=0.3)
 ```
 
-### BaroneAdesiWhaleyApproximationEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BaroneAdesiWhaleyApproximationEngine
 ```
 
-### BjerksundStenslandApproximationEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BjerksundStenslandApproximationEngine
 ```
-
-### BinomialVanillaEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BinomialVanillaEngine
@@ -170,9 +274,7 @@ engine = ql.AnalyticH1HWEngine(heston_model, hull_white_model, rhoSr=0.3)
 engine = ql.BinomialVanillaEngine(process, "crr", 801)
 ```
 
-Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`
-
-### FdBlackScholesVanillaEngine
+Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesVanillaEngine
@@ -180,90 +282,56 @@ Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`
 
 ```python
 engine = ql.FdBlackScholesVanillaEngine(
-    process,
-    tGrid=100,
-    xGrid=100,
+    process, tGrid=100, xGrid=100,
     schemeDesc=ql.FdmSchemeDesc.Douglas(),
 )
 ```
-
-### FdHestonVanillaEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonVanillaEngine
 ```
 
-Finite-differences Heston vanilla option engine. Supports European and American exercise.
+Supports European and American exercise. The `MakeFdHestonVanillaEngine` builder gives a keyword-argument interface; multiple-strike caching reuses the FD solve across nearby strikes.
 
 ```python
 engine = ql.FdHestonVanillaEngine(heston_model, tGrid=100, xGrid=100, vGrid=50)
-option.setPricingEngine(engine)
-
-# Multiple-strike caching for efficiency
 engine.enableMultipleStrikesCaching([90.0, 100.0, 110.0])
-```
 
-The `MakeFdHestonVanillaEngine` builder provides a keyword-argument interface:
-
-```python
+# Alternate builder
 engine = ql.MakeFdHestonVanillaEngine(heston_model, tGrid=100, xGrid=100, vGrid=50)
 ```
-
-### FdBatesVanillaEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdBatesVanillaEngine
 ```
 
-Partial integro finite-differences engine for the Bates model (Heston + jumps).
-
-```python
-engine = ql.FdBatesVanillaEngine(bates_model, tGrid=100, xGrid=100, vGrid=50)
-```
-
-### FdSabrVanillaEngine
+Partial-integro FD engine for the Bates model (Heston + jumps).
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdSabrVanillaEngine
 ```
 
-Finite-differences SABR vanilla option engine. Takes model parameters directly.
-
 ```python
 engine = ql.FdSabrVanillaEngine(f0, alpha, beta, nu, rho, discount_curve)
 ```
-
-### FdCEVVanillaEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdCEVVanillaEngine
 ```
 
-Finite-differences CEV (constant elasticity of variance) vanilla option engine.
-
 ```python
 engine = ql.FdCEVVanillaEngine(f0, alpha, beta, discount_curve)
 ```
-
-### FdBlackScholesShoutEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesShoutEngine
 ```
 
-Finite-differences engine for shout options (holder can lock in current intrinsic value).
-
-```python
-engine = ql.FdBlackScholesShoutEngine(process, tGrid=100, xGrid=100)
-```
-
-### FdHestonHullWhiteVanillaEngine
+FD engine for shout options (holder can lock in current intrinsic value).
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonHullWhiteVanillaEngine
 ```
-
-Finite-differences Heston + Hull-White engine for vanilla options with stochastic rates.
 
 ```python
 engine = ql.FdHestonHullWhiteVanillaEngine(
@@ -271,20 +339,14 @@ engine = ql.FdHestonHullWhiteVanillaEngine(
 )
 ```
 
-### FdOrnsteinUhlenbeckVanillaEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdOrnsteinUhlenbeckVanillaEngine
 ```
 
-Finite-differences Ornstein-Uhlenbeck vanilla option engine.
-
 ```python
 ou_process = ql.OrnsteinUhlenbeckProcess(speed=0.5, volatility=0.01)
-engine = ql.FdOrnsteinUhlenbeckVanillaEngine(ou_process, discount_curve)
+engine     = ql.FdOrnsteinUhlenbeckVanillaEngine(ou_process, discount_curve)
 ```
-
-### MCEuropeanEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCEuropeanEngine
@@ -292,17 +354,9 @@ engine = ql.FdOrnsteinUhlenbeckVanillaEngine(ou_process, discount_curve)
 
 ```python
 engine = ql.MCEuropeanEngine(
-    process,
-    timeSteps=100,
-    requiredSamples=100000,
-    seed=42,
+    process, timeSteps=100, requiredSamples=100_000, seed=42,
 )
-option.setPricingEngine(engine)
-print(f"NPV: {option.NPV():.4f}")
-print(f"Error: {option.errorEstimate():.6f}")
 ```
-
-### MCAmericanEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCAmericanEngine
@@ -311,61 +365,23 @@ print(f"Error: {option.errorEstimate():.6f}")
 ```python
 engine = ql.MCAmericanEngine(
     process,
-    timeSteps=100,
-    antitheticVariate=True,
-    calibrationSamples=4096,
-    requiredTolerance=0.02,
+    timeSteps=100, antitheticVariate=True,
+    calibrationSamples=4096, requiredTolerance=0.02,
     seed=42,
 )
 ```
-
-### MCEuropeanHestonEngine
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.MCEuropeanHestonEngine
 ```
 
-Monte Carlo European option engine under the Heston model.
-
-```python
-engine = ql.MCEuropeanHestonEngine(
-    heston_process,
-    timeSteps=100,
-    requiredSamples=100000,
-    seed=42,
-)
-```
-
-### MCEuropeanGJRGARCHEngine
-
 ```{eval-rst}
 .. autofunction:: pyquantlib.MCEuropeanGJRGARCHEngine
 ```
 
-Monte Carlo European option engine under the GJR-GARCH(1,1) model.
-
-```python
-engine = ql.MCEuropeanGJRGARCHEngine(
-    gjrgarch_process,
-    timeSteps=100,
-    requiredSamples=100000,
-    seed=42,
-)
-```
-
-### AnalyticCEVEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticCEVEngine
 ```
-
-Analytic engine for the constant elasticity of variance (CEV) model.
-
-```python
-engine = ql.AnalyticCEVEngine(f0, alpha, beta, discount_curve)
-```
-
-### CEVCalculator
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CEVCalculator
@@ -378,126 +394,67 @@ calc = ql.CEVCalculator(f0, alpha, beta)
 print(calc.value(ql.Call, 100.0, 1.0))
 ```
 
-### QdFpAmericanEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.QdFpAmericanEngine
 ```
 
-High-performance American option engine based on QD+ fixed-point iteration.
-
-```python
-engine = ql.QdFpAmericanEngine(process)
-```
-
 ```{warning}
-`QdFpAmericanEngine.calculate()` may crash on Windows. Use alternative American engines if needed.
+`QdFpAmericanEngine.calculate()` may crash on Windows. Use an alternative American engine if needed.
 ```
-
-### JuQuadraticApproximationEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.JuQuadraticApproximationEngine
 ```
 
-### QdPlusAmericanEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.QdPlusAmericanEngine
-```
 
-```{eval-rst}
 .. autoclass:: pyquantlib.QdPlusAmericanEngineSolverType
    :members:
    :undoc-members:
 ```
 
-### AnalyticDigitalAmericanEngine
+### Digitals
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDigitalAmericanEngine
-```
-
-### AnalyticDigitalAmericanKOEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDigitalAmericanKOEngine
-```
-
-### MCDigitalEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDigitalEngine
 ```
 
-### AnalyticDividendEuropeanEngine
+### Dividend engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDividendEuropeanEngine
-```
-
-### CashDividendEuropeanEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.CashDividendEuropeanEngine
-```
 
-```{eval-rst}
 .. autoclass:: pyquantlib.CashDividendModel
    :members:
    :undoc-members:
 ```
 
-Semi-analytic European engine with cash dividends (Healy, 2021).
-Supports Spot and Escrowed dividend models.
+Semi-analytic European engine with cash dividends (Healy 2021). Supports `Spot` and `Escrowed` dividend models.
 
 ```python
 dividends = [ql.FixedDividend(2.0, ex_date)]
-engine = ql.CashDividendEuropeanEngine(
-    process, dividends, ql.CashDividendModel.Spot)
+engine    = ql.CashDividendEuropeanEngine(process, dividends, ql.CashDividendModel.Spot)
 ```
-
-### AnalyticBSMHullWhiteEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticBSMHullWhiteEngine
 ```
 
-## Basket Engines
-
-### MCEuropeanBasketEngine
+## Basket engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCEuropeanBasketEngine
-```
-
-### Fd2dBlackScholesVanillaEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.Fd2dBlackScholesVanillaEngine
-```
-
-### KirkEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.KirkEngine
-```
-
-### StulzEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.StulzEngine
-```
-
-### ChoiBasketEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ChoiBasketEngine
 ```
 
 Choi (2018) analytic engine for average and spread basket options.
-
-### SingleFactorBsmBasketEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SingleFactorBsmBasketEngine
@@ -505,15 +462,11 @@ Choi (2018) analytic engine for average and spread basket options.
 
 Single-factor BSM approximation for average basket options.
 
-### MCAmericanBasketEngine
-
 ```{eval-rst}
 .. autofunction:: pyquantlib.MCAmericanBasketEngine
 ```
 
 Monte Carlo American basket engine using Longstaff-Schwartz regression.
-
-### FdndimBlackScholesVanillaEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdndimBlackScholesVanillaEngine
@@ -521,606 +474,289 @@ Monte Carlo American basket engine using Longstaff-Schwartz regression.
 
 N-dimensional finite-difference Black-Scholes basket engine.
 
-### MCLDEuropeanBasketEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCLDEuropeanBasketEngine
 ```
 
-## Swaption Engines
-
-### BlackSwaptionEngine
+## Swaption engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackSwaptionEngine
 ```
 
-Black-formula (lognormal volatility) swaption engine.
-
 ```python
 engine = ql.BlackSwaptionEngine(curve, 0.20)
-swaption.setPricingEngine(engine)
-print(swaption.NPV())
 ```
-
-### BachelierSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BachelierSwaptionEngine
 ```
 
-Bachelier (normal volatility) swaption engine.
-
 ```python
 engine = ql.BachelierSwaptionEngine(curve, 0.005)
-swaption.setPricingEngine(engine)
-print(swaption.NPV())
 ```
-
-### TreeSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.TreeSwaptionEngine
 ```
 
-Numerical lattice engine for swaptions using short-rate models.
-
 ```python
-model = ql.HullWhite(curve, a=0.1, sigma=0.01)
+model  = ql.HullWhite(curve, a=0.1, sigma=0.01)
 engine = ql.TreeSwaptionEngine(model, timeSteps=100)
-swaption.setPricingEngine(engine)
 ```
-
-### JamshidianSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.JamshidianSwaptionEngine
 ```
 
-Analytic swaption engine using Jamshidian's bond option decomposition.
+Analytic engine using Jamshidian's bond-option decomposition.
 
 ```python
-model = ql.HullWhite(curve, a=0.1, sigma=0.01)
+model  = ql.HullWhite(curve, a=0.1, sigma=0.01)
 engine = ql.JamshidianSwaptionEngine(model)
-swaption.setPricingEngine(engine)
 ```
-
-### G2SwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.G2SwaptionEngine
 ```
 
-Swaption engine for the G2++ two-factor model.
-
 ```python
-model = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
+model  = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
 engine = ql.G2SwaptionEngine(model, range=6.0, intervals=200)
-swaption.setPricingEngine(engine)
 ```
-
-### FdHullWhiteSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdHullWhiteSwaptionEngine
 ```
 
-Finite-differences swaption engine for the Hull-White model.
-
 ```python
-model = ql.HullWhite(curve, a=0.1, sigma=0.01)
 engine = ql.FdHullWhiteSwaptionEngine(model, tGrid=100, xGrid=100)
-swaption.setPricingEngine(engine)
 ```
-
-### FdG2SwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdG2SwaptionEngine
 ```
 
-Finite-differences swaption engine for the G2++ two-factor model.
-
 ```python
-model = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
 engine = ql.FdG2SwaptionEngine(model, tGrid=100, xGrid=50, yGrid=50)
-swaption.setPricingEngine(engine)
 ```
-
-### Gaussian1dSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gaussian1dSwaptionEngine
 ```
 
-Gaussian 1-D model swaption engine with numerical integration. Supports European and Bermudan exercise.
+Numerical-integration engine. Supports European and Bermudan exercise.
 
 ```python
-model = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
+model  = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
 engine = ql.Gaussian1dSwaptionEngine(model, integrationPoints=64)
-swaption.setPricingEngine(engine)
-print(swaption.NPV())
 ```
-
-### Gaussian1dJamshidianSwaptionEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gaussian1dJamshidianSwaptionEngine
 ```
 
-Jamshidian decomposition swaption engine for Gaussian 1-D models. European exercise only.
-
-```python
-engine = ql.Gaussian1dJamshidianSwaptionEngine(model)
-swaption.setPricingEngine(engine)
-```
-
-### Gaussian1dNonstandardSwaptionEngine
+Jamshidian decomposition for Gaussian 1-D models. European exercise only.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gaussian1dNonstandardSwaptionEngine
 ```
 
-Gaussian 1-D model engine for nonstandard swaptions (period-varying notionals and strikes).
-
-### Gaussian1dFloatFloatSwaptionEngine
+Period-varying notionals and strikes.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gaussian1dFloatFloatSwaptionEngine
 ```
 
-Gaussian 1-D model engine for float-float swaptions.
-
-## Barrier Engines
-
-### AnalyticBarrierEngine
+## Barrier engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticBarrierEngine
 ```
 
-Analytic pricing using Haug's formulas.
-
-```python
-engine = ql.AnalyticBarrierEngine(process)
-```
-
-### AnalyticDoubleBarrierEngine
+Analytic Black-Scholes pricing using Haug's formulas.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDoubleBarrierEngine
 ```
 
-Analytic double barrier engine using Ikeda-Kunitomo series.
+Ikeda-Kunitomo series.
 
 ```python
 engine = ql.AnalyticDoubleBarrierEngine(process, series=5)
 ```
 
-### FdBlackScholesBarrierEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesBarrierEngine
-```
-
-Finite-differences barrier option engine.
-
-```python
-engine = ql.FdBlackScholesBarrierEngine(process, tGrid=100, xGrid=100)
-```
-
-### FdBlackScholesRebateEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesRebateEngine
-```
-
-Finite-differences rebate engine for barrier options.
-
-```python
-engine = ql.FdBlackScholesRebateEngine(process, tGrid=100, xGrid=100)
-```
-
-### AnalyticDoubleBarrierBinaryEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDoubleBarrierBinaryEngine
 ```
 
-Analytic double barrier binary (one-touch) option engine (Hui).
-
-```python
-engine = ql.AnalyticDoubleBarrierBinaryEngine(process)
-```
-
-### MCBarrierEngine
+Hui's analytic double-barrier binary (one-touch).
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.MCBarrierEngine
-```
-
-Monte Carlo barrier option engine with optional Brownian bridge bias correction.
-
-```python
-engine = ql.MCBarrierEngine(
-    process, timeSteps=50, requiredSamples=10000, seed=42,
-)
-```
-
-### MCDoubleBarrierEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDoubleBarrierEngine
-```
-
-Monte Carlo double barrier option engine.
-
-```python
-engine = ql.MCDoubleBarrierEngine(
-    process, timeSteps=50, requiredSamples=10000, seed=42,
-)
-```
-
-### AnalyticBinaryBarrierEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticBinaryBarrierEngine
-```
-
-Analytic binary (one-touch) barrier option engine.
-
-### BinomialBarrierEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.BinomialBarrierEngine
 ```
-
-Binomial tree barrier engine with configurable tree type and discretization.
 
 ```python
 engine = ql.BinomialBarrierEngine(process, "crr", 200)
 engine = ql.BinomialBarrierEngine(process, "crr", 200, discretization="dermankani")
 ```
 
-### FdHestonBarrierEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonBarrierEngine
-```
-
-Finite-difference Heston barrier option engine.
-
-### FdHestonDoubleBarrierEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonDoubleBarrierEngine
-```
-
-Finite-difference Heston double barrier option engine.
-
-### FdHestonRebateEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonRebateEngine
-```
-
-Finite-difference Heston rebate engine for barrier options.
-
-### AnalyticPartialTimeBarrierOptionEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticPartialTimeBarrierOptionEngine
-```
-
-Analytic engine for partial-time barrier options (Heynen-Kat).
-
-### AnalyticSoftBarrierEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticSoftBarrierEngine
-```
-
-Analytic engine for soft barrier options.
-
-### AnalyticTwoAssetBarrierEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticTwoAssetBarrierEngine
 ```
 
-Analytic engine for two-asset barrier options.
-
-## Asian Engines
-
-### AnalyticContinuousGeometricAveragePriceAsianEngine
+## Asian engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticContinuousGeometricAveragePriceAsianEngine
-```
-
-### AnalyticDiscreteGeometricAveragePriceAsianEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDiscreteGeometricAveragePriceAsianEngine
-```
-
-### TurnbullWakemanAsianEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.TurnbullWakemanAsianEngine
 ```
 
-Moment-matching approximation for discrete arithmetic average price Asian options.
-
-```python
-engine = ql.TurnbullWakemanAsianEngine(process)
-```
-
-### MCDiscreteArithmeticAPEngine
+Moment-matching approximation for discrete arithmetic average price Asians.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCDiscreteArithmeticAPEngine
 ```
 
-Monte Carlo engine for discrete arithmetic average price Asian options.
-
 ```python
 engine = ql.MCDiscreteArithmeticAPEngine(
-    process, requiredSamples=100000, seed=42, controlVariate=True,
+    process, requiredSamples=100_000, seed=42, controlVariate=True,
 )
 ```
 
-### ChoiAsianEngine
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ChoiAsianEngine
-```
-
-Choi (2018) analytic discrete arithmetic Asian engine.
-
-### AnalyticDiscreteGeometricAverageStrikeAsianEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticDiscreteGeometricAverageStrikeAsianEngine
-```
-
-### ContinuousArithmeticAsianLevyEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ContinuousArithmeticAsianLevyEngine
-```
-
-Levy (1992) continuous arithmetic average price Asian engine.
-
-### FdBlackScholesAsianEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.FdBlackScholesAsianEngine
-```
-
-Finite-difference Black-Scholes engine for discrete Asian options.
-
-### MCDiscreteArithmeticASEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDiscreteArithmeticASEngine
-```
-
-Monte Carlo discrete arithmetic average strike Asian engine.
-
-### MCDiscreteGeometricAPEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDiscreteGeometricAPEngine
-```
-
-Monte Carlo discrete geometric average price Asian engine.
-
-### MCDiscreteArithmeticAPHestonEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDiscreteArithmeticAPHestonEngine
-```
-
-Monte Carlo discrete arithmetic Asian engine under Heston dynamics.
-
-### MCDiscreteGeometricAPHestonEngine
-
-```{eval-rst}
 .. autofunction:: pyquantlib.MCDiscreteGeometricAPHestonEngine
 ```
 
-Monte Carlo discrete geometric Asian engine under Heston dynamics.
-
-## Lookback Engines
-
-### AnalyticContinuousFloatingLookbackEngine
+## Lookback engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticContinuousFloatingLookbackEngine
-```
-
-### AnalyticContinuousFixedLookbackEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticContinuousFixedLookbackEngine
-```
-
-### AnalyticContinuousPartialFloatingLookbackEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticContinuousPartialFloatingLookbackEngine
-```
-
-### AnalyticContinuousPartialFixedLookbackEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticContinuousPartialFixedLookbackEngine
 ```
 
 ```python
-payoff = ql.FloatingTypePayoff(ql.Call)
+payoff   = ql.FloatingTypePayoff(ql.Call)
 exercise = ql.EuropeanExercise(expiry)
-option = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
+option   = ql.ContinuousFloatingLookbackOption(100.0, payoff, exercise)
 option.setPricingEngine(ql.AnalyticContinuousFloatingLookbackEngine(process))
-print(option.NPV())
 ```
 
-## Cliquet Engines
-
-### AnalyticCliquetEngine
+## Cliquet engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticCliquetEngine
 ```
 
-```python
-engine = ql.AnalyticCliquetEngine(process)
-cliquet.setPricingEngine(engine)
-print(cliquet.NPV())
-```
-
-## Exotic Engines
-
-### AnalyticCompoundOptionEngine
+## Compound, chooser, exchange engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticCompoundOptionEngine
-```
-
-### AnalyticSimpleChooserEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticSimpleChooserEngine
-```
-
-### AnalyticComplexChooserEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticComplexChooserEngine
-```
-
-### AnalyticEuropeanMargrabeEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticEuropeanMargrabeEngine
 ```
 
-Takes two Black-Scholes-Merton processes and a correlation parameter.
+Two BSM processes plus a correlation parameter.
 
 ```python
 engine = ql.AnalyticEuropeanMargrabeEngine(process1, process2, 0.5)
-option.setPricingEngine(engine)
 ```
-
-### AnalyticAmericanMargrabeEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticAmericanMargrabeEngine
 ```
 
-## Forward-Start Engines
-
-### ForwardEuropeanEngine
+## Forward-start engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ForwardEuropeanEngine
-```
-
-### ForwardPerformanceEuropeanEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ForwardPerformanceEuropeanEngine
 ```
 
 ```python
 option = ql.ForwardVanillaOption(1.0, reset_date, payoff, exercise)
 option.setPricingEngine(ql.ForwardEuropeanEngine(process))
-print(option.NPV())
 ```
 
-## Quanto Engines
-
-### QuantoVanillaEngine
+## Quanto engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.QuantoVanillaEngine
 ```
 
-Quanto European option engine (currency-adjusted Black-Scholes). Accepts explicit Handle arguments or raw objects (hidden handles).
+Currency-adjusted Black-Scholes. Accepts explicit handles or raw objects (hidden handles).
 
 ```python
-engine = ql.QuantoVanillaEngine(
-    process, foreign_rate, fx_vol, correlation,
-)
+engine = ql.QuantoVanillaEngine(process, foreign_rate, fx_vol, correlation)
 option.setPricingEngine(engine)
 print(option.NPV(), option.qvega(), option.qrho(), option.qlambda())
 ```
 
-## Cap/Floor Engines
-
-### BlackCapFloorEngine
+## Cap / floor engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackCapFloorEngine
 ```
 
-Black-formula cap/floor engine (lognormal volatility).
+Lognormal volatility.
 
 ```python
 engine = ql.BlackCapFloorEngine(curve, 0.20)
-cap.setPricingEngine(engine)
-print(cap.NPV())
 ```
-
-### BachelierCapFloorEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BachelierCapFloorEngine
 ```
 
-Bachelier (normal volatility) cap/floor engine.
+Normal volatility.
 
 ```python
 engine = ql.BachelierCapFloorEngine(curve, 0.005)
-cap.setPricingEngine(engine)
-print(cap.NPV())
 ```
-
-### AnalyticCapFloorEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticCapFloorEngine
 ```
 
-Analytic cap/floor engine for affine short-rate models (Hull-White, CIR, G2++).
-
-### TreeCapFloorEngine
+Analytic engine for affine short-rate models (Hull-White, CIR, G2++).
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.TreeCapFloorEngine
 ```
 
-Lattice-based cap/floor engine for short-rate models.
-
-### Gaussian1dCapFloorEngine
+Lattice-based for short-rate models.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gaussian1dCapFloorEngine
 ```
 
-Gaussian 1-D model cap/floor engine with numerical integration.
-
 ```python
-model = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
+model  = ql.Gsr(curve, [ql.Date(15, 1, 2025)], [0.01], 0.01)
 engine = ql.Gaussian1dCapFloorEngine(model, integrationPoints=64)
-cap.setPricingEngine(engine)
-print(cap.NPV())
 ```
 
-## YoY Inflation Cap/Floor Engines
-
-### YoYInflationBlackCapFloorEngine
+## YoY inflation cap / floor engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.YoYInflationBlackCapFloorEngine
@@ -1128,37 +764,21 @@ print(cap.NPV())
    :undoc-members:
 ```
 
-Black-formula engine for YoY inflation caps and floors (lognormal volatility).
-
 ```python
 engine = ql.YoYInflationBlackCapFloorEngine(yoy_index, yoy_vol_handle, curve_handle)
-cap.setPricingEngine(engine)
-print(cap.NPV())
 ```
-
-### YoYInflationUnitDisplacedBlackCapFloorEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.YoYInflationUnitDisplacedBlackCapFloorEngine
    :members:
    :undoc-members:
-```
 
-Unit-displaced Black-formula engine for YoY inflation caps and floors.
-
-### YoYInflationBachelierCapFloorEngine
-
-```{eval-rst}
 .. autoclass:: pyquantlib.YoYInflationBachelierCapFloorEngine
    :members:
    :undoc-members:
 ```
 
-Bachelier (normal volatility) engine for YoY inflation caps and floors.
-
-## Bond Engines
-
-### DiscountingBondEngine
+## Bond engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscountingBondEngine
@@ -1170,77 +790,66 @@ bond.setPricingEngine(engine)
 print(bond.cleanPrice())
 ```
 
-## Convertible Bond Engines
-
-### BinomialConvertibleEngine
+## Convertible bond engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BinomialConvertibleEngine
 ```
 
-Tsiveriotis-Fernandes binomial lattice engine for convertible bonds.
+Tsiveriotis-Fernandes binomial lattice. Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`. Optional `creditSpread` parameter.
 
 ```python
 engine = ql.BinomialConvertibleEngine(process, "crr", 801)
-bond.setPricingEngine(engine)
-print(bond.NPV())
-```
-
-Tree types: `jr`, `crr`, `eqp`, `trigeorgis`, `tian`, `lr`, `joshi`
-
-Also accepts an optional `creditSpread` parameter:
-
-```python
 engine = ql.BinomialConvertibleEngine(process, "crr", 801, creditSpread=spread)
 ```
 
-## Credit Engines
-
-### MidPointCdsEngine
+## Credit engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MidPointCdsEngine
 ```
 
-Mid-point CDS pricing engine.
-
 ```python
 engine = ql.MidPointCdsEngine(default_curve, 0.4, discount_curve)
-cds.setPricingEngine(engine)
-print(cds.NPV())
 ```
-
-### IsdaCdsEngine
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.IsdaCdsEngine
 ```
 
-ISDA-standard CDS pricing engine.
-
-```python
-engine = ql.IsdaCdsEngine(default_curve, 0.4, discount_curve)
-cds.setPricingEngine(engine)
-print(cds.NPV())
-```
+ISDA-standard CDS engine.
 
 | Enum | Values |
-|------|--------|
+|---|---|
 | `IsdaNumericalFix` | `IsdaNone`, `Taylor` |
 | `IsdaAccrualBias` | `HalfDayBias`, `NoBias` |
 | `IsdaForwardsInCouponPeriod` | `Flat`, `Piecewise` |
 
-## Swap Engines
-
-### DiscountingSwapEngine
+## Swap engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscountingSwapEngine
 ```
 
-## Bond Functions
+## FX forward engines
 
-### BondFunctions
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountingFxForwardEngine
+```
+
+Prices an `FxForward` by discounting the two currency cash flows. Requires yield curves for both currencies and a spot FX quote.
+
+```python
+eur_curve = ql.FlatForward(today, 0.03, ql.Actual365Fixed())
+usd_curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+spot_fx   = ql.SimpleQuote(1.08)   # EUR/USD spot
+
+engine = ql.DiscountingFxForwardEngine(eur_curve, usd_curve, spot_fx)
+fwd.setPricingEngine(engine)
+print(fwd.NPV(), fwd.fairForwardRate())
+```
+
+## Bond functions
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BondFunctions
@@ -1248,15 +857,15 @@ print(cds.NPV())
 
 Static functions for bond analytics.
 
-| Function | Description |
-|----------|-------------|
+| Function | Returns |
+|---|---|
 | `cleanPrice(bond, rate)` | Clean price from yield |
 | `dirtyPrice(bond, rate)` | Dirty price from yield |
-| `bps(bond, rate)` | Basis point sensitivity |
+| `bps(bond, rate)` | Basis-point sensitivity |
 | `bondYield(bond, cleanPrice, dc, comp, freq)` | Yield from clean price |
 | `duration(bond, rate, type)` | Duration (Modified, Macaulay, or Simple) |
 | `convexity(bond, rate)` | Convexity |
-| `basisPointValue(bond, rate)` | Basis point value |
+| `basisPointValue(bond, rate)` | Basis-point value |
 | `yieldValueBasisPoint(bond, rate)` | Yield value of a basis point |
 | `zSpread(bond, cleanPrice, curve, dc, comp, freq)` | Z-spread |
 
@@ -1267,9 +876,7 @@ print(ql.BondFunctions.duration(bond, rate, ql.DurationType.Modified))
 print(ql.BondFunctions.convexity(bond, rate))
 ```
 
-## Variance Swap Engines
-
-### ReplicatingVarianceSwapEngine
+## Variance swap engines
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ReplicatingVarianceSwapEngine
@@ -1277,68 +884,62 @@ print(ql.BondFunctions.convexity(bond, rate))
 
 ## Calculators
 
-### BlackCalculator
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackCalculator
 ```
 
-Black 1976 pricing and Greeks calculator. Provides delta, gamma, theta, vega, rho, and more.
+Black 1976 pricing and Greeks.
 
 ```python
 calc = ql.BlackCalculator(payoff, forward, stdDev, discount)
 print(calc.value(), calc.delta(spot), calc.gamma(spot), calc.vega(T))
 ```
 
-### BachelierCalculator
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.BachelierCalculator
 ```
 
-Bachelier (normal-volatility) pricing and Greeks calculator. Same API as `BlackCalculator`.
+Bachelier (normal-volatility) pricing and Greeks. Same API as `BlackCalculator`.
 
-```python
-calc = ql.BachelierCalculator(payoff, forward, stdDev, discount)
-print(calc.value(), calc.delta(spot), calc.gamma(spot), calc.vega(T))
-```
+## Free functions
 
-## Functions
+### Black-76 (lognormal)
 
-### Black-76 (Lognormal)
-
-| Function | Description |
-|----------|-------------|
+| Function | Returns |
+|---|---|
 | `blackFormula(optionType, strike, forward, stdDev, ...)` | Option price |
-| `blackFormulaImpliedStdDev(optionType, strike, forward, blackPrice, ...)` | Implied volatility × √T |
-| `blackFormulaImpliedStdDevApproximation(...)` | Fast implied vol approximation |
-| `blackFormulaStdDevDerivative(strike, forward, stdDev, ...)` | Vega / √T |
+| `blackFormulaImpliedStdDev(optionType, strike, forward, blackPrice, ...)` | Implied $\sigma \sqrt{T}$ |
+| `blackFormulaImpliedStdDevApproximation(...)` | Fast implied-vol approximation |
+| `blackFormulaStdDevDerivative(strike, forward, stdDev, ...)` | $\partial$ price / $\partial \sigma\sqrt{T}$ |
 | `blackFormulaVolDerivative(strike, forward, stdDev, expiry, ...)` | Vega |
-| `blackFormulaForwardDerivative(optionType, strike, forward, stdDev, ...)` | Delta (forward) |
-| `blackFormulaCashItmProbability(optionType, strike, forward, stdDev, ...)` | N(d2) |
-| `blackFormulaAssetItmProbability(optionType, strike, forward, stdDev, ...)` | N(d1) |
+| `blackFormulaForwardDerivative(optionType, strike, forward, stdDev, ...)` | Forward delta |
+| `blackFormulaCashItmProbability(optionType, strike, forward, stdDev, ...)` | $N(d_2)$ |
+| `blackFormulaAssetItmProbability(optionType, strike, forward, stdDev, ...)` | $N(d_1)$ |
 
-### Bachelier (Normal)
+### Bachelier (normal)
 
-| Function | Description |
-|----------|-------------|
+| Function | Returns |
+|---|---|
 | `bachelierBlackFormula(optionType, strike, forward, stdDev, ...)` | Option price |
 | `bachelierBlackFormulaImpliedVol(optionType, strike, forward, tte, price, ...)` | Implied vol |
 | `bachelierBlackFormulaStdDevDerivative(strike, forward, stdDev, ...)` | Vega component |
 
 ```python
-import pyquantlib as ql
-
-forward = 100.0
-strike = 100.0
-vol = 0.20
-T = 1.0
+forward, strike = 100.0, 100.0
+vol, T = 0.20, 1.0
 stdDev = vol * (T ** 0.5)
 
-price = ql.blackFormula(ql.OptionType.Call, strike, forward, stdDev)
-impliedStdDev = ql.blackFormulaImpliedStdDev(ql.OptionType.Call, strike, forward, price)
+price          = ql.blackFormula(ql.OptionType.Call, strike, forward, stdDev)
+impliedStdDev  = ql.blackFormulaImpliedStdDev(ql.OptionType.Call, strike, forward, price)
 ```
 
-```{note}
-The abstract `PricingEngine` base class is available in `pyquantlib.base` for custom engine implementations.
-```
+## See also
+
+- {doc}`/concepts/pricing-engines`: instrument / engine separation and the bridge pattern
+- {doc}`/concepts/finite-difference`: meshers, operators, schemes, and step conditions
+- {doc}`/concepts/random-numbers`: the layered Rng / Rsg / Brownian-bridge architecture
+- {doc}`processes`: stochastic processes consumed by these engines
+- {doc}`models`: calibrated models consumed by short-rate, Heston, and Gaussian-1D engines
+- {doc}`/cookbook/compare-engines`: same option, three engines
+- {doc}`/cookbook/mc-engine-kwargs`: MC engine kwargs in practice
+- {doc}`/cookbook/american-fd`: American option via FD

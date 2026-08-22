@@ -159,7 +159,7 @@ ql.AnalyticEuropeanEngine, ql.MCEuropeanEngine, ql.AnalyticHestonEngine
 
 ### Enum Convenience
 
-Enum values are exported to the root namespace for convenience:
+Enum values are exported to the root namespace:
 
 ```python
 # Both work identically

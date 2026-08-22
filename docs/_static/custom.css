@@ -154,6 +154,26 @@ dl.py.method > dt.sig {
     border-radius: 4px;
 }
 
+/* Retint the info-family admonitions to the brand teal so Note / See also
+   boxes don't clash with the rest of the theme. Semantic admonitions
+   (warning, danger, tip, hint, ...) keep their default colors because the
+   color carries meaning. Furo declares these vars on `body`, so the
+   override has to be on `body` too — `:root` is a more distant ancestor
+   and loses CSS-variable resolution. */
+body {
+    --color-admonition-title--note: #0F766E;
+    --color-admonition-title-background--note: rgba(15, 118, 110, 0.10);
+    --color-admonition-title--seealso: #0F766E;
+    --color-admonition-title-background--seealso: rgba(15, 118, 110, 0.10);
+}
+
+body[data-theme="dark"] {
+    --color-admonition-title--note: #2DD4BF;
+    --color-admonition-title-background--note: rgba(45, 212, 191, 0.18);
+    --color-admonition-title--seealso: #2DD4BF;
+    --color-admonition-title-background--seealso: rgba(45, 212, 191, 0.18);
+}
+
 /* Version badge styling */
 .version-badge {
     display: inline-block;
@@ -162,4 +182,45 @@ dl.py.method > dt.sig {
     background: var(--color-brand-primary);
     color: white;
     border-radius: 4px;
+}
+
+
+/* --- Notebook output (myst-nb) -------------------------------------------
+
+   Matplotlib writes plots with an opaque white background, which reads as a
+   bare white rectangle against the dark theme. Rounding the corners and
+   keeping outputs off the left gutter makes them read as figures rather than
+   raster artefacts. */
+.cell_output img {
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+/* Long stdout / DataFrame repr blocks scroll horizontally instead of forcing
+   the page body to scroll. */
+.cell_output {
+    overflow-x: auto;
+}
+
+/* --- Mermaid diagrams ----------------------------------------------------
+
+   Diagrams are initialised with Mermaid's "neutral" theme (see conf.py),
+   which draws edge labels and arrows in dark grey. Those sit directly on the
+   page background rather than inside a node, so on the dark theme they lose
+   almost all contrast. Giving the diagram its own light surface keeps the
+   theme on the background it was designed for. */
+body[data-theme="dark"] .mermaid,
+body[data-theme="dark"] div.mermaid {
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    body[data-theme="auto"] .mermaid,
+    body[data-theme="auto"] div.mermaid {
+        background: #FFFFFF;
+        border-radius: 4px;
+        padding: 0.75rem;
+    }
 }

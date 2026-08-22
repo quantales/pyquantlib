@@ -53,6 +53,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Cash Flows
 - `FloatingRateCoupon` gains a `fixingConvention` constructor argument and `fixingConvention()` accessor (QuantLib 1.42)
 
+### Documentation
+- Restructured the documentation site: separate Concepts, Cookbook, and Contributing & Internals sections in the table of contents
+- New Concepts section with eight pages covering term structures, quotes and observables, pricing engines, stochastic processes, calibration, random numbers, finite differences, and bridge-pattern types, each with a class or sequence diagram
+- New Cookbook section with eleven runnable recipes (engine comparison, Monte Carlo engine kwargs and convergence, spread options, scenario analysis, yield-curve bootstrapping, mixed helpers, American finite difference, Black volatility surfaces, Heston calibration, NumPy interop)
+- All eleven example notebooks now render in the documentation with committed outputs
+- API reference pages given a consistent structure across every module
+- Refreshed landing page, brand palette, and social-card metadata
+- Added a documentation CI job building with warnings-as-errors plus a link check
+
 ## [0.7.0] - 2026-03-14
 
 ### Changed

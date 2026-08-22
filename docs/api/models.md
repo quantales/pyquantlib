@@ -1,201 +1,199 @@
-# Models Module
+# Models
 
-## Heston
+Bindings for the calibrated-model layer: `HestonModel`, the short-rate models (`Vasicek`, `HullWhite`, `BlackKarasinski`, `G2`, `CIR`), Gaussian-1D models (`Gsr`, `MarkovFunctional`), Heston-SLV, and the `*Helper` classes that drive calibration. Each model exposes the same `CalibratedModel` interface (`params`, `calibrate`, `setParams`); subclasses differ in the SDE they implement and the parameters that pin it down.
 
-### HestonModel
+## At a glance
+
+| Family | Classes |
+|---|---|
+| Heston / Bates | {py:class}`pyquantlib.HestonModel`, {py:class}`pyquantlib.PiecewiseTimeDependentHestonModel`, {py:class}`pyquantlib.BatesModel` |
+| Short-rate | {py:class}`pyquantlib.Vasicek`, {py:class}`pyquantlib.HullWhite`, {py:class}`pyquantlib.BlackKarasinski`, {py:class}`pyquantlib.G2`, {py:class}`pyquantlib.CoxIngersollRoss`, {py:class}`pyquantlib.ExtendedCoxIngersollRoss` |
+| Gaussian 1-D | {py:class}`pyquantlib.Gsr`, {py:class}`pyquantlib.MarkovFunctional` |
+| Stochastic local vol | {py:class}`pyquantlib.HestonSLVFDMModel`, {py:class}`pyquantlib.HestonSLVMCModel` |
+| Calibration helpers | {py:class}`pyquantlib.SwaptionHelper`, {py:class}`pyquantlib.CapHelper`, {py:class}`pyquantlib.HestonModelHelper` |
+| Handles | {py:class}`pyquantlib.HestonModelHandle`, {py:class}`pyquantlib.ShortRateModelHandle`, {py:class}`pyquantlib.RelinkableShortRateModelHandle` |
+| Parameters | {py:class}`pyquantlib.Parameter`, {py:class}`pyquantlib.ConstantParameter` |
+
+```{note}
+Abstract base classes for custom model implementations live in `pyquantlib.base`:
+`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `Gaussian1dModel`, `CalibrationHelper`, `BlackCalibrationHelper`.
+```
+
+## Common patterns
+
+### Build and use a Heston model
+
+```python
+import pyquantlib as ql
+
+heston_process = ql.HestonProcess(
+    risk_free_handle, dividend_handle, spot_handle,
+    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
+)
+model  = ql.HestonModel(heston_process)
+engine = ql.AnalyticHestonEngine(model)
+option.setPricingEngine(engine)
+```
+
+The model owns the parameter vector; the engine reads it on every pricing call. See {doc}`/cookbook/heston-calibration` for the full calibration loop.
+
+### Read calibrated parameters via named accessors
+
+```python
+print(model.v0(), model.kappa(), model.theta(), model.sigma(), model.rho())
+```
+
+`HestonModel.params()` returns `(theta, kappa, sigma, rho, v0)`, which is *not* the same order as `HestonProcess`'s constructor (`(v0, kappa, theta, sigma, rho)`). Use the named accessors to avoid silent unpacking bugs.
+
+### Build a Hull-White model and price a discount-bond option
+
+```python
+curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
+hw    = ql.HullWhite(curve, a=0.1, sigma=0.01)
+
+ts_handle = hw.termStructure()
+price     = hw.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
+
+# Convexity bias (static method)
+bias = ql.HullWhite.convexityBias(95.0, 0.25, 0.5, 0.01, 0.1)
+```
+
+### Build calibration helpers and run `calibrate`
+
+```python
+vol = ql.SimpleQuote(0.20)
+helper = ql.SwaptionHelper(
+    maturity=ql.Period(1, ql.Years),
+    length=ql.Period(5, ql.Years),
+    volatility=vol,
+    index=ql.Euribor6M(curve),
+    fixedLegTenor=ql.Period(1, ql.Years),
+    fixedLegDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
+    floatingLegDayCounter=ql.Actual360(),
+    termStructure=curve,
+)
+helper.setPricingEngine(engine)
+
+lm = ql.LevenbergMarquardt(1e-8, 1e-8, 1e-8)
+ec = ql.EndCriteria(500, 50, 1e-8, 1e-8, 1e-8)
+model.calibrate([helper, ...], lm, ec)
+```
+
+The optimisation loop is hidden in `calibrate()`: the optimiser hands a parameter vector to the model, the model re-prices each helper through its engine, the optimiser sees the errors and asks for a step. See {doc}`/concepts/calibration` for the full mechanism.
+
+## Reference
+
+### Heston and Bates
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonModel
 ```
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `v0` | $v_0$ | Initial variance |
-| `kappa` | $\kappa$ | Mean reversion speed |
-| `theta` | $\theta$ | Long-term variance |
-| `sigma` | $\sigma$ | Volatility of variance (vol of vol) |
-| `rho` | $\rho$ | Correlation between spot and variance |
+Constructor parameters (taken from the underlying `HestonProcess`):
 
-```python
-heston_process = ql.HestonProcess(
-    ql.YieldTermStructureHandle(risk_free),
-    ql.YieldTermStructureHandle(dividend),
-    ql.QuoteHandle(spot),
-    v0=0.04, kappa=1.0, theta=0.04, sigma=0.5, rho=-0.7,
-)
-model = ql.HestonModel(heston_process)
-
-engine = ql.AnalyticHestonEngine(model)
-option.setPricingEngine(engine)
-```
-
-### PiecewiseTimeDependentHestonModel
+| Parameter | Symbol |
+|---|---|
+| `v0` | $v_0$ |
+| `kappa` | $\kappa$ |
+| `theta` | $\theta$ |
+| `sigma` | $\sigma$ |
+| `rho` | $\rho$ |
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseTimeDependentHestonModel
 ```
 
-### HestonModelHandle
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonModelHandle
 ```
-
-### BatesModel
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BatesModel
 ```
 
-Extends `HestonModel` with jump parameters:
+`BatesModel` adds three jump parameters on top of Heston:
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `lambda` | $\lambda$ | Jump intensity |
-| `nu` | $\nu$ | Mean jump size |
-| `delta` | $\delta$ | Jump size volatility |
+| Parameter | Symbol |
+|---|---|
+| `lambda` | $\lambda$ |
+| `nu` | $\nu$ |
+| `delta` | $\delta$ |
 
-```python
-bates_process = ql.BatesProcess(
-    risk_free, dividend, spot,
-    0.04, 1.0, 0.04, 0.5, -0.7,  # v0, kappa, theta, sigma, rho
-    0.1, -0.05, 0.1,              # lambda, nu, delta
-)
-model = ql.BatesModel(bates_process)
-engine = ql.BatesEngine(model)
-```
-
-## Short Rate Models
-
-### Vasicek
+### Short-rate models
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Vasicek
 ```
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `r0` | $r_0$ | Initial short rate |
-| `a` | $a$ | Mean reversion speed |
-| `b` | $b$ | Long-term mean rate |
-| `sigma` | $\sigma$ | Volatility |
+SDE: $dr_t = a(b - r_t)\,dt + \sigma\,dW_t$.
 
-The Vasicek model follows the SDE: $dr_t = a(b - r_t)dt + \sigma dW_t$
-
-```python
-vasicek = ql.Vasicek(r0=0.05, a=0.3, b=0.03, sigma=0.01)
-
-# Price a discount bond option
-price = vasicek.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
-```
-
-### HullWhite
+| Parameter | Symbol |
+|---|---|
+| `r0` | $r_0$ |
+| `a` | $a$ |
+| `b` | $b$ |
+| `sigma` | $\sigma$ |
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HullWhite
 ```
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `a` | $a$ | Mean reversion speed |
-| `sigma` | $\sigma$ | Volatility |
+SDE: $dr_t = (\theta(t) - a r_t)\,dt + \sigma\,dW_t$. The drift $\theta(t)$ is set internally to fit the input term structure.
 
-The Hull-White model extends Vasicek with time-dependent drift to fit the initial term structure: $dr_t = (\theta(t) - a \cdot r_t)dt + \sigma dW_t$
-
-```python
-# Create a term structure
-today = ql.Date(15, 1, 2026)
-ql.Settings.instance().evaluationDate = today
-curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
-
-# Hull-White model fitted to the curve
-hw = ql.HullWhite(curve, a=0.1, sigma=0.01)
-
-# Access the fitted term structure
-ts_handle = hw.termStructure()
-
-# Price a discount bond option
-price = hw.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
-
-# Compute futures convexity bias
-bias = ql.HullWhite.convexityBias(95.0, 0.25, 0.5, 0.01, 0.1)
-```
-
-### BlackKarasinski
+| Parameter | Symbol |
+|---|---|
+| `a` | $a$ |
+| `sigma` | $\sigma$ |
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackKarasinski
 ```
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `a` | $a$ | Mean reversion speed |
-| `sigma` | $\sigma$ | Volatility |
+SDE: $d(\ln r_t) = (\theta(t) - a \ln r_t)\,dt + \sigma\,dW_t$.
 
-The Black-Karasinski model is a lognormal short-rate model: $d(\ln r_t) = (\theta(t) - a \ln r_t)dt + \sigma dW_t$
-
-Unlike Hull-White, Black-Karasinski ensures positive interest rates since $r_t = e^{x_t}$ where $x_t$ follows an Ornstein-Uhlenbeck process.
+| Parameter | Symbol |
+|---|---|
+| `a` | $a$ |
+| `sigma` | $\sigma$ |
 
 ```python
-# Create a term structure
-today = ql.Date(15, 1, 2026)
-ql.Settings.instance().evaluationDate = today
-curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
-
-# Black-Karasinski model fitted to the curve
 bk = ql.BlackKarasinski(curve, a=0.1, sigma=0.1)
-
-# Access the fitted term structure
 ts_handle = bk.termStructure()
-
-# Model parameters via CalibratedModel interface
-params = bk.params()  # [a, sigma]
+params    = bk.params()         # [a, sigma]
 ```
-
-### G2
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.G2
 ```
 
-| Parameter | Symbol | Description |
-|-----------|--------|-------------|
-| `a` | $a$ | First factor mean reversion speed |
-| `sigma` | $\sigma$ | First factor volatility |
-| `b` | $b$ | Second factor mean reversion speed |
-| `eta` | $\eta$ | Second factor volatility |
-| `rho` | $\rho$ | Correlation between factors |
+Two-additive-factor Gaussian model:
 
-The G2++ model is a two-additive-factor Gaussian model where the short rate is:
-$r_t = \varphi(t) + x_t + y_t$
+$$\begin{cases}
+r_t = \varphi(t) + x_t + y_t \\
+dx_t = -a\,x_t\,dt + \sigma\,dW^1_t \\
+dy_t = -b\,y_t\,dt + \eta\,dW^2_t \\
+dW^1_t\,dW^2_t = \rho\,dt
+\end{cases}$$
 
-with $dx_t = -a x_t dt + \sigma dW^1_t$ and $dy_t = -b y_t dt + \eta dW^2_t$, and $dW^1_t dW^2_t = \rho dt$.
+| Parameter | Symbol |
+|---|---|
+| `a` | $a$ |
+| `sigma` | $\sigma$ |
+| `b` | $b$ |
+| `eta` | $\eta$ |
+| `rho` | $\rho$ |
 
 ```python
-# Create a term structure
-today = ql.Date(15, 1, 2026)
-ql.Settings.instance().evaluationDate = today
-curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
-
-# G2++ model fitted to the curve
 g2 = ql.G2(curve, a=0.1, sigma=0.01, b=0.1, eta=0.01, rho=-0.75)
-
-# Parameter accessors
 print(g2.a(), g2.sigma(), g2.b(), g2.eta(), g2.rho())
-
-# Price a discount bond option
 price = g2.discountBondOption(ql.Call, 0.95, 1.0, 2.0)
 ```
-
-### CoxIngersollRoss
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CoxIngersollRoss
 ```
 
-Cox-Ingersoll-Ross short-rate model. Parameters accessible via `params()` (theta, k, sigma, r0).
-
-### ExtendedCoxIngersollRoss
+CIR model; `params()` returns `(theta, k, sigma, r0)`.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ExtendedCoxIngersollRoss
@@ -203,34 +201,22 @@ Cox-Ingersoll-Ross short-rate model. Parameters accessible via `params()` (theta
 
 Extended CIR model fitted to the initial term structure.
 
-### ShortRateModelHandle
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ShortRateModelHandle
 ```
-
-```python
-model = ql.Vasicek(r0=0.05)
-handle = ql.ShortRateModelHandle(model)
-```
-
-### RelinkableShortRateModelHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableShortRateModelHandle
 ```
 
 ```python
-model1 = ql.Vasicek(r0=0.03)
-model2 = ql.Vasicek(r0=0.05)
-
-handle = ql.RelinkableShortRateModelHandle(model1)
-handle.linkTo(model2)  # Switch to different model
+m1 = ql.Vasicek(r0=0.03)
+m2 = ql.Vasicek(r0=0.05)
+handle = ql.RelinkableShortRateModelHandle(m1)
+handle.linkTo(m2)
 ```
 
-## Calibration Helpers
-
-### CalibrationErrorType
+### Calibration helpers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CalibrationErrorType
@@ -238,58 +224,17 @@ handle.linkTo(model2)  # Switch to different model
    :undoc-members:
 ```
 
-### RateAveraging
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.RateAveraging
 ```
 
 ```{eval-rst}
-.. autoclass:: pyquantlib.RateAveraging.Type
-   :members:
-   :undoc-members:
-```
-
-### SwaptionHelper
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SwaptionHelper
 ```
-
-Used for calibrating short-rate models to market swaption prices.
-
-```python
-# Create market environment
-today = ql.Date(15, 1, 2026)
-ql.Settings.instance().evaluationDate = today
-curve = ql.FlatForward(today, 0.05, ql.Actual365Fixed())
-index = ql.Euribor6M(curve)
-
-# Create swaption helper with 20% implied volatility
-vol = ql.SimpleQuote(0.20)
-helper = ql.SwaptionHelper(
-    maturity=ql.Period(1, ql.Years),
-    length=ql.Period(5, ql.Years),
-    volatility=vol,
-    index=index,
-    fixedLegTenor=ql.Period(1, ql.Years),
-    fixedLegDayCounter=ql.Thirty360(ql.Thirty360.BondBasis),
-    floatingLegDayCounter=ql.Actual360(),
-    termStructure=curve,
-)
-
-# Access underlying instruments
-swap = helper.underlying()
-swaption = helper.swaption()
-```
-
-### CapHelper
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.CapHelper
 ```
-
-Calibration helper for ATM caps, used for calibrating short-rate models.
 
 ```python
 helper = ql.CapHelper(
@@ -298,60 +243,43 @@ helper = ql.CapHelper(
 )
 ```
 
-### HestonModelHelper
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonModelHelper
 ```
 
-Calibration helper for the Heston model using market option prices.
-
 ```python
 helper = ql.HestonModelHelper(
     ql.Period(1, ql.Years), ql.TARGET(), 100.0, 100.0,
-    vol, risk_free, div,
+    vol_handle, risk_free, dividend,
 )
 ```
 
-## Parameters
-
-### Parameter
+### Parameters
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Parameter
 ```
 
-### ConstantParameter
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConstantParameter
 ```
 
-## Gaussian 1-D Framework
-
-### Gsr
+### Gaussian 1-D framework
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Gsr
 ```
 
-Gaussian short-rate (GSR) model in forward measure. Supports constant or piecewise mean reversion and volatility, with both static and floating (Handle-based) data.
+GSR model in forward measure. Supports constant or piecewise mean reversion and volatility, with both static and floating (handle-based) data.
 
 ```python
-# Constant mean reversion
 gsr = ql.Gsr(term_structure_handle, [], [0.01], 0.1)
-
-# Piecewise
 gsr = ql.Gsr(term_structure, [step_date], [0.01, 0.02], [0.1, 0.15])
 ```
-
-### MarkovFunctional
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MarkovFunctional
 ```
-
-Markov Functional 1-factor model calibrated to swaption or caplet smiles.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MarkovFunctionalModelSettings
@@ -362,77 +290,53 @@ Markov Functional 1-factor model calibrated to swaption or caplet smiles.
 ```
 
 ```python
-# Swaption-calibrated MarkovFunctional
 mf = ql.MarkovFunctional(
     term_structure, 0.01, [], [0.01],
     swaption_vol_handle, expiries, tenors, swap_index,
 )
 ```
 
-## Stochastic Local Volatility
-
-### HestonSLVFDMModel
+### Stochastic local volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonSLVFDMModel
 ```
 
-Heston SLV model calibrated via Fokker-Planck FDM. Produces a leverage function that can be passed to `FdHestonVanillaEngine`.
+Heston SLV calibrated via Fokker-Planck FDM. Produces a leverage function that can be passed to `FdHestonVanillaEngine`.
 
 ```python
-local_vol = ql.LocalConstantVol(today, 0.20, dc)
-heston_model = ql.HestonModel(heston_process)
-
-params = ql.HestonSLVFokkerPlanckFdmParams(xGrid=51, vGrid=51)
-slv = ql.HestonSLVFDMModel(local_vol, heston_model, end_date, params)
-
-leverage = slv.leverageFunction()
-engine = ql.FdHestonVanillaEngine(heston_model, leverageFct=leverage)
+local_vol  = ql.LocalConstantVol(today, 0.20, dc)
+heston     = ql.HestonModel(heston_process)
+params     = ql.HestonSLVFokkerPlanckFdmParams(xGrid=51, vGrid=51)
+slv        = ql.HestonSLVFDMModel(local_vol, heston, end_date, params)
+leverage   = slv.leverageFunction()
+engine     = ql.FdHestonVanillaEngine(heston, leverageFct=leverage)
 ```
-
-### HestonSLVMCModel
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonSLVMCModel
 ```
 
-Heston SLV model calibrated via Monte Carlo simulation.
-
 ```python
 bgf = ql.MTBrownianGeneratorFactory(seed=42)
 slv = ql.HestonSLVMCModel(
-    local_vol, heston_model, bgf, end_date,
+    local_vol, heston, bgf, end_date,
     timeStepsPerYear=365, nBins=201, calibrationPaths=4096,
 )
-
 leverage = slv.leverageFunction()
 ```
-
-### HestonSLVFokkerPlanckFdmParams
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.HestonSLVFokkerPlanckFdmParams
 ```
 
-Parameter struct for `HestonSLVFDMModel` calibration. All fields have sensible defaults.
+The two enums that parametrise it, {py:class}`pyquantlib.FdmHestonGreensFctAlgorithm`
+and {py:class}`pyquantlib.FdmSquareRootFwdOpTransformationType`, are documented
+with the rest of the FDM machinery in {doc}`methods`.
 
-### FdmHestonGreensFctAlgorithm
+## See also
 
-```{eval-rst}
-.. autoclass:: pyquantlib.FdmHestonGreensFctAlgorithm
-   :members:
-   :undoc-members:
-```
-
-### FdmSquareRootFwdOpTransformationType
-
-```{eval-rst}
-.. autoclass:: pyquantlib.FdmSquareRootFwdOpTransformationType
-   :members:
-   :undoc-members:
-```
-
-```{note}
-Abstract base classes are available in `pyquantlib.base` for custom model implementations:
-`CalibratedModel`, `ShortRateModel`, `OneFactorModel`, `OneFactorAffineModel`, `TwoFactorModel`, `AffineModel`, `TermStructureConsistentModel`, `Gaussian1dModel`, `CalibrationHelper`, `BlackCalibrationHelper`.
-```
+- {doc}`/concepts/calibration`: optimisers, end criteria, and constraints
+- {doc}`processes`: stochastic processes that feed these models
+- {doc}`pricingengines`: engines built on top of the models
+- {doc}`/cookbook/heston-calibration`: end-to-end Heston fit

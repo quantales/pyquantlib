@@ -1,41 +1,154 @@
-# Term Structures Module
+# Term structures
 
-## Yield Term Structures
+Bindings for the four families of term-structure objects: yield curves (and the rate helpers and bootstrap algorithms that build them), volatility surfaces (Black, local, swaption, optionlet, smile sections, SABR variants), credit / default-probability curves, and inflation curves. Each family has the same shape: a hierarchy of abstract bases under `pyquantlib.base`, concrete implementations in the top-level `pyquantlib` namespace, plus matching `*Handle` and `Relinkable*Handle` smart-pointer wrappers.
 
-### FlatForward
+## At a glance
+
+### Yield curves
+
+| Group | Classes |
+|---|---|
+| Flat / interpolated | {py:class}`pyquantlib.FlatForward`, {py:class}`pyquantlib.ZeroCurve`, {py:class}`pyquantlib.DiscountCurve`, {py:class}`pyquantlib.ForwardCurve` |
+| Spread / implied / composite | {py:class}`pyquantlib.ZeroSpreadedTermStructure`, {py:class}`pyquantlib.ForwardSpreadedTermStructure`, {py:class}`pyquantlib.ImpliedTermStructure`, {py:class}`pyquantlib.UltimateForwardTermStructure`, {py:class}`pyquantlib.CompositeZeroYieldStructure`, {py:class}`pyquantlib.QuantoTermStructure` |
+| Piecewise (iterative bootstrap) | {py:class}`pyquantlib.PiecewiseLogLinearDiscount`, {py:class}`pyquantlib.PiecewiseLinearDiscount`, {py:class}`pyquantlib.PiecewiseCubicDiscount`, {py:class}`pyquantlib.PiecewiseLinearZero`, {py:class}`pyquantlib.PiecewiseCubicZero`, {py:class}`pyquantlib.PiecewiseLinearForward`, {py:class}`pyquantlib.PiecewiseBackwardFlatForward`, {py:class}`pyquantlib.PiecewiseLogCubicDiscount`, {py:class}`pyquantlib.PiecewiseKrugerLogDiscount` |
+| Global bootstrap | {py:class}`pyquantlib.PiecewiseLogLinearDiscountGlobal`, {py:class}`pyquantlib.PiecewiseLinearZeroGlobal`, {py:class}`pyquantlib.PiecewiseBackwardFlatForwardGlobal`, {py:class}`pyquantlib.MultiCurve` |
+| Fitted (parametric) | {py:class}`pyquantlib.FittedBondDiscountCurve`, {py:class}`pyquantlib.NelsonSiegelFitting`, {py:class}`pyquantlib.SvenssonFitting`, {py:class}`pyquantlib.ExponentialSplinesFitting`, {py:class}`pyquantlib.CubicBSplinesFitting`, {py:class}`pyquantlib.SimplePolynomialFitting`, {py:class}`pyquantlib.SpreadFittingMethod` |
+| Rate helpers | {py:class}`pyquantlib.DepositRateHelper`, {py:class}`pyquantlib.FraRateHelper`, {py:class}`pyquantlib.SwapRateHelper`, {py:class}`pyquantlib.OISRateHelper`, {py:class}`pyquantlib.MultipleResetsSwapRateHelper`, {py:class}`pyquantlib.BondHelper`, {py:class}`pyquantlib.FixedRateBondHelper` |
+| Handles | {py:class}`pyquantlib.YieldTermStructureHandle`, {py:class}`pyquantlib.RelinkableYieldTermStructureHandle` |
+| Enums | {py:class}`pyquantlib.Pillar` |
+
+### Volatility surfaces
+
+| Group | Classes |
+|---|---|
+| Black vol | {py:class}`pyquantlib.BlackConstantVol`, {py:class}`pyquantlib.BlackVarianceSurface`, {py:class}`pyquantlib.BlackVolatilitySurfaceDelta`, {py:class}`pyquantlib.HestonBlackVolSurface` |
+| Smile sections | {py:class}`pyquantlib.FlatSmileSection`, {py:class}`pyquantlib.SabrSmileSection`, {py:class}`pyquantlib.SabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrSmileSection`, {py:class}`pyquantlib.NoArbSabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrModel`, {py:class}`pyquantlib.KahaleSmileSection` |
+| SABR free functions | {py:func}`pyquantlib.sabrVolatility`, {py:func}`pyquantlib.shiftedSabrVolatility`, {py:func}`pyquantlib.validateSabrParameters` |
+| Local vol | {py:class}`pyquantlib.LocalConstantVol`, {py:class}`pyquantlib.LocalVolSurface`, {py:class}`pyquantlib.FixedLocalVolSurface`, {py:class}`pyquantlib.NoExceptLocalVolSurface` |
+| Andreasen-Huge | {py:class}`pyquantlib.AndreasenHugeVolatilityInterpl`, {py:class}`pyquantlib.AndreasenHugeVolatilityAdapter`, {py:class}`pyquantlib.AndreasenHugeLocalVolAdapter` |
+| Swaption | {py:class}`pyquantlib.ConstantSwaptionVolatility`, {py:class}`pyquantlib.SwaptionVolatilityMatrix`, {py:class}`pyquantlib.SwaptionVolatilityCube`, {py:class}`pyquantlib.SabrSwaptionVolatilityCube`, {py:class}`pyquantlib.SpreadedSwaptionVolatility` |
+| Optionlet | {py:class}`pyquantlib.ConstantOptionletVolatility`, {py:class}`pyquantlib.CapFloorTermVolSurface`, {py:class}`pyquantlib.OptionletStripper1`, {py:class}`pyquantlib.StrippedOptionletAdapter` |
+| YoY inflation optionlet | {py:class}`pyquantlib.ConstantYoYOptionletVolatility` |
+| Handles | {py:class}`pyquantlib.BlackVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableBlackVolTermStructureHandle`, {py:class}`pyquantlib.LocalVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableLocalVolTermStructureHandle`, {py:class}`pyquantlib.SwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableSwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.OptionletVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableOptionletVolatilityStructureHandle`, {py:class}`pyquantlib.YoYOptionletVolatilitySurfaceHandle`, {py:class}`pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle` |
+
+### Credit and inflation
+
+| Group | Classes |
+|---|---|
+| Credit | {py:class}`pyquantlib.FlatHazardRate`, {py:class}`pyquantlib.SpreadCdsHelper`, {py:class}`pyquantlib.UpfrontCdsHelper`, {py:class}`pyquantlib.PiecewiseLogLinearSurvival`, {py:class}`pyquantlib.PiecewiseFlatHazardRate`, {py:class}`pyquantlib.PiecewiseBackwardFlatHazard`, {py:class}`pyquantlib.DefaultProbabilityTermStructureHandle`, {py:class}`pyquantlib.RelinkableDefaultProbabilityTermStructureHandle` |
+| Inflation curves | {py:class}`pyquantlib.ZeroInflationCurve`, {py:class}`pyquantlib.YoYInflationCurve`, {py:class}`pyquantlib.PiecewiseZeroInflationCurve`, {py:class}`pyquantlib.PiecewiseYoYInflationCurve` |
+| Inflation helpers | {py:class}`pyquantlib.ZeroCouponInflationSwapHelper`, {py:class}`pyquantlib.YearOnYearInflationSwapHelper` |
+| Seasonality | {py:class}`pyquantlib.MultiplicativePriceSeasonality`, {py:class}`pyquantlib.KerkhofSeasonality` |
+| Inflation handles | {py:class}`pyquantlib.ZeroInflationTermStructureHandle`, {py:class}`pyquantlib.RelinkableZeroInflationTermStructureHandle`, {py:class}`pyquantlib.YoYInflationTermStructureHandle`, {py:class}`pyquantlib.RelinkableYoYInflationTermStructureHandle` |
+| Inflation utilities | {py:func}`pyquantlib.inflationPeriod` |
+
+```{note}
+Abstract base classes (`YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure`, `Seasonality`, `ZeroInflationHelper`, `YoYInflationHelper`, `YoYOptionletVolatilitySurface`) live under `pyquantlib.base` for `isinstance` checks and custom subclassing.
+```
+
+## Common patterns
+
+### Wrap a curve in a handle and use it
+
+```python
+import pyquantlib as ql
+
+curve  = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+handle = ql.YieldTermStructureHandle(curve)
+
+# Most constructors that "want a curve" actually want a handle.
+process = ql.GeneralizedBlackScholesProcess(spot, dq_handle, handle, vol_handle)
+```
+
+`Relinkable*Handle` adds `linkTo(new_curve)` on top, useful for scenarios that swap entire structures rather than just numbers; see {doc}`/cookbook/scenario-analysis`.
+
+### Bootstrap a piecewise yield curve
+
+```python
+helpers = [
+    ql.DepositRateHelper(0.032, euribor6m),
+    ql.SwapRateHelper(0.04, ql.Period(5, ql.Years), ql.TARGET(),
+                       ql.Annual, ql.Unadjusted,
+                       ql.Thirty360(ql.Thirty360.BondBasis), euribor6m),
+]
+
+curve = ql.PiecewiseLogLinearDiscount(today, helpers, ql.Actual365Fixed())
+print(curve.discount(1.0), curve.nodes())
+```
+
+`PiecewiseLogLinearDiscount` is one of nine `Piecewise*` variants; the name encodes (interpolation, what's interpolated). All share the same constructor and helper interface. See {doc}`/cookbook/bootstrap-yield-curve`.
+
+### Build a Black variance surface from a vol grid
+
+```python
+vol_mat = ql.Matrix(len(strikes), len(expiries))
+for i, row in enumerate(vols):
+    for j, v in enumerate(row):
+        vol_mat[i, j] = v
+
+surface = ql.BlackVarianceSurface(today, calendar, expiries, strikes, vol_mat, dc)
+surface.enableExtrapolation()
+
+print(surface.blackVol(today + ql.Period("9M"), 95.0))
+```
+
+See {doc}`/cookbook/vol-surface` for the full pattern.
+
+### Strip optionlet vols from a cap / floor surface
+
+```python
+surface = ql.CapFloorTermVolSurface(
+    2, ql.TARGET(), ql.ModifiedFollowing,
+    option_tenors, strikes, vol_matrix, ql.Actual365Fixed(),
+)
+
+stripper = ql.OptionletStripper1(surface, euribor6m, discount=ts_handle)
+adapter  = ql.StrippedOptionletAdapter(stripper)
+optionlet_vol = ql.OptionletVolatilityStructureHandle(adapter)
+```
+
+`OptionletStripper1` solves for caplet vols that re-price each cap; `StrippedOptionletAdapter` exposes the result as a standard `OptionletVolatilityStructure`.
+
+### Bootstrap a default-probability curve from CDS spreads
+
+```python
+helpers = [
+    ql.SpreadCdsHelper(spread, tenor, 1, ql.TARGET(),
+                        ql.Quarterly, ql.Following,
+                        ql.DateGeneration.TwentiethIMM,
+                        ql.Actual360(), 0.4, discount_curve)
+    for spread, tenor in zip(spreads, tenors)
+]
+curve = ql.PiecewiseLogLinearSurvival(today, helpers, ql.Actual365Fixed())
+print(curve.survivalProbability(1.0), curve.nodes())
+```
+
+## Yield curves reference
+
+### Flat curve
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FlatForward
 ```
 
 ```python
-today = ql.Date(15, 6, 2025)
-dc = ql.Actual365Fixed()
-
 flat = ql.FlatForward(today, 0.05, dc)
 print(flat.discount(1.0))
 
-# Using a quote (hidden handle, for dynamic updates)
-rate_quote = ql.SimpleQuote(0.05)
-flat = ql.FlatForward(today, rate_quote, dc)
-rate_quote.setValue(0.06)  # Curve updates automatically
+# Hidden handle from a quote, for live updates
+rate = ql.SimpleQuote(0.05)
+flat = ql.FlatForward(today, rate, dc)
+rate.setValue(0.06)
 ```
 
-### YieldTermStructureHandle
+### Yield handles
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.YieldTermStructureHandle
-```
-
-### RelinkableYieldTermStructureHandle
-
-```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableYieldTermStructureHandle
 ```
 
-## Rate Helpers
-
-### Pillar
+### Rate helpers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Pillar
@@ -43,456 +156,211 @@ rate_quote.setValue(0.06)  # Curve updates automatically
    :undoc-members:
 ```
 
-### RateHelper
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.base.RateHelper
    :members:
 ```
 
-### RelativeDateRateHelper
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.base.RelativeDateRateHelper
 ```
 
-Rate helper with date schedule that updates when the evaluation date changes. Base class for `DepositRateHelper`, `FraRateHelper`, `SwapRateHelper`, and `OISRateHelper`.
-
-### DepositRateHelper
+Base for `DepositRateHelper`, `FraRateHelper`, `SwapRateHelper`, and `OISRateHelper`. Schedule re-derived when `Settings.evaluationDate` changes.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DepositRateHelper
 ```
 
-Rate helper for bootstrapping over deposit rates.
-
 ```python
-euribor6m = ql.Euribor6M(curve_handle)
-helper = ql.DepositRateHelper(0.032, euribor6m)
+helper = ql.DepositRateHelper(0.032, ql.Euribor6M(curve_handle))
 ```
-
-### FraRateHelper
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FraRateHelper
 ```
 
-Rate helper for bootstrapping over FRA rates.
-
 ```python
-helper = ql.FraRateHelper(0.035, 3, euribor6m)  # 3x9 FRA
+helper = ql.FraRateHelper(0.035, 3, euribor6m)   # 3x9 FRA
 ```
-
-### SwapRateHelper
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SwapRateHelper
 ```
 
-Rate helper for bootstrapping over swap rates.
-
 ```python
 helper = ql.SwapRateHelper(
     0.04, ql.Period(5, ql.Years), ql.TARGET(),
     ql.Annual, ql.Unadjusted,
-    ql.Thirty360(ql.Thirty360.BondBasis), euribor6m
+    ql.Thirty360(ql.Thirty360.BondBasis), euribor6m,
 )
-swap = helper.swap()  # access underlying VanillaSwap
+swap = helper.swap()
 ```
-
-### OISRateHelper
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.OISRateHelper
 ```
 
-Rate helper for bootstrapping over OIS rates.
-
 ```python
-overnight_index = ql.OvernightIndex("ESTR", 0, ql.EURCurrency(),
-                                     ql.TARGET(), ql.Actual360(), curve)
-helper = ql.OISRateHelper(2, ql.Period(1, ql.Years), 0.035, overnight_index)
-
-# With explicit averaging method
 helper = ql.OISRateHelper(
     2, ql.Period(1, ql.Years), 0.035, overnight_index,
     averagingMethod=ql.RateAveraging.Type.Simple,
 )
 ```
 
-### BondHelper
+```{eval-rst}
+.. autoclass:: pyquantlib.MultipleResetsSwapRateHelper
+```
+
+Bootstrap helper for multiple-resets swap quotes. Accepts a fixed rate as a `float`, `QuoteHandle`, or `SimpleQuote` (hidden-handle convenience).
+
+```python
+helper = ql.MultipleResetsSwapRateHelper(
+    0.04, ql.Period(2, ql.Years), overnight_index,
+    resetsPerCoupon=2,
+    averagingMethod=ql.RateAveraging.Type.Compound,
+)
+```
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BondHelper
 ```
 
-Bond helper for bootstrapping yield curves from a pre-constructed bond.
-
-```python
-bond = ql.FixedRateBond(3, 100.0, schedule, [0.04], dc)
-helper = ql.BondHelper(ql.SimpleQuote(101.0), bond)
-```
-
-### FixedRateBondHelper
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedRateBondHelper
 ```
 
-Convenience helper that constructs a fixed-rate bond internally.
-
 ```python
 helper = ql.FixedRateBondHelper(
-    101.0,          # clean price
-    3,              # settlement days
-    100.0,          # face amount
-    schedule,
-    [0.04],         # coupon rates
+    101.0, 3, 100.0, schedule, [0.04],
     ql.Thirty360(ql.Thirty360.BondBasis),
 )
-bond = helper.bond()  # access the underlying FixedRateBond
+bond = helper.bond()
 ```
 
-## Interpolated Yield Curves
-
-### ZeroCurve
+### Interpolated yield curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroCurve
 ```
 
-Zero rate curve with linear interpolation.
-
 ```python
-dates = [today, today + ql.Period(1, ql.Years), today + ql.Period(5, ql.Years)]
-rates = [0.03, 0.035, 0.04]
 curve = ql.ZeroCurve(dates, rates, ql.Actual365Fixed())
 print(curve.zeroRate(target_date, dc, ql.Continuous).rate())
-print(curve.nodes())
 ```
-
-### DiscountCurve
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscountCurve
 ```
 
-Discount factor curve with log-linear interpolation.
-
-```python
-dfs = [1.0, 0.965, 0.835]
-curve = ql.DiscountCurve(dates, dfs, ql.Actual365Fixed())
-print(curve.discount(target_date))
-```
-
-### ForwardCurve
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.ForwardCurve
 ```
 
-Forward rate curve with backward-flat interpolation.
-
-```python
-forwards = [0.03, 0.035, 0.04]
-curve = ql.ForwardCurve(dates, forwards, ql.Actual365Fixed())
-print(curve.forwardRate(d1, d2, dc, ql.Continuous).rate())
-```
-
-### ZeroSpreadedTermStructure
+### Spread / implied / composite curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroSpreadedTermStructure
-```
-
-Yield term structure with an additive spread over a base curve.
-
-```python
-base = ql.FlatForward(today, 0.03, dc)
-spread = ql.SimpleQuote(0.005)
-spreaded = ql.ZeroSpreadedTermStructure(base, spread)
-spread.setValue(0.01)  # spread updates dynamically
-```
-
-### ForwardSpreadedTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ForwardSpreadedTermStructure
-```
-
-Yield curve with an additive spread over instantaneous forward rates.
-
-```python
-base = ql.FlatForward(today, 0.03, dc)
-spread = ql.SimpleQuote(0.005)
-spreaded = ql.ForwardSpreadedTermStructure(base, spread)
-```
-
-### ImpliedTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ImpliedTermStructure
-```
-
-Implied yield curve from a base curve and a new reference date.
-
-```python
-base = ql.FlatForward(today, 0.03, dc)
-implied = ql.ImpliedTermStructure(base, today + ql.Period("6M"))
-```
-
-### UltimateForwardTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.UltimateForwardTermStructure
-```
-
-Ultimate forward rate (UFR) extrapolation beyond a last liquid point.
-
-```python
-ufr = ql.UltimateForwardTermStructure(
-    base_curve, llfr_quote, ufr_quote,
-    ql.Period(20, ql.Years), alpha=0.1
-)
-```
-
-### CompositeZeroYieldStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.CompositeZeroYieldStructure
-```
-
-Composite yield curve combining two curves via a binary function.
-
-```python
-import operator
-composite = ql.CompositeZeroYieldStructure(curve1, curve2, operator.add)
-print(composite.zeroRate(1.0, ql.Continuous).rate())
-```
-
-### QuantoTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.QuantoTermStructure
 ```
 
-Quanto-adjusted dividend yield term structure.
+```python
+import operator
 
-## Piecewise Yield Curves
+base    = ql.FlatForward(today, 0.03, dc)
+spread  = ql.SimpleQuote(0.005)
+spreaded = ql.ZeroSpreadedTermStructure(base, spread)
+spread.setValue(0.01)
 
-### PiecewiseLogLinearDiscount
+implied = ql.ImpliedTermStructure(base, today + ql.Period("6M"))
+ufr     = ql.UltimateForwardTermStructure(base, llfr_quote, ufr_quote,
+                                            ql.Period(20, ql.Years), alpha=0.1)
+composite = ql.CompositeZeroYieldStructure(curve1, curve2, operator.add)
+```
+
+### Piecewise yield curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLogLinearDiscount
-```
-
-### PiecewiseLinearDiscount
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLinearDiscount
-```
-
-### PiecewiseCubicDiscount
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseCubicDiscount
-```
-
-### PiecewiseLinearZero
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLinearZero
-```
-
-### PiecewiseCubicZero
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseCubicZero
-```
-
-### PiecewiseLinearForward
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLinearForward
-```
-
-### PiecewiseBackwardFlatForward
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseBackwardFlatForward
+.. autoclass:: pyquantlib.PiecewiseLogCubicDiscount
+.. autoclass:: pyquantlib.PiecewiseKrugerLogDiscount
 ```
 
-`PiecewiseFlatForward` is an alias for `PiecewiseBackwardFlatForward`.
+`PiecewiseFlatForward` is an alias for `PiecewiseBackwardFlatForward`. `PiecewiseLogCubicDiscount` uses monotonic log-cubic interpolation of discount factors; `PiecewiseKrugerLogDiscount` uses the Kruger log-cubic method, which is convexity-preserving but not monotonicity-constrained.
 
-Piecewise yield curves bootstrap a term structure from market instruments.
+### Global-bootstrap piecewise curves
 
-```python
-helpers = [
-    ql.DepositRateHelper(0.032, euribor6m),
-    ql.SwapRateHelper(0.04, ql.Period(5, ql.Years), ql.TARGET(),
-                      ql.Annual, ql.Unadjusted,
-                      ql.Thirty360(ql.Thirty360.BondBasis), euribor6m),
-]
-
-curve = ql.PiecewiseLogLinearDiscount(today, helpers, ql.Actual365Fixed())
-print(curve.discount(1.0))
-print(curve.nodes())
-```
-
-## Global Bootstrap Piecewise Curves
-
-Piecewise yield curves using `GlobalBootstrap`, which solves for all nodes
-simultaneously via global optimization instead of iterative bootstrapping.
-Useful when instruments depend on each other or when the standard bootstrap
-fails to converge.
-
-### PiecewiseLogLinearDiscountGlobal
+`GlobalBootstrap` solves for all nodes simultaneously instead of iteratively. Useful when instruments depend on each other or when iterative bootstrap fails to converge.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLogLinearDiscountGlobal
-```
-
-### PiecewiseLinearZeroGlobal
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLinearZeroGlobal
-```
-
-### PiecewiseBackwardFlatForwardGlobal
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseBackwardFlatForwardGlobal
 ```
 
 ```python
 curve = ql.PiecewiseLogLinearDiscountGlobal(
-    today, helpers, ql.Actual365Fixed(), accuracy=1e-12)
-
-# With instrument weights
-weights = [1.0] * len(helpers)
-curve = ql.PiecewiseLogLinearDiscountGlobal(
     today, helpers, ql.Actual365Fixed(),
-    accuracy=1e-12, instrumentWeights=weights)
-
-# Settlement days constructor
-curve = ql.PiecewiseLogLinearDiscountGlobal(
-    2, ql.TARGET(), helpers, ql.Actual365Fixed(), accuracy=1e-12)
+    accuracy=1e-12, instrumentWeights=[1.0] * len(helpers),
+)
 ```
-
-## MultiCurve
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MultiCurve
 ```
 
-Manages a set of yield curves that form a dependency cycle, bootstrapping
-them simultaneously. Curves added with `addBootstrappedCurve` are solved
-together; curves added with `addNonBootstrappedCurve` are relinked but not
-bootstrapped (e.g. spreaded curves derived from bootstrapped ones).
+Manages a set of curves that form a dependency cycle, bootstrapping them simultaneously.
 
 ```python
-accuracy = 1e-10
-
-# Internal relinkable handles for the dependency cycle
 int_3m = ql.RelinkableYieldTermStructureHandle()
 int_6m = ql.RelinkableYieldTermStructureHandle()
 
-euribor3m = ql.Euribor3M(int_3m)
-euribor6m = ql.Euribor6M(int_6m)
+curve_3m = ql.PiecewiseLogLinearDiscountGlobal(today, helpers_3m, dc, accuracy=1e-10)
+curve_6m = ql.PiecewiseLogLinearDiscountGlobal(today, helpers_6m, dc, accuracy=1e-10)
 
-# Build helpers referencing each other's curves
-helpers_3m = [ql.FraRateHelper(q, i, euribor3m) for i in range(1, 10)]
-helpers_6m = [ql.SwapRateHelper(q, ql.Period(i, ql.Years), ...)
-              for i in range(2, 11)]
-
-# Create GlobalBootstrap curves
-curve_3m = ql.PiecewiseLogLinearDiscountGlobal(
-    today, helpers_3m, ql.Actual360(), accuracy=accuracy)
-curve_6m = ql.PiecewiseLogLinearDiscountGlobal(
-    today, helpers_6m, ql.Actual360(), accuracy=accuracy)
-
-# Solve the cycle
-mc = ql.MultiCurve(accuracy)
-ext_3m = mc.addBootstrappedCurve(int_3m, curve_3m)
-ext_6m = mc.addBootstrappedCurve(int_6m, curve_6m)
-
-# Use external handles for pricing
-print(ext_3m.currentLink().discount(1.0))
+mc      = ql.MultiCurve(accuracy=1e-10)
+ext_3m  = mc.addBootstrappedCurve(int_3m, curve_3m)
+ext_6m  = mc.addBootstrappedCurve(int_6m, curve_6m)
 ```
 
-## Fitted Bond Discount Curves
-
-### FittedBondDiscountCurve
+### Fitted bond discount curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FittedBondDiscountCurve
 ```
 
-Discount curve fitted to a set of bond prices using a parametric fitting method.
-
 ```python
-curve = ql.FittedBondDiscountCurve(
-    today, bond_helpers, dc,
-    ql.NelsonSiegelFitting()
-)
-curve.discount(1.0)
+curve = ql.FittedBondDiscountCurve(today, helpers, dc, ql.NelsonSiegelFitting())
 ```
 
-### Fitting Methods
-
-#### NelsonSiegelFitting
+#### Fitting methods
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NelsonSiegelFitting
-```
-
-#### SvenssonFitting
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SvenssonFitting
-```
-
-#### ExponentialSplinesFitting
-
-```{eval-rst}
 .. autoclass:: pyquantlib.ExponentialSplinesFitting
-```
-
-#### CubicBSplinesFitting
-
-```{eval-rst}
 .. autoclass:: pyquantlib.CubicBSplinesFitting
-```
-
-#### SimplePolynomialFitting
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SimplePolynomialFitting
-```
-
-#### SpreadFittingMethod
-
-```{eval-rst}
 .. autoclass:: pyquantlib.SpreadFittingMethod
 ```
 
 ```python
-# Fit with Nelson-Siegel
-ns = ql.NelsonSiegelFitting()
-curve = ql.FittedBondDiscountCurve(today, helpers, dc, ns)
-
-# Fit with Svensson
-sv = ql.SvenssonFitting()
-curve = ql.FittedBondDiscountCurve(today, helpers, dc, sv)
-
-# Spread fitting over a reference curve
 spread = ql.SpreadFittingMethod(ql.NelsonSiegelFitting(), reference_curve)
-curve = ql.FittedBondDiscountCurve(today, helpers, dc, spread)
+curve  = ql.FittedBondDiscountCurve(today, helpers, dc, spread)
 ```
 
-## Volatility Term Structures
+## Volatility reference
 
-### BlackConstantVol
+### Black volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackConstantVol
@@ -501,125 +369,104 @@ curve = ql.FittedBondDiscountCurve(today, helpers, dc, spread)
 ```python
 const_vol = ql.BlackConstantVol(today, ql.TARGET(), 0.20, dc)
 
-# Using a quote (hidden handle)
 vol = ql.SimpleQuote(0.20)
 const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 ```
-
-### BlackVarianceSurface
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackVarianceSurface
 ```
 
-### BlackVolTermStructureHandle
+```{eval-rst}
+.. autoclass:: pyquantlib.HestonBlackVolSurface
+```
+
+```python
+model       = ql.HestonModel(heston_process)
+vol_surface = ql.HestonBlackVolSurface(model)
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackVolatilitySurfaceDelta
+```
+
+An FX Black volatility surface parameterized by market deltas (25-delta put, ATM, 25-delta call, etc.) and maturities. Input quotes are {py:class}`pyquantlib.DeltaVolQuote` objects. Smile interpolation method and time-extrapolation strategy are configurable.
+
+```python
+maturities = [1.0, 2.0]
+atm_quotes = [ql.DeltaVolQuote(ql.QuoteHandle(ql.SimpleQuote(0.10)),
+                                ql.DeltaVolQuote.Spot, t,
+                                ql.DeltaVolQuote.AtmDeltaNeutral)
+              for t in maturities]
+put_quotes  = [ql.DeltaVolQuote(-0.25, ql.QuoteHandle(ql.SimpleQuote(0.11)),
+                                 t, ql.DeltaVolQuote.Spot)
+               for t in maturities]
+call_quotes = [ql.DeltaVolQuote(0.25, ql.QuoteHandle(ql.SimpleQuote(0.115)),
+                                 t, ql.DeltaVolQuote.Spot)
+               for t in maturities]
+
+surface = ql.BlackVolatilitySurfaceDelta(
+    today, maturities,
+    putDeltas=[-0.25], callDeltas=[0.25],
+    hasAtm=True,
+    putVols=put_quotes, atmVols=atm_quotes, callVols=call_quotes,
+    dc=ql.Actual365Fixed(), cal=ql.TARGET(),
+    interpolationMethod=ql.BlackVolatilitySurfaceDelta.NaturalCubic,
+    flatExtrapolation=True,
+)
+print(surface.blackVol(1.0, 1.08))
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BlackVolTimeExtrapolation
+```
+
+Time-extrapolation strategy used by `BlackVolatilitySurfaceDelta` beyond the last pillar: `FlatVolatility`, `UseInterpolator`, or `LinearVariance`.
+
+#### Black vol handles
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BlackVolTermStructureHandle
-```
-
-### RelinkableBlackVolTermStructureHandle
-
-```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableBlackVolTermStructureHandle
 ```
 
-### FlatSmileSection
+### Smile sections
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FlatSmileSection
 ```
 
-Flat (constant) smile section for volatility modeling.
-
 ```python
-# From exercise time
 fs = ql.FlatSmileSection(1.0, 0.2)
-
-# From exercise date
 fs = ql.FlatSmileSection(ql.Date(15, 6, 2026), 0.2)
-
-# Normal volatility
 fs = ql.FlatSmileSection(1.0, 0.005, type=ql.VolatilityType.Normal)
 ```
-
-### HestonBlackVolSurface
-
-```{eval-rst}
-.. autoclass:: pyquantlib.HestonBlackVolSurface
-```
-
-Black volatility surface implied by a Heston model.
-
-```python
-model = ql.HestonModel(heston_process)
-vol_surface = ql.HestonBlackVolSurface(model)
-```
-
-## Swaption Volatility Spread
-
-### SpreadedSwaptionVolatility
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SpreadedSwaptionVolatility
-```
-
-Swaption volatility surface with an additive spread over a base surface.
-
-```python
-spread = ql.SimpleQuote(0.005)
-spreaded_vol = ql.SpreadedSwaptionVolatility(base_vol_handle, spread)
-```
-
-## SABR Volatility
-
-### SabrSmileSection
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SabrSmileSection
 ```
 
-Parametric SABR smile section defined by alpha, beta, nu, rho.
-
 ```python
-params = [0.05, 0.5, 0.4, -0.1]  # alpha, beta, nu, rho
-forward = 0.03
-
-# From exercise time
-section = ql.SabrSmileSection(1.0, forward, params)
-vol = section.volatility(0.03)
-
-# From expiry date
-section = ql.SabrSmileSection(ql.Date(15, 7, 2025), forward, params)
+section = ql.SabrSmileSection(1.0, 0.03, [0.05, 0.5, 0.4, -0.1])
+section = ql.SabrSmileSection(ql.Date(15, 7, 2025), 0.03, params)
 ```
-
-### SabrInterpolatedSmileSection
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SabrInterpolatedSmileSection
 ```
 
-Smile section that calibrates SABR parameters to market strikes and volatilities.
-
 ```python
-option_date = ql.Date(15, 7, 2025)
-forward = 0.03
-strikes = [0.01, 0.02, 0.025, 0.03, 0.035, 0.04, 0.05]
-vols = [0.30, 0.22, 0.19, 0.18, 0.185, 0.20, 0.25]
-
 section = ql.SabrInterpolatedSmileSection(
-    option_date, forward, strikes,
+    option_date, 0.03, strikes,
     hasFloatingStrikes=False,
-    atmVolatility=0.18,
-    vols=vols,
+    atmVolatility=0.18, vols=vols,
     alpha=0.05, beta=0.5, nu=0.4, rho=-0.1,
     isBetaFixed=True,
 )
 section.recalculate()
-print(section.alpha(), section.rmsError())
 ```
 
-### SABR Free Functions
+#### SABR free functions
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.sabrVolatility
@@ -627,21 +474,13 @@ print(section.alpha(), section.rmsError())
 .. autofunction:: pyquantlib.validateSabrParameters
 ```
 
-```python
-vol = ql.sabrVolatility(strike, forward, T, alpha, beta, nu, rho)
-vol_shifted = ql.shiftedSabrVolatility(strike, forward, T, alpha, beta, nu, rho, shift)
-ql.validateSabrParameters(alpha, beta, nu, rho)
-```
-
-## No-Arbitrage SABR
-
-### NoArbSabrModel
+### No-arbitrage SABR
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoArbSabrModel
 ```
 
-No-arbitrage SABR model (Doust, 2012). Provides arbitrage-free option prices, digital prices, and probability density.
+Doust (2012) no-arbitrage SABR. Provides arbitrage-free option prices, digital prices, and density.
 
 ```python
 model = ql.NoArbSabrModel(1.0, 0.05, 0.05, 0.5, 0.2, -0.3)
@@ -650,107 +489,50 @@ print(model.density(0.05))
 print(model.absorptionProbability())
 ```
 
-### NoArbSabrSmileSection
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoArbSabrSmileSection
-```
-
-```python
-ss = ql.NoArbSabrSmileSection(1.0, 0.05, [0.05, 0.5, 0.2, -0.3])
-vol = ss.volatility(0.05)
-sabr_model = ss.model()
-```
-
-### NoArbSabrInterpolatedSmileSection
-
-```{eval-rst}
 .. autoclass:: pyquantlib.NoArbSabrInterpolatedSmileSection
 ```
 
-```python
-section = ql.NoArbSabrInterpolatedSmileSection(
-    expiry_date, 0.05, strikes, False, 0.22, vols,
-    0.05, 0.5, 0.2, -0.3)
-print(section.alpha(), section.rmsError())
-```
-
-## Kahale Arbitrage-Free Smile
-
-### KahaleSmileSection
+### Kahale arbitrage-free smile
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.KahaleSmileSection
 ```
 
-Arbitrage-free smile section using Kahale's C^1 interpolation and extrapolation method.
-
 ```python
 source = ql.SabrSmileSection(1.0, 0.05, [0.3, 0.5, 0.4, -0.3])
 kahale = ql.KahaleSmileSection(source)
 kahale = ql.KahaleSmileSection(source, interpolate=True,
-                                exponentialExtrapolation=True)
-print(kahale.leftCoreStrike(), kahale.rightCoreStrike())
+                                 exponentialExtrapolation=True)
 ```
 
-## Andreasen-Huge Volatility
-
-### AndreasenHugeVolatilityInterpl
+### Andreasen-Huge volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AndreasenHugeVolatilityInterpl
 ```
 
-Calibrates a local volatility surface to a sparse grid of vanilla options using the Andreasen-Huge method.
+Calibrates a local volatility surface to a sparse grid of vanilla options.
 
 ```python
-# calibration_set: list of (VanillaOption, SimpleQuote) pairs
 ah = ql.AndreasenHugeVolatilityInterpl(
     calibration_set, spot, rTS, qTS,
     ql.AndreasenHugeInterpolationType.CubicSpline,
-    ql.AndreasenHugeCalibrationType.Call)
-
+    ql.AndreasenHugeCalibrationType.Call,
+)
 min_err, max_err, avg_err = ah.calibrationError()
-lv = ah.localVol(0.5, 100.0)
 ```
-
-### AndreasenHugeVolatilityAdapter
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AndreasenHugeVolatilityAdapter
-```
-
-Black volatility term structure adapter for Andreasen-Huge interpolation.
-
-```python
-adapter = ql.AndreasenHugeVolatilityAdapter(ah)
-vol = adapter.blackVol(0.5, 100.0)
-```
-
-### AndreasenHugeLocalVolAdapter
-
-```{eval-rst}
 .. autoclass:: pyquantlib.AndreasenHugeLocalVolAdapter
 ```
 
-Local volatility term structure adapter for Andreasen-Huge interpolation.
-
-```python
-adapter = ql.AndreasenHugeLocalVolAdapter(ah)
-lv = adapter.localVol(0.5, 100.0)
-```
-
-## Local Volatility
-
-### LocalConstantVol
+### Local volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.LocalConstantVol
-```
-
-### LocalVolSurface
-
-```{eval-rst}
 .. autoclass:: pyquantlib.LocalVolSurface
 ```
 
@@ -759,253 +541,116 @@ local_surface = ql.LocalVolSurface(black_vol, risk_free, dividend, 100.0)
 print(local_surface.localVol(1.0, 100.0))
 ```
 
-### FixedLocalVolSurface
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.FixedLocalVolSurface
 ```
-
-```python
-import numpy as np
-
-dates = [ref_date + ql.Period(i, ql.Months) for i in [1, 3, 6]]
-strikes = [90.0, 100.0, 110.0]
-vol_matrix = ql.Matrix(np.array([[0.22, 0.21, 0.20], ...]))
-
-surface = ql.FixedLocalVolSurface(ref_date, dates, strikes, vol_matrix, dc)
-```
-
-### NoExceptLocalVolSurface
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.NoExceptLocalVolSurface
 ```
 
-### LocalVolTermStructureHandle
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.LocalVolTermStructureHandle
-```
-
-### RelinkableLocalVolTermStructureHandle
-
-```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableLocalVolTermStructureHandle
 ```
 
-## Swaption Volatility Term Structures
-
-### ConstantSwaptionVolatility
+### Swaption volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConstantSwaptionVolatility
+.. autoclass:: pyquantlib.SwaptionVolatilityMatrix
+.. autoclass:: pyquantlib.SwaptionVolatilityCube
+.. autoclass:: pyquantlib.SabrSwaptionVolatilityCube
+.. autoclass:: pyquantlib.SpreadedSwaptionVolatility
 ```
 
 ```python
-const_vol = ql.ConstantSwaptionVolatility(
-    0, ql.TARGET(), ql.Following, 0.20, ql.Actual365Fixed()
-)
+spread       = ql.SimpleQuote(0.005)
+spreaded_vol = ql.SpreadedSwaptionVolatility(base_vol_handle, spread)
 ```
-
-### SwaptionVolatilityMatrix
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SwaptionVolatilityMatrix
-```
-
-### SwaptionVolatilityCube
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SwaptionVolatilityCube
-```
-
-### SabrSwaptionVolatilityCube
-
-```{eval-rst}
-.. autoclass:: pyquantlib.SabrSwaptionVolatilityCube
-```
-
-### SwaptionVolatilityStructureHandle
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SwaptionVolatilityStructureHandle
-```
-
-### RelinkableSwaptionVolatilityStructureHandle
-
-```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableSwaptionVolatilityStructureHandle
 ```
 
-## Optionlet Volatility Term Structures
-
-### ConstantOptionletVolatility
+### Optionlet volatility
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ConstantOptionletVolatility
 ```
 
-```python
-const_vol = ql.ConstantOptionletVolatility(
-    0, ql.TARGET(), ql.Following, 0.20, ql.Actual365Fixed()
-)
-```
-
-### OptionletVolatilityStructureHandle
-
-```{eval-rst}
-.. autoclass:: pyquantlib.OptionletVolatilityStructureHandle
-```
-
-### RelinkableOptionletVolatilityStructureHandle
-
-```{eval-rst}
-.. autoclass:: pyquantlib.RelinkableOptionletVolatilityStructureHandle
-```
-
-## YoY Inflation Optionlet Volatility
-
-### YoYOptionletVolatilitySurface
-
-```{eval-rst}
-.. autoclass:: pyquantlib.base.YoYOptionletVolatilitySurface
-   :members:
-   :undoc-members:
-```
-
-Abstract base class for year-on-year inflation optionlet volatility surfaces.
-
-### ConstantYoYOptionletVolatility
-
-```{eval-rst}
-.. autoclass:: pyquantlib.ConstantYoYOptionletVolatility
-   :members:
-   :undoc-members:
-```
-
-Constant year-on-year inflation optionlet volatility.
-
-```python
-yoy_vol = ql.ConstantYoYOptionletVolatility(
-    0.10, 0, ql.TARGET(), ql.ModifiedFollowing, ql.Actual365Fixed(),
-    ql.Period(3, ql.Months), ql.Monthly,
-)
-```
-
-### YoYOptionletVolatilitySurfaceHandle
-
-```{eval-rst}
-.. autoclass:: pyquantlib.YoYOptionletVolatilitySurfaceHandle
-   :members:
-   :undoc-members:
-```
-
-### RelinkableYoYOptionletVolatilitySurfaceHandle
-
-```{eval-rst}
-.. autoclass:: pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle
-   :members:
-   :undoc-members:
-```
-
-## Cap/Floor Term Volatility
-
-### CapFloorTermVolSurface
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.CapFloorTermVolSurface
 ```
-
-Cap/floor smile volatility surface interpolating market term volatilities.
-
-```python
-option_tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("5Y")]
-strikes = [0.01, 0.02, 0.03, 0.04, 0.05]
-vols = ql.Matrix(3, 5)  # populate with market volatilities
-
-surface = ql.CapFloorTermVolSurface(
-    2, ql.TARGET(), ql.ModifiedFollowing,
-    option_tenors, strikes, vols, ql.Actual365Fixed()
-)
-print(surface.volatility(ql.Period("1Y"), 0.03))
-```
-
-## Optionlet Stripping
-
-### OptionletStripper1
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.OptionletStripper1
 ```
 
-Strips optionlet (caplet/floorlet) volatilities from a cap/floor term volatility surface.
-
 ```python
-# Build cap/floor vol surface (see above)
-index = ql.Euribor(ql.Period("6M"), ts_handle)
-stripper = ql.OptionletStripper1(surface, index, discount=ts_handle)
-
-# Access stripped optionlet data
-n = stripper.optionletMaturities()
+stripper = ql.OptionletStripper1(surface, euribor6m, discount=ts_handle)
+n        = stripper.optionletMaturities()
 for i in range(n):
-    print(stripper.optionletStrikes(i))
-    print(stripper.optionletVolatilities(i))
+    print(stripper.optionletStrikes(i), stripper.optionletVolatilities(i))
 ```
-
-### StrippedOptionletAdapter
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.StrippedOptionletAdapter
 ```
 
-Adapts stripped optionlet data into an `OptionletVolatilityStructure` for use with pricing engines.
-
-```python
-adapter = ql.StrippedOptionletAdapter(stripper)
-handle = ql.OptionletVolatilityStructureHandle(adapter)
-vol = adapter.volatility(ql.Period("1Y"), 0.03)
+```{eval-rst}
+.. autoclass:: pyquantlib.OptionletVolatilityStructureHandle
+.. autoclass:: pyquantlib.RelinkableOptionletVolatilityStructureHandle
 ```
 
-## Credit Term Structures
+### YoY inflation optionlet
 
-### DefaultProbabilityTermStructureHandle
+```{eval-rst}
+.. autoclass:: pyquantlib.base.YoYOptionletVolatilitySurface
+   :members:
+   :undoc-members:
+.. autoclass:: pyquantlib.ConstantYoYOptionletVolatility
+   :members:
+   :undoc-members:
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.YoYOptionletVolatilitySurfaceHandle
+   :members:
+   :undoc-members:
+.. autoclass:: pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle
+   :members:
+   :undoc-members:
+```
+
+## Credit reference
+
+### Default-probability handles
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.DefaultProbabilityTermStructureHandle
-```
-
-### RelinkableDefaultProbabilityTermStructureHandle
-
-```{eval-rst}
 .. autoclass:: pyquantlib.RelinkableDefaultProbabilityTermStructureHandle
 ```
 
-### FlatHazardRate
+### Flat hazard rate
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FlatHazardRate
 ```
 
-Flat hazard rate default probability term structure.
-
 ```python
-today = ql.Date(15, 1, 2025)
-dc = ql.Actual365Fixed()
 default_curve = ql.FlatHazardRate(today, 0.01, dc)
-print(default_curve.survivalProbability(1.0))  # ~0.99
-print(default_curve.defaultProbability(1.0))   # ~0.01
-print(default_curve.hazardRate(1.0))           # 0.01
+print(default_curve.survivalProbability(1.0))
+print(default_curve.defaultProbability(1.0))
+print(default_curve.hazardRate(1.0))
 ```
 
-### Default Probability Helpers
-
-#### SpreadCdsHelper
+### Default-probability helpers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.SpreadCdsHelper
 ```
-
-Bootstrap helper for spread-quoted CDS.
 
 ```python
 helper = ql.SpreadCdsHelper(
@@ -1015,87 +660,32 @@ helper = ql.SpreadCdsHelper(
 )
 ```
 
-#### UpfrontCdsHelper
-
 ```{eval-rst}
 .. autoclass:: pyquantlib.UpfrontCdsHelper
 ```
 
-Bootstrap helper for upfront-quoted CDS.
-
-```python
-helper = ql.UpfrontCdsHelper(
-    0.02, 0.01, ql.Period(5, ql.Years), 1, ql.TARGET(),
-    ql.Quarterly, ql.Following, ql.DateGeneration.TwentiethIMM,
-    ql.Actual360(), 0.4, discount_curve,
-)
-```
-
-### Piecewise Default Curves
-
-#### PiecewiseLogLinearSurvival
+### Piecewise default curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseLogLinearSurvival
-```
-
-#### PiecewiseFlatHazardRate
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseFlatHazardRate
-```
-
-#### PiecewiseBackwardFlatHazard
-
-```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseBackwardFlatHazard
 ```
 
-Bootstrap a default probability curve from CDS helpers.
+## Inflation reference
 
-```python
-helpers = [
-    ql.SpreadCdsHelper(spread, tenor, 1, ql.TARGET(),
-                       ql.Quarterly, ql.Following,
-                       ql.DateGeneration.TwentiethIMM,
-                       ql.Actual360(), 0.4, discount_curve)
-    for spread, tenor in zip(spreads, tenors)
-]
-curve = ql.PiecewiseLogLinearSurvival(today, helpers, ql.Actual365Fixed())
-print(curve.survivalProbability(1.0))
-print(curve.nodes())
-```
-
-## Inflation Term Structures
-
-### InflationTermStructure
+### Inflation term-structure bases
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.base.InflationTermStructure
    :members:
-```
-
-Base class for all inflation term structures. Provides `frequency()`, `baseRate()`, `baseDate()`, and `hasSeasonality()`.
-
-### ZeroInflationTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.base.ZeroInflationTermStructure
    :members:
-```
-
-Additional method: `zeroRate(date, observationLag, forceLinearInterpolation=False, extrapolate=False)`.
-
-### YoYInflationTermStructure
-
-```{eval-rst}
 .. autoclass:: pyquantlib.base.YoYInflationTermStructure
    :members:
 ```
 
-Additional method: `yoyRate(date, observationLag, forceLinearInterpolation=False, extrapolate=False)`.
-
-### Inflation Handles
+### Inflation handles
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroInflationTermStructureHandle
@@ -1104,17 +694,14 @@ Additional method: `yoyRate(date, observationLag, forceLinearInterpolation=False
 .. autoclass:: pyquantlib.RelinkableYoYInflationTermStructureHandle
 ```
 
-### inflationPeriod
+### `inflationPeriod`
 
 ```{eval-rst}
 .. autofunction:: pyquantlib.inflationPeriod
 ```
 
-Returns the (start, end) date pair for the inflation period containing the given date.
-
 ```python
 start, end = ql.inflationPeriod(ql.Date(15, ql.March, 2024), ql.Monthly)
-# start = Date(1, March, 2024), end = Date(31, March, 2024)
 ```
 
 ### Seasonality
@@ -1131,12 +718,12 @@ start, end = ql.inflationPeriod(ql.Date(15, ql.March, 2024), ql.Monthly)
 ```python
 factors = [1.0, 1.01, 1.02, 0.99, 0.98, 1.0, 1.01, 1.03, 0.97, 0.98, 1.0, 1.01]
 seasonality = ql.MultiplicativePriceSeasonality(
-    ql.Date(1, ql.January, 2024), ql.Monthly, factors
+    ql.Date(1, ql.January, 2024), ql.Monthly, factors,
 )
 curve.setSeasonality(seasonality)
 ```
 
-### Inflation Bootstrap Helpers
+### Inflation bootstrap helpers
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.base.ZeroInflationHelper
@@ -1151,14 +738,13 @@ curve.setSeasonality(seasonality)
 
 ```python
 helper = ql.ZeroCouponInflationSwapHelper(
-    0.025,                          # quoted rate
-    ql.Period(3, ql.Months),        # observation lag
+    0.025, ql.Period(3, ql.Months),
     maturity_date, calendar, ql.ModifiedFollowing,
     day_counter, cpi_index, ql.CPI.Flat,
 )
 ```
 
-### Interpolated Inflation Curves
+### Interpolated inflation curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.ZeroInflationCurve
@@ -1167,13 +753,7 @@ helper = ql.ZeroCouponInflationSwapHelper(
    :members:
 ```
 
-```python
-curve = ql.ZeroInflationCurve(
-    reference_date, dates, rates, ql.Monthly, day_counter
-)
-```
-
-### Piecewise Inflation Curves
+### Piecewise inflation curves
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.PiecewiseZeroInflationCurve
@@ -1184,10 +764,15 @@ curve = ql.ZeroInflationCurve(
 
 ```python
 curve = ql.PiecewiseZeroInflationCurve(
-    reference_date, base_date, ql.Monthly, day_counter, helpers
+    reference_date, base_date, ql.Monthly, day_counter, helpers,
 )
 ```
 
-```{note}
-Abstract base classes `YieldTermStructure`, `BlackVolTermStructure`, `LocalVolTermStructure`, `SmileSection`, `DefaultProbabilityTermStructure`, `RateHelper`, `RelativeDateRateHelper`, `FittingMethod`, `SwaptionVolatilityStructure`, `SwaptionVolatilityDiscrete`, `OptionletVolatilityStructure`, `CapFloorTermVolatilityStructure`, `StrippedOptionletBase`, `OptionletStripper`, `InflationTermStructure`, `ZeroInflationTermStructure`, `YoYInflationTermStructure`, `Seasonality`, `ZeroInflationHelper`, `YoYInflationHelper`, and `YoYOptionletVolatilitySurface` are available in `pyquantlib.base`.
-```
+## See also
+
+- {doc}`/concepts/term-structures`: how curves and surfaces wire into processes and engines
+- {doc}`/concepts/quotes-and-observables`: hidden vs relinkable handles, observer cascade
+- {doc}`indexes`: indices that consume forwarding curves
+- {doc}`/cookbook/bootstrap-yield-curve`: deposit + swap bootstrap end to end
+- {doc}`/cookbook/piecewise-mixed-helpers`: deposits + FRAs + swaps in one curve
+- {doc}`/cookbook/vol-surface`: building a `BlackVarianceSurface` from a quote grid

@@ -4,40 +4,13 @@ High-level overview of PyQuantLib's design: the problems it solves, the patterns
 
 ```{seealso}
 - {doc}`internals` for implementation details: BindingManager API, module patterns, trampoline code
-- {doc}`design/index` for deep-dive stories on specific binding challenges
 - {doc}`extending` for the Python subclassing guide
 - {doc}`building` for build setup
 ```
 
 ## The Binding Challenge
 
-Binding a C++ library to Python is usually mechanical: wrap a class, expose its methods, move on. QuantLib makes this harder than most libraries. Its C++ design relies on idioms that clash with Python's memory model and runtime semantics.
-
-The tensions that shaped PyQuantLib's architecture:
-
-**Object lifetimes.** QuantLib's interpolation classes store iterators to external data, assuming the data outlives the interpolation. Python users pass temporary lists that die immediately. The binding layer must keep data alive without changing QuantLib's API. See {doc}`design/interpolation`.
-
-**Singleton identity.** QuantLib's `Settings` singleton uses a C++ static local variable. When QuantLib is built as a shared library, dynamic linking can create duplicate singletons: Python writes the evaluation date to one, QuantLib reads from the other. The assignment succeeds, the getter returns the correct value, but all calculations use the wrong date. See {doc}`design/settings-singleton`.
-
-**Virtual dispatch across languages.** Python subclasses can override QuantLib virtual methods via pybind11 trampolines. But accessing C++ objects from Python during these callbacks creates temporary wrappers that dangle after the expression ends. The trampoline design must enforce clean separation between C++ object management and Python computation. See {doc}`design/python-subclassing`.
-
-**Handle indirection.** QuantLib uses `Handle<T>` extensively for lazy evaluation and relinking. This pattern is natural in C++ but adds friction in Python, where users expect to pass objects directly. See {doc}`design/hidden-handles`.
-
-**Import-time traps.** QuantLib's bridge-pattern classes (`DayCounter`, `Calendar`) have default constructors that create invalid objects. Using these as pybind11 default arguments crashes at import time, before any user code runs. See {doc}`design/bridge-defaults`.
-
-**Protected member access.** Python subclasses that override QuantLib virtual methods sometimes need access to C++ protected members. pybind11 lambdas cannot reach protected fields, and friend declarations require modifying QuantLib headers. A helper struct that inherits from the base class exploits C++ inheritance rules to expose the member without changing upstream code. See {doc}`design/protected-members`.
-
-**Enum mutation.** pybind11 represents enum values as singletons. Passing them by reference to C++ functions that modify the reference corrupts the singleton for the entire Python session. See {doc}`design/enum-singletons`.
-
-**Cross-file type resolution.** pybind11's compile-time type resolution breaks when a method returns `shared_ptr<T>` for a type registered in a different source file. The solution requires deferring type conversion from compile time to runtime. See {doc}`design/cross-tu-holders`.
-
-**Diamond inheritance.** QuantLib classes occasionally inherit from two base classes that share a common virtual ancestor, forming a diamond. pybind11's classic holder system computes pointer offsets at compile time using `static_cast`, which cannot resolve the ambiguous paths through virtual bases. The solution requires migrating the entire inheritance chain to pybind11 3.0's `smart_holder` system. See {doc}`design/diamond-inheritance`.
-
-**Builder pattern translation.** QuantLib's `Make*` builders use C++ method chaining and implicit conversion operators to construct complex objects. Python has no implicit conversion operators, and method chaining with `with*` prefixes is not idiomatic when keyword arguments exist. PyQuantLib replaces the builder pattern with keyword-argument functions that return the result directly. See {doc}`design/builder-pattern`.
-
-**Reference member lifetimes.** A few QuantLib classes store constructor arguments by reference rather than by value. In C++ the caller keeps the argument alive; in pybind11 the argument is a temporary that dies when the constructor returns, leaving a dangling reference inside the object. The binding must extend the argument's lifetime without modifying QuantLib. See {doc}`design/reference-members`.
-
-These are not hypothetical risks. Each one was discovered through debugging production failures. The {doc}`design notes <design/index>` document these investigations in full.
+Binding a C++ library to Python is usually mechanical: wrap a class, expose its methods, move on. QuantLib makes this harder. Its C++ design leans on idioms that clash with Python's memory model and runtime semantics: interpolators that hold iterators into caller-owned data, a `Settings` singleton sensitive to link mode, virtual methods overridden across the language boundary, pervasive `Handle<T>` indirection, and bridge-pattern types whose default constructors are invalid. Each shaped a specific decision in the layers below.
 
 ## API Design Principle
 
@@ -49,7 +22,7 @@ QuantLib's class names (`FixedRateBond`, `BlackScholesMertonProcess`), method na
 
 But not everything in QuantLib's API is a QuantLib concept. `Handle<T>` wrappers, builder method chaining, `Null<Rate>()` sentinels, and implicit conversion operators are C++ idioms -- solutions to problems Python does not have. PyQuantLib replaces each with its Python equivalent: plain objects instead of handles, keyword arguments instead of method chaining, `None` instead of null sentinels.
 
-The litmus test: *Is this a QuantLib concept, or a C++ concept?* If it is QuantLib, preserve it. If it is C++, find the Python equivalent. See {doc}`design/api-design` for the full story.
+The litmus test: *Is this a QuantLib concept, or a C++ concept?* If it is QuantLib, preserve it. If it is C++, find the Python equivalent.
 
 ## Layered Design
 
@@ -188,7 +161,7 @@ PyQuantLib provides both APIs via constructor overloads. When a user passes a ra
 
 The trade-off is that hidden handles do not support relinking. Users who need to swap the underlying object at runtime use explicit `RelinkableHandle` constructors.
 
-See {doc}`handles` for the user guide and {doc}`design/hidden-handles` for implementation details.
+See {doc}`handles` for the user guide.
 
 ### Implicit Conversion
 
@@ -220,7 +193,7 @@ PyQuantLib binds a curated subset of QuantLib. Initial versions focused on the m
 
 ### Why pybind11?
 
-The existing Python bindings for QuantLib use SWIG (QuantLib-SWIG) and Cython (PyQL). Both introduce an additional language beyond C++ and Python: SWIG's interface definition files or Cython's hybrid syntax. This increases cognitive load when navigating binding code or keeping wrappers synchronized with upstream QuantLib changes.
+The official QuantLib-SWIG bindings generate wrappers from SWIG interface definition files; PyQL uses Cython. Both are proven approaches, but each involves an additional language beyond C++ and Python.
 
 pybind11 bindings are written in standard C++. The wrapper code directly references QuantLib headers and classes, with no intermediate DSL, code generation step, or third language to learn. A developer who knows C++ and Python can read and modify bindings immediately.
 
@@ -235,8 +208,6 @@ Additional factors:
 QuantLib's `Settings` singleton uses a C++ static local variable. When QuantLib is built as a shared library and loaded into a Python extension module, dynamic linking can create duplicate singleton instances. The Python binding writes the evaluation date to one instance; QuantLib's pricing code reads from another. The assignment succeeds, the getter returns the correct value, but all calculations use the wrong date.
 
 Static linking embeds QuantLib directly into the Python extension module, guaranteeing a single singleton instance. This also simplifies deployment by eliminating dynamic library dependencies.
-
-See {doc}`design/settings-singleton` for the full investigation.
 
 ### Why a Base Submodule?
 
@@ -254,4 +225,4 @@ All trampoline classes are in `include/pyquantlib/trampolines.h`. This provides 
 
 Each QuantLib header maps to exactly one binding file. This convention makes it trivial to find the binding for any QuantLib class (replace `ql/` with `src/` and `.hpp` with `.cpp`). It also prevents binding files from growing into unmanageable monoliths and keeps compilation units small for faster incremental builds.
 
-The trade-off is that methods returning types from other files encounter pybind11's cross-translation-unit type resolution limitation. This is handled with a `py::cast()` pattern documented in {doc}`design/cross-tu-holders`.
+The trade-off is that methods returning types from other files encounter pybind11's cross-translation-unit type resolution limitation. This is handled with a `py::cast()` pattern.
