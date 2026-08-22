@@ -10,10 +10,13 @@
 
 name: Docs
 
-# Mirrors the Read the Docs build: the docs are built against the PyQuantLib
-# wheel from PyPI (pulled in by docs/requirements.txt), not a locally compiled
-# extension. Building from source here would hide autodoc problems that only
-# appear against the published wheel, which is what readers actually see.
+# Builds the docs against PyQuantLib compiled from this checkout, so autodoc
+# resolves bindings that are not in the published wheel yet. Read the Docs
+# builds against the PyPI wheel instead, which means types added since the last
+# release are missing from the live site until the next release ships.
+
+env:
+  QUANTLIB_VERSION: "1.42.1"
 
 on:
   workflow_dispatch:
@@ -22,12 +25,16 @@ on:
     paths:
       - "docs/**"
       - "examples/**"
+      - "src/**"
+      - "include/**"
       - ".readthedocs.yaml"
       - ".github/workflows/docs.yml"
   pull_request:
     paths:
       - "docs/**"
       - "examples/**"
+      - "src/**"
+      - "include/**"
       - ".readthedocs.yaml"
       - ".github/workflows/docs.yml"
 
@@ -44,14 +51,51 @@ jobs:
           python-version: "3.11"
           cache: 'pip'
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev cmake ninja-build
+
+      # Same key as the Linux build job, so this is normally a cache hit.
+      - name: Cache QuantLib
+        id: cache-quantlib
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/quantlib-install
+          key: quantlib-${{ env.QUANTLIB_VERSION }}-static-ubuntu-latest-v1
+          restore-keys: |
+            quantlib-${{ env.QUANTLIB_VERSION }}-static-ubuntu-latest-
+
+      - name: Build QuantLib from source
+        if: steps.cache-quantlib.outputs.cache-hit != 'true'
+        run: |
+          wget https://github.com/lballabio/QuantLib/releases/download/v${{ env.QUANTLIB_VERSION }}/QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+          tar xzf QuantLib-${{ env.QUANTLIB_VERSION }}.tar.gz
+          cd QuantLib-${{ env.QUANTLIB_VERSION }}
+          mkdir -p build && cd build
+          cmake .. -G Ninja             -DCMAKE_BUILD_TYPE=Release             -DCMAKE_INSTALL_PREFIX=/home/runner/quantlib-install             -DBUILD_SHARED_LIBS=OFF             -DCMAKE_POSITION_INDEPENDENT_CODE=ON             -DQL_USE_STD_SHARED_PTR=ON             -DQL_USE_STD_OPTIONAL=ON             -DQL_USE_STD_ANY=ON             -DQL_BUILD_EXAMPLES=OFF             -DQL_BUILD_TEST_SUITE=OFF             -DQL_BUILD_BENCHMARK=OFF
+          ninja
+          ninja install
+
       - name: Install documentation dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r docs/requirements.txt
 
+      # Replaces the PyPI wheel pulled in above. conf.py keeps the source tree
+      # on sys.path once a compiled extension is present there.
+      - name: Build PyQuantLib from this checkout
+        run: |
+          pip install -e . -v
+        env:
+          QuantLib_ROOT: /home/runner/quantlib-install
+          LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
+
       - name: Build HTML with warnings as errors
         run: |
           python -m sphinx -b html -W --keep-going docs docs/_build/html
+        env:
+          LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
 
       - name: Upload built docs
         uses: actions/upload-artifact@v4
