@@ -27,7 +27,8 @@ New-Item -ItemType Directory -Path build -Force | Out-Null
 Push-Location build
 
 Write-Host "Configuring QuantLib..."
-cmake .. -G "Visual Studio 17 2022" -A x64 `
+# No -G pin: CMake picks the runner's newest VS, matching scikit-build-core.
+cmake .. -A x64 `
     -DCMAKE_BUILD_TYPE=Release `
     -DCMAKE_INSTALL_PREFIX=C:/quantlib `
     -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL `
@@ -39,8 +40,12 @@ cmake .. -G "Visual Studio 17 2022" -A x64 `
     -DQL_BUILD_BENCHMARK=OFF `
     -DBoost_INCLUDE_DIR=C:/boost/include
 
+if ($LASTEXITCODE -ne 0) { throw "QuantLib CMake configure failed" }
+
 Write-Host "Building QuantLib..."
 cmake --build . --config Release --parallel
+
+if ($LASTEXITCODE -ne 0) { throw "QuantLib build failed" }
 
 Write-Host "Installing QuantLib..."
 cmake --install . --config Release
