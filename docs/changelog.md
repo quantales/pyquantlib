@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Upgraded QuantLib dependency from 1.41 to 1.42.1
+- Linux wheels are now built on `manylinux_2_28` rather than `manylinux2014`, which raises the minimum glibc to 2.28. Distributions older than RHEL 8 / Debian 10 / Ubuntu 18.10 need to build from source.
 
 ### Added
 

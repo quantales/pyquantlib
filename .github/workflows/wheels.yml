@@ -68,6 +68,11 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_BUILD_VERBOSITY: 1
 
+          # manylinux2014 is past EOL and current NumPy no longer publishes
+          # wheels for it, so the in-container test step fell back to building
+          # NumPy from source against a too-old GCC. AlmaLinux 8 based image.
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+
           # macOS: ARM only (macos-14)
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_ARCHS_LINUX: "x86_64"
