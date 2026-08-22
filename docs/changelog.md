@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-08-22
+
 ### Changed
 - Upgraded QuantLib dependency from 1.41 to 1.42.1
 
@@ -47,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Pricing Engines
 - `DiscountingFxForwardEngine` FX forward discounting engine (QuantLib 1.42)
-- `DiscountingPerpetualFuturesEngine` perpetual futures engine (Ackerer, Hugonnier, Jermann, 2024), with a `InterpolationType` enum for the funding-rate schedule
+- `DiscountingPerpetualFuturesEngine` perpetual futures engine (Ackerer, Hugonnier, Jermann, 2024), with an `InterpolationType` enum for the funding-rate schedule
 
 #### Term Structures -- Yield
 - `PiecewiseLogCubicDiscount` piecewise yield curve using monotonic log-cubic discount-factor interpolation
@@ -67,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `Quote` abstract base class had no bound constructor, so Python subclasses calling `super().__init__()` raised `TypeError: No constructor defined!`. This blocked custom quotes entirely, including the example in the extending guide.
+- `SmileSection` subclasses used a different holder from their base class, so passing one where a `SmileSection` was expected silently yielded a null pointer. All subclasses now use the same holder as the base.
 
 ### Documentation
 - Restructured the documentation site: separate Concepts, Cookbook, and Contributing & Internals sections in the table of contents
@@ -703,7 +706,8 @@ Initial release targeting QuantLib 1.40.
 - API is subject to change during beta period
 - `QdFpAmericanEngine` has a known issue on Windows (access violation during `calculate()`)
 
-[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/quantales/pyquantlib/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/quantales/pyquantlib/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/quantales/pyquantlib/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/quantales/pyquantlib/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/quantales/pyquantlib/compare/v0.5.0...v0.5.1
