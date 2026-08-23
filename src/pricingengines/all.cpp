@@ -266,6 +266,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "BinomialConvertibleEngine - binomial tree convertible bond pricing");
     ADD_MAIN_BINDING(ql_pricingengines::discountingswapengine,
         "DiscountingSwapEngine - Discounting engine for swaps");
+    ADD_MAIN_BINDING(ql_pricingengines::discountingconstnotionalcrosscurrencyswapengine,
+        "DiscountingConstNotionalCrossCurrencySwapEngine - cross-currency swap engine");
     ADD_MAIN_BINDING(ql_pricingengines::replicatingvarianceswapengine,
         "ReplicatingVarianceSwapEngine - variance swap replicating portfolio");
     ADD_MAIN_BINDING(ql_pricingengines::midpointcdsengine,

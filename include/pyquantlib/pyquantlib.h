@@ -426,6 +426,9 @@ namespace ql_instruments {
     void compositeinstrument(py::module_&);
     void forwardrateagreement(py::module_&);
     void fxforward(py::module_&);
+    void constnotionalcrosscurrencyswap(py::module_&);
+    void constnotionalcrosscurrencybasisswap(py::module_&);
+    void constnotionalcrosscurrencyfixedvsfloatingswap(py::module_&);
     void multipleresetsswap(py::module_&);
     void barriertype(py::module_&);
     void barrieroption(py::module_&);
@@ -530,6 +533,7 @@ namespace ql_pricingengines {
     void analyticamericanmargrabeengine(py::module_&);
     void forwardengine(py::module_&);
     void discountingfxforwardengine(py::module_&);
+    void discountingconstnotionalcrosscurrencyswapengine(py::module_&);
     void quantoengine(py::module_&);
     void blackcalculator(py::module_&);
     void bacheliercalculator(py::module_&);

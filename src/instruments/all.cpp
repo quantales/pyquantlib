@@ -70,6 +70,12 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "ForwardRateAgreement - FRA instrument");
     ADD_MAIN_BINDING(ql_instruments::fxforward,
         "FxForward - FX forward instrument");
+    ADD_MAIN_BINDING(ql_instruments::constnotionalcrosscurrencyswap,
+        "ConstNotionalCrossCurrencySwap - cross-currency swap base class");
+    ADD_MAIN_BINDING(ql_instruments::constnotionalcrosscurrencybasisswap,
+        "ConstNotionalCrossCurrencyBasisSwap - cross-currency basis swap");
+    ADD_MAIN_BINDING(ql_instruments::constnotionalcrosscurrencyfixedvsfloatingswap,
+        "ConstNotionalCrossCurrencyFixedVsFloatingSwap - cross-currency fixed vs floating swap");
     ADD_MAIN_BINDING(ql_instruments::multipleresetsswap,
         "MultipleResetsSwap - multiple-resets floating leg swap");
     ADD_MAIN_BINDING(ql_instruments::barriertype,

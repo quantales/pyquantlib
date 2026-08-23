@@ -4353,3 +4353,167 @@ def test_twoassetcorrelationoption_pricing():
     engine = ql.AnalyticTwoAssetCorrelationEngine(process1, process2, corr)
     option.setPricingEngine(engine)
     assert option.NPV() == pytest.approx(9.052216, rel=1e-4)
+
+
+# =============================================================================
+# Cross-currency swaps (constant notional)
+# =============================================================================
+
+
+@pytest.fixture
+def ccyswap_env():
+    today = ql.Date(15, ql.January, 2025)
+    ql.Settings.evaluationDate = today
+    dc = ql.Actual365Fixed()
+    eur_curve = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.025, dc))
+    usd_curve = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.045, dc))
+    spot_fx = ql.QuoteHandle(ql.SimpleQuote(1.05))  # USD per EUR
+
+    start = ql.TARGET().advance(today, ql.Period(2, ql.Days))
+    end = ql.TARGET().advance(start, ql.Period(2, ql.Years))
+    us = ql.UnitedStates(ql.UnitedStates.Settlement)
+    eur_sched = ql.Schedule(
+        start, end, ql.Period(3, ql.Months), ql.TARGET(),
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False,
+    )
+    usd_sched = ql.Schedule(
+        start, end, ql.Period(3, ql.Months), us,
+        ql.ModifiedFollowing, ql.ModifiedFollowing,
+        ql.DateGeneration.Forward, False,
+    )
+    return {
+        "eur_curve": eur_curve,
+        "usd_curve": usd_curve,
+        "spot_fx": spot_fx,
+        "eur_index": ql.Euribor3M(eur_curve),
+        "usd_index": ql.USDLibor(ql.Period(3, ql.Months), usd_curve),
+        "eur_sched": eur_sched,
+        "usd_sched": usd_sched,
+        "us_calendar": us,
+        "engine": ql.DiscountingConstNotionalCrossCurrencySwapEngine(
+            ql.USDCurrency(), usd_curve, ql.EURCurrency(), eur_curve, spot_fx,
+        ),
+    }
+
+
+def _basis_swap(env):
+    return ql.ConstNotionalCrossCurrencyBasisSwap(
+        10_000_000.0, ql.EURCurrency(), env["eur_sched"], env["eur_index"],
+        0.0010, 1.0,
+        10_500_000.0, ql.USDCurrency(), env["usd_sched"], env["usd_index"],
+        0.0, 1.0,
+    )
+
+
+def _fixed_vs_floating_swap(env):
+    return ql.ConstNotionalCrossCurrencyFixedVsFloatingSwap(
+        ql.SwapType.Payer,
+        10_000_000.0, ql.EURCurrency(), env["eur_sched"], 0.025,
+        ql.Thirty360(ql.Thirty360.BondBasis), ql.ModifiedFollowing, 0,
+        ql.TARGET(),
+        10_500_000.0, ql.USDCurrency(), env["usd_sched"], env["usd_index"],
+        0.0, ql.ModifiedFollowing, 0, env["us_calendar"],
+    )
+
+
+def test_constnotionalcrosscurrencybasisswap_pricing(ccyswap_env):
+    """Basis swap NPV is expressed in the engine's domestic currency (USD)."""
+    swap = _basis_swap(ccyswap_env)
+    swap.setPricingEngine(ccyswap_env["engine"])
+
+    assert swap.NPV() == pytest.approx(-20044.0693146647, rel=1e-4)
+    assert swap.fairPaySpread() == pytest.approx(3.2995903556e-05, rel=1e-4)
+    assert swap.fairRecSpread() == pytest.approx(0.0009876376141, rel=1e-4)
+
+
+def test_constnotionalcrosscurrencybasisswap_inspectors(ccyswap_env):
+    swap = _basis_swap(ccyswap_env)
+
+    assert swap.numberOfLegs() == 2
+    assert swap.payNominal() == pytest.approx(10_000_000.0)
+    assert swap.recNominal() == pytest.approx(10_500_000.0)
+    assert swap.payCurrency().code() == "EUR"
+    assert swap.recCurrency().code() == "USD"
+    assert swap.paySpread() == pytest.approx(0.0010)
+    assert swap.recSpread() == pytest.approx(0.0)
+    assert swap.payGearing() == pytest.approx(1.0)
+    assert swap.payIndex().familyName() == "Euribor"
+    assert swap.recIndex().familyName() == "USDLibor"
+    assert swap.legCurrency(0).code() == "EUR"
+    assert swap.legCurrency(1).code() == "USD"
+
+
+def test_constnotionalcrosscurrencybasisswap_in_currency_results(ccyswap_env):
+    """Per-leg results are reported in each leg's own currency."""
+    swap = _basis_swap(ccyswap_env)
+    swap.setPricingEngine(ccyswap_env["engine"])
+
+    assert swap.inCcyLegNPV(0) == pytest.approx(-19089.5898234937, rel=1e-4)
+    assert swap.inCcyLegNPV(1) == pytest.approx(0.0, abs=1e-6)
+    assert swap.npvDateDiscounts(0) == pytest.approx(1.0)
+
+
+def test_constnotionalcrosscurrencyfixedvsfloatingswap_pricing(ccyswap_env):
+    swap = _fixed_vs_floating_swap(ccyswap_env)
+    swap.setPricingEngine(ccyswap_env["engine"])
+
+    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)
+    assert swap.fairRate() == pytest.approx(0.0251098801550, rel=1e-6)
+    assert swap.fairSpread() == pytest.approx(-0.000110696212, rel=1e-4)
+
+
+def test_constnotionalcrosscurrencyfixedvsfloatingswap_inspectors(ccyswap_env):
+    swap = _fixed_vs_floating_swap(ccyswap_env)
+
+    assert swap.type() == ql.SwapType.Payer
+    assert swap.fixedNominal() == pytest.approx(10_000_000.0)
+    assert swap.fixedCurrency().code() == "EUR"
+    assert swap.fixedRate() == pytest.approx(0.025)
+    assert swap.fixedDayCount().name() == "30/360 (Bond Basis)"
+    assert swap.fixedPaymentLag() == 0
+    assert swap.floatNominal() == pytest.approx(10_500_000.0)
+    assert swap.floatCurrency().code() == "USD"
+    assert swap.floatSpread() == pytest.approx(0.0)
+    assert swap.floatIndex().familyName() == "USDLibor"
+    assert swap.floatAveragingMethod() == ql.RateAveraging.Type.Compound
+
+
+def test_constnotionalcrosscurrencyswap_from_legs(ccyswap_env):
+    """The base class prices any pair of legs tagged with their currencies."""
+    built = _fixed_vs_floating_swap(ccyswap_env)
+    swap = ql.ConstNotionalCrossCurrencySwap(
+        built.leg(0), ql.EURCurrency(), built.leg(1), ql.USDCurrency(),
+    )
+    swap.setPricingEngine(ccyswap_env["engine"])
+
+    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)
+    assert swap.inCcyLegBPS(0) == pytest.approx(-1947.2085642221, rel=1e-4)
+    assert swap.legCurrency(1).code() == "USD"
+
+
+def test_discountingconstnotionalcrosscurrencyswapengine_inspectors(ccyswap_env):
+    engine = ccyswap_env["engine"]
+
+    assert engine.domesticCurrency().code() == "USD"
+    assert engine.foreignCurrency().code() == "EUR"
+    assert engine.spotFX().currentLink().value() == pytest.approx(1.05)
+    assert engine.domesticCcyDiscountCurve().currentLink().referenceDate() == (
+        ql.Date(15, ql.January, 2025)
+    )
+
+
+def test_discountingconstnotionalcrosscurrencyswapengine_hidden_handles(ccyswap_env):
+    """The hidden-handle constructor prices identically to the handle one."""
+    env = ccyswap_env
+    dc = ql.Actual365Fixed()
+    today = ql.Date(15, ql.January, 2025)
+    engine = ql.DiscountingConstNotionalCrossCurrencySwapEngine(
+        ql.USDCurrency(), ql.FlatForward(today, 0.045, dc),
+        ql.EURCurrency(), ql.FlatForward(today, 0.025, dc),
+        ql.SimpleQuote(1.05),
+    )
+    swap = _fixed_vs_floating_swap(env)
+    swap.setPricingEngine(engine)
+
+    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)

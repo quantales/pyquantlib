@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Instruments -- Cross-currency swaps
+- `ConstNotionalCrossCurrencySwap` base class for swaps whose legs are denominated in different currencies, with per-leg `legCurrency`, `inCcyLegNPV`, `inCcyLegBPS`, and `npvDateDiscounts` inspectors
+- `ConstNotionalCrossCurrencyBasisSwap` floating-vs-floating cross-currency swap, with `fairPaySpread` and `fairRecSpread`
+- `ConstNotionalCrossCurrencyFixedVsFloatingSwap` fixed-vs-floating cross-currency swap, with `fairRate` and `fairSpread`
+- `DiscountingConstNotionalCrossCurrencySwapEngine` discounting engine for the family, taking a discount curve per currency plus a spot FX quote and reporting the NPV in the domestic currency
+
 ### Changed
 - Upgraded QuantLib dependency from 1.42.1 to 1.43. Minimum supported QuantLib is now 1.43.
 - `TwoAssetCorrelationOption` moved from `ql/experimental/` to `ql/instruments/` upstream. The Python API is unchanged.
