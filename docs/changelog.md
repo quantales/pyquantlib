@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Upgraded QuantLib dependency from 1.42.1 to 1.43. Minimum supported QuantLib is now 1.43.
+- `TwoAssetCorrelationOption` moved from `ql/experimental/` to `ql/instruments/` upstream. The Python API is unchanged.
+
+```{warning}
+QuantLib 1.43 corrects `DiscountingFxForwardEngine`: `FxForward.NPV()` is now discounted
+to the evaluation date rather than the settlement date, and `fairForwardRate()` returns
+the reciprocal of the 1.42.1 value. Results differ from earlier releases.
+```
+
 ## [0.8.0] - 2026-08-22
 
 ### Changed

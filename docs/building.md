@@ -100,15 +100,15 @@ See the version compatibility table in {doc}`installation` for which QuantLib ve
 ### Download
 
 ```bash
-# Download release (replace 1.42.1 with the version matching your PyQuantLib release)
-wget https://github.com/lballabio/QuantLib/releases/download/v1.42.1/QuantLib-1.42.1.tar.gz
-tar xzf QuantLib-1.42.1.tar.gz
-cd QuantLib-1.42.1
+# Download release (replace 1.43 with the version matching your PyQuantLib release)
+wget https://github.com/lballabio/QuantLib/releases/download/v1.43/QuantLib-1.43.tar.gz
+tar xzf QuantLib-1.43.tar.gz
+cd QuantLib-1.43
 
 # Or clone
 git clone https://github.com/lballabio/QuantLib.git
 cd QuantLib
-git checkout v1.42.1
+git checkout v1.43
 ```
 
 ### Windows
