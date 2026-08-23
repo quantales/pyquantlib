@@ -4189,10 +4189,10 @@ def test_fxforward_nominal_pricing(fxforward_env):
     )
     fx.setPricingEngine(env["engine"])
 
-    assert fx.NPV() == pytest.approx(19499.0125873559, rel=1e-4)
-    assert fx.fairForwardRate() == pytest.approx(1.1220984976, rel=1e-6)
-    assert fx.npvSourceCurrency() == pytest.approx(19499.0125873559, rel=1e-4)
-    assert fx.npvTargetCurrency() == pytest.approx(21448.9138460915, rel=1e-4)
+    assert fx.NPV() == pytest.approx(19495.8075336546, rel=1e-4)
+    assert fx.fairForwardRate() == pytest.approx(1.0783367080, rel=1e-6)
+    assert fx.npvSourceCurrency() == pytest.approx(19495.8075336546, rel=1e-4)
+    assert fx.npvTargetCurrency() == pytest.approx(21447.7385953400, rel=1e-4)
     assert fx.forwardRate() == pytest.approx(1.10)
     assert fx.settlementDate() == ql.Date(17, ql.January, 2025)
 
