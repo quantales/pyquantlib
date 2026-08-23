@@ -82,14 +82,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r docs/requirements.txt
 
+      # Compiling the bindings dominates this job's run time, and it reruns on
+      # every docs-only change. sccache keeps the object cache between runs.
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.6
+
       # Replaces the PyPI wheel pulled in above. conf.py keeps the source tree
       # on sys.path once a compiled extension is present there.
       - name: Build PyQuantLib from this checkout
         run: |
           pip install -e . -v
+          sccache --show-stats
         env:
           QuantLib_ROOT: /home/runner/quantlib-install
           LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
+          SCCACHE_GHA_ENABLED: "true"
+          SKBUILD_CMAKE_ARGS: "-DCMAKE_C_COMPILER_LAUNCHER=sccache;-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
 
       - name: Build HTML with warnings as errors
         run: |
