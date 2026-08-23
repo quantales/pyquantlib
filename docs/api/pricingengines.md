@@ -81,7 +81,7 @@ See {doc}`/concepts/pricing-engines` for the instrument / engine separation, {do
 | YoY inflation | {py:class}`pyquantlib.YoYInflationBlackCapFloorEngine`, {py:class}`pyquantlib.YoYInflationUnitDisplacedBlackCapFloorEngine`, {py:class}`pyquantlib.YoYInflationBachelierCapFloorEngine` |
 | Bonds / convertibles | {py:class}`pyquantlib.DiscountingBondEngine`, {py:class}`pyquantlib.BinomialConvertibleEngine` |
 | Credit | {py:class}`pyquantlib.MidPointCdsEngine`, {py:class}`pyquantlib.IsdaCdsEngine` |
-| Swaps | {py:class}`pyquantlib.DiscountingSwapEngine` |
+| Swaps | {py:class}`pyquantlib.DiscountingSwapEngine`, {py:class}`pyquantlib.DiscountingConstNotionalCrossCurrencySwapEngine` |
 | FX forwards | {py:class}`pyquantlib.DiscountingFxForwardEngine` |
 | Futures | {py:class}`pyquantlib.DiscountingPerpetualFuturesEngine` |
 | Variance swaps | {py:class}`pyquantlib.ReplicatingVarianceSwapEngine` |
@@ -831,6 +831,33 @@ ISDA-standard CDS engine.
 ```{eval-rst}
 .. autoclass:: pyquantlib.DiscountingSwapEngine
 ```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.DiscountingConstNotionalCrossCurrencySwapEngine
+```
+
+Prices the constant-notional cross-currency swap family. Each leg is discounted on the curve
+for its own currency, foreign-currency amounts are converted at the spot FX quote, and the
+resulting NPV is expressed in the domestic currency. The quote is given as domestic units per
+unit of foreign currency, quoted for settlement on the NPV date.
+
+```python
+usd_curve = ql.FlatForward(today, 0.045, ql.Actual365Fixed())
+eur_curve = ql.FlatForward(today, 0.025, ql.Actual365Fixed())
+spot_fx   = ql.SimpleQuote(1.05)   # USD per EUR
+
+engine = ql.DiscountingConstNotionalCrossCurrencySwapEngine(
+    ql.USDCurrency(), usd_curve,
+    ql.EURCurrency(), eur_curve,
+    spot_fx,
+)
+swap.setPricingEngine(engine)
+print(swap.NPV())            # in USD
+print(swap.inCcyLegNPV(0))   # in the currency of leg 0
+```
+
+`npvDate` and `settlementDate` default to the evaluation date, and `spotFXSettleDate` defaults
+to the NPV date. `includeSettlementDateFlows` accepts `None` to defer to the global setting.
 
 ## FX forward engines
 

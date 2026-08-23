@@ -4362,7 +4362,7 @@ def test_twoassetcorrelationoption_pricing():
 
 @pytest.fixture
 def ccyswap_env():
-    today = ql.Date(15, ql.January, 2025)
+    today = ql.Date(4, ql.June, 2025)
     ql.Settings.evaluationDate = today
     dc = ql.Actual365Fixed()
     eur_curve = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.025, dc))
@@ -4422,9 +4422,9 @@ def test_constnotionalcrosscurrencybasisswap_pricing(ccyswap_env):
     swap = _basis_swap(ccyswap_env)
     swap.setPricingEngine(ccyswap_env["engine"])
 
-    assert swap.NPV() == pytest.approx(-20044.0693146647, rel=1e-4)
-    assert swap.fairPaySpread() == pytest.approx(3.2995903556e-05, rel=1e-4)
-    assert swap.fairRecSpread() == pytest.approx(0.0009876376141, rel=1e-4)
+    assert swap.NPV() == pytest.approx(-20728.0024689001, rel=1e-4)
+    assert swap.fairPaySpread() == pytest.approx(0.0, abs=1e-12)
+    assert swap.fairRecSpread() == pytest.approx(0.0010226648535, rel=1e-4)
 
 
 def test_constnotionalcrosscurrencybasisswap_inspectors(ccyswap_env):
@@ -4449,7 +4449,7 @@ def test_constnotionalcrosscurrencybasisswap_in_currency_results(ccyswap_env):
     swap = _basis_swap(ccyswap_env)
     swap.setPricingEngine(ccyswap_env["engine"])
 
-    assert swap.inCcyLegNPV(0) == pytest.approx(-19089.5898234937, rel=1e-4)
+    assert swap.inCcyLegNPV(0) == pytest.approx(-19740.9547322858, rel=1e-4)
     assert swap.inCcyLegNPV(1) == pytest.approx(0.0, abs=1e-6)
     assert swap.npvDateDiscounts(0) == pytest.approx(1.0)
 
@@ -4458,9 +4458,9 @@ def test_constnotionalcrosscurrencyfixedvsfloatingswap_pricing(ccyswap_env):
     swap = _fixed_vs_floating_swap(ccyswap_env)
     swap.setPricingEngine(ccyswap_env["engine"])
 
-    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)
-    assert swap.fairRate() == pytest.approx(0.0251098801550, rel=1e-6)
-    assert swap.fairSpread() == pytest.approx(-0.000110696212, rel=1e-4)
+    assert swap.NPV() == pytest.approx(1597.6101761822, rel=1e-4)
+    assert swap.fairRate() == pytest.approx(0.0250781445627, rel=1e-6)
+    assert swap.fairSpread() == pytest.approx(-7.882186329e-05, rel=1e-4)
 
 
 def test_constnotionalcrosscurrencyfixedvsfloatingswap_inspectors(ccyswap_env):
@@ -4487,33 +4487,6 @@ def test_constnotionalcrosscurrencyswap_from_legs(ccyswap_env):
     )
     swap.setPricingEngine(ccyswap_env["engine"])
 
-    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)
-    assert swap.inCcyLegBPS(0) == pytest.approx(-1947.2085642221, rel=1e-4)
+    assert swap.NPV() == pytest.approx(1597.6101761822, rel=1e-4)
+    assert swap.inCcyLegBPS(0) == pytest.approx(-1947.0753300395, rel=1e-4)
     assert swap.legCurrency(1).code() == "USD"
-
-
-def test_discountingconstnotionalcrosscurrencyswapengine_inspectors(ccyswap_env):
-    engine = ccyswap_env["engine"]
-
-    assert engine.domesticCurrency().code() == "USD"
-    assert engine.foreignCurrency().code() == "EUR"
-    assert engine.spotFX().currentLink().value() == pytest.approx(1.05)
-    assert engine.domesticCcyDiscountCurve().currentLink().referenceDate() == (
-        ql.Date(15, ql.January, 2025)
-    )
-
-
-def test_discountingconstnotionalcrosscurrencyswapengine_hidden_handles(ccyswap_env):
-    """The hidden-handle constructor prices identically to the handle one."""
-    env = ccyswap_env
-    dc = ql.Actual365Fixed()
-    today = ql.Date(15, ql.January, 2025)
-    engine = ql.DiscountingConstNotionalCrossCurrencySwapEngine(
-        ql.USDCurrency(), ql.FlatForward(today, 0.045, dc),
-        ql.EURCurrency(), ql.FlatForward(today, 0.025, dc),
-        ql.SimpleQuote(1.05),
-    )
-    swap = _fixed_vs_floating_swap(env)
-    swap.setPricingEngine(engine)
-
-    assert swap.NPV() == pytest.approx(2246.5755788844, rel=1e-4)

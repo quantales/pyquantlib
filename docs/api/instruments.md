@@ -11,6 +11,7 @@ Every instrument exposes the same `setPricingEngine(engine)` / `NPV()` interface
 | Bonds | {py:class}`pyquantlib.Bond`, {py:class}`pyquantlib.ZeroCouponBond`, {py:class}`pyquantlib.FixedRateBond`, {py:class}`pyquantlib.FloatingRateBond`, {py:class}`pyquantlib.AmortizingFixedRateBond`, {py:class}`pyquantlib.AmortizingFloatingRateBond`, {py:class}`pyquantlib.CmsRateBond`, {py:class}`pyquantlib.CPIBond` |
 | Callable / convertible bonds | {py:class}`pyquantlib.Callability`, {py:class}`pyquantlib.CallableFixedRateBond`, {py:class}`pyquantlib.CallableZeroCouponBond`, {py:class}`pyquantlib.SoftCallability`, {py:class}`pyquantlib.ConvertibleBond`, {py:class}`pyquantlib.ConvertibleZeroCouponBond`, {py:class}`pyquantlib.ConvertibleFixedCouponBond`, {py:class}`pyquantlib.ConvertibleFloatingRateBond` |
 | Swaps | {py:class}`pyquantlib.VanillaSwap`, {py:class}`pyquantlib.MakeVanillaSwap`, {py:class}`pyquantlib.OvernightIndexedSwap`, {py:class}`pyquantlib.ZeroCouponSwap`, {py:class}`pyquantlib.AssetSwap`, {py:class}`pyquantlib.EquityTotalReturnSwap` |
+| Cross-currency swaps | {py:class}`pyquantlib.ConstNotionalCrossCurrencySwap`, {py:class}`pyquantlib.ConstNotionalCrossCurrencyBasisSwap`, {py:class}`pyquantlib.ConstNotionalCrossCurrencyFixedVsFloatingSwap` |
 | Inflation swaps | {py:class}`pyquantlib.ZeroCouponInflationSwap`, {py:class}`pyquantlib.YearOnYearInflationSwap` |
 | Exotic swaps / swaptions | {py:class}`pyquantlib.NonstandardSwap`, {py:class}`pyquantlib.FloatFloatSwap`, {py:class}`pyquantlib.MultipleResetsSwap`, {py:class}`pyquantlib.NonstandardSwaption`, {py:class}`pyquantlib.FloatFloatSwaption` |
 | Caps / floors / collars | {py:class}`pyquantlib.CapFloor`, {py:class}`pyquantlib.Cap`, {py:class}`pyquantlib.Floor`, {py:class}`pyquantlib.Collar`, {py:class}`pyquantlib.YoYInflationCap`, {py:class}`pyquantlib.YoYInflationFloor`, {py:class}`pyquantlib.YoYInflationCollar`, {py:class}`pyquantlib.YoYInflationCapFloor`, {py:class}`pyquantlib.MakeYoYInflationCapFloor` |
@@ -651,6 +652,44 @@ engine = ql.DiscountingFxForwardEngine(eur_curve, usd_curve, spot_fx)
 fwd.setPricingEngine(engine)
 print(fwd.NPV(), fwd.fairForwardRate())
 ```
+
+### Cross-currency swaps
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConstNotionalCrossCurrencySwap
+.. autoclass:: pyquantlib.ConstNotionalCrossCurrencyBasisSwap
+.. autoclass:: pyquantlib.ConstNotionalCrossCurrencyFixedVsFloatingSwap
+```
+
+Notionals are constant and exchanged at inception and maturity. Each leg carries its own
+currency, and the engine is
+{py:class}`pyquantlib.DiscountingConstNotionalCrossCurrencySwapEngine`, which discounts each
+leg on its own curve and reports the NPV in the domestic currency. Per-leg results are
+available in the leg currency through `inCcyLegNPV()` and `inCcyLegBPS()`, alongside the
+converted `legNPV()` and `legBPS()` inherited from {py:class}`pyquantlib.Swap`.
+
+```python
+eur = ql.EURCurrency()
+usd = ql.USDCurrency()
+
+# Pay EUR 3M Euribor + 10bp, receive USD 3M Libor
+basis = ql.ConstNotionalCrossCurrencyBasisSwap(
+    10_000_000.0, eur, eur_schedule, ql.Euribor3M(eur_curve), 0.0010, 1.0,
+    10_500_000.0, usd, usd_schedule, ql.USDLibor(ql.Period(3, ql.Months), usd_curve), 0.0, 1.0,
+)
+
+# NPV in USD: USD is the domestic currency of the engine
+engine = ql.DiscountingConstNotionalCrossCurrencySwapEngine(
+    usd, usd_curve, eur, eur_curve, spot_fx,
+)
+basis.setPricingEngine(engine)
+print(basis.NPV(), basis.fairPaySpread())
+print(basis.inCcyLegNPV(0), basis.legCurrency(0).code())
+```
+
+The arguments following the two gearings apply only when a leg's index is an overnight index:
+`payLookbackDays` and `recLookbackDays` accept `None` for the QuantLib default, and the
+averaging method is set through {py:class}`pyquantlib.RateAveraging`.
 
 ### Bond forwards
 
