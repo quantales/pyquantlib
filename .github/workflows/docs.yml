@@ -86,18 +86,41 @@ jobs:
       # every docs-only change. sccache keeps the object cache between runs.
       - name: Set up sccache
         uses: mozilla-actions/sccache-action@v0.0.6
+        continue-on-error: true
+
+      # A cache must never break the build. When the GitHub Actions cache
+      # service is unavailable, sccache fails to start its server and every
+      # compile fails (seen 2026-08-23). Probe it and fall back to an
+      # uncached build instead.
+      - name: Probe sccache
+        id: sccache_probe
+        continue-on-error: true
+        env:
+          SCCACHE_GHA_ENABLED: "true"
+        run: |
+          if command -v sccache >/dev/null 2>&1 && sccache --start-server >/dev/null 2>&1; then
+            echo "sccache is available; using it as the compiler launcher"
+            echo 'cmake_args=-DCMAKE_C_COMPILER_LAUNCHER=sccache;-DCMAKE_CXX_COMPILER_LAUNCHER=sccache' >> "$GITHUB_OUTPUT"
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "sccache unavailable; building without a compiler cache"
+            echo 'cmake_args=' >> "$GITHUB_OUTPUT"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
 
       # Replaces the PyPI wheel pulled in above. conf.py keeps the source tree
       # on sys.path once a compiled extension is present there.
       - name: Build PyQuantLib from this checkout
         run: |
           pip install -e . -v
-          sccache --show-stats
+          if [ "${{ steps.sccache_probe.outputs.enabled }}" = "true" ]; then
+            sccache --show-stats || true
+          fi
         env:
           QuantLib_ROOT: /home/runner/quantlib-install
           LD_LIBRARY_PATH: /home/runner/quantlib-install/lib
           SCCACHE_GHA_ENABLED: "true"
-          SKBUILD_CMAKE_ARGS: "-DCMAKE_C_COMPILER_LAUNCHER=sccache;-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
+          SKBUILD_CMAKE_ARGS: ${{ steps.sccache_probe.outputs.cmake_args }}
 
       - name: Build HTML with warnings as errors
         run: |
