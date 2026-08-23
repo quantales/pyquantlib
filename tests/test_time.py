@@ -270,6 +270,23 @@ def test_calendar_united_states():
     assert us_govt.name() == "US government bond market"
 
 
+def test_calendar_israel_markets():
+    """Test Israel calendar markets, including SHIR and Telbor (QuantLib 1.43)."""
+    assert ql.Israel(ql.Israel.TASE).name() == "Tel Aviv stock exchange"
+    assert ql.Israel(ql.Israel.SHIR).name() == "SHIR fixing calendar"
+    assert ql.Israel(ql.Israel.Telbor).name() == "Telbor fixing calendar"
+
+
+def test_calendar_israel_default_is_tase():
+    """Israel defaults to TASE, matching QuantLib 1.43."""
+    assert ql.Israel().name() == ql.Israel(ql.Israel.TASE).name()
+
+
+def test_calendar_israel_settlement_deprecated_alias():
+    """The deprecated Settlement market still resolves to the TASE calendar."""
+    assert ql.Israel(ql.Israel.Settlement).name() == "Tel Aviv stock exchange"
+
+
 def test_calendar_poland():
     """Test Poland calendar."""
     poland = ql.Poland()

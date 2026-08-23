@@ -12,6 +12,7 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
+#include <ql/qldefines.hpp>
 #include <ql/time/calendars/all.hpp>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -316,15 +317,21 @@ void ql_time::calendars(py::module_& m)
 
     { // inner classes & enums of Israel
         auto pyEnumMarket =
-            py::enum_<QuantLib::Israel::Market>(pyClassIsrael, "Market", py::arithmetic(), "")
-                .value("Settlement", QuantLib::Israel::Settlement, "!< generic settlement calendar")
-                .value("TASE", QuantLib::Israel::TASE, "!< Tel-Aviv stock exchange calendar")
+            py::enum_<QuantLib::Israel::Market>(pyClassIsrael, "Market", py::arithmetic(), "");
+        QL_DEPRECATED_DISABLE_WARNING
+        pyEnumMarket.value("Settlement", QuantLib::Israel::Settlement,
+            "!< generic settlement calendar (deprecated in QuantLib 1.43, use an explicit market)");
+        QL_DEPRECATED_ENABLE_WARNING
+        pyEnumMarket
+            .value("TASE", QuantLib::Israel::TASE, "!< Tel-Aviv stock exchange calendar")
+            .value("SHIR", QuantLib::Israel::SHIR, "!< SHIR fixing calendar")
+            .value("Telbor", QuantLib::Israel::Telbor, "!< Telbor fixing calendar")
             .export_values();
     } // end of inner classes & enums of Israel
 
     pyClassIsrael
         .def(py::init<QuantLib::Israel::Market>(),
-            py::arg("market") = QuantLib::Israel::Settlement)
+            py::arg("market") = QuantLib::Israel::TASE)
         ;
 
 
