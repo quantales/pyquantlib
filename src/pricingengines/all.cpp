@@ -108,6 +108,10 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "SpreadBlackScholesVanillaEngine - spread option pricing base class");
     ADD_MAIN_BINDING(ql_pricingengines::kirkengine,
         "KirkEngine - Kirk spread option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::pearsonspreadengine,
+        "PearsonSpreadEngine - Pearson (1995) spread option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::gaussiancopulaspreadengine,
+        "GaussianCopulaSpreadEngine - Gaussian copula spread option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::bjerksundstenslandspreadengine,
         "BjerksundStenslandSpreadEngine - Bjerksund-Stensland spread option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::operatorsplittingspreadengine,

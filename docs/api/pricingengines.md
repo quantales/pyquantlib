@@ -32,7 +32,7 @@ See {doc}`/concepts/pricing-engines` for the instrument / engine separation, {do
 
 | Group | Engines |
 |---|---|
-| Spread (analytic) | {py:class}`pyquantlib.KirkEngine`, {py:class}`pyquantlib.StulzEngine` |
+| Spread (analytic) | {py:class}`pyquantlib.KirkEngine`, {py:class}`pyquantlib.StulzEngine`, {py:class}`pyquantlib.PearsonSpreadEngine`, {py:class}`pyquantlib.GaussianCopulaSpreadEngine` |
 | Basket (analytic) | {py:class}`pyquantlib.ChoiBasketEngine`, {py:class}`pyquantlib.SingleFactorBsmBasketEngine` |
 | Basket (FD / MC) | {py:class}`pyquantlib.Fd2dBlackScholesVanillaEngine`, {py:class}`pyquantlib.FdndimBlackScholesVanillaEngine`, {py:class}`pyquantlib.MCEuropeanBasketEngine`, {py:class}`pyquantlib.MCAmericanBasketEngine`, {py:class}`pyquantlib.MCLDEuropeanBasketEngine` |
 
@@ -477,6 +477,38 @@ N-dimensional finite-difference Black-Scholes basket engine.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.MCLDEuropeanBasketEngine
+```
+
+### Spread options
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PearsonSpreadEngine
+```
+
+Pearson (1995) engine, evaluating the spread option through a single numerical integration.
+`integrationTolerance`, `maxIntegrationIterations`, and `nStd` control the quadrature and its
+truncation range. Like {py:class}`pyquantlib.KirkEngine` it derives from
+{py:class}`pyquantlib.base.SpreadBlackScholesVanillaEngine`, so it takes two processes and
+their correlation.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GaussianCopulaSpreadEngine
+```
+
+Prices the spread through nested Gauss-Hermite quadrature over a Gaussian copula, taking the
+marginals from each process including any smile. `nPoints` sets the quadrature points per
+dimension.
+
+```python
+# Two forward processes and their correlation
+p1 = ql.BlackProcess(ql.QuoteHandle(ql.SimpleQuote(100.0)), rate, vol1)
+p2 = ql.BlackProcess(ql.QuoteHandle(ql.SimpleQuote(96.0)), rate, vol2)
+
+payoff = ql.SpreadBasketPayoff(ql.PlainVanillaPayoff(ql.OptionType.Call, 3.0))
+option = ql.BasketOption(payoff, ql.EuropeanExercise(maturity))
+
+option.setPricingEngine(ql.GaussianCopulaSpreadEngine(p1, p2, 0.5))
+print(option.NPV())
 ```
 
 ## Swaption engines

@@ -478,6 +478,8 @@ namespace ql_pricingengines {
     void mceuropeanengine(py::module_&);
     void spreadblackscholesvanillaengine(py::module_&);
     void kirkengine(py::module_&);
+    void pearsonspreadengine(py::module_&);
+    void gaussiancopulaspreadengine(py::module_&);
     void bjerksundstenslandspreadengine(py::module_&);
     void operatorsplittingspreadengine(py::module_&);
     void denglizhoubasketengine(py::module_&);

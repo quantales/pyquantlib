@@ -695,3 +695,164 @@ def test_fdndimblackscholesvanillaengine_vs_stulz(market_data):
     stulz.setPricingEngine(ql.StulzEngine(process1, process2, 0.5))
 
     assert fd.NPV() == pytest.approx(stulz.NPV(), rel=1e-2)
+
+
+# =============================================================================
+# PearsonSpreadEngine
+# =============================================================================
+
+
+@pytest.fixture
+def spread_market():
+    """Forward-market environment mirroring the QuantLib spread engine tests."""
+    today = ql.Date(1, ql.March, 2025)
+    ql.Settings.instance().evaluationDate = today
+    dc = ql.Actual365Fixed()
+    cal = ql.NullCalendar()
+    maturity = today + ql.Period(12, ql.Months)
+    rate = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.05, dc))
+
+    def black_process(forward, vol):
+        return ql.BlackProcess(
+            ql.QuoteHandle(ql.SimpleQuote(forward)),
+            rate,
+            ql.BlackVolTermStructureHandle(ql.BlackConstantVol(today, cal, vol, dc)),
+        )
+
+    return {
+        "today": today,
+        "maturity": maturity,
+        "rate": rate,
+        "exercise": ql.EuropeanExercise(maturity),
+        "black_process": black_process,
+    }
+
+
+def _spread_option(strike, option_type, exercise):
+    payoff = ql.SpreadBasketPayoff(ql.PlainVanillaPayoff(option_type, strike))
+    return ql.BasketOption(payoff, exercise)
+
+
+def test_pearsonspreadengine_spread_call(spread_market):
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.25)
+    process2 = env["black_process"](110.0, 0.35)
+
+    option = _spread_option(5.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(ql.PearsonSpreadEngine(process1, process2, 0.75))
+
+    assert option.NPV() == pytest.approx(3.5830632015, rel=1e-6)
+
+
+def test_pearsonspreadengine_put_call_parity(spread_market):
+    """(C - P) / df must equal F1 - F2 - K exactly."""
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.25)
+    process2 = env["black_process"](110.0, 0.35)
+    engine = ql.PearsonSpreadEngine(process1, process2, 0.75)
+    strike = 5.0
+
+    call = _spread_option(strike, ql.OptionType.Call, env["exercise"])
+    call.setPricingEngine(engine)
+    put = _spread_option(strike, ql.OptionType.Put, env["exercise"])
+    put.setPricingEngine(engine)
+
+    df = env["rate"].currentLink().discount(env["maturity"])
+    forward = (call.NPV() - put.NPV()) / df
+    assert forward == pytest.approx(100.0 - 110.0 - strike, abs=1e-10)
+
+
+def test_pearsonspreadengine_exchange_option(spread_market):
+    """At zero strike the price must match Bjerksund-Stensland (Margrabe)."""
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.25)
+    process2 = env["black_process"](110.0, 0.35)
+
+    option = _spread_option(0.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(ql.PearsonSpreadEngine(process1, process2, 0.75))
+    pearson = option.NPV()
+
+    option.setPricingEngine(
+        ql.BjerksundStenslandSpreadEngine(process1, process2, 0.75)
+    )
+    assert pearson == pytest.approx(option.NPV(), abs=1e-6)
+
+
+def test_pearsonspreadengine_integration_controls(spread_market):
+    """Looser integration controls still reproduce the default price."""
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.25)
+    process2 = env["black_process"](110.0, 0.35)
+
+    option = _spread_option(5.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(ql.PearsonSpreadEngine(
+        process1, process2, 0.75,
+        integrationTolerance=1e-8,
+        maxIntegrationIterations=1000,
+        nStd=6.0,
+    ))
+
+    assert option.NPV() == pytest.approx(3.5830632015, rel=1e-6)
+
+
+# =============================================================================
+# GaussianCopulaSpreadEngine
+# =============================================================================
+
+
+def test_gaussiancopulaspreadengine_spread_call(spread_market):
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.20)
+    process2 = env["black_process"](96.0, 0.25)
+
+    option = _spread_option(3.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(ql.GaussianCopulaSpreadEngine(process1, process2, 0.5))
+
+    assert option.NPV() == pytest.approx(8.9333411087, rel=1e-6)
+
+
+def test_gaussiancopulaspreadengine_put_call_parity(spread_market):
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.20)
+    process2 = env["black_process"](96.0, 0.25)
+    engine = ql.GaussianCopulaSpreadEngine(process1, process2, 0.5)
+    strike = 3.0
+
+    call = _spread_option(strike, ql.OptionType.Call, env["exercise"])
+    call.setPricingEngine(engine)
+    put = _spread_option(strike, ql.OptionType.Put, env["exercise"])
+    put.setPricingEngine(engine)
+
+    df = env["rate"].currentLink().discount(env["maturity"])
+    forward = (call.NPV() - put.NPV()) / df
+    assert forward == pytest.approx(100.0 - 96.0 - strike, rel=1e-3)
+
+
+def test_gaussiancopulaspreadengine_exchange_option(spread_market):
+    """At zero strike the price must match Bjerksund-Stensland (Margrabe)."""
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.20)
+    process2 = env["black_process"](96.0, 0.25)
+
+    option = _spread_option(0.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(ql.GaussianCopulaSpreadEngine(process1, process2, 0.5))
+    copula = option.NPV()
+
+    option.setPricingEngine(
+        ql.BjerksundStenslandSpreadEngine(process1, process2, 0.5)
+    )
+    assert copula == pytest.approx(option.NPV(), rel=1e-3)
+
+
+def test_gaussiancopulaspreadengine_quadrature_points(spread_market):
+    """More quadrature points refine the same price."""
+    env = spread_market
+    process1 = env["black_process"](100.0, 0.20)
+    process2 = env["black_process"](96.0, 0.25)
+
+    option = _spread_option(3.0, ql.OptionType.Call, env["exercise"])
+    option.setPricingEngine(
+        ql.GaussianCopulaSpreadEngine(process1, process2, 0.5, nPoints=128)
+    )
+
+    assert option.NPV() == pytest.approx(8.9334248161, rel=1e-6)
