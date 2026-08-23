@@ -214,3 +214,24 @@ def test_writer_extensible_engine_pricing(exotic_env):
     option.setPricingEngine(engine)
 
     assert option.NPV() == pytest.approx(10.2947, rel=1e-4)
+
+# =============================================================================
+# AnalyticTwoAssetCorrelationEngine
+# =============================================================================
+
+
+def test_twoassetcorrelationengine_hidden_handle():
+    """AnalyticTwoAssetCorrelationEngine accepts shared_ptr correlation."""
+    ql.Settings.evaluationDate = ql.Date(15, 5, 2025)
+
+    spot = ql.SimpleQuote(100.0)
+    vol = ql.BlackConstantVol(
+        ql.Date(15, 5, 2025), ql.NullCalendar(), 0.20, ql.Actual365Fixed()
+    )
+    rate = ql.FlatForward(ql.Date(15, 5, 2025), 0.05, ql.Actual365Fixed())
+    div = ql.FlatForward(ql.Date(15, 5, 2025), 0.02, ql.Actual365Fixed())
+    process = ql.BlackScholesMertonProcess(spot, div, rate, vol)
+
+    corr = ql.SimpleQuote(0.5)
+    engine = ql.AnalyticTwoAssetCorrelationEngine(process, process, corr)
+    assert engine is not None
