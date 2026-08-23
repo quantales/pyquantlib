@@ -7,7 +7,8 @@
  * See LICENSE for details.
  *
  * ---
- * QuantLib is Copyright (c) 2000-2026 The QuantLib Authors
+ * QuantLib is free software distributed under its own modified BSD license,
+ * and is copyright of its respective contributors.
  * https://www.quantlib.org/
  */
 
