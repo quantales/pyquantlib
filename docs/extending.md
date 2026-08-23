@@ -129,7 +129,7 @@ See [svi_smile.ipynb](https://github.com/quantales/pyquantlib/blob/main/examples
 The modification adds a skew correction term from Alos & Leon (2015) that improves accuracy for high correlation cases.
 
 ```{important}
-When subclassing pricing engines, **only override the calculation method with numeric parameters**, not the parameter extraction method. Let the C++ base class handle object lifetime management.
+When an engine exposes a numeric calculation overload, as `SpreadBlackScholesVanillaEngine` does, **override that overload** rather than the no-argument `calculate()`. The C++ base class then handles parameter extraction and object lifetime. Engines exposing only `calculate()` are subclassed through `getArguments()` and `getResults()`, reading scalar values and never holding on to C++ objects.
 ```
 
 ```python
