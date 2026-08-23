@@ -51,6 +51,8 @@ DECLARE_MODULE_BINDINGS(instruments_bindings) {
         "VanillaOption - plain vanilla options");
     ADD_MAIN_BINDING(ql_instruments::multiassetoption,
         "MultiAssetOption - base class for multi-asset options");
+    ADD_MAIN_BINDING(ql_instruments::twoassetcorrelationoption,
+        "TwoAssetCorrelationOption - two-asset correlation option");
     ADD_MAIN_BINDING(ql_instruments::basketoption,
         "BasketOption - basket options and payoffs");
     ADD_MAIN_BINDING(ql_instruments::overnightindexedswap,

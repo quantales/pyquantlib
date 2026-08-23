@@ -413,6 +413,7 @@ namespace ql_instruments {
     void oneassetoption(py::module_&);
     void vanillaoption(py::module_&);
     void multiassetoption(py::module_&);
+    void twoassetcorrelationoption(py::module_&);
     void basketoption(py::module_&);
     void overnightindexedswap(py::module_&);
     void makeois(py::module_&);
@@ -689,7 +690,6 @@ namespace ql_experimental {
     void callablebondconstantvol(py::module_&);
     void treecallablebondengine(py::module_&);
     void blackcallablebondengine(py::module_&);
-    void twoassetcorrelationoption(py::module_&);
     void variancegammaprocess(py::module_&);
     void variancegammamodel(py::module_&);
     void analyticvariancegammaengine(py::module_&);

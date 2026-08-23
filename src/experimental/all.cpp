@@ -34,9 +34,6 @@ DECLARE_MODULE_BINDINGS(experimental_bindings) {
     ADD_MAIN_BINDING(ql_experimental::blackcallablebondengine,
         "BlackCallableFixedRateBondEngine, BlackCallableZeroCouponBondEngine");
 
-    ADD_MAIN_BINDING(ql_experimental::twoassetcorrelationoption,
-        "TwoAssetCorrelationOption - two-asset correlation option");
-
     ADD_MAIN_BINDING(ql_experimental::variancegammaprocess,
         "VarianceGammaProcess - VG stochastic process");
     ADD_MAIN_BINDING(ql_experimental::variancegammamodel,

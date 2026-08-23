@@ -12,14 +12,14 @@
  */
 
 #include "pyquantlib/pyquantlib.h"
-#include <ql/experimental/exoticoptions/twoassetcorrelationoption.hpp>
+#include <ql/instruments/twoassetcorrelationoption.hpp>
 #include <ql/exercise.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 using namespace QuantLib;
 
-void ql_experimental::twoassetcorrelationoption(py::module_& m) {
+void ql_instruments::twoassetcorrelationoption(py::module_& m) {
     py::class_<TwoAssetCorrelationOption, MultiAssetOption,
                ext::shared_ptr<TwoAssetCorrelationOption>>(
         m, "TwoAssetCorrelationOption",
