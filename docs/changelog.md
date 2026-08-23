@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `TwoAssetCorrelationOption` moved from `ql/experimental/` to `ql/instruments/` upstream. The Python API is unchanged.
 - `Israel` gains the `SHIR` and `Telbor` markets and now defaults to `TASE`; the deprecated `Settlement` still resolves to it.
 - TASE weekend becomes Saturday/Sunday from 2026 (previously Friday/Saturday).
+- `BondFunctions.zSpread` no longer takes a `dayCounter` argument, following QuantLib's deprecation of that overload (removal expected in 1.47).
 
 ```{warning}
 QuantLib 1.43 corrects `DiscountingFxForwardEngine`: `FxForward.NPV()` is now discounted

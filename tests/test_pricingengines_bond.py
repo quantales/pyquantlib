@@ -243,7 +243,7 @@ def test_bondfunctions_zspread(bond_env):
     price = ql.BondPrice(bond.cleanPrice(), ql.BondPriceType.Clean)
     z = ql.BondFunctions.zSpread(
         bond, price, bond_env["flat_curve"],
-        ql.Actual365Fixed(), ql.Compounded, ql.Annual,
+        ql.Compounded, ql.Annual,
     )
     # z-spread over the same curve used for pricing should be ~0
     assert abs(z) < 0.001

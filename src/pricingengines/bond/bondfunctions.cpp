@@ -164,11 +164,11 @@ void ql_pricingengines::bondfunctions(py::module_& m) {
         .def_static("zSpread",
             static_cast<Spread (*)(const Bond&, Bond::Price,
                                    const ext::shared_ptr<YieldTermStructure>&,
-                                   const DayCounter&, Compounding, Frequency,
+                                   Compounding, Frequency,
                                    Date, Real, Size, Rate)>(
                 &BondFunctions::zSpread),
             py::arg("bond"), py::arg("price"), py::arg("discountCurve"),
-            py::arg("dayCounter"), py::arg("compounding"),
+            py::arg("compounding"),
             py::arg("frequency"),
             py::arg("settlementDate") = Date(),
             py::arg("accuracy") = 1.0e-10,

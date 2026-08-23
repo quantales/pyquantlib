@@ -2920,7 +2920,7 @@ class BondFunctions:
         Yield value of a basis point.
         """
     @staticmethod
-    def zSpread(bond: Bond, price: BondPrice, discountCurve: base.YieldTermStructure, dayCounter: DayCounter, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat = 1e-10, maxIterations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.0) -> float:
+    def zSpread(bond: Bond, price: BondPrice, discountCurve: base.YieldTermStructure, compounding: Compounding, frequency: Frequency, settlementDate: Date = ..., accuracy: typing.SupportsFloat = 1e-10, maxIterations: typing.SupportsInt = 100, guess: typing.SupportsFloat = 0.0) -> float:
         """
         Z-spread over a discount curve.
         """
@@ -13962,13 +13962,19 @@ class Israel(Calendar):
         
         Members:
         
-          Settlement : !< generic settlement calendar
+          Settlement : !< generic settlement calendar (deprecated in QuantLib 1.43, use an explicit market)
         
           TASE : !< Tel-Aviv stock exchange calendar
+        
+          SHIR : !< SHIR fixing calendar
+        
+          Telbor : !< Telbor fixing calendar
         """
+        SHIR: typing.ClassVar[Israel.Market]  # value = <Market.SHIR: 2>
         Settlement: typing.ClassVar[Israel.Market]  # value = <Market.Settlement: 0>
         TASE: typing.ClassVar[Israel.Market]  # value = <Market.TASE: 1>
-        __members__: typing.ClassVar[dict[str, Israel.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'TASE': <Market.TASE: 1>}
+        Telbor: typing.ClassVar[Israel.Market]  # value = <Market.Telbor: 3>
+        __members__: typing.ClassVar[dict[str, Israel.Market]]  # value = {'Settlement': <Market.Settlement: 0>, 'TASE': <Market.TASE: 1>, 'SHIR': <Market.SHIR: 2>, 'Telbor': <Market.Telbor: 3>}
         def __and__(self, other: typing.Any) -> typing.Any:
             ...
         def __eq__(self, other: typing.Any) -> bool:
@@ -14017,8 +14023,10 @@ class Israel(Calendar):
         @property
         def value(self) -> int:
             ...
+    SHIR: typing.ClassVar[Israel.Market]  # value = <Market.SHIR: 2>
     Settlement: typing.ClassVar[Israel.Market]  # value = <Market.Settlement: 0>
     TASE: typing.ClassVar[Israel.Market]  # value = <Market.TASE: 1>
+    Telbor: typing.ClassVar[Israel.Market]  # value = <Market.Telbor: 3>
     def __init__(self, market: Israel.Market = ...) -> None:
         ...
 class Italy(Calendar):
