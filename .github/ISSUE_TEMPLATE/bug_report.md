@@ -12,7 +12,7 @@ assignees: ''
 ## Environment
 - **OS**: <!-- e.g., macOS 14, Ubuntu 24.04, Windows 11 -->
 - **Python**: <!-- e.g., 3.11.5 -->
-- **QuantLib**: <!-- e.g., 1.40 (Homebrew) or 1.38 (source) -->
+- **QuantLib**: <!-- e.g., 1.43 (source) -->
 - **PyQuantLib**: <!-- e.g., 0.1.0 or commit hash -->
 
 ## Steps to Reproduce

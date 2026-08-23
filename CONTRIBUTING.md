@@ -15,7 +15,7 @@ Before you begin, ensure you have:
   - macOS: Xcode 12+ or clang 10+
   - Linux: GCC 9+ or clang 10+
 - **Boost headers** (required by QuantLib)
-- **QuantLib 1.40+** built with required configuration (see below)
+- **QuantLib 1.43+** built with required configuration (see below)
 
 ### QuantLib Build Requirements
 
@@ -44,18 +44,18 @@ PyQuantLib uses pybind11, which defaults to `std::shared_ptr` as its holder type
 
 ## Building QuantLib from Source
 
-### Download QuantLib 1.40
+### Download QuantLib 1.43
 
 ```bash
 # Download release
-wget https://github.com/lballabio/QuantLib/releases/download/v1.40/QuantLib-1.40.tar.gz
-tar xzf QuantLib-1.40.tar.gz
-cd QuantLib-1.40
+wget https://github.com/lballabio/QuantLib/releases/download/v1.43/QuantLib-1.43.tar.gz
+tar xzf QuantLib-1.43.tar.gz
+cd QuantLib-1.43
 
 # Or clone the repo
 git clone https://github.com/lballabio/QuantLib.git
 cd QuantLib
-git checkout v1.40
+git checkout v1.43
 ```
 
 ### Windows

@@ -20,7 +20,7 @@ myst:
 :alt: Python
 :target: https://www.python.org/downloads/
 ```
-```{image} https://img.shields.io/badge/QuantLib-1.42%2B-0F766E.svg
+```{image} https://img.shields.io/badge/QuantLib-1.43%2B-0F766E.svg
 :alt: QuantLib
 :target: https://www.quantlib.org/
 ```
