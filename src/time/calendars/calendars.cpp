@@ -166,6 +166,23 @@ void ql_time::calendars(py::module_& m)
         ;
 
 
+    auto pyClassCroatia =
+        py::class_<QuantLib::Croatia, QuantLib::Calendar, ext::shared_ptr<QuantLib::Croatia>>
+            (m, "Croatia", "Holidays for the Zagreb stock exchange.");
+
+    { // inner classes & enums of Croatia
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Croatia::Market>(pyClassCroatia, "Market", py::arithmetic(), "")
+                .value("ZSE", QuantLib::Croatia::ZSE, "!< Zagreb stock exchange")
+            .export_values();
+    } // end of inner classes & enums of Croatia
+
+    pyClassCroatia
+        .def(py::init<QuantLib::Croatia::Market>(),
+            py::arg("m") = QuantLib::Croatia::ZSE)
+        ;
+
+
     auto pyClassCzechRepublic =
         py::class_<QuantLib::CzechRepublic, QuantLib::Calendar, ext::shared_ptr<QuantLib::CzechRepublic>>
             (m, "CzechRepublic", "! Holidays for the Prague stock exchange (see http://www.pse.cz/):\n        <ul>\n        <li>Saturdays</li>\n        <li>Sundays</li>\n        <li>New Year's Day, January 1st</li>\n        <li>Easter Monday</li>\n        <li>Labour Day, May 1st</li>\n        <li>Liberation Day, May 8th</li>\n        <li>SS. Cyril and Methodius, July 5th</li>\n        <li>Jan Hus Day, July 6th</li>\n        <li>Czech Statehood Day, September 28th</li>\n        <li>Independence Day, October 28th</li>\n        <li>Struggle for Freedom and Democracy Day, November 17th</li>\n        <li>Christmas Eve, December 24th</li>\n        <li>Christmas, December 25th</li>\n        <li>St. Stephen, December 26th</li>\n        </ul>\n\n        \\ingroup calendars\n");
@@ -390,6 +407,23 @@ void ql_time::calendars(py::module_& m)
         ;
 
 
+    auto pyClassMalta =
+        py::class_<QuantLib::Malta, QuantLib::Calendar, ext::shared_ptr<QuantLib::Malta>>
+            (m, "Malta", "Holidays for the Malta Stock Exchange.");
+
+    { // inner classes & enums of Malta
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Malta::Market>(pyClassMalta, "Market", py::arithmetic(), "")
+                .value("MSE", QuantLib::Malta::MSE, "!< Malta Stock Exchange")
+            .export_values();
+    } // end of inner classes & enums of Malta
+
+    pyClassMalta
+        .def(py::init<QuantLib::Malta::Market>(),
+            py::arg("market") = QuantLib::Malta::MSE)
+        ;
+
+
     auto pyClassMexico =
         py::class_<QuantLib::Mexico, QuantLib::Calendar, ext::shared_ptr<QuantLib::Mexico>>
             (m, "Mexico", "! Holidays for the Mexican stock exchange\n        (data from <http://www.bmv.com.mx/>):\n        <ul>\n        <li>Saturdays</li>\n        <li>Sundays</li>\n        <li>New Year's Day, January 1st</li>\n        <li>Constitution Day, first Monday in February\n            (February 5th before 2006)</li>\n        <li>Birthday of Benito Juarez, third Monday in February\n            (March 21st before 2006)</li>\n        <li>Holy Thursday</li>\n        <li>Good Friday</li>\n        <li>Labour Day, May 1st</li>\n        <li>National Day, September 16th</li>\n        <li>Inauguration Day, October 1st, every sixth year starting 2024</li>\n        <li>All Souls Day, November 2nd (bank holiday, not a public one)</li>\n        <li>Revolution Day, third Monday in November\n            (November 20th before 2006)</li>\n        <li>Our Lady of Guadalupe, December 12th</li>\n        <li>Christmas, December 25th</li>\n        </ul>\n\n        \\ingroup calendars\n");
@@ -407,6 +441,23 @@ void ql_time::calendars(py::module_& m)
         ;
 
 
+    auto pyClassMontenegro =
+        py::class_<QuantLib::Montenegro, QuantLib::Calendar, ext::shared_ptr<QuantLib::Montenegro>>
+            (m, "Montenegro", "Holidays for the Montenegrin Stock Exchange.");
+
+    { // inner classes & enums of Montenegro
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Montenegro::Market>(pyClassMontenegro, "Market", py::arithmetic(), "")
+                .value("MNSE", QuantLib::Montenegro::MNSE, "!< Montenegro Stock Exchange")
+            .export_values();
+    } // end of inner classes & enums of Montenegro
+
+    pyClassMontenegro
+        .def(py::init<QuantLib::Montenegro::Market>(),
+            py::arg("m") = QuantLib::Montenegro::MNSE)
+        ;
+
+
     auto pyClassNewZealand =
         py::class_<QuantLib::NewZealand, QuantLib::Calendar, ext::shared_ptr<QuantLib::NewZealand>>
             (m, "NewZealand", "! Common holidays:\n        <ul>\n        <li>Saturdays</li>\n        <li>Sundays</li>\n        <li>New Year's Day, January 1st (possibly moved to Monday or Tuesday)</li>\n        <li>Day after New Year's Day, January 2st (possibly moved to Monday or Tuesday)</li>\n        <li>Waitangi Day. February 6th (possibly moved to Monday since 2013)</li>\n        <li>Good Friday</li>\n        <li>Easter Monday</li>\n        <li>ANZAC Day. April 25th (possibly moved to Monday since 2013)</li>\n        <li>Queen's Birthday, first Monday in June</li>\n        <li>Labour Day, fourth Monday in October</li>\n        <li>Christmas, December 25th (possibly moved to Monday or Tuesday)</li>\n        <li>Boxing Day, December 26th (possibly moved to Monday or Tuesday)</li>\n        <li>Matariki, in June or July, official calendar released for years 2022-2052</li>\n        </ul>\n\n        Additional holidays for Wellington:\n        <ul>\n        <li>Anniversary Day, Monday nearest January 22nd</li>\n        </ul>\n\n        Additional holidays for Auckland:\n        <ul>\n        <li>Anniversary Day, Monday nearest January 29nd</li>\n        </ul>\n\n        \note The holiday rules for New Zealand were documented by\n              David Gilbert for IDB (http://www.jrefinery.com/ibd/)\n              The Matariki holiday calendar has been released by the NZ Government\n              (https://www.legislation.govt.nz/act/public/2022/0014/latest/LMS557893.html)\n\n        \\ingroup calendars\n");
@@ -421,6 +472,23 @@ void ql_time::calendars(py::module_& m)
 
     pyClassNewZealand
         .def(py::init<>()) // implicit default constructor
+        ;
+
+
+    auto pyClassNorthMacedonia =
+        py::class_<QuantLib::NorthMacedonia, QuantLib::Calendar, ext::shared_ptr<QuantLib::NorthMacedonia>>
+            (m, "NorthMacedonia", "Holidays for the Macedonian Stock Exchange.");
+
+    { // inner classes & enums of NorthMacedonia
+        auto pyEnumMarket =
+            py::enum_<QuantLib::NorthMacedonia::Market>(pyClassNorthMacedonia, "Market", py::arithmetic(), "")
+                .value("MSE", QuantLib::NorthMacedonia::MSE, "!< Macedonian Stock Exchange")
+            .export_values();
+    } // end of inner classes & enums of NorthMacedonia
+
+    pyClassNorthMacedonia
+        .def(py::init<QuantLib::NorthMacedonia::Market>(),
+            py::arg("m") = QuantLib::NorthMacedonia::MSE)
         ;
 
 
@@ -508,6 +576,23 @@ void ql_time::calendars(py::module_& m)
         ;
 
 
+    auto pyClassSerbia =
+        py::class_<QuantLib::Serbia, QuantLib::Calendar, ext::shared_ptr<QuantLib::Serbia>>
+            (m, "Serbia", "Holidays for the Belgrade stock exchange.");
+
+    { // inner classes & enums of Serbia
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Serbia::Market>(pyClassSerbia, "Market", py::arithmetic(), "")
+                .value("BSE", QuantLib::Serbia::BSE, "!< Belgrade stock exchange")
+            .export_values();
+    } // end of inner classes & enums of Serbia
+
+    pyClassSerbia
+        .def(py::init<QuantLib::Serbia::Market>(),
+            py::arg("m") = QuantLib::Serbia::BSE)
+        ;
+
+
     auto pyClassSingapore =
         py::class_<QuantLib::Singapore, QuantLib::Calendar, ext::shared_ptr<QuantLib::Singapore>>
             (m, "Singapore", "! Holidays for the Singapore exchange\n        (data from\n         <http://www.sgx.com/wps/portal/sgxweb/home/trading/securities/trading_hours_calendar>):\n        <ul>\n        <li>Saturdays</li>\n        <li>Sundays</li>\n        <li>New Year's day, January 1st</li>\n        <li>Good Friday</li>\n        <li>Labour Day, May 1st</li>\n        <li>National Day, August 9th</li>\n        <li>Christmas, December 25th </li>\n        </ul>\n\n        Other holidays for which no rule is given\n        (data available for 2004-2010, 2012-2014, 2019-2024 only:)\n        <ul>\n        <li>Chinese New Year</li>\n        <li>Hari Raya Haji</li>\n        <li>Vesak Poya Day</li>\n        <li>Deepavali</li>\n        <li>Diwali</li>\n        <li>Hari Raya Puasa</li>\n        </ul>\n\n        \\ingroup calendars\n");
@@ -539,6 +624,23 @@ void ql_time::calendars(py::module_& m)
     pyClassSlovakia
         .def(py::init<QuantLib::Slovakia::Market>(),
             py::arg("m") = QuantLib::Slovakia::BSSE)
+        ;
+
+
+    auto pyClassSlovenia =
+        py::class_<QuantLib::Slovenia, QuantLib::Calendar, ext::shared_ptr<QuantLib::Slovenia>>
+            (m, "Slovenia", "Holidays for the Ljubljana stock exchange.");
+
+    { // inner classes & enums of Slovenia
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Slovenia::Market>(pyClassSlovenia, "Market", py::arithmetic(), "")
+                .value("LSE", QuantLib::Slovenia::LSE, "!< Ljubljana stock exchange")
+            .export_values();
+    } // end of inner classes & enums of Slovenia
+
+    pyClassSlovenia
+        .def(py::init<QuantLib::Slovenia::Market>(),
+            py::arg("m") = QuantLib::Slovenia::LSE)
         ;
 
 
@@ -675,6 +777,23 @@ void ql_time::calendars(py::module_& m)
     pyClassUnitedStates
         .def(py::init<QuantLib::UnitedStates::Market>(), 
             py::arg("market") = QuantLib::UnitedStates::Settlement)
+        ;
+
+
+    auto pyClassUzbekistan =
+        py::class_<QuantLib::Uzbekistan, QuantLib::Calendar, ext::shared_ptr<QuantLib::Uzbekistan>>
+            (m, "Uzbekistan", "Holidays for the Uzbekistan exchanges.");
+
+    { // inner classes & enums of Uzbekistan
+        auto pyEnumMarket =
+            py::enum_<QuantLib::Uzbekistan::Market>(pyClassUzbekistan, "Market", py::arithmetic(), "")
+                .value("UZSE", QuantLib::Uzbekistan::UZSE, "!< Uzbekistan Stock Exchange")
+            .export_values();
+    } // end of inner classes & enums of Uzbekistan
+
+    pyClassUzbekistan
+        .def(py::init<QuantLib::Uzbekistan::Market>(),
+            py::arg("market") = QuantLib::Uzbekistan::UZSE)
         ;
 
 

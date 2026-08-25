@@ -27,6 +27,7 @@ DECLARE_MODULE_BINDINGS(time_bindings) {
 
     ADD_MAIN_BINDING(ql_time::calendar, "Calendar base class");
     ADD_MAIN_BINDING(ql_time::calendars, "Specific calendar implementations (US, UK, etc.)");
+    ADD_MAIN_BINDING(ql_time::islamicholidays, "MoonSightingMethod - Islamic holiday lookups");
     ADD_MAIN_BINDING(ql_time::calendarvector, "A vector of Calendar objects, exposed as a Python list");
 
     ADD_MAIN_BINDING(ql_time::daycounter, "Day count convention base class");

@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Time and market data
+- `Croatia`, `Malta`, `Montenegro`, `NorthMacedonia`, `Serbia`, `Slovenia`, and `Uzbekistan` calendars
+- `Nibor` (NOK term index), `Shir` (ILS overnight), and `Zaronia` (ZAR overnight) indexes
+- `MKDCurrency` (Macedonian denar)
+
 #### Math
 - `LBFGSB` limited-memory bound-constrained optimizer, with a constructor taking explicit box bounds that override the problem's constraint
 - `FlatExtrapolator` decorator adding flat extrapolation to any 1-D interpolation, the counterpart to the existing `FlatExtrapolator2D`

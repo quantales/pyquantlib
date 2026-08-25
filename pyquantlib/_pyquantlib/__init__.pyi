@@ -6,8 +6,9 @@ import collections.abc
 import numpy
 import numpy.typing
 import typing
+from . import MoonSightingMethod
 from . import base
-__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ASX', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AdaptiveRungeKutta', 'AdjustDigitals', 'AdjustNone', 'AdjustYts', 'Akima', 'AmericanExercise', 'AmortizingCmsRateBond', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBSMHullWhiteEngine', 'AnalyticBarrierEngine', 'AnalyticBinaryBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCEVEngine', 'AnalyticCapFloorEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDigitalAmericanEngine', 'AnalyticDigitalAmericanKOEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDiscreteGeometricAverageStrikeAsianEngine', 'AnalyticDividendEuropeanEngine', 'AnalyticDoubleBarrierBinaryEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticGJRGARCHEngine', 'AnalyticH1HWEngine', 'AnalyticHaganPricer', 'AnalyticHestonEngine', 'AnalyticHestonHullWhiteEngine', 'AnalyticHolderExtensibleOptionEngine', 'AnalyticPDFHestonEngine', 'AnalyticPTDHestonEngine', 'AnalyticPartialTimeBarrierOptionEngine', 'AnalyticSimpleChooserEngine', 'AnalyticSoftBarrierEngine', 'AnalyticTwoAssetBarrierEngine', 'AnalyticTwoAssetCorrelationEngine', 'AnalyticWriterExtensibleOptionEngine', 'AndreasenHugeCalibrationType', 'AndreasenHugeInterpolationType', 'AndreasenHugeLocalVolAdapter', 'AndreasenHugeVolatilityAdapter', 'AndreasenHugeVolatilityInterpl', 'Annual', 'Apr', 'April', 'Argentina', 'ArithmeticAveragedOvernightIndexedCouponPricer', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBMACoupon', 'AverageBMALeg', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BFGS', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BMAIndex', 'BOOST_VERSION', 'BRLCurrency', 'BSMRNDCalculator', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCalculator', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BackwardflatLinearInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BatesProcessHandle', 'BermudanExercise', 'BespokeCalendar', 'BicubicSpline', 'BilinearInterpolation', 'Bimonthly', 'BinomialBarrierEngine', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackAveragingOvernightIndexedCouponPricer', 'BlackCalculator', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackCompoundingOvernightIndexedCouponPricer', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackVolTimeExtrapolation', 'BlackVolatilitySurfaceDelta', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConditionSide', 'BoundaryConstraint', 'BoxMullerGaussianRng', 'Brazil', 'Brent', 'BrownianBridge', 'Burley2020SobolBrownianBridgeRsg', 'Burley2020SobolBrownianGenerator', 'Burley2020SobolBrownianGeneratorFactory', 'Burley2020SobolRsg', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CEVCalculator', 'CEVRNDCalculator', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COSHestonEngine', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CapHelper', 'CappedFlooredCmsCoupon', 'CappedFlooredCoupon', 'CappedFlooredIborCoupon', 'CappedFlooredYoYInflationCoupon', 'CashDividendEuropeanEngine', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChebyshevInterpolation', 'ChebyshevPointsType', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'ChoiAsianEngine', 'ChoiBasketEngine', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompositeZeroYieldStructure', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'CompoundingOvernightIndexedCouponPricer', 'Concentrating1dMesher', 'ConjugateGradient', 'ConstNotionalCrossCurrencyBasisSwap', 'ConstNotionalCrossCurrencyBasisSwapArguments', 'ConstNotionalCrossCurrencyBasisSwapResults', 'ConstNotionalCrossCurrencyFixedVsFloatingSwap', 'ConstNotionalCrossCurrencyFixedVsFloatingSwapArguments', 'ConstNotionalCrossCurrencyFixedVsFloatingSwapResults', 'ConstNotionalCrossCurrencySwap', 'ConstNotionalCrossCurrencySwapArguments', 'ConstNotionalCrossCurrencySwapResults', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousArithmeticAsianLevyEngine', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'ConvexMonotoneInterpolation', 'CoxIngersollRoss', 'CraigSneyd', 'CraigSneydScheme', 'CrankNicolson', 'CrankNicolsonScheme', 'CreditDefaultSwap', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'Custom', 'CustomRegion', 'CustomSmile', 'CzechRepublic', 'DASHCurrency', 'DEConfiguration', 'DECrossoverType', 'DEMCurrency', 'DEStrategy', 'DKKCurrency', 'Daily', 'DailyTenorLibor', 'DailyTenorUSDLibor', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DeltaVolQuote', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'Diagonal', 'DifferentialEvolution', 'DigitalCmsCoupon', 'DigitalCmsLeg', 'DigitalCoupon', 'DigitalIborCoupon', 'DigitalIborLeg', 'DigitalReplication', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingConstNotionalCrossCurrencySwapEngine', 'DiscountingFxForwardEngine', 'DiscountingPerpetualFuturesEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DouglasScheme', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndB1', 'EndB2', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExpSinhIntegral', 'ExplicitEuler', 'ExplicitEulerScheme', 'ExponentialFittingHestonEngine', 'ExponentialJump1dMesher', 'ExponentialSplinesFitting', 'ExtendedCoxIngersollRoss', 'ExtendedOUDiscretization', 'ExtendedOrnsteinUhlenbeckProcess', 'ExtrapolatePayoffFlat', 'FFTVarianceGammaEngine', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Factors', 'Fd2dBlackScholesVanillaEngine', 'FdBatesVanillaEngine', 'FdBlackScholesAsianEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesRebateEngine', 'FdBlackScholesShoutEngine', 'FdBlackScholesVanillaEngine', 'FdCEVVanillaEngine', 'FdG2SwaptionEngine', 'FdHestonBarrierEngine', 'FdHestonDoubleBarrierEngine', 'FdHestonHullWhiteVanillaEngine', 'FdHestonRebateEngine', 'FdHestonVanillaEngine', 'FdHullWhiteSwaptionEngine', 'FdOrnsteinUhlenbeckVanillaEngine', 'FdSabrVanillaEngine', 'Fdm1DimSolver', 'Fdm1dMesher', 'Fdm2DimSolver', 'Fdm2dBlackScholesOp', 'Fdm2dBlackScholesSolver', 'Fdm3DimSolver', 'FdmAmericanStepCondition', 'FdmArithmeticAverageCondition', 'FdmBackwardSolver', 'FdmBatesOp', 'FdmBatesSolver', 'FdmBermudanStepCondition', 'FdmBlackScholesFwdOp', 'FdmBlackScholesMesher', 'FdmBlackScholesOp', 'FdmBlackScholesSolver', 'FdmBoundaryCondition', 'FdmCEV1dMesher', 'FdmCEVOp', 'FdmCellAveragingInnerValue', 'FdmDirichletBoundary', 'FdmDiscountDirichletBoundary', 'FdmDividendHandler', 'FdmG2Op', 'FdmG2Solver', 'FdmHestonFwdOp', 'FdmHestonGreensFctAlgorithm', 'FdmHestonHullWhiteOp', 'FdmHestonLocalVolatilityVarianceMesher', 'FdmHestonOp', 'FdmHestonSolver', 'FdmHestonVarianceMesher', 'FdmHullWhiteOp', 'FdmHullWhiteSolver', 'FdmLinearOp', 'FdmLinearOpComposite', 'FdmLinearOpIterator', 'FdmLinearOpLayout', 'FdmLocalVolFwdOp', 'FdmLogBasketInnerValue', 'FdmLogInnerValue', 'FdmMesher', 'FdmMesherComposite', 'FdmOrnsteinUhlenbeckOp', 'FdmQuantoHelper', 'FdmSabrOp', 'FdmSchemeDesc', 'FdmSchemeType', 'FdmSimpleProcess1dMesher', 'FdmSimpleSwingCondition', 'FdmSnapshotCondition', 'FdmSolverDesc', 'FdmSquareRootFwdOp', 'FdmSquareRootFwdOpTransformationType', 'FdmStepConditionComposite', 'FdmTimeDepDirichletBoundary', 'FdmZeroInnerValue', 'FdndimBlackScholesVanillaEngine', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FirstDerivativeOp', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatExtrapolator', 'FlatExtrapolator2D', 'FlatForward', 'FlatHazardRate', 'FlatSmileSection', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardFlatInterpolation', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardSpreadedTermStructure', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'FritschButlandLogCubic', 'Futures', 'FuturesRateHelper', 'FxForward', 'G2', 'G2ForwardProcess', 'G2Handle', 'G2Process', 'G2SwaptionEngine', 'GBPCurrency', 'GBSMRNDCalculator', 'GELCurrency', 'GHSCurrency', 'GJRGARCHModel', 'GJRGARCHProcess', 'GJRGARCHProcessDiscretization', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GaussChebyshev2ndIntegration', 'GaussChebyshev2ndIntegrator', 'GaussChebyshevIntegration', 'GaussChebyshevIntegrator', 'GaussGegenbauerIntegration', 'GaussHermiteIntegration', 'GaussHyperbolicIntegration', 'GaussJacobiIntegration', 'GaussKronrodAdaptive', 'GaussKronrodNonAdaptive', 'GaussLaguerreIntegration', 'GaussLegendreIntegration', 'GaussLegendreIntegrator', 'GaussLobattoIntegral', 'Gaussian1dCapFloorEngine', 'Gaussian1dFloatFloatSwaptionEngine', 'Gaussian1dJamshidianSwaptionEngine', 'Gaussian1dModelHandle', 'Gaussian1dNonstandardSwaptionEngine', 'Gaussian1dSwaptionEngine', 'GaussianCopulaSpreadEngine', 'GaussianLowDiscrepancySequenceGenerator', 'GaussianMultiPathGenerator', 'GaussianPathGenerator', 'GaussianRandomGenerator', 'GaussianRandomSequenceGenerator', 'GaussianSobolMultiPathGenerator', 'GaussianSobolPathGenerator', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'GeneralizedBlackScholesProcessHandle', 'GeometricBrownianMotionProcess', 'Germany', 'Glued1dMesher', 'Greeks', 'Gsr', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HaganPricer', 'HalfMonthModifiedFollowing', 'HaltonRsg', 'Harmonic', 'HarmonicLogCubic', 'Hermite', 'HestonBlackVolSurface', 'HestonExpansionEngine', 'HestonExpansionFormula', 'HestonModel', 'HestonModelHandle', 'HestonModelHelper', 'HestonProcess', 'HestonProcessHandle', 'HestonRNDCalculator', 'HestonSLVFDMModel', 'HestonSLVFokkerPlanckFdmParams', 'HestonSLVMCModel', 'HestonSLVProcess', 'HolderExtensibleOption', 'HongKong', 'Hours', 'HullWhite', 'HullWhiteForwardProcess', 'HullWhiteHandle', 'HullWhiteProcess', 'Hundsdorfer', 'HundsdorferScheme', 'Hungary', 'HybridHestonHullWhiteProcess', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'IMM', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'ImplicitEulerScheme', 'ImplicitEulerSolverType', 'ImpliedTermStructure', 'IncrementalStatistics', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'JuQuadraticApproximationEngine', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KahaleInterpolation', 'KahaleSmile', 'KahaleSmileSection', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'KrugerLogCubic', 'LBFGSB', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'LagrangeInterpolation', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'Libor', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolRNDCalculator', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogCubicInterpolation', 'LogCubicNaturalSpline', 'LogLinearInterpolation', 'LogMixedLinearCubicInterpolation', 'LogMixedLinearCubicNaturalSpline', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanBasketEngine', 'MCAmericanEngine', 'MCBarrierEngine', 'MCDigitalEngine', 'MCDiscreteArithmeticAPEngine', 'MCDiscreteArithmeticAPHestonEngine', 'MCDiscreteArithmeticASEngine', 'MCDiscreteGeometricAPEngine', 'MCDiscreteGeometricAPHestonEngine', 'MCDoubleBarrierEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCEuropeanGJRGARCHEngine', 'MCEuropeanHestonEngine', 'MCForwardEuropeanBSEngine', 'MCForwardEuropeanHestonEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MTBrownianGenerator', 'MTBrownianGeneratorFactory', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeFdHestonVanillaEngine', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Mar', 'March', 'MargrabeOption', 'MarkovFunctional', 'MarkovFunctionalAdjustments', 'MarkovFunctionalModelOutputs', 'MarkovFunctionalModelSettings', 'Matrix', 'MaxBasketPayoff', 'May', 'MersenneTwisterUniformRng', 'Merton76Process', 'MethodOfLines', 'MethodOfLinesScheme', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'MidPointTrapezoidIntegral', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'MixedInterpolationBehavior', 'MixedLinearCubicInterpolation', 'MixedLinearCubicNaturalSpline', 'MixedLinearFritschButlandCubic', 'MixedLinearKrugerCubic', 'MixedLinearMonotonicCubicNaturalSpline', 'ModifiedCraigSneyd', 'ModifiedCraigSneydScheme', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'MonotonicLogCubicNaturalSpline', 'Month', 'Monthly', 'Months', 'MoreGreeks', 'MultiCompositeQuote', 'MultiCurve', 'MultiPath', 'MultipleResetsSwap', 'MultipleResetsSwapRateHelper', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'NinePointLinearOp', 'NoArbSabrInterpolatedSmileSection', 'NoArbSabrModel', 'NoArbSabrSmileSection', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NoPayoffExtrapolation', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'Norway', 'NotAKnot', 'Nov', 'November', 'NthOrderDerivativeOp', 'NullCalendar', 'NullReal', 'NullSize', 'NumericHaganPricer', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'Ordering', 'OrnsteinUhlenbeckProcess', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexFuture', 'OvernightIndexFutureRateHelper', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PartialBarrierRange', 'PartialTimeBarrierOption', 'Path', 'PearsonSpreadEngine', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PerpetualFutures', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatForwardGlobal', 'PiecewiseBackwardFlatHazard', 'PiecewiseBlackVarianceSurface', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseKrugerLogDiscount', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLinearZeroGlobal', 'PiecewiseLogCubicDiscount', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearDiscountGlobal', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Predefined1dMesher', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QdPlusAmericanEngine', 'QdPlusAmericanEngineSolverType', 'QuantoForwardVanillaEngine', 'QuantoForwardVanillaOption', 'QuantoTermStructure', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'ReplicationType', 'RichardsonExtrapolation', 'Romania', 'Rounding', 'Russia', 'SABRInterpolation', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SVD', 'SabrInterpolatedSmileSection', 'SabrSmile', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'SampleMultiPath', 'SampleNumber', 'SamplePath', 'SampleRealVector', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'SecondDerivativeOp', 'SecondOrderMixedDerivativeOp', 'Seconds', 'SegmentIntegral', 'Semiannual', 'Sep', 'September', 'SequenceStatistics', 'Settings', 'SettlementMethod', 'SettlementType', 'ShareRanges', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Simplex', 'SimpsonIntegral', 'Singapore', 'SingleFactorBsmBasketEngine', 'Slovakia', 'SmileDeleteArbitragePoints', 'SmileExponentialExtrapolation', 'SobolBrownianBridgeRsg', 'SobolBrownianGenerator', 'SobolBrownianGeneratorFactory', 'SobolRsg', 'Sofr', 'SofrFutureRateHelper', 'SoftBarrierOption', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'SplitRanges', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'SpreadedSwaptionVolatility', 'Sqrt', 'SquareRootProcess', 'SquareRootProcessRNDCalculator', 'Start', 'Statistics', 'SteepestDescent', 'Steps', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapSpreadIndex', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'SymmetricSchurDecomposition', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'TabulatedGaussLegendre', 'Taiwan', 'TanhSinhIntegral', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TrapezoidIntegral', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeCapFloorEngine', 'TreeSwaptionEngine', 'TripleBandLinearOp', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'TwoAssetBarrierOption', 'TwoAssetCorrelationOption', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USDLibor', 'USDLiborON', 'USRegion', 'UYUCurrency', 'Ukraine', 'UltimateForwardTermStructure', 'Unadjusted', 'Uniform1dMesher', 'UniformRandomSequenceGenerator', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceGammaEngine', 'VarianceGammaModel', 'VarianceGammaProcess', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'WriterExtensibleOption', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldCurveModel', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
+__all__: list[str] = ['AEDCurrency', 'AOACurrency', 'ARSCurrency', 'ASX', 'ATSCurrency', 'AUCPI', 'AUDCurrency', 'Abs', 'Actual360', 'Actual364', 'Actual36525', 'Actual365Fixed', 'Actual366', 'ActualActual', 'AdaptiveRungeKutta', 'AdjustDigitals', 'AdjustNone', 'AdjustYts', 'Akima', 'AmericanExercise', 'AmortizingCmsRateBond', 'AmortizingFixedRateBond', 'AmortizingFloatingRateBond', 'AmortizingPayment', 'AnalyticAmericanMargrabeEngine', 'AnalyticBSMHullWhiteEngine', 'AnalyticBarrierEngine', 'AnalyticBinaryBarrierEngine', 'AnalyticBlackVasicekEngine', 'AnalyticCEVEngine', 'AnalyticCapFloorEngine', 'AnalyticCliquetEngine', 'AnalyticComplexChooserEngine', 'AnalyticCompoundOptionEngine', 'AnalyticContinuousFixedLookbackEngine', 'AnalyticContinuousFloatingLookbackEngine', 'AnalyticContinuousGeometricAveragePriceAsianEngine', 'AnalyticContinuousPartialFixedLookbackEngine', 'AnalyticContinuousPartialFloatingLookbackEngine', 'AnalyticDigitalAmericanEngine', 'AnalyticDigitalAmericanKOEngine', 'AnalyticDiscreteGeometricAveragePriceAsianEngine', 'AnalyticDiscreteGeometricAverageStrikeAsianEngine', 'AnalyticDividendEuropeanEngine', 'AnalyticDoubleBarrierBinaryEngine', 'AnalyticDoubleBarrierEngine', 'AnalyticEuropeanEngine', 'AnalyticEuropeanMargrabeEngine', 'AnalyticGJRGARCHEngine', 'AnalyticH1HWEngine', 'AnalyticHaganPricer', 'AnalyticHestonEngine', 'AnalyticHestonHullWhiteEngine', 'AnalyticHolderExtensibleOptionEngine', 'AnalyticPDFHestonEngine', 'AnalyticPTDHestonEngine', 'AnalyticPartialTimeBarrierOptionEngine', 'AnalyticSimpleChooserEngine', 'AnalyticSoftBarrierEngine', 'AnalyticTwoAssetBarrierEngine', 'AnalyticTwoAssetCorrelationEngine', 'AnalyticWriterExtensibleOptionEngine', 'AndreasenHugeCalibrationType', 'AndreasenHugeInterpolationType', 'AndreasenHugeLocalVolAdapter', 'AndreasenHugeVolatilityAdapter', 'AndreasenHugeVolatilityInterpl', 'Annual', 'Apr', 'April', 'Argentina', 'ArithmeticAveragedOvernightIndexedCouponPricer', 'Array', 'AssetOrNothingPayoff', 'AssetSwap', 'Aug', 'August', 'Australia', 'AustraliaRegion', 'Austria', 'AverageBMACoupon', 'AverageBMALeg', 'AverageBasketPayoff', 'AverageType', 'BCHCurrency', 'BDTCurrency', 'BEFCurrency', 'BFGS', 'BGLCurrency', 'BGNCurrency', 'BHDCurrency', 'BMAIndex', 'BOOST_VERSION', 'BRLCurrency', 'BSMRNDCalculator', 'BTCCurrency', 'BWPCurrency', 'BYRCurrency', 'BachelierCalculator', 'BachelierCapFloorEngine', 'BachelierSwaptionEngine', 'BachelierYoYInflationCouponPricer', 'BackwardFlatInterpolation', 'BackwardflatLinearInterpolation', 'BaroneAdesiWhaleyApproximationEngine', 'BarrierOption', 'BarrierType', 'BasketOption', 'BasketOptionEngine', 'BatesEngine', 'BatesModel', 'BatesProcess', 'BatesProcessHandle', 'BermudanExercise', 'BespokeCalendar', 'BicubicSpline', 'BilinearInterpolation', 'Bimonthly', 'BinomialBarrierEngine', 'BinomialConvertibleEngine', 'BinomialVanillaEngine', 'Bisection', 'BivariateCumulativeNormalDistribution', 'Biweekly', 'BjerksundStenslandApproximationEngine', 'BjerksundStenslandSpreadEngine', 'BlackAveragingOvernightIndexedCouponPricer', 'BlackCalculator', 'BlackCallableFixedRateBondEngine', 'BlackCallableZeroCouponBondEngine', 'BlackCapFloorEngine', 'BlackCdsOptionEngine', 'BlackCompoundingOvernightIndexedCouponPricer', 'BlackConstantVol', 'BlackIborCouponPricer', 'BlackKarasinski', 'BlackProcess', 'BlackScholesMertonProcess', 'BlackScholesProcess', 'BlackSwaptionEngine', 'BlackVarianceSurface', 'BlackVarianceSurfaceExtrapolation', 'BlackVolTermStructureHandle', 'BlackVolTimeExtrapolation', 'BlackVolatilitySurfaceDelta', 'BlackYoYInflationCouponPricer', 'Bond', 'BondForward', 'BondFunctions', 'BondHelper', 'BondPrice', 'BondPriceType', 'Botswana', 'BoundaryConditionSide', 'BoundaryConstraint', 'BoxMullerGaussianRng', 'Brazil', 'Brent', 'BrownianBridge', 'Burley2020SobolBrownianBridgeRsg', 'Burley2020SobolBrownianGenerator', 'Burley2020SobolBrownianGeneratorFactory', 'Burley2020SobolRsg', 'Business252', 'BusinessDayConvention', 'CADCurrency', 'CEVCalculator', 'CEVRNDCalculator', 'CHFCurrency', 'CLFCurrency', 'CLPCurrency', 'CNHCurrency', 'CNYCurrency', 'COPCurrency', 'COSHestonEngine', 'COUCurrency', 'CPI', 'CPIBond', 'CYPCurrency', 'CZKCurrency', 'Calendar', 'CalendarVector', 'CalibrationErrorType', 'Call', 'Callability', 'CallabilityType', 'CallableBondConstantVolatility', 'CallableFixedRateBond', 'CallableZeroCouponBond', 'Canada', 'Cap', 'CapFloor', 'CapFloorTermVolSurface', 'CapFloorType', 'CapHelper', 'CappedFlooredCmsCoupon', 'CappedFlooredCoupon', 'CappedFlooredIborCoupon', 'CappedFlooredYoYInflationCoupon', 'CashDividendEuropeanEngine', 'CashDividendModel', 'CashOrNothingPayoff', 'CdsOption', 'CdsPricingModel', 'CeilingTruncation', 'Chebyshev', 'Chebyshev2nd', 'ChebyshevInterpolation', 'ChebyshevPointsType', 'ChfLiborSwapIsdaFix', 'Chile', 'China', 'ChoiAsianEngine', 'ChoiBasketEngine', 'CliquetOption', 'ClosestRounding', 'CmsCoupon', 'CmsLeg', 'CmsRateBond', 'Collar', 'ComplexChooserOption', 'ComplexLogFormula', 'CompositeConstraint', 'CompositeInstrument', 'CompositeQuote', 'CompositeZeroYieldStructure', 'CompoundOption', 'Compounded', 'CompoundedThenSimple', 'Compounding', 'CompoundingOvernightIndexedCouponPricer', 'Concentrating1dMesher', 'ConjugateGradient', 'ConstNotionalCrossCurrencyBasisSwap', 'ConstNotionalCrossCurrencyBasisSwapArguments', 'ConstNotionalCrossCurrencyBasisSwapResults', 'ConstNotionalCrossCurrencyFixedVsFloatingSwap', 'ConstNotionalCrossCurrencyFixedVsFloatingSwapArguments', 'ConstNotionalCrossCurrencyFixedVsFloatingSwapResults', 'ConstNotionalCrossCurrencySwap', 'ConstNotionalCrossCurrencySwapArguments', 'ConstNotionalCrossCurrencySwapResults', 'ConstantOptionletVolatility', 'ConstantParameter', 'ConstantSwaptionVolatility', 'ConstantYoYOptionletVolatility', 'Continuous', 'ContinuousArithmeticAsianLevyEngine', 'ContinuousAveragingAsianOption', 'ContinuousFixedLookbackOption', 'ContinuousFloatingLookbackOption', 'ContinuousPartialFixedLookbackOption', 'ContinuousPartialFloatingLookbackOption', 'ConvertibleBond', 'ConvertibleFixedCouponBond', 'ConvertibleFloatingRateBond', 'ConvertibleZeroCouponBond', 'ConvexMonotoneInterpolation', 'CoxIngersollRoss', 'CraigSneyd', 'CraigSneydScheme', 'CrankNicolson', 'CrankNicolsonScheme', 'CreditDefaultSwap', 'Croatia', 'CubicBSplinesFitting', 'CubicBoundaryCondition', 'CubicDerivativeApprox', 'CubicInterpolation', 'CubicNaturalSpline', 'CumulativeNormalDistribution', 'Currency', 'Custom', 'CustomRegion', 'CustomSmile', 'CzechRepublic', 'DASHCurrency', 'DEConfiguration', 'DECrossoverType', 'DEMCurrency', 'DEStrategy', 'DKKCurrency', 'Daily', 'DailyTenorLibor', 'DailyTenorUSDLibor', 'Date', 'DateGeneration', 'DayCounter', 'Days', 'Dec', 'December', 'DefaultProbabilityTermStructureHandle', 'DeltaVolQuote', 'DengLiZhouBasketEngine', 'Denmark', 'DepositRateHelper', 'DerivedQuote', 'Diagonal', 'DifferentialEvolution', 'DigitalCmsCoupon', 'DigitalCmsLeg', 'DigitalCoupon', 'DigitalIborCoupon', 'DigitalIborLeg', 'DigitalReplication', 'DiscountCurve', 'DiscountingBondEngine', 'DiscountingConstNotionalCrossCurrencySwapEngine', 'DiscountingFxForwardEngine', 'DiscountingPerpetualFuturesEngine', 'DiscountingSwapEngine', 'DiscreteAveragingAsianOption', 'DividendVector', 'DotProduct', 'DoubleBarrierOption', 'DoubleBarrierType', 'Douglas', 'DouglasScheme', 'DownRounding', 'DurationType', 'EEKCurrency', 'EGPCurrency', 'EPSILON', 'ESPCurrency', 'ETBCurrency', 'ETCCurrency', 'ETHCurrency', 'EUHICP', 'EUHICPXT', 'EURCurrency', 'EURegion', 'EndB1', 'EndB2', 'EndCriteria', 'Eonia', 'EquityIndex', 'EquityTotalReturnSwap', 'Error', 'Escrowed', 'Estr', 'EulerDiscretization', 'EurLiborSwapIfrFix', 'EurLiborSwapIsdaFixA', 'EurLiborSwapIsdaFixB', 'Euribor', 'Euribor1M', 'Euribor1W', 'Euribor1Y', 'Euribor365', 'Euribor3M', 'Euribor6M', 'EuriborSwapIfrFix', 'EuriborSwapIsdaFixA', 'EuriborSwapIsdaFixB', 'EuropeanExercise', 'EveryFourthMonth', 'EveryFourthWeek', 'ExchangeRate', 'ExchangeRateManager', 'Exercise', 'Exp', 'ExpSinhIntegral', 'ExplicitEuler', 'ExplicitEulerScheme', 'ExponentialFittingHestonEngine', 'ExponentialJump1dMesher', 'ExponentialSplinesFitting', 'ExtendedCoxIngersollRoss', 'ExtendedOUDiscretization', 'ExtendedOrnsteinUhlenbeckProcess', 'ExtrapolatePayoffFlat', 'FFTVarianceGammaEngine', 'FIMCurrency', 'FRFCurrency', 'FRHICP', 'FaceValueAccrualClaim', 'FaceValueClaim', 'Factors', 'Fd2dBlackScholesVanillaEngine', 'FdBatesVanillaEngine', 'FdBlackScholesAsianEngine', 'FdBlackScholesBarrierEngine', 'FdBlackScholesRebateEngine', 'FdBlackScholesShoutEngine', 'FdBlackScholesVanillaEngine', 'FdCEVVanillaEngine', 'FdG2SwaptionEngine', 'FdHestonBarrierEngine', 'FdHestonDoubleBarrierEngine', 'FdHestonHullWhiteVanillaEngine', 'FdHestonRebateEngine', 'FdHestonVanillaEngine', 'FdHullWhiteSwaptionEngine', 'FdOrnsteinUhlenbeckVanillaEngine', 'FdSabrVanillaEngine', 'Fdm1DimSolver', 'Fdm1dMesher', 'Fdm2DimSolver', 'Fdm2dBlackScholesOp', 'Fdm2dBlackScholesSolver', 'Fdm3DimSolver', 'FdmAmericanStepCondition', 'FdmArithmeticAverageCondition', 'FdmBackwardSolver', 'FdmBatesOp', 'FdmBatesSolver', 'FdmBermudanStepCondition', 'FdmBlackScholesFwdOp', 'FdmBlackScholesMesher', 'FdmBlackScholesOp', 'FdmBlackScholesSolver', 'FdmBoundaryCondition', 'FdmCEV1dMesher', 'FdmCEVOp', 'FdmCellAveragingInnerValue', 'FdmDirichletBoundary', 'FdmDiscountDirichletBoundary', 'FdmDividendHandler', 'FdmG2Op', 'FdmG2Solver', 'FdmHestonFwdOp', 'FdmHestonGreensFctAlgorithm', 'FdmHestonHullWhiteOp', 'FdmHestonLocalVolatilityVarianceMesher', 'FdmHestonOp', 'FdmHestonSolver', 'FdmHestonVarianceMesher', 'FdmHullWhiteOp', 'FdmHullWhiteSolver', 'FdmLinearOp', 'FdmLinearOpComposite', 'FdmLinearOpIterator', 'FdmLinearOpLayout', 'FdmLocalVolFwdOp', 'FdmLogBasketInnerValue', 'FdmLogInnerValue', 'FdmMesher', 'FdmMesherComposite', 'FdmOrnsteinUhlenbeckOp', 'FdmQuantoHelper', 'FdmSabrOp', 'FdmSchemeDesc', 'FdmSchemeType', 'FdmSimpleProcess1dMesher', 'FdmSimpleSwingCondition', 'FdmSnapshotCondition', 'FdmSolverDesc', 'FdmSquareRootFwdOp', 'FdmSquareRootFwdOpTransformationType', 'FdmStepConditionComposite', 'FdmTimeDepDirichletBoundary', 'FdmZeroInnerValue', 'FdndimBlackScholesVanillaEngine', 'Feb', 'February', 'Finland', 'FirstDerivative', 'FirstDerivativeOp', 'FittedBondDiscountCurve', 'FixedDividend', 'FixedLocalVolExtrapolation', 'FixedLocalVolSurface', 'FixedRateBond', 'FixedRateBondHelper', 'FixedRateCoupon', 'FixedRateLeg', 'FixedVsFloatingSwap', 'FixedVsFloatingSwapArguments', 'FixedVsFloatingSwapResults', 'FlatExtrapolator', 'FlatExtrapolator2D', 'FlatForward', 'FlatHazardRate', 'FlatSmileSection', 'FloatFloatSwap', 'FloatFloatSwaption', 'FloatingRateBond', 'FloatingRateCoupon', 'FloatingTypePayoff', 'Floor', 'FloorTruncation', 'Following', 'ForwardCurve', 'ForwardEuropeanEngine', 'ForwardFlatInterpolation', 'ForwardPerformanceEuropeanEngine', 'ForwardRateAgreement', 'ForwardSpreadedTermStructure', 'ForwardTypePayoff', 'ForwardVanillaOption', 'FourthOrder', 'FraRateHelper', 'FractionalDividend', 'France', 'FranceRegion', 'Frequency', 'Fri', 'Friday', 'FritschButland', 'FritschButlandLogCubic', 'Futures', 'FuturesRateHelper', 'FxForward', 'G2', 'G2ForwardProcess', 'G2Handle', 'G2Process', 'G2SwaptionEngine', 'GBPCurrency', 'GBSMRNDCalculator', 'GELCurrency', 'GHSCurrency', 'GJRGARCHModel', 'GJRGARCHProcess', 'GJRGARCHProcessDiscretization', 'GRDCurrency', 'GapPayoff', 'GarmanKohlhagenProcess', 'GaussChebyshev2ndIntegration', 'GaussChebyshev2ndIntegrator', 'GaussChebyshevIntegration', 'GaussChebyshevIntegrator', 'GaussGegenbauerIntegration', 'GaussHermiteIntegration', 'GaussHyperbolicIntegration', 'GaussJacobiIntegration', 'GaussKronrodAdaptive', 'GaussKronrodNonAdaptive', 'GaussLaguerreIntegration', 'GaussLegendreIntegration', 'GaussLegendreIntegrator', 'GaussLobattoIntegral', 'Gaussian1dCapFloorEngine', 'Gaussian1dFloatFloatSwaptionEngine', 'Gaussian1dJamshidianSwaptionEngine', 'Gaussian1dModelHandle', 'Gaussian1dNonstandardSwaptionEngine', 'Gaussian1dSwaptionEngine', 'GaussianCopulaSpreadEngine', 'GaussianLowDiscrepancySequenceGenerator', 'GaussianMultiPathGenerator', 'GaussianPathGenerator', 'GaussianRandomGenerator', 'GaussianRandomSequenceGenerator', 'GaussianSobolMultiPathGenerator', 'GaussianSobolPathGenerator', 'GbpLiborSwapIsdaFix', 'GeneralizedBlackScholesProcess', 'GeneralizedBlackScholesProcessHandle', 'GeometricBrownianMotionProcess', 'Germany', 'Glued1dMesher', 'Greeks', 'Gsr', 'HKDCurrency', 'HRKCurrency', 'HUFCurrency', 'HaganPricer', 'HalfMonthModifiedFollowing', 'HaltonRsg', 'Harmonic', 'HarmonicLogCubic', 'Hermite', 'HestonBlackVolSurface', 'HestonExpansionEngine', 'HestonExpansionFormula', 'HestonModel', 'HestonModelHandle', 'HestonModelHelper', 'HestonProcess', 'HestonProcessHandle', 'HestonRNDCalculator', 'HestonSLVFDMModel', 'HestonSLVFokkerPlanckFdmParams', 'HestonSLVMCModel', 'HestonSLVProcess', 'HolderExtensibleOption', 'HongKong', 'Hours', 'HullWhite', 'HullWhiteForwardProcess', 'HullWhiteHandle', 'HullWhiteProcess', 'Hundsdorfer', 'HundsdorferScheme', 'Hungary', 'HybridHestonHullWhiteProcess', 'Hyperbolic', 'IDRCurrency', 'IEPCurrency', 'ILSCurrency', 'IMM', 'INRCurrency', 'IQDCurrency', 'IRRCurrency', 'ISKCurrency', 'ITLCurrency', 'IborCoupon', 'IborCouponSettings', 'IborIndex', 'IborLeg', 'Iceland', 'ImplicitEuler', 'ImplicitEulerScheme', 'ImplicitEulerSolverType', 'ImpliedTermStructure', 'IncrementalStatistics', 'India', 'Indonesia', 'IntegralEngine', 'Integration', 'InterestRate', 'InverseCumulativeNormal', 'IsdaAccrualBias', 'IsdaCdsEngine', 'IsdaForwardsInCouponPeriod', 'IsdaNumericalFix', 'Israel', 'Italy', 'JODCurrency', 'JPYCurrency', 'JamshidianSwaptionEngine', 'Jan', 'January', 'Japan', 'JoinBusinessDays', 'JoinHolidays', 'JointCalendar', 'JointCalendarRule', 'JpyLiborSwapIsdaFixAm', 'JpyLiborSwapIsdaFixPm', 'JuQuadraticApproximationEngine', 'Jul', 'July', 'Jun', 'June', 'KESCurrency', 'KRWCurrency', 'KWDCurrency', 'KZTCurrency', 'KahaleInterpolation', 'KahaleSmile', 'KahaleSmileSection', 'KerkhofSeasonality', 'KirkEngine', 'Kruger', 'KrugerLogCubic', 'LBFGSB', 'LKRCurrency', 'LTCCurrency', 'LTLCurrency', 'LUFCurrency', 'LVLCurrency', 'Lagrange', 'LagrangeInterpolation', 'Laguerre', 'Legendre', 'LevenbergMarquardt', 'Libor', 'LinearInterpolation', 'LinearTsrPricer', 'LinearTsrPricerSettings', 'LinearTsrPricerStrategy', 'LocalConstantVol', 'LocalVolRNDCalculator', 'LocalVolSurface', 'LocalVolTermStructureHandle', 'Log', 'LogCubicInterpolation', 'LogCubicNaturalSpline', 'LogLinearInterpolation', 'LogMixedLinearCubicInterpolation', 'LogMixedLinearCubicNaturalSpline', 'MADCurrency', 'MAX_INTEGER', 'MAX_REAL', 'MCAmericanBasketEngine', 'MCAmericanEngine', 'MCBarrierEngine', 'MCDigitalEngine', 'MCDiscreteArithmeticAPEngine', 'MCDiscreteArithmeticAPHestonEngine', 'MCDiscreteArithmeticASEngine', 'MCDiscreteGeometricAPEngine', 'MCDiscreteGeometricAPHestonEngine', 'MCDoubleBarrierEngine', 'MCEuropeanBasketEngine', 'MCEuropeanEngine', 'MCEuropeanGJRGARCHEngine', 'MCEuropeanHestonEngine', 'MCForwardEuropeanBSEngine', 'MCForwardEuropeanHestonEngine', 'MCLDEuropeanBasketEngine', 'MIN_INTEGER', 'MIN_POSITIVE_REAL', 'MIN_REAL', 'MKDCurrency', 'MTBrownianGenerator', 'MTBrownianGeneratorFactory', 'MTLCurrency', 'MURCurrency', 'MXNCurrency', 'MXVCurrency', 'MYRCurrency', 'MakeCapFloor', 'MakeFdHestonVanillaEngine', 'MakeOIS', 'MakeSchedule', 'MakeSwaption', 'MakeVanillaSwap', 'MakeYoYInflationCapFloor', 'Malta', 'Mar', 'March', 'MargrabeOption', 'MarkovFunctional', 'MarkovFunctionalAdjustments', 'MarkovFunctionalModelOutputs', 'MarkovFunctionalModelSettings', 'Matrix', 'MaxBasketPayoff', 'May', 'MersenneTwisterUniformRng', 'Merton76Process', 'MethodOfLines', 'MethodOfLinesScheme', 'Mexico', 'Microseconds', 'MidPointCdsEngine', 'MidPointTrapezoidIntegral', 'Milliseconds', 'MinBasketPayoff', 'Minutes', 'MixedInterpolationBehavior', 'MixedLinearCubicInterpolation', 'MixedLinearCubicNaturalSpline', 'MixedLinearFritschButlandCubic', 'MixedLinearKrugerCubic', 'MixedLinearMonotonicCubicNaturalSpline', 'ModifiedCraigSneyd', 'ModifiedCraigSneydScheme', 'ModifiedFollowing', 'ModifiedPreceding', 'Mon', 'Monday', 'Money', 'Monomial', 'MonotonicCubicNaturalSpline', 'MonotonicLogCubicNaturalSpline', 'Montenegro', 'Month', 'Monthly', 'Months', 'MoonSightingMethod', 'MoreGreeks', 'MultiCompositeQuote', 'MultiCurve', 'MultiPath', 'MultipleResetsSwap', 'MultipleResetsSwapRateHelper', 'MultiplicativePriceSeasonality', 'NGNCurrency', 'NLGCurrency', 'NOKCurrency', 'NPRCurrency', 'NZDCurrency', 'Nearest', 'NelsonSiegelFitting', 'NewZealand', 'Newton', 'Nibor', 'NinePointLinearOp', 'NoArbSabrInterpolatedSmileSection', 'NoArbSabrModel', 'NoArbSabrSmileSection', 'NoConstraint', 'NoExceptLocalVolSurface', 'NoFrequency', 'NoPayoffExtrapolation', 'NonstandardSwap', 'NonstandardSwaption', 'NormalDistribution', 'NorthMacedonia', 'Norway', 'NotAKnot', 'Nov', 'November', 'NthOrderDerivativeOp', 'NullCalendar', 'NullReal', 'NullSize', 'NumericHaganPricer', 'OISRateHelper', 'OMRCurrency', 'Observable', 'ObservableValue_Date', 'Oct', 'October', 'Once', 'OneDayCounter', 'OperatorSplittingSpreadEngine', 'OptionType', 'OptionletStripper1', 'OptionletVolatilityStructureHandle', 'Ordering', 'OrnsteinUhlenbeckProcess', 'OtherFrequency', 'OvernightIndex', 'OvernightIndexFuture', 'OvernightIndexFutureRateHelper', 'OvernightIndexedCoupon', 'OvernightIndexedSwap', 'OvernightIndexedSwapIndex', 'OvernightLeg', 'PEHCurrency', 'PEICurrency', 'PENCurrency', 'PHPCurrency', 'PKRCurrency', 'PLNCurrency', 'PTECurrency', 'Parabolic', 'Parameter', 'PartialBarrierRange', 'PartialTimeBarrierOption', 'Path', 'PearsonSpreadEngine', 'PercentageStrikePayoff', 'Period', 'Periodic', 'PerpetualFutures', 'PiecewiseBackwardFlatForward', 'PiecewiseBackwardFlatForwardGlobal', 'PiecewiseBackwardFlatHazard', 'PiecewiseBlackVarianceSurface', 'PiecewiseCubicDiscount', 'PiecewiseCubicZero', 'PiecewiseFlatForward', 'PiecewiseFlatHazardRate', 'PiecewiseKrugerLogDiscount', 'PiecewiseLinearDefaultDensity', 'PiecewiseLinearDiscount', 'PiecewiseLinearForward', 'PiecewiseLinearZero', 'PiecewiseLinearZeroGlobal', 'PiecewiseLogCubicDiscount', 'PiecewiseLogLinearDiscount', 'PiecewiseLogLinearDiscountGlobal', 'PiecewiseLogLinearSurvival', 'PiecewiseTimeDependentHestonModel', 'PiecewiseYoYInflationCurve', 'PiecewiseZeroInflationCurve', 'Pillar', 'PlainVanillaPayoff', 'Poland', 'PolynomialType', 'PositionType', 'PositiveConstraint', 'Pow', 'Preceding', 'Predefined1dMesher', 'Problem', 'ProtectionSide', 'Put', 'QARCurrency', 'QL_VERSION', 'QL_VERSION_HEX', 'QdFpAmericanEngine', 'QdFpFixedPointEquation', 'QdFpIterationScheme', 'QdFpLegendreScheme', 'QdFpLegendreTanhSinhScheme', 'QdFpTanhSinhIterationScheme', 'QdPlusAmericanEngine', 'QdPlusAmericanEngineSolverType', 'QuantoForwardVanillaEngine', 'QuantoForwardVanillaOption', 'QuantoTermStructure', 'QuantoVanillaEngine', 'QuantoVanillaOption', 'Quarterly', 'QuoteHandle', 'ROLCurrency', 'RONCurrency', 'RSDCurrency', 'RUBCurrency', 'RateAveraging', 'Redemption', 'Region', 'RelinkableBlackVolTermStructureHandle', 'RelinkableDefaultProbabilityTermStructureHandle', 'RelinkableLocalVolTermStructureHandle', 'RelinkableOptionletVolatilityStructureHandle', 'RelinkableQuoteHandle', 'RelinkableShortRateModelHandle', 'RelinkableSwaptionVolatilityStructureHandle', 'RelinkableYieldTermStructureHandle', 'RelinkableYoYInflationTermStructureHandle', 'RelinkableYoYOptionletVolatilitySurfaceHandle', 'RelinkableZeroInflationTermStructureHandle', 'ReplicatingVarianceSwapEngine', 'ReplicationType', 'RichardsonExtrapolation', 'Romania', 'Rounding', 'Russia', 'SABRInterpolation', 'SARCurrency', 'SEKCurrency', 'SGDCurrency', 'SITCurrency', 'SKKCurrency', 'SVD', 'SabrInterpolatedSmileSection', 'SabrSmile', 'SabrSmileSection', 'SabrSwaptionVolatilityCube', 'SampleMultiPath', 'SampleNumber', 'SamplePath', 'SampleRealVector', 'Sat', 'Saturday', 'SaudiArabia', 'SavedSettings', 'Schedule', 'Secant', 'SecondDerivative', 'SecondDerivativeOp', 'SecondOrderMixedDerivativeOp', 'Seconds', 'SegmentIntegral', 'Semiannual', 'Sep', 'September', 'SequenceStatistics', 'Serbia', 'Settings', 'SettlementMethod', 'SettlementType', 'ShareRanges', 'Shir', 'ShortRateModelHandle', 'Simple', 'SimpleCashFlow', 'SimpleChooserOption', 'SimpleDayCounter', 'SimplePolynomialFitting', 'SimpleQuote', 'SimpleThenCompounded', 'Simplex', 'SimpsonIntegral', 'Singapore', 'SingleFactorBsmBasketEngine', 'Slovakia', 'Slovenia', 'SmileDeleteArbitragePoints', 'SmileExponentialExtrapolation', 'SobolBrownianBridgeRsg', 'SobolBrownianGenerator', 'SobolBrownianGeneratorFactory', 'SobolRsg', 'Sofr', 'SofrFutureRateHelper', 'SoftBarrierOption', 'SoftCallability', 'Sonia', 'SouthAfrica', 'SouthKorea', 'Spline', 'SplineOM1', 'SplineOM2', 'SplitRanges', 'Spot', 'SpreadBasketPayoff', 'SpreadCdsHelper', 'SpreadFittingMethod', 'SpreadedSwaptionVolatility', 'Sqrt', 'SquareRootProcess', 'SquareRootProcessRNDCalculator', 'Start', 'Statistics', 'SteepestDescent', 'Steps', 'StochasticProcessArray', 'StrippedOptionletAdapter', 'StulzEngine', 'Sun', 'Sunday', 'SuperFundPayoff', 'SuperSharePayoff', 'SvenssonFitting', 'SviSmileSection', 'Swap', 'SwapArguments', 'SwapIndex', 'SwapRateHelper', 'SwapResults', 'SwapSpreadIndex', 'SwapType', 'Swaption', 'SwaptionArguments', 'SwaptionHelper', 'SwaptionPriceType', 'SwaptionVolatilityCube', 'SwaptionVolatilityMatrix', 'SwaptionVolatilityStructureHandle', 'Sweden', 'Switzerland', 'SymmetricSchurDecomposition', 'TARGET', 'THBCurrency', 'TNDCurrency', 'TRLCurrency', 'TRYCurrency', 'TTDCurrency', 'TWDCurrency', 'TabulatedGaussLegendre', 'Taiwan', 'TanhSinhIntegral', 'Thailand', 'Thirty360', 'Thirty365', 'Thu', 'Thursday', 'TimeGrid', 'TimeUnit', 'TrBDF2', 'TrapezoidIntegral', 'TreeCallableFixedRateBondEngine', 'TreeCallableZeroCouponBondEngine', 'TreeCapFloorEngine', 'TreeSwaptionEngine', 'TripleBandLinearOp', 'Tue', 'Tuesday', 'Turkey', 'TurnbullWakemanAsianEngine', 'TwoAssetBarrierOption', 'TwoAssetCorrelationOption', 'UAHCurrency', 'UGXCurrency', 'UKRPI', 'UKRegion', 'USCPI', 'USDCurrency', 'USDLibor', 'USDLiborON', 'USRegion', 'UYUCurrency', 'Ukraine', 'UltimateForwardTermStructure', 'Unadjusted', 'Uniform1dMesher', 'UniformRandomSequenceGenerator', 'UnitDisplacedBlackYoYInflationCouponPricer', 'UnitedKingdom', 'UnitedStates', 'UpRounding', 'UpfrontCdsHelper', 'UsdLiborSwapIsdaFixAm', 'UsdLiborSwapIsdaFixPm', 'Uzbekistan', 'VEBCurrency', 'VNDCurrency', 'VanillaOption', 'VanillaSwap', 'VarianceGammaEngine', 'VarianceGammaModel', 'VarianceGammaProcess', 'VarianceSwap', 'Vasicek', 'VolatilityType', 'Wed', 'Wednesday', 'Weekday', 'WeekendsOnly', 'Weekly', 'Weeks', 'WriterExtensibleOption', 'XOFCurrency', 'XRPCurrency', 'YYAUCPI', 'YYEUHICP', 'YYEUHICPXT', 'YYFRHICP', 'YYUKRPI', 'YYUSCPI', 'YYZACPI', 'YearOnYearInflationSwap', 'YearOnYearInflationSwapHelper', 'Years', 'YieldCurveModel', 'YieldTermStructureHandle', 'YoYInflationBachelierCapFloorEngine', 'YoYInflationBlackCapFloorEngine', 'YoYInflationCap', 'YoYInflationCapFloor', 'YoYInflationCapFloorType', 'YoYInflationCollar', 'YoYInflationCoupon', 'YoYInflationCouponPricer', 'YoYInflationCurve', 'YoYInflationFloor', 'YoYInflationIndex', 'YoYInflationTermStructureHandle', 'YoYInflationUnitDisplacedBlackCapFloorEngine', 'YoYOptionletVolatilitySurfaceHandle', 'ZACPI', 'ZARCurrency', 'ZARegion', 'ZECCurrency', 'ZMWCurrency', 'Zaronia', 'ZeroCouponBond', 'ZeroCouponInflationSwap', 'ZeroCouponInflationSwapHelper', 'ZeroCouponSwap', 'ZeroCurve', 'ZeroInflationCashFlow', 'ZeroInflationCurve', 'ZeroInflationIndex', 'ZeroInflationTermStructureHandle', 'ZeroSpreadedTermStructure', 'bachelierBlackFormula', 'bachelierBlackFormulaImpliedVol', 'bachelierBlackFormulaStdDevDerivative', 'base', 'blackFormula', 'blackFormulaAssetItmProbability', 'blackFormulaCashItmProbability', 'blackFormulaForwardDerivative', 'blackFormulaImpliedStdDev', 'blackFormulaImpliedStdDevApproximation', 'blackFormulaStdDevDerivative', 'blackFormulaVolDerivative', 'cdsMaturity', 'checkSviParameters', 'close', 'close_enough', 'days', 'daysBetween', 'inflationPeriod', 'months', 'outerProduct', 'sabrVolatility', 'setCouponPricer', 'shiftedSabrVolatility', 'sinkingNotionals', 'sinkingSchedule', 'sviTotalVariance', 'transpose', 'validateSabrParameters', 'weeks', 'yearFractionToDate', 'years', 'yoyInflationLeg']
 class AEDCurrency(Currency):
     """
     ! United Arab Emirates dirham
@@ -5798,6 +5799,71 @@ class CreditDefaultSwap(base.Instrument):
         """
         Upfront NPV.
         """
+class Croatia(Calendar):
+    """
+    Holidays for the Zagreb stock exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          ZSE : !< Zagreb stock exchange
+        """
+        ZSE: typing.ClassVar[Croatia.Market]  # value = <Market.ZSE: 0>
+        __members__: typing.ClassVar[dict[str, Croatia.Market]]  # value = {'ZSE': <Market.ZSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    ZSE: typing.ClassVar[Croatia.Market]  # value = <Market.ZSE: 0>
+    def __init__(self, m: Croatia.Market = ...) -> None:
+        ...
 class CubicBSplinesFitting(base.FittingMethod):
     """
     Cubic B-splines fitting method.
@@ -15243,6 +15309,12 @@ class MCLDEuropeanBasketEngine(base.PricingEngine):
         """
         Constructs MC European basket engine with low-discrepancy sequences.
         """
+class MKDCurrency(Currency):
+    """
+    ! Macedonian denar. The ISO three-letter code is MKD; the numeric code is 807.
+    """
+    def __init__(self) -> None:
+        ...
 class MTBrownianGenerator(base.BrownianGenerator):
     """
     Mersenne-Twister Brownian generator.
@@ -15819,6 +15891,71 @@ class MakeYoYInflationCapFloor:
     def withPricingEngine(self, engine: base.PricingEngine) -> MakeYoYInflationCapFloor:
         ...
     def withStrike(self, strike: typing.SupportsFloat) -> MakeYoYInflationCapFloor:
+        ...
+class Malta(Calendar):
+    """
+    Holidays for the Malta Stock Exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          MSE : !< Malta Stock Exchange
+        """
+        MSE: typing.ClassVar[Malta.Market]  # value = <Market.MSE: 0>
+        __members__: typing.ClassVar[dict[str, Malta.Market]]  # value = {'MSE': <Market.MSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    MSE: typing.ClassVar[Malta.Market]  # value = <Market.MSE: 0>
+    def __init__(self, market: Malta.Market = ...) -> None:
         ...
 class MargrabeOption(base.MultiAssetOption):
     """
@@ -16705,6 +16842,71 @@ class MonotonicLogCubicNaturalSpline(base.Interpolation):
         """
         Constructs interpolation from x and y arrays.
         """
+class Montenegro(Calendar):
+    """
+    Holidays for the Montenegrin Stock Exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          MNSE : !< Montenegro Stock Exchange
+        """
+        MNSE: typing.ClassVar[Montenegro.Market]  # value = <Market.MNSE: 0>
+        __members__: typing.ClassVar[dict[str, Montenegro.Market]]  # value = {'MNSE': <Market.MNSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    MNSE: typing.ClassVar[Montenegro.Market]  # value = <Market.MNSE: 0>
+    def __init__(self, m: Montenegro.Market = ...) -> None:
+        ...
 class Month:
     """
     Month names enumeration.
@@ -17182,6 +17384,25 @@ class Newton:
         """
         Finds root within explicit bracket.
         """
+class Nibor(IborIndex):
+    """
+    NOK-NIBOR index published by Oslo Boers.
+    """
+    @typing.overload
+    def __init__(self, tenor: Period) -> None:
+        """
+        Constructs NIBOR without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, tenor: Period, h: ...) -> None:
+        """
+        Constructs NIBOR with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, tenor: Period, forwardingTermStructure: ...) -> None:
+        """
+        Constructs NIBOR with forwarding term structure.
+        """
 class NinePointLinearOp(FdmLinearOp):
     """
     Nine-point linear operator for 2D FDM grids.
@@ -17449,6 +17670,71 @@ class NormalDistribution:
         """
         Returns the derivative of the density at x.
         """
+class NorthMacedonia(Calendar):
+    """
+    Holidays for the Macedonian Stock Exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          MSE : !< Macedonian Stock Exchange
+        """
+        MSE: typing.ClassVar[NorthMacedonia.Market]  # value = <Market.MSE: 0>
+        __members__: typing.ClassVar[dict[str, NorthMacedonia.Market]]  # value = {'MSE': <Market.MSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    MSE: typing.ClassVar[NorthMacedonia.Market]  # value = <Market.MSE: 0>
+    def __init__(self, m: NorthMacedonia.Market = ...) -> None:
+        ...
 class Norway(Calendar):
     """
     ! Holidays:
@@ -20905,6 +21191,71 @@ class SequenceStatistics:
         """
         Returns the sum of data weights.
         """
+class Serbia(Calendar):
+    """
+    Holidays for the Belgrade stock exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          BSE : !< Belgrade stock exchange
+        """
+        BSE: typing.ClassVar[Serbia.Market]  # value = <Market.BSE: 0>
+        __members__: typing.ClassVar[dict[str, Serbia.Market]]  # value = {'BSE': <Market.BSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    BSE: typing.ClassVar[Serbia.Market]  # value = <Market.BSE: 0>
+    def __init__(self, m: Serbia.Market = ...) -> None:
+        ...
 class Settings:
     """
     Global repository for run-time library settings.
@@ -21042,6 +21393,25 @@ class SettlementType:
     @property
     def value(self) -> int:
         ...
+class Shir(OvernightIndex):
+    """
+    Shekel Overnight Interest Rate (SHIR) index, published by the Bank of Israel.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs Shir without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs Shir with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        """
+        Constructs Shir with forwarding term structure.
+        """
 class ShortRateModelHandle:
     """
     Handle to a short-rate model.
@@ -21344,6 +21714,71 @@ class Slovakia(Calendar):
             ...
     BSSE: typing.ClassVar[Slovakia.Market]  # value = <Market.BSSE: 0>
     def __init__(self, m: Slovakia.Market = ...) -> None:
+        ...
+class Slovenia(Calendar):
+    """
+    Holidays for the Ljubljana stock exchange.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          LSE : !< Ljubljana stock exchange
+        """
+        LSE: typing.ClassVar[Slovenia.Market]  # value = <Market.LSE: 0>
+        __members__: typing.ClassVar[dict[str, Slovenia.Market]]  # value = {'LSE': <Market.LSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    LSE: typing.ClassVar[Slovenia.Market]  # value = <Market.LSE: 0>
+    def __init__(self, m: Slovenia.Market = ...) -> None:
         ...
 class SobolBrownianBridgeRsg:
     """
@@ -24008,6 +24443,71 @@ class UsdLiborSwapIsdaFixPm(SwapIndex):
         """
         Constructs with forwarding and discounting term structures.
         """
+class Uzbekistan(Calendar):
+    """
+    Holidays for the Uzbekistan exchanges.
+    """
+    class Market:
+        """
+        
+        
+        Members:
+        
+          UZSE : !< Uzbekistan Stock Exchange
+        """
+        UZSE: typing.ClassVar[Uzbekistan.Market]  # value = <Market.UZSE: 0>
+        __members__: typing.ClassVar[dict[str, Uzbekistan.Market]]  # value = {'UZSE': <Market.UZSE: 0>}
+        def __and__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __eq__(self, other: typing.Any) -> bool:
+            ...
+        def __ge__(self, other: typing.Any) -> bool:
+            ...
+        def __getstate__(self) -> int:
+            ...
+        def __gt__(self, other: typing.Any) -> bool:
+            ...
+        def __hash__(self) -> int:
+            ...
+        def __index__(self) -> int:
+            ...
+        def __init__(self, value: typing.SupportsInt) -> None:
+            ...
+        def __int__(self) -> int:
+            ...
+        def __invert__(self) -> typing.Any:
+            ...
+        def __le__(self, other: typing.Any) -> bool:
+            ...
+        def __lt__(self, other: typing.Any) -> bool:
+            ...
+        def __ne__(self, other: typing.Any) -> bool:
+            ...
+        def __or__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rand__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __repr__(self) -> str:
+            ...
+        def __ror__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __rxor__(self, other: typing.Any) -> typing.Any:
+            ...
+        def __setstate__(self, state: typing.SupportsInt) -> None:
+            ...
+        def __str__(self) -> str:
+            ...
+        def __xor__(self, other: typing.Any) -> typing.Any:
+            ...
+        @property
+        def name(self) -> str:
+            ...
+        @property
+        def value(self) -> int:
+            ...
+    UZSE: typing.ClassVar[Uzbekistan.Market]  # value = <Market.UZSE: 0>
+    def __init__(self, market: Uzbekistan.Market = ...) -> None:
+        ...
 class VEBCurrency(Currency):
     """
     ! The ISO three-letter code is VEB; the numeric code is 862.
@@ -25129,6 +25629,25 @@ class ZMWCurrency(Currency):
     """
     def __init__(self) -> None:
         ...
+class Zaronia(OvernightIndex):
+    """
+    South African Rand Overnight Index Average (ZARONIA) index.
+    """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs Zaronia without forwarding curve.
+        """
+    @typing.overload
+    def __init__(self, h: ...) -> None:
+        """
+        Constructs Zaronia with forwarding term structure handle.
+        """
+    @typing.overload
+    def __init__(self, forwardingTermStructure: ...) -> None:
+        """
+        Constructs Zaronia with forwarding term structure.
+        """
 class ZeroCouponBond(Bond):
     """
     Zero coupon bond.

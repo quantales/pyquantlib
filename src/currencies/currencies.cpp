@@ -584,6 +584,13 @@ void ql_currencies::all_currencies(py::module_& m)
         ;
 
 
+    auto pyClassMKDCurrency =
+        py::class_<QuantLib::MKDCurrency, QuantLib::Currency, ext::shared_ptr<QuantLib::MKDCurrency>>
+            (m, "MKDCurrency", "! Macedonian denar. The ISO three-letter code is MKD; the numeric code is 807.")
+        .def(py::init<>())
+        ;
+
+
     auto pyClassNOKCurrency =
         py::class_<QuantLib::NOKCurrency, QuantLib::Currency, ext::shared_ptr<QuantLib::NOKCurrency>>
             (m, "NOKCurrency", "! The ISO three-letter code is NOK; the numeric code is 578.\n        It is divided in 100 �re.\n\n        \\ingroup currencies\n")

@@ -287,6 +287,78 @@ def test_calendar_israel_settlement_deprecated_alias():
     assert ql.Israel(ql.Israel.Settlement).name() == "Tel Aviv stock exchange"
 
 
+def test_calendar_croatia():
+    """Croatia defaults to the Zagreb stock exchange (QuantLib 1.43)."""
+    zse = ql.Croatia()
+    assert zse.name() == "Zagreb stock exchange"
+    assert zse.name() == ql.Croatia(ql.Croatia.ZSE).name()
+    assert zse.isHoliday(date(2026, 1, 6))    # Epiphany
+    assert zse.isHoliday(date(2025, 11, 18))  # Vukovar remembrance day
+
+
+def test_calendar_malta():
+    """Malta defaults to the Malta Stock Exchange (QuantLib 1.43)."""
+    mse = ql.Malta()
+    assert mse.name() == "Malta Stock Exchange"
+    assert mse.name() == ql.Malta(ql.Malta.MSE).name()
+    assert mse.isHoliday(date(2025, 2, 10))  # St. Paul's Shipwreck
+    assert mse.isHoliday(date(2026, 9, 21))  # Independence Day
+
+
+def test_calendar_montenegro():
+    """Montenegro defaults to the Montenegro Stock Exchange (QuantLib 1.43)."""
+    mnse = ql.Montenegro()
+    assert mnse.name() == "Montenegro Stock Exchange"
+    assert mnse.name() == ql.Montenegro(ql.Montenegro.MNSE).name()
+    assert mnse.isHoliday(date(2026, 5, 21))   # Independence Day
+    assert mnse.isHoliday(date(2025, 11, 13))  # Njegos Day
+
+
+def test_calendar_north_macedonia():
+    """NorthMacedonia defaults to the Macedonian Stock Exchange (QuantLib 1.43)."""
+    mse = ql.NorthMacedonia()
+    assert mse.name() == "Macedonian Stock Exchange"
+    assert mse.name() == ql.NorthMacedonia(ql.NorthMacedonia.MSE).name()
+    assert mse.isHoliday(date(2025, 1, 7))   # Orthodox Christmas
+    assert mse.isHoliday(date(2025, 8, 2))   # Republic Day
+    assert mse.isHoliday(date(2026, 3, 20))  # Eid al-Fitr
+
+
+def test_calendar_serbia():
+    """Serbia defaults to the Belgrade stock exchange (QuantLib 1.43)."""
+    bse = ql.Serbia()
+    assert bse.name() == "Belgrade stock exchange"
+    assert bse.name() == ql.Serbia(ql.Serbia.BSE).name()
+    assert bse.isHoliday(date(2026, 1, 7))   # Serbian Orthodox Christmas
+    assert bse.isHoliday(date(2025, 11, 11))  # Armistice Day
+
+
+def test_calendar_slovenia():
+    """Slovenia defaults to the Ljubljana stock exchange (QuantLib 1.43)."""
+    lse = ql.Slovenia()
+    assert lse.name() == "Ljubljana stock exchange"
+    assert lse.name() == ql.Slovenia(ql.Slovenia.LSE).name()
+    assert lse.isHoliday(date(2026, 1, 2))    # New Year's holiday
+    assert lse.isHoliday(date(2025, 10, 31))  # Reformation Day
+
+
+def test_calendar_uzbekistan():
+    """Uzbekistan defaults to the Uzbekistan Stock Exchange (QuantLib 1.43)."""
+    uzse = ql.Uzbekistan()
+    assert uzse.name() == "Uzbekistan Stock Exchange"
+    assert uzse.name() == ql.Uzbekistan(ql.Uzbekistan.UZSE).name()
+    assert uzse.isHoliday(date(2025, 3, 21))  # Navruz
+    assert uzse.isHoliday(date(2026, 5, 27))  # Eid al-Adha
+
+
+def test_moon_sighting_method():
+    """MoonSightingMethod exposes the shared Eid lookup tables (QuantLib 1.43)."""
+    assert ql.MoonSightingMethod.isEidAlFitr(date(2026, 3, 20))
+    assert not ql.MoonSightingMethod.isEidAlFitr(date(2026, 3, 21))
+    assert ql.MoonSightingMethod.isEidAlAdha(date(2026, 5, 27))
+    assert not ql.MoonSightingMethod.isEidAlAdha(date(2026, 5, 28))
+
+
 def test_calendar_poland():
     """Test Poland calendar."""
     poland = ql.Poland()

@@ -394,6 +394,51 @@ def test_sonia_properties():
     assert sonia.dayCounter() == ql.Actual365Fixed()
 
 
+def test_nibor_construction():
+    """Nibor is a NOK IborIndex on Actual/360 with two fixing days (QuantLib 1.43)."""
+    nibor = ql.Nibor(ql.Period(6, ql.TimeUnit.Months))
+    assert nibor.name() == "NOK-NIBOR6M Actual/360"
+    assert nibor.fixingDays() == 2
+    assert nibor.dayCounter() == ql.Actual360()
+    assert nibor.currency().code() == "NOK"
+
+
+def test_nibor_with_curve(flat_curve):
+    """Nibor accepts a forwarding curve."""
+    nibor = ql.Nibor(ql.Period(3, ql.TimeUnit.Months), flat_curve["curve"])
+    assert nibor is not None
+
+
+def test_shir_construction():
+    """Shir is an ILS overnight index fixing on the SHIR calendar (QuantLib 1.43)."""
+    shir = ql.Shir()
+    assert shir.name() == "ShirON Actual/365 (Fixed)"
+    assert shir.fixingDays() == 0
+    assert shir.dayCounter() == ql.Actual365Fixed()
+    assert shir.currency().code() == "ILS"
+    assert shir.fixingCalendar().name() == "SHIR fixing calendar"
+
+
+def test_shir_with_curve(flat_curve):
+    """Shir accepts a forwarding curve."""
+    assert ql.Shir(flat_curve["curve"]) is not None
+
+
+def test_zaronia_construction():
+    """Zaronia is a ZAR overnight index on the South Africa calendar (QuantLib 1.43)."""
+    zaronia = ql.Zaronia()
+    assert zaronia.name() == "ZARONIAON Actual/365 (Fixed)"
+    assert zaronia.fixingDays() == 0
+    assert zaronia.dayCounter() == ql.Actual365Fixed()
+    assert zaronia.currency().code() == "ZAR"
+    assert zaronia.fixingCalendar().name() == "South Africa"
+
+
+def test_zaronia_with_curve(flat_curve):
+    """Zaronia accepts a forwarding curve."""
+    assert ql.Zaronia(flat_curve["curve"]) is not None
+
+
 # =============================================================================
 # SwapIndex
 # =============================================================================

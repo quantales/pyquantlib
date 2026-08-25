@@ -74,6 +74,7 @@ namespace ql_time {
     void businessdayconvention(py::module_&);
     void calendar(py::module_&);
     void calendars(py::module_&);
+    void islamicholidays(py::module_&);
     void calendarvector(py::module_&);
     void daycounter(py::module_&);
     void daycounters(py::module_&);
@@ -227,6 +228,9 @@ namespace ql_indexes {
     void eonia(py::module_&);
     void estr(py::module_&);
     void sonia(py::module_&);
+    void nibor(py::module_&);
+    void shir(py::module_&);
+    void zaronia(py::module_&);
     void swapindex(py::module_&);
     void swapindexes(py::module_&);
     void region(py::module_&);

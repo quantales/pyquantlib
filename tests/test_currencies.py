@@ -59,6 +59,14 @@ def test_jpy_currency():
     assert jpy.code() == "JPY"
 
 
+def test_mkd_currency():
+    """MKDCurrency is the Macedonian denar (QuantLib 1.43)."""
+    mkd = ql.MKDCurrency()
+    assert mkd.code() == "MKD"
+    assert mkd.name() == "Macedonian denar"
+    assert mkd.numericCode() == 807
+
+
 def test_currency_inheritance():
     usd = ql.USDCurrency()
     assert isinstance(usd, ql.Currency)

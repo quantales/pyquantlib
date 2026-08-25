@@ -95,9 +95,10 @@ schedule = (
 |--------|-----------|
 | **Multi-national** | `TARGET`, `WeekendsOnly`, `NullCalendar`, `JointCalendar`, `BespokeCalendar` |
 | **Americas** | `UnitedStates`, `Canada`, `Brazil`, `Mexico`, `Argentina`, `Chile` |
-| **Europe** | `UnitedKingdom`, `Germany`, `France`, `Italy`, `Switzerland`, `Sweden`, `Norway`, `Denmark`, `Finland`, `Poland`, `CzechRepublic`, `Hungary`, `Romania`, `Russia`, `Ukraine`, `Turkey`, `Iceland`, `Austria`, `Slovakia` |
+| **Europe** | `UnitedKingdom`, `Germany`, `France`, `Italy`, `Switzerland`, `Sweden`, `Norway`, `Denmark`, `Finland`, `Poland`, `CzechRepublic`, `Hungary`, `Romania`, `Russia`, `Ukraine`, `Turkey`, `Iceland`, `Austria`, `Slovakia`, `Slovenia`, `Croatia`, `Serbia`, `Montenegro`, `NorthMacedonia`, `Malta` |
 | **Asia-Pacific** | `Japan`, `China`, `HongKong`, `Singapore`, `Australia`, `NewZealand`, `India`, `SouthKorea`, `Taiwan`, `Indonesia`, `Thailand` |
 | **Middle East / Africa** | `SaudiArabia`, `Israel`, `SouthAfrica`, `Botswana` |
+| **Central Asia** | `Uzbekistan` |
 
 #### `UnitedStates` variants
 

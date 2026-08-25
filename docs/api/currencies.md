@@ -20,7 +20,7 @@ Concrete `<XYZ>Currency` classes exist for all major and most secondary currenci
 | Region | Currencies |
 |---|---|
 | **Americas** | USD, CAD, MXN, BRL, ARS, CLP, COP, PEN, UYU, TTD, VEB |
-| **Europe** | EUR, GBP, CHF, SEK, NOK, DKK, PLN, CZK, HUF, RON, RUB, TRY, RSD, BGN, HRK, ISK, UAH, GEL |
+| **Europe** | EUR, GBP, CHF, SEK, NOK, DKK, PLN, CZK, HUF, RON, RUB, TRY, RSD, BGN, HRK, ISK, UAH, GEL, MKD |
 | **Asia-Pacific** | JPY, CNY, CNH, HKD, SGD, AUD, NZD, KRW, TWD, INR, THB, MYR, IDR, PHP, VND, BDT, LKR, NPR, PKR |
 | **Middle East / Africa** | AED, SAR, ILS, ZAR, EGP, KES, NGN, GHS, MAD, KWD, BHD, JOD, OMR, QAR, IQD, IRR, TND, ZMW, ETB, UGX, AOA, MUR, BWP, XOF |
 | **Crypto** | BTC, ETH, LTC, XRP, DASH, ZEC, BCH, ETC |

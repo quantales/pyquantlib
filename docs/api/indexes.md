@@ -6,9 +6,9 @@ Bindings for the `Index` class hierarchy: market reference rates that feed float
 
 | Family | Classes |
 |---|---|
-| Ibor (term) | {py:class}`pyquantlib.IborIndex` plus concrete `Euribor` |
+| Ibor (term) | {py:class}`pyquantlib.IborIndex` plus concrete `Euribor` and `Nibor` |
 | LIBOR | {py:class}`pyquantlib.Libor`, {py:class}`pyquantlib.DailyTenorLibor`, {py:class}`pyquantlib.USDLibor`, {py:class}`pyquantlib.DailyTenorUSDLibor`, {py:class}`pyquantlib.USDLiborON` |
-| Overnight | {py:class}`pyquantlib.Sofr`, {py:class}`pyquantlib.Eonia`, {py:class}`pyquantlib.Estr`, {py:class}`pyquantlib.Sonia` |
+| Overnight | {py:class}`pyquantlib.Sofr`, {py:class}`pyquantlib.Eonia`, {py:class}`pyquantlib.Estr`, {py:class}`pyquantlib.Sonia`, {py:class}`pyquantlib.Shir`, {py:class}`pyquantlib.Zaronia` |
 | Swap | {py:class}`pyquantlib.SwapIndex`, {py:class}`pyquantlib.OvernightIndexedSwapIndex`, plus standard fixings (`EuriborSwapIsdaFixA/B/IfrFix`, `EurLiborSwap*`, `UsdLiborSwap*`, `JpyLiborSwap*`, `GbpLiborSwapIsdaFix`, `ChfLiborSwapIsdaFix`) |
 | Special | {py:class}`pyquantlib.BMAIndex`, {py:class}`pyquantlib.SwapSpreadIndex`, {py:class}`pyquantlib.EquityIndex` |
 | Inflation | {py:class}`pyquantlib.ZeroInflationIndex`, {py:class}`pyquantlib.YoYInflationIndex`, plus per-region (`USCPI`, `EUHICP`, `UKRPI`, `AUCPI`, `FRHICP`, `ZACPI`) |
@@ -132,6 +132,26 @@ USD LIBOR ceased publication in 2023. These indexes remain bound for valuing leg
 ```{eval-rst}
 .. autoclass:: pyquantlib.Sonia
 ```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Shir
+```
+
+Shekel Overnight Interest Rate, published by the Bank of Israel. Fixes on the
+`Israel(SHIR)` calendar.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Zaronia
+```
+
+South African Rand Overnight Index Average.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Nibor
+```
+
+NOK-NIBOR, a term index: the constructor takes a `Period` tenor before the optional
+forwarding curve.
 
 ### Swap indexes
 
