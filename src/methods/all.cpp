@@ -166,6 +166,8 @@ DECLARE_MODULE_BINDINGS(methods_bindings) {
         "HestonRNDCalculator - Heston model RND");
     ADD_MAIN_BINDING(ql_methods::cevrndcalculator,
         "CEVRNDCalculator - CEV model RND");
+    ADD_MAIN_BINDING(ql_methods::smilesectionrndcalculator,
+        "SmileSectionRNDCalculator - smile-implied RND");
     ADD_MAIN_BINDING(ql_methods::squarerootprocessrndcalculator,
         "SquareRootProcessRNDCalculator - square root process RND");
     ADD_MAIN_BINDING(ql_methods::localvolrndcalculator,

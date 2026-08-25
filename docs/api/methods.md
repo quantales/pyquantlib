@@ -22,7 +22,7 @@ Most user code does not assemble these pieces by hand. The pre-built MC and FD e
 | FDM solvers | {py:class}`pyquantlib.FdmSolverDesc`, {py:class}`pyquantlib.FdmBackwardSolver`, {py:class}`pyquantlib.Fdm1DimSolver`, {py:class}`pyquantlib.Fdm2DimSolver`, {py:class}`pyquantlib.Fdm3DimSolver`, {py:class}`pyquantlib.FdmBlackScholesSolver`, {py:class}`pyquantlib.FdmHestonSolver`, {py:class}`pyquantlib.FdmBatesSolver`, {py:class}`pyquantlib.FdmHullWhiteSolver`, {py:class}`pyquantlib.FdmG2Solver`, {py:class}`pyquantlib.Fdm2dBlackScholesSolver` |
 | FDM boundary conditions | {py:class}`pyquantlib.FdmBoundaryCondition`, {py:class}`pyquantlib.FdmDirichletBoundary`, {py:class}`pyquantlib.FdmDiscountDirichletBoundary`, {py:class}`pyquantlib.FdmTimeDepDirichletBoundary` |
 | FDM enums | {py:class}`pyquantlib.FdmSchemeDesc`, {py:class}`pyquantlib.FdmHestonGreensFctAlgorithm`, {py:class}`pyquantlib.FdmSquareRootFwdOpTransformationType`, {py:class}`pyquantlib.BoundaryConditionSide`, {py:class}`pyquantlib.ImplicitEulerSolverType` |
-| RND calculators | {py:class}`pyquantlib.BSMRNDCalculator`, {py:class}`pyquantlib.GBSMRNDCalculator`, {py:class}`pyquantlib.HestonRNDCalculator`, {py:class}`pyquantlib.CEVRNDCalculator`, {py:class}`pyquantlib.SquareRootProcessRNDCalculator`, {py:class}`pyquantlib.LocalVolRNDCalculator` |
+| RND calculators | {py:class}`pyquantlib.BSMRNDCalculator`, {py:class}`pyquantlib.GBSMRNDCalculator`, {py:class}`pyquantlib.HestonRNDCalculator`, {py:class}`pyquantlib.CEVRNDCalculator`, {py:class}`pyquantlib.SquareRootProcessRNDCalculator`, {py:class}`pyquantlib.LocalVolRNDCalculator`, {py:class}`pyquantlib.SmileSectionRNDCalculator` |
 
 ```{note}
 Abstract base classes (`FdmLinearOp`, `FdmLinearOpComposite`, `BrownianGenerator`, `BrownianGeneratorFactory`, `FdmMesher`, `FdmStepCondition`, `FdmInnerValueCalculator`, `RiskNeutralDensityCalculator`) live under `pyquantlib.base` for `isinstance` checks and custom subclassing. See {doc}`/concepts/finite-difference` and {doc}`/concepts/random-numbers` for the architecture.
@@ -103,7 +103,7 @@ calc.cdf(100.0, 1.0)
 calc.invcdf(0.5, 1.0)
 ```
 
-`BSMRNDCalculator`, `HestonRNDCalculator`, and `LocalVolRNDCalculator` operate in *log-space* (`x = ln(S)`). `GBSMRNDCalculator` and `CEVRNDCalculator` operate in *spot-space*. Always check the calculator's space before passing inputs.
+`BSMRNDCalculator`, `HestonRNDCalculator`, `LocalVolRNDCalculator`, and `SmileSectionRNDCalculator` operate in *log-space* (`x = ln(S)`). `GBSMRNDCalculator` and `CEVRNDCalculator` operate in *spot-space*. Always check the calculator's space before passing inputs.
 
 ## Reference
 
@@ -473,6 +473,21 @@ Operates in log-space.
 calc = ql.CEVRNDCalculator(f0=100.0, alpha=0.3, beta=0.5)
 calc.pdf(100.0, 1.0)
 calc.massAtZero(1.0)
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SmileSectionRNDCalculator
+```
+
+Density implied by a smile section, in log-space. The `pdf`, `cdf`, and `invcdf`
+methods take an optional time argument, which must equal the smile's exercise time;
+the one-argument overloads use that time directly.
+
+```python
+smile = ql.FlatSmileSection(1.0, 0.20, ql.Actual365Fixed(), 100.0)
+calc = ql.SmileSectionRNDCalculator(smile, nStrikes=200, nStd=5.0)
+calc.pdf(math.log(100.0))
+calc.invcdf(0.5)
 ```
 
 ```{eval-rst}

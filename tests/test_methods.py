@@ -2380,6 +2380,55 @@ def test_cevrndcalculator_massatzero():
     assert mass >= 0.0
 
 
+# -- SmileSectionRNDCalculator --
+
+def _flat_smile(vol=0.20, expiry=1.0, forward=100.0):
+    return ql.FlatSmileSection(expiry, vol, ql.Actual365Fixed(), forward)
+
+
+def test_smilesectionrndcalculator_construction():
+    """SmileSectionRNDCalculator construction (QuantLib 1.43)."""
+    calc = ql.SmileSectionRNDCalculator(_flat_smile())
+    assert isinstance(calc, RiskNeutralDensityCalculator)
+
+
+def test_smilesectionrndcalculator_matches_lognormal():
+    """A flat smile implies the Black-Scholes lognormal density in x = ln(S)."""
+    calc = ql.SmileSectionRNDCalculator(_flat_smile())
+    x = math.log(100.0)
+    # mean of ln(S) under the forward measure: ln(F) - 0.5 * vol^2 * T
+    mean = math.log(100.0) - 0.5 * 0.20**2
+    expected_pdf = (math.exp(-(x - mean)**2 / (2 * 0.20**2))
+                    / (0.20 * math.sqrt(2 * math.pi)))
+    expected_cdf = 0.5 * (1.0 + math.erf((x - mean) / (0.20 * math.sqrt(2.0))))
+    assert calc.pdf(x) == pytest.approx(expected_pdf, rel=1e-4)
+    assert calc.cdf(x) == pytest.approx(expected_cdf, rel=1e-6)
+
+
+def test_smilesectionrndcalculator_invcdf_inverts_cdf():
+    """invcdf inverts cdf in log-space."""
+    calc = ql.SmileSectionRNDCalculator(_flat_smile())
+    x = math.log(110.0)
+    assert calc.invcdf(calc.cdf(x)) == pytest.approx(x, rel=1e-6)
+
+
+def test_smilesectionrndcalculator_time_overloads_agree():
+    """The one-argument overloads use the smile's exercise time."""
+    calc = ql.SmileSectionRNDCalculator(_flat_smile())
+    x = math.log(100.0)
+    assert calc.pdf(x, 1.0) == pytest.approx(calc.pdf(x))
+    assert calc.cdf(x, 1.0) == pytest.approx(calc.cdf(x))
+    p = calc.cdf(x)
+    assert calc.invcdf(p, 1.0) == pytest.approx(calc.invcdf(p))
+
+
+def test_smilesectionrndcalculator_rejects_other_time():
+    """A time other than the smile's exercise time is rejected."""
+    calc = ql.SmileSectionRNDCalculator(_flat_smile())
+    with pytest.raises(ql.Error, match="does not match smile exercise time"):
+        calc.pdf(math.log(100.0), 2.0)
+
+
 # -- SquareRootProcessRNDCalculator --
 
 def test_squarerootprocessrndcalculator_construction():

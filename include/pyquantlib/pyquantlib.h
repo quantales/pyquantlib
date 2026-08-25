@@ -685,6 +685,7 @@ namespace ql_methods {
     void cevrndcalculator(py::module_&);
     void squarerootprocessrndcalculator(py::module_&);
     void localvolrndcalculator(py::module_&);
+    void smilesectionrndcalculator(py::module_&);
     void lsmbasissystem(py::module_&);
     void sample(py::module_&);
     void path(py::module_&);

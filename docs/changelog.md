@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Nibor` (NOK term index), `Shir` (ILS overnight), and `Zaronia` (ZAR overnight) indexes
 - `MKDCurrency` (Macedonian denar)
 
+#### Methods
+- `SmileSectionRNDCalculator` risk-neutral density implied by a smile section, with one-argument `pdf`, `cdf`, and `invcdf` overloads that use the smile's exercise time
+
 #### Math
 - `LBFGSB` limited-memory bound-constrained optimizer, with a constructor taking explicit box bounds that override the problem's constraint
 - `FlatExtrapolator` decorator adding flat extrapolation to any 1-D interpolation, the counterpart to the existing `FlatExtrapolator2D`
