@@ -15,9 +15,10 @@ Bindings for QuantLib's numerical-utility layer: linear algebra (`Array`, `Matri
 | 1-D cubic | {py:class}`pyquantlib.CubicInterpolation`, {py:class}`pyquantlib.CubicNaturalSpline`, {py:class}`pyquantlib.MonotonicCubicNaturalSpline`, {py:class}`pyquantlib.LogCubicInterpolation`, {py:class}`pyquantlib.LogCubicNaturalSpline`, {py:class}`pyquantlib.MonotonicLogCubicNaturalSpline`, {py:class}`pyquantlib.KrugerLogCubic`, {py:class}`pyquantlib.HarmonicLogCubic`, {py:class}`pyquantlib.FritschButlandLogCubic` |
 | 1-D mixed | {py:class}`pyquantlib.MixedLinearCubicInterpolation`, {py:class}`pyquantlib.MixedLinearCubicNaturalSpline`, {py:class}`pyquantlib.MixedLinearMonotonicCubicNaturalSpline`, {py:class}`pyquantlib.MixedLinearKrugerCubic`, {py:class}`pyquantlib.MixedLinearFritschButlandCubic`, {py:class}`pyquantlib.LogMixedLinearCubicInterpolation`, {py:class}`pyquantlib.LogMixedLinearCubicNaturalSpline` |
 | 1-D smile / structured | {py:class}`pyquantlib.SABRInterpolation`, {py:class}`pyquantlib.ConvexMonotoneInterpolation`, {py:class}`pyquantlib.LagrangeInterpolation`, {py:class}`pyquantlib.ChebyshevInterpolation` |
+| 1-D extrapolation | {py:class}`pyquantlib.FlatExtrapolator` |
 | 2-D | {py:class}`pyquantlib.BilinearInterpolation`, {py:class}`pyquantlib.BicubicSpline`, {py:class}`pyquantlib.BackwardflatLinearInterpolation`, {py:class}`pyquantlib.FlatExtrapolator2D` |
 | Statistics | {py:class}`pyquantlib.Statistics`, {py:class}`pyquantlib.IncrementalStatistics`, {py:class}`pyquantlib.SequenceStatistics` |
-| Optimisation | {py:class}`pyquantlib.LevenbergMarquardt`, {py:class}`pyquantlib.Simplex`, {py:class}`pyquantlib.ConjugateGradient`, {py:class}`pyquantlib.SteepestDescent`, {py:class}`pyquantlib.BFGS`, {py:class}`pyquantlib.DifferentialEvolution`, {py:class}`pyquantlib.EndCriteria`, {py:class}`pyquantlib.Problem`, {py:class}`pyquantlib.NoConstraint`, {py:class}`pyquantlib.PositiveConstraint`, {py:class}`pyquantlib.BoundaryConstraint`, {py:class}`pyquantlib.CompositeConstraint` |
+| Optimisation | {py:class}`pyquantlib.LevenbergMarquardt`, {py:class}`pyquantlib.Simplex`, {py:class}`pyquantlib.ConjugateGradient`, {py:class}`pyquantlib.SteepestDescent`, {py:class}`pyquantlib.BFGS`, {py:class}`pyquantlib.LBFGSB`, {py:class}`pyquantlib.DifferentialEvolution`, {py:class}`pyquantlib.EndCriteria`, {py:class}`pyquantlib.Problem`, {py:class}`pyquantlib.NoConstraint`, {py:class}`pyquantlib.PositiveConstraint`, {py:class}`pyquantlib.BoundaryConstraint`, {py:class}`pyquantlib.CompositeConstraint` |
 | Distributions | {py:class}`pyquantlib.NormalDistribution`, {py:class}`pyquantlib.CumulativeNormalDistribution`, {py:class}`pyquantlib.InverseCumulativeNormal`, {py:class}`pyquantlib.BivariateCumulativeNormalDistribution` |
 | 1-D solvers | {py:class}`pyquantlib.Brent`, {py:class}`pyquantlib.Bisection`, {py:class}`pyquantlib.Secant`, {py:class}`pyquantlib.Newton` |
 | ODE | {py:class}`pyquantlib.AdaptiveRungeKutta` |
@@ -284,6 +285,21 @@ interp(0.5)    # ~ sin(0.5)
 Backward-flat in the first component, linear in the second.
 
 ```{eval-rst}
+.. autoclass:: pyquantlib.FlatExtrapolator
+```
+
+Decorator that adds flat extrapolation outside the range of any 1-D interpolation.
+Values are clamped to the boundary, the first and second derivatives vanish outside
+the range, and the primitive extends linearly.
+
+```python
+inner  = ql.LinearInterpolation(x, y)
+extrap = ql.FlatExtrapolator(inner)
+extrap.enableExtrapolation()
+extrap(0.0)
+```
+
+```{eval-rst}
 .. autoclass:: pyquantlib.FlatExtrapolator2D
 ```
 
@@ -348,6 +364,21 @@ Nelder-Mead simplex.
 .. autoclass:: pyquantlib.ConjugateGradient
 .. autoclass:: pyquantlib.SteepestDescent
 .. autoclass:: pyquantlib.BFGS
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.LBFGSB
+```
+
+Limited-memory BFGS with box constraints. Without active bounds it reduces to plain
+L-BFGS. Bounds are taken from the problem's constraint unless explicit `lowerBound`
+and `upperBound` arrays are passed to the constructor, which override it; use
+`+/- sys.float_info.max` for unbounded coordinates.
+
+```python
+opt = ql.LBFGSB(lowerBound=ql.Array([-1.0, -1.0]),
+                upperBound=ql.Array([1.0, 1.0]))
+opt.minimize(problem, end_criteria)
 ```
 
 ```{eval-rst}

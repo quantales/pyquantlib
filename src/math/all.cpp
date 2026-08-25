@@ -91,6 +91,7 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::conjugategradient, "Conjugate gradient optimizer");
     ADD_MAIN_BINDING(ql_math::steepestdescent, "Steepest descent optimizer");
     ADD_MAIN_BINDING(ql_math::bfgs, "BFGS optimizer");
+    ADD_MAIN_BINDING(ql_math::lbfgsb, "L-BFGS-B bound-constrained optimizer");
     ADD_MAIN_BINDING(ql_math::differentialevolution,
         "Differential evolution optimizer");
 
@@ -100,6 +101,7 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::lagrangeinterpolation, "Lagrange interpolation");
     ADD_MAIN_BINDING(ql_math::bilinearinterpolation, "Bilinear interpolation");
     ADD_MAIN_BINDING(ql_math::backwardflatlinearinterpolation, "Backward-flat linear 2D interpolation");
+    ADD_MAIN_BINDING(ql_math::flatextrapolation, "Flat extrapolation 1D");
     ADD_MAIN_BINDING(ql_math::flatextrapolation2d, "Flat extrapolation 2D");
     ADD_MAIN_BINDING(ql_math::bicubicsplineinterpolation,
         "Bicubic spline interpolation");

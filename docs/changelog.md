@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Math
+- `LBFGSB` limited-memory bound-constrained optimizer, with a constructor taking explicit box bounds that override the problem's constraint
+- `FlatExtrapolator` decorator adding flat extrapolation to any 1-D interpolation, the counterpart to the existing `FlatExtrapolator2D`
+
 #### Pricing engines -- Spread options
 - `PearsonSpreadEngine` spread option engine using Pearson (1995) 1-D numerical integration
 - `GaussianCopulaSpreadEngine` spread option engine using nested Gauss-Hermite quadrature over a Gaussian copula with smile-implied marginals

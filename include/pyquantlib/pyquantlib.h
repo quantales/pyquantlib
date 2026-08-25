@@ -103,6 +103,7 @@ namespace ql_math {
     void sabrinterpolation(py::module_&);
     void convexmonotoneinterpolation(py::module_&);
     void backwardflatlinearinterpolation(py::module_&);
+    void flatextrapolation(py::module_&);
     void flatextrapolation2d(py::module_&);
     void normaldistribution(py::module_&);
     void bivariatenormaldistribution(py::module_&);
@@ -132,6 +133,7 @@ namespace ql_math {
     void conjugategradient(py::module_&);
     void steepestdescent(py::module_&);
     void bfgs(py::module_&);
+    void lbfgsb(py::module_&);
     void differentialevolution(py::module_&);
     void interpolation2d(py::module_&);
     void forwardflatinterpolation(py::module_&);

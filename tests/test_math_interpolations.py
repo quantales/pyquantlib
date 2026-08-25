@@ -731,3 +731,46 @@ def test_flat_extrapolator_2d_outside_range():
     # Outside x range: clamps to boundary
     assert extrap(0.0, 10.0) == pytest.approx(extrap(1.0, 10.0))
     assert extrap(5.0, 20.0) == pytest.approx(extrap(2.0, 20.0))
+
+
+# ---------------------------------------------------------------------------
+# FlatExtrapolator
+# ---------------------------------------------------------------------------
+
+def test_flat_extrapolator_construction():
+    """FlatExtrapolator wraps a 1-D interpolation."""
+    inner = ql.LinearInterpolation([1.0, 2.0, 3.0], [10.0, 20.0, 30.0])
+    extrap = ql.FlatExtrapolator(inner)
+    assert isinstance(extrap, ql.base.Interpolation)
+    assert extrap.xMin() == pytest.approx(1.0)
+    assert extrap.xMax() == pytest.approx(3.0)
+
+
+def test_flat_extrapolator_within_range():
+    """FlatExtrapolator passes through to the inner interpolation within range."""
+    inner = ql.LinearInterpolation([1.0, 2.0, 3.0], [10.0, 20.0, 30.0])
+    extrap = ql.FlatExtrapolator(inner)
+    assert extrap(1.5) == pytest.approx(15.0)
+    assert extrap(2.5) == pytest.approx(25.0)
+
+
+def test_flat_extrapolator_outside_range():
+    """FlatExtrapolator clamps to the boundary values outside the data range."""
+    inner = ql.LinearInterpolation([1.0, 2.0, 3.0], [10.0, 20.0, 30.0])
+    extrap = ql.FlatExtrapolator(inner)
+    extrap.enableExtrapolation()
+    assert extrap(0.0) == pytest.approx(10.0)
+    assert extrap(5.0) == pytest.approx(30.0)
+
+
+def test_flat_extrapolator_derivatives_vanish_outside():
+    """Derivatives are zero outside the range; the primitive extends linearly."""
+    inner = ql.LinearInterpolation([1.0, 2.0, 3.0], [10.0, 20.0, 30.0])
+    extrap = ql.FlatExtrapolator(inner)
+    extrap.enableExtrapolation()
+    assert extrap.derivative(0.0) == pytest.approx(0.0)
+    assert extrap.secondDerivative(5.0) == pytest.approx(0.0)
+    # primitive(0) = primitive(1) + f(1) * (0 - 1) = 0 - 10
+    assert extrap.primitive(0.0) == pytest.approx(-10.0)
+    # primitive(3) = 40 (trapezoids), then + 30 * (4 - 3)
+    assert extrap.primitive(4.0) == pytest.approx(70.0)

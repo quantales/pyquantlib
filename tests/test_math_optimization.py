@@ -131,3 +131,49 @@ def test_de_minimize_sphere():
     x = problem.currentValue()
     assert x[0] == pytest.approx(0.0, abs=1e-3)
     assert x[1] == pytest.approx(0.0, abs=1e-3)
+
+
+# ---------------------------------------------------------------------------
+# LBFGSB
+# ---------------------------------------------------------------------------
+
+def test_lbfgsb_construction():
+    opt = ql.LBFGSB()
+    assert isinstance(opt, ql.base.OptimizationMethod)
+
+    opt_custom = ql.LBFGSB(memory=5, pgTol=1e-10, fTol=1e-12)
+    assert isinstance(opt_custom, ql.base.OptimizationMethod)
+
+
+def test_lbfgsb_minimize_rosenbrock():
+    """Unconstrained L-BFGS-B reduces to L-BFGS and finds the Rosenbrock minimum."""
+    class Rosenbrock(ql.base.CostFunction):
+        def value(self, x):
+            return (1.0 - x[0])**2 + 100.0 * (x[1] - x[0]**2)**2
+        def values(self, x):
+            return ql.Array([self.value(x)])
+
+    problem = ql.Problem(Rosenbrock(), ql.NoConstraint(), ql.Array([0.0, 0.0]))
+    ql.LBFGSB().minimize(problem, ql.EndCriteria(1000, 100, 1e-12, 1e-12, 1e-12))
+
+    x = problem.currentValue()
+    assert x[0] == pytest.approx(1.0, abs=1e-5)
+    assert x[1] == pytest.approx(1.0, abs=1e-5)
+
+
+def test_lbfgsb_explicit_bounds_bind():
+    """Explicit box bounds clamp the solution away from the unconstrained minimum."""
+    class Quadratic(ql.base.CostFunction):
+        def value(self, x):
+            return (x[0] - 3.0)**2 + (x[1] + 2.0)**2
+        def values(self, x):
+            return ql.Array([self.value(x)])
+
+    problem = ql.Problem(Quadratic(), ql.NoConstraint(), ql.Array([0.0, 0.0]))
+    opt = ql.LBFGSB(lowerBound=ql.Array([-1.0, -1.0]),
+                    upperBound=ql.Array([1.0, 1.0]))
+    opt.minimize(problem, ql.EndCriteria(1000, 100, 1e-12, 1e-12, 1e-12))
+
+    x = problem.currentValue()
+    assert x[0] == pytest.approx(1.0, abs=1e-8)
+    assert x[1] == pytest.approx(-1.0, abs=1e-8)
