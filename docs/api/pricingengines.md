@@ -14,7 +14,7 @@ See {doc}`/concepts/pricing-engines` for the instrument / engine separation, {do
 | Heston / Bates analytic | {py:class}`pyquantlib.AnalyticHestonEngine`, {py:class}`pyquantlib.AnalyticPTDHestonEngine`, {py:class}`pyquantlib.AnalyticPDFHestonEngine`, {py:class}`pyquantlib.HestonExpansionEngine`, {py:class}`pyquantlib.COSHestonEngine`, {py:class}`pyquantlib.ExponentialFittingHestonEngine`, {py:class}`pyquantlib.BatesEngine` |
 | Stochastic-rate / hybrid | {py:class}`pyquantlib.AnalyticBSMHullWhiteEngine`, {py:class}`pyquantlib.AnalyticHestonHullWhiteEngine`, {py:class}`pyquantlib.AnalyticH1HWEngine`, {py:class}`pyquantlib.AnalyticBlackVasicekEngine` |
 | CEV / SABR | {py:class}`pyquantlib.AnalyticCEVEngine`, {py:class}`pyquantlib.CEVCalculator`, {py:class}`pyquantlib.FdSabrVanillaEngine`, {py:class}`pyquantlib.FdCEVVanillaEngine` |
-| Finite difference | {py:class}`pyquantlib.FdBlackScholesVanillaEngine`, {py:class}`pyquantlib.FdHestonVanillaEngine`, {py:class}`pyquantlib.FdBatesVanillaEngine`, {py:class}`pyquantlib.FdHestonHullWhiteVanillaEngine`, {py:class}`pyquantlib.FdOrnsteinUhlenbeckVanillaEngine`, {py:class}`pyquantlib.FdBlackScholesShoutEngine` |
+| Finite difference | {py:class}`pyquantlib.FdBlackScholesVanillaEngine`, {py:class}`pyquantlib.FdHestonVanillaEngine`, {py:class}`pyquantlib.FdBatesVanillaEngine`, {py:class}`pyquantlib.FdHestonHullWhiteVanillaEngine`, {py:class}`pyquantlib.FdOrnsteinUhlenbeckVanillaEngine`, {py:class}`pyquantlib.FdBlackScholesShoutEngine`, {py:class}`pyquantlib.FdSimpleBSSwingEngine` |
 | Monte Carlo | {py:class}`pyquantlib.MCEuropeanEngine`, {py:class}`pyquantlib.MCEuropeanHestonEngine`, {py:class}`pyquantlib.MCEuropeanGJRGARCHEngine` |
 | Tree | {py:class}`pyquantlib.BinomialVanillaEngine` |
 | Digitals | {py:class}`pyquantlib.AnalyticDigitalAmericanEngine`, {py:class}`pyquantlib.AnalyticDigitalAmericanKOEngine`, {py:class}`pyquantlib.MCDigitalEngine` |
@@ -329,6 +329,12 @@ engine = ql.FdCEVVanillaEngine(f0, alpha, beta, discount_curve)
 ```
 
 FD engine for shout options (holder can lock in current intrinsic value).
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FdSimpleBSSwingEngine
+```
+
+FD Black-Scholes engine for {py:class}`pyquantlib.VanillaSwingOption`.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.FdHestonHullWhiteVanillaEngine

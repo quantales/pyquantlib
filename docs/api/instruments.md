@@ -23,6 +23,7 @@ Every instrument exposes the same `setPricingEngine(engine)` / `NPV()` interface
 | Path-dependent | {py:class}`pyquantlib.ContinuousAveragingAsianOption`, {py:class}`pyquantlib.DiscreteAveragingAsianOption`, {py:class}`pyquantlib.ContinuousFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousFixedLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFloatingLookbackOption`, {py:class}`pyquantlib.ContinuousPartialFixedLookbackOption`, {py:class}`pyquantlib.CliquetOption` |
 | Compound / chooser / exchange | {py:class}`pyquantlib.CompoundOption`, {py:class}`pyquantlib.SimpleChooserOption`, {py:class}`pyquantlib.ComplexChooserOption`, {py:class}`pyquantlib.MargrabeOption` |
 | Forward-start / quanto | {py:class}`pyquantlib.ForwardVanillaOption`, {py:class}`pyquantlib.QuantoVanillaOption` |
+| Swing options | {py:class}`pyquantlib.VanillaSwingOption`, {py:class}`pyquantlib.SwingExercise`, {py:class}`pyquantlib.VanillaForwardPayoff` |
 | Payoffs | {py:class}`pyquantlib.PlainVanillaPayoff`, {py:class}`pyquantlib.CashOrNothingPayoff`, {py:class}`pyquantlib.AssetOrNothingPayoff`, {py:class}`pyquantlib.GapPayoff`, {py:class}`pyquantlib.PercentageStrikePayoff`, {py:class}`pyquantlib.SuperFundPayoff`, {py:class}`pyquantlib.SuperSharePayoff`, {py:class}`pyquantlib.FloatingTypePayoff`, {py:class}`pyquantlib.MinBasketPayoff`, {py:class}`pyquantlib.MaxBasketPayoff`, {py:class}`pyquantlib.AverageBasketPayoff`, {py:class}`pyquantlib.SpreadBasketPayoff` |
 | Exercise | {py:class}`pyquantlib.EuropeanExercise`, {py:class}`pyquantlib.AmericanExercise`, {py:class}`pyquantlib.BermudanExercise` |
 | Variance / credit / composite | {py:class}`pyquantlib.VarianceSwap`, {py:class}`pyquantlib.CreditDefaultSwap`, {py:class}`pyquantlib.FaceValueClaim`, {py:class}`pyquantlib.FaceValueAccrualClaim`, {py:class}`pyquantlib.CompositeInstrument` |
@@ -804,6 +805,32 @@ perp.setPricingEngine(engine)
 ```
 
 `PayoffType` selects the settlement currency (`Linear`, `Inverse`, `Quanto`); `FundingType` selects whether funding accrues against the previous or current spot. Pricing requires {py:class}`pyquantlib.DiscountingPerpetualFuturesEngine`.
+
+### Swing options
+
+```{eval-rst}
+.. autoclass:: pyquantlib.SwingExercise
+   :members:
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.VanillaForwardPayoff
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.VanillaSwingOption
+```
+
+```python
+dates = [today + ql.Period(f"{m}M") for m in range(1, 13)]
+exercise = ql.SwingExercise(dates)
+payoff = ql.VanillaForwardPayoff(ql.Call, 100.0)
+option = ql.VanillaSwingOption(payoff, exercise,
+                               minExerciseRights=1, maxExerciseRights=5)
+option.setPricingEngine(ql.FdSimpleBSSwingEngine(process))
+```
+
+`SwingExercise` restricts exercise to a fixed set of date-times; `minExerciseRights` / `maxExerciseRights` bound how many of those dates may be exercised over the option's life.
 
 ## See also
 

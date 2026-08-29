@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Term structures -- Volatility
 - `ZabrSwaptionVolatilityCube` swaption volatility cube using the ZABR model (alpha, beta, nu, rho, gamma)
 
+#### Instruments -- Swing options
+- `VanillaSwingOption`, `SwingExercise`, and `VanillaForwardPayoff`, with `FdSimpleBSSwingEngine` for pricing
+
 #### Instruments -- Cross-currency swaps
 - `ConstNotionalCrossCurrencySwap` base class for swaps whose legs are denominated in different currencies, with per-leg `legCurrency`, `inCcyLegNPV`, `inCcyLegBPS`, and `npvDateDiscounts` inspectors
 - `ConstNotionalCrossCurrencyBasisSwap` floating-vs-floating cross-currency swap, with `fairPaySpread` and `fairRecSpread`
