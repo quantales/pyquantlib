@@ -35,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Instruments -- Swing options
 - `VanillaSwingOption`, `SwingExercise`, and `VanillaForwardPayoff`, with `FdSimpleBSSwingEngine` for pricing
 
+#### Term structures -- Yield curves
+- `PiecewiseSimpleZero` piecewise yield curve interpolating simply-compounded (Annual frequency) zero rates
+
 #### Instruments -- Cross-currency swaps
 - `ConstNotionalCrossCurrencySwap` base class for swaps whose legs are denominated in different currencies, with per-leg `legCurrency`, `inCcyLegNPV`, `inCcyLegBPS`, and `npvDateDiscounts` inspectors
 - `ConstNotionalCrossCurrencyBasisSwap` floating-vs-floating cross-currency swap, with `fairPaySpread` and `fairRecSpread`

@@ -10,7 +10,7 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 |---|---|
 | Flat / interpolated | {py:class}`pyquantlib.FlatForward`, {py:class}`pyquantlib.ZeroCurve`, {py:class}`pyquantlib.DiscountCurve`, {py:class}`pyquantlib.ForwardCurve` |
 | Spread / implied / composite | {py:class}`pyquantlib.ZeroSpreadedTermStructure`, {py:class}`pyquantlib.ForwardSpreadedTermStructure`, {py:class}`pyquantlib.ImpliedTermStructure`, {py:class}`pyquantlib.UltimateForwardTermStructure`, {py:class}`pyquantlib.CompositeZeroYieldStructure`, {py:class}`pyquantlib.QuantoTermStructure` |
-| Piecewise (iterative bootstrap) | {py:class}`pyquantlib.PiecewiseLogLinearDiscount`, {py:class}`pyquantlib.PiecewiseLinearDiscount`, {py:class}`pyquantlib.PiecewiseCubicDiscount`, {py:class}`pyquantlib.PiecewiseLinearZero`, {py:class}`pyquantlib.PiecewiseCubicZero`, {py:class}`pyquantlib.PiecewiseLinearForward`, {py:class}`pyquantlib.PiecewiseBackwardFlatForward`, {py:class}`pyquantlib.PiecewiseLogCubicDiscount`, {py:class}`pyquantlib.PiecewiseKrugerLogDiscount` |
+| Piecewise (iterative bootstrap) | {py:class}`pyquantlib.PiecewiseLogLinearDiscount`, {py:class}`pyquantlib.PiecewiseLinearDiscount`, {py:class}`pyquantlib.PiecewiseCubicDiscount`, {py:class}`pyquantlib.PiecewiseLinearZero`, {py:class}`pyquantlib.PiecewiseCubicZero`, {py:class}`pyquantlib.PiecewiseSimpleZero`, {py:class}`pyquantlib.PiecewiseLinearForward`, {py:class}`pyquantlib.PiecewiseBackwardFlatForward`, {py:class}`pyquantlib.PiecewiseLogCubicDiscount`, {py:class}`pyquantlib.PiecewiseKrugerLogDiscount` |
 | Global bootstrap | {py:class}`pyquantlib.PiecewiseLogLinearDiscountGlobal`, {py:class}`pyquantlib.PiecewiseLinearZeroGlobal`, {py:class}`pyquantlib.PiecewiseBackwardFlatForwardGlobal`, {py:class}`pyquantlib.MultiCurve` |
 | Fitted (parametric) | {py:class}`pyquantlib.FittedBondDiscountCurve`, {py:class}`pyquantlib.NelsonSiegelFitting`, {py:class}`pyquantlib.SvenssonFitting`, {py:class}`pyquantlib.ExponentialSplinesFitting`, {py:class}`pyquantlib.CubicBSplinesFitting`, {py:class}`pyquantlib.SimplePolynomialFitting`, {py:class}`pyquantlib.SpreadFittingMethod` |
 | Rate helpers | {py:class}`pyquantlib.DepositRateHelper`, {py:class}`pyquantlib.FraRateHelper`, {py:class}`pyquantlib.SwapRateHelper`, {py:class}`pyquantlib.OISRateHelper`, {py:class}`pyquantlib.MultipleResetsSwapRateHelper`, {py:class}`pyquantlib.FuturesRateHelper`, {py:class}`pyquantlib.OvernightIndexFutureRateHelper`, {py:class}`pyquantlib.SofrFutureRateHelper`, {py:class}`pyquantlib.BondHelper`, {py:class}`pyquantlib.FixedRateBondHelper` |
@@ -323,6 +323,7 @@ composite = ql.CompositeZeroYieldStructure(curve1, curve2, operator.add)
 .. autoclass:: pyquantlib.PiecewiseCubicDiscount
 .. autoclass:: pyquantlib.PiecewiseLinearZero
 .. autoclass:: pyquantlib.PiecewiseCubicZero
+.. autoclass:: pyquantlib.PiecewiseSimpleZero
 .. autoclass:: pyquantlib.PiecewiseLinearForward
 .. autoclass:: pyquantlib.PiecewiseBackwardFlatForward
 .. autoclass:: pyquantlib.PiecewiseLogCubicDiscount
