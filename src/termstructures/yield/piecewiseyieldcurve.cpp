@@ -101,6 +101,11 @@ void ql_termstructures::piecewiseyieldcurve(py::module_& m) {
         m, "PiecewiseCubicZero",
         "Piecewise yield curve using cubic zero-rate interpolation.");
 
+    bindPiecewiseCurve<SimpleZeroYield, Linear>(
+        m, "PiecewiseSimpleZero",
+        "Piecewise yield curve using linear interpolation of simply-compounded "
+        "(Annual frequency) zero rates.");
+
     bindPiecewiseCurve<ForwardRate, Linear>(
         m, "PiecewiseLinearForward",
         "Piecewise yield curve using linear forward-rate interpolation.");

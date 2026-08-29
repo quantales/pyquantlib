@@ -402,6 +402,7 @@ def test_piecewise_classes_exist():
     assert hasattr(ql, "PiecewiseKrugerLogDiscount")
     assert hasattr(ql, "PiecewiseLinearZero")
     assert hasattr(ql, "PiecewiseCubicZero")
+    assert hasattr(ql, "PiecewiseSimpleZero")
     assert hasattr(ql, "PiecewiseLinearForward")
     assert hasattr(ql, "PiecewiseBackwardFlatForward")
     assert hasattr(ql, "PiecewiseFlatForward")
@@ -558,6 +559,26 @@ def test_piecewise_cubic_zero(curve_env):
     )
     assert curve is not None
     assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+
+def test_piecewise_simple_zero(curve_env):
+    """Test PiecewiseSimpleZero bootstrapping."""
+    helpers = _build_helpers(
+        curve_env["today"], curve_env["calendar"], curve_env["euribor6m"]
+    )
+    curve = ql.PiecewiseSimpleZero(
+        curve_env["today"], helpers, curve_env["day_counter"]
+    )
+    assert curve is not None
+    assert curve.discount(curve_env["today"]) == pytest.approx(1.0)
+
+    # Simply-compounded 10Y zero rate is necessarily higher than the
+    # continuously-compounded input rate it was bootstrapped from.
+    ten_years = curve_env["today"] + ql.Period(10, ql.Years)
+    zero_10y = curve.zeroRate(
+        ten_years, curve_env["day_counter"], ql.Simple
+    )
+    assert zero_10y.rate() == pytest.approx(0.0515286, rel=1e-4)
 
 
 def test_piecewise_flat_forward(curve_env):
