@@ -29,6 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PearsonSpreadEngine` spread option engine using Pearson (1995) 1-D numerical integration
 - `GaussianCopulaSpreadEngine` spread option engine using nested Gauss-Hermite quadrature over a Gaussian copula with smile-implied marginals
 
+#### Term structures -- Volatility
+- `ZabrSwaptionVolatilityCube` swaption volatility cube using the ZABR model (alpha, beta, nu, rho, gamma)
+
 #### Instruments -- Cross-currency swaps
 - `ConstNotionalCrossCurrencySwap` base class for swaps whose legs are denominated in different currencies, with per-leg `legCurrency`, `inCcyLegNPV`, `inCcyLegBPS`, and `npvDateDiscounts` inspectors
 - `ConstNotionalCrossCurrencyBasisSwap` floating-vs-floating cross-currency swap, with `fairPaySpread` and `fairRecSpread`

@@ -26,7 +26,7 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 | SABR free functions | {py:func}`pyquantlib.sabrVolatility`, {py:func}`pyquantlib.shiftedSabrVolatility`, {py:func}`pyquantlib.validateSabrParameters` |
 | Local vol | {py:class}`pyquantlib.LocalConstantVol`, {py:class}`pyquantlib.LocalVolSurface`, {py:class}`pyquantlib.FixedLocalVolSurface`, {py:class}`pyquantlib.NoExceptLocalVolSurface` |
 | Andreasen-Huge | {py:class}`pyquantlib.AndreasenHugeVolatilityInterpl`, {py:class}`pyquantlib.AndreasenHugeVolatilityAdapter`, {py:class}`pyquantlib.AndreasenHugeLocalVolAdapter` |
-| Swaption | {py:class}`pyquantlib.ConstantSwaptionVolatility`, {py:class}`pyquantlib.SwaptionVolatilityMatrix`, {py:class}`pyquantlib.SwaptionVolatilityCube`, {py:class}`pyquantlib.SabrSwaptionVolatilityCube`, {py:class}`pyquantlib.SpreadedSwaptionVolatility` |
+| Swaption | {py:class}`pyquantlib.ConstantSwaptionVolatility`, {py:class}`pyquantlib.SwaptionVolatilityMatrix`, {py:class}`pyquantlib.SwaptionVolatilityCube`, {py:class}`pyquantlib.SabrSwaptionVolatilityCube`, {py:class}`pyquantlib.ZabrSwaptionVolatilityCube`, {py:class}`pyquantlib.SpreadedSwaptionVolatility` |
 | Optionlet | {py:class}`pyquantlib.ConstantOptionletVolatility`, {py:class}`pyquantlib.CapFloorTermVolSurface`, {py:class}`pyquantlib.OptionletStripper1`, {py:class}`pyquantlib.StrippedOptionletAdapter` |
 | YoY inflation optionlet | {py:class}`pyquantlib.ConstantYoYOptionletVolatility` |
 | Handles | {py:class}`pyquantlib.BlackVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableBlackVolTermStructureHandle`, {py:class}`pyquantlib.LocalVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableLocalVolTermStructureHandle`, {py:class}`pyquantlib.SwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableSwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.OptionletVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableOptionletVolatilityStructureHandle`, {py:class}`pyquantlib.YoYOptionletVolatilitySurfaceHandle`, {py:class}`pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle` |
@@ -614,6 +614,7 @@ print(local_surface.localVol(1.0, 100.0))
 .. autoclass:: pyquantlib.SwaptionVolatilityMatrix
 .. autoclass:: pyquantlib.SwaptionVolatilityCube
 .. autoclass:: pyquantlib.SabrSwaptionVolatilityCube
+.. autoclass:: pyquantlib.ZabrSwaptionVolatilityCube
 .. autoclass:: pyquantlib.SpreadedSwaptionVolatility
 ```
 
