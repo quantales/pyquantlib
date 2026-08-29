@@ -304,6 +304,7 @@ namespace ql_termstructures {
     void swaptionvolmatrix(py::module_&);
     void swaptionvolcube(py::module_&);
     void sabrswaptionvolcube(py::module_&);
+    void zabrswaptionvolcube(py::module_&);
     void capfloortermvolatilitystructure(py::module_&);
     void capfloortermvolsurface(py::module_&);
     void optionletvolatilitystructure(py::module_&);

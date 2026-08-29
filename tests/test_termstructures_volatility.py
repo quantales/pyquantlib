@@ -2731,3 +2731,140 @@ def test_piecewiseblackvariancesurface_from_smile_sections():
     surface = ql.PiecewiseBlackVarianceSurface(
         today, today + ql.Period("6M"), section, dc)
     assert surface.blackVol(0.5, 100.0) == pytest.approx(0.25, rel=1e-8)
+
+
+# =============================================================================
+# ZabrSwaptionVolatilityCube
+# =============================================================================
+
+
+@pytest.fixture(scope="module")
+def zabr_cube_env():
+    """Common data for ZabrSwaptionVolatilityCube tests."""
+    original_date = ql.Settings.evaluationDate
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+    calendar = ql.TARGET()
+    dc = ql.Actual365Fixed()
+    curve_handle = ql.YieldTermStructureHandle(ql.FlatForward(today, 0.03, dc))
+    euribor = ql.Euribor6M(curve_handle)
+    swap_index_base = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period("10Y"), 2,
+        ql.EURCurrency(), calendar, ql.Period("1Y"),
+        ql.Unadjusted, ql.Thirty360(ql.Thirty360.BondBasis),
+        euribor, curve_handle,
+    )
+    short_swap_index_base = ql.SwapIndex(
+        "EuriborSwapIsdaFixA", ql.Period("1Y"), 2,
+        ql.EURCurrency(), calendar, ql.Period("1Y"),
+        ql.Unadjusted, ql.Thirty360(ql.Thirty360.BondBasis),
+        euribor, curve_handle,
+    )
+    option_tenors = [ql.Period("1Y"), ql.Period("5Y")]
+    swap_tenors = [ql.Period("1Y"), ql.Period("5Y")]
+
+    # isAtmCalibrated requires a SwaptionVolatilityDiscrete-derived structure
+    # (e.g. SwaptionVolatilityMatrix); ConstantSwaptionVolatility is not one.
+    atm_vols = ql.Matrix(len(option_tenors), len(swap_tenors))
+    for i in range(len(option_tenors)):
+        for j in range(len(swap_tenors)):
+            atm_vols[i][j] = 0.20
+    atm_vol = ql.SwaptionVolatilityMatrix(
+        calendar, ql.ModifiedFollowing, option_tenors, swap_tenors, atm_vols, dc
+    )
+    atm_vol_handle = ql.SwaptionVolatilityStructureHandle(atm_vol)
+
+    strike_spreads = [-0.01, 0.0, 0.01]
+    n_points = len(option_tenors) * len(swap_tenors)
+    vol_spreads = [
+        [ql.QuoteHandle(ql.SimpleQuote(0.0)) for _ in strike_spreads]
+        for _ in range(n_points)
+    ]
+    guess_values = [0.05, 0.5, 0.4, 0.0, 1.0]  # alpha, beta, nu, rho, gamma
+    parameters_guess = [
+        [ql.QuoteHandle(ql.SimpleQuote(v)) for v in guess_values]
+        for _ in range(n_points)
+    ]
+    is_parameter_fixed = [False, True, False, False, True]
+
+    yield {
+        "atmVolStructure": atm_vol_handle,
+        "optionTenors": option_tenors,
+        "swapTenors": swap_tenors,
+        "strikeSpreads": strike_spreads,
+        "volSpreads": vol_spreads,
+        "swapIndexBase": swap_index_base,
+        "shortSwapIndexBase": short_swap_index_base,
+        "parametersGuess": parameters_guess,
+        "isParameterFixed": is_parameter_fixed,
+    }
+    ql.Settings.evaluationDate = original_date
+
+
+def _make_zabr_cube(d, is_atm_calibrated=True):
+    return ql.ZabrSwaptionVolatilityCube(
+        d["atmVolStructure"], d["optionTenors"], d["swapTenors"],
+        d["strikeSpreads"], d["volSpreads"],
+        d["swapIndexBase"], d["shortSwapIndexBase"],
+        vegaWeightedSmileFit=False,
+        parametersGuess=d["parametersGuess"],
+        isParameterFixed=d["isParameterFixed"],
+        isAtmCalibrated=is_atm_calibrated,
+        endCriteria=ql.EndCriteria(1000, 100, 1e-8, 1e-8, 1e-8),
+        optMethod=ql.LevenbergMarquardt(),
+    )
+
+
+def test_zabrswaptionvolcube_construction(zabr_cube_env):
+    """Test ZabrSwaptionVolatilityCube construction."""
+    cube = _make_zabr_cube(zabr_cube_env)
+    assert cube is not None
+    assert cube.volatilityType() == ql.VolatilityType.ShiftedLognormal
+
+
+def test_zabrswaptionvolcube_market_vol_cube_shape(zabr_cube_env):
+    """Test marketVolCube returns a matrix of (optionTime, swapLength, vol...) rows."""
+    d = zabr_cube_env
+    cube = _make_zabr_cube(d)
+    market = cube.marketVolCube()
+    n_points = len(d["optionTenors"]) * len(d["swapTenors"])
+    assert market.rows() == n_points
+    # 2 pillar columns (option time, swap length) + one per strike spread
+    assert market.columns() == 2 + len(d["strikeSpreads"])
+
+
+def test_zabrswaptionvolcube_sparse_parameters_shape(zabr_cube_env):
+    """Test sparseSabrParameters returns 5 ZABR parameters plus metadata per point."""
+    d = zabr_cube_env
+    cube = _make_zabr_cube(d)
+    params = cube.sparseSabrParameters()
+    n_points = len(d["optionTenors"]) * len(d["swapTenors"])
+    assert params.rows() == n_points
+    # 2 pillar columns + 5 ZABR params (alpha, beta, nu, rho, gamma) + 4 metadata columns
+    assert params.columns() == 11
+
+
+@pytest.mark.skip(
+    reason="Crashes (access violation) on released QuantLib 1.43: "
+    "XabrSwaptionVolatilityCube<Model>::fillVolatilityCube() dereferences "
+    "dynamic_pointer_cast<SwaptionVolatilityDiscrete>(*atmVol_) without a null "
+    "check when atmVolStructure isn't SwaptionVolatilityDiscrete-derived; "
+    "re-enable once fixed (next QuantLib release)."
+)
+def test_zabrswaptionvolcube_atm_calibration_requires_discrete_structure(zabr_cube_env):
+    """Test isAtmCalibrated=True raises with a non-discrete atmVolStructure."""
+    d = dict(zabr_cube_env)
+    flat_atm_vol = ql.ConstantSwaptionVolatility(
+        2, ql.TARGET(), ql.ModifiedFollowing, 0.20, ql.Actual365Fixed()
+    )
+    d["atmVolStructure"] = ql.SwaptionVolatilityStructureHandle(flat_atm_vol)
+    cube = _make_zabr_cube(d, is_atm_calibrated=True)
+    with pytest.raises(ql.Error, match="SwaptionVolatilityDiscrete"):
+        cube.marketVolCube()
+
+
+def test_zabrswaptionvolcube_volatility_query(zabr_cube_env):
+    """Test volatility() returns a positive value at a grid pillar."""
+    cube = _make_zabr_cube(zabr_cube_env)
+    vol = cube.volatility(ql.Period("1Y"), ql.Period("1Y"), 0.03)
+    assert vol > 0.0

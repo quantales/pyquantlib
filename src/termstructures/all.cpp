@@ -138,6 +138,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "SwaptionVolatilityCube");
     ADD_MAIN_BINDING(ql_termstructures::sabrswaptionvolcube,
         "SabrSwaptionVolatilityCube");
+    ADD_MAIN_BINDING(ql_termstructures::zabrswaptionvolcube,
+        "ZabrSwaptionVolatilityCube");
 
     ADD_BASE_BINDING(ql_termstructures::capfloortermvolatilitystructure,
         "CapFloorTermVolatilityStructure ABC");
