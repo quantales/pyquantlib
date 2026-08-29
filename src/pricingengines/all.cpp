@@ -71,6 +71,8 @@ DECLARE_MODULE_BINDINGS(pricingengines_bindings) {
         "FdCEVVanillaEngine - FD CEV pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdblackscholesshoutengine,
         "FdBlackScholesShoutEngine - FD Black-Scholes shout option pricing");
+    ADD_MAIN_BINDING(ql_pricingengines::fdsimplebsswingengine,
+        "FdSimpleBSSwingEngine - FD Black-Scholes swing option pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdhestonhullwhitevanillaengine,
         "FdHestonHullWhiteVanillaEngine - FD Heston + Hull-White pricing");
     ADD_MAIN_BINDING(ql_pricingengines::fdornsteinuhlenbeckvanillaengine,

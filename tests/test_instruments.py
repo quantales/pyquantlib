@@ -4490,3 +4490,42 @@ def test_constnotionalcrosscurrencyswap_from_legs(ccyswap_env):
     assert swap.NPV() == pytest.approx(1597.6101761822, rel=1e-4)
     assert swap.inCcyLegBPS(0) == pytest.approx(-1947.0753300395, rel=1e-4)
     assert swap.legCurrency(1).code() == "USD"
+
+
+# =============================================================================
+# VanillaSwingOption
+# =============================================================================
+
+
+def test_swingexercise_construction_from_dates():
+    """Test SwingExercise construction from a list of dates."""
+    today = ql.Date(24, 6, 2025)
+    dates = [today + ql.Period(m, ql.Months) for m in range(1, 4)]
+    exercise = ql.SwingExercise(dates)
+    assert exercise is not None
+    assert list(exercise.seconds()) == [0, 0, 0]
+
+
+def test_swingexercise_construction_from_range():
+    """Test SwingExercise construction from a date range and step size."""
+    today = ql.Date(24, 6, 2025)
+    exercise = ql.SwingExercise(today, today, 3600)
+    assert exercise is not None
+
+
+def test_vanillaforwardpayoff_construction():
+    """Test VanillaForwardPayoff construction and evaluation."""
+    payoff = ql.VanillaForwardPayoff(ql.OptionType.Call, 100.0)
+    assert payoff.name() == "ForwardTypePayoff"
+    assert payoff(110.0) == pytest.approx(10.0)
+    assert payoff(90.0) == pytest.approx(-10.0)
+
+
+def test_vanillaswingoption_construction():
+    """Test VanillaSwingOption construction."""
+    today = ql.Date(24, 6, 2025)
+    dates = [today + ql.Period(m, ql.Months) for m in range(1, 13)]
+    exercise = ql.SwingExercise(dates)
+    payoff = ql.VanillaForwardPayoff(ql.OptionType.Call, 100.0)
+    option = ql.VanillaSwingOption(payoff, exercise, 1, 5)
+    assert option is not None

@@ -1148,6 +1148,49 @@ def test_fdblackscholesshout_european_call():
 
 
 # =============================================================================
+# FdSimpleBSSwingEngine
+# =============================================================================
+
+
+def test_fdsimplebsswingengine_construction():
+    """Test FdSimpleBSSwingEngine construction."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), ql.SimpleQuote(0.20), dc)
+    process = ql.GeneralizedBlackScholesProcess(spot, dts, rts, vol)
+
+    engine = ql.FdSimpleBSSwingEngine(process)
+    assert engine is not None
+
+
+def test_fdsimplebsswingengine_pricing():
+    """Test FD Black-Scholes swing option pricing."""
+    today = ql.Date(24, 6, 2025)
+    ql.Settings.evaluationDate = today
+
+    dc = ql.Actual365Fixed()
+    spot = ql.SimpleQuote(100.0)
+    rts = ql.FlatForward(today, ql.SimpleQuote(0.05), dc)
+    dts = ql.FlatForward(today, ql.SimpleQuote(0.02), dc)
+    vol = ql.BlackConstantVol(today, ql.NullCalendar(), ql.SimpleQuote(0.20), dc)
+    process = ql.GeneralizedBlackScholesProcess(spot, dts, rts, vol)
+
+    dates = [today + ql.Period(m, ql.Months) for m in range(1, 13)]
+    exercise = ql.SwingExercise(dates)
+    payoff = ql.VanillaForwardPayoff(ql.OptionType.Call, 100.0)
+    option = ql.VanillaSwingOption(payoff, exercise, 1, 5)
+
+    engine = ql.FdSimpleBSSwingEngine(process, tGrid=50, xGrid=100)
+    option.setPricingEngine(engine)
+    assert option.NPV() == pytest.approx(36.412445, rel=1e-4)
+
+
+# =============================================================================
 # COSHestonEngine
 # =============================================================================
 

@@ -474,6 +474,7 @@ namespace ql_instruments {
     void partialtimebarrieroption(py::module_&);
     void softbarrieroption(py::module_&);
     void twoassetbarrieroption(py::module_&);
+    void vanillaswingoption(py::module_&);
 }
 
 namespace ql_pricingengines {
@@ -551,6 +552,7 @@ namespace ql_pricingengines {
     void fdsabrvanillaengine(py::module_&);
     void fdcevvanillaengine(py::module_&);
     void fdblackscholesshoutengine(py::module_&);
+    void fdsimplebsswingengine(py::module_&);
     void fdhestonhullwhitevanillaengine(py::module_&);
     void fdornsteinuhlenbeckvanillaengine(py::module_&);
     void coshestonengine(py::module_&);
