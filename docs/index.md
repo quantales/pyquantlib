@@ -87,6 +87,7 @@ As with any Python binding, performance-critical loops should remain in C++. PyQ
 - **GitHub**: [github.com/quantales/pyquantlib](https://github.com/quantales/pyquantlib)
 - **QuantLib**: [quantlib.org](https://www.quantlib.org/)
 - **Issues**: [Report a bug](https://github.com/quantales/pyquantlib/issues)
+- **Changelog**: [Release history](changelog.md)
 - **License**: BSD 3-Clause (see [LICENSE](https://github.com/quantales/pyquantlib/blob/main/LICENSE))
 
 ```{toctree}
