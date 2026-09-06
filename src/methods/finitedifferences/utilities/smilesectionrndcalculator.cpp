@@ -26,10 +26,21 @@ void ql_methods::smilesectionrndcalculator(py::module_& m) {
                RiskNeutralDensityCalculator>(
         m, "SmileSectionRNDCalculator",
         "Risk-neutral density implied by a smile section.")
+        // Shorter overloads let QuantLib's constructor supply the omitted
+        // arguments, keeping the defaults defined in one place.
+        .def(py::init<ext::shared_ptr<SmileSection>>(),
+            py::arg("smile"),
+            "Constructs from a smile section. nStrikes and nStd take "
+            "QuantLib's own defaults.")
+        .def(py::init<ext::shared_ptr<SmileSection>, Size>(),
+            py::arg("smile"),
+            py::arg("nStrikes"),
+            "Constructs from a smile section, sampling nStrikes points. nStd "
+            "takes QuantLib's own default.")
         .def(py::init<ext::shared_ptr<SmileSection>, Size, Real>(),
             py::arg("smile"),
-            py::arg("nStrikes") = 200,
-            py::arg("nStd") = 5.0,
+            py::arg("nStrikes"),
+            py::arg("nStd"),
             "Constructs from a smile section, sampling nStrikes points over "
             "nStd standard deviations.")
         .def("pdf",

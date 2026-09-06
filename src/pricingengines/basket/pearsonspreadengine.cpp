@@ -24,13 +24,22 @@ void ql_pricingengines::pearsonspreadengine(py::module_& m) {
                SpreadBlackScholesVanillaEngine>(
         m, "PearsonSpreadEngine",
         "Pearson (1995) spread option engine using 1-D numerical integration.")
+        // Shorter overloads let QuantLib's constructor supply the omitted
+        // integration controls, keeping the defaults defined in one place.
+        .def(py::init<ext::shared_ptr<GeneralizedBlackScholesProcess>,
+                      ext::shared_ptr<GeneralizedBlackScholesProcess>,
+                      Real>(),
+            py::arg("process1"), py::arg("process2"), py::arg("correlation"),
+            "Constructs with two Black-Scholes processes and their "
+            "correlation. The integration controls take QuantLib's own "
+            "defaults.")
         .def(py::init<ext::shared_ptr<GeneralizedBlackScholesProcess>,
                       ext::shared_ptr<GeneralizedBlackScholesProcess>,
                       Real, Real, Size, Real>(),
             py::arg("process1"), py::arg("process2"), py::arg("correlation"),
-            py::arg("integrationTolerance") = 1e-10,
-            py::arg("maxIntegrationIterations") = 10000,
-            py::arg("nStd") = 8.0,
+            py::arg("integrationTolerance"),
+            py::arg("maxIntegrationIterations"),
+            py::arg("nStd"),
             "Constructs with two Black-Scholes processes, their correlation, "
             "and the integration controls.");
 }

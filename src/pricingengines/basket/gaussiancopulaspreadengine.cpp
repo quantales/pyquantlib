@@ -26,11 +26,19 @@ void ql_pricingengines::gaussiancopulaspreadengine(py::module_& m) {
         m, "GaussianCopulaSpreadEngine",
         "Spread option engine using nested Gauss-Hermite quadrature over a "
         "Gaussian copula with smile-implied marginals.")
+        // The shorter overload lets QuantLib's constructor supply nPoints,
+        // keeping the default defined in one place.
+        .def(py::init<ext::shared_ptr<GeneralizedBlackScholesProcess>,
+                      ext::shared_ptr<GeneralizedBlackScholesProcess>,
+                      Real>(),
+            py::arg("process1"), py::arg("process2"), py::arg("correlation"),
+            "Constructs with two Black-Scholes processes and their "
+            "correlation. nPoints takes QuantLib's own default.")
         .def(py::init<ext::shared_ptr<GeneralizedBlackScholesProcess>,
                       ext::shared_ptr<GeneralizedBlackScholesProcess>,
                       Real, Size>(),
             py::arg("process1"), py::arg("process2"), py::arg("correlation"),
-            py::arg("nPoints") = 64,
+            py::arg("nPoints"),
             "Constructs with two Black-Scholes processes, their correlation, "
             "and the number of quadrature points per dimension.");
 }
