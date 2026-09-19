@@ -808,7 +808,9 @@ def test_gaussiancopulaspreadengine_spread_call(spread_market):
     option = _spread_option(3.0, ql.OptionType.Call, env["exercise"])
     option.setPricingEngine(ql.GaussianCopulaSpreadEngine(process1, process2, 0.5))
 
-    assert option.NPV() == pytest.approx(8.9333411087, rel=1e-6)
+    # QuantLib PRs #2768 and #2772 move the smile-implied marginal, so this
+    # price shifts by ~1.5e-6 between 1.43 and 1.44. The tolerance spans both.
+    assert option.NPV() == pytest.approx(8.9333411087, rel=1e-5)
 
 
 def test_gaussiancopulaspreadengine_put_call_parity(spread_market):
@@ -855,4 +857,5 @@ def test_gaussiancopulaspreadengine_quadrature_points(spread_market):
         ql.GaussianCopulaSpreadEngine(process1, process2, 0.5, nPoints=128)
     )
 
-    assert option.NPV() == pytest.approx(8.9334248161, rel=1e-6)
+    # Same marginal shift as above; see test_gaussiancopulaspreadengine_spread_call.
+    assert option.NPV() == pytest.approx(8.9334248161, rel=1e-5)
