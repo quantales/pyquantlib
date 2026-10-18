@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, windows-latest, macos-15]
 
     steps:
       - uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
           # NumPy from source against a too-old GCC. AlmaLinux 8 based image.
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
 
-          # macOS: ARM only (macos-14)
+          # macOS: ARM only (macos-15)
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_ARCHS_WINDOWS: "AMD64"
