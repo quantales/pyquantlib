@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Math
+- Distributions `GammaFunction`, `CumulativeGammaDistribution`, `PoissonDistribution` (with cumulative and inverse forms), `CumulativeChiSquareDistribution` and the non-central family, `StudentDistribution` (with cumulative and inverse forms), `BinomialDistribution`, `CumulativeBinomialDistribution`, `BivariateCumulativeStudentDistribution`, and the functions `binomialCoefficient`, `binomialCoefficientLn`, and `PeizerPrattMethod2Inversion`
+- Thirteen bivariate copulas: `AliMikhailHaqCopula`, `ClaytonCopula`, `FarlieGumbelMorgensternCopula`, `FrankCopula`, `GalambosCopula`, `GaussianCopula`, `GumbelCopula`, `HuslerReissCopula`, `IndependentCopula`, `MarshallOlkinCopula`, `MaxCopula`, `MinCopula`, and `PlackettCopula`
+- 1-D solvers `NewtonSafe`, `Halley`, `FalsePosition`, and `Ridder`
+
 #### Indexes
 - Overnight indexes `Aonia`, `Cdi`, `Corra`, `Destr`, `FedFunds`, `Kofr`, `Nzocr`, `Saron`, `Swestr`, and `Tonar`
 - Term indexes `Bbsw`, `Bkbm`, `Bibor`, `Cdor`, `Jibar`, `Robor`, `Shibor`, and `Zibor`, with the fixed-tenor subclasses `Bbsw1M` to `Bbsw6M`, `Bkbm1M` to `Bkbm6M`, and `BiborSW`, `Bibor1M` to `Bibor1Y`

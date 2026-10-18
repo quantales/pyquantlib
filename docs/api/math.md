@@ -19,8 +19,9 @@ Bindings for QuantLib's numerical-utility layer: linear algebra (`Array`, `Matri
 | 2-D | {py:class}`pyquantlib.BilinearInterpolation`, {py:class}`pyquantlib.BicubicSpline`, {py:class}`pyquantlib.BackwardflatLinearInterpolation`, {py:class}`pyquantlib.FlatExtrapolator2D` |
 | Statistics | {py:class}`pyquantlib.Statistics`, {py:class}`pyquantlib.IncrementalStatistics`, {py:class}`pyquantlib.SequenceStatistics` |
 | Optimisation | {py:class}`pyquantlib.LevenbergMarquardt`, {py:class}`pyquantlib.Simplex`, {py:class}`pyquantlib.ConjugateGradient`, {py:class}`pyquantlib.SteepestDescent`, {py:class}`pyquantlib.BFGS`, {py:class}`pyquantlib.LBFGSB`, {py:class}`pyquantlib.DifferentialEvolution`, {py:class}`pyquantlib.EndCriteria`, {py:class}`pyquantlib.Problem`, {py:class}`pyquantlib.NoConstraint`, {py:class}`pyquantlib.PositiveConstraint`, {py:class}`pyquantlib.BoundaryConstraint`, {py:class}`pyquantlib.CompositeConstraint` |
-| Distributions | {py:class}`pyquantlib.NormalDistribution`, {py:class}`pyquantlib.CumulativeNormalDistribution`, {py:class}`pyquantlib.InverseCumulativeNormal`, {py:class}`pyquantlib.BivariateCumulativeNormalDistribution` |
-| 1-D solvers | {py:class}`pyquantlib.Brent`, {py:class}`pyquantlib.Bisection`, {py:class}`pyquantlib.Secant`, {py:class}`pyquantlib.Newton` |
+| Distributions | {py:class}`pyquantlib.NormalDistribution`, {py:class}`pyquantlib.CumulativeNormalDistribution`, {py:class}`pyquantlib.InverseCumulativeNormal`, {py:class}`pyquantlib.BivariateCumulativeNormalDistribution`, {py:class}`pyquantlib.CumulativeGammaDistribution`, {py:class}`pyquantlib.PoissonDistribution`, {py:class}`pyquantlib.CumulativeChiSquareDistribution`, {py:class}`pyquantlib.StudentDistribution`, {py:class}`pyquantlib.BinomialDistribution`, {py:class}`pyquantlib.BivariateCumulativeStudentDistribution` |
+| Copulas | {py:class}`pyquantlib.GaussianCopula`, {py:class}`pyquantlib.ClaytonCopula`, {py:class}`pyquantlib.FrankCopula`, {py:class}`pyquantlib.GumbelCopula`, plus `AliMikhailHaqCopula`, `FarlieGumbelMorgensternCopula`, `GalambosCopula`, `HuslerReissCopula`, `IndependentCopula`, `MarshallOlkinCopula`, `MaxCopula`, `MinCopula`, `PlackettCopula` |
+| 1-D solvers | {py:class}`pyquantlib.Brent`, {py:class}`pyquantlib.Bisection`, {py:class}`pyquantlib.Secant`, {py:class}`pyquantlib.Newton`, {py:class}`pyquantlib.NewtonSafe`, {py:class}`pyquantlib.Halley`, {py:class}`pyquantlib.FalsePosition`, {py:class}`pyquantlib.Ridder` |
 | ODE | {py:class}`pyquantlib.AdaptiveRungeKutta` |
 | Misc | {py:class}`pyquantlib.RichardsonExtrapolation` |
 
@@ -88,7 +89,7 @@ root = brent.solve(lambda x: x**2 - 4, accuracy=1e-10, guess=1.0, step=0.5)
 root = brent.solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.0, 10.0)
 ```
 
-`Brent`, `Bisection`, `Secant`, and `Newton` share the calling convention. `Newton` additionally accepts a derivative callable as the second argument. Common configuration: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.
+`Brent`, `Bisection`, `Secant`, `FalsePosition`, and `Ridder` share the calling convention. `Newton` and `NewtonSafe` additionally accept a derivative callable as the second argument, and `Halley` accepts first and second derivative callables. Common configuration: `setMaxEvaluations(n)`, `setLowerBound(x)`, `setUpperBound(x)`.
 
 ### Set up an optimisation problem
 
@@ -450,6 +451,71 @@ bvn = ql.BivariateCumulativeNormalDistribution(rho=0.5)
 bvn(0.0, 0.0)
 ```
 
+### Further distributions
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GammaFunction
+.. autoclass:: pyquantlib.CumulativeGammaDistribution
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.PoissonDistribution
+.. autoclass:: pyquantlib.CumulativePoissonDistribution
+.. autoclass:: pyquantlib.InverseCumulativePoisson
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CumulativeChiSquareDistribution
+.. autoclass:: pyquantlib.NonCentralCumulativeChiSquareDistribution
+.. autoclass:: pyquantlib.NonCentralCumulativeChiSquareSankaranApprox
+.. autoclass:: pyquantlib.InverseNonCentralCumulativeChiSquareDistribution
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.StudentDistribution
+.. autoclass:: pyquantlib.CumulativeStudentDistribution
+.. autoclass:: pyquantlib.InverseCumulativeStudent
+.. autoclass:: pyquantlib.BivariateCumulativeStudentDistribution
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.BinomialDistribution
+.. autoclass:: pyquantlib.CumulativeBinomialDistribution
+```
+
+The binomial module also provides the functions `binomialCoefficient`, `binomialCoefficientLn`, and
+`PeizerPrattMethod2Inversion` (odd `n` only).
+
+All distribution objects are callable: `ql.CumulativeStudentDistribution(5)(1.2)`. The discrete
+distributions (`Poisson`, `Binomial`) take the count `k` as the argument.
+
+### Copulas
+
+Bivariate copulas $C(x, y)$ on the unit square, callable with two arguments in $[0, 1]$.
+
+| Class | Parameters |
+|---|---|
+| `IndependentCopula`, `MinCopula`, `MaxCopula` | none |
+| `GaussianCopula` | `rho` |
+| `ClaytonCopula`, `FrankCopula`, `GumbelCopula`, `AliMikhailHaqCopula`, `FarlieGumbelMorgensternCopula`, `GalambosCopula`, `HuslerReissCopula`, `PlackettCopula` | `theta` |
+| `MarshallOlkinCopula` | `a1`, `a2` |
+
+```{eval-rst}
+.. autoclass:: pyquantlib.GaussianCopula
+.. autoclass:: pyquantlib.ClaytonCopula
+```
+
+```python
+copula = ql.ClaytonCopula(2.0)
+copula(0.3, 0.6)
+```
+
+```{note}
+Following QuantLib, `MaxCopula` returns $\min(x, y)$ (maximum dependence, the upper Fréchet bound) and
+`MinCopula` returns $\max(x + y - 1, 0)$ (minimum dependence, the lower Fréchet bound). The
+`MarshallOlkinCopula` is $\min(y x^{1 - a_1}, x y^{1 - a_2})$.
+```
+
 ### 1-D solvers
 
 ```{eval-rst}
@@ -462,6 +528,19 @@ bvn(0.0, 0.0)
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.Secant
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.NewtonSafe
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.Halley
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.FalsePosition
+.. autoclass:: pyquantlib.Ridder
 ```
 
 ```{eval-rst}
