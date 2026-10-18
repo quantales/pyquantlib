@@ -21,13 +21,13 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 
 | Group | Classes |
 |---|---|
-| Black vol | {py:class}`pyquantlib.BlackConstantVol`, {py:class}`pyquantlib.BlackVarianceSurface`, {py:class}`pyquantlib.PiecewiseBlackVarianceSurface`, {py:class}`pyquantlib.BlackVolatilitySurfaceDelta`, {py:class}`pyquantlib.HestonBlackVolSurface` |
+| Black vol | {py:class}`pyquantlib.BlackConstantVol`, {py:class}`pyquantlib.BlackVarianceCurve`, {py:class}`pyquantlib.ImpliedVolTermStructure`, {py:class}`pyquantlib.BlackVarianceSurface`, {py:class}`pyquantlib.PiecewiseBlackVarianceSurface`, {py:class}`pyquantlib.BlackVolatilitySurfaceDelta`, {py:class}`pyquantlib.HestonBlackVolSurface` |
 | Smile sections | {py:class}`pyquantlib.FlatSmileSection`, {py:class}`pyquantlib.SabrSmileSection`, {py:class}`pyquantlib.SabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrSmileSection`, {py:class}`pyquantlib.NoArbSabrInterpolatedSmileSection`, {py:class}`pyquantlib.NoArbSabrModel`, {py:class}`pyquantlib.KahaleSmileSection` |
 | SABR free functions | {py:func}`pyquantlib.sabrVolatility`, {py:func}`pyquantlib.shiftedSabrVolatility`, {py:func}`pyquantlib.validateSabrParameters` |
-| Local vol | {py:class}`pyquantlib.LocalConstantVol`, {py:class}`pyquantlib.LocalVolSurface`, {py:class}`pyquantlib.FixedLocalVolSurface`, {py:class}`pyquantlib.NoExceptLocalVolSurface` |
+| Local vol | {py:class}`pyquantlib.LocalConstantVol`, {py:class}`pyquantlib.LocalVolCurve`, {py:class}`pyquantlib.LocalVolSurface`, {py:class}`pyquantlib.FixedLocalVolSurface`, {py:class}`pyquantlib.NoExceptLocalVolSurface` |
 | Andreasen-Huge | {py:class}`pyquantlib.AndreasenHugeVolatilityInterpl`, {py:class}`pyquantlib.AndreasenHugeVolatilityAdapter`, {py:class}`pyquantlib.AndreasenHugeLocalVolAdapter` |
 | Swaption | {py:class}`pyquantlib.ConstantSwaptionVolatility`, {py:class}`pyquantlib.SwaptionVolatilityMatrix`, {py:class}`pyquantlib.SwaptionVolatilityCube`, {py:class}`pyquantlib.SabrSwaptionVolatilityCube`, {py:class}`pyquantlib.ZabrSwaptionVolatilityCube`, {py:class}`pyquantlib.SpreadedSwaptionVolatility` |
-| Optionlet | {py:class}`pyquantlib.ConstantOptionletVolatility`, {py:class}`pyquantlib.CapFloorTermVolSurface`, {py:class}`pyquantlib.OptionletStripper1`, {py:class}`pyquantlib.StrippedOptionletAdapter` |
+| Optionlet | {py:class}`pyquantlib.ConstantOptionletVolatility`, {py:class}`pyquantlib.SpreadedOptionletVolatility`, {py:class}`pyquantlib.CapletVarianceCurve`, {py:class}`pyquantlib.ConstantCapFloorTermVolatility`, {py:class}`pyquantlib.CapFloorTermVolCurve`, {py:class}`pyquantlib.CapFloorTermVolSurface`, {py:class}`pyquantlib.OptionletStripper1`, {py:class}`pyquantlib.OptionletStripper2`, {py:class}`pyquantlib.StrippedOptionletAdapter` |
 | YoY inflation optionlet | {py:class}`pyquantlib.ConstantYoYOptionletVolatility` |
 | Handles | {py:class}`pyquantlib.BlackVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableBlackVolTermStructureHandle`, {py:class}`pyquantlib.LocalVolTermStructureHandle`, {py:class}`pyquantlib.RelinkableLocalVolTermStructureHandle`, {py:class}`pyquantlib.SwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableSwaptionVolatilityStructureHandle`, {py:class}`pyquantlib.OptionletVolatilityStructureHandle`, {py:class}`pyquantlib.RelinkableOptionletVolatilityStructureHandle`, {py:class}`pyquantlib.YoYOptionletVolatilitySurfaceHandle`, {py:class}`pyquantlib.RelinkableYoYOptionletVolatilitySurfaceHandle` |
 
@@ -409,6 +409,28 @@ const_vol = ql.BlackConstantVol(today, ql.TARGET(), vol, dc)
 ```
 
 ```{eval-rst}
+.. autoclass:: pyquantlib.BlackVarianceCurve
+```
+
+At-the-money Black volatilities by date, interpolated linearly in total variance (variance is zero
+at the reference date). `setInterpolation("linear")` or `setInterpolation("cubic")` switches the
+variance interpolation. With `forceMonotoneVariance=True` (default) a decreasing total variance is
+rejected.
+
+```python
+dates = [today + ql.Period(1, ql.Years), today + ql.Period(2, ql.Years)]
+curve = ql.BlackVarianceCurve(today, dates, [0.20, 0.25], ql.Actual365Fixed())
+curve.blackVol(dates[1], 100.0)
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ImpliedVolTermStructure
+```
+
+The curve a Black volatility structure implies at a later reference date, linked to the original
+structure. Time dependence only: strike dependence is not meaningful for this class.
+
+```{eval-rst}
 .. autoclass:: pyquantlib.BlackVarianceSurface
 ```
 
@@ -596,6 +618,12 @@ print(local_surface.localVol(1.0, 100.0))
 ```
 
 ```{eval-rst}
+.. autoclass:: pyquantlib.LocalVolCurve
+```
+
+Local volatility from the slope of a {py:class}`pyquantlib.BlackVarianceCurve`, time dependence only.
+
+```{eval-rst}
 .. autoclass:: pyquantlib.FixedLocalVolSurface
 ```
 
@@ -636,6 +664,26 @@ spreaded_vol = ql.SpreadedSwaptionVolatility(base_vol_handle, spread)
 ```
 
 ```{eval-rst}
+.. autoclass:: pyquantlib.SpreadedOptionletVolatility
+```
+
+Adds a spread quote to a base optionlet volatility structure.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.CapletVarianceCurve
+```
+
+Caplet volatilities by date, interpolated in variance, without strike dependence.
+
+```{eval-rst}
+.. autoclass:: pyquantlib.ConstantCapFloorTermVolatility
+.. autoclass:: pyquantlib.CapFloorTermVolCurve
+```
+
+`CapFloorTermVolCurve` takes option tenors with either fixed volatilities or one quote handle per
+tenor. `ConstantCapFloorTermVolatility` takes a fixed volatility or a quote.
+
+```{eval-rst}
 .. autoclass:: pyquantlib.CapFloorTermVolSurface
 ```
 
@@ -648,6 +696,18 @@ stripper = ql.OptionletStripper1(surface, euribor6m, discount=ts_handle)
 n        = stripper.optionletMaturities()
 for i in range(n):
     print(stripper.optionletStrikes(i), stripper.optionletVolatilities(i))
+```
+
+```{eval-rst}
+.. autoclass:: pyquantlib.OptionletStripper2
+```
+
+Adjusts the optionlet volatilities of an `OptionletStripper1` so that at-the-money caps match the volatilities of a {py:class}`pyquantlib.CapFloorTermVolCurve`. The curve must use the surface day counter. `atmCapFloorStrikes()`, `atmCapFloorPrices()`, and `spreadsVol()` expose the ATM strikes, their prices, and the applied volatility spreads.
+
+```python
+atm_curve = ql.CapFloorTermVolCurve(2, calendar, ql.ModifiedFollowing, tenors, atm_vols)
+stripper2 = ql.OptionletStripper2(stripper, atm_curve)
+optionlet_vol = ql.StrippedOptionletAdapter(stripper2)
 ```
 
 ```{eval-rst}

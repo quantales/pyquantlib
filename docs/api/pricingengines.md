@@ -758,21 +758,28 @@ print(option.NPV(), option.qvega(), option.qrho(), option.qlambda())
 .. autoclass:: pyquantlib.BlackCapFloorEngine
 ```
 
-Lognormal volatility.
+Lognormal volatility: a flat volatility, a quote, or an optionlet volatility structure
+(for example a {py:class}`pyquantlib.StrippedOptionletAdapter` or a
+{py:class}`pyquantlib.SpreadedOptionletVolatility`).
 
 ```python
 engine = ql.BlackCapFloorEngine(curve, 0.20)
+engine = ql.BlackCapFloorEngine(curve, optionlet_vol)
 ```
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.BachelierCapFloorEngine
 ```
 
-Normal volatility.
+Normal volatility: a flat volatility, a quote, or an optionlet volatility structure.
 
 ```python
 engine = ql.BachelierCapFloorEngine(curve, 0.005)
+engine = ql.BachelierCapFloorEngine(curve, normal_optionlet_vol)
 ```
+
+The two-argument forms take either two handles or two plain objects; mixing a handle with a
+plain object is not supported.
 
 ```{eval-rst}
 .. autoclass:: pyquantlib.AnalyticCapFloorEngine

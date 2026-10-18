@@ -17,6 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Overnight indexes `Aonia`, `Cdi`, `Corra`, `Destr`, `FedFunds`, `Kofr`, `Nzocr`, `Saron`, `Swestr`, and `Tonar`
 - Term indexes `Bbsw`, `Bkbm`, `Bibor`, `Cdor`, `Jibar`, `Robor`, `Shibor`, and `Zibor`, with the fixed-tenor subclasses `Bbsw1M` to `Bbsw6M`, `Bkbm1M` to `Bkbm6M`, and `BiborSW`, `Bibor1M` to `Bibor1Y`
 
+#### Term structures -- Volatility
+- `BlackVarianceCurve`, `LocalVolCurve`, and `ImpliedVolTermStructure` time-dependent equity and FX volatility structures
+- `CapFloorTermVolCurve` and `ConstantCapFloorTermVolatility` cap/floor term volatility structures
+- `SpreadedOptionletVolatility` and `CapletVarianceCurve` optionlet volatility structures
+- `OptionletStripper2`, adjusting stripped optionlet volatilities to match ATM cap/floor term volatilities from a `CapFloorTermVolCurve`
+
+#### Pricing engines -- Caps and floors
+- `BlackCapFloorEngine` and `BachelierCapFloorEngine` constructors taking an optionlet volatility structure, so caps and floors can be priced off stripped, spreaded, or constant optionlet volatilities
+
 #### Term structures -- Credit
 - `HazardRateCurve`, `DefaultDensityCurve`, and `SurvivalProbabilityCurve` default-probability curves built directly from node values (backward-flat, linear, and log-linear interpolation respectively), with optional jumps
 
