@@ -2,7 +2,7 @@
 
 ## Compatibility
 
-- **Python**: 3.10, 3.11, 3.12, 3.13
+- **Python**: 3.10, 3.11, 3.12, 3.13, 3.14
 - **QuantLib**: 1.44+
 - **Platforms**: Windows, macOS, Linux
 
@@ -26,7 +26,7 @@ Check versions at runtime: `ql.__version__` (PyQuantLib) and `ql.QL_VERSION` (Qu
 pip install pyquantlib
 ```
 
-Pre-built wheels are available for Python 3.10--3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked -- no separate installation required.
+Pre-built wheels are available for Python 3.10--3.14 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked -- no separate installation required.
 
 ## Install from Source
 

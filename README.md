@@ -31,7 +31,7 @@ As an independent project, PyQuantLib complements the official [QuantLib-SWIG](h
 pip install pyquantlib
 ```
 
-Pre-built wheels are available for Python 3.10 to 3.13 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked, so no separate installation is required.
+Pre-built wheels are available for Python 3.10 to 3.14 on Linux (x86_64), macOS (ARM), and Windows (x64). QuantLib is statically linked, so no separate installation is required.
 
 ### From source
 

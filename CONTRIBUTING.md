@@ -8,7 +8,7 @@ Thank you for your interest in contributing to PyQuantLib!
 
 Before you begin, ensure you have:
 
-- **Python 3.9+**
+- **Python 3.10+**
 - **CMake 3.18+**
 - **C++17 compatible compiler**
   - Windows: MSVC 2019+ (Visual Studio 2019 or later)
