@@ -37,7 +37,7 @@ jobs:
       - name: Pre-cache virtualenv for cibuildwheel
         shell: bash
         run: |
-          VER=20.26.6
+          VER=21.14.6
           if [ "$RUNNER_OS" = "Windows" ]; then
             CACHE_DIR="$LOCALAPPDATA/pypa/cibuildwheel/Cache"
           elif [ "$RUNNER_OS" = "macOS" ]; then
@@ -50,7 +50,7 @@ jobs:
           if [ ! -f "$DEST" ]; then
             for i in 1 2 3 4 5; do
               if curl -sL --retry 3 --retry-delay 10 -o "$DEST" \
-                "https://github.com/pypa/get-virtualenv/blob/${VER}/public/virtualenv.pyz?raw=true"; then
+                "https://github.com/pypa/get-virtualenv/releases/download/${VER}/virtualenv.pyz"; then
                 echo "Downloaded virtualenv-${VER}.pyz (attempt $i)"
                 break
               fi
@@ -61,10 +61,12 @@ jobs:
           ls -la "$DEST"
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21
+        uses: pypa/cibuildwheel@v4.3.1
         env:
-          # Build for CPython only (no PyPy)
-          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-*"
+          # Build for CPython only (no PyPy). The list is explicit so that the
+          # free-threaded cp314t builds, which cibuildwheel enables by default,
+          # are not produced: the extension does not declare free-threading support.
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_BUILD_VERBOSITY: 1
 
@@ -77,6 +79,10 @@ jobs:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_ARCHS_WINDOWS: "AMD64"
+
+          # Windows: no wheel repair. cibuildwheel 4 defaults to delvewheel, which
+          # would vendor the MSVC runtime DLLs and change the wheel layout.
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ""
 
           # Environment variables for build
           CIBW_ENVIRONMENT: >
