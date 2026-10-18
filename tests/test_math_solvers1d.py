@@ -172,3 +172,88 @@ def test_solvers_agree():
     assert bisection == pytest.approx(expected, abs=1e-6)
     assert secant == pytest.approx(expected, abs=1e-6)
     assert newton == pytest.approx(expected, abs=1e-6)
+
+
+# =============================================================================
+# FalsePosition, Ridder, NewtonSafe, Halley
+# =============================================================================
+
+
+@pytest.mark.parametrize("solver_cls", [ql.FalsePosition, ql.Ridder],
+                         ids=["FalsePosition", "Ridder"])
+def test_bracketing_solvers(solver_cls):
+    """FalsePosition and Ridder find a root with and without a bracket."""
+    solver = solver_cls()
+    bracketed = solver.solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.0, 10.0)
+    assert bracketed == pytest.approx(2.0, abs=1e-9)
+    auto = solver_cls().solve(lambda x: x**2 - 4, 1e-10, 1.0, 0.1)
+    assert auto == pytest.approx(2.0, abs=1e-9)
+    negative = solver_cls().solve(lambda x: x**2 - 4, 1e-10, -1.0, -10.0, 0.0)
+    assert negative == pytest.approx(-2.0, abs=1e-9)
+
+
+@pytest.mark.parametrize("solver_cls", [ql.FalsePosition, ql.Ridder],
+                         ids=["FalsePosition", "Ridder"])
+def test_bracketing_solvers_trig(solver_cls):
+    """The solvers handle a transcendental equation, cos(x) = x."""
+    root = solver_cls().solve(lambda x: math.cos(x) - x, 1e-12, 0.5, 0.0, 1.0)
+    assert root == pytest.approx(0.7390851332151607, abs=1e-10)
+
+
+@pytest.mark.parametrize("solver_cls", [ql.FalsePosition, ql.Ridder],
+                         ids=["FalsePosition", "Ridder"])
+def test_bracketing_solvers_bad_bracket(solver_cls):
+    """A bracket without a sign change is rejected."""
+    with pytest.raises(ql.Error):
+        solver_cls().solve(lambda x: x**2 + 1, 1e-10, 1.0, 0.0, 10.0)
+
+
+def test_bracketing_solvers_max_evaluations():
+    """A tight evaluation limit makes the solver fail."""
+    solver = ql.FalsePosition()
+    solver.setMaxEvaluations(2)
+    with pytest.raises(ql.Error):
+        solver.solve(lambda x: x**3 - 2, 1e-14, 1.0, 0.0, 10.0)
+
+
+def test_newtonsafe_bracketed():
+    """NewtonSafe finds a root inside an explicit bracket."""
+    solver = ql.NewtonSafe()
+    root = solver.solve(lambda x: x**2 - 2, lambda x: 2 * x, 1e-12, 1.0, 0.0, 10.0)
+    assert root == pytest.approx(math.sqrt(2.0), abs=1e-10)
+
+
+def test_newtonsafe_autobracketing():
+    """NewtonSafe brackets automatically from a guess and a step."""
+    root = ql.NewtonSafe().solve(lambda x: x**2 - 2, lambda x: 2 * x, 1e-12, 1.0, 0.1)
+    assert root == pytest.approx(math.sqrt(2.0), abs=1e-10)
+
+
+def test_newtonsafe_stays_in_bracket_with_flat_derivative():
+    """A near-zero derivative at the guess does not send NewtonSafe out of the bracket."""
+    # f(x) = x**3 - 1 has f'(0) = 0; a plain Newton step from 0 would diverge
+    root = ql.NewtonSafe().solve(lambda x: x**3 - 1, lambda x: 3 * x**2,
+                                 1e-12, 0.0, -2.0, 3.0)
+    assert root == pytest.approx(1.0, abs=1e-10)
+
+
+def test_halley_bracketed():
+    """Halley finds a root using first and second derivatives."""
+    root = ql.Halley().solve(lambda x: x**2 - 2, lambda x: 2 * x, lambda x: 2.0,
+                             1e-12, 1.0, 0.0, 10.0)
+    assert root == pytest.approx(math.sqrt(2.0), abs=1e-10)
+
+
+def test_halley_autobracketing():
+    """Halley brackets automatically from a guess and a step."""
+    root = ql.Halley().solve(lambda x: x**3 - 5, lambda x: 3 * x**2, lambda x: 6 * x,
+                             1e-12, 2.0, 0.1)
+    assert root == pytest.approx(5.0 ** (1.0 / 3.0), abs=1e-10)
+
+
+def test_derivative_solvers_set_bounds_and_evaluations():
+    """NewtonSafe and Halley expose the common solver controls."""
+    for solver in (ql.NewtonSafe(), ql.Halley()):
+        solver.setMaxEvaluations(100)
+        solver.setLowerBound(0.0)
+        solver.setUpperBound(10.0)

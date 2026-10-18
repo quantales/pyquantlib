@@ -39,6 +39,25 @@ DECLARE_MODULE_BINDINGS(math_bindings) {
     ADD_MAIN_BINDING(ql_math::convexmonotoneinterpolation, "Convex monotone interpolation");
     ADD_MAIN_BINDING(ql_math::normaldistribution, "Normal distribution functions");
     ADD_MAIN_BINDING(ql_math::bivariatenormaldistribution, "Bivariate cumulative normal distribution");
+    ADD_MAIN_BINDING(ql_math::gammadistribution, "Gamma function and cumulative gamma distribution");
+    ADD_MAIN_BINDING(ql_math::poissondistribution, "Poisson distribution functions");
+    ADD_MAIN_BINDING(ql_math::chisquaredistribution, "Chi-square distribution functions");
+    ADD_MAIN_BINDING(ql_math::studenttdistribution, "Student t distribution functions");
+    ADD_MAIN_BINDING(ql_math::binomialdistribution, "Binomial distribution functions");
+    ADD_MAIN_BINDING(ql_math::bivariatestudenttdistribution, "Bivariate cumulative Student t distribution");
+    ADD_MAIN_BINDING(ql_math::alimikhailhaqcopula, "AliMikhailHaqCopula");
+    ADD_MAIN_BINDING(ql_math::claytoncopula, "ClaytonCopula");
+    ADD_MAIN_BINDING(ql_math::farliegumbelmorgensterncopula, "FarlieGumbelMorgensternCopula");
+    ADD_MAIN_BINDING(ql_math::frankcopula, "FrankCopula");
+    ADD_MAIN_BINDING(ql_math::galamboscopula, "GalambosCopula");
+    ADD_MAIN_BINDING(ql_math::gaussiancopula, "GaussianCopula");
+    ADD_MAIN_BINDING(ql_math::gumbelcopula, "GumbelCopula");
+    ADD_MAIN_BINDING(ql_math::huslerreisscopula, "HuslerReissCopula");
+    ADD_MAIN_BINDING(ql_math::independentcopula, "IndependentCopula");
+    ADD_MAIN_BINDING(ql_math::marshallolkincopula, "MarshallOlkinCopula");
+    ADD_MAIN_BINDING(ql_math::maxcopula, "MaxCopula");
+    ADD_MAIN_BINDING(ql_math::mincopula, "MinCopula");
+    ADD_MAIN_BINDING(ql_math::plackettcopula, "PlackettCopula");
     ADD_MAIN_BINDING(ql_math::solvers1d, "1-D root-finding solvers");
 
     ADD_MAIN_BINDING(ql_math::statistics,
