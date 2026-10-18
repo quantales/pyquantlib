@@ -170,6 +170,12 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "Handle<DefaultProbabilityTermStructure>");
     ADD_MAIN_BINDING(ql_termstructures::flathazardrate,
         "FlatHazardRate - flat hazard rate term structure");
+    ADD_MAIN_BINDING(ql_termstructures::interpolatedhazardratecurve,
+        "HazardRateCurve - interpolated hazard rate curve");
+    ADD_MAIN_BINDING(ql_termstructures::interpolateddefaultdensitycurve,
+        "DefaultDensityCurve - interpolated default density curve");
+    ADD_MAIN_BINDING(ql_termstructures::interpolatedsurvivalprobabilitycurve,
+        "SurvivalProbabilityCurve - interpolated survival probability curve");
     ADD_BASE_BINDING(ql_termstructures::defaultprobabilityhelper,
         "DefaultProbabilityHelper ABC");
     ADD_MAIN_BINDING(ql_termstructures::defaultprobabilityhelpers,

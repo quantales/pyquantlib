@@ -311,6 +311,9 @@ namespace ql_termstructures {
     void defaultprobabilitytermstructure(py::module_&);
     void defaultprobabilitytermstructurehandle(py::module_&);
     void flathazardrate(py::module_&);
+    void interpolatedhazardratecurve(py::module_&);
+    void interpolateddefaultdensitycurve(py::module_&);
+    void interpolatedsurvivalprobabilitycurve(py::module_&);
     void defaultprobabilityhelper(py::module_&);
     void defaultprobabilityhelpers(py::module_&);
     void piecewisedefaultcurve(py::module_&);

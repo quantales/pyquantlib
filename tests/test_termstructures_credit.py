@@ -4,10 +4,11 @@ Tests for credit term structure bindings.
 Corresponds to src/termstructures/credit/*.cpp bindings.
 """
 
+import math
+
 import pytest
 
 import pyquantlib as ql
-
 
 # =============================================================================
 # DefaultProbabilityTermStructure (ABC)
@@ -369,3 +370,124 @@ def test_piecewisedefaultcurve_nodes(credit_env):
     assert len(nodes) > 0
     # First node should be at reference date with value 1.0
     assert nodes[0][1] == pytest.approx(1.0)
+
+
+# =============================================================================
+# Interpolated curves: HazardRateCurve, DefaultDensityCurve, SurvivalProbabilityCurve
+# =============================================================================
+
+
+@pytest.fixture
+def curve_dates(credit_env):
+    """Reference date plus one and two years (365 days each on Actual/365)."""
+    today = credit_env["today"]
+    return [today, today + ql.Period(1, ql.Years), today + ql.Period(2, ql.Years)]
+
+
+def test_hazardratecurve_backward_flat_survival(credit_env, curve_dates):
+    """HazardRateCurve holds each node's rate over the segment ending at it."""
+    rates = [0.01, 0.02, 0.03]
+    curve = ql.HazardRateCurve(curve_dates, rates, credit_env["dc"])
+    assert curve.referenceDate() == curve_dates[0]
+    assert curve.maxDate() == curve_dates[2]
+    assert curve.hazardRate(curve_dates[1]) == pytest.approx(0.02, rel=1e-12)
+    assert curve.survivalProbability(curve_dates[1]) == pytest.approx(
+        math.exp(-0.02), rel=1e-12)
+    assert curve.survivalProbability(curve_dates[2]) == pytest.approx(
+        math.exp(-0.05), rel=1e-12)
+
+
+def test_hazardratecurve_extrapolates_last_rate(credit_env, curve_dates):
+    """Beyond the last node the last hazard rate is held flat."""
+    curve = ql.HazardRateCurve(curve_dates, [0.01, 0.02, 0.03], credit_env["dc"])
+    three_years = credit_env["today"] + ql.Period(3, ql.Years)
+    assert curve.survivalProbability(three_years, True) == pytest.approx(
+        math.exp(-0.08), rel=1e-12)
+
+
+def test_hazardratecurve_inspectors(credit_env, curve_dates):
+    """HazardRateCurve exposes its nodes."""
+    rates = [0.01, 0.02, 0.03]
+    curve = ql.HazardRateCurve(curve_dates, rates, credit_env["dc"])
+    assert curve.dates() == curve_dates
+    assert curve.hazardRates() == rates
+    assert curve.data() == rates
+    assert curve.times() == pytest.approx([0.0, 1.0, 2.0], abs=1e-12)
+    assert curve.nodes() == list(zip(curve_dates, rates))
+
+
+def test_hazardratecurve_with_calendar_and_jump(credit_env, curve_dates):
+    """A jump multiplies the survival probability after the jump date."""
+    jump = ql.SimpleQuote(0.9)
+    jump_date = curve_dates[0] + ql.Period(6, ql.Months)
+    curve = ql.HazardRateCurve(curve_dates, [0.01, 0.02, 0.03], credit_env["dc"],
+                               ql.TARGET(), [ql.QuoteHandle(jump)], [jump_date])
+    assert curve.survivalProbability(curve_dates[1]) == pytest.approx(
+        0.9 * math.exp(-0.02), rel=1e-12)
+    before = curve_dates[0] + ql.Period(3, ql.Months)
+    assert curve.survivalProbability(before) == pytest.approx(
+        math.exp(-0.02 * credit_env["dc"].yearFraction(curve_dates[0], before)),
+        rel=1e-12)
+
+
+def test_hazardratecurve_is_default_probability_curve(credit_env, curve_dates):
+    """HazardRateCurve can drive a default-probability handle."""
+    curve = ql.HazardRateCurve(curve_dates, [0.01, 0.02, 0.03], credit_env["dc"])
+    handle = ql.DefaultProbabilityTermStructureHandle(curve)
+    assert handle.currentLink().survivalProbability(curve_dates[1]) == pytest.approx(
+        math.exp(-0.02), rel=1e-12)
+
+
+def test_defaultdensitycurve_linear_density(credit_env, curve_dates):
+    """DefaultDensityCurve integrates a linear density into the default probability."""
+    densities = [0.01, 0.03, 0.03]
+    curve = ql.DefaultDensityCurve(curve_dates, densities, credit_env["dc"])
+    # integral of a density rising linearly from 0.01 to 0.03 over one year
+    assert curve.defaultProbability(curve_dates[1]) == pytest.approx(0.02, rel=1e-12)
+    assert curve.survivalProbability(curve_dates[1]) == pytest.approx(0.98, rel=1e-12)
+    assert curve.defaultDensity(curve_dates[1]) == pytest.approx(0.03, rel=1e-12)
+    assert curve.hazardRate(curve_dates[1]) == pytest.approx(0.03 / 0.98, rel=1e-12)
+    # constant 0.03 density over the second year
+    assert curve.survivalProbability(curve_dates[2]) == pytest.approx(0.95, rel=1e-12)
+
+
+def test_defaultdensitycurve_inspectors(credit_env, curve_dates):
+    """DefaultDensityCurve exposes its nodes."""
+    densities = [0.01, 0.03, 0.03]
+    curve = ql.DefaultDensityCurve(curve_dates, densities, credit_env["dc"],
+                                   ql.TARGET())
+    assert curve.dates() == curve_dates
+    assert curve.defaultDensities() == densities
+    assert curve.nodes() == list(zip(curve_dates, densities))
+    assert curve.maxDate() == curve_dates[2]
+
+
+def test_survivalprobabilitycurve_log_linear(credit_env, curve_dates):
+    """SurvivalProbabilityCurve interpolates the log of the survival probability."""
+    probs = [1.0, 0.98, 0.95]
+    curve = ql.SurvivalProbabilityCurve(curve_dates, probs, credit_env["dc"])
+    assert curve.survivalProbability(curve_dates[1]) == pytest.approx(0.98, rel=1e-12)
+    assert curve.survivalProbability(curve_dates[2]) == pytest.approx(0.95, rel=1e-12)
+    # 73 days = 0.2 years on Actual/365, inside the first segment
+    mid = curve_dates[0] + 73
+    assert curve.survivalProbability(mid) == pytest.approx(0.98 ** 0.2, rel=1e-12)
+    assert curve.hazardRate(mid) == pytest.approx(-math.log(0.98), rel=1e-9)
+
+
+def test_survivalprobabilitycurve_inspectors(credit_env, curve_dates):
+    """SurvivalProbabilityCurve exposes its nodes."""
+    probs = [1.0, 0.98, 0.95]
+    curve = ql.SurvivalProbabilityCurve(curve_dates, probs, credit_env["dc"],
+                                        ql.TARGET())
+    assert curve.dates() == curve_dates
+    assert curve.survivalProbabilities() == probs
+    assert curve.nodes() == list(zip(curve_dates, probs))
+    assert curve.referenceDate() == curve_dates[0]
+
+
+def test_interpolated_credit_curve_rejects_bad_input(credit_env, curve_dates):
+    """Mismatched node counts are rejected by QuantLib."""
+    with pytest.raises(ql.Error):
+        ql.HazardRateCurve(curve_dates, [0.01, 0.02], credit_env["dc"])
+    with pytest.raises(ql.Error):
+        ql.SurvivalProbabilityCurve(curve_dates, [0.99, 0.98, 0.95], credit_env["dc"])
