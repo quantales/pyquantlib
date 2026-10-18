@@ -35,7 +35,7 @@ Bindings for the four families of term-structure objects: yield curves (and the 
 
 | Group | Classes |
 |---|---|
-| Credit | {py:class}`pyquantlib.FlatHazardRate`, {py:class}`pyquantlib.SpreadCdsHelper`, {py:class}`pyquantlib.UpfrontCdsHelper`, {py:class}`pyquantlib.PiecewiseLogLinearSurvival`, {py:class}`pyquantlib.PiecewiseFlatHazardRate`, {py:class}`pyquantlib.PiecewiseBackwardFlatHazard`, {py:class}`pyquantlib.DefaultProbabilityTermStructureHandle`, {py:class}`pyquantlib.RelinkableDefaultProbabilityTermStructureHandle` |
+| Credit | {py:class}`pyquantlib.FlatHazardRate`, {py:class}`pyquantlib.HazardRateCurve`, {py:class}`pyquantlib.DefaultDensityCurve`, {py:class}`pyquantlib.SurvivalProbabilityCurve`, {py:class}`pyquantlib.SpreadCdsHelper`, {py:class}`pyquantlib.UpfrontCdsHelper`, {py:class}`pyquantlib.PiecewiseLogLinearSurvival`, {py:class}`pyquantlib.PiecewiseFlatHazardRate`, {py:class}`pyquantlib.PiecewiseBackwardFlatHazard`, {py:class}`pyquantlib.DefaultProbabilityTermStructureHandle`, {py:class}`pyquantlib.RelinkableDefaultProbabilityTermStructureHandle` |
 | Inflation curves | {py:class}`pyquantlib.ZeroInflationCurve`, {py:class}`pyquantlib.YoYInflationCurve`, {py:class}`pyquantlib.PiecewiseZeroInflationCurve`, {py:class}`pyquantlib.PiecewiseYoYInflationCurve` |
 | Inflation helpers | {py:class}`pyquantlib.ZeroCouponInflationSwapHelper`, {py:class}`pyquantlib.YearOnYearInflationSwapHelper` |
 | Seasonality | {py:class}`pyquantlib.MultiplicativePriceSeasonality`, {py:class}`pyquantlib.KerkhofSeasonality` |
@@ -699,6 +699,34 @@ default_curve = ql.FlatHazardRate(today, 0.01, dc)
 print(default_curve.survivalProbability(1.0))
 print(default_curve.defaultProbability(1.0))
 print(default_curve.hazardRate(1.0))
+```
+
+### Interpolated default curves
+
+```{eval-rst}
+.. autoclass:: pyquantlib.HazardRateCurve
+.. autoclass:: pyquantlib.DefaultDensityCurve
+.. autoclass:: pyquantlib.SurvivalProbabilityCurve
+```
+
+Curves built directly from node values. Each class fixes the interpolator of its
+underlying `Interpolated*Curve` template:
+
+| Class | Node values | Interpolation |
+|---|---|---|
+| `HazardRateCurve` | hazard rates | backward-flat |
+| `DefaultDensityCurve` | default densities | linear |
+| `SurvivalProbabilityCurve` | survival probabilities | log-linear |
+
+The reference date is the first date. Beyond the last node the last hazard rate (or density)
+is held flat, which requires `extrapolate=True` on the query. The constructor taking a
+calendar also accepts `jumps` (a list of quote handles) and `jumpDates`; each jump value
+scales the survival probability after its date.
+
+```python
+dates = [today, today + ql.Period(1, ql.Years), today + ql.Period(2, ql.Years)]
+curve = ql.HazardRateCurve(dates, [0.01, 0.02, 0.03], ql.Actual365Fixed())
+curve.survivalProbability(dates[2])
 ```
 
 ### Default-probability helpers

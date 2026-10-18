@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Overnight indexes `Aonia`, `Cdi`, `Corra`, `Destr`, `FedFunds`, `Kofr`, `Nzocr`, `Saron`, `Swestr`, and `Tonar`
 - Term indexes `Bbsw`, `Bkbm`, `Bibor`, `Cdor`, `Jibar`, `Robor`, `Shibor`, and `Zibor`, with the fixed-tenor subclasses `Bbsw1M` to `Bbsw6M`, `Bkbm1M` to `Bkbm6M`, and `BiborSW`, `Bibor1M` to `Bibor1Y`
 
+#### Term structures -- Credit
+- `HazardRateCurve`, `DefaultDensityCurve`, and `SurvivalProbabilityCurve` default-probability curves built directly from node values (backward-flat, linear, and log-linear interpolation respectively), with optional jumps
+
 ## [0.9.0] - 2026-08-29
 
 ### Added

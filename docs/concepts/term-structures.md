@@ -44,8 +44,10 @@ classDiagram
     BlackVolTermStructure <|-- BlackVarianceCurve
 
     class FlatHazardRate
+    class HazardRateCurve
     class PiecewiseDefaultCurve
     DefaultProbabilityTermStructure <|-- FlatHazardRate
+    DefaultProbabilityTermStructure <|-- HazardRateCurve
     DefaultProbabilityTermStructure <|-- PiecewiseDefaultCurve
 ```
 
