@@ -28,6 +28,24 @@ DECLARE_MODULE_BINDINGS(indexes_bindings) {
     ADD_MAIN_BINDING(ql_indexes::nibor, "Nibor - NOK-NIBOR index");
     ADD_MAIN_BINDING(ql_indexes::shir, "Shir - SHIR overnight index");
     ADD_MAIN_BINDING(ql_indexes::zaronia, "Zaronia - ZARONIA overnight index");
+    ADD_MAIN_BINDING(ql_indexes::aonia, "Aonia index");
+    ADD_MAIN_BINDING(ql_indexes::bbsw, "Bbsw family index");
+    ADD_MAIN_BINDING(ql_indexes::bibor, "Bibor family index");
+    ADD_MAIN_BINDING(ql_indexes::bkbm, "Bkbm family index");
+    ADD_MAIN_BINDING(ql_indexes::cdi, "Cdi index");
+    ADD_MAIN_BINDING(ql_indexes::cdor, "Cdor index");
+    ADD_MAIN_BINDING(ql_indexes::corra, "Corra index");
+    ADD_MAIN_BINDING(ql_indexes::destr, "Destr index");
+    ADD_MAIN_BINDING(ql_indexes::fedfunds, "FedFunds index");
+    ADD_MAIN_BINDING(ql_indexes::jibar, "Jibar index");
+    ADD_MAIN_BINDING(ql_indexes::kofr, "Kofr index");
+    ADD_MAIN_BINDING(ql_indexes::nzocr, "Nzocr index");
+    ADD_MAIN_BINDING(ql_indexes::robor, "Robor index");
+    ADD_MAIN_BINDING(ql_indexes::saron, "Saron index");
+    ADD_MAIN_BINDING(ql_indexes::shibor, "Shibor index");
+    ADD_MAIN_BINDING(ql_indexes::swestr, "Swestr index");
+    ADD_MAIN_BINDING(ql_indexes::tonar, "Tonar index");
+    ADD_MAIN_BINDING(ql_indexes::zibor, "Zibor index");
     ADD_MAIN_BINDING(ql_indexes::swapindex,
         "SwapIndex, OvernightIndexedSwapIndex");
     ADD_MAIN_BINDING(ql_indexes::swapindexes,

@@ -1092,3 +1092,154 @@ def test_libor_custom_family():
                      ql.Actual360())
     assert index.familyName() == "MyLibor"
     assert index.fixingDays() == 2
+
+
+# =============================================================================
+# Regional overnight and IBOR indexes
+# =============================================================================
+
+OVERNIGHT_INDEXES = [
+    # (class name, family name, currency, fixing calendar, day counter)
+    ("Aonia", "Aonia", "AUD", lambda: ql.Australia(), ql.Actual365Fixed()),
+    ("Corra", "CORRA", "CAD", lambda: ql.Canada(), ql.Actual365Fixed()),
+    ("Destr", "DESTR", "DKK", lambda: ql.Denmark(), ql.Actual360()),
+    ("FedFunds", "FedFunds", "USD",
+     lambda: ql.UnitedStates(ql.UnitedStates.FederalReserve), ql.Actual360()),
+    ("Kofr", "KOFR", "KRW",
+     lambda: ql.SouthKorea(ql.SouthKorea.Settlement), ql.Actual365Fixed()),
+    ("Nzocr", "Nzocr", "NZD", lambda: ql.NewZealand(), ql.Actual365Fixed()),
+    ("Saron", "SARON", "CHF", lambda: ql.Switzerland(), ql.Actual360()),
+    ("Swestr", "SWESTR", "SEK", lambda: ql.Sweden(), ql.Actual360()),
+    ("Tonar", "Tonar", "JPY", lambda: ql.Japan(), ql.Actual365Fixed()),
+]
+
+
+@pytest.mark.parametrize("cls_name,family,ccy,calendar,day_counter",
+                         OVERNIGHT_INDEXES, ids=[i[0] for i in OVERNIGHT_INDEXES])
+def test_overnight_index_conventions(cls_name, family, ccy, calendar, day_counter):
+    """Regional overnight indexes carry their QuantLib conventions."""
+    index = getattr(ql, cls_name)()
+    assert index.name() == f"{family}ON {day_counter.name()}"
+    assert index.familyName() == family
+    assert index.fixingDays() == 0
+    assert index.currency().code() == ccy
+    assert index.fixingCalendar() == calendar()
+    assert index.dayCounter() == day_counter
+
+
+@pytest.mark.parametrize("cls_name", [i[0] for i in OVERNIGHT_INDEXES] + ["Cdi"])
+def test_overnight_index_with_curve(flat_curve, cls_name):
+    """Overnight indexes accept a forwarding curve or its handle."""
+    cls = getattr(ql, cls_name)
+    assert cls(flat_curve["curve"]).forwardingTermStructure() is not None
+    handle = ql.YieldTermStructureHandle(flat_curve["curve"])
+    assert cls(handle).forwardingTermStructure() is not None
+    assert issubclass(cls, ql.OvernightIndex)
+
+
+def test_cdi_construction():
+    """Cdi is a BRL overnight index on the Brazil settlement calendar."""
+    index = ql.Cdi()
+    assert index.familyName() == "CDI"
+    assert index.fixingDays() == 0
+    assert index.currency().code() == "BRL"
+    assert index.fixingCalendar() == ql.Brazil(ql.Brazil.Settlement)
+    assert index.dayCounter().name() == ql.Business252(ql.Brazil(ql.Brazil.Settlement)).name()
+
+
+def test_overnight_index_forecasts_from_curve(flat_curve):
+    """An overnight index forecasts its fixing from the forwarding curve."""
+    ql.Settings.evaluationDate = flat_curve["today"]
+    saron = ql.Saron(flat_curve["curve"])
+    fixing_date = saron.fixingCalendar().adjust(flat_curve["today"])
+    expected = (flat_curve["curve"].discount(fixing_date)
+                / flat_curve["curve"].discount(saron.valueDate(fixing_date) + 1) - 1.0)
+    assert saron.fixing(fixing_date) == pytest.approx(expected * 360.0, rel=1e-3)
+
+
+IBOR_INDEXES = [
+    # (class name, family name, fixing days, currency, calendar, convention, EOM, day counter)
+    ("Bbsw", "Bbsw", 0, "AUD", lambda: ql.Australia(),
+     ql.HalfMonthModifiedFollowing, True, ql.Actual365Fixed()),
+    ("Bkbm", "Bkbm", 0, "NZD", lambda: ql.NewZealand(),
+     ql.ModifiedFollowing, True, ql.Actual365Fixed()),
+    ("Bibor", "Bibor", 2, "THB", lambda: ql.Thailand(),
+     ql.ModifiedFollowing, True, ql.Actual365Fixed()),
+    ("Cdor", "CDOR", 0, "CAD", lambda: ql.Canada(),
+     ql.ModifiedFollowing, False, ql.Actual365Fixed()),
+    ("Jibar", "Jibar", 0, "ZAR", lambda: ql.SouthAfrica(),
+     ql.ModifiedFollowing, False, ql.Actual365Fixed()),
+    ("Robor", "ROBOR", 2, "RON", lambda: ql.Romania(),
+     ql.ModifiedFollowing, False, ql.Actual360()),
+    ("Shibor", "Shibor", 1, "CNY", lambda: ql.China(ql.China.IB),
+     ql.ModifiedFollowing, False, ql.Actual360()),
+    ("Zibor", "Zibor", 2, "CHF", lambda: ql.Switzerland(),
+     ql.ModifiedFollowing, False, ql.Actual360()),
+]
+
+
+@pytest.mark.parametrize("cls_name,family,days,ccy,calendar,convention,eom,day_counter",
+                         IBOR_INDEXES, ids=[i[0] for i in IBOR_INDEXES])
+def test_ibor_index_conventions(cls_name, family, days, ccy, calendar,
+                                convention, eom, day_counter):
+    """Regional IBOR indexes carry their QuantLib conventions for a 3M tenor."""
+    index = getattr(ql, cls_name)(ql.Period(3, ql.Months))
+    assert index.familyName() == family
+    assert index.tenor() == ql.Period(3, ql.Months)
+    assert index.fixingDays() == days
+    assert index.currency().code() == ccy
+    assert index.fixingCalendar() == calendar()
+    assert index.businessDayConvention() == convention
+    assert index.endOfMonth() is eom
+    assert index.dayCounter() == day_counter
+    assert issubclass(getattr(ql, cls_name), ql.IborIndex)
+
+
+@pytest.mark.parametrize("cls_name", [i[0] for i in IBOR_INDEXES])
+def test_ibor_index_with_curve(flat_curve, cls_name):
+    """IBOR indexes accept a forwarding curve or its handle."""
+    cls = getattr(ql, cls_name)
+    tenor = ql.Period(6, ql.Months)
+    assert cls(tenor, flat_curve["curve"]).forwardingTermStructure() is not None
+    handle = ql.YieldTermStructureHandle(flat_curve["curve"])
+    assert cls(tenor, handle).forwardingTermStructure() is not None
+
+
+@pytest.mark.parametrize("cls_name", ["Bbsw", "Bkbm", "Bibor"])
+def test_ibor_index_rejects_daily_tenor(cls_name):
+    """Indexes with a dedicated daily-tenor class reject a 1D tenor."""
+    with pytest.raises(ql.Error, match="dedicated DailyTenor constructor"):
+        getattr(ql, cls_name)(ql.Period(1, ql.Days))
+
+
+@pytest.mark.parametrize("cls_name", ["Shibor", "Robor"])
+def test_ibor_index_daily_tenor_has_no_fixing_lag(cls_name):
+    """Shibor and Robor with a 1D tenor settle the same day."""
+    assert getattr(ql, cls_name)(ql.Period(1, ql.Days)).fixingDays() == 0
+
+
+FIXED_TENOR_INDEXES = [
+    ("Bbsw", ["1M", "2M", "3M", "4M", "5M", "6M"]),
+    ("Bkbm", ["1M", "2M", "3M", "4M", "5M", "6M"]),
+    ("Bibor", ["SW", "1M", "2M", "3M", "6M", "1Y"]),
+]
+
+_TENORS = {"SW": ql.Period(1, ql.Weeks), "1M": ql.Period(1, ql.Months),
+           "2M": ql.Period(2, ql.Months), "3M": ql.Period(3, ql.Months),
+           "4M": ql.Period(4, ql.Months), "5M": ql.Period(5, ql.Months),
+           "6M": ql.Period(6, ql.Months), "1Y": ql.Period(1, ql.Years)}
+
+
+@pytest.mark.parametrize("family,suffixes", FIXED_TENOR_INDEXES)
+def test_fixed_tenor_index_classes(flat_curve, family, suffixes):
+    """Fixed-tenor subclasses match the tenor-parameterized base class."""
+    base = getattr(ql, family)
+    for suffix in suffixes:
+        cls = getattr(ql, f"{family}{suffix}")
+        assert issubclass(cls, base)
+        index = cls()
+        assert index.tenor() == _TENORS[suffix]
+        assert index.name() == base(_TENORS[suffix]).name()
+        assert cls(flat_curve["curve"]).forwardingTermStructure() is not None
+        handle = ql.YieldTermStructureHandle(flat_curve["curve"])
+        assert cls(handle).forwardingTermStructure() is not None
