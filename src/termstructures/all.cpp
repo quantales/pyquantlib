@@ -51,6 +51,13 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "PiecewiseBlackVarianceSurface - surface from smile sections");
     ADD_MAIN_BINDING(ql_termstructures::blackvoltimeextrapolation,
         "BlackVolTimeExtrapolation time-extrapolation enum");
+    // Registered after BlackVolTimeExtrapolation: BlackVarianceCurve uses it as a default argument.
+    ADD_MAIN_BINDING(ql_termstructures::blackvariancecurve,
+        "BlackVarianceCurve volatility curve");
+    ADD_MAIN_BINDING(ql_termstructures::localvolcurve,
+        "LocalVolCurve from a Black variance curve");
+    ADD_MAIN_BINDING(ql_termstructures::impliedvoltermstructure,
+        "ImpliedVolTermStructure at a future reference date");
     ADD_MAIN_BINDING(ql_termstructures::blackvolsurfacedelta,
         "BlackVolatilitySurfaceDelta delta-parametrized vol surface");
     ADD_MAIN_BINDING(ql_termstructures::localconstantvol,
@@ -145,6 +152,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "CapFloorTermVolatilityStructure ABC");
     ADD_MAIN_BINDING(ql_termstructures::capfloortermvolsurface,
         "CapFloorTermVolSurface");
+    ADD_MAIN_BINDING(ql_termstructures::capfloortermvolcurve,
+        "CapFloorTermVolCurve");
+    ADD_MAIN_BINDING(ql_termstructures::constantcapfloortermvol,
+        "ConstantCapFloorTermVolatility");
 
     ADD_BASE_BINDING(ql_termstructures::optionletvolatilitystructure,
         "OptionletVolatilityStructure ABC");
@@ -154,6 +165,10 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "RelinkableHandle<OptionletVolatilityStructure>");
     ADD_MAIN_BINDING(ql_termstructures::constantoptionletvolatility,
         "ConstantOptionletVolatility");
+    ADD_MAIN_BINDING(ql_termstructures::spreadedoptionletvol,
+        "SpreadedOptionletVolatility");
+    ADD_MAIN_BINDING(ql_termstructures::capletvariancecurve,
+        "CapletVarianceCurve");
 
     ADD_BASE_BINDING(ql_termstructures::strippedoptionletbase,
         "StrippedOptionletBase ABC");
@@ -161,6 +176,8 @@ DECLARE_MODULE_BINDINGS(termstructures_bindings) {
         "OptionletStripper ABC");
     ADD_MAIN_BINDING(ql_termstructures::optionletstripper1,
         "OptionletStripper1");
+    ADD_MAIN_BINDING(ql_termstructures::optionletstripper2,
+        "OptionletStripper2");
     ADD_MAIN_BINDING(ql_termstructures::strippedoptionletadapter,
         "StrippedOptionletAdapter");
 

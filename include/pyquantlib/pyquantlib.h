@@ -282,6 +282,9 @@ namespace ql_termstructures {
     void relinkableblackvoltermstructurehandle(py::module_&);
     void blackconstantvol(py::module_&);
     void blackvariancesurface(py::module_&);
+    void blackvariancecurve(py::module_&);
+    void localvolcurve(py::module_&);
+    void impliedvoltermstructure(py::module_&);
     void blackvoltimeextrapolation(py::module_&);
     void blackvolsurfacedelta(py::module_&);
     void multipleresetsswaphelper(py::module_&);
@@ -328,13 +331,18 @@ namespace ql_termstructures {
     void zabrswaptionvolcube(py::module_&);
     void capfloortermvolatilitystructure(py::module_&);
     void capfloortermvolsurface(py::module_&);
+    void capfloortermvolcurve(py::module_&);
+    void constantcapfloortermvol(py::module_&);
     void optionletvolatilitystructure(py::module_&);
     void optionletvolatilitystructurehandle(py::module_&);
     void relinkableoptionletvolatilitystructurehandle(py::module_&);
     void constantoptionletvolatility(py::module_&);
+    void spreadedoptionletvol(py::module_&);
+    void capletvariancecurve(py::module_&);
     void strippedoptionletbase(py::module_&);
     void optionletstripper(py::module_&);
     void optionletstripper1(py::module_&);
+    void optionletstripper2(py::module_&);
     void strippedoptionletadapter(py::module_&);
     void inflationtermstructure(py::module_&);
     void zeroinflationtermstructurehandle(py::module_&);

@@ -16,6 +16,7 @@
 #include <ql/pricingengines/capfloor/blackcapfloorengine.hpp>
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/quote.hpp>
+#include <ql/termstructures/volatility/optionlet/optionletvolatilitystructure.hpp>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -65,5 +66,21 @@ void ql_pricingengines::blackcapfloorengine(py::module_& m) {
             py::arg("vol"),
             py::arg("dayCounter") = Actual365Fixed(),
             py::arg("displacement") = 0.0,
-            "Constructs with quote volatility.");
+            "Constructs with quote volatility.")
+        // Optionlet volatility structure handle
+        .def(py::init<Handle<YieldTermStructure>,
+                      Handle<OptionletVolatilityStructure>>(),
+            py::arg("discountCurve"),
+            py::arg("volatility"),
+            "Constructs with an optionlet volatility structure (handle).")
+        // Hidden handle: optionlet volatility structure
+        .def(py::init([](const ext::shared_ptr<YieldTermStructure>& disc,
+                        const ext::shared_ptr<OptionletVolatilityStructure>& vol) {
+            return ext::make_shared<BlackCapFloorEngine>(
+                Handle<YieldTermStructure>(disc),
+                Handle<OptionletVolatilityStructure>(vol));
+        }),
+            py::arg("discountCurve"),
+            py::arg("volatility"),
+            "Constructs with an optionlet volatility structure.");
 }

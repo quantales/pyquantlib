@@ -1,0 +1,88 @@
+/*
+ * PyQuantLib: Python bindings for QuantLib
+ * https://github.com/quantales/pyquantlib
+ *
+ * Copyright (c) 2025 Yassine Idyiahia
+ * SPDX-License-Identifier: BSD-3-Clause
+ * See LICENSE for details.
+ *
+ * ---
+ * QuantLib is free software distributed under its own modified BSD license,
+ * and is copyright of its respective contributors.
+ * https://www.quantlib.org/
+ */
+
+#include "pyquantlib/pyquantlib.h"
+#include <ql/termstructures/volatility/capfloor/constantcapfloortermvol.hpp>
+#include <ql/quote.hpp>
+#include <pybind11/pybind11.h>
+
+namespace py = pybind11;
+using namespace QuantLib;
+
+void ql_termstructures::constantcapfloortermvol(py::module_& m) {
+    py::class_<ConstantCapFloorTermVolatility, CapFloorTermVolatilityStructure,
+               ext::shared_ptr<ConstantCapFloorTermVolatility>>(
+        m, "ConstantCapFloorTermVolatility",
+        "Constant cap/floor term volatility, no time or strike dependence.")
+        // Settlement days + fixed volatility
+        .def(py::init<Natural, const Calendar&, BusinessDayConvention,
+                      Volatility, const DayCounter&>(),
+            py::arg("settlementDays"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from settlement days and constant volatility.")
+        // Reference date + fixed volatility
+        .def(py::init<const Date&, const Calendar&, BusinessDayConvention,
+                      Volatility, const DayCounter&>(),
+            py::arg("referenceDate"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from reference date and constant volatility.")
+        // Settlement days + quote handle
+        .def(py::init<Natural, const Calendar&, BusinessDayConvention,
+                      Handle<Quote>, const DayCounter&>(),
+            py::arg("settlementDays"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from settlement days and quote handle.")
+        // Reference date + quote handle
+        .def(py::init<const Date&, const Calendar&, BusinessDayConvention,
+                      Handle<Quote>, const DayCounter&>(),
+            py::arg("referenceDate"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from reference date and quote handle.")
+        // Settlement days + quote (hidden handle)
+        .def(py::init([](Natural settlementDays, const Calendar& calendar,
+                         BusinessDayConvention bdc,
+                         const ext::shared_ptr<Quote>& volatility,
+                         const DayCounter& dayCounter) {
+            return ext::make_shared<ConstantCapFloorTermVolatility>(
+                settlementDays, calendar, bdc,
+                Handle<Quote>(volatility), dayCounter);
+        }),
+            py::arg("settlementDays"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from settlement days and quote (handle created internally).")
+        // Reference date + quote (hidden handle)
+        .def(py::init([](const Date& referenceDate, const Calendar& calendar,
+                         BusinessDayConvention bdc,
+                         const ext::shared_ptr<Quote>& volatility,
+                         const DayCounter& dayCounter) {
+            return ext::make_shared<ConstantCapFloorTermVolatility>(
+                referenceDate, calendar, bdc,
+                Handle<Quote>(volatility), dayCounter);
+        }),
+            py::arg("referenceDate"), py::arg("calendar"),
+            py::arg("businessDayConvention"), py::arg("volatility"),
+            py::arg("dayCounter"),
+            "Constructs from reference date and quote (handle created internally).")
+        .def("maxDate", &ConstantCapFloorTermVolatility::maxDate,
+            "Returns the maximum date.")
+        .def("minStrike", &ConstantCapFloorTermVolatility::minStrike,
+            "Returns the minimum strike.")
+        .def("maxStrike", &ConstantCapFloorTermVolatility::maxStrike,
+            "Returns the maximum strike.");
+}

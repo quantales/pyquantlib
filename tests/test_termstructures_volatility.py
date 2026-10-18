@@ -2868,3 +2868,351 @@ def test_zabrswaptionvolcube_volatility_query(zabr_cube_env):
     cube = _make_zabr_cube(zabr_cube_env)
     vol = cube.volatility(ql.Period("1Y"), ql.Period("1Y"), 0.03)
     assert vol > 0.0
+
+
+# =============================================================================
+# BlackVarianceCurve, LocalVolCurve, ImpliedVolTermStructure
+# =============================================================================
+
+
+@pytest.fixture
+def black_curve_env(swaption_vol_env):
+    """ATM Black vols of 20% at 1Y and 25% at 2Y (365 days each on Actual/365)."""
+    today = swaption_vol_env["today"]
+    dates = [today + ql.Period(1, ql.Years), today + ql.Period(2, ql.Years)]
+    curve = ql.BlackVarianceCurve(today, dates, [0.20, 0.25], ql.Actual365Fixed())
+    return {"today": today, "dates": dates, "curve": curve}
+
+
+def test_blackvariancecurve_pillar_volatilities(black_curve_env):
+    """BlackVarianceCurve reproduces the input volatilities at its pillars."""
+    curve, dates = black_curve_env["curve"], black_curve_env["dates"]
+    assert curve.referenceDate() == black_curve_env["today"]
+    assert curve.maxDate() == dates[1]
+    assert curve.blackVol(dates[0], 100.0) == pytest.approx(0.20, rel=1e-12)
+    assert curve.blackVol(dates[1], 100.0) == pytest.approx(0.25, rel=1e-12)
+
+
+def test_blackvariancecurve_linear_variance(black_curve_env):
+    """Variance is linear in time between pillars, starting from zero at t=0."""
+    curve = black_curve_env["curve"]
+    assert curve.blackVariance(0.5, 100.0) == pytest.approx(0.02, rel=1e-12)
+    # 0.04 at 1Y and 0.125 at 2Y
+    assert curve.blackVariance(1.5, 100.0) == pytest.approx(0.0825, rel=1e-12)
+    assert curve.minStrike() < 0.0 < curve.maxStrike()
+    assert curve.dayCounter() == ql.Actual365Fixed()
+
+
+def test_blackvariancecurve_cubic_interpolation(black_curve_env):
+    """setInterpolation accepts 'cubic' and keeps the pillar values."""
+    curve, dates = black_curve_env["curve"], black_curve_env["dates"]
+    curve.setInterpolation("Cubic")
+    assert curve.blackVol(dates[0], 100.0) == pytest.approx(0.20, rel=1e-10)
+    assert curve.blackVol(dates[1], 100.0) == pytest.approx(0.25, rel=1e-10)
+    curve.setInterpolation("linear")
+    assert curve.blackVariance(1.5, 100.0) == pytest.approx(0.0825, rel=1e-12)
+
+
+def test_blackvariancecurve_unknown_interpolator(black_curve_env):
+    """An unsupported interpolator name is rejected."""
+    with pytest.raises(ValueError, match="Unknown interpolator"):
+        black_curve_env["curve"].setInterpolation("spline")
+
+
+def test_blackvariancecurve_rejects_non_monotone_variance(swaption_vol_env):
+    """Decreasing total variance is rejected when forceMonotoneVariance is set."""
+    today = swaption_vol_env["today"]
+    dates = [today + ql.Period(1, ql.Years), today + ql.Period(2, ql.Years)]
+    with pytest.raises(ql.Error):
+        ql.BlackVarianceCurve(today, dates, [0.30, 0.10], ql.Actual365Fixed())
+    relaxed = ql.BlackVarianceCurve(today, dates, [0.30, 0.10], ql.Actual365Fixed(),
+                                    forceMonotoneVariance=False)
+    assert relaxed.blackVol(dates[1], 100.0) == pytest.approx(0.10, rel=1e-12)
+
+
+def test_blackvariancecurve_time_extrapolation(black_curve_env):
+    """FlatVolatility extrapolation holds the last volatility past the last pillar."""
+    today, dates = black_curve_env["today"], black_curve_env["dates"]
+    curve = ql.BlackVarianceCurve(
+        today, dates, [0.20, 0.25], ql.Actual365Fixed(),
+        timeExtrapolationType=ql.BlackVolTimeExtrapolation.FlatVolatility)
+    assert curve.blackVol(3.0, 100.0, True) == pytest.approx(0.25, rel=1e-12)
+
+
+def test_localvolcurve_matches_variance_slope(black_curve_env):
+    """Local volatility is the root of the variance slope: (0.125 - 0.04) / 1."""
+    local = ql.LocalVolCurve(black_curve_env["curve"])
+    assert local.referenceDate() == black_curve_env["today"]
+    assert local.maxDate() == black_curve_env["dates"][1]
+    assert local.localVol(1.2, 100.0) == pytest.approx(0.085 ** 0.5, rel=1e-8)
+    # first segment: slope 0.04 / 1
+    assert local.localVol(0.5, 100.0) == pytest.approx(0.04 ** 0.5, rel=1e-8)
+
+
+def test_impliedvoltermstructure_forward_variance(black_curve_env):
+    """The implied structure at 1Y sees the forward variance 0.125 - 0.04."""
+    curve, dates = black_curve_env["curve"], black_curve_env["dates"]
+    implied = ql.ImpliedVolTermStructure(curve, dates[0])
+    assert implied.referenceDate() == dates[0]
+    assert implied.maxDate() == dates[1]
+    assert implied.dayCounter() == ql.Actual365Fixed()
+    assert implied.blackVariance(dates[1], 100.0) == pytest.approx(0.085, rel=1e-12)
+    assert implied.blackVol(dates[1], 100.0) == pytest.approx(0.085 ** 0.5, rel=1e-12)
+
+
+def test_impliedvoltermstructure_handle_constructor(black_curve_env):
+    """ImpliedVolTermStructure accepts an explicit handle."""
+    curve, dates = black_curve_env["curve"], black_curve_env["dates"]
+    handle = ql.BlackVolTermStructureHandle(curve)
+    implied = ql.ImpliedVolTermStructure(handle, dates[0])
+    assert implied.blackVariance(dates[1], 100.0) == pytest.approx(0.085, rel=1e-12)
+
+
+# =============================================================================
+# CapFloorTermVolCurve, ConstantCapFloorTermVolatility
+# =============================================================================
+
+
+def _capfloor_tenors():
+    return [ql.Period(1, ql.Years), ql.Period(2, ql.Years), ql.Period(5, ql.Years)]
+
+
+def test_capfloortermvolcurve_fixed_vols(swaption_vol_env):
+    """CapFloorTermVolCurve returns the input volatility at each option time."""
+    d = swaption_vol_env
+    curve = ql.CapFloorTermVolCurve(d["today"], d["calendar"], ql.Following,
+                                    _capfloor_tenors(), [0.20, 0.22, 0.25])
+    assert curve.optionTenors() == _capfloor_tenors()
+    times = curve.optionTimes()
+    assert len(times) == 3
+    assert curve.optionDates()[0] == d["calendar"].advance(
+        d["today"], ql.Period(1, ql.Years), ql.Following)
+    assert curve.volatility(times[1], 0.03) == pytest.approx(0.22, rel=1e-12)
+    # natural cubic spline through the pillars (cross-checked against
+    # scipy.interpolate.CubicSpline with bc_type="natural")
+    assert curve.volatility(0.5 * (times[0] + times[1]), 0.03) == pytest.approx(
+        0.2104688565569778, rel=1e-10)
+    assert curve.maxDate() == curve.optionDates()[2]
+
+
+def test_capfloortermvolcurve_settlement_days(swaption_vol_env):
+    """The settlement-days constructor takes its reference date from the evaluation date."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    curve = ql.CapFloorTermVolCurve(2, d["calendar"], ql.Following,
+                                    _capfloor_tenors(), [0.20, 0.22, 0.25])
+    assert curve.referenceDate() == d["calendar"].advance(
+        d["today"], 2, ql.Days)
+    assert curve.volatility(curve.optionTimes()[0], 0.03) == pytest.approx(
+        0.20, rel=1e-12)
+
+
+def test_capfloortermvolcurve_quote_updates(swaption_vol_env):
+    """Quoted volatilities propagate to the curve."""
+    d = swaption_vol_env
+    quotes = [ql.SimpleQuote(v) for v in (0.20, 0.22, 0.25)]
+    curve = ql.CapFloorTermVolCurve(d["today"], d["calendar"], ql.Following,
+                                    _capfloor_tenors(),
+                                    [ql.QuoteHandle(q) for q in quotes])
+    t1 = curve.optionTimes()[1]
+    assert curve.volatility(t1, 0.03) == pytest.approx(0.22, rel=1e-12)
+    quotes[1].setValue(0.30)
+    assert curve.volatility(t1, 0.03) == pytest.approx(0.30, rel=1e-12)
+
+
+def test_capfloortermvolcurve_settlement_days_quotes(swaption_vol_env):
+    """The settlement-days constructor also accepts quote handles."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    quotes = [ql.QuoteHandle(ql.SimpleQuote(v)) for v in (0.20, 0.22, 0.25)]
+    curve = ql.CapFloorTermVolCurve(0, d["calendar"], ql.Following,
+                                    _capfloor_tenors(), quotes,
+                                    ql.Actual360())
+    assert curve.dayCounter() == ql.Actual360()
+    assert curve.volatility(curve.optionTimes()[2], 0.03) == pytest.approx(
+        0.25, rel=1e-12)
+
+
+def test_capfloortermvolcurve_is_lazy_object():
+    """CapFloorTermVolCurve participates in the LazyObject hierarchy."""
+    assert issubclass(ql.CapFloorTermVolCurve, LazyObject)
+
+
+def test_constantcapfloortermvol_fixed(swaption_vol_env):
+    """ConstantCapFloorTermVolatility returns its volatility at any tenor and strike."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    vol = ql.ConstantCapFloorTermVolatility(
+        2, d["calendar"], ql.Following, 0.18, d["dc"])
+    assert vol.volatility(ql.Period(3, ql.Years), 0.01) == pytest.approx(0.18, rel=1e-12)
+    assert vol.volatility(7.5, 0.08) == pytest.approx(0.18, rel=1e-12)
+    assert vol.minStrike() < 0.0 < vol.maxStrike()
+    assert vol.maxDate() == ql.Date.maxDate()
+
+
+def test_constantcapfloortermvol_reference_date(swaption_vol_env):
+    """The reference-date constructor fixes the reference date."""
+    d = swaption_vol_env
+    vol = ql.ConstantCapFloorTermVolatility(
+        d["today"], d["calendar"], ql.Following, 0.18, d["dc"])
+    assert vol.referenceDate() == d["today"]
+
+
+def test_constantcapfloortermvol_quote_updates(swaption_vol_env):
+    """A quoted volatility tracks the quote, with or without an explicit handle."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    quote = ql.SimpleQuote(0.18)
+    hidden = ql.ConstantCapFloorTermVolatility(
+        d["today"], d["calendar"], ql.Following, quote, d["dc"])
+    explicit = ql.ConstantCapFloorTermVolatility(
+        2, d["calendar"], ql.Following, ql.QuoteHandle(quote), d["dc"])
+    assert hidden.volatility(2.0, 0.03) == pytest.approx(0.18, rel=1e-12)
+    quote.setValue(0.21)
+    assert hidden.volatility(2.0, 0.03) == pytest.approx(0.21, rel=1e-12)
+    assert explicit.volatility(2.0, 0.03) == pytest.approx(0.21, rel=1e-12)
+
+
+# =============================================================================
+# SpreadedOptionletVolatility, CapletVarianceCurve
+# =============================================================================
+
+
+def test_spreadedoptionletvol_adds_spread(swaption_vol_env):
+    """The spreaded structure adds the spread quote to the base volatility."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    base = ql.ConstantOptionletVolatility(
+        2, d["calendar"], ql.Following, 0.20, d["dc"])
+    spread = ql.SimpleQuote(0.01)
+    spreaded = ql.SpreadedOptionletVolatility(base, spread)
+    assert spreaded.volatility(1.0, 0.03) == pytest.approx(0.21, rel=1e-12)
+    spread.setValue(0.02)
+    assert spreaded.volatility(1.0, 0.03) == pytest.approx(0.22, rel=1e-12)
+    assert spreaded.dayCounter() == base.dayCounter()
+    assert spreaded.volatilityType() == base.volatilityType()
+
+
+def test_spreadedoptionletvol_handle_constructor(swaption_vol_env):
+    """SpreadedOptionletVolatility accepts explicit handles."""
+    d = swaption_vol_env
+    ql.Settings.evaluationDate = d["today"]
+    base = ql.ConstantOptionletVolatility(
+        2, d["calendar"], ql.Following, 0.20, d["dc"])
+    spreaded = ql.SpreadedOptionletVolatility(
+        ql.OptionletVolatilityStructureHandle(base),
+        ql.QuoteHandle(ql.SimpleQuote(0.005)))
+    assert spreaded.volatility(2.0, 0.03) == pytest.approx(0.205, rel=1e-12)
+
+
+def test_capletvariancecurve_pillar_volatilities(swaption_vol_env):
+    """CapletVarianceCurve reproduces its input volatilities at the pillars."""
+    d = swaption_vol_env
+    dates = [d["today"] + ql.Period(1, ql.Years), d["today"] + ql.Period(2, ql.Years)]
+    curve = ql.CapletVarianceCurve(d["today"], dates, [0.20, 0.25], d["dc"])
+    assert curve.referenceDate() == d["today"]
+    assert curve.maxDate() == dates[1]
+    assert curve.volatility(dates[0], 0.03) == pytest.approx(0.20, rel=1e-12)
+    assert curve.volatility(dates[1], 0.03) == pytest.approx(0.25, rel=1e-12)
+    assert curve.volatilityType() == ql.VolatilityType.ShiftedLognormal
+    assert curve.displacement() == 0.0
+
+
+def test_capletvariancecurve_normal_vol_with_displacement(swaption_vol_env):
+    """The volatility type and displacement are stored on the curve."""
+    d = swaption_vol_env
+    dates = [d["today"] + ql.Period(1, ql.Years), d["today"] + ql.Period(2, ql.Years)]
+    curve = ql.CapletVarianceCurve(d["today"], dates, [0.005, 0.006], d["dc"],
+                                   ql.VolatilityType.Normal, 0.0)
+    assert curve.volatilityType() == ql.VolatilityType.Normal
+    shifted = ql.CapletVarianceCurve(d["today"], dates, [0.20, 0.25], d["dc"],
+                                     ql.VolatilityType.ShiftedLognormal, 0.01)
+    assert shifted.displacement() == 0.01
+
+
+# =============================================================================
+# OptionletStripper2
+# =============================================================================
+
+_ATM_VOLS = [0.19, 0.185, 0.18, 0.17]
+
+
+def _make_stripper2(env, atm_vols=None, day_counter=None):
+    """OptionletStripper2 on the module's surface with an ATM cap/floor vol curve."""
+    stripper1 = ql.OptionletStripper1(env["surface"], env["index"],
+                                      discount=env["ts_handle"])
+    tenors = [ql.Period("1Y"), ql.Period("2Y"), ql.Period("3Y"), ql.Period("5Y")]
+    atm_curve = ql.CapFloorTermVolCurve(
+        2, env["calendar"], ql.ModifiedFollowing, tenors,
+        atm_vols if atm_vols is not None else _ATM_VOLS,
+        day_counter if day_counter is not None else env["dc"])
+    return ql.OptionletStripper2(stripper1, atm_curve), atm_curve, tenors
+
+
+def test_optionletstripper2_is_optionletstripper(optionlet_strip_env):
+    """OptionletStripper2 inherits the OptionletStripper interface."""
+    stripper, _, _ = _make_stripper2(optionlet_strip_env)
+    assert isinstance(stripper, ql.base.OptionletStripper)
+    assert stripper.optionletMaturities() == 9
+    assert stripper.iborIndex() is not None
+    assert stripper.volatilityType() == ql.VolatilityType.ShiftedLognormal
+
+
+def test_optionletstripper2_atm_caps_match_independent_pricing(optionlet_strip_env):
+    """ATM strikes and prices equal ATM caps built and priced directly."""
+    d = optionlet_strip_env
+    stripper, _, tenors = _make_stripper2(d)
+    strikes = stripper.atmCapFloorStrikes()
+    prices = stripper.atmCapFloorPrices()
+    assert len(strikes) == len(prices) == len(tenors)
+    for tenor, vol, strike, price in zip(tenors, _ATM_VOLS, strikes, prices):
+        engine = ql.BlackCapFloorEngine(d["ts_handle"], vol, d["dc"])
+        cap = ql.MakeCapFloor(ql.CapFloorType.Cap, tenor, d["index"],
+                              forwardStart=ql.Period(0, ql.Days),
+                              pricingEngine=engine)
+        assert strike == pytest.approx(cap.atmRate(d["ts_handle"].currentLink()), rel=1e-12)
+        assert price == pytest.approx(cap.NPV(), rel=1e-12)
+
+
+def test_optionletstripper2_spreads_reprice_atm_caps(optionlet_strip_env):
+    """Caps priced off the adjusted optionlet vols reproduce the ATM cap prices."""
+    d = optionlet_strip_env
+    stripper, _, tenors = _make_stripper2(d)
+    spreads = stripper.spreadsVol()
+    assert len(spreads) == len(tenors)
+
+    adapter = ql.StrippedOptionletAdapter(stripper)
+    adapter.enableExtrapolation()
+    engine = ql.BlackCapFloorEngine(
+        d["ts_handle"], ql.OptionletVolatilityStructureHandle(adapter))
+    for tenor, strike, price in zip(tenors, stripper.atmCapFloorStrikes(),
+                                    stripper.atmCapFloorPrices()):
+        cap = ql.MakeCapFloor(ql.CapFloorType.Cap, tenor, d["index"], strike,
+                              ql.Period(0, ql.Days), pricingEngine=engine)
+        assert cap.NPV() == pytest.approx(price, rel=1e-4)
+
+
+def test_optionletstripper2_inserts_atm_strikes(optionlet_strip_env):
+    """The ATM strikes are added to the strike grid of the first optionlet."""
+    stripper, _, _ = _make_stripper2(optionlet_strip_env)
+    strikes = stripper.optionletStrikes(0)
+    vols = stripper.optionletVolatilities(0)
+    assert len(strikes) == len(vols) == 5 + len(stripper.atmCapFloorStrikes())
+    for atm_strike in stripper.atmCapFloorStrikes():
+        assert atm_strike in strikes
+    assert list(strikes) == sorted(strikes)
+
+
+def test_optionletstripper2_spreads_follow_atm_vols(optionlet_strip_env):
+    """A parallel shift of the ATM curve shifts the spreads by about the same amount."""
+    d = optionlet_strip_env
+    base, _, _ = _make_stripper2(d)
+    bumped, _, _ = _make_stripper2(d, [v + 0.01 for v in _ATM_VOLS])
+    for b, u in zip(bumped.spreadsVol(), base.spreadsVol()):
+        assert b - u == pytest.approx(0.01, abs=2e-3)
+
+
+def test_optionletstripper2_rejects_mismatched_day_counter(optionlet_strip_env):
+    """The ATM curve must use the surface day counter."""
+    with pytest.raises(ql.Error, match="different day counters"):
+        _make_stripper2(optionlet_strip_env, day_counter=ql.Actual360())

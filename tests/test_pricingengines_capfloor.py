@@ -197,3 +197,89 @@ def test_gaussian1dcapfloorengine(g1d_capfloor_env):
     engine = ql.Gaussian1dCapFloorEngine(env["gsr"])
     env["cap"].setPricingEngine(engine)
     assert env["cap"].NPV() == pytest.approx(0.020103807954722542, rel=1e-4)
+
+
+# =============================================================================
+# Cap/floor engines with an optionlet volatility structure
+# =============================================================================
+
+@pytest.fixture
+def capfloor_today(capfloor_setup):
+    """capfloor_setup with the evaluation date reset (other fixtures move it)."""
+    ql.Settings.evaluationDate = capfloor_setup["today"]
+    return capfloor_setup
+
+
+# Flat 20% Black volatility NPV and 0.5% normal volatility NPV reused from the
+# scalar-volatility tests above.
+_BLACK_FLAT_20_NPV = 7405.716086124158
+_BACHELIER_FLAT_50BP_NPV = 1606.1185633197292
+
+
+def _flat_optionlet_vol(vol, vol_type=ql.VolatilityType.ShiftedLognormal):
+    return ql.ConstantOptionletVolatility(
+        0, ql.TARGET(), ql.Following, vol, ql.Actual365Fixed(), vol_type)
+
+
+def test_blackcapfloorengine_optionlet_vol(capfloor_today):
+    """BlackCapFloorEngine prices off an optionlet volatility structure."""
+    engine = ql.BlackCapFloorEngine(capfloor_today["curve"], _flat_optionlet_vol(0.20))
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BLACK_FLAT_20_NPV, rel=1e-8)
+
+
+def test_blackcapfloorengine_optionlet_vol_handle(capfloor_today):
+    """BlackCapFloorEngine accepts explicit curve and volatility handles."""
+    engine = ql.BlackCapFloorEngine(
+        ql.YieldTermStructureHandle(capfloor_today["curve"]),
+        ql.OptionletVolatilityStructureHandle(_flat_optionlet_vol(0.20)))
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BLACK_FLAT_20_NPV, rel=1e-8)
+
+
+def test_bacheliercapfloorengine_optionlet_vol(capfloor_today):
+    """BachelierCapFloorEngine prices off a normal optionlet volatility structure."""
+    vol = _flat_optionlet_vol(0.005, ql.VolatilityType.Normal)
+    engine = ql.BachelierCapFloorEngine(capfloor_today["curve"], vol)
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BACHELIER_FLAT_50BP_NPV, rel=1e-8)
+
+
+def test_bacheliercapfloorengine_optionlet_vol_handle(capfloor_today):
+    """BachelierCapFloorEngine accepts explicit curve and volatility handles."""
+    vol = _flat_optionlet_vol(0.005, ql.VolatilityType.Normal)
+    engine = ql.BachelierCapFloorEngine(
+        ql.YieldTermStructureHandle(capfloor_today["curve"]),
+        ql.OptionletVolatilityStructureHandle(vol))
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BACHELIER_FLAT_50BP_NPV, rel=1e-8)
+
+
+def test_capfloorengine_spreaded_optionlet_vol(capfloor_today):
+    """A 19% base volatility plus a 1% spread prices like a flat 20% volatility."""
+    spread = ql.SimpleQuote(0.01)
+    spreaded = ql.SpreadedOptionletVolatility(_flat_optionlet_vol(0.19), spread)
+    engine = ql.BlackCapFloorEngine(capfloor_today["curve"], spreaded)
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BLACK_FLAT_20_NPV, rel=1e-8)
+    # Bumping the spread to zero reprices at the 19% base volatility
+    spread.setValue(0.0)
+    flat19 = ql.Cap(capfloor_today["leg"], [0.05])
+    flat19.setPricingEngine(ql.BlackCapFloorEngine(capfloor_today["curve"], 0.19))
+    assert cap.NPV() == pytest.approx(flat19.NPV(), rel=1e-8)
+
+
+def test_capfloorengine_capletvariancecurve(capfloor_today):
+    """A caplet variance curve with a constant 20% volatility prices like a flat 20%."""
+    today = capfloor_today["today"]
+    dates = [today + ql.Period(y, ql.Years) for y in range(1, 6)]
+    vol = ql.CapletVarianceCurve(today, dates, [0.20] * 5, ql.Actual365Fixed())
+    engine = ql.BlackCapFloorEngine(capfloor_today["curve"], vol)
+    cap = ql.Cap(capfloor_today["leg"], [0.05])
+    cap.setPricingEngine(engine)
+    assert cap.NPV() == pytest.approx(_BLACK_FLAT_20_NPV, rel=1e-6)
