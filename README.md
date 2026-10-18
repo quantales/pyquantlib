@@ -35,7 +35,7 @@ Pre-built wheels are available for Python 3.10 to 3.13 on Linux (x86_64), macOS 
 
 ### From source
 
-Building from source requires QuantLib 1.43+ compiled with specific CMake flags. Packages from Homebrew, vcpkg, and apt use shared builds and `boost::shared_ptr`, and are not compatible. See [CONTRIBUTING.md](CONTRIBUTING.md) for the required flags and full build instructions.
+Building from source requires QuantLib 1.44+ compiled with specific CMake flags. Packages from Homebrew, vcpkg, and apt use shared builds and `boost::shared_ptr`, and are not compatible. See [CONTRIBUTING.md](CONTRIBUTING.md) for the required flags and full build instructions.
 
 ```bash
 pip install git+https://github.com/quantales/pyquantlib.git

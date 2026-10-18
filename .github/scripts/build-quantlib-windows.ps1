@@ -3,7 +3,7 @@
 #
 # Expects environment variables:
 #   BOOST_VERSION       (e.g. "1.86.0")
-#   QUANTLIB_VERSION    (e.g. "1.43")
+#   QUANTLIB_VERSION    (e.g. "1.44")
 
 $ErrorActionPreference = 'Stop'
 

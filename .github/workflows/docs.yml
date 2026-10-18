@@ -16,7 +16,7 @@ name: Docs
 # release are missing from the live site until the next release ships.
 
 env:
-  QUANTLIB_VERSION: "1.43"
+  QUANTLIB_VERSION: "1.44"
 
 on:
   workflow_dispatch:

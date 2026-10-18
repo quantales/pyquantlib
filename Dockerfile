@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # QuantLib MUST be a static library built with PIC and the std:: type flags:
 # a shared build duplicates the Settings singleton and breaks evaluationDate.
 # Mirrors .github/workflows/linux.yml.
-ARG QUANTLIB_VERSION=1.43
+ARG QUANTLIB_VERSION=1.44
 WORKDIR /tmp
 RUN wget --quiet https://github.com/lballabio/QuantLib/releases/download/v${QUANTLIB_VERSION}/QuantLib-${QUANTLIB_VERSION}.tar.gz \
     && tar xzf QuantLib-${QUANTLIB_VERSION}.tar.gz \
