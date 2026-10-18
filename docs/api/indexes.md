@@ -6,9 +6,9 @@ Bindings for the `Index` class hierarchy: market reference rates that feed float
 
 | Family | Classes |
 |---|---|
-| Ibor (term) | {py:class}`pyquantlib.IborIndex` plus concrete `Euribor` and `Nibor` |
+| Ibor (term) | {py:class}`pyquantlib.IborIndex` plus concrete `Euribor`, `Nibor`, `Bbsw`, `Bkbm`, `Bibor`, `Cdor`, `Jibar`, `Robor`, `Shibor`, `Zibor` |
 | LIBOR | {py:class}`pyquantlib.Libor`, {py:class}`pyquantlib.DailyTenorLibor`, {py:class}`pyquantlib.USDLibor`, {py:class}`pyquantlib.DailyTenorUSDLibor`, {py:class}`pyquantlib.USDLiborON` |
-| Overnight | {py:class}`pyquantlib.Sofr`, {py:class}`pyquantlib.Eonia`, {py:class}`pyquantlib.Estr`, {py:class}`pyquantlib.Sonia`, {py:class}`pyquantlib.Shir`, {py:class}`pyquantlib.Zaronia` |
+| Overnight | {py:class}`pyquantlib.Sofr`, {py:class}`pyquantlib.Eonia`, {py:class}`pyquantlib.Estr`, {py:class}`pyquantlib.Sonia`, {py:class}`pyquantlib.Shir`, {py:class}`pyquantlib.Zaronia`, plus `Aonia`, `Cdi`, `Corra`, `Destr`, `FedFunds`, `Kofr`, `Nzocr`, `Saron`, `Swestr`, `Tonar` |
 | Swap | {py:class}`pyquantlib.SwapIndex`, {py:class}`pyquantlib.OvernightIndexedSwapIndex`, plus standard fixings (`EuriborSwapIsdaFixA/B/IfrFix`, `EurLiborSwap*`, `UsdLiborSwap*`, `JpyLiborSwap*`, `GbpLiborSwapIsdaFix`, `ChfLiborSwapIsdaFix`) |
 | Special | {py:class}`pyquantlib.BMAIndex`, {py:class}`pyquantlib.SwapSpreadIndex`, {py:class}`pyquantlib.EquityIndex` |
 | Inflation | {py:class}`pyquantlib.ZeroInflationIndex`, {py:class}`pyquantlib.YoYInflationIndex`, plus per-region (`USCPI`, `EUHICP`, `UKRPI`, `AUCPI`, `FRHICP`, `ZACPI`) |
@@ -152,6 +152,50 @@ South African Rand Overnight Index Average.
 
 NOK-NIBOR, a term index: the constructor takes a `Period` tenor before the optional
 forwarding curve.
+
+### Regional overnight indexes
+
+| Class | Rate | Currency |
+|---|---|---|
+| `Aonia` | Australian Overnight Index Average | AUD |
+| `Cdi` | Brazilian CDI, on a Business/252 day counter | BRL |
+| `Corra` | Canadian Overnight Repo Rate Average | CAD |
+| `Destr` | Danish krone short-term rate | DKK |
+| `FedFunds` | Federal funds effective rate | USD |
+| `Kofr` | Korea Overnight Financing Repo | KRW |
+| `Nzocr` | New Zealand Official Cash Rate | NZD |
+| `Saron` | Swiss Average Rate Overnight | CHF |
+| `Swestr` | Swedish krona short-term rate | SEK |
+| `Tonar` | Tokyo Overnight Average Rate | JPY |
+
+All share the constructor overloads of `Sofr`: no argument, a `YieldTermStructureHandle`, or a
+yield term structure (wrapped in a handle internally).
+
+```python
+saron = ql.Saron(forwarding_curve)
+```
+
+### Regional term indexes
+
+| Class | Rate | Currency | Fixed-tenor subclasses |
+|---|---|---|---|
+| `Bbsw` | Bank Bill Swap Rate (AFMA) | AUD | `Bbsw1M` to `Bbsw6M` |
+| `Bkbm` | Bank Bill Benchmark Rate | NZD | `Bkbm1M` to `Bkbm6M` |
+| `Bibor` | Bangkok Interbank Offered Rate | THB | `BiborSW`, `Bibor1M`, `Bibor2M`, `Bibor3M`, `Bibor6M`, `Bibor1Y` |
+| `Cdor` | Canadian Dollar Offered Rate | CAD | none |
+| `Jibar` | Johannesburg Interbank Agreed Rate | ZAR | none |
+| `Robor` | Romanian Interbank Offered Rate | RON | none |
+| `Shibor` | Shanghai Interbank Offered Rate | CNY | none |
+| `Zibor` | Zurich Interbank Offered Rate | CHF | none |
+
+Each base class takes a `Period` tenor before the optional forwarding curve, following `Nibor`.
+`Bbsw`, `Bkbm`, and `Bibor` reject daily tenors; `Shibor` and `Robor` accept a 1-day tenor and
+settle on the same day.
+
+```python
+bbsw3m = ql.Bbsw(ql.Period(3, ql.Months), forwarding_curve)
+bbsw3m = ql.Bbsw3M(forwarding_curve)   # fixed-tenor subclass
+```
 
 ### Swap indexes
 
