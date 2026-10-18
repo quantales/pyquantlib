@@ -34,6 +34,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Term structures -- Credit
 - `HazardRateCurve`, `DefaultDensityCurve`, and `SurvivalProbabilityCurve` default-probability curves built directly from node values (backward-flat, linear, and log-linear interpolation respectively), with optional jumps
 
+### Changed
+- Upgraded QuantLib dependency from 1.43 to 1.44. Minimum supported QuantLib is now 1.44.
+- `InverseCumulativeStudent` is computed by Boost.Math in QuantLib 1.44, replacing a 1e-6 Newton iteration; quantiles are more accurate.
+- `OptionletStripper2` uses the reworked upstream stripping algorithm in QuantLib 1.44; its volatilities can differ slightly from earlier releases.
+- `MakeCapFloor`, `MakeOIS`, and `MakeVanillaSwap` build through the new `withStrike`, `withFixedRate`, and `withForwardStart` methods, following the QuantLib 1.44 deprecation of the constructors taking a strike or fixed rate. The Python signatures are unchanged.
+
+### Deprecated
+The following are deprecated upstream and remain available until QuantLib removes them (expected around 1.49):
+- `CPI.InterpolationType.AsIndex`: use `Linear` or `Flat`.
+- `YoYInflationIndex.interpolated()`: indexes no longer interpolate, coupons do.
+- `Italy.Market.Exchange`: the exchange follows the TARGET calendar.
+
 ## [0.9.0] - 2026-08-29
 
 ### Added
