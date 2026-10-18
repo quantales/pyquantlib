@@ -28,19 +28,19 @@ void ql_pricingengines::discountingbondengine(py::module_& m) {
         "Discounting engine for bonds.")
         // Constructor with handle
         .def(py::init<Handle<YieldTermStructure>,
-                      const ext::optional<bool>&>(),
+                      const std::optional<bool>&>(),
             py::arg("discountCurve") = Handle<YieldTermStructure>(),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             "Constructs discounting bond engine.")
         // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<YieldTermStructure>& discountCurve,
-                        const ext::optional<bool>& includeSettlementDateFlows) {
+                        const std::optional<bool>& includeSettlementDateFlows) {
             return ext::make_shared<DiscountingBondEngine>(
                 Handle<YieldTermStructure>(discountCurve),
                 includeSettlementDateFlows);
         }),
             py::arg("discountCurve"),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             "Constructs discounting bond engine from term structure.")
         .def("discountCurve", &DiscountingBondEngine::discountCurve,
             "Returns the discount curve handle.");

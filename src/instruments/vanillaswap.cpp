@@ -28,8 +28,8 @@ void ql_instruments::vanillaswap(py::module_& m) {
         "Plain vanilla swap: fixed vs IBOR floating leg.")
         .def(py::init<Swap::Type, Real, Schedule, Rate, DayCounter,
                       Schedule, ext::shared_ptr<IborIndex>, Spread, DayCounter,
-                      ext::optional<BusinessDayConvention>,
-                      ext::optional<bool>>(),
+                      std::optional<BusinessDayConvention>,
+                      std::optional<bool>>(),
             py::arg("type"),
             py::arg("nominal"),
             py::arg("fixedSchedule"),
@@ -39,7 +39,7 @@ void ql_instruments::vanillaswap(py::module_& m) {
             py::arg("iborIndex"),
             py::arg("spread"),
             py::arg("floatingDayCount"),
-            py::arg("paymentConvention") = ext::nullopt,
-            py::arg("useIndexedCoupons") = ext::nullopt,
+            py::arg("paymentConvention") = std::nullopt,
+            py::arg("useIndexedCoupons") = std::nullopt,
             "Constructs a vanilla swap.");
 }

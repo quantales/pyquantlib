@@ -30,10 +30,10 @@ void ql_time::schedule(py::module_ &m) {
             const std::vector<Date>& dates,
             Calendar calendar = NullCalendar(),
             BusinessDayConvention convention = Unadjusted,
-            const ext::optional<BusinessDayConvention>& terminationDateConvention = ext::nullopt,
-            const ext::optional<Period>& tenor = ext::nullopt,
-            const ext::optional<DateGeneration::Rule>& rule = ext::nullopt,
-            const ext::optional<bool>& endOfMonth = ext::nullopt,
+            const std::optional<BusinessDayConvention>& terminationDateConvention = std::nullopt,
+            const std::optional<Period>& tenor = std::nullopt,
+            const std::optional<DateGeneration::Rule>& rule = std::nullopt,
+            const std::optional<bool>& endOfMonth = std::nullopt,
             const std::vector<bool>& isRegular = std::vector<bool>{}) {
                 return new Schedule(dates, calendar, convention, terminationDateConvention,
                                 tenor, rule, endOfMonth, isRegular);
@@ -41,10 +41,10 @@ void ql_time::schedule(py::module_ &m) {
             py::arg("dates"),
             py::arg("calendar") = NullCalendar(),
             py::arg("convention") = Unadjusted,
-            py::arg("terminationDateConvention") = ext::nullopt,
-            py::arg("tenor") = ext::nullopt,
-            py::arg("rule") = ext::nullopt,
-            py::arg("endOfMonth") = ext::nullopt,
+            py::arg("terminationDateConvention") = std::nullopt,
+            py::arg("tenor") = std::nullopt,
+            py::arg("rule") = std::nullopt,
+            py::arg("endOfMonth") = std::nullopt,
             py::arg("isRegular") = std::vector<bool>{}
         )
         .def(py::init<

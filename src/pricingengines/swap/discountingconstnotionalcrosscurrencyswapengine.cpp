@@ -40,7 +40,7 @@ void ql_pricingengines::discountingconstnotionalcrosscurrencyswapengine(
                          const py::object& includeSettlementDateFlows,
                          const Date& settlementDate, const Date& npvDate,
                          const Date& spotFXSettleDate) {
-            ext::optional<bool> include;
+            std::optional<bool> include;
             if (!includeSettlementDateFlows.is_none())
                 include = includeSettlementDateFlows.cast<bool>();
             return ext::make_shared<CcySwapEngine>(
@@ -67,7 +67,7 @@ void ql_pricingengines::discountingconstnotionalcrosscurrencyswapengine(
                          const py::object& includeSettlementDateFlows,
                          const Date& settlementDate, const Date& npvDate,
                          const Date& spotFXSettleDate) {
-            ext::optional<bool> include;
+            std::optional<bool> include;
             if (!includeSettlementDateFlows.is_none())
                 include = includeSettlementDateFlows.cast<bool>();
             return ext::make_shared<CcySwapEngine>(

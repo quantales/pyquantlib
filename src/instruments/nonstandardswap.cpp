@@ -45,7 +45,7 @@ void ql_instruments::nonstandardswap(py::module_& m) {
                          bool intermediateCapitalExchange,
                          bool finalCapitalExchange,
                          const py::object& paymentConvention) {
-            ext::optional<BusinessDayConvention> pc = ext::nullopt;
+            std::optional<BusinessDayConvention> pc = std::nullopt;
             if (!paymentConvention.is_none())
                 pc = paymentConvention.cast<BusinessDayConvention>();
             return ext::make_shared<NonstandardSwap>(
@@ -86,7 +86,7 @@ void ql_instruments::nonstandardswap(py::module_& m) {
                          bool intermediateCapitalExchange,
                          bool finalCapitalExchange,
                          const py::object& paymentConvention) {
-            ext::optional<BusinessDayConvention> pc = ext::nullopt;
+            std::optional<BusinessDayConvention> pc = std::nullopt;
             if (!paymentConvention.is_none())
                 pc = paymentConvention.cast<BusinessDayConvention>();
             return ext::make_shared<NonstandardSwap>(

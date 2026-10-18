@@ -29,8 +29,11 @@ void ql_instruments::makecapfloor(py::module_& m) {
                          const ext::shared_ptr<IborIndex>& index,
                          const py::object& strike,
                          const Period& forwardStart) {
-            Rate s = strike.is_none() ? Null<Rate>() : strike.cast<Rate>();
-            return MakeCapFloor(type, tenor, index, s, forwardStart);
+            MakeCapFloor builder(type, tenor, index);
+            if (!strike.is_none())
+                builder.withStrike(strike.cast<Rate>());
+            builder.withForwardStart(forwardStart);
+            return builder;
         }),
             py::arg("type"),
             py::arg("tenor"),

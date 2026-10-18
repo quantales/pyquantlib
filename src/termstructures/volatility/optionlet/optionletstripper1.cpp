@@ -27,7 +27,7 @@ void ql_termstructures::optionletstripper1(py::module_& m) {
                ext::shared_ptr<OptionletStripper1>, OptionletStripper>(
         m, "OptionletStripper1",
         "Strips optionlet volatilities from a cap/floor term volatility surface.")
-        // Constructor with py::none() sentinels for Null<Rate>() and ext::nullopt
+        // Constructor with py::none() sentinels for Null<Rate>() and std::nullopt
         .def(py::init([](const ext::shared_ptr<CapFloorTermVolSurface>& surface,
                          const ext::shared_ptr<IborIndex>& index,
                          const py::object& switchStrike,
@@ -38,9 +38,9 @@ void ql_termstructures::optionletstripper1(py::module_& m) {
                          const py::object& optionletFrequency) {
             Rate ss = switchStrike.is_none() ? Null<Rate>()
                                              : switchStrike.cast<Rate>();
-            ext::optional<Period> freq = optionletFrequency.is_none()
-                ? ext::nullopt
-                : ext::optional<Period>(optionletFrequency.cast<Period>());
+            std::optional<Period> freq = optionletFrequency.is_none()
+                ? std::nullopt
+                : std::optional<Period>(optionletFrequency.cast<Period>());
             return ext::make_shared<OptionletStripper1>(
                 surface, index, ss, accuracy, maxIter,
                 discount, type, displacement, dontThrow, freq);
@@ -67,9 +67,9 @@ void ql_termstructures::optionletstripper1(py::module_& m) {
                          const py::object& optionletFrequency) {
             Rate ss = switchStrike.is_none() ? Null<Rate>()
                                              : switchStrike.cast<Rate>();
-            ext::optional<Period> freq = optionletFrequency.is_none()
-                ? ext::nullopt
-                : ext::optional<Period>(optionletFrequency.cast<Period>());
+            std::optional<Period> freq = optionletFrequency.is_none()
+                ? std::nullopt
+                : std::optional<Period>(optionletFrequency.cast<Period>());
             return ext::make_shared<OptionletStripper1>(
                 surface, index, ss, accuracy, maxIter,
                 Handle<YieldTermStructure>(discount),

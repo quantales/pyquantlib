@@ -33,7 +33,7 @@ void ql_instruments::multipleresetsswap(py::module_& m) {
                          Spread spread, RateAveraging::Type averagingMethod,
                          const py::object& paymentConvention, Integer paymentLag,
                          const Calendar& paymentCalendar) {
-            ext::optional<BusinessDayConvention> pc = ext::nullopt;
+            std::optional<BusinessDayConvention> pc = std::nullopt;
             if (!paymentConvention.is_none())
                 pc = paymentConvention.cast<BusinessDayConvention>();
             return ext::make_shared<MultipleResetsSwap>(

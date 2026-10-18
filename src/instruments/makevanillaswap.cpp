@@ -29,8 +29,11 @@ void ql_instruments::makevanillaswap(py::module_& m) {
                          const ext::shared_ptr<IborIndex>& iborIndex,
                          const py::object& fixedRate,
                          const Period& forwardStart) {
-            Rate r = fixedRate.is_none() ? Null<Rate>() : fixedRate.cast<Rate>();
-            return MakeVanillaSwap(swapTenor, iborIndex, r, forwardStart);
+            MakeVanillaSwap builder(swapTenor, iborIndex);
+            if (!fixedRate.is_none())
+                builder.withFixedRate(fixedRate.cast<Rate>());
+            builder.withForwardStart(forwardStart);
+            return builder;
         }),
             py::arg("swapTenor"),
             py::arg("iborIndex"),

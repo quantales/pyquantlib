@@ -28,23 +28,23 @@ void ql_pricingengines::discountingswapengine(py::module_& m) {
         "Discounting engine for swaps.")
         // Constructor with handle
         .def(py::init<Handle<YieldTermStructure>,
-                      const ext::optional<bool>&,
+                      const std::optional<bool>&,
                       Date, Date>(),
             py::arg("discountCurve"),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             py::arg("settlementDate") = Date(),
             py::arg("npvDate") = Date(),
             "Constructs discounting swap engine.")
         // Hidden handle constructor
         .def(py::init([](const ext::shared_ptr<YieldTermStructure>& discountCurve,
-                        const ext::optional<bool>& includeSettlementDateFlows,
+                        const std::optional<bool>& includeSettlementDateFlows,
                         Date settlementDate, Date npvDate) {
             return ext::make_shared<DiscountingSwapEngine>(
                 Handle<YieldTermStructure>(discountCurve),
                 includeSettlementDateFlows, settlementDate, npvDate);
         }),
             py::arg("discountCurve"),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             py::arg("settlementDate") = Date(),
             py::arg("npvDate") = Date(),
             "Constructs discounting swap engine from term structure.")

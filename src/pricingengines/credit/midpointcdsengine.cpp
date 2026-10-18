@@ -30,17 +30,17 @@ void ql_pricingengines::midpointcdsengine(py::module_& m) {
         // Handle constructor
         .def(py::init<Handle<DefaultProbabilityTermStructure>,
                        Real, Handle<YieldTermStructure>,
-                       const ext::optional<bool>&>(),
+                       const std::optional<bool>&>(),
             py::arg("probability"),
             py::arg("recoveryRate"),
             py::arg("discountCurve"),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             "Constructs from handles.")
         // Hidden handle: shared_ptr convenience
         .def(py::init([](const ext::shared_ptr<DefaultProbabilityTermStructure>& prob,
                          Real recoveryRate,
                          const ext::shared_ptr<YieldTermStructure>& disc,
-                         const ext::optional<bool>& settle) {
+                         const std::optional<bool>& settle) {
             return ext::make_shared<MidPointCdsEngine>(
                 Handle<DefaultProbabilityTermStructure>(prob),
                 recoveryRate,
@@ -50,6 +50,6 @@ void ql_pricingengines::midpointcdsengine(py::module_& m) {
             py::arg("probability"),
             py::arg("recoveryRate"),
             py::arg("discountCurve"),
-            py::arg("includeSettlementDateFlows") = ext::nullopt,
+            py::arg("includeSettlementDateFlows") = std::nullopt,
             "Constructs from term structures (handles created internally).");
 }

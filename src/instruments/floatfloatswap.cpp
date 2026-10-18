@@ -48,8 +48,8 @@ void ql_instruments::floatfloatswap(py::module_& m) {
             Real floor1 = flooredRate1.is_none() ? Null<Real>() : flooredRate1.cast<Real>();
             Real cap2 = cappedRate2.is_none() ? Null<Real>() : cappedRate2.cast<Real>();
             Real floor2 = flooredRate2.is_none() ? Null<Real>() : flooredRate2.cast<Real>();
-            ext::optional<BusinessDayConvention> pc1 = ext::nullopt;
-            ext::optional<BusinessDayConvention> pc2 = ext::nullopt;
+            std::optional<BusinessDayConvention> pc1 = std::nullopt;
+            std::optional<BusinessDayConvention> pc2 = std::nullopt;
             if (!paymentConvention1.is_none())
                 pc1 = paymentConvention1.cast<BusinessDayConvention>();
             if (!paymentConvention2.is_none())
@@ -107,8 +107,8 @@ void ql_instruments::floatfloatswap(py::module_& m) {
                          std::vector<Real> flooredRate2,
                          const py::object& paymentConvention1,
                          const py::object& paymentConvention2) {
-            ext::optional<BusinessDayConvention> pc1 = ext::nullopt;
-            ext::optional<BusinessDayConvention> pc2 = ext::nullopt;
+            std::optional<BusinessDayConvention> pc1 = std::nullopt;
+            std::optional<BusinessDayConvention> pc2 = std::nullopt;
             if (!paymentConvention1.is_none())
                 pc1 = paymentConvention1.cast<BusinessDayConvention>();
             if (!paymentConvention2.is_none())

@@ -55,7 +55,7 @@ void ql_termstructures::oisratehelper(py::module_& m) {
                 discountingCurve, telescopicValueDates, paymentLag,
                 paymentConvention, paymentFrequency, payCal,
                 forwardStart, overnightSpread, pillar, customPillarDate,
-                averagingMethod, ext::nullopt, ext::nullopt,
+                averagingMethod, std::nullopt, std::nullopt,
                 Calendar(), lb, lockoutDays, applyObservationShift);
         }),
              py::arg("settlementDays"), py::arg("tenor"),
@@ -104,7 +104,7 @@ void ql_termstructures::oisratehelper(py::module_& m) {
                 discountingCurve, telescopicValueDates, paymentLag,
                 paymentConvention, paymentFrequency, payCal,
                 forwardStart, overnightSpread, pillar, customPillarDate,
-                averagingMethod, ext::nullopt, ext::nullopt,
+                averagingMethod, std::nullopt, std::nullopt,
                 Calendar(), lb, lockoutDays, applyObservationShift);
         }),
              py::arg("settlementDays"), py::arg("tenor"),
@@ -153,7 +153,7 @@ void ql_termstructures::oisratehelper(py::module_& m) {
                 overnightIndex, discountingCurve, telescopicValueDates,
                 paymentLag, paymentConvention, paymentFrequency, payCal,
                 forwardStart, overnightSpread, pillar, customPillarDate,
-                averagingMethod, ext::nullopt, ext::nullopt,
+                averagingMethod, std::nullopt, std::nullopt,
                 Calendar(), lb, lockoutDays, applyObservationShift);
         }),
              py::arg("settlementDays"), py::arg("tenor"),
@@ -201,7 +201,7 @@ void ql_termstructures::oisratehelper(py::module_& m) {
                 discountingCurve, telescopicValueDates, paymentLag,
                 paymentConvention, paymentFrequency, payCal,
                 overnightSpread, pillar, customPillarDate,
-                averagingMethod, ext::nullopt, ext::nullopt,
+                averagingMethod, std::nullopt, std::nullopt,
                 Calendar(), lb, lockoutDays, applyObservationShift);
         }),
              py::arg("startDate"), py::arg("endDate"),
@@ -248,7 +248,7 @@ void ql_termstructures::oisratehelper(py::module_& m) {
                 discountingCurve, telescopicValueDates, paymentLag,
                 paymentConvention, paymentFrequency, payCal,
                 overnightSpread, pillar, customPillarDate,
-                averagingMethod, ext::nullopt, ext::nullopt,
+                averagingMethod, std::nullopt, std::nullopt,
                 Calendar(), lb, lockoutDays, applyObservationShift);
         }),
              py::arg("startDate"), py::arg("endDate"),

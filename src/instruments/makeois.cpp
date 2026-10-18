@@ -29,8 +29,11 @@ void ql_instruments::makeois(py::module_& m) {
                          const ext::shared_ptr<OvernightIndex>& overnightIndex,
                          const py::object& fixedRate,
                          const Period& fwdStart) {
-            Rate r = fixedRate.is_none() ? Null<Rate>() : fixedRate.cast<Rate>();
-            return MakeOIS(swapTenor, overnightIndex, r, fwdStart);
+            MakeOIS builder(swapTenor, overnightIndex);
+            if (!fixedRate.is_none())
+                builder.withFixedRate(fixedRate.cast<Rate>());
+            builder.withForwardStart(fwdStart);
+            return builder;
         }),
             py::arg("swapTenor"),
             py::arg("overnightIndex"),
